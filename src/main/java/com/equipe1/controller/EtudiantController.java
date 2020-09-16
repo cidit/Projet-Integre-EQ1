@@ -1,7 +1,6 @@
 package com.equipe1.controller;
 
 import com.equipe1.model.Etudiant;
-import com.equipe1.service.EtudiantService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
