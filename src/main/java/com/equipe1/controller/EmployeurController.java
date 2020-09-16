@@ -1,7 +1,6 @@
 package com.equipe1.controller;
 
 import com.equipe1.model.Employeur;
-import com.equipe1.model.Etudiant;
 import com.equipe1.service.EmployeurService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +15,7 @@ public class EmployeurController {
     public EmployeurController(EmployeurService employeurService){
        this.employeurService=employeurService;
     }
+
     @GetMapping(value = "/employeurs")
     public List<Employeur> getAllEmployeurs(){
         return employeurService.getEmployeurs();
@@ -35,8 +35,5 @@ public class EmployeurController {
     public Employeur updateEmployeur(@Valid @RequestBody Employeur employeur, @PathVariable Long id){
         return employeurService.updateEmployeur(employeur, id);
     }
-
-
-
 
 }
