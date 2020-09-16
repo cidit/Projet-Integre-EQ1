@@ -1,7 +1,5 @@
 package com.equipe1;
 
-import com.equipe1.model.Etudiant;
-import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.service.InsertEtudiantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

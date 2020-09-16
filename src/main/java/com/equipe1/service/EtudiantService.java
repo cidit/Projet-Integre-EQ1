@@ -35,18 +35,10 @@ public class EtudiantService {
 
     public Etudiant updateEtudiant(Etudiant newEtudiant, long id){
         Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
-        Etudiant etudiant;
-        if(optionalEtudiant.isPresent()){
-            optionalEtudiant.get().setProgramme(newEtudiant.getProgramme());
-            optionalEtudiant.get().setEmail(newEtudiant.getEmail());
-            optionalEtudiant.get().setTelephone(newEtudiant.getTelephone());
-            optionalEtudiant.get().setAdresse(newEtudiant.getAdresse());
-            etudiant = optionalEtudiant.get();
-        }
-        else{
-            etudiant = newEtudiant;
-            etudiant.setId(id);
-        }
-        return etudiantRepository.save(etudiant);
+        optionalEtudiant.get().setProgramme(newEtudiant.getProgramme());
+        optionalEtudiant.get().setEmail(newEtudiant.getEmail());
+        optionalEtudiant.get().setTelephone(newEtudiant.getTelephone());
+        optionalEtudiant.get().setAdresse(newEtudiant.getAdresse());
+        return etudiantRepository.save(optionalEtudiant.get());
     }
 }

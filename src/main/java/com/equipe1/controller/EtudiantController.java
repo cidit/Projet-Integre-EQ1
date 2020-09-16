@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController()
-//@RequestMapping("/api")
+@RequestMapping("/etudiants")
 public class EtudiantController {
 
     private EtudiantService etudiantService;
@@ -17,7 +17,7 @@ public class EtudiantController {
         this.etudiantService = service;
     }
 
-    @GetMapping(value = "/employeurs")
+    @GetMapping("findAll")
     public List<Etudiant> getAllEtudiant(){
         return etudiantService.getEtudiants();
     }
@@ -27,7 +27,7 @@ public class EtudiantController {
         return etudiantService.findEtudiantById(idEtudiant);
     }
 
-    @PostMapping("createEtudiant")
+    @PostMapping("create")
     public Etudiant createEtudiant(@RequestBody Etudiant etudiant){
         return etudiantService.saveEtudiant(etudiant);
     }
