@@ -4,28 +4,36 @@ import com.equipe1.model.Etudiant;
 import com.equipe1.service.EtudiantService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController()
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class EtudiantController {
 
-    private EtudiantService service;
+    private EtudiantService etudiantService;
 
     public EtudiantController(EtudiantService service){
-        this.service = service;
+        this.etudiantService = service;
+    }
+
+    @GetMapping(value = "/employeurs")
+    public List<Etudiant> getAllEtudiant(){
+        return etudiantService.getEtudiants();
     }
 
     @GetMapping("get")
-    public Etudiant getEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
-        return service.findEtudiantById(idEtudiant);
+    public Optional<Etudiant> getEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
+        return etudiantService.findEtudiantById(idEtudiant);
     }
 
-    @PostMapping("create")
+    @PostMapping("createEtudiant")
     public Etudiant createEtudiant(@RequestBody Etudiant etudiant){
-        return service.saveEtudiant(etudiant);
+        return etudiantService.saveEtudiant(etudiant);
     }
 
     @PutMapping("update/{id}")
     public Etudiant updateEtudiant(@RequestBody Etudiant etudiant, @PathVariable Long id){
-        return service.updateEtudiant(etudiant, id);
+        return etudiantService.updateEtudiant(etudiant, id);
     }
 }

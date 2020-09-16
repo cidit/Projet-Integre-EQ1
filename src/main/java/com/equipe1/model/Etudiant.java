@@ -16,7 +16,25 @@ public class Etudiant {
     @GeneratedValue()
     private Long id;
 
+    private String matricule;
+
+    private String password;
+
     private String nom;
+
+    private String prenom;
+
+    private String programme;
+
+    private String email;
+
+    private String telephone;
+
+    private String adresse;
+
+    private boolean statutStage;
+
+    //private Stage stage;
 
     public Etudiant(String nom){
         this.nom = nom;
