@@ -33,19 +33,7 @@ public class EmployeurService {
         return employeur;
     }
 
-    /*public Employeur updateEmployeur(Employeur newEmployeur, long id){
-        return employeurRepo.findById(id).map(employeur -> {
-                                            employeur.setNom(newEmployeur.getNom());
-                                            employeur.setTelephone(newEmployeur.getTelephone());
-                                            employeur.setAdresse(newEmployeur.getAdresse());
-                                            return employeurRepo.save(employeur);
-                                        }).orElseGet(()-> {newEmployeur.setId(id);
-                                            return employeurRepo.save(newEmployeur);
-                                        });
-    }*/
-
     public Employeur updateEmployeur(Employeur newEmployeur, long id){
-
         Optional<Employeur> optionalEmployeur = employeurRepo.findById(id);
         if(optionalEmployeur.isPresent()){
             optionalEmployeur.get().setNom(newEmployeur.getNom());

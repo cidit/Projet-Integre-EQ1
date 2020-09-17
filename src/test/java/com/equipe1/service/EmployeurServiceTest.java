@@ -63,16 +63,19 @@ public class EmployeurServiceTest {
     }
 
     @Test
-    void updateEmployeur() {
+    public void updateEmployeurWhenExists() {
         when(employeurRepository.save(employeur1)).thenReturn(employeur1);
-        employeur1.setNom("Jhon");
-        Employeur employeur = employeurService.updateEmployeur(employeur1, 1L);
-        assertEquals(employeur1.getNom(), "Jhon");
+        Employeur emp1 = employeurService.updateEmployeur(employeur1, 1L);
+        assertEquals(emp1.getNom(), "Employeur_test_1");
+    }
 
+    @Test
+    public void updateEmployeurFromNewEmployeur() {
         Employeur employeur3 = new Employeur("Employeur_update", "444-44-44", "dfg 112-123");
 
-        when(employeurRepository.save(employeur3)).thenReturn(employeur1);
+        when(employeurRepository.findById(1L)).thenReturn(Optional.of(employeur1));
+        when(employeurRepository.save(employeur3)).thenReturn(employeur3);
         Employeur emp = employeurService.updateEmployeur(employeur3, 1L);
-        assertEquals(emp.getNom(), "Jhon");
+        assertEquals(emp.getNom(), "Employeur_update");
     }
 }
