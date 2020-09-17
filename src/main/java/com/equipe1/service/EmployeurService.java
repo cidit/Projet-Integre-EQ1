@@ -33,7 +33,7 @@ public class EmployeurService {
         return employeur;
     }
 
-    public Employeur updateEmployeur(Employeur newEmployeur, long id){
+    /*public Employeur updateEmployeur(Employeur newEmployeur, long id){
         return employeurRepo.findById(id).map(employeur -> {
                                             employeur.setNom(newEmployeur.getNom());
                                             employeur.setTelephone(newEmployeur.getTelephone());
@@ -42,6 +42,19 @@ public class EmployeurService {
                                         }).orElseGet(()-> {newEmployeur.setId(id);
                                             return employeurRepo.save(newEmployeur);
                                         });
+    }*/
+
+    public Employeur updateEmployeur(Employeur newEmployeur, long id){
+
+        Optional<Employeur> optionalEmployeur = employeurRepo.findById(id);
+        if(optionalEmployeur.isPresent()){
+            optionalEmployeur.get().setNom(newEmployeur.getNom());
+            optionalEmployeur.get().setTelephone(newEmployeur.getTelephone());
+            optionalEmployeur.get().setAdresse(newEmployeur.getAdresse());
+            return employeurRepo.save(optionalEmployeur.get());
+        }else
+            newEmployeur.setId(id);
+            return employeurRepo.save(newEmployeur);
     }
 
 }
