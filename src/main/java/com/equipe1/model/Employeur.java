@@ -22,6 +22,10 @@ public class Employeur {
     private String telephone;
     @NotBlank
     private String adresse;
+    @NotBlank
+    private String email;
+    @NotBlank
+    private String password;
     //@OneToMany(cascade = CascadeType.ALL,mappedBy = "employeur")
     //private Set<Stage> stages = new HashSet<Stage>();
 
