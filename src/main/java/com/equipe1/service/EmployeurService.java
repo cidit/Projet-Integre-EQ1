@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeurService {
@@ -30,10 +31,6 @@ public class EmployeurService {
     public Employeur saveEmployeur(Employeur employeur){
         employeurRepo.save(employeur);
         return employeur;
-    }
-
-    public Employeur createEmployeur(Employeur employeur){
-        return employeurRepo.save(employeur);
     }
 
     public Employeur updateEmployeur(Employeur newEmployeur, long id){
