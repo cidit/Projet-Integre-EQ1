@@ -32,12 +32,22 @@ public class InsertDataService {
 
     @Transactional
     public void insertEmployeur(){
+        String email = "none";
+        String password = "none";
         Employeur Employeur_1 = new Employeur("employeur_1", "43895893654", "548 ddasdfasdf");
+        Employeur_1.setEmail(email);
+        Employeur_1.setPassword(password);
         employeurRepo.save(Employeur_1);
         Employeur_1 = new Employeur("employeur_2", "0000000000", "111 ddasdfasdf");
+        Employeur_1.setEmail(email);
+        Employeur_1.setPassword(password);
         employeurRepo.save(Employeur_1);
         Employeur_1 = new Employeur("employeur_3", "11111111111", "33333 ddasdfasdf");
+        Employeur_1.setEmail(email);
+        Employeur_1.setPassword(password);
         employeurRepo.save(Employeur_1);
 
     }
+
+
 }
