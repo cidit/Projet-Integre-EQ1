@@ -1,6 +1,8 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
+import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,10 +10,12 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 
 @Component
-public class InsertEtudiantService {
+public class InsertDataService {
 
     @Autowired
     private EtudiantRepository repository;
+    @Autowired
+    private EmployeurRepository employeurRepo;
 
     @Transactional
     public void insertEtudiant(){
@@ -24,5 +28,16 @@ public class InsertEtudiantService {
 
         e1.setNom("titi");
         repository.save(e1);
+    }
+
+    @Transactional
+    public void insertEmployeur(){
+        Employeur Employeur_1 = new Employeur("employeur_1", "43895893654", "548 ddasdfasdf");
+        employeurRepo.save(Employeur_1);
+        Employeur_1 = new Employeur("employeur_2", "0000000000", "111 ddasdfasdf");
+        employeurRepo.save(Employeur_1);
+        Employeur_1 = new Employeur("employeur_3", "11111111111", "33333 ddasdfasdf");
+        employeurRepo.save(Employeur_1);
+
     }
 }
