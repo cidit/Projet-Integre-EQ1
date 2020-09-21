@@ -36,4 +36,9 @@ public class EtudiantController {
     public Etudiant updateEtudiant(@RequestBody Etudiant etudiant, @PathVariable Long id){
         return etudiantService.updateEtudiant(etudiant, id);
     }
+
+    @GetMapping("matricule")
+    public Optional<Etudiant> getEtudiantByMatricule(@RequestParam("matricule") String matricule){
+        return etudiantService.findEtudiantByMatricule(matricule);
+    }
 }

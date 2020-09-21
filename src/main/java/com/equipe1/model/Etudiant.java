@@ -36,7 +36,4 @@ public class Etudiant {
 
     //private Stage stage;
 
-    public Etudiant(String nom){
-        this.nom = nom;
-    }
 }

@@ -33,8 +33,13 @@ public class EtudiantServiceTest {
 
     @BeforeEach
     public void setUp() {
-        e1 = new Etudiant("toto");
-        e2 = new Etudiant("tata");
+        e1 = new Etudiant();
+        e1.setNom("toto");
+        e1.setMatricule("12345");
+
+        e2 = new Etudiant();
+        e2.setNom("tata");
+        e2.setMatricule("67890");
     }
 
     @Test
@@ -112,5 +117,28 @@ public class EtudiantServiceTest {
         Assertions.assertEquals("TI", updatedEtudiant.getEmail());
         Assertions.assertEquals("TI", updatedEtudiant.getTelephone());
         Assertions.assertEquals("TI", updatedEtudiant.getAdresse());
+    }
+
+    @Test
+    @DisplayName("TEST findByMatricule Success")
+    void testFindEtudiantByMatricule() {
+        // Arrange
+        doReturn(Optional.of(e1)).when(repository).findByMatricule("12345");
+        // Act
+        Optional<Etudiant> etudiant = service.findEtudiantByMatricule("12345");
+        // Assert
+        Assertions.assertTrue(etudiant.isPresent());
+        Assertions.assertSame(etudiant.get(), e1);
+    }
+
+    @Test
+    @DisplayName("TEST findByMatricule Not Found")
+    void testFindEtudiantByMatriculeNotFound() {
+        // Arrange
+        doReturn(Optional.empty()).when(repository).findByMatricule("X");
+        // Act
+        Optional<Etudiant> etudiant = service.findEtudiantByMatricule("X");
+        // Assert
+        Assertions.assertFalse(etudiant.isPresent());
     }
 }

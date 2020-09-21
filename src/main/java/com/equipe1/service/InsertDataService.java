@@ -8,18 +8,21 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 
 @Component
-public class InsertEtudiantService {
+public class InsertDataService {
 
     @Autowired
     private EtudiantRepository repository;
 
     @Transactional
     public void insertEtudiant(){
-        Etudiant e1 = new Etudiant("toto");
+        Etudiant e1 = new Etudiant();
+        e1.setNom("toto");
         repository.save(e1);
-        e1 = new Etudiant("tata");
+        e1 = new Etudiant();
+        e1.setNom("tata");
         repository.save(e1);
-        e1 = new Etudiant("tutu");
+        e1 = new Etudiant();
+        e1.setNom("tete");
         repository.save(e1);
 
         e1.setNom("titi");

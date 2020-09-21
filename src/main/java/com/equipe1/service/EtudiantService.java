@@ -41,4 +41,8 @@ public class EtudiantService {
         optionalEtudiant.get().setAdresse(newEtudiant.getAdresse());
         return etudiantRepository.save(optionalEtudiant.get());
     }
+
+    public Optional<Etudiant> findEtudiantByMatricule(String matricule) {
+        return etudiantRepository.findByMatricule(matricule);
+    }
 }
