@@ -1,0 +1,12 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.formBox{
+    align-self: center;
+    justify-self: center;
+    width: min-content;
+    margin: auto;
+}
