@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 @Data
 @NoArgsConstructor
-public class Etudiant {
+public class Gestionnaire {
 
     @Id
     @GeneratedValue()
@@ -24,16 +24,9 @@ public class Etudiant {
 
     private String prenom;
 
-    private String programme;
-
     private String email;
 
     private String telephone;
 
-    private String adresse;
-
-    private boolean statutStage;
-
-    //private Stage stage;
-
+    private String noBureau;
 }
