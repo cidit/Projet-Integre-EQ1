@@ -4,7 +4,7 @@ import StageService from '../service/StageService';
 
 class CreateStageComponent extends Component {
     constructor(props) {
-        super(props);
+        
         this.state = new Stage();
 
         this.changeTitreHandler = this.changeTitreHandler.bind(this);
