@@ -2,12 +2,15 @@ package com.equipe1.service;
 
 import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
+import com.equipe1.model.Stage;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
+import java.util.Date;
 
 @Component
 public class InsertDataService {
@@ -16,6 +19,9 @@ public class InsertDataService {
     private EtudiantRepository repository;
     @Autowired
     private EmployeurRepository employeurRepo;
+
+    @Autowired
+    private StageService stageService;
 
     @Transactional
     public void insertEtudiant(){
@@ -46,6 +52,19 @@ public class InsertDataService {
         Employeur_1.setEmail(email);
         Employeur_1.setPassword(password);
         employeurRepo.save(Employeur_1);
+
+    }
+    @Transactional
+    public void insertStage(){
+        Stage stage1 = new Stage();
+        stage1.setTitre("stage_1");
+        stage1.setDescription("stage informatique ");
+        stage1.setDateDebut(new Date());
+        stage1.setDateFin(new Date());
+        stage1.setExigences(Arrays.asList("diplome", "experience"));
+        stage1.setNbAdmis(2);
+        stageService.saveStage(stage1);
+
 
     }
 

@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class Stage {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String titre;
     @ManyToOne

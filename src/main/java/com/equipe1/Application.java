@@ -24,6 +24,7 @@ public class Application {
 			public void run(String... args) throws Exception {
 				service.insertEtudiant();
 				service.insertEmployeur();
+				service.insertStage();
 			}
 		};
 	}
