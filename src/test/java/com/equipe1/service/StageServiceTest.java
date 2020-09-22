@@ -98,7 +98,7 @@ public class StageServiceTest {
         s1.setDateFin(new Date(2021, 8, 20));
         List<String> exigences1 = new ArrayList<String>();
         exigences1.add("Etre empathique");
-        s1.setExigences(exigences1);
+        //s1.setExigences(exigences1);
         s1.setDescription("Ceci un stage en java");
         s1.setEmployeur(new Employeur("None", "None", "None"));
 
@@ -116,7 +116,7 @@ public class StageServiceTest {
         stageUpdate.setDateFin(new Date(2021, 8, 21));
         List<String> exigences2 = new ArrayList<String>();
         exigences2.add("Etre en 3eme annee de DEC");
-        stage.setExigences(exigences2);
+        //stage.setExigences(exigences2);
         stageUpdate.setDescription("Ceci un stage en java pour les etudiants en 3eme annee de DEC");
         stageUpdate.setEmployeur(new Employeur("NB", "111-222-3333", "Montreal, QC"));
         doReturn(stageUpdate).when(repository).save(any());

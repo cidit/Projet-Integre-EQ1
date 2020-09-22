@@ -19,8 +19,8 @@ public class Stage {
     @JsonBackReference
     private Employeur employeur;
     private String description;
-    @ElementCollection
-    private List<String> exigences;
+
+    private String exigences;
     @Temporal(TemporalType.DATE)
     private Date dateDebut;
     @Temporal(TemporalType.DATE)

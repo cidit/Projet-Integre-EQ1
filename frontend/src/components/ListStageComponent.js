@@ -6,8 +6,13 @@ export default class ListStagesComponent extends Component {
     constructor(props) {
         super(props);
         this.state = { stage: [], };
+
+        this.addStage = this.addStage.bind(this);
     }
 
+    addStage(){
+        this.props.history.push('/createStage')
+    }
 
     componentDidMount() {
         StageService.getStages().then((res) => { this.setState({ stage: res.data }) })
@@ -16,6 +21,9 @@ export default class ListStagesComponent extends Component {
         return (
             <div>
                 <h2 className="text-center">Stage list</h2>
+                <div className= "row">
+                    <button type="button" className="btn btn-success" onClick={this.addStage}>Create Stage</button>
+                </div>
                 <div className="row">
                     <table className="table table-striped table-bordered">
                         <thead>

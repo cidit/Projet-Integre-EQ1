@@ -61,7 +61,7 @@ public class InsertDataService {
         stage1.setDescription("stage informatique ");
         stage1.setDateDebut(new Date());
         stage1.setDateFin(new Date());
-        stage1.setExigences(Arrays.asList("diplome", "experience"));
+        //stage1.setExigences(Arrays.asList("diplome", "experience"));
         stage1.setNbAdmis(2);
         stageService.saveStage(stage1);
 
