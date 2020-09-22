@@ -20,22 +20,20 @@ class CreateStageComponent extends Component {
 
     saveStage = (e) => {
         e.preventDefault();
-        let stageToPost = {
-        titre : this.state.titre,
-        description : this.state.description,
-        exigences : this.state.exigences,
-        dateDebut : this.state.dateDebut,
-        dateFin : this.state.dateFin,
-        dateLimite : this.state.dateLimite,
-        nbAdmis : this.state.nbAdmis,
-        programme : this.state.programme
-        }
-        console.log(' stage => ' + JSON.stringify(stageToPost))
+        let stageToPost = new Stage();
+        stageToPost.titre = this.state.titre,
+        stageToPost.description = this.state.description,
+        stageToPost.exigences = this.state.exigences,
+        stageToPost.dateDebut = this.state.dateDebut,
+        stageToPost.dateFin = this.state.dateFin,
+        stageToPost.dateLimite = this.state.dateLimite,
+        stageToPostnbAdmis = this.state.nbAdmis,
+        stageToPost.programme = this.state.programme
+        
 
-        StageService.createStage(stageToPost).then(res => {
+        StageService.createNewStage(stageToPost).then(res => {
             this.props.history.push('/stages');
         });
-
 
     }
 
@@ -77,9 +75,6 @@ class CreateStageComponent extends Component {
     changeExigencesHandler = (e) => {
         this.setState({ exigences: e.target.value });
     }
-
-
-
 
     render() {
         return (
