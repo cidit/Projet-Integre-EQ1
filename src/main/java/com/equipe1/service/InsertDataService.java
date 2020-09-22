@@ -21,6 +21,11 @@ public class InsertDataService {
     public void insertEtudiant(){
         Etudiant e1 = new Etudiant();
         e1.setNom("toto");
+        e1.setAdresse("432442");
+        e1.setEmail("ttt@gg.v");
+        e1.setMatricule("4324324");
+        e1.setPassword("fewwffew");
+        e1.setPrenom("rrrrr");
         repository.save(e1);
         e1 = new Etudiant();
         e1.setNom("tata");
@@ -35,12 +40,14 @@ public class InsertDataService {
 
     @Transactional
     public void insertEmployeur(){
-        Employeur Employeur_1 = new Employeur("employeur_1", "43895893654", "548 ddasdfasdf");
-        employeurRepo.save(Employeur_1);
-        Employeur_1 = new Employeur("employeur_2", "0000000000", "111 ddasdfasdf");
-        employeurRepo.save(Employeur_1);
-        Employeur_1 = new Employeur("employeur_3", "11111111111", "33333 ddasdfasdf");
-        employeurRepo.save(Employeur_1);
+        Employeur employeur_1 = new Employeur("employeur_1", "43895893654", "548 ddasdfasdf");
+        employeur_1.setPassword("dfsgdfg");
+        employeur_1.setEmail("ddd@gm.b");
+        employeurRepo.save(employeur_1);
+//        employeur_1 = new Employeur("employeur_2", "0000000000", "111 ddasdfasdf");
+//        employeurRepo.save(employeur_1);
+//        employeur_1 = new Employeur("employeur_3", "11111111111", "33333 ddasdfasdf");
+//        employeurRepo.save(employeur_1);
 
     }
 }

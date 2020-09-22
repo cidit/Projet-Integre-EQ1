@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './../App.css';
 import './../css/Register.css';
 import Employeur from "../model/Employeur";
+import EmployeurService from "../service/EmployeurService";
 
 
 export default class EmployeurRegister extends Component {
@@ -20,9 +21,8 @@ export default class EmployeurRegister extends Component {
     handleSubmit(event) {
         event.preventDefault();
         // this.props.onSubmitted(this.state);
+        EmployeurService.post(this.state);
     }
-
-
 
     render(){
         return (
@@ -32,27 +32,27 @@ export default class EmployeurRegister extends Component {
 
                     <label>
                         Nom:
-                        <input type="text" name="nom" value={this.state.nom} onChange={this.handleChange}/>
+                        <input type="text" name="nom" required value={this.state.nom} onChange={this.handleChange}/>
                     </label>
 
                     <label>
                         Email:
-                        <input type="email" name="email" value={this.state.email} onChange={this.handleChange}/>
+                        <input type="email" name="email" required value={this.state.email} onChange={this.handleChange}/>
                     </label>
 
                     <label>
                         Telephone:
-                        <input type="tel" name="telephone" value={this.state.telephone} onChange={this.handleChange}/>
+                        <input type="tel" name="telephone" required value={this.state.telephone} onChange={this.handleChange}/>
                     </label>
 
                     <label>
                         Addresse:
-                        <input type="text" name="addresse" value={this.state.adresse} onChange={this.handleChange} />
+                        <input type="text" name="adresse" required value={this.state.adresse} onChange={this.handleChange} />
                     </label>
 
                     <label>
                         Mot de passe:
-                        <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
+                        <input type="password" name="password" required value={this.state.password} onChange={this.handleChange}/>
                     </label>
 
                     <input type="submit" value="Register"/>

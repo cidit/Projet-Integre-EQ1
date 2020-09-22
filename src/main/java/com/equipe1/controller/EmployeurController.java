@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@RequestMapping("/api/employeurs")
 public class EmployeurController {
 
     private EmployeurService employeurService;
@@ -16,7 +18,7 @@ public class EmployeurController {
        this.employeurService=employeurService;
     }
 
-    @GetMapping(value = "/employeurs")
+    @GetMapping(value = "findAll")
     public List<Employeur> getAllEmployeurs(){
         return employeurService.getEmployeurs();
     }
