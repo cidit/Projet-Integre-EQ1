@@ -32,7 +32,7 @@ class CreateStageComponent extends Component {
         programme : this.state.programme
         
         }
-        StageService.createNewStage(stageToPost).then(res => {
+        StageService.createStage(stageToPost).then(res => {
             this.props.history.push('/stages');
         });
 

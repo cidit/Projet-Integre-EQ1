@@ -16,8 +16,8 @@ export default class ListStagesComponent extends Component {
     }
 
     componentDidMount() {
-        //StageService.getStages().then((res) => { this.setState({ stage: res.data }) })
-       StageService.getAllStages().then((res) => { this.setState({ stage: res.data }) })
+        StageService.getStages().then((res) => { this.setState({ stage: res.data }) })
+       //StageService.getAllStages().then((res) => { this.setState({ stage: res.data }) })
     }
     render() {
         return (
