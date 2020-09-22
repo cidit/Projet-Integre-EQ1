@@ -7,6 +7,7 @@ import ListStagesComponent from "./components/ListStageComponent";
 import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
 import CreateStageComponent from './components/CreateStageComponent';
+import CreateStageFormikComponent from './components/CreateStageFormikComponent';
 
 
 function App() {

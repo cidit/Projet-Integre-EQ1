@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import Stage from '../model/Stage'
 import StageService from '../service/StageService';
+import { Formik, Field, Form, ErrorMessage } from "formik";
 
 class CreateStageComponent extends Component {
     constructor(props) {
-        
+        super(props);
         this.state = new Stage();
 
         this.changeTitreHandler = this.changeTitreHandler.bind(this);
@@ -20,17 +21,17 @@ class CreateStageComponent extends Component {
 
     saveStage = (e) => {
         e.preventDefault();
-        let stageToPost = new Stage();
-        stageToPost.titre = this.state.titre,
-        stageToPost.description = this.state.description,
-        stageToPost.exigences = this.state.exigences,
-        stageToPost.dateDebut = this.state.dateDebut,
-        stageToPost.dateFin = this.state.dateFin,
-        stageToPost.dateLimite = this.state.dateLimite,
-        stageToPostnbAdmis = this.state.nbAdmis,
-        stageToPost.programme = this.state.programme
+        let stageToPost = {
+       titre : this.state.titre,
+        description: this.state.description,
+        exigences : this.state.exigences,
+        dateDebut : this.state.dateDebut,
+       dateFin : this.state.dateFin,
+        dateLimite : this.state.dateLimite,
+        nbAdmis : this.state.nbAdmis,
+        programme : this.state.programme
         
-
+        }
         StageService.createNewStage(stageToPost).then(res => {
             this.props.history.push('/stages');
         });

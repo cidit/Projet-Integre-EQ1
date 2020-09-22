@@ -22,15 +22,15 @@ class StageService{
     }
 
     createNewStage(stage){
-        return fetch(STAGES_URL_POST,{
-            method:'POST',
-            body: JSON.stringify(stage),
-            headers : {
-                'Content-type':'application/json'
+        fetch(STAGES_URL_POST, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(stage), // data can be `string` or {object}!
+            headers:{
+              'Content-Type': 'application/json'
             }
-        }).then(res => res.json())
-        .catch(error => console.error('Error: ', error))
-        .then(res => console.log('Succes',res))
+          }).then(res => res.json())
+          .catch(error => console.error('Error:', error))
+          .then(response => console.log('Success:', response));
     }
 
 }
