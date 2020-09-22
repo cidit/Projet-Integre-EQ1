@@ -32,7 +32,7 @@ public class Etudiant {
 
     private String adresse;
 
-    private boolean statutStage;
+    private String statutStage;
 
     //private Stage stage;
 

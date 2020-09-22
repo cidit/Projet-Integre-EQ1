@@ -17,7 +17,7 @@ export default class EtudiantRegister extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        simpleFetch("/api/create", "POST", this.state).then(r => console.log(r))
+        simpleFetch("/etudiants/create", "POST", this.state).then(r => console.log(r))
 
     }
 
@@ -26,48 +26,48 @@ export default class EtudiantRegister extends Component {
             <div className="container">
                 <h3>Register Etudiant</h3>
                 <form onSubmit={this.handleSubmit} className="d-flex flex-column">
-                    <label>Nom: <input required="true"
+                    <label>Nom: <input required
                                        className="form-control"
                                        type="text"
                                        name="nom"
                                        value={this.state.nom}
                                        onChange={this.handleChange}/></label>
-                    <label>Prenom: <input required="true"
+                    <label>Prenom: <input required
                                           className="form-control"
                                           type="text"
                                           name="prenom"
                                           value={this.state.prenom}
                                           onChange={this.handleChange}/></label>
-                    <label>Matricule: <input required="true"
+                    <label>Matricule: <input required
                                              className="form-control"
                                              type="text"
                                              name="matricule"
                                              value={this.state.matricule}
                                              onChange={this.handleChange}/></label>
-                    <label>email: <input required="true"
+                    <label>email: <input required
                                          className="form-control"
                                          type="email"
                                          name="email"
                                          value={this.state.email}
                                          onChange={this.handleChange}/></label>
-                    <label>Password: <input required="true"
+                    <label>Password: <input required
                                             className="form-control"
                                             type="password"
                                             name="password"
                                             value={this.state.password}
                                             onChange={this.handleChange}/></label>
-                    <label>Telephone: <input required="true"
+                    <label>Telephone: <input required
                                              className="form-control"
                                              type="text" name="telephone"
                                              value={this.state.telephone}
                                              onChange={this.handleChange}/></label>
-                    <label>Adresse: <input required="true"
+                    <label>Adresse: <input required
                                            className="form-control"
                                            type="text"
                                            name="adresse"
                                            value={this.state.adresse}
                                            onChange={this.handleChange}/></label>
-                    <label>Programme: <input required="true"
+                    <label>Programme: <input required
                                              className="form-control"
                                              type="text"
                                              name="programme"
