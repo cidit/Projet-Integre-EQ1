@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Etudiant from "../model/Etudiant";
+import {simpleFetch} from "../crud/DataCRUD";
 
 export default class EtudiantRegister extends Component {
 
@@ -16,7 +17,8 @@ export default class EtudiantRegister extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        this.props.onSubmitted(this.state)
+        simpleFetch("/api/create", "POST", this.state).then(r => console.log(r))
+        // this.props.onSubmitted(this.state)
     }
 
     render() {
@@ -45,5 +47,4 @@ export default class EtudiantRegister extends Component {
             </div>
         );
     }
-
 }

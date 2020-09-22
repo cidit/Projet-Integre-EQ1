@@ -10,22 +10,22 @@ public class EtudiantController {
 
     private EtudiantService service;
 
-    public EtudiantController(EtudiantService service){
+    public EtudiantController(EtudiantService service) {
         this.service = service;
     }
 
     @GetMapping("get")
-    public Etudiant getEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
+    public Etudiant getEtudiant(@RequestParam("idEtudiant") Long idEtudiant) {
         return service.findEtudiantById(idEtudiant);
     }
 
     @PostMapping("create")
-    public Etudiant createEtudiant(@RequestBody Etudiant etudiant){
+    public Etudiant createEtudiant(@RequestBody Etudiant etudiant) {
         return service.saveEtudiant(etudiant);
     }
 
     @PutMapping("update/{id}")
-    public Etudiant updateEtudiant(@RequestBody Etudiant etudiant, @PathVariable Long id){
+    public Etudiant updateEtudiant(@RequestBody Etudiant etudiant, @PathVariable Long id) {
         return service.updateEtudiant(etudiant, id);
     }
 }
