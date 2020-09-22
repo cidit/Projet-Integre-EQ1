@@ -1,8 +1,6 @@
 package com.equipe1;
 
-import com.equipe1.model.Etudiant;
-import com.equipe1.repository.EtudiantRepository;
-import com.equipe1.service.InsertEtudiantService;
+import com.equipe1.service.InsertDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 public class Application {
 
 	@Autowired
-	private InsertEtudiantService service;
+	private InsertDataService service;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -24,7 +22,7 @@ public class Application {
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... args) throws Exception {
-				service.insertEtudiant();
+				//service.insertEtudiant();
 			}
 		};
 	}
