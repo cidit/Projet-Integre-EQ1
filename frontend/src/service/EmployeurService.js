@@ -3,8 +3,30 @@ const baseURL = "http://localhost:8080/api/employeurs";
 class EmployeurService{
 
 
-    getAll(){
-        fetch(baseURL +"/findAll", {method: "GET"} ).then(r => r.json()).then(data => console.log(data));
+    async getAll(){
+        let data;
+        await fetch(baseURL +"/findAll", {method: "GET"} )
+            .then(r => data = r.json())
+            .catch(error => data = {});
+        return data;
+    }
+
+    async getByEmail(email){
+        let data;
+        await fetch(baseURL +"/email?email=" +email, {method: "GET"} )
+            .then(r => data = r.json())
+            .catch(error => data = {});
+        return data;
+
+    }
+
+    async getById(id) {
+        let data;
+        await fetch(baseURL + "/get?idEmployeur=" + id, {method: "GET"})
+            .then(r => data = r.json())
+            .catch(error => data = {});
+        return data;
+
     }
 
     post(employeur){

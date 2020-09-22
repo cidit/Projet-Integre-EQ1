@@ -42,7 +42,7 @@ public class InsertDataService {
     public void insertEmployeur(){
         Employeur employeur_1 = new Employeur("employeur_1", "43895893654", "548 ddasdfasdf");
         employeur_1.setPassword("dfsgdfg");
-        employeur_1.setEmail("ddd@gm.b");
+        employeur_1.setEmail("ddd@gmail.com");
         employeurRepo.save(employeur_1);
 //        employeur_1 = new Employeur("employeur_2", "0000000000", "111 ddasdfasdf");
 //        employeurRepo.save(employeur_1);

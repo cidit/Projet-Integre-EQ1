@@ -2,6 +2,7 @@ package com.equipe1.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,6 +24,7 @@ public class Employeur {
     @NotBlank
     private String adresse;
     @NotBlank
+    @Column(unique=true)
     private String email;
     @NotBlank
     private String password;

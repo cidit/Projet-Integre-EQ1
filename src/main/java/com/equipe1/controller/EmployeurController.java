@@ -28,6 +28,11 @@ public class EmployeurController {
         return employeurService.getEmployeurById(idEmployeur);
     }
 
+    @GetMapping("email")
+    public Employeur getEmployeurByEmail(@RequestParam("email") String email){
+        return employeurService.getEmployeurByEmail(email);
+    }
+
     @PostMapping("createEmploye")
     public Employeur createEtudiant(@Valid @RequestBody Employeur employeur){
         return employeurService.saveEmployeur(employeur);

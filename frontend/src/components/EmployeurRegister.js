@@ -4,7 +4,6 @@ import './../css/Register.css';
 import Employeur from "../model/Employeur";
 import EmployeurService from "../service/EmployeurService";
 
-
 export default class EmployeurRegister extends Component {
     constructor(props) {
         super(props);
@@ -16,12 +15,20 @@ export default class EmployeurRegister extends Component {
 
     handleChange(event) {
         this.setState({[event.target.name]: event.target.value});
+        console.log(this.state)
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
+        let x = "email";
+        let data = await EmployeurService.getByEmail(this.state[x]);
+        console.log(data);
+        if (data[x] != this.state[x]){
+             EmployeurService.post(this.state);
+        } else {
+             alert("Ce email est deja utilise");
+        }
         // this.props.onSubmitted(this.state);
-        EmployeurService.post(this.state);
     }
 
     render(){
@@ -61,9 +68,5 @@ export default class EmployeurRegister extends Component {
             </div>
         );
     }
-
-
-
-
 }
 
