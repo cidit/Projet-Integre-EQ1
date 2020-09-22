@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import EmployeurRegister from "./components/EmployeurRegister";
 import Login from "./components/Login";
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Home from "./components/Home";
 
 function App() {
   return (
@@ -22,7 +24,11 @@ function App() {
         </a>
       </header>
         <article>
-        <EmployeurRegister/>
+          <Switch>
+            <Route path='/' component={Home} exact />
+            <Route path='/empRegist' component={EmployeurRegister} />
+            <Route path='/login' component={Login} />
+          </Switch>
         </article>
 
 

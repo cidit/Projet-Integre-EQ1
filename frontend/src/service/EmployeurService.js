@@ -17,7 +17,6 @@ class EmployeurService{
             .then(r => data = r.json())
             .catch(error => data = {});
         return data;
-
     }
 
     async getById(id) {

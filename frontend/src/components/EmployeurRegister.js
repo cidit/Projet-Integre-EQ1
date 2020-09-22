@@ -3,6 +3,7 @@ import './../App.css';
 import './../css/Register.css';
 import Employeur from "../model/Employeur";
 import EmployeurService from "../service/EmployeurService";
+import Redirect from "react-router-dom";
 
 export default class EmployeurRegister extends Component {
     constructor(props) {
@@ -25,6 +26,11 @@ export default class EmployeurRegister extends Component {
         console.log(data);
         if (data[x] != this.state[x]){
              EmployeurService.post(this.state);
+
+
+            //window.location.href("http://localhost:3000");
+
+
         } else {
              alert("Ce email est deja utilise");
         }
