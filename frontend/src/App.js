@@ -1,6 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import EtudiantRegister from "./components/EtudiantRegister";
+import ListStagesComponent from "./components/ListStageComponent";
+import HeaderComponent from './components/HeaderComponent';
+import FooterComponent from './components/FooterComponent';
+import CreateStageComponent from './components/CreateStageComponent';
+import CreateStageFormikComponent from './components/CreateStageFormikComponent';
 import EmployeurRegister from "./components/EmployeurRegister";
 import Login from "./components/Login";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -29,10 +37,30 @@ function App() {
             <Route path='/empRegist' component={EmployeurRegister} />
             <Route path='/login' component={Login} />
           </Switch>
+
+<div>
+<Router>
+<div className="container">
+<HeaderComponent />
+<div className="container">
+<Switch>
+<Route path = "/" exact component = {ListStagesComponent}></Route>
+<Route path = "/stages" component = {ListStagesComponent}></Route>
+<Route path = "/createStage" component = {CreateStageComponent}></Route>
+<ListStagesComponent />
+</Switch>
+</div>
+<FooterComponent />
+</div>
+</Router>
+>>>>>>> origin/eq1-4-back-front
+
+</div>
         </article>
 
 
     </div>
+
   );
 }
 
