@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:8080/api/employeurs";
+const baseURL = "http://localhost:8080/employeurs";
 
 class EmployeurService{
     async getAll(){
