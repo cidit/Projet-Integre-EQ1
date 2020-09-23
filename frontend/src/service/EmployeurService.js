@@ -25,7 +25,7 @@ class EmployeurService{
         return data;
     }
 
-    post(employeur){
+    async post(employeur){
         fetch(baseURL + "/createEmploye",
             {method: "POST",
                 headers: {
@@ -35,7 +35,7 @@ class EmployeurService{
             .then(r => r.json()).then(data => console.log(data));
     }
 
-    put(employeur){
+    async put(employeur){
         //TODO
     }
 }
