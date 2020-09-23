@@ -23,7 +23,7 @@ function App() {
           x
         </a>
       </header>
-        <article>
+        <article id="article">
           <Switch>
             <Route path='/' component={Home} exact />
             <Route path='/empRegist' component={EmployeurRegister} />

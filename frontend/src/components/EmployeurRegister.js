@@ -3,8 +3,10 @@ import './../App.css';
 import './../css/Register.css';
 import Employeur from "../model/Employeur";
 import EmployeurService from "../service/EmployeurService";
-import Redirect from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
+
+let redirectStr = "";
 export default class EmployeurRegister extends Component {
     constructor(props) {
         super(props);
@@ -16,19 +18,19 @@ export default class EmployeurRegister extends Component {
 
     handleChange(event) {
         this.setState({[event.target.name]: event.target.value});
-        console.log(this.state)
+        console.log(redirectStr);
     }
 
     async handleSubmit(event) {
         event.preventDefault();
         let x = "email";
         let data = await EmployeurService.getByEmail(this.state[x]);
-        console.log(data);
         if (data[x] != this.state[x]){
-             EmployeurService.post(this.state);
+             await EmployeurService.post(this.state);
 
 
-            //window.location.href("http://localhost:3000");
+            redirectStr = "HOME";
+            this.forceUpdate();
 
 
         } else {
@@ -37,42 +39,48 @@ export default class EmployeurRegister extends Component {
         // this.props.onSubmitted(this.state);
     }
 
+
+
     render(){
-        return (
-            <div className="formBox">
-                <h3>Enregistrement Employeur</h3>
-                <form onSubmit={this.handleSubmit}>
+        if(redirectStr == "HOME"){
+            return <Redirect to={"/"}/>
+        } else {
+            return (
+                <div className="formBox">
+                    <h3>Enregistrement Employeur</h3>
+                    <form onSubmit={this.handleSubmit}>
 
-                    <label>
-                        Nom:
-                        <input type="text" name="nom" required value={this.state.nom} onChange={this.handleChange}/>
-                    </label>
+                        <label>
+                            Nom:
+                            <input type="text" name="nom" required value={this.state.nom} onChange={this.handleChange}/>
+                        </label>
 
-                    <label>
-                        Email:
-                        <input type="email" name="email" required value={this.state.email} onChange={this.handleChange}/>
-                    </label>
+                        <label>
+                            Email:
+                            <input type="email" name="email" required value={this.state.email} onChange={this.handleChange}/>
+                        </label>
 
-                    <label>
-                        Telephone:
-                        <input type="tel" name="telephone" required value={this.state.telephone} onChange={this.handleChange}/>
-                    </label>
+                        <label>
+                            Telephone:
+                            <input type="tel" name="telephone" required value={this.state.telephone} onChange={this.handleChange}/>
+                        </label>
 
-                    <label>
-                        Addresse:
-                        <input type="text" name="adresse" required value={this.state.adresse} onChange={this.handleChange} />
-                    </label>
+                        <label>
+                            Addresse:
+                            <input type="text" name="adresse" required value={this.state.adresse} onChange={this.handleChange} />
+                        </label>
 
-                    <label>
-                        Mot de passe:
-                        <input type="password" name="password" required value={this.state.password} onChange={this.handleChange}/>
-                    </label>
+                        <label>
+                            Mot de passe:
+                            <input type="password" name="password" required value={this.state.password} onChange={this.handleChange}/>
+                        </label>
 
-                    <input type="submit" value="Register"/>
+                        <input type="submit" value="Register"/>
 
-                </form>
-            </div>
-        );
+                    </form>
+                </div>
+            );
+        }
+
     }
 }
-
