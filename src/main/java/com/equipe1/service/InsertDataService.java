@@ -46,16 +46,6 @@ public class InsertDataService {
 
     @Transactional
     public void insertEmployeur(){
-<<<<<<< HEAD
-        Employeur employeur_1 = new Employeur("employeur_1", "43895893654", "548 ddasdfasdf");
-        employeur_1.setPassword("dfsgdfg");
-        employeur_1.setEmail("ddd@gmail.com");
-        employeurRepo.save(employeur_1);
-//        employeur_1 = new Employeur("employeur_2", "0000000000", "111 ddasdfasdf");
-//        employeurRepo.save(employeur_1);
-//        employeur_1 = new Employeur("employeur_3", "11111111111", "33333 ddasdfasdf");
-//        employeurRepo.save(employeur_1);
-=======
         String email = "none";
         String password = "none";
         Employeur Employeur_1 = new Employeur("employeur_1", "43895893654", "548 ddasdfasdf");
@@ -70,8 +60,6 @@ public class InsertDataService {
         Employeur_1.setEmail(email);
         Employeur_1.setPassword(password);
         employeurRepo.save(Employeur_1);
->>>>>>> origin/eq1-4-back-front
-
     }
     @Transactional
     public void insertStage(){
