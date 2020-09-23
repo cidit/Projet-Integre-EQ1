@@ -2,6 +2,7 @@ package com.equipe1.service;
 
 import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
+import com.equipe1.model.Gestionnaire;
 import com.equipe1.model.Stage;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EtudiantRepository;
@@ -19,9 +20,10 @@ public class InsertDataService {
     private EtudiantRepository repository;
     @Autowired
     private EmployeurRepository employeurRepo;
-
     @Autowired
     private StageService stageService;
+    @Autowired
+    private  GestionnaireService gestionnaireService;
 
     @Transactional
     public void insertEtudiant(){
@@ -61,6 +63,7 @@ public class InsertDataService {
         Employeur_1.setPassword(password);
         employeurRepo.save(Employeur_1);
     }
+
     @Transactional
     public void insertStage(){
         Stage stage1 = new Stage();
@@ -71,9 +74,14 @@ public class InsertDataService {
         //stage1.setExigences(Arrays.asList("diplome", "experience"));
         stage1.setNbAdmis(2);
         stageService.saveStage(stage1);
-
-
     }
 
-
+    @Transactional
+    public void insertGestionnaire(){
+        Gestionnaire g1 = new Gestionnaire();
+        g1.setNom("toto");
+        g1.setPrenom("toto");
+        g1.setMatricule("12345");
+        gestionnaireService.saveGestionnaire(g1);
+    }
 }
