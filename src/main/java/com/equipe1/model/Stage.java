@@ -14,10 +14,10 @@ public class Stage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String titre;
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "employeur")
     @JsonBackReference
-    private Employeur employeur;
+    private Employeur employeur;*/
     private String description;
 
     private String exigences;

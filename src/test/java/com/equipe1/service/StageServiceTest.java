@@ -96,7 +96,7 @@ public class StageServiceTest {
         s1.setDateFin(new Date(2021, 8, 20));
         s1.setExigences("Etre empathique");
         s1.setDescription("Ceci un stage en java");
-        s1.setEmployeur(new Employeur("None", "None", "None"));
+        //s1.setEmployeur(new Employeur("None", "None", "None"));
         doReturn(s1).when(repository).save(any());
         Stage stage = repository.save(s1);
         Stage stageUpdate;
@@ -110,7 +110,7 @@ public class StageServiceTest {
         stageUpdate.setDateFin(new Date(2021, 8, 21));
         stageUpdate.setExigences("Etre en 3eme annee de DEC");
         stageUpdate.setDescription("Ceci un stage en java pour les etudiants en 3eme annee de DEC");
-        stageUpdate.setEmployeur(new Employeur("NB", "111-222-3333", "Montreal, QC"));
+        //stageUpdate.setEmployeur(new Employeur("NB", "111-222-3333", "Montreal, QC"));
         doReturn(stageUpdate).when(repository).save(any());
         doReturn(Optional.of(s1)).when(repository).findById(s1.getId());
         Stage updatedStage = service.updateStage(stageUpdate, stage.getId());
@@ -127,7 +127,7 @@ public class StageServiceTest {
         Assertions.assertEquals(new Date(2021, 1, 2), updatedStage.getDateLimiteCandidature());
         Assertions.assertEquals(new Date(2021, 1, 21), updatedStage.getDateDebut());
         Assertions.assertEquals(new Date(2021, 8, 21), updatedStage.getDateFin());
-        Assertions.assertEquals(new Employeur("NB", "111-222-3333", "Montreal, QC"), updatedStage.getEmployeur());
+        //Assertions.assertEquals(new Employeur("NB", "111-222-3333", "Montreal, QC"), updatedStage.getEmployeur());
     }
 
 }
