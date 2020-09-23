@@ -18,7 +18,6 @@ export default class EtudiantRegister extends Component {
     handleSubmit(event) {
         event.preventDefault()
         simpleFetch("/etudiants/create", "POST", this.state).then(r => console.log(r))
-
     }
 
     render() {

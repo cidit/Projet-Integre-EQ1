@@ -17,7 +17,6 @@ import Home from "./components/Home";
 function App() {
   return (
     <div className="App">
-
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -33,15 +32,9 @@ function App() {
         </a>
       </header>
       <article id="article">
-        <Switch>
-          <Route path='/' component={Home} exact />
-        
-        </Switch>
-
         <div>
           <Router>
             <div className="container">
-           
               <div className="container">
                 <Switch>
                   <Route path="/" exact component={Home}></Route>
@@ -50,19 +43,14 @@ function App() {
                   <Route path='/empRegist' component={EmployeurRegister} />
                   <Route path='/create' component={EtudiantRegister} />
                   <Route path='/login' component={Login} />
-                
                 </Switch>
               </div>
               <FooterComponent />
             </div>
           </Router>
-
         </div>
       </article>
-
-
     </div>
-
   );
 }
 

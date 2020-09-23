@@ -1,8 +1,6 @@
 const baseURL = "http://localhost:8080/api/employeurs";
 
 class EmployeurService{
-
-
     async getAll(){
         let data;
         await fetch(baseURL +"/findAll", {method: "GET"} )
@@ -25,7 +23,6 @@ class EmployeurService{
             .then(r => data = r.json())
             .catch(error => data = {});
         return data;
-
     }
 
     post(employeur){
@@ -39,15 +36,8 @@ class EmployeurService{
     }
 
     put(employeur){
-        // fetch(baseURL + "/update",
-        //     {method: "PUT",
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(employeur)} )
-        //     .then(r => r.json()).then(data => console.log(data));
+        //TODO
     }
 }
-
 
 export default new EmployeurService()
