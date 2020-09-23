@@ -27,7 +27,6 @@ public class Etudiant {
 
     private String programme;
 
-    @Column(unique=true)
     private String email;
 
     private String telephone;

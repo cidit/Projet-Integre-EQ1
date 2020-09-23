@@ -22,7 +22,7 @@ export default class ListStagesComponent extends Component {
     render() {
         return (
             <div>
-                <h2 className="text-center">Stage list</h2>
+                <h2 className="text-center">List de stages</h2>
                 <div className= "row">
                     <button type="button" className="btn btn-success" onClick={this.addStage}>Create Stage</button>
                 </div>
@@ -33,8 +33,10 @@ export default class ListStagesComponent extends Component {
                                 <th> Id </th>
                                 <th> Titre </th>
                                 <th> Description </th>
-                                <th> dateDebut </th>
-                                <th> dateFin </th>
+                                <th> date Debut </th>
+                                <th> date Fin </th>
+                                <th> Heures par semaine </th>
+                                
 
                             </tr>
                         </thead>
@@ -47,6 +49,7 @@ export default class ListStagesComponent extends Component {
                                         <td>{stage.description}</td>
                                         <td>{stage.dateDebut}</td>
                                         <td>{stage.dateFin}</td>
+                                        <td>{stage.nbHeuresParSemaine}</td>
                                     </tr>
                             )}
                         </tbody>
