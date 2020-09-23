@@ -22,15 +22,15 @@ class CreateStageComponent extends Component {
     saveStage = (e) => {
         e.preventDefault();
         let stageToPost = {
-       titre : this.state.titre,
-        description: this.state.description,
-        exigences : this.state.exigences,
-        dateDebut : this.state.dateDebut,
-       dateFin : this.state.dateFin,
-        dateLimite : this.state.dateLimite,
-        nbAdmis : this.state.nbAdmis,
-        programme : this.state.programme
-        
+            titre: this.state.titre,
+            description: this.state.description,
+            exigences: this.state.exigences,
+            dateDebut: this.state.dateDebut,
+            dateFin: this.state.dateFin,
+            dateLimite: this.state.dateLimite,
+            nbAdmis: this.state.nbAdmis,
+            programme: this.state.programme
+
         }
         StageService.createStage(stageToPost).then(res => {
             this.props.history.push('/stages');
@@ -38,7 +38,7 @@ class CreateStageComponent extends Component {
 
     }
 
-    cancel(){
+    cancel() {
         this.props.history.push('/stages');
     }
 
@@ -79,69 +79,67 @@ class CreateStageComponent extends Component {
 
     render() {
         return (
-
-            <div className="container">
+            <div >
                 <h3 className="m-3">Créer un offre de stage</h3>
                 <form>
+                    <div className="container">
+                        <div className="row">
+                            <div className="form-group col">
+                                <label>Title :</label>
+                                <input placeholder="Title" name="title" className="form-control" required
+                                    value={this.state.titre} onChange={this.changeTitreHandler} />
+                            </div>
+                            <div className="form-group col">
+                                <label>Programme :</label>
+                                <input placeholder="Programme" name="programme" className="form-control" required
+                                    value={this.state.programme} onChange={this.changeProgrammeHandler} />
+                            </div>
+                        </div>
 
-                    <div className="form-row">
-                        <div className="form-group col">
-                            <label>Title :</label>
-                            <input placeholder="Title" name="title" className="form-control"
-                                value={this.state.titre} onChange={this.changeTitreHandler} />
+                        <div className="row">
+                            <div className="form-group col">
+                                <label>Date Début de Stage :</label>
+                                <input type="date" name="dateDebut" className="form-control" required
+                                    value={this.state.dateDebut} onChange={this.changeDateDebutHandler} />
+                            </div>
+                            <div className="form-group col">
+                                <label>Date Fin de Stage :</label>
+                                <input type="date" name="dateFin" className="form-control" required
+                                    value={this.state.dateFin} onChange={this.changeDateFinHandler} />
+                            </div>
+                            <div className="form-group col">
+                                <label>Date Limit de dépôt :</label> 
+                                <input type="date" name="dateLimite" className="form-control" required
+                                    value={this.state.dateLimite} onChange={this.changeDateLimiteHandler} />
+                            </div>
+
+                            <div className="form-group col">
+                                <label>Nombre de places :</label>
+                                <input type="number" name="dateLimite" className="form-control"
+                                    value={this.state.nbAdmis} onChange={this.changeNbAdmisHandler} />
+                            </div>
                         </div>
-                        <div className="form-group col">
-                            <label>Programme :</label>
-                            <input placeholder="Programme" name="programme" className="form-control"
-                                value={this.state.programme} onChange={this.changeProgrammeHandler} />
+
+                        <div className="form-row">
+                            <div className="form-group col">
+                                <label>Description :</label>
+                                <textarea placeholder="Description" name="description" className="form-control" required
+                                    value={this.state.description} onChange={this.changeDescriptionHandler} />
+                            </div>
                         </div>
+
+                        <div className="form-row">
+                            <div className="form-group col">
+                                <label>Exigences :</label>
+                                <textarea placeholder="Exigences" name="exigences" className="form-control" required
+                                    value={this.state.exigences} onChange={this.changeExigencesHandler} />
+                            </div>
+                        </div>
+
+                        <button type="submit" className="btn btn-success" onClick={this.saveStage}>Enregistrer</button>
+                        <button type="button" className="btn btn-warning" onClick={this.cancel.bind(this)}>Cancel</button>
+
                     </div>
-
-
-                    <div className="form-row">
-                        <div className="form-group col">
-                            <label>Date Début de Stage :</label>
-                            <input type="date" name="dateDebut" className="form-control"
-                                value={this.state.dateDebut} onChange={this.changeDateDebutHandler} />
-                        </div>
-                        <div className="form-group col">
-                            <label>Date Fin de Stage :</label>
-                            <input type="date" name="dateFin" className="form-control"
-                                value={this.state.dateFin} onChange={this.changeDateFinHandler} />
-                        </div>
-                        <div className="form-group col">
-                            <label>Date Limit de dépôt :</label>
-                            <input type="date" name="dateLimite" className="form-control"
-                                value={this.state.dateLimite} onChange={this.changeDateLimiteHandler} />
-                        </div>
-
-                        <div className="form-group col">
-                            <label>Nombre de places :</label>
-                            <input type="number" name="dateLimite" className="form-control"
-                                value={this.state.nbAdmis} onChange={this.changeNbAdmisHandler} />
-                        </div>
-                    </div>
-
-                    <div className="form-row">
-                        <div className="form-group col">
-                            <label>Description :</label>
-                            <textarea placeholder="Description" name="description" className="form-control"
-                                value={this.state.description} onChange={this.changeDescriptionHandler} />
-                        </div>
-                    </div>
-
-                    <div className="form-row">
-                        <div className="form-group col">
-                            <label>Exigences :</label>
-                            <textarea placeholder="Exigences" name="exigences" className="form-control"
-                                value={this.state.exigences} onChange={this.changeExigencesHandler} />
-                        </div>
-                    </div>
-
-                    <button type="submit" className="btn btn-success" onClick={this.saveStage}>Enregistrer</button>
-                    <button type="button" className="btn btn-warning" onClick={this.cancel.bind(this)}>Cancel</button>
-
-
                 </form>
             </div>
 
