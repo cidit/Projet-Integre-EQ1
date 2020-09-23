@@ -35,9 +35,6 @@ export default class ListStagesComponent extends Component {
                                 <th> Description </th>
                                 <th> date Debut </th>
                                 <th> date Fin </th>
-                                <th> Heures par semaine </th>
-                                
-
                             </tr>
                         </thead>
                         <tbody>
@@ -49,7 +46,6 @@ export default class ListStagesComponent extends Component {
                                         <td>{stage.description}</td>
                                         <td>{stage.dateDebut}</td>
                                         <td>{stage.dateFin}</td>
-                                        <td>{stage.nbHeuresParSemaine}</td>
                                     </tr>
                             )}
                         </tbody>
