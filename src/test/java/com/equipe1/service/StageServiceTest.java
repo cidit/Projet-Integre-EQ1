@@ -24,10 +24,8 @@ import static org.mockito.Mockito.doReturn;
 public class StageServiceTest {
     @Autowired
     private StageService service;
-
     @MockBean
     private StageRepository repository;
-
     private Stage s1;
     private Stage s2;
 
@@ -39,7 +37,7 @@ public class StageServiceTest {
 
     @Test
     @DisplayName("getAll test")
-    void testGetStages(){
+    void testGetStages() {
         // Arrange
         doReturn(Arrays.asList(s1, s2)).when(repository).findAll();
         // Act
@@ -84,7 +82,7 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("updateEtudiant test")
+    @DisplayName("updateStage test")
     void testUpdateStage() {
         s1.setId(1l);
         s1.setTitre("Stage en programmation");
@@ -96,16 +94,12 @@ public class StageServiceTest {
         s1.setDateDebut(new Date(2021, 1, 20));
         s1.setDateFin(new Date(2021, 8, 20));
         s1.setDateFin(new Date(2021, 8, 20));
-        List<String> exigences1 = new ArrayList<String>();
-        exigences1.add("Etre empathique");
-        //s1.setExigences(exigences1);
+        s1.setExigences("Etre empathique");
         s1.setDescription("Ceci un stage en java");
         s1.setEmployeur(new Employeur("None", "None", "None"));
-
         doReturn(s1).when(repository).save(any());
         Stage stage = repository.save(s1);
-
-        Stage stageUpdate = new Stage();
+        Stage stageUpdate;
         stageUpdate = s1;
         stageUpdate.setProgramme("Informatique");
         stageUpdate.setOuvert(true);
@@ -114,9 +108,7 @@ public class StageServiceTest {
         stageUpdate.setDateLimiteCandidature(new Date(2021, 1, 2));
         stageUpdate.setDateDebut(new Date(2021, 1, 21));
         stageUpdate.setDateFin(new Date(2021, 8, 21));
-        List<String> exigences2 = new ArrayList<String>();
-        exigences2.add("Etre en 3eme annee de DEC");
-        //stage.setExigences(exigences2);
+        stageUpdate.setExigences("Etre en 3eme annee de DEC");
         stageUpdate.setDescription("Ceci un stage en java pour les etudiants en 3eme annee de DEC");
         stageUpdate.setEmployeur(new Employeur("NB", "111-222-3333", "Montreal, QC"));
         doReturn(stageUpdate).when(repository).save(any());
@@ -131,12 +123,11 @@ public class StageServiceTest {
         Assertions.assertEquals("Ceci un stage en java pour les etudiants en 3eme annee de DEC", updatedStage.getDescription());
         Assertions.assertEquals(2, updatedStage.getNbAdmis());
         Assertions.assertEquals(35f, updatedStage.getNbHeuresParSemaine());
-        Assertions.assertEquals(exigences2, updatedStage.getExigences());
+        Assertions.assertEquals("Etre en 3eme annee de DEC", updatedStage.getExigences());
         Assertions.assertEquals(new Date(2021, 1, 2), updatedStage.getDateLimiteCandidature());
         Assertions.assertEquals(new Date(2021, 1, 21), updatedStage.getDateDebut());
         Assertions.assertEquals(new Date(2021, 8, 21), updatedStage.getDateFin());
         Assertions.assertEquals(new Employeur("NB", "111-222-3333", "Montreal, QC"), updatedStage.getEmployeur());
-
     }
 
 }
