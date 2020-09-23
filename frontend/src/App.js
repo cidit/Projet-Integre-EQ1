@@ -67,7 +67,7 @@ function App() {
                   <Route path='/login' component={Login} />
                 </Switch>
               </div>
-              <FooterComponent />
+       
             </div>
           </Router>
         </div>

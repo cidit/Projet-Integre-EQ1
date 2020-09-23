@@ -17,16 +17,16 @@ public class Employeur {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank
+
     private String nom;
-    @NotBlank
+
     private String telephone;
-    @NotBlank
+
     private String adresse;
-    @NotBlank
+
     @Column(unique=true)
     private String email;
-    @NotBlank
+
     private String password;
     //@OneToMany(cascade = CascadeType.ALL,mappedBy = "employeur")
     //private Set<Stage> stages = new HashSet<Stage>();

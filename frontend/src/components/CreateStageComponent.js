@@ -137,7 +137,7 @@ class CreateStageComponent extends Component {
                         </div>
                     </div>
 
-                    <button type="button" className="btn btn-success" onClick={this.saveStage}>Enregistrer</button>
+                    <button type="submit" className="btn btn-success" onClick={this.saveStage}>Enregistrer</button>
                     <button type="button" className="btn btn-warning" onClick={this.cancel.bind(this)}>Cancel</button>
 
 
