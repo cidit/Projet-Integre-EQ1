@@ -81,6 +81,7 @@ class CreateStageComponent extends Component {
         return (
 
             <div className="container">
+                <h3 className="m-3">Créer un offre de stage</h3>
                 <form>
 
                     <div className="form-row">
