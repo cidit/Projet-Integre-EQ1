@@ -11,7 +11,7 @@ import CreateStageComponent from './components/CreateStageComponent';
 import CreateStageFormikComponent from './components/CreateStageFormikComponent';
 import EmployeurRegister from "./components/EmployeurRegister";
 import Login from "./components/Login";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch ,Link} from 'react-router-dom';
 import Home from "./components/Home";
 
 function App() {
@@ -35,8 +35,30 @@ function App() {
         <div>
           <Router>
             <div className="container">
+            <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/stages">Get al stages</Link>
+          </li>
+          <li>
+            <Link to="/createStage">Create Stage</Link>
+          </li>
+          <li>
+            <Link to="/empRegist">Employee registre</Link>
+          </li>
+          <li>
+            <Link to="/create">Create Student</Link>
+          </li>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        </ul>
+           
               <div className="container">
                 <Switch>
+                  
                   <Route path="/" exact component={Home}></Route>
                   <Route path="/stages" component={ListStagesComponent}></Route>
                   <Route path="/createStage" component={CreateStageComponent}></Route>
