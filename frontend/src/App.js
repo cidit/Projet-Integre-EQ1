@@ -46,7 +46,7 @@ function App() {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/stages">Get al stages</Link>
+            <Link to="/stages">Get all stages</Link>
           </li>
           <li>
             <Link to="/createStage">Create Stage</Link>
