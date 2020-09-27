@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
 import EtudiantService from '../service/EtudiantService';
-
+import axios from 'axios'
 
 export default class ListEtudiantsComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = { etudiant: [], };
+        this.state = { etudiants: [], filter: '', };
     }
 
+    handleChange = event => {
+        this.setState({ filter: event.target.value });
+    };
+    /*
     componentDidMount() {
-        EtudiantService.getEtudiants().then((res) => { this.setState({ etudiant: res.data }) })
+        EtudiantService.getEtudiants().then((res) => { this.setState({ etudiants: res.data }) })
+        //EtudiantService.getEtudiantByMatricule(this.state.filter).then((res) => { this.setState({ etudiants: [res.data] }) })
     }
+    */
+    async componentDidMount() {
+            const { data: etudiants } = await axios.get(
+                "http://localhost:8080/etudiants/findAll"
+            );
+            this.setState({ etudiants });
+        }
     render() {
+
         return (
             <div>
                 <h2 className="text-center">List des étudiants</h2>
-                // search bar
+                <input type='text' value={this.state.filter} onChange={this.handleChange} />
                 <div className="row">
                     <table className="table table-striped table-bordered">
                         <thead>
@@ -30,8 +43,10 @@ export default class ListEtudiantsComponent extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.etudiant.map(
-                                etudiant =>
+                            {this.state.etudiants
+                                .filter(etudiant => etudiant.matricule.includes(this.state.filter))
+                                .map(
+                                    etudiant =>
                                     <tr key={etudiant.id}>
                                         <td>{etudiant.matricule}</td>
                                         <td>{etudiant.nom}</td>
