@@ -10,6 +10,7 @@ import EmployeurRegister from "./components/EmployeurRegister";
 import Login from "./components/Login";
 import { BrowserRouter as Router, Route, Switch, Link, NavLink } from 'react-router-dom';
 import Home from "./components/Home";
+import HomeEtudiant from "./components/HomeEtudiant";
 
 function App() {
   return (
@@ -35,6 +36,8 @@ function App() {
                   <Route path='/empRegist' component={EmployeurRegister} />
                   <Route path='/create' component={EtudiantRegister} />
                   <Route path='/login' component={Login} />
+                  <Route path='/etudiant' component={HomeEtudiant} />
+
                 </Switch>
               </div>
 
