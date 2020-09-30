@@ -15,7 +15,6 @@ function App() {
   return (
     <div className="App">
 
-
       <article id="article">
         <div>
           <Router>
@@ -37,13 +36,10 @@ function App() {
                   <Route path='/login' component={Login} />
                 </Switch>
               </div>
-
             </div>
           </Router>
-
         </div>
       </article>
-
 
     </div>
 
