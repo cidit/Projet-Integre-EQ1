@@ -5,7 +5,7 @@ export default class Stage{
     description = "";
     exigences= "";
     dateDebut= "";
-    dateFin= "";
+    dateFinale= "";
     nbHeuresParSemaine= "";
     salaire= "";
     nbAdmis= "";
