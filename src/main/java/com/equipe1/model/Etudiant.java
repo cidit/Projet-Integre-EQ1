@@ -1,32 +1,22 @@
 package com.equipe1.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
-public class Etudiant {
-
-    @Id
-    @GeneratedValue()
-    private Long id;
-
-    private String matricule;
-
-    private String password;
-
-    private String nom;
-
-    private String prenom;
+@AllArgsConstructor
+public class Etudiant extends User {
 
     private String programme;
-
-    private String email;
-
-    private String telephone;
 
     private String adresse;
 
@@ -35,7 +25,4 @@ public class Etudiant {
     @Lob
     @Column(columnDefinition = "BLOB")
     private byte[] cv;
-
-    //private Stage stage;
-
 }
