@@ -10,12 +10,15 @@ import EmployeurRegister from "./components/EmployeurRegister";
 import Login from "./components/Login";
 import { BrowserRouter as Router, Route, Switch, Link, NavLink } from 'react-router-dom';
 import Home from "./components/Home";
+<<<<<<< HEAD
 import ListEtudiantsComponent from "./components/ListEtudiantComponent";
+=======
+import HomeEtudiant from "./components/HomeEtudiant";
+>>>>>>> eq1-3
 
 function App() {
   return (
     <div className="App">
-
 
       <article id="article">
         <div>
@@ -38,16 +41,13 @@ function App() {
                   <Route path='/create' component={EtudiantRegister} />
                   <Route path='/login' component={Login} />
                   <Route path="/etudiants" component={ListEtudiantsComponent}></Route>
+                  <Route path='/etudiant' component={HomeEtudiant} />
                 </Switch>
               </div>
-
             </div>
           </Router>
-
         </div>
       </article>
-
-
     </div>
 
   );
