@@ -28,21 +28,14 @@ public class InsertDataService {
     @Transactional
     public void insertEtudiant(){
         Etudiant e1 = new Etudiant();
-        e1.setNom("toto");
-        e1.setAdresse("432442");
-        e1.setEmail("ttt@gg.v");
-        e1.setMatricule("4324324");
-        e1.setPassword("fewwffew");
-        e1.setPrenom("rrrrr");
-        repository.save(e1);
-        e1 = new Etudiant();
-        e1.setNom("tata");
-        repository.save(e1);
-        e1 = new Etudiant();
-        e1.setNom("tete");
-        repository.save(e1);
-
-        e1.setNom("titi");
+        e1.setNom("Truong");
+        e1.setPrenom("Richard");
+        e1.setProgramme("TI");
+        e1.setMatricule("12345");
+        e1.setPassword("12345");
+        e1.setAdresse("12345");
+        e1.setEmail("richard@courriel.com");
+        e1.setStatutStage("aucun");
         repository.save(e1);
     }
 
