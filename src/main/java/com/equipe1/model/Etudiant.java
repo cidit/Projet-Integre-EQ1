@@ -16,6 +16,10 @@ import javax.persistence.Lob;
 @AllArgsConstructor
 public class Etudiant extends User {
 
+    {
+        this.role = "Etudiant";
+    }
+
     private String programme;
 
     private String adresse;

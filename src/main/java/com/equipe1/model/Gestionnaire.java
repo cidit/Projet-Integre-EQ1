@@ -12,7 +12,11 @@ import javax.persistence.Entity;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Gestionnaire extends User{
+public class Gestionnaire extends User {
+
+    {
+        this.role = "Gestionaire";
+    }
 
     private String noBureau;
 }

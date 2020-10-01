@@ -14,10 +14,11 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     protected String nom;
+
     protected String prenom;
 
     @Column(unique=true)
@@ -28,4 +29,6 @@ public class User {
     protected String matricule;
 
     protected String telephone;
+
+    protected String role;
 }
