@@ -10,14 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
 import java.util.Date;
 
 @Component
 public class InsertDataService {
 
     @Autowired
-    private EtudiantRepository repository;
+    private EtudiantRepository etudiantRepository;
     @Autowired
     private EmployeurRepository employeurRepo;
     @Autowired
@@ -36,16 +35,16 @@ public class InsertDataService {
         e1.setAdresse("12345");
         e1.setEmail("richard@courriel.com");
         e1.setStatutStage("aucun");
-        repository.save(e1);
+        etudiantRepository.save(e1);
     }
 
     @Transactional
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
-        e1.setEmail("toto");
+        e1.setEmail("tata");
         e1.setPassword("12345");
         e1.setAdresse("12345");
-        e1.setNom("toto");
+        e1.setNom("tata@ta.to");
         e1.setTelephone("12345");
         employeurRepo.save(e1);
     }
@@ -69,7 +68,7 @@ public class InsertDataService {
         g1.setPrenom("toto");
         g1.setMatricule("12345");
         g1.setNoBureau("1");
-        g1.setEmail("toto");
+        g1.setEmail("toto@toto.to");
         g1.setPassword("12345");
         g1.setTelephone("12345");
         gestionnaireService.saveGestionnaire(g1);

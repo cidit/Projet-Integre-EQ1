@@ -18,6 +18,7 @@ public class User {
     protected Long id;
 
     protected String nom;
+
     protected String prenom;
 
     @Column(unique=true)
