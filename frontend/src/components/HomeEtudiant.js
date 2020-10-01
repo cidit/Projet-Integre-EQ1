@@ -71,7 +71,7 @@ export default class HomeEtudiant extends Component {
                 <label>Programme : </label><br/>
                 <label>Televerser votre CV : <input type="file" name="file" onChange={this.onChangeHandler}/></label><br/>
 
-                {this.state.displayInvalidFileMessage ? <label style={{color: "red"}}>Ce format de fichier n'est pas autorise </label> : null}
+                {this.state.displayInvalidFileMessage ? <label style={{color: "red"}}>Ce format de fichier n'est pas autorise. Seuls les fichiers au format PDF sont autorises</label> : null}
                 {this.state.displaySubmitCVButton ? <input type="submit" value="Enregistrer mon CV"/>: null}
 
             </div>
