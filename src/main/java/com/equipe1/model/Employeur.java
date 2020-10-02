@@ -1,37 +1,27 @@
 package com.equipe1.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
-@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
+@Data
 @NoArgsConstructor
-public class Employeur {
+@AllArgsConstructor
+public class Employeur extends User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String nom;
-
-    private String telephone;
+    {
+        this.role = "Employeur";
+    }
 
     private String adresse;
 
-    @Column(unique=true)
-    private String email;
-
-    private String password;
-    //@OneToMany(cascade = CascadeType.ALL,mappedBy = "employeur")
-    //private Set<Stage> stages = new HashSet<Stage>();
-
-    public Employeur(String nom, String telephone, String adresse){
+    public Employeur(String nom, String telephone, String adresse) {
         this.nom = nom;
         this.telephone = telephone;
         this.adresse = adresse;
