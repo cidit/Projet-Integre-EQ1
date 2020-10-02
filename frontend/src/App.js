@@ -10,11 +10,8 @@ import EmployeurRegister from "./components/EmployeurRegister";
 import Login from "./components/Login";
 import { BrowserRouter as Router, Route, Switch, Link, NavLink } from 'react-router-dom';
 import Home from "./components/Home";
-<<<<<<< HEAD
 import ListEtudiantsComponent from "./components/ListEtudiantComponent";
-=======
 import HomeEtudiant from "./components/HomeEtudiant";
->>>>>>> eq1-3
 
 function App() {
   return (

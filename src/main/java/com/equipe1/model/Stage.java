@@ -20,7 +20,9 @@ public class Stage {
     /*@ManyToOne
     @JoinColumn(name = "employeur")
     @JsonBackReference
-    private Employeur employeur;*/
+    private Employeur employeur;
+    */
+
     private String description;
 
     private String exigences;
@@ -40,6 +42,8 @@ public class Stage {
     private Date dateLimiteCandidature;
 
     private String programme;
+
+    private String ville;
 
     public Stage (){
 

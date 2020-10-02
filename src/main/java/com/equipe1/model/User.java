@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
@@ -17,16 +18,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
 
-    protected String nom;
-
-    protected String prenom;
-
+    @NotBlank
     @Column(unique=true)
     protected String email;
 
+    @NotBlank
     protected String password;
 
-    protected String matricule;
-
+    @NotBlank
     protected String telephone;
 }

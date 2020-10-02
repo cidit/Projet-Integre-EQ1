@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.validation.constraints.NotBlank;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -16,10 +17,19 @@ import javax.persistence.Lob;
 @AllArgsConstructor
 public class Etudiant extends User {
 
+    @NotBlank
+    private String nom;
+
+    @NotBlank
+    private String prenom;
+
+    @NotBlank
+    private String matricule;
+
+    @NotBlank
     private String programme;
 
-    private String adresse;
-
+    @NotBlank
     private String statutStage;
 
     @Lob

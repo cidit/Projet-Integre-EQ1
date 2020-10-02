@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -14,10 +15,14 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 public class Employeur extends User {
 
+    @NotBlank
     private String adresse;
 
-    public Employeur(String nom, String telephone, String adresse) {
-        this.nom = nom;
+    @NotBlank
+    private String nomEntreprise;
+
+    public Employeur(String nomEntreprise, String telephone, String adresse) {
+        this.nomEntreprise = nomEntreprise;
         this.telephone = telephone;
         this.adresse = adresse;
     }
