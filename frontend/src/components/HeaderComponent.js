@@ -58,6 +58,7 @@ function NavType(props){
 class HeaderComponent extends Component {
     constructor(props) {
         super(props);
+
         this.state = {desc : localStorage.getItem("desc") == null ? "" : localStorage.getItem("desc")}
     }
 
