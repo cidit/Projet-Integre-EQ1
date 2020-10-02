@@ -13,11 +13,15 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Gestionnaire extends User{
+public class Gestionnaire extends User {
+
+    {
+        this.role = "Gestionaire";
+    }
 
     @NotBlank
-    protected String nom;
+    private String nom;
 
     @NotBlank
-    protected String prenom;
+    private String prenom;
 }

@@ -17,7 +17,9 @@ public class Stage {
 
     private String titre;
 
-    /*@ManyToOne
+
+    /*
+    @ManyToOne
     @JoinColumn(name = "employeur")
     @JsonBackReference
     private Employeur employeur;

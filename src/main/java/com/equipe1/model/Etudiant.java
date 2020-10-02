@@ -17,6 +17,10 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class Etudiant extends User {
 
+    {
+        this.role = "Etudiant";
+    }
+
     @NotBlank
     private String nom;
 
@@ -28,6 +32,9 @@ public class Etudiant extends User {
 
     @NotBlank
     private String programme;
+
+    @NotBlank
+    private String adresse;
 
     @NotBlank
     private String statutStage;

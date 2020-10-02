@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     @NotBlank
@@ -27,4 +27,7 @@ public class User {
 
     @NotBlank
     protected String telephone;
+
+    @NotBlank
+    protected String role;
 }
