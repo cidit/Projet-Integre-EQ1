@@ -51,7 +51,7 @@ public class InsertDataService {
         e1.setEmail("toto1");
         e1.setPassword("12345");
         e1.setAdresse("12345");
-        e1.setNom("toto");
+        e1.setNomEntreprise("toto");
         e1.setTelephone("12345");
         employeurRepository.save(e1);
     }
@@ -73,8 +73,6 @@ public class InsertDataService {
         Gestionnaire g1 = new Gestionnaire();
         g1.setNom("toto");
         g1.setPrenom("toto");
-        g1.setMatricule("12345");
-        g1.setNoBureau("1");
         g1.setEmail("toto");
         g1.setPassword("12345");
         g1.setTelephone("12345");

@@ -35,7 +35,6 @@ public class GestionnaireService {
         Optional<Gestionnaire> optionalGestionnaire = gestionnaireRepository.findById(id);
         optionalGestionnaire.get().setEmail(newGestionnaire.getEmail());
         optionalGestionnaire.get().setTelephone(newGestionnaire.getTelephone());
-        optionalGestionnaire.get().setNoBureau(newGestionnaire.getNoBureau());
         return gestionnaireRepository.save(optionalGestionnaire.get());
     }
 }
