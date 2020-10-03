@@ -19,7 +19,7 @@ export default class ListEtudiantsComponent extends Component {
     */
     async componentDidMount() {
             const { data: etudiants } = await axios.get(
-                "http://localhost:8080/etudiants/findAll"
+                "http://localhost:8080/etudiants/findAll",
             );
             this.setState({ etudiants });
         }
