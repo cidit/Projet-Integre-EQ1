@@ -42,4 +42,9 @@ public class EtudiantController {
     public Optional<Etudiant> getEtudiantByMatricule(@RequestParam("matricule") String matricule){
         return etudiantService.findEtudiantByMatricule(matricule);
     }
+
+    @PutMapping("update/cv/{id}")
+    public Etudiant updateEtudiantCV(@RequestBody Etudiant etudiant, @PathVariable Long id){
+        return etudiantService.updateEtudiant(etudiant, id);
+    }
 }

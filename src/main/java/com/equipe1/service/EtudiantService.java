@@ -45,4 +45,10 @@ public class EtudiantService {
     public Optional<Etudiant> findEtudiantByMatricule(String matricule) {
         return etudiantRepository.findByMatricule(matricule);
     }
+
+    public Etudiant updateEtudiantCV(Etudiant newEtudiant, long id){
+        Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
+        optionalEtudiant.get().setCv(newEtudiant.getCv());
+        return etudiantRepository.save(optionalEtudiant.get());
+    }
 }
