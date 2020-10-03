@@ -18,7 +18,7 @@ public class InsertDataService {
     @Autowired
     private EtudiantRepository etudiantRepository;
     @Autowired
-    private EmployeurRepository employeurRepo;
+    private EmployeurRepository employeurRepository;
     @Autowired
     private StageService stageService;
     @Autowired
@@ -27,26 +27,27 @@ public class InsertDataService {
     @Transactional
     public void insertEtudiant(){
         Etudiant e1 = new Etudiant();
-        e1.setNom("Truong");
-        e1.setPrenom("Richard");
-        e1.setProgramme("TI");
-        e1.setMatricule("12345");
-        e1.setPassword("12345");
-        e1.setAdresse("12345");
-        e1.setEmail("richard@courriel.com");
+        e1.setAdresse("123456");
+        e1.setEmail("toto@email.com");
+        e1.setMatricule("4324324");
+        e1.setPassword("123456");
+        e1.setPrenom("toto");
+        e1.setNom("toto");
         e1.setStatutStage("aucun");
+        e1.setTelephone("555-555-5555");
+        e1.setProgramme("TI");
         etudiantRepository.save(e1);
     }
 
     @Transactional
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
-        e1.setEmail("tata");
+        e1.setEmail("tata@email.com");
         e1.setPassword("12345");
         e1.setAdresse("12345");
-        e1.setNom("tata@ta.to");
+        e1.setNomEntreprise("tata");
         e1.setTelephone("12345");
-        employeurRepo.save(e1);
+        employeurRepository.save(e1);
     }
 
     @Transactional
@@ -64,11 +65,9 @@ public class InsertDataService {
     @Transactional
     public void insertGestionnaire(){
         Gestionnaire g1 = new Gestionnaire();
-        g1.setNom("toto");
-        g1.setPrenom("toto");
-        g1.setMatricule("12345");
-        g1.setNoBureau("1");
-        g1.setEmail("toto@toto.to");
+        g1.setNom("titi");
+        g1.setPrenom("titi");
+        g1.setEmail("titi@email.com");
         g1.setPassword("12345");
         g1.setTelephone("12345");
         gestionnaireService.saveGestionnaire(g1);

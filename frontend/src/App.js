@@ -12,9 +12,7 @@ import { BrowserRouter as Router, Route, Switch, Link, NavLink } from 'react-rou
 import Home from "./components/Home";
 
 import ListEtudiantsComponent from "./components/ListEtudiantComponent";
-
 import HomeEtudiant from "./components/HomeEtudiant";
-
 
 function App() {
   return (

@@ -6,13 +6,22 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Gestionnaire extends User{
+public class Gestionnaire extends User {
 
-    private String noBureau;
+    {
+        this.role = "Gestionaire";
+    }
+
+    @NotBlank
+    private String nom;
+
+    @NotBlank
+    private String prenom;
 }
