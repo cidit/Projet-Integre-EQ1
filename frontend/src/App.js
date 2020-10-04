@@ -48,10 +48,6 @@ function App() {
           </Router>
         </div>
       </article>
-<<<<<<< HEAD
-
-=======
->>>>>>> eq1-3
     </div>
 
   );
