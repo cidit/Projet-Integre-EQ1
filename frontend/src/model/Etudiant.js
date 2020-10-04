@@ -10,4 +10,5 @@ export default class Etudiant {
     adresse = "";
     statusStage = "";
     stage;
+    cv;
 }

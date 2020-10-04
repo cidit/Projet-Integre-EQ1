@@ -39,10 +39,30 @@ public class EtudiantService {
         optionalEtudiant.get().setEmail(newEtudiant.getEmail());
         optionalEtudiant.get().setTelephone(newEtudiant.getTelephone());
         optionalEtudiant.get().setAdresse(newEtudiant.getAdresse());
+        optionalEtudiant.get().setCv(newEtudiant.getCv());
         return etudiantRepository.save(optionalEtudiant.get());
     }
+    /*
+    public Etudiant savePDF(Etudiant newEtudiant, long id){
+        Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
+        optionalEtudiant.get().setProgramme(newEtudiant.getProgramme());
+        optionalEtudiant.get().setEmail(newEtudiant.getEmail());
+        optionalEtudiant.get().setTelephone(newEtudiant.getTelephone());
+        optionalEtudiant.get().setAdresse(newEtudiant.getAdresse());
+        optionalEtudiant.get().setAdresse(newEtudiant.getAdresse());
+
+        return etudiantRepository.save(optionalEtudiant.get());
+    }
+    */
+
 
     public Optional<Etudiant> findEtudiantByMatricule(String matricule) {
         return etudiantRepository.findByMatricule(matricule);
+    }
+
+    public Etudiant updateEtudiantCV(Etudiant newEtudiant, long id){
+        Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
+        optionalEtudiant.get().setCv(newEtudiant.getCv());
+        return etudiantRepository.save(optionalEtudiant.get());
     }
 }

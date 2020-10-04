@@ -16,7 +16,9 @@ public class Stage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String titre;
+
 
     /*
     @ManyToOne
@@ -35,7 +37,9 @@ public class Stage {
     private boolean isOuvert;
     private String programme;
     private String ville;
+
     public Stage() {
         this.isOuvert = true;
+
     }
   }

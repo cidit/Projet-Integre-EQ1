@@ -30,25 +30,37 @@ public class InsertDataService {
     public void insertEtudiant(){
         Etudiant e1 = new Etudiant();
         e1.setAdresse("123456");
-        e1.setEmail("toto@email.com");
-        e1.setMatricule("4324324");
+        e1.setEmail("richard@email.com");
+        e1.setMatricule("1772397");
         e1.setPassword("123456");
-        e1.setPrenom("toto");
-        e1.setNom("toto");
-        e1.setStatutStage("aucun");
+        e1.setPrenom("richard");
+        e1.setNom("truong");
+        e1.setStatutStage("possede stage");
         e1.setTelephone("555-555-5555");
         e1.setProgramme("TI");
         etudiantRepository.save(e1);
+
+        Etudiant e2 = new Etudiant();
+        e2.setAdresse("123456");
+        e2.setEmail("alex@email.com");
+        e2.setMatricule("1501279");
+        e2.setPassword("123456");
+        e2.setPrenom("alex");
+        e2.setNom("truong");
+        e2.setStatutStage("aucun stage");
+        e2.setTelephone("555-444-4444");
+        e2.setProgramme("Secondaire 3");
+        etudiantRepository.save(e2);
     }
 
     @Transactional
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
-        e1.setEmail("tata@email.com");
+        e1.setEmail("banque1@email.com");
         e1.setPassword("12345");
         e1.setAdresse("12345");
-        e1.setNomEntreprise("tata");
-        e1.setTelephone("12345");
+        e1.setNomEntreprise("banque1");
+        e1.setTelephone("888-888-8888");
         employeurRepository.save(e1);
     }
 
@@ -72,9 +84,9 @@ public class InsertDataService {
     @Transactional
     public void insertGestionnaire(){
         Gestionnaire g1 = new Gestionnaire();
-        g1.setNom("titi");
-        g1.setPrenom("titi");
-        g1.setEmail("titi@email.com");
+        g1.setNom("toto");
+        g1.setPrenom("toto");
+        g1.setEmail("toto@toto.to");
         g1.setPassword("12345");
         g1.setTelephone("12345");
         gestionnaireService.saveGestionnaire(g1);

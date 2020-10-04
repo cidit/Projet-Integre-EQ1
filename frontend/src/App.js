@@ -11,6 +11,10 @@ import Login from "./components/Login";
 import { BrowserRouter as Router, Route, Switch, Link, NavLink } from 'react-router-dom';
 import Home from "./components/Home";
 
+import ListEtudiantsComponent from "./components/ListEtudiantComponent";
+import HomeEtudiant from "./components/HomeEtudiant";
+import Register from './components/RegisterComponent';
+
 function App() {
   return (
     <div className="App">
@@ -24,6 +28,7 @@ function App() {
               <NavLink to="/create">Inscrire un étudiant</NavLink>
               <NavLink to="/createStage">Créer un stage</NavLink>
               <NavLink to="/Login">Login</NavLink>
+              <NavLink to="/etudiants">Étudiants</NavLink>
             </nav>
             <div className="container">
               <div className="container">
@@ -34,13 +39,19 @@ function App() {
                   <Route path='/empRegist' component={EmployeurRegister} />
                   <Route path='/create' component={EtudiantRegister} />
                   <Route path='/login' component={Login} />
+                  <Route path="/etudiants" component={ListEtudiantsComponent}></Route>
+                  <Route path='/etudiant' component={HomeEtudiant} />
+                  <Route path='/register' component={Register} />
                 </Switch>
               </div>
             </div>
           </Router>
         </div>
       </article>
+<<<<<<< HEAD
 
+=======
+>>>>>>> eq1-3
     </div>
 
   );
