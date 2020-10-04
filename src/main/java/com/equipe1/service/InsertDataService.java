@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -55,10 +57,15 @@ public class InsertDataService {
         Stage stage1 = new Stage();
         stage1.setTitre("stage_1");
         stage1.setDescription("stage informatique ");
-        stage1.setDateDebut(new Date());
-        stage1.setDateFin(new Date());
-        //stage1.setExigences(Arrays.asList("diplome", "experience"));
         stage1.setNbAdmis(2);
+        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
+        stage1.setExigences("aucune exigence");
+        stage1.setProgramme("informatique");
+        stage1.setNbHeuresParSemaine(35);
+        stage1.setVille("Montreal");
+
         stageService.saveStage(stage1);
     }
 

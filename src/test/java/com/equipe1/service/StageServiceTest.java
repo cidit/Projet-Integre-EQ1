@@ -15,6 +15,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.mockito.ArgumentMatchers.any;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.mockito.Mockito.doReturn;
@@ -31,8 +33,10 @@ public class StageServiceTest {
 
     @BeforeEach
     public void setUp() {
-        s1 = new Stage("java");
-        s2 = new Stage("c++");
+        s1 = new Stage();
+        s1.setTitre("java");
+        s2 = new Stage();
+        s2.setTitre("c++");
     }
 
     @Test
@@ -90,10 +94,10 @@ public class StageServiceTest {
         s1.setOuvert(false);
         s1.setNbAdmis(1);
         s1.setNbHeuresParSemaine(37.5f);
-        s1.setDateLimiteCandidature(new Date(2021, 1, 1));
-        s1.setDateDebut(new Date(2021, 1, 20));
-        s1.setDateFin(new Date(2021, 8, 20));
-        s1.setDateFin(new Date(2021, 8, 20));
+        s1.setDateLimiteCandidature(LocalDate.of(2021, 1, 1));
+        s1.setDateDebut(LocalDate.of(2021, 1, 20));
+        s1.setDateFin(LocalDate.of(2021, 8, 20));
+        s1.setDateFin(LocalDate.of(2021, 8, 20));
         s1.setExigences("Etre empathique");
         s1.setDescription("Ceci un stage en java");
         //s1.setEmployeur(new Employeur("None", "None", "None"));
@@ -105,9 +109,9 @@ public class StageServiceTest {
         stageUpdate.setOuvert(true);
         stageUpdate.setNbAdmis(2);
         stageUpdate.setNbHeuresParSemaine(35f);
-        stageUpdate.setDateLimiteCandidature(new Date(2021, 1, 2));
-        stageUpdate.setDateDebut(new Date(2021, 1, 21));
-        stageUpdate.setDateFin(new Date(2021, 8, 21));
+        stageUpdate.setDateLimiteCandidature(LocalDate.of(2021, 1, 2));
+        stageUpdate.setDateDebut(LocalDate.of(2021, 1, 21));
+        stageUpdate.setDateFin(LocalDate.of(2021, 8, 21));
         stageUpdate.setExigences("Etre en 3eme annee de DEC");
         stageUpdate.setDescription("Ceci un stage en java pour les etudiants en 3eme annee de DEC");
         //stageUpdate.setEmployeur(new Employeur("NB", "111-222-3333", "Montreal, QC"));

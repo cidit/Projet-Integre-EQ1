@@ -1,11 +1,13 @@
 package com.equipe1.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -24,32 +26,16 @@ public class Stage {
     */
 
     private String description;
-
     private String exigences;
-
-    @Temporal(TemporalType.DATE)
-    private Date dateDebut;
-
-    @Temporal(TemporalType.DATE)
-    private Date dateFin;
-
+    private LocalDate dateDebut;
+    private LocalDate dateFin;
+    private LocalDate dateLimiteCandidature;
     private float nbHeuresParSemaine;
-
     private int nbAdmis;
-
     private boolean isOuvert;
-
-    private Date dateLimiteCandidature;
-
     private String programme;
-
     private String ville;
-
-    public Stage (){
-
+    public Stage() {
+        this.isOuvert = true;
     }
-    public Stage (String titre) {
-        this.titre = titre;
-    }
-
-}
+  }

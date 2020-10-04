@@ -29,6 +29,7 @@ public class StageController {
 
     @PostMapping("createStage")
     public Stage createStage(@RequestBody Stage stage){
+        stage.setOuvert(true);
         return stageService.saveStage(stage);
     }
 

@@ -5,11 +5,12 @@ export default class Stage{
     description = "";
     exigences= "";
     dateDebut= "";
-    dateFinale= "";
+    dateFin= "";
     nbHeuresParSemaine= "";
     salaire= "";
     nbAdmis= "";
     ouvert= "";
-    dateLimite= "";
+    dateLimiteCandidature= "";
     programme= "";
+    ville ="";
 }
