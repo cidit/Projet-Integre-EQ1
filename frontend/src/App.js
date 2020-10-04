@@ -13,6 +13,7 @@ import Home from "./components/Home";
 
 import ListEtudiantsComponent from "./components/ListEtudiantComponent";
 import HomeEtudiant from "./components/HomeEtudiant";
+import Register from './components/RegisterComponent';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
                   <Route path='/login' component={Login} />
                   <Route path="/etudiants" component={ListEtudiantsComponent}></Route>
                   <Route path='/etudiant' component={HomeEtudiant} />
+                  <Route path='/register' component={Register} />
                 </Switch>
               </div>
             </div>
