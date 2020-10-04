@@ -20,7 +20,7 @@ function App() {
       <article id="article">
         <div>
           <Router>
-            <nav class="navbar navbar-dark bg-dark p-2 m-3">
+            <nav className="navbar navbar-dark bg-dark p-2 m-3">
               <NavLink to="/">Home</NavLink>
               <NavLink to="/empRegist">Inscrire un employé</NavLink>
               <NavLink to="/create">Inscrire un étudiant</NavLink>

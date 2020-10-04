@@ -1,34 +1,56 @@
 import React, { Component } from 'react';
 import EtudiantService from '../service/EtudiantService';
-import axios from 'axios'
 
 export default class ListEtudiantsComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = { etudiants: [], filter: '', };
+        this.state = { etudiants: [], filter: '', statut: '', };
     }
 
-    handleChange = event => {
+    handleChangeText = event => {
         this.setState({ filter: event.target.value });
     };
-    /*
-    componentDidMount() {
-        EtudiantService.getEtudiants().then((res) => { this.setState({ etudiants: res.data }) })
-        //EtudiantService.getEtudiantByMatricule(this.state.filter).then((res) => { this.setState({ etudiants: [res.data] }) })
-    }
-    */
+
+    handleChangeRadio = event => {
+        console.log(event.target.value)
+        this.setState({ statut: event.target.value });
+    };
+    
     async componentDidMount() {
-            const { data: etudiants } = await axios.get(
-                "http://localhost:8080/etudiants/findAll"
-            );
+            const { data: etudiants } = await EtudiantService.getEtudiants();
             this.setState({ etudiants });
-        }
+    }
+
     render() {
 
         return (
             <div>
-                <h2 className="text-center">List des étudiants</h2>
-                <input type='text' value={this.state.filter} onChange={this.handleChange} />
+                <h1 className="text-center">List des étudiants</h1>
+
+                <div className="form-group">
+                    <div className="row">
+                        <h4 className="text-center">FILTRAGE MATRICULE</h4>
+                    </div>
+                    <div className="row"> 
+                        <input type='text' value={this.state.filter} onChange={this.handleChangeText} />
+                    </div>
+                    <div className="row">
+                        <h4 className="text-center">STATUT DE STAGE</h4>
+                    </div>
+                    <div className="row">
+                        <label><input type="radio" name="statut" value="aucun stage" 
+                                onChange={this.handleChangeRadio}/> N'a aucun stage</label>
+                    </div>
+                    <div className="row">
+                        <label><input type="radio" name="statut" value="possede stage" 
+                                onChange={this.handleChangeRadio}/> Possède un stage</label>
+                    </div>
+                    <div className="row">
+                        <label><input type="radio" name="statut" value="" 
+                                onChange={this.handleChangeRadio}/> Tout les étudiants</label>
+                    </div>
+                </div>
+
                 <div className="row">
                     <table className="table table-striped table-bordered">
                         <thead>
@@ -44,7 +66,8 @@ export default class ListEtudiantsComponent extends Component {
                         </thead>
                         <tbody>
                             {this.state.etudiants
-                                .filter(etudiant => etudiant.matricule.includes(this.state.filter))
+                                .filter(etudiant => etudiant.matricule.includes(this.state.filter) && 
+                                        etudiant.statutStage.includes(this.state.statut))
                                 .map(
                                     etudiant =>
                                     <tr key={etudiant.id}>
