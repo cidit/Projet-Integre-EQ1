@@ -13,6 +13,7 @@ import Home from "./components/Home";
 
 import ListEtudiantsComponent from "./components/ListEtudiantComponent";
 import HomeEtudiant from "./components/HomeEtudiant";
+import Register from './components/RegisterComponent';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
       <article id="article">
         <div>
           <Router>
-            <nav class="navbar navbar-dark bg-dark p-2 m-3">
+            <nav className="navbar navbar-dark bg-dark p-2 m-3">
               <NavLink to="/">Home</NavLink>
               <NavLink to="/empRegist">Inscrire un employé</NavLink>
               <NavLink to="/create">Inscrire un étudiant</NavLink>
@@ -40,6 +41,7 @@ function App() {
                   <Route path='/login' component={Login} />
                   <Route path="/etudiants" component={ListEtudiantsComponent}></Route>
                   <Route path='/etudiant' component={HomeEtudiant} />
+                  <Route path='/register' component={Register} />
                 </Switch>
               </div>
             </div>
