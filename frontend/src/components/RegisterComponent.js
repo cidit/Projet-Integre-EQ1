@@ -30,7 +30,6 @@ export default class Register extends Component {
 					<EtudiantRegister/>
 				</Tab>
 				<Tab eventKey="employeur" title="Employeur">
-                    <h3>Enregistrement Employeur</h3>
 					<EmployeurRegister/>
 				</Tab>
 			</Tabs>

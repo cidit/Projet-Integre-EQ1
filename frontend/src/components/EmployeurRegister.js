@@ -41,7 +41,7 @@ export default class EmployeurRegister extends Component {
 
             <div className="container ">
                 <div className="col">
-                    <div className="card p-3" >
+                    <div className="card p-3 m-3" >
                         <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Nouvel employeur</h5>
                         <Formik
                             initialValues={{
@@ -150,7 +150,7 @@ export default class EmployeurRegister extends Component {
                                                     <Field type="texte"
                                                         name="adresse"
                                                         className="form-control"
-                                                        placeholder="Password" />
+                                                        placeholder="Adresse" />
                                                     <ErrorMessage name="adresse">{msg => <div className="badge alert-danger">{msg}</div>}</ErrorMessage >
                                                 </div>
                                             </div>
