@@ -20,8 +20,10 @@ public class Employeur extends User {
 
     private String adresse;
 
-    public Employeur(String nom, String telephone, String adresse) {
-        this.nom = nom;
+    private String nomEntreprise;
+
+    public Employeur(String nomEntreprise, String telephone, String adresse) {
+        this.nomEntreprise = nomEntreprise;
         this.telephone = telephone;
         this.adresse = adresse;
     }

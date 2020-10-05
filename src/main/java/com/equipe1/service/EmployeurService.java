@@ -40,7 +40,7 @@ public class EmployeurService {
     public Employeur updateEmployeur(Employeur newEmployeur, long id){
         Optional<Employeur> optionalEmployeur = employeurRepo.findById(id);
         if(optionalEmployeur.isPresent()){
-            optionalEmployeur.get().setNom(newEmployeur.getNom());
+            optionalEmployeur.get().setNomEntreprise(newEmployeur.getNomEntreprise());
             optionalEmployeur.get().setTelephone(newEmployeur.getTelephone());
             optionalEmployeur.get().setAdresse(newEmployeur.getAdresse());
             return employeurRepo.save(optionalEmployeur.get());

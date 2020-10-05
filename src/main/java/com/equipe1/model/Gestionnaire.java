@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -18,5 +19,9 @@ public class Gestionnaire extends User {
         this.desc = "Gestionaire";
     }
 
-    private String noBureau;
+    @NotBlank
+    private String nom;
+
+    @NotBlank
+    private String prenom;
 }
