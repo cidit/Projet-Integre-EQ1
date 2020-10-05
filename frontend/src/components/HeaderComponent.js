@@ -62,9 +62,10 @@ class HeaderComponent extends Component {
         this.state = {desc : localStorage.getItem("desc") == null ? "" : localStorage.getItem("desc")}
     }
 
-    // shouldComponentUpdate() {
-    //     return true;
-    // }
+
+
+
+
 
     render() {
         return (

@@ -3,6 +3,7 @@ package com.equipe1.controller;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.User;
 import com.equipe1.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
+    @Autowired
     private UserRepository userRepository;
 
     @GetMapping("findAll")
