@@ -143,7 +143,10 @@ export default class EmployeurRegister extends Component {
                                         <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
                                                     <label className="control-label"> adresse </label>
-                                                    <Field type="texte" name="adresse" className="form-control" />
+                                                    <Field type="texte" 
+                                                            name="adresse" 
+                                                            className="form-control" 
+                                                            placeholder="Password"  />
                                                     <ErrorMessage name="adresse">{msg => <div className="badge alert-danger">{msg}</div>}</ErrorMessage >
                                                 </div>
                                             </div>

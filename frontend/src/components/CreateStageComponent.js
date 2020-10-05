@@ -13,21 +13,21 @@ const isRequired = (message) => (value) => (!!value ? undefined : message);
 class CreateStageComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { sended: false};
+    this.state = { sended: false };
 
 
   }
 
   feedBack() {
-    
-    this.setState({sended : true}); 
+
+    this.setState({ sended: true });
   }
 
   cancel() {
     this.props.history.push('/stages');
   }
   render() {
-    const { handleSubmit, isSubmitting, isValid, isValidating } = this.props;
+    const { handleSubmit, isSubmitting, isValid, isValidating, status } = this.props;
 
     return (
       <div className="card p-3">
@@ -112,13 +112,18 @@ class CreateStageComponent extends Component {
             <button type="submit"
               className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
               className="btn btn-primary"
-              disabled={isValidating ||isSubmitting || !isValid } onClick={this.feedBack.bind(this)}>Enregistrer</button>
+              disabled={isValidating || isSubmitting || !isValid} onClick={this.feedBack.bind(this)}>Enregistrer</button>
 
-            { this.state.sended && isValid && 
-            <div className="alert alert-success m-4" role="alert">
-              <p>Stage créée avec succès</p>
-              <a  class="text-warning stretched-link" onClick={this.cancel.bind(this)}> Voir mes offres de Stage</a>
-            </div>
+            {status && status.message &&
+              <div className="alert alert-success mt-3" role="alert">
+                {status.message}
+              </div>
+            }
+
+            {this.state.sended && isValid &&
+              <div className="alert alert-success m-4" role="alert">
+                <a class="stretched-link" onClick={this.cancel.bind(this)}> Voir mes offres de Stage</a>
+              </div>
             }
           </div>
         </Form>
@@ -151,7 +156,7 @@ export default withFormik({
       errors.dateLimiteCandidature = 'Date inférieure à date de début ou supérieur date finale'
     }
 
-    if(!values){
+    if (!values) {
       console.log(this.state)
     }
 
@@ -159,9 +164,14 @@ export default withFormik({
   },
 
   handleSubmit(values, formikBag) {
-   
+
     StageService.createStage(values).then(res => {
-      console.log(values);
+
+      formikBag.setStatus({ message: "Utilisateur crée avec succès" });
+
+      setTimeout(() => {
+        formikBag.setStatus({ message: '' });
+      }, 3000);
     });
     formikBag.resetForm()
     formikBag.setSubmitting(false);
