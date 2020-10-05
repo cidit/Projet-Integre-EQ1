@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import Stage from '../model/Stage'
 import StageService from '../service/StageService';
-import { Formik, Field, Form, ErrorMessage, withFormik } from "formik";
+import { Field, Form, ErrorMessage, withFormik } from "formik";
 import Employeur from '../model/Employeur';
-import * as Yup from 'yup';
+
 import '../css/Forms.css';
 import ValidationChamp from './ValidationChampVide'
 import ValidationDate from './ValidationDate'
-import { Alert } from 'react-bootstrap';
 
 const isRequired = (message) => (value) => (!!value ? undefined : message);
 
@@ -118,7 +117,7 @@ class CreateStageComponent extends Component {
             { this.state.sended && isValid && 
             <div className="alert alert-success m-4" role="alert">
               <p>Stage créée avec succès</p>
-              <a href="#" class="text-warning stretched-link" onClick={this.cancel.bind(this)}> Voir mes offres de Stage</a>
+              <a  class="text-warning stretched-link" onClick={this.cancel.bind(this)}> Voir mes offres de Stage</a>
             </div>
             }
           </div>
@@ -141,7 +140,7 @@ export default withFormik({
     const errors = {}
 
     if (startDate < today) {
-      errors.dateDebut = 'Date de début ne doit être inférieure ou égale à la date d\'\aujourd\'\hui'
+      errors.dateDebut = 'Date de début ne doit être inférieure ou égale à la date d\'aujourd\'hui'
     }
 
     if (finalDate <= startDate) {

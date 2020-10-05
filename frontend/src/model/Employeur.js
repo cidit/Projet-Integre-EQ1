@@ -5,4 +5,5 @@ export default class Employeur {
     password = "";
     telephone = "";
     adresse = "";
+    rol = ""
 }

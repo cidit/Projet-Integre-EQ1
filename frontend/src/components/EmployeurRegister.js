@@ -6,19 +6,21 @@ import EmployeurService from "../service/EmployeurService";
 import { Redirect } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage, withFormik } from "formik";
 import * as Yup from 'yup';
+import ValidationChamp from './ValidationChampVide';
+
 
 let redirectStr = "";
 
 const formSchema = Yup.object().shape({
     nomEntreprise: Yup.string().required('Not empty'),
     email: Yup.string()
-        .required('Not empty')
+        .required('Veuillez saissir un email valide')
         .email("Courriel inavalide"),
     password: Yup.string()
-        .required("Not empty")
-        .min(5, "MInimun 5 caraters"),
-    telephone: Yup.string().required('Not empty').min(8, "minimo 8 caracteres"),
-    adresse: Yup.string().required('Not empty'),
+        .required("Veuillez saissir un password valide")
+        .min(6, "doivent comprendre au moins 6 caractères."),
+    telephone: Yup.string().required('Veuillez saissir un telephone valide').min(8, "doivent comprendre au moins 8 caractères."),
+    adresse: Yup.string().required('Veuillez saissir un adresse valide'),
 
 });
 
@@ -27,39 +29,16 @@ export default class EmployeurRegister extends Component {
         super(props);
         this.state = new Employeur();
 
-        // this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    /* handleChange(event) {
-         this.setState({ [event.target.name]: event.target.value });
-         console.log(redirectStr);
-     }
- 
-     async handleSubmit(event) {
-         event.preventDefault();
-         let x = "email";
-         let data = await EmployeurService.getByEmail(this.state[x]);
-         if (data[x] != this.state[x]) {
-             await EmployeurService.post(this.state);
-             redirectStr = "HOME";
-             this.forceUpdate();
-         } else {
-             alert("Ce email est deja utilise");
-         }
-     }*/
-
     render() {
-
-
-        const { handleSubmit, isSubmitting, isValid, isValidating } = this.props;
-        if (redirectStr == "HOME") {
-            return <Redirect to={"/"} />
-        } else {
+        
             return (
-                <div className="container">
-                    <div className="card-body" >
-                        <h5 className="card-title text-center">Enregistrer nouveau employeur</h5>
+                
+                <div className="container ">
+                     <div className="col">
+                    <div className="card" >
+                        <h5 className="card-title text-center p-3" style={{background : '#D5E6F3 '}}>Enregistrer nouveau employeur</h5>
                         <Formik
                             initialValues={{
                                 nomEntreprise: "",
@@ -67,64 +46,138 @@ export default class EmployeurRegister extends Component {
                                 password: "",
                                 telephone: "",
                                 adresse: "",
+                                rol: "Employeur"
                             }}
                             validationSchema={formSchema}
 
-                            onSubmit={({ setSubmitting }) => {
-                                alert("Form is validated! Submitting the form...");
-                                setSubmitting(false);
+                            onSubmit={(values, actions) => {
+
+                                return new Promise(function (resolve, reject) {
+                                    setTimeout(() => {
+                                        resolve(EmployeurService.getByEmail(values.email)
+                                            .then((val) => {
+
+                                                if (val.email === values.email) {
+                                                    actions.setFieldError('email', "Adresse électronique déjà utilisée")
+                                                } else {
+                                                    EmployeurService.post(values);
+                                                    actions.resetForm();
+                                                    actions.setStatus({message: "Utilisateur crée avec succès"});
+                                                    
+                                                    setTimeout(() => {
+                                                        actions.setStatus({message: ''});
+                                                        }, 3000);
+
+                                                    actions.setSubmitting(false);
+                                                    
+                                                }
+
+                                            })
+                                            .then((val) => console.log(val))
+                                            .catch(function (reason) { console.log(reason + " reason") }));
+
+                                        actions.setSubmitting(false);
+                                    }, 1000);
+
+                                })
                             }}
                         >
 
-                            {({ touched, errors, isSubmitting }) => (
-                                <Form>
+                            {({ status, isSubmitting, isValid, isValidating }) => (
+                                <Form >
+                                    <div className="container text-left justify-content-center">
 
-                                    <div className="row">
-                                        <div className="form-label-group">
-                                            <label className="control-label">Nom </label>
-                                            <Field type="text" name="nomEntreprise" className="form-control" />
-                                            <ErrorMessage name="nomEntreprise">{msg => <div>{msg}</div>}</ErrorMessage >
+                                        <div className="row">
+                                            <div className="col-sm-4 offset-sm-4 text-center">
+                                                <div className="form-group">
+                                                    <label className="control-label">Nom de l'entreprise</label>
+                                                    <Field type="text"
+                                                        name="nomEntreprise"
+                                                        className="form-control"
+                                                        placeholder="Nom de l'entreprise" />
+                                                    <ErrorMessage name="nomEntreprise">{msg => <div className="badge alert-danger">{msg}</div>}</ErrorMessage >
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        <div className="row">
+                                        <div className="col-sm-4 offset-sm-4 text-center">
+                                                <div className="form-group">
+                                                    <label className="control-label"> Email </label>
+                                                    <Field type="email"
+                                                        name="email"
+                                                        className="form-control"
+                                                        placeholder="Email" />
+                                                    <ErrorMessage name="email">{msg => <div className="badge alert-danger"> {msg}</div>}</ErrorMessage >
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                        <div className="col-sm-4 offset-sm-4 text-center">
+                                                <div className="form-group">
+                                                    <label className="control-label"> Password </label>
+                                                    <Field type="password" 
+                                                            name="password" 
+                                                            className="form-control"
+                                                            placeholder="Password"  />
+                                                    <ErrorMessage name="password">{msg => <div className="badge alert-danger">{msg}</div>}</ErrorMessage >
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                        <div className="col-sm-4 offset-sm-4 text-center">
+                                                <div className="form-group">
+                                                    <label className="control-label"> Téléphone </label>
+                                                    <Field type="text" 
+                                                        name="telephone" 
+                                                        className="form-control"
+                                                        placeholder="Password"  />
+                                                    <ErrorMessage name="telephone">{msg => <div className="badge alert-danger">{msg}</div>}</ErrorMessage >
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                        <div className="col-sm-4 offset-sm-4 text-center">
+                                                <div className="form-group">
+                                                    <label className="control-label"> adresse </label>
+                                                    <Field type="texte" name="adresse" className="form-control" />
+                                                    <ErrorMessage name="adresse">{msg => <div className="badge alert-danger">{msg}</div>}</ErrorMessage >
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="row">
+                                        <div className="col-sm-4 offset-sm-4 text-center">
+                                                <div className="form-group">
+                                                    <button type="submit"
+                                                        className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
+                                                        className="btn btn-primary"
+                                                        disabled={isValidating || isSubmitting || !isValid} >Enregistrer</button>
+
+                                                    { status && status.message &&
+                                                        <div className="alert alert-success mt-3" role="alert">
+                                                            {status.message}
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
                                     </div>
-                                    <label>
-                                        Email:
-                            <Field type="email" name="email" />
-                                        <ErrorMessage name="email">{msg => <div>{msg}</div>}</ErrorMessage >
-                                    </label>
-                                    <label>
-                                        Telephone:
-                            <Field type="tel" name="telephone" />
-                                        <ErrorMessage name="telephone">{msg => <div>{msg}</div>}</ErrorMessage >
-                                    </label>
-                                    <label>
-                                        Addresse:
-                            <Field type="text" name="adresse" />
-                                        <ErrorMessage name="adresse">{msg => <div>{msg}</div>}</ErrorMessage >
-                                    </label>
-                                    <label>
-                                        Mot de passe:
-                            <Field type="password" name="password" />
-                                        <ErrorMessage name="password">{msg => <div>{msg}</div>}</ErrorMessage >
-                                    </label>
-                                    <input type="submit" value="Register" />
-
-
-
-
-
                                 </Form>
                             )}
                         </Formik>
 
-
-
-
-
-
-
                     </div>
-                </div>
+                    </div> 
+                </div >
             );
-        }
+        
     }
 }

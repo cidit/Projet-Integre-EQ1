@@ -18,16 +18,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @NotBlank
+
     @Column(unique=true)
     protected String email;
 
-    @NotBlank
+
     protected String password;
 
-    @NotBlank
+
     protected String telephone;
 
-    @NotBlank
+
     protected String role;
 }

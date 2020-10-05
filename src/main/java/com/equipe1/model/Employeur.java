@@ -20,10 +20,10 @@ public class Employeur extends User {
         this.role = "Employeur";
     }
 
-    @NotBlank
+
     private String adresse;
 
-    @NotBlank
+
     private String nomEntreprise;
 
     public Employeur(String nomEntreprise, String telephone, String adresse) {
