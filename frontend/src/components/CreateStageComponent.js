@@ -3,7 +3,6 @@ import Stage from '../model/Stage'
 import StageService from '../service/StageService';
 import { Field, Form, ErrorMessage, withFormik } from "formik";
 import Employeur from '../model/Employeur';
-
 import '../css/Forms.css';
 import ValidationChamp from './ValidationChampVide'
 import ValidationDate from './ValidationDate'
@@ -31,7 +30,7 @@ class CreateStageComponent extends Component {
 
     return (
       <div className="card p-3">
-        <h5 className="breadcrumb ">Nouvelle offre de stage</h5>
+        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0' }}>Nouvel stage</h5>
         <Form onSubmit={handleSubmit}>
           <div className="container">
             <div className="row">
@@ -82,7 +81,7 @@ class CreateStageComponent extends Component {
                 <ErrorMessage name="nbAdmis">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
               <div className="form-group col">
-                <label>Heures par semaine</label>
+                <label className="control-label">Heures par semaine</label>
                 <Field type="number" name="nbHeuresParSemaine" className="form-control" validate={isRequired(<ValidationChamp field={" un Nombre d'heures par semaine"} min="0" />)} />
                 <ErrorMessage name="nbHeuresParSemaine">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
@@ -109,22 +108,26 @@ class CreateStageComponent extends Component {
               </div>
             </div>
 
-            <button type="submit"
-              className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
-              className="btn btn-primary"
-              disabled={isValidating || isSubmitting || !isValid} onClick={this.feedBack.bind(this)}>Enregistrer</button>
+            
+              <div className="form-group">
 
-            {status && status.message &&
-              <div className="alert alert-success mt-3" role="alert">
-                {status.message}
-              </div>
-            }
+                <button type="submit"
+                  className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '} btn btn-primary` }
+                  disabled={isValidating || isSubmitting || !isValid} onClick={this.feedBack.bind(this)}>Enregistrer</button>
 
-            {this.state.sended && isValid &&
-              <div className="alert alert-success m-4" role="alert">
-                <a class="stretched-link" onClick={this.cancel.bind(this)}> Voir mes offres de Stage</a>
+                {status && status.message &&
+                  <div className="alert alert-success mt-3" role="alert">
+                    {status.message}
+                  </div>
+                }
+
+                {this.state.sended && isValid &&
+                  <div className="alert alert-success mt-3" role="alert">
+                    <a className="stretched-link" onClick={this.cancel.bind(this)}> Voir mes offres de Stage</a>
+                  </div>
+                }
+
               </div>
-            }
           </div>
         </Form>
       </div>

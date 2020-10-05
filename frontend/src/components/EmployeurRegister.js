@@ -12,7 +12,7 @@ import ValidationChamp from './ValidationChampVide';
 let redirectStr = "";
 
 const formSchema = Yup.object().shape({
-    nomEntreprise: Yup.string().required('Not empty'),
+    nomEntreprise: Yup.string().required('Veuillez saissir un nom valide'),
     email: Yup.string()
         .required('Veuillez saissir un email valide')
         .email("Courriel inavalide"),
@@ -31,14 +31,18 @@ export default class EmployeurRegister extends Component {
 
     }
 
+    goToLogin() {
+        this.props.history.push('/Login');
+    }
+
     render() {
-        
-            return (
-                
-                <div className="container ">
-                     <div className="col">
-                    <div className="card" >
-                        <h5 className="card-title text-center p-3" style={{background : '#D5E6F3 '}}>Enregistrer nouveau employeur</h5>
+
+        return (
+
+            <div className="container ">
+                <div className="col">
+                    <div className="card p-3" >
+                        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Nouvel employeur</h5>
                         <Formik
                             initialValues={{
                                 nomEntreprise: "",
@@ -62,14 +66,14 @@ export default class EmployeurRegister extends Component {
                                                 } else {
                                                     EmployeurService.post(values);
                                                     actions.resetForm();
-                                                    actions.setStatus({message: "Utilisateur crée avec succès"});
-                                                    
+                                                    actions.setStatus({ message: "Utilisateur crée avec succès" });
+
                                                     setTimeout(() => {
-                                                        actions.setStatus({message: ''});
-                                                        }, 3000);
+                                                        actions.setStatus({ message: '' });
+                                                    }, 3000);
 
                                                     actions.setSubmitting(false);
-                                                    
+
                                                 }
 
                                             })
@@ -101,7 +105,7 @@ export default class EmployeurRegister extends Component {
                                         </div>
 
                                         <div className="row">
-                                        <div className="col-sm-4 offset-sm-4 text-center">
+                                            <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
                                                     <label className="control-label"> Email </label>
                                                     <Field type="email"
@@ -114,53 +118,53 @@ export default class EmployeurRegister extends Component {
                                         </div>
 
                                         <div className="row">
-                                        <div className="col-sm-4 offset-sm-4 text-center">
+                                            <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
                                                     <label className="control-label"> Password </label>
-                                                    <Field type="password" 
-                                                            name="password" 
-                                                            className="form-control"
-                                                            placeholder="Password"  />
+                                                    <Field type="password"
+                                                        name="password"
+                                                        className="form-control"
+                                                        placeholder="Password" />
                                                     <ErrorMessage name="password">{msg => <div className="badge alert-danger">{msg}</div>}</ErrorMessage >
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="row">
-                                        <div className="col-sm-4 offset-sm-4 text-center">
+                                            <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
                                                     <label className="control-label"> Téléphone </label>
-                                                    <Field type="text" 
-                                                        name="telephone" 
+                                                    <Field type="text"
+                                                        name="telephone"
                                                         className="form-control"
-                                                        placeholder="Password"  />
+                                                        placeholder="Password" />
                                                     <ErrorMessage name="telephone">{msg => <div className="badge alert-danger">{msg}</div>}</ErrorMessage >
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="row">
-                                        <div className="col-sm-4 offset-sm-4 text-center">
+                                            <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
                                                     <label className="control-label"> adresse </label>
-                                                    <Field type="texte" 
-                                                            name="adresse" 
-                                                            className="form-control" 
-                                                            placeholder="Password"  />
+                                                    <Field type="texte"
+                                                        name="adresse"
+                                                        className="form-control"
+                                                        placeholder="Password" />
                                                     <ErrorMessage name="adresse">{msg => <div className="badge alert-danger">{msg}</div>}</ErrorMessage >
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="row">
-                                        <div className="col-sm-4 offset-sm-4 text-center">
+                                            <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
                                                     <button type="submit"
                                                         className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
                                                         className="btn btn-primary"
                                                         disabled={isValidating || isSubmitting || !isValid} >Enregistrer</button>
 
-                                                    { status && status.message &&
+                                                    {status && status.message &&
                                                         <div className="alert alert-success mt-3" role="alert">
                                                             {status.message}
                                                         </div>
@@ -169,18 +173,21 @@ export default class EmployeurRegister extends Component {
                                             </div>
                                         </div>
 
-
-
-
+                                        <div className="row">
+                                            <div className="col-sm-4 offset-sm-4 text-center" >
+                                            <span className="font-weight-light">Vous avez déjà un compte? </span>
+                                            <a href=" " className="stretched-link" onClick={this.goToLogin.bind(this)}>Se connecter </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </Form>
                             )}
                         </Formik>
 
-                    </div>
-                    </div> 
-                </div >
-            );
-        
+                </div>
+            </div>
+            </div >
+        );
+
     }
 }
