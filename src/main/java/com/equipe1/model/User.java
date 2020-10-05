@@ -30,5 +30,5 @@ public class User {
 
     protected String telephone;
 
-    protected String role;
+    protected String desc;
 }

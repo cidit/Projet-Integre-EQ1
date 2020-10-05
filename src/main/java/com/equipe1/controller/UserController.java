@@ -5,12 +5,19 @@ import com.equipe1.model.User;
 import com.equipe1.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     private UserRepository userRepository;
+
+    @GetMapping("findAll")
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
 
     @GetMapping("/get/{email}/{password}")
     public User getUser(@PathVariable String email, @PathVariable String password){

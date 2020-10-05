@@ -17,7 +17,7 @@ import javax.persistence.Lob;
 public class Etudiant extends User {
 
     {
-        this.role = "Etudiant";
+        this.desc = "Etudiant";
     }
 
     private String programme;

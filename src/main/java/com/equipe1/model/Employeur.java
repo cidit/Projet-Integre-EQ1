@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @EqualsAndHashCode(callSuper = true)
@@ -16,7 +15,7 @@ import javax.persistence.Entity;
 public class Employeur extends User {
 
     {
-        this.role = "Employeur";
+        this.desc = "Employeur";
     }
 
     private String adresse;

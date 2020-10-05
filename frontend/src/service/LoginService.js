@@ -1,13 +1,19 @@
 import EmployeurService from "./EmployeurService";
+import UserService from "./UserService";
+const baseURL = "http://localhost:8080/users";
 
 class LoginService{
-    async login(email){
-        let user = await EmployeurService.getByEmail("toto");
-        await this.storage(user);
+    async login(email, password){
+        let data;
+        await fetch(baseURL +"/get/" +email + "/" + password, {method: "GET"} )
+            .then(r => data = r.json()).then(res => this.storage(res))
+            .catch(error => data = {});
+        return data;
+        //await this.storage(user);
     }
     async storage(user) {
-        await localStorage.setItem("id", "4");
-        await localStorage.setItem("desc", "EMP");
+        await localStorage.setItem("id", user.id);
+        await localStorage.setItem("desc", user.desc);
     }
 }
 

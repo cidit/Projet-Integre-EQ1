@@ -15,7 +15,7 @@ import javax.persistence.Entity;
 public class Gestionnaire extends User {
 
     {
-        this.role = "Gestionaire";
+        this.desc = "Gestionaire";
     }
 
     private String noBureau;

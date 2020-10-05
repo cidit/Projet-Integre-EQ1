@@ -1,4 +1,6 @@
-export default class Employeur {
+import User from "./User";
+
+export default class Employeur extends User {
     id;
     email = "";
     nom = "";
