@@ -148,7 +148,7 @@ export default withFormik({
     const errors = {}
 
     if (startDate < today) {
-      errors.dateDebut = 'Date de début ne doit être inférieure ou égale à la date d\'aujourd\'hui'
+      errors.dateDebut = 'la Date de début ne doit être inférieure ou égale à la date d\'aujourd\'hui'
     }
 
     if (finalDate <= startDate) {
@@ -156,7 +156,7 @@ export default withFormik({
     }
 
     if (limitApplicationDate < startDate || limitApplicationDate > finalDate) {
-      errors.dateLimiteCandidature = 'Date inférieure à date de début ou supérieur date finale'
+      errors.dateLimiteCandidature = 'la date est inférieure à la date de début ou supérieur à la date finale'
     }
 
     if (!values) {
@@ -170,7 +170,7 @@ export default withFormik({
 
     StageService.createStage(values).then(res => {
 
-      formikBag.setStatus({ message: "Utilisateur crée avec succès" });
+      formikBag.setStatus({ message: "Stage crée avec succès" });
 
       setTimeout(() => {
         formikBag.setStatus({ message: '' });
