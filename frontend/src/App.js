@@ -13,7 +13,6 @@ import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 
 function App() {
-
   return (
     <div className="App">
       <main>

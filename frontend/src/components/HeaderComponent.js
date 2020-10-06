@@ -28,7 +28,6 @@ function EmployeurNav(){
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
-
         </Nav>
     );
 }
@@ -37,29 +36,35 @@ function EtudiantNav(props){
     return(
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-
-
         </Nav>
     );
 }
 
 function NavType(props){
-    if (props.desc.toUpperCase() == "ETU")
+    if (props.desc.toUpperCase() === "ETU")
         return <EtudiantNav/>
-    else if (props.desc.toUpperCase() == "EMP")
+    else if (props.desc.toUpperCase() === "EMP")
         return <EmployeurNav/>
-    else if (props.desc.toUpperCase() == "GEST")
+    else if (props.desc.toUpperCase() === "GEST")
         return <GestionnaireNav/>
     else
         return <NotLoggedInNav/>
 }
 
 
+
+
+
+
+
+
 class HeaderComponent extends Component {
     constructor(props) {
         super(props);
-
         this.state = {desc : localStorage.getItem("desc") == null ? "" : localStorage.getItem("desc")}
+
+
+
     }
 
 

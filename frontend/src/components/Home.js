@@ -3,14 +3,16 @@ import React, { Component } from 'react';
 export default class Home extends Component {
     constructor(props) {
         super(props);
-         // localStorage.setItem("id", "4");
-         // localStorage.setItem("desc", "EMP");
-
-
-   // console.log(localStorage.getItem("desc"));
     }
-    render(){
 
+    componentDidMount() {
+        if (this.props.location.search === "?refresh"){
+             this.props.history.replace("/")
+            window.location.reload(false);
+        }
+    }
+
+    render(){
         return(
            <div></div>
         );

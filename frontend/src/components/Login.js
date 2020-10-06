@@ -16,15 +16,13 @@ export default class Login extends Component {
 
     handleChange(event) {
         this.setState({[event.target.name]: event.target.value});
-        console.log(this.state)
-
     }
 
     handleSubmit(event) {
         event.preventDefault();
 
         LoginService.login(this.state["email"], this.state["password"])
-        this.props.history.push('/');
+        this.props.history.push('/?refresh');
     }
 
     render(){
