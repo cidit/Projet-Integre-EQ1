@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 public class Etudiant extends User {
 
     {
-        this.role = "Etudiant";
+        this.desc = "Etudiant";
     }
 
     @NotBlank

@@ -1,5 +1,6 @@
 package com.equipe1.controller;
 
+import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.service.EtudiantService;
 import org.springframework.web.bind.annotation.*;
@@ -62,5 +63,10 @@ public class EtudiantController {
     @PutMapping("update/cv/{id}")
     public Etudiant updateEtudiantCV(@RequestBody Etudiant etudiant, @PathVariable Long id){
         return etudiantService.updateEtudiant(etudiant, id);
+    }
+
+    @GetMapping("email")
+    public Etudiant getEmployeurByEmail(@RequestParam("email") String email){
+        return etudiantService.getEtudiantByEmail(email);
     }
 }

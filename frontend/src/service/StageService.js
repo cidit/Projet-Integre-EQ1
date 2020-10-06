@@ -32,7 +32,6 @@ class StageService{
           .catch(error => console.error('Error:', error))
           .then(response => console.log('Success:', response));
     }
-
 }
 
 export default new StageService()

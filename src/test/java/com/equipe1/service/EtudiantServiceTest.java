@@ -42,10 +42,12 @@ public class EtudiantServiceTest {
         e1 = new Etudiant();
         e1.setNom("toto");
         e1.setMatricule("12345");
+        e1.setStatutStage("e1@email.com");
 
         e2 = new Etudiant();
         e2.setNom("tata");
         e2.setMatricule("67890");
+        e1.setStatutStage("e2@email.com");
     }
 
     @Test
@@ -182,5 +184,28 @@ public class EtudiantServiceTest {
         Assertions.assertNotNull(updatedEtudiant.getCv());
 
         FileUtils.writeByteArrayToFile(new File("HelloWorld2.pdf"), updatedEtudiant.getCv());
+    }
+
+    @Test
+    @DisplayName("TEST findByEmail Success")
+    void testFindEtudiantByEmail() {
+        // Arrange
+        doReturn(e1).when(repository).findByEmail("e1@email.com");
+        // Act
+        Etudiant etudiant = service.getEtudiantByEmail("e1@email.com");
+        // Assert
+        Assertions.assertNotNull(etudiant);
+        Assertions.assertSame(etudiant, e1);
+    }
+
+    @Test
+    @DisplayName("TEST findByEmail Not Found")
+    void testFindEtudiantByEmailNotFound() {
+        // Arrange
+        doReturn(null).when(repository).findByEmail("no@email.com");
+        // Act
+        Etudiant etudiant = service.getEtudiantByEmail("no@email.com");
+        // Assert
+        Assertions.assertNull(etudiant);
     }
 }
