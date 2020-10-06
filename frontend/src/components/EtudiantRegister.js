@@ -1,7 +1,36 @@
 import React, {Component} from "react";
 import Etudiant from "../model/Etudiant";
 import {simpleFetch} from "../crud/DataCRUD";
+import * as Yup from 'yup';
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import UserService from "../service/UserService";
+import EmployeurService from "../service/EmployeurService";
 import EtudiantService from "../service/EtudiantService";
+
+
+const formSchema = Yup.object().shape({
+
+    email: Yup.string()
+        .required('Veuillez saissir un email valide')
+        .email("Courriel inavalide"),
+
+    password: Yup.string()
+        .required("Veuillez saissir un password valide")
+        .min(6, "doivent comprendre au moins 6 caractères."),
+
+    nom: Yup.string().required('Veuillez saissir un nom valide'),
+
+    prenom: Yup.string().required('Veuillez saissir un prenom valide'),
+
+    matricule: Yup.string().required('Veuillez saissir votre matricule'),
+
+    programme: Yup.string().required('Veuillez saissir un programme valide'),
+
+    telephone: Yup.string().required('Veuillez saissir un telephone valide').min(10, "doit comprendre au moins 10 caractères."),
+
+    adresse: Yup.string().required('Veuillez saissir un adresse valide')
+})
+
 
 export default class EtudiantRegister extends Component {
 
@@ -38,50 +67,189 @@ export default class EtudiantRegister extends Component {
 
     render() {
         return (
-            <div className="formBox">
-                <h3>Enregistrement Etudiant</h3>
-                <form onSubmit={this.handleSubmit} className="d-flex flex-column">
-                    <label>Nom: <input required
-                                       type="text"
-                                       name="nom"
-                                       value={this.state.nom}
-                                       onChange={this.handleChange}/></label>
-                    <label>Prenom: <input required
-                                          type="text"
-                                          name="prenom"
-                                          value={this.state.prenom}
-                                          onChange={this.handleChange}/></label>
-                    <label>Matricule: <input required
-                                             type="text"
-                                             name="matricule"
-                                             value={this.state.matricule}
-                                             onChange={this.handleChange}/></label>
-                    <label>email: <input required
-                                         type="email"
-                                         name="email"
-                                         value={this.state.email}
-                                         onChange={this.handleChange}/></label>
-                    <label>Password: <input required
-                                            type="password"
-                                            name="password"
-                                            value={this.state.password}
-                                            onChange={this.handleChange}/></label>
-                    <label>Telephone: <input required
-                                             type="text" name="telephone"
-                                             value={this.state.telephone}
-                                             onChange={this.handleChange}/></label>
-                    <label>Adresse: <input required
-                                           type="text"
-                                           name="adresse"
-                                           value={this.state.adresse}
-                                           onChange={this.handleChange}/></label>
-                    <label>Programme: <input required
-                                             type="text"
-                                             name="programme"
-                                             value={this.state.programme}
-                                             onChange={this.handleChange}/></label>
-                    <input type="submit" value="Register"/>
-                </form>
+
+            <div className="container">
+                <h3>Register Etudiant</h3>
+                <Formik
+                    initialValues={{
+                        email: "",
+                        password: "",
+                        nom: "",
+                        prenom: "",
+                        matricule: "",
+                        programme: "",
+                        telephone: "",
+                        adresse: ""
+                    }}
+                    validationSchema={formSchema}
+                    onSubmit={(values, actions) => {
+                        return new Promise(function (resolve, reject) {
+                            setTimeout(() => {
+                                resolve(UserService.getByEmail(values.email)
+                                    .then((val) => {
+                                        if (val.email === values.email) {
+                                            actions.setFieldError('email', "Adresse électronique déjà utilisée")
+                                        } else {
+                                            EmployeurService.post(values);
+                                            actions.resetForm();
+                                            actions.setStatus({message: "Utilisateur crée avec succès"});
+                                            setTimeout(() => {
+                                                actions.setStatus({message: ''});
+                                            }, 3000);
+
+                                            actions.setSubmitting(false);
+                                        }
+                                    })
+                                    .then((val) => console.log(val))
+                                    .catch(function (reason) {
+                                        console.log(reason + " reason")
+                                    }));
+
+                                actions.setSubmitting(false);
+                            }, 1000);
+
+                        })
+                    }}>
+                    {({status, isSubmitting, isValid, isValidating}) => (
+                        <Form>
+                            <div className="container text-left justify-content-center">
+
+                                <div className="row">
+                                    <div className="col-sm-4 offset-sm-4 text-center">
+                                        <div className="form-group">
+                                            <label className="control-label">Nom</label>
+                                            <Field type="text"
+                                                   name="nom"
+                                                   className="form-control"
+                                                   placeholder=""/>
+                                            <ErrorMessage name="nom">{msg => <div
+                                                className="badge alert-danger">{msg}</div>}</ErrorMessage>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-4 offset-sm-4 text-center">
+                                        <div className="form-group">
+                                            <label className="control-label">Prenom</label>
+                                            <Field type="text"
+                                                   name="prenom"
+                                                   className="form-control"
+                                                   placeholder=""/>
+                                            <ErrorMessage name="prenom">{msg => <div
+                                                className="badge alert-danger">{msg}</div>}</ErrorMessage>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-4 offset-sm-4 text-center">
+                                        <div className="form-group">
+                                            <label className="control-label">Email</label>
+                                            <Field type="email"
+                                                   name="email"
+                                                   className="form-control"
+                                                   placeholder="a@b.c"/>
+                                            <ErrorMessage name="email">{msg => <div
+                                                className="badge alert-danger">{msg}</div>}</ErrorMessage>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-4 offset-sm-4 text-center">
+                                        <div className="form-group">
+                                            <label className="control-label">Password</label>
+                                            <Field type="password"
+                                                   name="password"
+                                                   className="form-control"
+                                                   placeholder=""/>
+                                            <ErrorMessage name="password">{msg => <div
+                                                className="badge alert-danger">{msg}</div>}</ErrorMessage>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-4 offset-sm-4 text-center">
+                                        <div className="form-group">
+                                            <label className="control-label">Matricule</label>
+                                            <Field type="text"
+                                                   name="matricule"
+                                                   className="form-control"
+                                                   placeholder=""/>
+                                            <ErrorMessage name="matricule">{msg => <div
+                                                className="badge alert-danger">{msg}</div>}</ErrorMessage>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-4 offset-sm-4 text-center">
+                                        <div className="form-group">
+                                            <label className="control-label"> Téléphone </label>
+                                            <Field type="text"
+                                                   name="telephone"
+                                                   className="form-control"
+                                                   placeholder=""/>
+                                            <ErrorMessage name="telephone">{msg => <div
+                                                className="badge alert-danger">{msg}</div>}</ErrorMessage>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-4 offset-sm-4 text-center">
+                                        <div className="form-group">
+                                            <label className="control-label"> adresse </label>
+                                            <Field type="text"
+                                                   name="adresse"
+                                                   className="form-control"
+                                                   placeholder=""/>
+                                            <ErrorMessage name="adresse">{msg => <div
+                                                className="badge alert-danger">{msg}</div>}</ErrorMessage>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-4 offset-sm-4 text-center">
+                                        <div className="form-group">
+                                            <label className="control-label">Programme</label>
+                                            <Field type="text"
+                                                   name="telephone"
+                                                   className="form-control"
+                                                   placeholder=""/>
+                                            <ErrorMessage name="programme">{msg => <div
+                                                className="badge alert-danger">{msg}</div>}</ErrorMessage>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="row">
+                                    <div className="col-sm-4 offset-sm-4 text-center">
+                                        <div className="form-group">
+                                            <button type="submit"
+                                                    className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
+                                                    className="btn btn-primary"
+                                                    disabled={isValidating || isSubmitting || !isValid}>Enregistrer
+                                            </button>
+
+                                            {status && status.message &&
+                                            <div className="alert alert-success mt-3" role="alert">
+                                                {status.message}
+                                            </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-4 offset-sm-4 text-center">
+                                        <span className="font-weight-light">Vous avez déjà un compte? </span>
+                                        <a href=" " className="stretched-link"
+                                           onClick={this.goToLogin.bind(this)}>Se connecter </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </Form>
+                    )}
+
+                </Formik>
+
+
             </div>
         );
     }

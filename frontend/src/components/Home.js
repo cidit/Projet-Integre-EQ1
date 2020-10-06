@@ -16,7 +16,7 @@ export default class Home extends Component {
 
     render(){
         return(
-           <div><HomeEmployeur/></div>
+           <div></div>
         );
     }
 }

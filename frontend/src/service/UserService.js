@@ -1,17 +1,9 @@
-const baseURL = "http://localhost:8080/users";
 
-class UserService{
-    async getByEmail(email, password){
+class UserService {
+    async getByEmail(email) {
         let data;
-        await fetch(baseURL +"/get/" +email + "/" + password, {method: "GET"} )
-            .then(r => data = r.json())
-            .catch(error => data = {});
-        return data;
-    }
+        await fetch("http://localhost:8080/users/get?email=" + email, {method: "GET"})
 
-    async getById(id) {
-        let data;
-        await fetch(baseURL + "/get?id=" + id, {method: "GET"})
             .then(r => data = r.json())
             .catch(error => data = {});
         return data;
@@ -19,34 +11,4 @@ class UserService{
 }
 
 export default new UserService()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
