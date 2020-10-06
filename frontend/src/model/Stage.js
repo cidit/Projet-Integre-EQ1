@@ -1,7 +1,8 @@
+import EmployeurRegister from "../components/EmployeurRegister";
+import Employeur from './Employeur'
 export default class Stage{
     id;
     titre = "";
-    employeur= "";
     description = "";
     exigences= "";
     dateDebut= "";
@@ -13,4 +14,5 @@ export default class Stage{
     dateLimiteCandidature= "";
     programme= "";
     ville ="";
+    employeur= new Employeur();
 }

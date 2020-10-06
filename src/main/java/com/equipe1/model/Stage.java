@@ -1,11 +1,9 @@
 package com.equipe1.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
@@ -20,12 +18,12 @@ public class Stage {
     private String titre;
 
 
-    /*
+
     @ManyToOne
     @JoinColumn(name = "employeur")
     @JsonBackReference
     private Employeur employeur;
-    */
+
 
     private String description;
     private String exigences;

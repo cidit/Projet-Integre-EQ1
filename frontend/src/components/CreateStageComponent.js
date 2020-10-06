@@ -25,14 +25,17 @@ class CreateStageComponent extends Component {
     this.state.history.push('/stages');
   }
   render() {
-    const { handleSubmit, isSubmitting, isValid, isValidating, status } = this.props;
+    const { handleSubmit, isSubmitting, isValid, isValidating, status, employeur} = this.props;
+  
 
     return (
       <div className="card p-3">
         <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0' }}>Nouvel stage</h5>
+        <p>{employeur.id}</p>
         <Form onSubmit={handleSubmit}>
           <div className="container">
             <div className="row">
+            
               <div className="form-group col">
                 <label className="control-label">Titre</label>
                 <Field placeholder="Titre" name="titre" className="form-control" validate={isRequired(<ValidationChamp field={"un Titre "} />)} />
@@ -136,6 +139,7 @@ class CreateStageComponent extends Component {
 
 export default withFormik({
   mapPropsToValues(props) {
+   
     
     return new Stage;
     
@@ -167,8 +171,9 @@ export default withFormik({
     return errors;
   },
 
-  handleSubmit(values, formikBag) {
-
+  handleSubmit(values, formikBag,employeur) {
+    //let employeur = values.employeur;
+    console.log(employeur)
     StageService.createStage(values).then(res => {
 
       formikBag.setStatus({ message: "Stage crée avec succès" });

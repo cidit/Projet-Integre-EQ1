@@ -5,8 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -21,6 +25,10 @@ public class Employeur extends User {
 
 
     private String adresse;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "employeur")
+    private Set<Stage> stages = new HashSet<Stage>();
+
 
 
     private String nomEntreprise;
