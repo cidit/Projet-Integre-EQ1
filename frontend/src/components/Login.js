@@ -9,7 +9,7 @@ import HomeEmployeur from './HomeEmployeur';
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {user : {}};
+        this.state = {user : {}, isNotlogin : false };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,12 +25,16 @@ export default class Login extends Component {
         let user = await LoginService.login(this.state["email"], this.state["password"])
         if (user.id != undefined){
              this.props.history.push('/?refresh');
+        }else{
+            this.setState({isNotlogin : true})
         }
 
         // validation invalid email/password missing
     }
 
     render(){
+
+        
         return (
             <div className="formBox">
                 <h3>Login</h3>
@@ -45,12 +49,14 @@ export default class Login extends Component {
                      
                     </label>
                     <input type="submit" value="Login"/>
+                    {this.state.isNotlogin &&
+                         <div className="alert alert-danger mt-3" role="alert">
+                         Email ou password invalide
+                       </div>
+                    }
                 </form>
 
-                {this.state.user.desc == "Employeur" &&
-                <div>hello</div>
-                
-                }
+               
 
         
             </div>

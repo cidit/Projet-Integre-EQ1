@@ -6,6 +6,7 @@ import Employeur from '../model/Employeur';
 import '../css/Forms.css';
 import ValidationChamp from './ValidationChampVide'
 import ValidationDate from './ValidationDate'
+import EmployeurService from "../service/EmployeurService";
 
 const isRequired = (message) => (value) => (!!value ? undefined : message);
 
@@ -30,8 +31,8 @@ class CreateStageComponent extends Component {
 
     return (
       <div className="card p-3">
-        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0' }}>Nouvel stage</h5>
-        <p>{employeur.id}</p>
+        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0' }}>Nouveau stage</h5>
+      
         <Form onSubmit={handleSubmit}>
           <div className="container">
             <div className="row">
@@ -171,6 +172,21 @@ export default withFormik({
     return errors;
   },
 
+  saveCurrentEmployee(values){
+    
+    var id;
+    if (localStorage.getItem("desc") == "Employeur")
+        id = localStorage.getItem("id");
+
+    let employee = new Employeur;
+    employee = EmployeurService.getById(id)
+    employee.Stage= values;
+    EmployeurService.put(employee,id)
+
+   return  employee;
+  },
+
+
   handleSubmit(values, formikBag,employeur) {
     //let employeur = values.employeur;
     console.log(employeur)
@@ -178,10 +194,13 @@ export default withFormik({
 
       formikBag.setStatus({ message: "Stage crée avec succès" });
 
+      
+
       setTimeout(() => {
         formikBag.setStatus({ message: '' });
       }, 3000);
     });
+    this.saveCurrentEmployee(values);
     formikBag.resetForm()
     formikBag.setSubmitting(false);
   }

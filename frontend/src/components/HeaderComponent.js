@@ -22,11 +22,12 @@ function GestionnaireNav(){
     );
 }
 
-function EmployeurNav(){
+function EmployeurNav(props){
     return(
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
+            <Nav.Link href="/stages">Voir tous les offres de stage</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );

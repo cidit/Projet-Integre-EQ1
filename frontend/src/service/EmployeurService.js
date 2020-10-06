@@ -35,8 +35,14 @@ class EmployeurService{
             .then(r => r.json());
     }
 
-    async put(employeur){
-        //TODO
+    async put(employeur,id){
+        fetch(baseURL + "/update/"+id,
+            {method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(employeur)} )
+            .then(r => r.json());
     }
 }
 

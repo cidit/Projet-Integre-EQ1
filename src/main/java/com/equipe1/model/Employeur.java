@@ -23,13 +23,10 @@ public class Employeur extends User {
         this.desc = "Employeur";
     }
 
-
     private String adresse;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "employeur")
     private Set<Stage> stages = new HashSet<Stage>();
-
-
 
     private String nomEntreprise;
 

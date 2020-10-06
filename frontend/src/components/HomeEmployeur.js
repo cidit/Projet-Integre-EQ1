@@ -13,7 +13,11 @@ class HomeEmployeur extends Component {
     }
 
     async componentDidMount() {
-        EmployeurService.getById(3).then((res) => this.setState({ employeur: res }))
+        var id;
+        if (localStorage.getItem("desc") == "Etudiant")
+            id = localStorage.getItem("id");
+
+        EmployeurService.getById(id).then((res) => this.setState({ employeur: res }))
     }
 
     handleCreateStage() {
