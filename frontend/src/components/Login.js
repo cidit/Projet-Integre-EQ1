@@ -3,26 +3,34 @@ import './../App.css';
 import './../css/Register.css';
 import User from "../model/User";
 import LoginService from "../service/LoginService";
+import HomeEmployeur from './HomeEmployeur';
 
 
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = new User();
+        this.state = {user : {}};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
-        this.setState({[event.target.name]: event.target.value});
+        this.setState({[event.target.name]: event.target.value})
     }
 
     handleSubmit(event) {
         event.preventDefault();
 
-        LoginService.login(this.state["email"], this.state["password"])
-        this.props.history.push('/?refresh');
+        LoginService.login(this.state["email"], this.state["password"]).then((res)=> this.setState({user : res}))
+
+        if(this.state.user.desc === "Employeur" ){
+            console.log("hello")
+        }
+       
+       
+        
+      // this.props.history.push('/?refresh');
         // validation invalid email/password missing
     }
 
@@ -37,10 +45,18 @@ export default class Login extends Component {
                     </label>
                     <label>
                         Password:
-                        <input type="password" name="password" onChange={this.handleChange}/>
+                        <input type="password" name="password" onChange={this.handleChange} />
+                     
                     </label>
                     <input type="submit" value="Login"/>
                 </form>
+
+                {this.state.user.desc == "Employeur" &&
+                <div>hello</div>
+                
+                }
+
+        
             </div>
         );
     }

@@ -4,7 +4,7 @@ class LoginService{
     async login(email, password){
         let data;
         await fetch(baseURL +"/get/" +email + "/" + password, {method: "GET"} )
-            .then(r => data = r.json()).then(res => this.storage(res))
+            .then(r => data = r.json()).then(res => this.storage(res)).then((res)=>console.log(res))
             .catch(error => data = {});
         return data;
     }

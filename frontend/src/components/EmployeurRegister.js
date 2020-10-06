@@ -55,7 +55,7 @@ export default class EmployeurRegister extends Component {
 
                             onSubmit={(values, actions) => {
 
-                                return new Promise(function (resolve, reject) {
+                                return new Promise(function (resolve) {
                                     setTimeout(() => {
                                         resolve(EmployeurService.getByEmail(values.email)
                                             .then((val) => {

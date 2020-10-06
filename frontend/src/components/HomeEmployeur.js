@@ -2,24 +2,55 @@ import React, { Component } from 'react';
 import Employeur from '../model/Employeur';
 import EmployeurService from '../service/EmployeurService'
 import CreateStageComponent from './CreateStageComponent';
+import { Link } from 'react-router-dom';
 
 class HomeEmployeur extends Component {
     constructor(props) {
         super(props);
-        this.state = {employeur : {}};
-      
+        this.state = { employeur: {}, createStage: false };
+        this.handleCreateStage = this.handleCreateStage.bind(this)
+
     }
 
     async componentDidMount() {
-        EmployeurService.getById(3).then((res)=> this.setState({employeur : res}))
+        EmployeurService.getById(3).then((res) => this.setState({ employeur: res }))
+    }
+
+    handleCreateStage() {
+        console.log(this.state.createStage)
+        this.setState({ createStage: !this.state.createStage })
     }
 
     render() {
-        return (
-            <div>
-                <div>{this.state.employeur.nomEntreprise}</div>
+        const createStage = this.state.createStage;
+        let button;
+        if (createStage) { button = <button><CreateStageComponent /></button> }
 
-        <button></button>
+        return (
+            <div className="container-fluid">
+                <div className="row">
+                    <div className=" col-3">
+                    <div className="row">
+                        <button onClick={this.handleCreateStage.bind(this)}>create stage</button>
+                        </div>
+
+                        <div className="row">   
+                        <button onClick={this.handleCreateStage.bind(this)}>voir mes stages</button>
+                        </div>
+                    </div>
+
+                    <div className=" col-9">
+                        {this.state.createStage &&
+                            <CreateStageComponent employeur= {this.state.employeur}/>
+                        }
+
+                        
+                    </div>
+                </div>
+
+                
+
+
             </div>
         );
     }
