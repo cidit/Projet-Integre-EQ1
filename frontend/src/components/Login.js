@@ -18,11 +18,13 @@ export default class Login extends Component {
         this.setState({[event.target.name]: event.target.value});
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
 
-        LoginService.login(this.state["email"], this.state["password"])
-        this.props.history.push('/?refresh');
+        let user = await LoginService.login(this.state["email"], this.state["password"])
+        if (user.id != undefined){
+             this.props.history.push('/?refresh');
+        }
         // validation invalid email/password missing
     }
 
