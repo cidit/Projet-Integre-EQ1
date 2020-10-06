@@ -12,6 +12,7 @@ const isRequired = (message) => (value) => (!!value ? undefined : message);
 class CreateStageComponent extends Component {
   constructor(props) {
     super(props);
+    this.state ={sended : false}
    
   }
 
@@ -21,7 +22,7 @@ class CreateStageComponent extends Component {
   }
 
   cancel() {
-    this.props.history.push('/stages');
+    this.state.history.push('/stages');
   }
   render() {
     const { handleSubmit, isSubmitting, isValid, isValidating, status } = this.props;
@@ -135,9 +136,8 @@ class CreateStageComponent extends Component {
 
 export default withFormik({
   mapPropsToValues(props) {
-    let stage = new Stage();
-    stage.id = this.props.id;
-    return stage;
+    
+    return new Stage;
     
   },
 

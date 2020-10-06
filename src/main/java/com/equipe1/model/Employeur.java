@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 
@@ -17,7 +16,7 @@ import javax.validation.constraints.NotBlank;
 public class Employeur extends User {
 
     {
-        this.role = "Employeur";
+        this.desc = "Employeur";
     }
 
 

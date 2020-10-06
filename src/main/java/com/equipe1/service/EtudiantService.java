@@ -1,5 +1,6 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,9 @@ public class EtudiantService {
         Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
         optionalEtudiant.get().setCv(newEtudiant.getCv());
         return etudiantRepository.save(optionalEtudiant.get());
+    }
+
+    public Etudiant getEtudiantByEmail(String email){
+        return etudiantRepository.findByEmail(email);
     }
 }

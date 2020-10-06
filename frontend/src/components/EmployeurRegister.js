@@ -24,16 +24,15 @@ const formSchema = Yup.object().shape({
 
 });
 
+
 export default class EmployeurRegister extends Component {
+    
     constructor(props) {
         super(props);
         this.state = new Employeur();
-
     }
 
-    goToLogin() {
-        this.props.history.push('/Login');
-    }
+  
 
     render() {
 
@@ -176,7 +175,7 @@ export default class EmployeurRegister extends Component {
                                         <div className="row">
                                             <div className="col-sm-4 offset-sm-4 text-center" >
                                             <span className="font-weight-light">Vous avez déjà un compte? </span>
-                                            <a href=" " className="stretched-link" onClick={this.goToLogin.bind(this)}>Se connecter </a>
+                                            <a href="/login" className="stretched-link" >Se connecter </a>
                                             </div>
                                         </div>
                                     </div>
@@ -188,6 +187,7 @@ export default class EmployeurRegister extends Component {
             </div>
             </div >
         );
+
 
     }
 }
