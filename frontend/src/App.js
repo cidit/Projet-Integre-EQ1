@@ -12,6 +12,7 @@ import ListEtudiantsComponent from "./components/ListEtudiantComponent";
 import HomeEtudiant from "./components/HomeEtudiant";
 import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
+import CreateStageComponent from './components/CreateStageComponent'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent}></Route>
           <Route path='/etudiant' component={HomeEtudiant} />
+          <Route path='/createStage' component={CreateStageComponent} />
         </Switch>
       </main>
     </div>
