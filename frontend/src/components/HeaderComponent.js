@@ -36,7 +36,7 @@ function EtudiantNav(props){
     return(
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/etudiant">CV</Nav.Link>
+            <Nav.Link href="/etudiant">Votre profil</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );
