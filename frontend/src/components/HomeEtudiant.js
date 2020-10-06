@@ -6,7 +6,7 @@ export default class HomeEtudiant extends Component {
     constructor(props) {
         super(props);
         this.inputRef = React.createRef();
-        this.state = {etudiant: {}, displayInvalidFileMessage: false, displaySubmitCVButton: false, hasAlreadyCV: false, hasUploadedCV: false};
+        this.state = {etudiant: {}, displayInvalidFileMessage: false, displaySubmitCVButton: false, hasAlreadyCV: false, hasUploadedCV: false, id: ''};
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }
@@ -26,8 +26,12 @@ export default class HomeEtudiant extends Component {
     }
 
     async componentDidMount() {
+        var id;
+        if (localStorage.getItem("desc") == "Etudiant")
+            id = localStorage.getItem("id");
+
         const {data: etudiant} = await axios.get(
-            "http://localhost:8080/etudiants/get?idEtudiant=1"
+            "http://localhost:8080/etudiants/get?idEtudiant=" + id
     );
         this.setState({etudiant: etudiant});
         this.setState({hasAlreadyCV: this.state.etudiant.cv != undefined} );
@@ -53,11 +57,8 @@ export default class HomeEtudiant extends Component {
             }
         }
         ;
-        console.log(this.state);
-
         if (err !== '') {
             event.target.value = null
-            console.log(err)
             return false;
         }
         return true;
@@ -65,14 +66,16 @@ export default class HomeEtudiant extends Component {
     }
     handleSubmit(event) {
         event.preventDefault()
+        var id;
+        if (localStorage.getItem("desc") == "Etudiant")
+            id = localStorage.getItem("id");
         const formData = new FormData();
-        console.log(this.state.etudiant.cv);
         formData.append('file', this.state.etudiant.cv);
         const options = {
             method: 'PUT',
             body: formData
         };
-        fetch('http://localhost:8080/etudiants/saveCV/1', options);
+        fetch('http://localhost:8080/etudiants/saveCV/' + id, options);
         this.setState({hasUploadedCV: true});
     }
 
@@ -89,7 +92,7 @@ export default class HomeEtudiant extends Component {
                 <label>Adresse : {this.state.etudiant.adresse}</label><br/>
                 <label>Programme : {this.state.etudiant.programme}</label><br/>
                 <label>Televerser votre CV : <input type="file" name="file"
-                                                    class="form-control-file"
+                                                    className="form-control-file"
                                                     accept="application/pdf"
                                                     ref={this.inputRef}
                                                     defaultValue= {this.state.etudiant.cv}
