@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage, withFormik } from "formik";
 import * as Yup from 'yup';
 import ValidationChamp from './ValidationChampVide';
+import UserService from "../service/UserService";
 
 
 let redirectStr = "";
@@ -58,7 +59,7 @@ export default class EmployeurRegister extends Component {
 
                                 return new Promise(function (resolve, reject) {
                                     setTimeout(() => {
-                                        resolve(EmployeurService.getByEmail(values.email)
+                                        resolve(UserService.getByEmail(values.email)
                                             .then((val) => {
 
                                                 if (val.email === values.email) {

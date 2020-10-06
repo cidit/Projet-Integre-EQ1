@@ -12,17 +12,11 @@ public class UserController {
 
     private UserRepository userRepository;
 
-    @GetMapping("/get/{email}/{password}")
-    public User getUser(@PathVariable String email, @PathVariable String password){
+    @GetMapping("/get")
+    public User getUser(@RequestParam String email){
         var optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty())
             return null;
-        var user = optionalUser.get();
-        return user.getPassword().equals(password) ? user: null;
-    }
-
-    @DeleteMapping("delete/{id}")
-    public void deleteUser(@PathVariable long id){
-        userRepository.deleteById(id);
+        else return optionalUser.get();
     }
 }
