@@ -5,7 +5,6 @@ import User from "../model/User";
 import LoginService from "../service/LoginService";
 import HomeEmployeur from './HomeEmployeur';
 
-
 export default class Login extends Component {
     constructor(props) {
         super(props);

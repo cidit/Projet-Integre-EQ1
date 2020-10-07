@@ -25,7 +25,7 @@ export default class ListEtudiantsComponent extends Component {
 
         return (
             <div>
-                <h1 className="text-center">List des étudiants</h1>
+                <h1 className="text-center">Liste des étudiants</h1>
 
                 <div className="form-group">
                     <div className="row">
@@ -47,7 +47,7 @@ export default class ListEtudiantsComponent extends Component {
                     </div>
                     <div className="row">
                         <label><input type="radio" name="statut" value="" 
-                                onChange={this.handleChangeRadio}/> Tout les étudiants</label>
+                                onChange={this.handleChangeRadio}/> Tous les étudiants</label>
                     </div>
                 </div>
 
@@ -57,7 +57,7 @@ export default class ListEtudiantsComponent extends Component {
                             <tr>
                                 <th> Matricule </th>
                                 <th> Nom </th>
-                                <th> Prenom </th>
+                                <th> Prénom </th>
                                 <th> Programme </th>
                                 <th> Courriel </th>
                                 <th> Téléphone </th>

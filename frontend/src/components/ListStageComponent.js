@@ -28,6 +28,7 @@ export default class ListStagesComponent extends Component {
     }
     render() {
         return (
+
             <div className="container">
                 <div className="col">
                     <div className="pt-3 mt-3">
@@ -45,7 +46,6 @@ export default class ListStagesComponent extends Component {
                                         <th> date Finale </th>
                                         <th> Ville </th>
                                         <th> Heures par semaine </th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
