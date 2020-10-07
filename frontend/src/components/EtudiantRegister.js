@@ -45,19 +45,21 @@ export default class EtudiantRegister extends Component {
         this.setState({[event.target.name]: event.target.value})
     }
 
+    /*
     handleSubmit(event) {
         event.preventDefault()
         this.setState({statutStage: "aucun stage"});
         simpleFetch("/etudiants/create", "POST", this.state).then(r => console.log(r))
     }
+    */
 
     async handleSubmit(event) {
         event.preventDefault();
         let x = "email";
         let data = await EtudiantService.getByEmail(this.state[x]);
         if (data[x] != this.state[x]){
-            await this.setState({statutStage: "aucun stage"});
-            await this.setState({desc: "Etudiant"});
+            //await this.setState({statutStage: "aucun stage"});
+            //await this.setState({desc: "Etudiant"});
             await EtudiantService.post(this.state);
             // await this.props.history.push('/login'); // undefined 
         } else {

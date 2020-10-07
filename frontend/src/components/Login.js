@@ -23,7 +23,7 @@ export default class Login extends Component {
 
         let user = await LoginService.login(this.state["email"], this.state["password"])
         if (user.id != undefined){
-             this.props.history.push('/?refresh');
+            this.props.history.push('/?refresh');
         }else{
             this.setState({isNotlogin : true})
         }

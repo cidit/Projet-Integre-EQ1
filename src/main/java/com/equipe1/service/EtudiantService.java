@@ -30,6 +30,7 @@ public class EtudiantService {
     }
 
     public Etudiant saveEtudiant(Etudiant etudiant){
+        etudiant.setStatutStage("aucun stage");
         etudiant = etudiantRepository.save(etudiant);
         return etudiant;
     }

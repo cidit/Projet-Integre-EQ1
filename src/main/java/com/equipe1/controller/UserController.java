@@ -22,11 +22,12 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/get")
-    public User getUser(@RequestParam String email){
+    @GetMapping("/get/{email}/{password}")
+    public User getUser(@PathVariable String email, @PathVariable String password){
         var optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty())
             return null;
-        else return optionalUser.get();
+        var user = optionalUser.get();
+        return user.getPassword().equals(password) ? user: null;
     }
 }
