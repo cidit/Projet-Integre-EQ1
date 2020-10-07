@@ -42,8 +42,7 @@ export default class EmployeurRegister extends Component {
             <div className="container ">
                 <div className="col">
                     <div className="card p-3 m-3">
-                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Nouvel
-                            employeur</h5>
+                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Nouvel employeur</h5>
                         <Formik
                             initialValues={{
                                 nomEntreprise: "",
@@ -101,7 +100,7 @@ export default class EmployeurRegister extends Component {
                                                     <Field type="text"
                                                            name="nomEntreprise"
                                                            className="form-control"
-                                                           placeholder="Nom de l'entreprise"/>
+                                                           />
                                                     <ErrorMessage name="nomEntreprise">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -115,7 +114,7 @@ export default class EmployeurRegister extends Component {
                                                     <Field type="email"
                                                            name="email"
                                                            className="form-control"
-                                                           placeholder="Email"/>
+                                                           placeholder="example@email.com"/>
                                                     <ErrorMessage name="email">{msg => <div
                                                         className="badge alert-danger"> {msg}</div>}</ErrorMessage>
                                                 </div>
@@ -129,7 +128,7 @@ export default class EmployeurRegister extends Component {
                                                     <Field type="password"
                                                            name="password"
                                                            className="form-control"
-                                                           placeholder="Password"/>
+                                                          />
                                                     <ErrorMessage name="password">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -143,7 +142,7 @@ export default class EmployeurRegister extends Component {
                                                     <Field type="text"
                                                            name="telephone"
                                                            className="form-control"
-                                                           placeholder="Password"/>
+                                                           />
                                                     <ErrorMessage name="telephone">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -157,7 +156,7 @@ export default class EmployeurRegister extends Component {
                                                     <Field type="text"
                                                            name="adresse"
                                                            className="form-control"
-                                                           placeholder="Adresse"/>
+                                                          />
                                                     <ErrorMessage name="adresse">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>

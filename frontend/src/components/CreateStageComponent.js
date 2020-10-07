@@ -39,19 +39,19 @@ class CreateStageComponent extends Component {
 
               <div className="form-group col">
                 <label className="control-label">Titre</label>
-                <Field placeholder="Titre" name="titre" className="form-control" validate={isRequired(<ValidationChamp field={"un Titre "} />)} />
+                <Field  name="titre" className="form-control" validate={isRequired(<ValidationChamp field={"un Titre "} />)} />
                 <ErrorMessage name="titre">{msg => <div>{msg}</div>}</ErrorMessage >
               </div>
 
               <div className=" form-group col" >
                 <label className="control-label">Programme</label>
-                <Field placeholder="Programme" name="programme" className="form-control" validate={isRequired(<ValidationChamp field={" un Programme "} />)} />
+                <Field  name="programme" className="form-control" validate={isRequired(<ValidationChamp field={" un Programme "} />)} />
                 <ErrorMessage name="programme">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
 
               <div className=" form-group col" >
                 <label className="control-label">Ville</label>
-                <Field placeholder="Ville" name="ville" className="form-control" validate={isRequired(<ValidationChamp field={" une ville "} />)} />
+                <Field  name="ville" className="form-control" validate={isRequired(<ValidationChamp field={" une ville "} />)} />
                 <ErrorMessage name="ville">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
             </div>
@@ -98,7 +98,7 @@ class CreateStageComponent extends Component {
             <div className="form-row">
               <div className="form-group col">
                 <label className="control-label">Description</label>
-                <Field component="textarea" placeholder="Description" name="description" className="form-control" validate={isRequired(<ValidationChamp field={" une Description"} />)} />
+                <Field component="textarea" name="description" className="form-control" validate={isRequired(<ValidationChamp field={" une Description"} />)} />
                 <ErrorMessage name="description">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
             </div>
@@ -106,7 +106,7 @@ class CreateStageComponent extends Component {
             <div className="form-row">
               <div className="form-group col">
                 <label className="control-label">Exigences</label>
-                <Field component="textarea" placeholder="Exigences" name="exigences" className="form-control" validate={isRequired(<ValidationChamp field={"un exigence"} />)} />
+                <Field component="textarea"  name="exigences" className="form-control" validate={isRequired(<ValidationChamp field={"un exigence"} />)} />
                 <ErrorMessage name="exigences">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
             </div>

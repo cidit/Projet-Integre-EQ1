@@ -71,7 +71,7 @@ export default class EtudiantRegister extends Component {
             <div className="container">
                  <div className="col">
                     <div className="card p-3 m-3">
-                <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Register Etudiant</h5>
+                <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Nouvel Étudiant</h5>
                 <Formik
                     initialValues={{
                         email: "",
@@ -149,7 +149,7 @@ export default class EtudiantRegister extends Component {
                                             <Field type="email"
                                                    name="email"
                                                    className="form-control"
-                                                   placeholder="a@b.c"/>
+                                                   placeholder="example@email.com"/>
                                             <ErrorMessage name="email">{msg => <div
                                                 className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                         </div>
