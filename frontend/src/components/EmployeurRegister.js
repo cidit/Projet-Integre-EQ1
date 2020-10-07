@@ -63,7 +63,7 @@ export default class EmployeurRegister extends Component {
 
                                 return new Promise(function (resolve) {
                                     setTimeout(() => {
-                                        resolve(UserService.getByEmail(values.email)
+                                        resolve(EmployeurService.getByEmail(values.email)
                                             .then((val) => {
 
                                                 if (val.email === values.email) {

@@ -37,8 +37,8 @@ export default class EtudiantRegister extends Component {
     constructor(props) {
         super(props);
         this.state = new Etudiant()
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        //this.handleSubmit = this.handleSubmit.bind(this)
+        //this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(event) {
@@ -53,6 +53,7 @@ export default class EtudiantRegister extends Component {
     }
     */
 
+    /*
     async handleSubmit(event) {
         event.preventDefault();
         let x = "email";
@@ -66,6 +67,7 @@ export default class EtudiantRegister extends Component {
              alert("Ce email est deja utilise");
         }
     }
+    */
 
     render() {
         return (
@@ -89,7 +91,7 @@ export default class EtudiantRegister extends Component {
                     onSubmit={(values, actions) => {
                         return new Promise(function (resolve, reject) {
                             setTimeout(() => {
-                                resolve(UserService.getByEmail(values.email)
+                                resolve(EtudiantService.getByEmail(values.email)
                                     .then((val) => {
                                         if (val.email === values.email) {
                                             actions.setFieldError('email', "Adresse électronique déjà utilisée")
