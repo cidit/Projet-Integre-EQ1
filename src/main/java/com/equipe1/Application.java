@@ -23,7 +23,7 @@ public class Application {
 			@Override
 			public void run(String... args) throws Exception {
 				service.insertEtudiant();
-				service.insertEmployeur();
+				//service.insertEmployeur();
 				service.insertStage();
 				service.insertGestionnaire();
 			}

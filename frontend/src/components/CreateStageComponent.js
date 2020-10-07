@@ -187,20 +187,40 @@ export default withFormik({
   },
 
 
-  handleSubmit(values, formikBag,employeur) {
+  handleSubmit(values, formikBag) {
     //let employeur = values.employeur;
-    console.log(employeur)
-    StageService.createStage(values).then(res => {
 
-      formikBag.setStatus({ message: "Stage crée avec succès" });
+    var id;
+    if (localStorage.getItem("desc") == "Employeur")
+        id = localStorage.getItem("id");
 
+    let employee = new Employeur;
+    let stage = new Stage();
+    
+    EmployeurService.getById(id).then((res)=>{
+      console.log(res);
       
+      stage = values;
+      stage.employeur = res;
 
-      setTimeout(() => {
-        formikBag.setStatus({ message: '' });
-      }, 3000);
-    });
-    this.saveCurrentEmployee(values);
+      StageService.createStage(stage).then(res => {
+
+        formikBag.setStatus({ message: "Stage crée avec succès" });
+       
+  
+        setTimeout(() => {
+          formikBag.setStatus({ message: '' });
+        }, 3000);
+      });
+
+    })
+    
+   
+
+    
+    
+    
+
     formikBag.resetForm()
     formikBag.setSubmitting(false);
   }

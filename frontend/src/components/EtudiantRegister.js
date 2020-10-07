@@ -69,7 +69,9 @@ export default class EtudiantRegister extends Component {
         return (
 
             <div className="container">
-                <h3>Register Etudiant</h3>
+                 <div className="col">
+                    <div className="card p-3 m-3">
+                <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Register Etudiant</h5>
                 <Formik
                     initialValues={{
                         email: "",
@@ -239,8 +241,8 @@ export default class EtudiantRegister extends Component {
                                 <div className="row">
                                     <div className="col-sm-4 offset-sm-4 text-center">
                                         <span className="font-weight-light">Vous avez déjà un compte? </span>
-                                        <a href=" " className="stretched-link"
-                                           onClick={this.goToLogin.bind(this)}>Se connecter </a>
+                                        <a href="/login" className="stretched-link"
+                                           >Se connecter </a>
                                     </div>
                                 </div>
                             </div>
@@ -248,6 +250,8 @@ export default class EtudiantRegister extends Component {
                     )}
 
                 </Formik>
+                </div>
+                </div>
 
 
             </div>

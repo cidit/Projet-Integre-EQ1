@@ -186,8 +186,8 @@ export default class EmployeurRegister extends Component {
 
                                             <div className="col-sm-4 offset-sm-4 text-center">
                                                 <span className="font-weight-light">Vous avez déjà un compte? </span>
-                                                <a href=" " className="stretched-link"
-                                                   onClick={this.goToLogin.bind(this)}>Se connecter </a>
+                                                <a href="/login" className="stretched-link"
+                                                  >Se connecter </a>
 
                                             </div>
                                         </div>

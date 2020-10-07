@@ -70,6 +70,14 @@ public class InsertDataService {
     @Transactional
     public void insertStage(){
 
+        Employeur e1 = new Employeur();
+        e1.setEmail("banque2@email.com");
+        e1.setPassword("12345");
+        e1.setAdresse("12345");
+        e1.setNomEntreprise("banque1");
+        e1.setTelephone("888-888-8888");
+        employeurRepository.save(e1);
+
         Stage stage1 = new Stage();
         stage1.setTitre("stage_1");
         stage1.setDescription("stage informatique ");
@@ -81,23 +89,10 @@ public class InsertDataService {
         stage1.setProgramme("informatique");
         stage1.setNbHeuresParSemaine(35);
         stage1.setVille("Montreal");
+        stage1.setEmployeur(e1);
+
+
         stageService.saveStage(stage1);
-
-        Set<Stage> mySet = new HashSet<Stage>();
-        mySet.add(stage1);
-
-        Employeur e1 = new Employeur();
-        e1.setEmail("banque2@email.com");
-        e1.setPassword("12345");
-        e1.setAdresse("12345");
-        e1.setNomEntreprise("banque1");
-        e1.setTelephone("888-888-8888");
-        e1.setStages(mySet);
-        employeurRepository.save(e1);
-
-
-
-
 
     }
 

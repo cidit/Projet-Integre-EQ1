@@ -16,7 +16,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-<<<<<<< HEAD
+
     @GetMapping("findAll")
     public List<User> getAllUsers(){
         return userRepository.findAll();
@@ -24,10 +24,6 @@ public class UserController {
 
     @GetMapping("/get/{email}/{password}")
     public User getUser(@PathVariable String email, @PathVariable String password){
-=======
-    @GetMapping("/get")
-    public User getUser(@RequestParam String email){
->>>>>>> eq1-61
         var optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty())
             return null;

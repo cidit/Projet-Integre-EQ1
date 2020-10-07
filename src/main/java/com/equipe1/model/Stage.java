@@ -1,15 +1,18 @@
 package com.equipe1.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Data
-public class Stage {
+public class Stage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,12 +21,8 @@ public class Stage {
     private String titre;
 
 
-
-    @ManyToOne
-    @JoinColumn(name = "employeur")
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
     private Employeur employeur;
-
 
     private String description;
     private String exigences;
@@ -40,4 +39,5 @@ public class Stage {
         this.isOuvert = true;
 
     }
+
   }
