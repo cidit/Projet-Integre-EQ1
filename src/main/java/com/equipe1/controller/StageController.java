@@ -27,6 +27,11 @@ public class StageController {
         return stageService.findStageById(idStage);
     }
 
+    @GetMapping("/stageByEmployeurId")
+    public List<Stage> getStageByEmployeurId(@RequestParam("idEmployeur") Long idEmployeur){
+        return stageService.getStagesByEmployeur(idEmployeur);
+    }
+
     @PostMapping("createStage")
     public Stage createStage(@RequestBody Stage stage){
         stage.setOuvert(true);

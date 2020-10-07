@@ -13,8 +13,8 @@ const isRequired = (message) => (value) => (!!value ? undefined : message);
 class CreateStageComponent extends Component {
   constructor(props) {
     super(props);
-    this.state ={sended : false}
-   
+    this.state = { sended: false }
+
   }
 
   feedBack() {
@@ -26,17 +26,17 @@ class CreateStageComponent extends Component {
     this.state.history.push('/stages');
   }
   render() {
-    const { handleSubmit, isSubmitting, isValid, isValidating, status, employeur} = this.props;
-  
+    const { handleSubmit, isSubmitting, isValid, isValidating, status, employeur } = this.props;
+
 
     return (
       <div className="card p-3">
         <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0' }}>Nouveau stage</h5>
-      
+
         <Form onSubmit={handleSubmit}>
           <div className="container">
             <div className="row">
-            
+
               <div className="form-group col">
                 <label className="control-label">Titre</label>
                 <Field placeholder="Titre" name="titre" className="form-control" validate={isRequired(<ValidationChamp field={"un Titre "} />)} />
@@ -111,26 +111,26 @@ class CreateStageComponent extends Component {
               </div>
             </div>
 
-            
-              <div className="form-group">
 
-                <button type="submit"
-                  className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '} btn btn-primary` }
-                  disabled={isValidating || isSubmitting || !isValid} onClick={this.feedBack.bind(this)}>Enregistrer</button>
+            <div className="form-group">
 
-                {status && status.message &&
-                  <div className="alert alert-success mt-3" role="alert">
-                    {status.message}
-                  </div>
-                }
+              <button type="submit"
+                className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '} btn btn-primary`}
+                disabled={isValidating || isSubmitting || !isValid} onClick={this.feedBack.bind(this)}>Enregistrer</button>
 
-                {this.state.sended && isValid &&
-                  <div className="alert alert-success mt-3" role="alert">
-                    <a className="stretched-link" onClick={this.cancel.bind(this)}> Voir mes offres de Stage</a>
-                  </div>
-                }
+              {status && status.message &&
+                <div className="alert alert-success mt-3" role="alert">
+                  {status.message}
+                </div>
+              }
 
-              </div>
+              {/* {this.state.sended && isValid && 
+                <div className="alert alert-success mt-3" role="alert">
+                  <a className="stretched-link" onClick={this.cancel.bind(this)}> Voir mes offres de Stage</a>
+                </div>
+              }*/}
+
+            </div>
           </div>
         </Form>
       </div>
@@ -140,10 +140,10 @@ class CreateStageComponent extends Component {
 
 export default withFormik({
   mapPropsToValues(props) {
-   
-    
+
+
     return new Stage;
-    
+
   },
 
   validate(values) {
@@ -172,55 +172,43 @@ export default withFormik({
     return errors;
   },
 
-  saveCurrentEmployee(values){
-    
+  saveCurrentEmployee(values) {
+
     var id;
     if (localStorage.getItem("desc") == "Employeur")
-        id = localStorage.getItem("id");
+      id = localStorage.getItem("id");
 
     let employee = new Employeur;
     employee = EmployeurService.getById(id)
-    employee.Stage= values;
-    EmployeurService.put(employee,id)
+    employee.Stage = values;
+    EmployeurService.put(employee, id)
 
-   return  employee;
+    return employee;
   },
 
-
   handleSubmit(values, formikBag) {
-    //let employeur = values.employeur;
 
     var id;
     if (localStorage.getItem("desc") == "Employeur")
-        id = localStorage.getItem("id");
+      id = localStorage.getItem("id");
 
-    let employee = new Employeur;
     let stage = new Stage();
-    
-    EmployeurService.getById(id).then((res)=>{
-      console.log(res);
-      
+
+    EmployeurService.getById(id).then((res) => {
       stage = values;
       stage.employeur = res;
 
-      StageService.createStage(stage).then(res => {
+      StageService.createStage(stage).then(() => {
 
         formikBag.setStatus({ message: "Stage crée avec succès" });
-       
-  
+
+        //hide message 
         setTimeout(() => {
           formikBag.setStatus({ message: '' });
         }, 3000);
       });
 
     })
-    
-   
-
-    
-    
-    
-
     formikBag.resetForm()
     formikBag.setSubmitting(false);
   }
