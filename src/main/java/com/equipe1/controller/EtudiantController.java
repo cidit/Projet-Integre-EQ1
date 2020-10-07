@@ -24,28 +24,28 @@ public class EtudiantController {
         this.etudiantService = service;
     }
 
-    @GetMapping("findAll")
+    @GetMapping("/findAll")
     public List<Etudiant> getAllEtudiant(){
         return etudiantService.getEtudiants();
     }
 
-    @GetMapping("get")
+    @GetMapping("/get")
     public Optional<Etudiant> getEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
         return etudiantService.findEtudiantById(idEtudiant);
     }
 
-    @PostMapping("create")
+    @PostMapping("/create")
     public Etudiant createEtudiant(@RequestBody Etudiant etudiant){
         return etudiantService.saveEtudiant(etudiant);
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/update/{id}")
     public Etudiant updateEtudiant(@RequestBody Etudiant etudiant, @PathVariable Long id){
         System.out.println(etudiant + " , id : " + id);
         return etudiantService.updateEtudiant(etudiant, id);
     }
 
-    @PutMapping("saveCV/{id}")
+    @PutMapping("/saveCV/{id}")
     public Etudiant saveCVEtudiant(@RequestParam("file") MultipartFile file, @PathVariable Long id) throws IOException {
         Optional<Etudiant> etudiantFound = etudiantService.findEtudiantById(id);
         Etudiant etudiant = etudiantFound.get();
@@ -55,17 +55,17 @@ public class EtudiantController {
         return etudiantService.updateEtudiant(etudiant, id);
     }
 
-    @GetMapping("matricule")
+    @GetMapping("/matricule")
     public Optional<Etudiant> getEtudiantByMatricule(@RequestParam("matricule") String matricule){
         return etudiantService.findEtudiantByMatricule(matricule);
     }
 
-    @PutMapping("update/cv/{id}")
+    @PutMapping("/update/cv/{id}")
     public Etudiant updateEtudiantCV(@RequestBody Etudiant etudiant, @PathVariable Long id){
         return etudiantService.updateEtudiant(etudiant, id);
     }
 
-    @GetMapping("email")
+    @GetMapping("/email")
     public Etudiant getEmployeurByEmail(@RequestParam("email") String email){
         return etudiantService.getEtudiantByEmail(email);
     }

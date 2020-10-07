@@ -36,7 +36,6 @@ public class Etudiant extends User {
     @NotBlank
     private String adresse;
 
-    @NotBlank
     private String statutStage;
 
     @Lob

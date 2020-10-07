@@ -30,7 +30,7 @@ public class EtudiantService {
     }
 
     public Etudiant saveEtudiant(Etudiant etudiant){
-        etudiantRepository.save(etudiant);
+        etudiant = etudiantRepository.save(etudiant);
         return etudiant;
     }
 

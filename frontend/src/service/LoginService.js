@@ -3,8 +3,13 @@ const baseURL = "http://localhost:8080/users";
 class LoginService{
     async login(email, password){
         let data;
-        await fetch(baseURL +"/get/" +email + "/" + password, {method: "GET"} )
-            .then(r => data = r.json()).then(res => this.storage(res)).then((res)=>console.log(res))
+        await fetch(baseURL +"/get?email=" +email, {method: "GET"} )
+            .then(r => data = r.json())
+            .then(res => {
+                if (res.password === password)
+                    this.storage(res);
+            })
+            .then((res)=>console.log(res))
             .catch(error => data = {});
         return data;
     }
