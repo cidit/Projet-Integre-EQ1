@@ -33,8 +33,8 @@ export default class ListStagesComponent extends Component {
                                 <th> Id </th>
                                 <th> Titre </th>
                                 <th> Description </th>
-                                <th> date Debut </th>
-                                <th> date Fin </th>
+                                <th> Date Debut </th>
+                                <th> Date Fin </th>
                             </tr>
                         </thead>
                         <tbody>

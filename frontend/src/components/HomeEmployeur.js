@@ -35,11 +35,11 @@ class HomeEmployeur extends Component {
                 <div className="row">
                     <div className=" col-3">
                     <div className="row">
-                        <button onClick={this.handleCreateStage.bind(this)}>create stage</button>
+                        <button onClick={this.handleCreateStage.bind(this)}>Create stage</button>
                         </div>
 
                         <div className="row">   
-                        <button onClick={this.handleCreateStage.bind(this)}>voir mes stages</button>
+                        <button onClick={this.handleCreateStage.bind(this)}>Voir mes stages</button>
                         </div>
                     </div>
 

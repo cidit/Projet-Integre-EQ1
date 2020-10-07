@@ -16,7 +16,7 @@ function GestionnaireNav(){
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/etudiants">Liste d'étudiant</Nav.Link>
+            <Nav.Link href="/etudiants">Liste d'étudiants</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );
@@ -27,7 +27,7 @@ function EmployeurNav(props){
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
-            <Nav.Link href="/stages">Voir tous les offres de stage</Nav.Link>
+            <Nav.Link href="/stages">Voir toutes les offres de stage</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );
