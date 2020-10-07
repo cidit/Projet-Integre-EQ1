@@ -73,6 +73,10 @@ public class EmployeurServiceTest {
 
     @Test
     public void updateEmployeurFromNewEmployeur() {
+        employeur1.setId(1L);
+        when(employeurRepository.save(employeur1)).thenReturn(employeur1);
+        employeurRepository.save(employeur1);
+
         Employeur employeur3 = new Employeur("Employeur_update", "444-44-44", "dfg 112-123");
 
         when(employeurRepository.findById(1L)).thenReturn(Optional.of(employeur1));

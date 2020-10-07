@@ -97,7 +97,6 @@ public class StageServiceTest {
         s1.setDateLimiteCandidature(LocalDate.of(2021, 1, 1));
         s1.setDateDebut(LocalDate.of(2021, 1, 20));
         s1.setDateFin(LocalDate.of(2021, 8, 20));
-        s1.setDateFin(LocalDate.of(2021, 8, 20));
         s1.setExigences("Etre empathique");
         s1.setDescription("Ceci un stage en java");
         //s1.setEmployeur(new Employeur("None", "None", "None"));
@@ -128,10 +127,11 @@ public class StageServiceTest {
         Assertions.assertEquals(2, updatedStage.getNbAdmis());
         Assertions.assertEquals(35f, updatedStage.getNbHeuresParSemaine());
         Assertions.assertEquals("Etre en 3eme annee de DEC", updatedStage.getExigences());
-        Assertions.assertEquals(new Date(2021, 1, 2), updatedStage.getDateLimiteCandidature());
-        Assertions.assertEquals(new Date(2021, 1, 21), updatedStage.getDateDebut());
-        Assertions.assertEquals(new Date(2021, 8, 21), updatedStage.getDateFin());
+        Assertions.assertEquals(LocalDate.of(2021, 1, 2), updatedStage.getDateLimiteCandidature());
+        Assertions.assertEquals(LocalDate.of(2021, 1, 21), updatedStage.getDateDebut());
+        Assertions.assertEquals(LocalDate.of(2021, 8, 21), updatedStage.getDateFin());
         //Assertions.assertEquals(new Employeur("NB", "111-222-3333", "Montreal, QC"), updatedStage.getEmployeur());
     }
 
+    // manque test unitiare get stage by employer dans service !!!
 }
