@@ -10,18 +10,23 @@ import ValidationChamp from './ValidationChampVide';
 import UserService from "../service/UserService";
 
 
-let redirectStr = "";
+
+
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{2,4}?[ \\-]*[0-9]{2,4}?$/;
 
 const formSchema = Yup.object().shape({
-    nomEntreprise: Yup.string().required('Veuillez saissir un nom valide'),
+    nomEntreprise: Yup.string().required('Veuillez saisir un nom valide'),
     email: Yup.string()
-        .required('Veuillez saissir un email valide')
+        .required('Veuillez saisir un email valide')
         .email("Courriel inavalide"),
     password: Yup.string()
-        .required("Veuillez saissir un password valide")
+        .required("Veuillez saisir un password valide")
         .min(6, "doivent comprendre au moins 6 caractères."),
-    telephone: Yup.string().required('Veuillez saissir un telephone valide').min(8, "doivent comprendre au moins 8 caractères."),
-    adresse: Yup.string().required('Veuillez saissir un adresse valide'),
+    telephone: Yup.string().required('Veuillez saisir un telephone valide')
+                            .min(8, "doivent comprendre au moins 8 caractères.")
+                            .max(14,'Numéro de téléphone invalide')
+                            .matches(phoneRegExp, 'Numéro de téléphone invalide' ),
+    adresse: Yup.string().required('Veuillez saisir un adresse valide'),
 
 });
 

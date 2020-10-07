@@ -11,24 +11,24 @@ import EtudiantService from "../service/EtudiantService";
 const formSchema = Yup.object().shape({
 
     email: Yup.string()
-        .required('Veuillez saissir un email valide')
+        .required('Veuillez saisir un email valide')
         .email("Courriel inavalide"),
 
     password: Yup.string()
-        .required("Veuillez saissir un password valide")
+        .required("Veuillez saisir un password valide")
         .min(6, "doivent comprendre au moins 6 caractères."),
 
-    nom: Yup.string().required('Veuillez saissir un nom valide'),
+    nom: Yup.string().required('Veuillez saisir un nom valide'),
 
-    prenom: Yup.string().required('Veuillez saissir un prenom valide'),
+    prenom: Yup.string().required('Veuillez saisir un prenom valide'),
 
-    matricule: Yup.string().required('Veuillez saissir votre matricule'),
+    matricule: Yup.string().required('Veuillez saisir votre matricule'),
 
-    programme: Yup.string().required('Veuillez saissir un programme valide'),
+    programme: Yup.string().required('Veuillez saisir un programme valide'),
 
-    telephone: Yup.string().required('Veuillez saissir un telephone valide').min(10, "doit comprendre au moins 10 caractères."),
+    telephone: Yup.string().required('Veuillez saisir un telephone valide').min(10, "doit comprendre au moins 10 caractères."),
 
-    adresse: Yup.string().required('Veuillez saissir un adresse valide')
+    adresse: Yup.string().required('Veuillez saisir un adresse valide')
 })
 
 
@@ -92,7 +92,7 @@ export default class EtudiantRegister extends Component {
                                         if (val.email === values.email) {
                                             actions.setFieldError('email', "Adresse électronique déjà utilisée")
                                         } else {
-                                            EmployeurService.post(values);
+                                            EtudiantService.post(values);
                                             actions.resetForm();
                                             actions.setStatus({message: "Utilisateur crée avec succès"});
                                             setTimeout(() => {
@@ -212,7 +212,7 @@ export default class EtudiantRegister extends Component {
                                         <div className="form-group">
                                             <label className="control-label">Programme</label>
                                             <Field type="text"
-                                                   name="telephone"
+                                                   name="programme"
                                                    className="form-control"
                                                    placeholder=""/>
                                             <ErrorMessage name="programme">{msg => <div
