@@ -7,6 +7,9 @@ export default class ListEtudiantsComponent extends Component {
         this.state = { etudiants: [], filter: '', statut: '', };
     }
 
+    approuverCV(){
+
+    }
     handleChangeText = event => {
         this.setState({ filter: event.target.value });
     };
@@ -62,6 +65,8 @@ export default class ListEtudiantsComponent extends Component {
                                 <th> Courriel </th>
                                 <th> Téléphone </th>
                                 <th> Statut </th>
+                                <th> Télécharger son CV</th>
+                                <th> Etat du CV</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -78,6 +83,13 @@ export default class ListEtudiantsComponent extends Component {
                                         <td>{etudiant.email}</td>
                                         <td>{etudiant.telephone}</td>
                                         <td>{etudiant.statutStage}</td>
+                                        <td>
+                                            <a href="" download="cv">
+                                            <img src={require('../images/PDF_file_icon.svg')} alt="PDFImage" width={150} height={30}/>
+                                            </a>
+                                        </td>
+                                        <td>Approuvé</td>
+
                                     </tr>
                             )}
                         </tbody>
