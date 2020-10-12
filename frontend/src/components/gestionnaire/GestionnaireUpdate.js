@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import GestionnaireService from "../../service/GestionnaireService";
 
 const formSchema = Yup.object().shape({
-    oldPassword: Yup.string()
+    password: Yup.string()
         .required("Veuillez saisir un password valide")
         .min(6, "doivent comprendre au moins 6 caractères."),
     newPassword: Yup.string()
@@ -33,7 +33,7 @@ export default class GestionnaireUpdate extends Component {
                         
                         <Formik
                             initialValue={{
-                                oldPassword: "",
+                                password: "",
                                 newPassword: "",
                                 confirmPassword: "",
                             }}
@@ -49,11 +49,11 @@ export default class GestionnaireUpdate extends Component {
 
                                 return new Promise(function (resolve) {
                                     setTimeout(() => {
-                                        resolve(GestionnaireService.getByPassword(values.oldPassword)
+                                        resolve(GestionnaireService.getByPassword(values.password)
                                             .then((val) => {
 
-                                                if (val.oldPassword === values.oldPassword) {
-                                                    actions.setFieldError('oldPassword', "Password déjà utilisée")
+                                                if (val.password === values.password) {
+                                                    actions.setFieldError('password', "Password déjà utilisée")
                                                 } else {
                                                     GestionnaireService.put(values, localStorage.getItem("id"));
                                                     actions.resetForm();
@@ -89,10 +89,10 @@ export default class GestionnaireUpdate extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label"> Old Password </label>
                                                     <Field type="password"
-                                                           name="oldPassword"
+                                                           name="password"
                                                            className="form-control"
                                                           />
-                                                    <ErrorMessage name="oldPassword">{msg => <div
+                                                    <ErrorMessage name="password">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
                                             </div>
