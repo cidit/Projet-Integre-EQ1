@@ -8,7 +8,7 @@ import GestionnaireService from "../../service/GestionnaireService";
 const formSchema = Yup.object().shape({
     password: Yup.string()
         .required("Veuillez saisir un password valide")
-        .min(6, "doivent comprendre au moins 6 caractères."),
+        .min(4, "doivent comprendre au moins 6 caractères."),
     newPassword: Yup.string()
         .required("Veuillez saisir un password valide")
         .min(6, "doivent comprendre au moins 6 caractères."),
@@ -32,7 +32,7 @@ export default class GestionnaireUpdate extends Component {
                         <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Changer votre mot de passe</h5>
                         
                         <Formik
-                            initialValue={{
+                            initialValues={{
                                 password: "",
                                 newPassword: "",
                                 confirmPassword: "",
@@ -41,7 +41,10 @@ export default class GestionnaireUpdate extends Component {
 
                             validate = {(values) => {
                                 if(values.newPassword === values.confirmPassword){
-                                    console.log("MATCH")
+                                    console.log("MATCH!")
+                                    if (values.password === values.newPassword) {
+                                        console.log("EXISTE DÉJÀ!")
+                                    }
                                 }
                             }}
 
@@ -52,9 +55,11 @@ export default class GestionnaireUpdate extends Component {
                                         resolve(GestionnaireService.getByPassword(values.password)
                                             .then((val) => {
 
-                                                if (val.password === values.password) {
-                                                    actions.setFieldError('password', "Password déjà utilisée")
+                                                if (val.password !== values.password) {
+                                                    actions.setFieldError('password', "Password invalid")
                                                 } else {
+                                                    values.password = values.newPassword;
+                                                    console.log(values.password);
                                                     GestionnaireService.put(values, localStorage.getItem("id"));
                                                     actions.resetForm();
                                                     actions.setStatus({message: "Password mise à jour avec succès"});
