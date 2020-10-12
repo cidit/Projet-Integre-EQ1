@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController()
 @RequestMapping("/gestionnaires")
 public class GestionnaireController {
@@ -35,5 +36,10 @@ public class GestionnaireController {
     @PutMapping("update/{id}")
     public Gestionnaire updateGestionnaire(@RequestBody Gestionnaire gestionnaire, @PathVariable Long id){
         return gestionnaireService.updateGestionnaire(gestionnaire, id);
+    }
+
+    @GetMapping("password")
+    public Gestionnaire getGestionnaireByPassword(@RequestParam("password") String password){
+        return gestionnaireService.getGestionnaireByPassword(password);
     }
 }
