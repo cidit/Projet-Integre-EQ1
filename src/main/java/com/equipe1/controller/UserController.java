@@ -30,4 +30,12 @@ public class UserController {
         var user = optionalUser.get();
         return user.getPassword().equals(password) ? user: null;
     }
+    @GetMapping("/get/{email}")
+    public User getUserByEmail(@PathVariable String email){
+        var optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isEmpty())
+            return null;
+        var user = optionalUser.get();
+        return user.getEmail().equals(email) ? user: null;
+    }
 }

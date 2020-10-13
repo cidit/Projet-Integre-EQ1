@@ -63,11 +63,11 @@ export default class EmployeurRegister extends Component {
 
                                 return new Promise(function (resolve) {
                                     setTimeout(() => {
-                                        resolve(EmployeurService.getByEmail(values.email)
-                                            .then((val) => {
-
-                                                if (val.email === values.email) {
-                                                    actions.setFieldError('email', "Adresse électronique déjà utilisée")
+                                        resolve(UserService.getByEmail(values.email)
+                                    .then((val) => {
+                                        
+                                        if (val.email === values.email) {
+                                            actions.setFieldError('email', "Adresse électronique déjà utilisée")
                                                 } else {
                                                     EmployeurService.post(values);
                                                     actions.resetForm();
