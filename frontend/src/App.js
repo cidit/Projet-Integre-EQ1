@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 import EtudiantRegister from "./components/EtudiantRegister";
-import ListStagesComponent from "./components/ListStageComponent";
+import ListStagesComponent from "./components/stage/ListStageComponent";
 import Login from "./components/Login";
 import { Route, Switch,Router , withRouter } from 'react-router-dom';
 import Home from "./components/Home";
@@ -11,7 +11,7 @@ import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantCompon
 import HomeEtudiant from "./components/HomeEtudiant";
 import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
-import CreateStageComponent from './components/CreateStageComponent'
+import CreateStageComponent from './components/stage/CreateStageComponent'
 import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions'
 
 function App() {

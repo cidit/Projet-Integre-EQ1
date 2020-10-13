@@ -32,7 +32,7 @@ export default class GestionnaireUpdate extends Component {
                         <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Changer votre mot de passe</h5>
                         
                         <Formik
-                            initialValue={{
+                            initialValues={{
                                 password: "",
                                 newPassword: "",
                                 confirmPassword: "",

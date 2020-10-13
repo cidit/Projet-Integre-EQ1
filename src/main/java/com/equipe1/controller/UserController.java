@@ -1,5 +1,6 @@
 package com.equipe1.controller;
 
+import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.User;
 import com.equipe1.repository.UserRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -29,5 +31,10 @@ public class UserController {
             return null;
         var user = optionalUser.get();
         return user.getPassword().equals(password) ? user: null;
+    }
+
+    @GetMapping("email")
+    public Optional<User> getEmployeurByEmail(@RequestParam("email") String email){
+        return userRepository.findByEmail(email);
     }
 }

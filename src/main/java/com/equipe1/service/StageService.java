@@ -29,18 +29,14 @@ public class StageService {
 
     public List<Stage> getStagesByEmployeur(Long idEmployeur){
         Employeur employeur = employeurService.getEmployeurById(idEmployeur);
+        List<Stage> stages = new ArrayList<>();
 
-        List<Stage> stages = stageRepository.findAll();
-        List<Stage> stagesResul = new ArrayList<>();
-
-        for (Stage result: stages) {
-            if(result.getEmployeur().getId() == employeur.getId()){
-                stagesResul.add(result);
+        for (Stage stageTemp: stageRepository.findAll()) {
+            if(stageTemp.getEmployeur().getId() == employeur.getId()){
+                stages.add(stageTemp);
             }
-            System.out.println(result.getEmployeur().getNomEntreprise());
         }
-
-        return stagesResul;
+        return stages;
     }
 
     public Optional<Stage> findStageById(Long idStage){

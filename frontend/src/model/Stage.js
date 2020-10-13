@@ -1,4 +1,3 @@
-import EmployeurRegister from "../components/EmployeurRegister";
 import Employeur from './Employeur'
 export default class Stage{
     id;

@@ -37,37 +37,11 @@ export default class EtudiantRegister extends Component {
     constructor(props) {
         super(props);
         this.state = new Etudiant()
-        //this.handleSubmit = this.handleSubmit.bind(this)
-        //this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(event) {
         this.setState({[event.target.name]: event.target.value})
     }
-
-    /*
-    handleSubmit(event) {
-        event.preventDefault()
-        this.setState({statutStage: "aucun stage"});
-        simpleFetch("/etudiants/create", "POST", this.state).then(r => console.log(r))
-    }
-    */
-
-    /*
-    async handleSubmit(event) {
-        event.preventDefault();
-        let x = "email";
-        let data = await EtudiantService.getByEmail(this.state[x]);
-        if (data[x] != this.state[x]){
-            //await this.setState({statutStage: "aucun stage"});
-            //await this.setState({desc: "Etudiant"});
-            await EtudiantService.post(this.state);
-            // await this.props.history.push('/login'); // undefined 
-        } else {
-             alert("Ce email est deja utilise");
-        }
-    }
-    */
 
     render() {
         return (
@@ -91,7 +65,7 @@ export default class EtudiantRegister extends Component {
                     onSubmit={(values, actions) => {
                         return new Promise(function (resolve, reject) {
                             setTimeout(() => {
-                                resolve(EtudiantService.getByEmail(values.email)
+                                resolve(UserService.getByEmail(values.email)
                                     .then((val) => {
                                         if (val.email === values.email) {
                                             actions.setFieldError('email', "Adresse électronique déjà utilisée")
