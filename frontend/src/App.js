@@ -13,6 +13,7 @@ import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
 import CreateStageComponent from './components/CreateStageComponent'
 import ListeStageEtudiantComponent from "./components/ApplicationStageComponent";
+import ListeCandidaturesEtudiantComponent from "./components/ListeCandidaturesEtudiantComponent";
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
           <Route path='/etudiant' component={HomeEtudiant} />
           <Route path='/offrestage' component={ListeStageEtudiantComponent} />
           <Route path='/createStage' component={CreateStageComponent} />
+          <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
+
+
         </Switch>
        
         </div>

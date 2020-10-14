@@ -39,6 +39,8 @@ function EtudiantNav(props){
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/etudiant">Votre profil</Nav.Link>
             <Nav.Link href="/offrestage">Offres de stage</Nav.Link>
+            <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
+
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );

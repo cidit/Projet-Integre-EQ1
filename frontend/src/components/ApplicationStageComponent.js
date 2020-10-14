@@ -9,20 +9,26 @@ export default class ApplicationStageComponent extends Component {
         super(props);
         this.state = {
             stages: [],
-            employeurId: ""
+            hasApplied:""
         };
         this.handleSubmit = this.handleSubmit.bind(this)
         //this.onChangeHandler = this.onChangeHandler.bind(this)
+        this.addStage = this.addStage.bind(this);
+
+    }
+    addStage() {
+
+        this.props.history.push('/createStage')
     }
 
     async componentDidMount() {
-        /*
+
         var id;
         if (localStorage.getItem("desc") == "Etudiant")
             id = localStorage.getItem("id");
-        */
-        const { data: stages } = await StageService.getStages();
-        this.setState({ stages });
+
+        StageService.getStagesEtudiant(id).then((res) => { this.setState({ stages: res.data }) })
+
     }
     handleSubmit(event) {
         event.preventDefault()
@@ -30,7 +36,12 @@ export default class ApplicationStageComponent extends Component {
         if (localStorage.getItem("desc") == "Etudiant")
             idEtudiant = localStorage.getItem("id");
         var idStage = event.target.value
-        CandidatureService.post(idEtudiant, idStage);
+        this.componentDidMount();
+        this.setState({hasApplied: true});
+        CandidatureService.post(idEtudiant, idStage)
+        setTimeout(function() {
+            window.location.reload();
+        }, 1000);
     }
     render() {
         return (
@@ -67,10 +78,12 @@ export default class ApplicationStageComponent extends Component {
                                             <td>{stage.ville}</td>
                                             <td>{stage.nbHeuresParSemaine}</td>
                                             <td><button type="submit" className="btn btn-primary" value={stage.id} onClick={this.handleSubmit}>Postuler</button></td>
+
                                         </tr>
                                 )}
                                 </tbody>
                             </table>
+                            {this.state.hasApplied? <label style={{color: "green"}}>Vous venez de téléverser votre CV</label>: null}<br/>
 
                         </div>
                     </div>

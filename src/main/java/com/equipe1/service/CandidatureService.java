@@ -1,12 +1,16 @@
 package com.equipe1.service;
 
 import com.equipe1.model.Candidature;
+import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.Stage;
 import com.equipe1.repository.CandidatureRepository;
+import com.equipe1.repository.EtudiantRepository;
+import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +18,11 @@ import java.util.Optional;
 public class CandidatureService {
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    private StageRepository stageRepository;
+    @Autowired
+    private EtudiantRepository etudiantRepository;
+
     @Autowired
     private StageService stageService;
     @Autowired
@@ -30,12 +39,29 @@ public class CandidatureService {
     public Optional<Candidature> findCandidatureById(Long idCandidature){
         return candidatureRepository.findById(idCandidature);
     }
+    public List<Candidature> findCandidatureByEtudiant(Long idEtudiant){
+
+        Etudiant etudiant = etudiantService.findEtudiantById(idEtudiant).get();
+        List<Candidature> candidatures = candidatureRepository.findAll();
+        List<Candidature> candidatureList = new ArrayList<>();
+        for (Candidature result: candidatures) {
+            if(result.getEtudiant().equals(etudiant))
+                candidatureList.add(result);
+        }
+
+        return candidatureList;
+
+    }
+
+
 
     public Candidature createCandidature(Long idEtudiant, Long idStage){
         Candidature candidature = new Candidature();
         candidature.setStatut("En cours");
-        Etudiant etudiant = etudiantService.findEtudiantById(idEtudiant).get();
-        Stage stage = stageService.findStageById(idStage).get();
+        Etudiant etudiant = etudiantRepository.findById(idEtudiant).get();
+        Stage stage = stageRepository.findById(idStage).get();
+        System.out.println(stage);
+        System.out.println(etudiant);
         candidature.setEtudiant(etudiant);
         candidature.setStage(stage);
         candidatureRepository.save(candidature);

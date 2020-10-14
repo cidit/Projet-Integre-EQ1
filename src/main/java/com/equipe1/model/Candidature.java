@@ -17,7 +17,7 @@ public class Candidature {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
-    @OneToOne
+    @ManyToOne
     private Etudiant etudiant;
     @OneToOne
     private Stage stage;

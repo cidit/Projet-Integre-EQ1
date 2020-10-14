@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const baseURL = "http://localhost:8080/candidatures";
 
 class CandidatureService{
@@ -15,6 +17,10 @@ class CandidatureService{
             .then(r => data = r.json())
             .catch(error => data = {});
         return data;
+    }
+    async getByEtudiant(idEtudiant) {
+        return axios.get(baseURL + "/getByEtudiant?idEtudiant="+ idEtudiant);
+
     }
 
     async post(idEtudiant, idStage){

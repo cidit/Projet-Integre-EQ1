@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -29,6 +30,10 @@ public class CandidatureController {
     @GetMapping("get")
     public Candidature getCandidatureById(@RequestParam("idCandidature") Long idCandidature){
         return candidatureService.findCandidatureById(idCandidature).get();
+    }
+    @GetMapping("getByEtudiant")
+    public List<Candidature> getCandidatureByEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
+        return candidatureService.findCandidatureByEtudiant(idEtudiant);
     }
 
 

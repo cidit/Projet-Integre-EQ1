@@ -28,9 +28,7 @@ public class Employeur extends User{
 
     private String adresse;
 
-    @JsonBackReference
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="employeur")
-    private Set<Stage> stages= new HashSet<>();
+
 
     private String nomEntreprise;
 

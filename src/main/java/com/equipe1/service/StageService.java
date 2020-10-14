@@ -1,6 +1,8 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Candidature;
 import com.equipe1.model.Employeur;
+import com.equipe1.model.Etudiant;
 import com.equipe1.model.Stage;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.StageRepository;
@@ -18,6 +20,8 @@ public class StageService {
     private StageRepository stageRepository;
     @Autowired
     private EmployeurService employeurService;
+    @Autowired
+    private CandidatureService candidatureService;
 
     public StageService(StageRepository stageRepository){
         this.stageRepository = stageRepository;
@@ -38,6 +42,23 @@ public class StageService {
                 stagesResul.add(result);
             }
             System.out.println(result.getEmployeur().getNomEntreprise());
+        }
+
+        return stagesResul;
+    }
+    public List<Stage> getStagesEtudiant(Long idEtudiant){
+        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(idEtudiant);
+        List<Stage> stages = stageRepository.findAll();
+        List<Stage> stagesResul = new ArrayList<>();
+        boolean isStageStudentCanApply;
+        for (Stage resultStage: stages) {
+            isStageStudentCanApply = true;
+            for (Candidature resultCandidature: candidatures) {
+                if(resultStage.getId().equals(resultCandidature.getStage().getId()))
+                    isStageStudentCanApply = false;
+            }
+            if (isStageStudentCanApply)
+                stagesResul.add(resultStage);
         }
 
         return stagesResul;

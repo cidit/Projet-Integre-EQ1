@@ -24,6 +24,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -34,17 +36,24 @@ public class CandidatureServiceTest {
 
     @MockBean
     private CandidatureRepository candidatureRepository;
+    @MockBean
+    private EtudiantRepository etudiantRepository;
     @Autowired
     private StageService stageService;
     @Autowired
     private EtudiantService etudiantService;
+    @Autowired
+    private StageRepository stageRepository;
 
     private Candidature c1;
     private Candidature c2;
-
+    private Etudiant e1;
     @BeforeEach
     public void setUpCandidatures() {
-       c1 = new Candidature(new Etudiant(), new Stage(), "En cours");
+        e1 = new Etudiant();
+        e1.setId(2L);
+        etudiantRepository.save(e1);
+       c1 = new Candidature(e1, new Stage(), "En cours");
        c2 = new Candidature(new Etudiant(), new Stage(), "Admis");
     }
 
@@ -64,16 +73,24 @@ public class CandidatureServiceTest {
 
     @Test
     public void saveCandidatureTest() {
+
         Stage s = new Stage();
         Etudiant e = new Etudiant();
+        e.setId(3L);
         e.setPrenom("toto");
         e.setNom("toto");
         e.setMatricule("12345");
         e.setStatutStage("e1@email.com");
         e.setProgramme("Programme1");
         e.setAdresse("123 Rue Bidon");
+        s.setId(4L);
+        s.setTitre("TP");
+        when(stageRepository.save(s)).thenReturn(s);
+        when(etudiantRepository.save(e)).thenReturn(e);
         stageService.saveStage(s);
         etudiantService.saveEtudiant(e);
+        when(etudiantRepository.findById(e.getId())).thenReturn(Optional.of(e));
+        when(stageRepository.findById(s.getId())).thenReturn(Optional.of(s));
         Candidature c3 = new Candidature(e, s, "En cours");
         when(candidatureRepository.save(c3)).thenReturn(c3);
         Candidature candidature = candidatureService.createCandidature(c3.getEtudiant().getId(), c3.getStage().getId());
@@ -82,8 +99,28 @@ public class CandidatureServiceTest {
         assertEquals(candidature.getEtudiant(), c3.getEtudiant());
         assertEquals(candidature.getStage(), c3.getStage());
         assertEquals(candidature.getStatut(), c3.getStatut());
-
-
+        /*
+        // Arrange
+        Stage s = new Stage();
+        Etudiant e = new Etudiant();
+        e.setId(3L);
+        e.setPrenom("toto");
+        e.setNom("toto");
+        e.setMatricule("12345");
+        e.setStatutStage("e1@email.com");
+        e.setProgramme("Programme1");
+        e.setAdresse("123 Rue Bidon");
+        stageService.saveStage(s);
+        etudiantService.saveEtudiant(e);
+        doReturn(e).when(etudiantRepository).save(any());
+        Candidature c3 = new Candidature(e1, s, "En cours");
+        doReturn(c3).when(candidatureRepository).save(any());
+        // Act
+        Candidature candidature = candidatureService.createCandidature(c3.getEtudiant().getId(), c3.getStage().getId());
+        // Assert
+        Assertions.assertNotNull(candidature);
+        Assertions.assertEquals(c1, s);
+        */
     }
 
     @Test
