@@ -58,9 +58,17 @@ public class StageService {
         optionalStage.get().setNbHeuresParSemaine(newStage.getNbHeuresParSemaine());
         optionalStage.get().setNbAdmis(newStage.getNbAdmis());
         optionalStage.get().setOuvert(newStage.isOuvert());
+        optionalStage.get().setApprouve(newStage.isApprouve());
         optionalStage.get().setDateLimiteCandidature(newStage.getDateLimiteCandidature());
         optionalStage.get().setProgramme(newStage.getProgramme());
         return stageRepository.save(optionalStage.get());
+    }
+
+    public Stage updateStatus(Stage newStage, long id){
+        Stage stage = newStage;
+        stage.setApprouve(true);
+        stage.setOuvert(true);
+        return updateStage(stage,id);
     }
 
 }

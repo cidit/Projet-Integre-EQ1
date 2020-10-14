@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Entity
 @Data
 public class Stage  {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -28,4 +27,8 @@ public class Stage  {
     private String ville;
     private boolean isApprouve;
 
-  }
+    public Stage() {
+        this.isOuvert = false;
+        this.isApprouve = false;
+    }
+}

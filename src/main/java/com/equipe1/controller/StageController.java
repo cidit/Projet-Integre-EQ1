@@ -34,13 +34,17 @@ public class StageController {
 
     @PostMapping("createStage")
     public Stage createStage(@RequestBody Stage stage){
-        stage.setOuvert(true);
         return stageService.saveStage(stage);
     }
 
     @PutMapping("updateStage/{id}")
     public Stage updateStage(@RequestBody Stage stage, @PathVariable Long id){
         return stageService.updateStage(stage, id);
+    }
+
+    @PutMapping("/updateStatusStage/{id}")
+    public Stage updateStatusStage(@RequestBody Stage stage, @PathVariable Long id){
+        return stageService.updateStatus(stage, id);
     }
 
 }
