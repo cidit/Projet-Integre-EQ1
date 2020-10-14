@@ -13,6 +13,7 @@ import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
 import CreateStageComponent from './components/CreateStageComponent'
 import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions'
+import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent'
 
 function App() {
   return (
@@ -28,10 +29,11 @@ function App() {
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
           <Route path='/logout' component={Logout} />
-          <Route path="/etudiants" component={ListEtudiantsComponent}></Route>
+          <Route path="/etudiants" component={ListEtudiantsComponent} />
           <Route path='/etudiant' component={HomeEtudiant} />
           <Route path='/createStage' component={CreateStageComponent} />
           <Route path='/gestionnaire' component={GestionnaireOptions} />
+          <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
         </Switch>
        
         </div>

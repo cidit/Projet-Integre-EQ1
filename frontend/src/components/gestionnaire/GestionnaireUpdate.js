@@ -5,16 +5,25 @@ import {Formik, Field, Form, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import GestionnaireService from "../../service/GestionnaireService";
 
+const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/;
+
+const regexMaj = /^(?=.*[A-Z]).*$/;
+const regexMin = /^(?=.*[a-z]).*$/;
+const regexDigit = /^(?=.*[0-9]).*$/;
+
 const formSchema = Yup.object().shape({
     password: Yup.string()
-        .required("Veuillez saisir un password valide")
-        .min(4, "doivent comprendre au moins 6 caractères."),
+        .required("Veuillez saisir un mot de passe valide")
+        .min(6, "doivent comprendre au moins 6 caractères."),
     newPassword: Yup.string()
-        .required("Veuillez saisir un password valide")
-        .min(6, "doivent comprendre au moins 6 caractères."),
+        .required("Veuillez saisir un mot de passe valide")
+        .min(6, "doivent comprendre au moins 6 caractères.")
+        .matches(regexMaj, 'Veuillez saisir au moins 1 majuscule' )
+        .matches(regexMin, 'Veuillez saisir au moins 1 minuscule' )
+        .matches(regexDigit, 'Veuillez saisir au moins 1 chiffre' ),
     confirmPassword: Yup.string()
-        .required("Veuillez saisir un password valide")
-        .min(6, "doivent comprendre au moins 6 caractères."),
+        .oneOf([Yup.ref('newPassword')], "Le mot de passe ne correspond pas")
+        .required('Veuillez confirmer votre mot de passe'),    
 });
 
 export default class GestionnaireUpdate extends Component {
@@ -39,15 +48,6 @@ export default class GestionnaireUpdate extends Component {
                             }}
                             validationSchema={formSchema}
 
-                            validate = {(values) => {
-                                if(values.newPassword === values.confirmPassword){
-                                    console.log("MATCH!")
-                                    if (values.password === values.newPassword) {
-                                        console.log("EXISTE DÉJÀ!")
-                                    }
-                                }
-                            }}
-
                             onSubmit={(values, actions) => {
 
                                 return new Promise(function (resolve) {
@@ -56,13 +56,12 @@ export default class GestionnaireUpdate extends Component {
                                             .then((val) => {
 
                                                 if (val.password !== values.password) {
-                                                    actions.setFieldError('password', "Password invalid")
+                                                    actions.setFieldError('password', "Mot de passe invalid")
                                                 } else {
                                                     values.password = values.newPassword;
-                                                    console.log(values.password);
                                                     GestionnaireService.put(values, localStorage.getItem("id"));
                                                     actions.resetForm();
-                                                    actions.setStatus({message: "Password mise à jour avec succès"});
+                                                    actions.setStatus({message: "Mot de passe mise à jour avec succès"});
 
                                                     setTimeout(() => {
                                                         actions.setStatus({message: ''});
@@ -90,7 +89,7 @@ export default class GestionnaireUpdate extends Component {
                                     <div className="container text-left justify-content-center">
 
                                         <div className="row">
-                                            <div className="col-sm-4 offset-sm-4 text-center">
+                                            <div className="col-sm-6 offset-sm-3 text-center">
                                                 <div className="form-group">
                                                     <label className="control-label"> Old Password </label>
                                                     <Field type="password"
@@ -104,7 +103,7 @@ export default class GestionnaireUpdate extends Component {
                                         </div>
 
                                         <div className="row">
-                                            <div className="col-sm-4 offset-sm-4 text-center">
+                                            <div className="col-sm-6 offset-sm-3 text-center">
                                                 <div className="form-group">
                                                     <label className="control-label"> New Password </label>
                                                     <Field type="password"
@@ -118,7 +117,7 @@ export default class GestionnaireUpdate extends Component {
                                         </div>
 
                                         <div className="row">
-                                            <div className="col-sm-4 offset-sm-4 text-center">
+                                            <div className="col-sm-6 offset-sm-3 text-center">
                                                 <div className="form-group">
                                                     <label className="control-label"> Confirm Password </label>
                                                     <Field type="password"
@@ -132,7 +131,7 @@ export default class GestionnaireUpdate extends Component {
                                         </div>
 
                                         <div className="row">
-                                            <div className="col-sm-4 offset-sm-4 text-center">
+                                            <div className="col-sm-6 offset-sm-3 text-center">
                                                 <div className="form-group">
                                                     <button type="submit"
                                                             className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
