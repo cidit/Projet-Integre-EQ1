@@ -2,7 +2,6 @@ package com.equipe1.service;
 
 import com.equipe1.model.Employeur;
 import com.equipe1.model.Stage;
-import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class StageService {
     private EmployeurService employeurService;
 
     @Autowired
-    EmailService emailService;
+    NotificationCourrielService notificationCourrielService;
 
     public StageService(StageRepository stageRepository){
         this.stageRepository = stageRepository;
@@ -71,7 +70,7 @@ public class StageService {
         Stage stage = newStage;
         stage.setApprouve(true);
         stage.setOuvert(true);
-        emailService.sendMail(stage.getEmployeur());
+        notificationCourrielService.sendMail(stage.getEmployeur());
         return updateStage(stage,id);
     }
 

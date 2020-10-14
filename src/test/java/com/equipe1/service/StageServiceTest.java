@@ -1,6 +1,5 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Employeur;
 import com.equipe1.model.Stage;
 import com.equipe1.repository.StageRepository;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.mockito.Mockito.doReturn;
@@ -29,6 +27,8 @@ import static org.mockito.Mockito.when;
 public class StageServiceTest {
     @Autowired
     private StageService service;
+    @MockBean
+    private NotificationCourrielService notificationCourrielService;
     @MockBean
     private StageRepository repository;
     private Stage s1;
@@ -80,14 +80,13 @@ public class StageServiceTest {
     @DisplayName("saveStage test")
     void testSaveStage() throws Exception {
         // Arrange
-        when(repository.save(s1)).thenReturn(s1);
-        repository.save(s1);
-        when(repository.findById(1L)).thenReturn(Optional.of(s1));
+        doReturn(s1).when(repository).save(any());
         // Act
-        Stage stage = service.updateStatus(s1,1L);
+        Stage stage = service.saveStage(s1);
         // Assert
-        assertTrue(stage.isApprouve());
-        assertTrue(stage.isOuvert());
+        Assertions.assertNotNull(stage);
+        Assertions.assertEquals(s1.getTitre(), stage.getTitre());
+
 
     }
 

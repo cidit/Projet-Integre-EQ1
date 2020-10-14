@@ -11,22 +11,21 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
-public class EmailService {
+public class NotificationCourrielService {
     @Autowired
     private JavaMailSender mailSender;
 
     @Autowired
     Environment environment;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationCourrielService.class);
 
     public void sendMail(User user) throws Exception {
         String mailTo = user.getEmail();
-        System.out.println(user.getEmail() + " email");
-        String mailBody = " M, Mme\n" + " \n" + environment.getProperty("my.message.stageApprouve");
+        String mailBody = "Bonjour " + user.getNom() + " \n" + environment.getProperty("my.message.stageApprouve");
+        LOGGER.info("nom ==> " + user.getNom());
         String subject = "Approbation de votre offre de stage";
         configMail(mailTo, subject , mailBody);
     }

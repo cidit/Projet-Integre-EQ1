@@ -44,7 +44,7 @@ public class EmployeurServiceTest {
 
     @Test
     public void getEmployeurs() {
-        Mockito.when(employeurRepository.findAll()).thenReturn(Arrays.asList(employeur1, employeur2));
+        when(employeurRepository.findAll()).thenReturn(Arrays.asList(employeur1, employeur2));
         List<Employeur> all = employeurService.getEmployeurs();
         Assertions.assertEquals(2, all.size());
     }
