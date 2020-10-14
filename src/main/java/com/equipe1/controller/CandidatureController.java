@@ -1,7 +1,11 @@
 package com.equipe1.controller;
 
+import com.equipe1.model.Candidature;
 import com.equipe1.model.Employeur;
+import com.equipe1.repository.CandidatureRepository;
+import com.equipe1.service.CandidatureService;
 import com.equipe1.service.EmployeurService;
+import com.equipe1.service.StageService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -11,34 +15,30 @@ import java.util.List;
 @RestController
 @RequestMapping("/candidatures")
 public class CandidatureController {
-[[]
-    private EmployeurService employeurService;
 
-    public EmployeurController(EmployeurService employeurService){
-        this.employeurService=employeurService;
+    private CandidatureService candidatureService;
+    public CandidatureController(CandidatureService candidatureService){
+        this.candidatureService = candidatureService;
     }
+
     @GetMapping(value = "findAll")
-    public List<Employeur> getAllEmployeurs(){
-        return employeurService.getEmployeurs();
+    public List<Candidature> getAllCandidatures(){
+        return candidatureService.getCandidatures();
     }
 
     @GetMapping("get")
-    public Employeur getEmployeurById(@RequestParam("idEmployeur") Long idEmployeur){
-        return employeurService.getEmployeurById(idEmployeur);
+    public Candidature getCandidatureById(@RequestParam("idCandidature") Long idCandidature){
+        return candidatureService.findCandidatureById(idCandidature).get();
     }
 
-    @GetMapping("email")
-    public Employeur getEmployeurByEmail(@RequestParam("email") String email){
-        return employeurService.getEmployeurByEmail(email);
-    }
 
-    @PostMapping("createEmploye")
-    public Employeur createEmployeur(@RequestBody Employeur employeur){
-        return employeurService.saveEmployeur(employeur);
+    @PostMapping("createCandidature")
+    public Candidature createCandidature(@RequestParam("idEtudiant") Long idEtudiant, @RequestParam("idStage") Long idStage){
+        return candidatureService.createCandidature(idEtudiant, idStage);
     }
 
     @PutMapping("update/{id}")
-    public Employeur updateEmployeur(@Valid @RequestBody Employeur employeur, @PathVariable Long id){
-        return employeurService.updateEmployeur(employeur, id);
-    []
+    public Candidature updateCandidature(@Valid @RequestBody Candidature candidature, @PathVariable Long id) {
+        return candidatureService.updateCandidature(candidature, id);
+    }
 }

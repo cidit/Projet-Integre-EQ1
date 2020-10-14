@@ -38,6 +38,7 @@ public class CandidatureService {
         Stage stage = stageService.findStageById(idStage).get();
         candidature.setEtudiant(etudiant);
         candidature.setStage(stage);
+        candidatureRepository.save(candidature);
         return candidature;
     }
 

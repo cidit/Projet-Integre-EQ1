@@ -20,12 +20,6 @@ class StageService{
         return axios.post(STAGES_URL_POST,stage)
     }
 
-    //fetch
-    getAllStages(){
-        return fetch(STAGES_URL).then(res =>{ return res.json();
-        }).then(res => {console.log(res)})   
-    }
-
     createNewStage(stage){
         fetch(STAGES_URL_POST, {
             method: 'POST', // or 'PUT'

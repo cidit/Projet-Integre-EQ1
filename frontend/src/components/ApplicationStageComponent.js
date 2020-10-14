@@ -1,44 +1,40 @@
 import React, { Component } from 'react';
 import StageService from '../service/StageService';
+import EtudiantService from "../service/EtudiantService";
+import CandidatureService from "../service/CandidatureService";
 
 
 export default class ApplicationStageComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            stage: [],
+            stages: [],
             employeurId: ""
         };
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.onChangeHandler = this.onChangeHandler.bind(this)
-        this.addStage = this.addStage.bind(this);
+        //this.onChangeHandler = this.onChangeHandler.bind(this)
     }
 
-    addStage() {
-
-        this.props.history.push('/createStage')
-    }
-
-
-    componentDidMount() {
+    async componentDidMount() {
         /*
         var id;
         if (localStorage.getItem("desc") == "Etudiant")
             id = localStorage.getItem("id");
         */
-        StageService.getAllStages().then((res) => { this.setState({ stage: res.data }) })
+        const { data: stages } = await StageService.getStages();
+        this.setState({ stages });
     }
     handleSubmit(event) {
         event.preventDefault()
-        var id;
+        var idEtudiant;
         if (localStorage.getItem("desc") == "Etudiant")
-            id = localStorage.getItem("id");
-
-        this.setState({hasUploadedCV: true});
+            idEtudiant = localStorage.getItem("id");
+        var idStage = event.target.value
+        CandidatureService.post(idEtudiant, idStage);
     }
     render() {
         return (
-
+            <form className="d-flex flex-column">
             <div className="container">
                 <div className="col">
                     <div className="pt-3 mt-3">
@@ -60,7 +56,7 @@ export default class ApplicationStageComponent extends Component {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {this.state.stage.map(
+                                {this.state.stages.map(
                                     stage =>
                                         <tr key={stage.id}>
                                             <td>{stage.titre}</td>
@@ -70,7 +66,7 @@ export default class ApplicationStageComponent extends Component {
                                             <td>{stage.dateFin}</td>
                                             <td>{stage.ville}</td>
                                             <td>{stage.nbHeuresParSemaine}</td>
-                                            <td><button type="submit" className="btn btn-primary" value={stage.id}>Postuler</button></td>
+                                            <td><button type="submit" className="btn btn-primary" value={stage.id} onClick={this.handleSubmit}>Postuler</button></td>
                                         </tr>
                                 )}
                                 </tbody>
@@ -80,6 +76,7 @@ export default class ApplicationStageComponent extends Component {
                     </div>
                 </div>
             </div>
+            </form>
         );
     }
 }
