@@ -33,8 +33,11 @@ public class GestionnaireService {
 
     public Gestionnaire updateGestionnaire(Gestionnaire newGestionnaire, long id){
         Optional<Gestionnaire> optionalGestionnaire = gestionnaireRepository.findById(id);
-        optionalGestionnaire.get().setEmail(newGestionnaire.getEmail());
-        optionalGestionnaire.get().setTelephone(newGestionnaire.getTelephone());
+        optionalGestionnaire.get().setPassword(newGestionnaire.getPassword());
         return gestionnaireRepository.save(optionalGestionnaire.get());
+    }
+
+    public Gestionnaire getGestionnaireByPassword(String password) {
+        return gestionnaireRepository.findByPassword(password);
     }
 }
