@@ -8,7 +8,7 @@ export default class ListEtudiantsComponent extends Component {
     }
 
     approuverCV(){
-
+        
     }
     handleChangeText = event => {
         this.setState({ filter: event.target.value });
