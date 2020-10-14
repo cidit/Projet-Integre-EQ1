@@ -19,6 +19,9 @@ public class StageService {
     @Autowired
     private EmployeurService employeurService;
 
+    @Autowired
+    EmailService emailService;
+
     public StageService(StageRepository stageRepository){
         this.stageRepository = stageRepository;
     }
@@ -64,10 +67,11 @@ public class StageService {
         return stageRepository.save(optionalStage.get());
     }
 
-    public Stage updateStatus(Stage newStage, long id){
+    public Stage updateStatus(Stage newStage, long id) throws Exception {
         Stage stage = newStage;
         stage.setApprouve(true);
         stage.setOuvert(true);
+        emailService.sendMail(stage.getEmployeur());
         return updateStage(stage,id);
     }
 

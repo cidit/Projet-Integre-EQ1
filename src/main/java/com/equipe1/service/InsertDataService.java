@@ -59,17 +59,17 @@ public class InsertDataService {
     @Transactional
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
-        e1.setEmail("banque1@email.com");
+        e1.setEmail("carlos.arturo.ortiz.celis@gmail.com");
         e1.setPassword("12345");
         e1.setAdresse("12345");
-        e1.setNomEntreprise("banque1");
+        e1.setNom("banque1");
         e1.setTelephone("888-888-8888");
         employeurRepository.save(e1);
     }
 
     @Transactional
     public void insertStage(){
-Employeur e2 = employeurRepository.findEmployeurByEmail("banque1@email.com");
+    Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.arturo.ortiz.celis@gmail.com");
 
         Stage stage1 = new Stage();
         stage1.setTitre("stage_1");

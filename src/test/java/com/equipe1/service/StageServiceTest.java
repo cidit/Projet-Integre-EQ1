@@ -78,7 +78,7 @@ public class StageServiceTest {
 
     @Test
     @DisplayName("saveStage test")
-    void testSaveStage() {
+    void testSaveStage() throws Exception {
         // Arrange
         when(repository.save(s1)).thenReturn(s1);
         repository.save(s1);
@@ -93,7 +93,7 @@ public class StageServiceTest {
 
     @Test
     @DisplayName("Successful updateStatus")
-    void updateStatusTest() {
+    void updateStatusTest() throws Exception {
         // Arrange
         when(repository.save(s1)).thenReturn(s1);
         repository.save(s1);
