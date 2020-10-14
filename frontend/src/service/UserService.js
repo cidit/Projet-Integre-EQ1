@@ -2,7 +2,6 @@
 class UserService {
     async getByEmail(email) {
         let data;
-<<<<<<< HEAD
         await fetch("http://localhost:8080/users/get/" + email, {method: "GET"})
 =======
         await fetch("http://localhost:8080/users/get/richard@email.com", {method: "GET"})
