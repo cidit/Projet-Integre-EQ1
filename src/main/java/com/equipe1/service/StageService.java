@@ -1,10 +1,13 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Employeur;
 import com.equipe1.model.Stage;
+import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +16,8 @@ public class StageService {
 
     @Autowired
     private StageRepository stageRepository;
+    @Autowired
+    private EmployeurService employeurService;
 
     public StageService(StageRepository stageRepository){
         this.stageRepository = stageRepository;
@@ -20,6 +25,22 @@ public class StageService {
 
     public List<Stage> getStages(){
         return stageRepository.findAll();
+    }
+
+    public List<Stage> getStagesByEmployeur(Long idEmployeur){
+        Employeur employeur = employeurService.getEmployeurById(idEmployeur);
+
+        List<Stage> stages = stageRepository.findAll();
+        List<Stage> stagesResul = new ArrayList<>();
+
+        for (Stage result: stages) {
+            if(result.getEmployeur().getId() == employeur.getId()){
+                stagesResul.add(result);
+            }
+            System.out.println(result.getEmployeur().getNomEntreprise());
+        }
+
+        return stagesResul;
     }
 
     public Optional<Stage> findStageById(Long idStage){

@@ -32,12 +32,49 @@ class EmployeurService{
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(employeur)} )
-            .then(r => r.json()).then(data => console.log(data));
+            .then(r => r.json());
     }
 
-    async put(employeur){
-        //TODO
+    async put(employeur,id){
+        fetch(baseURL + "/update/"+id,
+            {method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(employeur)} )
+            .then(r => r.json());
     }
 }
 
 export default new EmployeurService()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,16 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class InsertDataService {
 
     @Autowired
-    private EtudiantRepository repository;
+    private EtudiantRepository etudiantRepository;
     @Autowired
-    private EmployeurRepository employeurRepo;
+    private EmployeurRepository employeurRepository;
     @Autowired
     private StageService stageService;
     @Autowired
@@ -28,45 +32,68 @@ public class InsertDataService {
     @Transactional
     public void insertEtudiant(){
         Etudiant e1 = new Etudiant();
-        e1.setNom("toto");
-        e1.setAdresse("432442");
-        e1.setEmail("ttt@gg.v");
-        e1.setMatricule("4324324");
-        e1.setPassword("fewwffew");
-        e1.setPrenom("rrrrr");
-        repository.save(e1);
-        e1 = new Etudiant();
-        e1.setNom("tata");
-        repository.save(e1);
-        e1 = new Etudiant();
-        e1.setNom("tete");
-        repository.save(e1);
+        e1.setAdresse("123456");
+        e1.setEmail("richard@email.com");
+        e1.setMatricule("1772397");
+        e1.setPassword("123456");
+        e1.setPrenom("richard");
+        e1.setNom("truong");
+        e1.setStatutStage("possede stage");
+        e1.setTelephone("555-555-5555");
+        e1.setProgramme("TI");
+        etudiantRepository.save(e1);
 
-        e1.setNom("titi");
-        repository.save(e1);
+        Etudiant e2 = new Etudiant();
+        e2.setAdresse("123456");
+        e2.setEmail("alex@email.com");
+        e2.setMatricule("1501279");
+        e2.setPassword("123456");
+        e2.setPrenom("alex");
+        e2.setNom("truong");
+        e2.setStatutStage("aucun stage");
+        e2.setTelephone("555-444-4444");
+        e2.setProgramme("Secondaire 3");
+        etudiantRepository.save(e2);
     }
 
     @Transactional
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
-        e1.setEmail("toto");
+        e1.setEmail("banque1@email.com");
         e1.setPassword("12345");
         e1.setAdresse("12345");
-        e1.setNom("toto");
-        e1.setTelephone("12345");
-        employeurRepo.save(e1);
+        e1.setNomEntreprise("banque1");
+        e1.setTelephone("888-888-8888");
+        employeurRepository.save(e1);
     }
 
     @Transactional
     public void insertStage(){
+
+        Employeur e1 = new Employeur();
+        e1.setEmail("banque2@email.com");
+        e1.setPassword("12345");
+        e1.setAdresse("12345");
+        e1.setNomEntreprise("banque1");
+        e1.setTelephone("888-888-8888");
+        employeurRepository.save(e1);
+
         Stage stage1 = new Stage();
         stage1.setTitre("stage_1");
         stage1.setDescription("stage informatique ");
-        stage1.setDateDebut(new Date());
-        stage1.setDateFin(new Date());
-        //stage1.setExigences(Arrays.asList("diplome", "experience"));
         stage1.setNbAdmis(2);
+        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
+        stage1.setExigences("aucune exigence");
+        stage1.setProgramme("informatique");
+        stage1.setNbHeuresParSemaine(35);
+        stage1.setVille("Montreal");
+        stage1.setEmployeur(e1);
+
+
         stageService.saveStage(stage1);
+
     }
 
     @Transactional
@@ -74,9 +101,7 @@ public class InsertDataService {
         Gestionnaire g1 = new Gestionnaire();
         g1.setNom("toto");
         g1.setPrenom("toto");
-        g1.setMatricule("12345");
-        g1.setNoBureau("1");
-        g1.setEmail("toto");
+        g1.setEmail("toto@toto.to");
         g1.setPassword("12345");
         g1.setTelephone("12345");
         gestionnaireService.saveGestionnaire(g1);

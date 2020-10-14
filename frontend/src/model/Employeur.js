@@ -1,7 +1,10 @@
-export default class Employeur {
-    id;
+import User from "./User";
+
+export default class Employeur extends User {
+    nomEntreprise = "";
     email = "";
-    nom = "";
+    password = "";
     telephone = "";
     adresse = "";
+    desc = ""
 }

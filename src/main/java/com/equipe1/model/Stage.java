@@ -1,40 +1,43 @@
 package com.equipe1.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Data
-public class Stage {
+public class Stage implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String titre;
-    /*@ManyToOne
-    @JoinColumn(name = "employeur")
-    @JsonBackReference
-    private Employeur employeur;*/
-    private String description;
 
+    private String titre;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Employeur employeur;
+
+    private String description;
     private String exigences;
-    @Temporal(TemporalType.DATE)
-    private Date dateDebut;
-    @Temporal(TemporalType.DATE)
-    private Date dateFin;
+    private LocalDate dateDebut;
+    private LocalDate dateFin;
+    private LocalDate dateLimiteCandidature;
     private float nbHeuresParSemaine;
     private int nbAdmis;
     private boolean isOuvert;
-    private Date dateLimiteCandidature;
     private String programme;
-    public Stage (){
+    private String ville;
+
+    public Stage() {
+        this.isOuvert = true;
 
     }
-    public Stage (String titre) {
-        this.titre = titre;
-    }
 
-}
+  }

@@ -1,40 +1,44 @@
 package com.equipe1.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.validation.constraints.NotBlank;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
-public class Etudiant {
+@AllArgsConstructor
+public class Etudiant extends User {
 
-    @Id
-    @GeneratedValue()
-    private Long id;
+    {
+        this.desc = "Etudiant";
+    }
 
-    private String matricule;
-
-    private String password;
-
+    @NotBlank
     private String nom;
 
+    @NotBlank
     private String prenom;
 
+    @NotBlank
+    private String matricule;
+
+    @NotBlank
     private String programme;
 
-    private String email;
-
-    private String telephone;
-
+    @NotBlank
     private String adresse;
 
     private String statutStage;
 
-    //private Stage stage;
-
+    @Lob
+    @Column(columnDefinition = "BLOB")
+    private byte[] cv;
 }

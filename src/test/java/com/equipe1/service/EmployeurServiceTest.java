@@ -37,7 +37,9 @@ public class EmployeurServiceTest {
     @BeforeEach
     public void setUp() {
         employeur1 = new Employeur("Employeur_test_1", "438-568-896", "589 abc 23 re");
+        employeur1.setEmail("e1@email.com");
         employeur2 = new Employeur("Employeur_test_2", "222-222-222", "abc adress test");
+        employeur2.setEmail("e2@email.com");
     }
 
     @Test
@@ -59,23 +61,34 @@ public class EmployeurServiceTest {
         when(employeurRepository.save(employeur1)).thenReturn(employeur1);
         Employeur employeur = employeurService.saveEmployeur(employeur1);
         assertNotNull(employeur1);
-        assertEquals(employeur.getNom(), employeur.getNom());
+        assertEquals(employeur.getNomEntreprise(), employeur.getNomEntreprise());
     }
 
     @Test
     public void updateEmployeurWhenExists() {
         when(employeurRepository.save(employeur1)).thenReturn(employeur1);
         Employeur emp1 = employeurService.updateEmployeur(employeur1, 1L);
-        assertEquals(emp1.getNom(), "Employeur_test_1");
+        assertEquals(emp1.getNomEntreprise(), "Employeur_test_1");
     }
 
     @Test
     public void updateEmployeurFromNewEmployeur() {
+        employeur1.setId(1L);
+        when(employeurRepository.save(employeur1)).thenReturn(employeur1);
+        employeurRepository.save(employeur1);
+
         Employeur employeur3 = new Employeur("Employeur_update", "444-44-44", "dfg 112-123");
 
         when(employeurRepository.findById(1L)).thenReturn(Optional.of(employeur1));
         when(employeurRepository.save(employeur3)).thenReturn(employeur3);
         Employeur emp = employeurService.updateEmployeur(employeur3, 1L);
-        assertEquals(emp.getNom(), "Employeur_update");
+        assertEquals(emp.getNomEntreprise(), "Employeur_update");
+    }
+
+    @Test
+    public void getEmployeurByEmail() {
+        when(employeurRepository.findEmployeurByEmail("e1@email.com")).thenReturn(employeur1);
+        Employeur employeur = employeurService.getEmployeurByEmail("e1@email.com");
+        assertEquals(employeur, employeur1);
     }
 }

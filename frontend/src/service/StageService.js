@@ -10,6 +10,11 @@ class StageService{
     getStages(){
         return axios.get(STAGES_URL);
     }
+    getStagesByEmployeurId(idEmployeur){
+        return axios.get("http://localhost:8080/stageByEmployeurId?idEmployeur="+ idEmployeur);
+    }
+
+
 
     createStage(stage){
         return axios.post(STAGES_URL_POST,stage)
@@ -32,7 +37,6 @@ class StageService{
           .catch(error => console.error('Error:', error))
           .then(response => console.log('Success:', response));
     }
-
 }
 
 export default new StageService()

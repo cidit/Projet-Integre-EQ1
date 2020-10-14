@@ -1,5 +1,6 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class EtudiantService {
     }
 
     public Etudiant saveEtudiant(Etudiant etudiant){
-        etudiantRepository.save(etudiant);
+        etudiant.setStatutStage("aucun stage");
+        etudiant = etudiantRepository.save(etudiant);
         return etudiant;
     }
 
@@ -39,10 +41,21 @@ public class EtudiantService {
         optionalEtudiant.get().setEmail(newEtudiant.getEmail());
         optionalEtudiant.get().setTelephone(newEtudiant.getTelephone());
         optionalEtudiant.get().setAdresse(newEtudiant.getAdresse());
+        optionalEtudiant.get().setCv(newEtudiant.getCv());
         return etudiantRepository.save(optionalEtudiant.get());
     }
 
     public Optional<Etudiant> findEtudiantByMatricule(String matricule) {
         return etudiantRepository.findByMatricule(matricule);
+    }
+
+    public Etudiant updateEtudiantCV(Etudiant newEtudiant, long id){
+        Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
+        optionalEtudiant.get().setCv(newEtudiant.getCv());
+        return etudiantRepository.save(optionalEtudiant.get());
+    }
+
+    public Etudiant getEtudiantByEmail(String email){
+        return etudiantRepository.findByEmail(email);
     }
 }

@@ -1,4 +1,6 @@
-export default class Etudiant {
+import User from "./User";
+
+export default class Etudiant extends User {
     id;
     matricule = "";
     password = "";
@@ -8,6 +10,7 @@ export default class Etudiant {
     email = "";
     telephone = "";
     adresse = "";
-    statusStage = "";
+    statutStage = "";
     stage;
+    cv;
 }

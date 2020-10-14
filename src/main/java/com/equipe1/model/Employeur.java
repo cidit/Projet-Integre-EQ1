@@ -1,38 +1,41 @@
 package com.equipe1.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
+@Data
 @NoArgsConstructor
-public class Employeur {
+@AllArgsConstructor
+public class Employeur extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String nom;
-
-    private String telephone;
+    {
+        this.desc = "Employeur";
+    }
 
     private String adresse;
 
-    @Column(unique=true)
-    private String email;
+    @JsonBackReference
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="employeur")
+    private Set<Stage> stages= new HashSet<>();
 
-    private String password;
-    //@OneToMany(cascade = CascadeType.ALL,mappedBy = "employeur")
-    //private Set<Stage> stages = new HashSet<Stage>();
+    private String nomEntreprise;
 
-    public Employeur(String nom, String telephone, String adresse){
-        this.nom = nom;
+    public Employeur(String nomEntreprise, String telephone, String adresse) {
+        this.nomEntreprise = nomEntreprise;
         this.telephone = telephone;
         this.adresse = adresse;
     }

@@ -92,7 +92,6 @@ class GestionnaireServiceTest {
         g1.setId(1l);
         g1.setEmail("NONE");
         g1.setTelephone("NONE");
-        g1.setNoBureau("NONE");
         doReturn(g1).when(repository).save(any());
         Gestionnaire gestionnaire = repository.save(g1);
 
@@ -100,7 +99,6 @@ class GestionnaireServiceTest {
         putContent = g1;
         putContent.setEmail("TI");
         putContent.setTelephone("TI");
-        putContent.setNoBureau("TI");
         doReturn(putContent).when(repository).save(any());
         doReturn(Optional.of(g1)).when(repository).findById(g1.getId());
         Gestionnaire updatedGestionnaire = service.updateGestionnaire(putContent, gestionnaire.getId());
@@ -110,7 +108,6 @@ class GestionnaireServiceTest {
         Assertions.assertEquals(g1.getNom(), updatedGestionnaire.getNom());
         Assertions.assertEquals("TI", updatedGestionnaire.getEmail());
         Assertions.assertEquals("TI", updatedGestionnaire.getTelephone());
-        Assertions.assertEquals("TI", updatedGestionnaire.getNoBureau());
     }
 
 }

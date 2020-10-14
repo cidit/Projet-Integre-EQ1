@@ -34,7 +34,7 @@ public class EmployeurController {
     }
 
     @PostMapping("createEmploye")
-    public Employeur createEtudiant(@Valid @RequestBody Employeur employeur){
+    public Employeur createEmployeur(@RequestBody Employeur employeur){
         return employeurService.saveEmployeur(employeur);
     }
 
