@@ -1,77 +1,63 @@
-import React, {Component} from 'react';
-import './../App.css';
-import './../css/Register.css';
-import Employeur from "../model/Employeur";
-import EmployeurService from "../service/EmployeurService";
-import {Redirect} from "react-router-dom";
-import {Formik, Field, Form, ErrorMessage, withFormik} from "formik";
+import React, { Component } from 'react';
+import '../../App.css';
+import Gestionnaire from "../../model/Gestionnaire";
+import {Formik, Field, Form, ErrorMessage} from "formik";
 import * as Yup from 'yup';
-import ValidationChamp from './ValidationChampVide';
-import UserService from "../service/UserService";
-
-
-
-
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{2,4}?[ \\-]*[0-9]{2,4}?$/;
+import GestionnaireService from "../../service/GestionnaireService";
 
 const formSchema = Yup.object().shape({
-    nomEntreprise: Yup.string().required('Veuillez saisir un nom valide'),
-    email: Yup.string()
-        .required('Veuillez saisir un email valide')
-        .email("Courriel inavalide"),
     password: Yup.string()
         .required("Veuillez saisir un password valide")
         .min(6, "doivent comprendre au moins 6 caractères."),
-    telephone: Yup.string().required('Veuillez saisir un telephone valide')
-                            .min(8, "doivent comprendre au moins 8 caractères.")
-                            .max(14,'Numéro de téléphone invalide')
-                            .matches(phoneRegExp, 'Numéro de téléphone invalide' ),
-    adresse: Yup.string().required('Veuillez saisir un adresse valide'),
-
+    newPassword: Yup.string()
+        .required("Veuillez saisir un password valide")
+        .min(6, "doivent comprendre au moins 6 caractères."),
+    confirmPassword: Yup.string()
+        .required("Veuillez saisir un password valide")
+        .min(6, "doivent comprendre au moins 6 caractères."),
 });
 
-
-export default class EmployeurRegister extends Component {
-    
+export default class GestionnaireUpdate extends Component {
     constructor(props) {
         super(props);
-        this.state = new Employeur();
+        this.state = new Gestionnaire();
     }
 
-  
-
     render() {
-
         return (
-
+            
             <div className="container ">
                 <div className="col">
                     <div className="card p-3 m-3">
-                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Nouvel employeur</h5>
+                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Changer votre mot de passe</h5>
+                        
                         <Formik
                             initialValues={{
-                                nomEntreprise: "",
-                                email: "",
                                 password: "",
-                                telephone: "",
-                                adresse: "",
-                                rol: "Employeur"
+                                newPassword: "",
+                                confirmPassword: "",
                             }}
                             validationSchema={formSchema}
+
+                            validate = {(values) => {
+                                if(values.newPassword === values.confirmPassword){
+                                    console.log("MATCH")
+                                }
+                            }}
 
                             onSubmit={(values, actions) => {
 
                                 return new Promise(function (resolve) {
                                     setTimeout(() => {
-                                        resolve(UserService.getByEmail(values.email)
-                                    .then((val) => {
-                                        
-                                        if (val.email === values.email) {
-                                            actions.setFieldError('email', "Adresse électronique déjà utilisée")
+                                        resolve(GestionnaireService.getByPassword(values.password)
+                                            .then((val) => {
+
+                                                if (val.password === values.password) {
+                                                    actions.setFieldError('password', "Password déjà utilisée")
                                                 } else {
-                                                    EmployeurService.post(values);
+                                                    GestionnaireService.put(values, localStorage.getItem("id"));
                                                     actions.resetForm();
-                                                    actions.setStatus({message: "Utilisateur crée avec succès"});
+                                                    actions.setStatus({message: "Password mise à jour avec succès"});
 
                                                     setTimeout(() => {
                                                         actions.setStatus({message: ''});
@@ -101,35 +87,7 @@ export default class EmployeurRegister extends Component {
                                         <div className="row">
                                             <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
-                                                    <label className="control-label">Nom de l'entreprise</label>
-                                                    <Field type="text"
-                                                           name="nomEntreprise"
-                                                           className="form-control"
-                                                           />
-                                                    <ErrorMessage name="nomEntreprise">{msg => <div
-                                                        className="badge alert-danger">{msg}</div>}</ErrorMessage>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="row">
-                                            <div className="col-sm-4 offset-sm-4 text-center">
-                                                <div className="form-group">
-                                                    <label className="control-label"> Email </label>
-                                                    <Field type="email"
-                                                           name="email"
-                                                           className="form-control"
-                                                           placeholder="example@email.com"/>
-                                                    <ErrorMessage name="email">{msg => <div
-                                                        className="badge alert-danger"> {msg}</div>}</ErrorMessage>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="row">
-                                            <div className="col-sm-4 offset-sm-4 text-center">
-                                                <div className="form-group">
-                                                    <label className="control-label"> Password </label>
+                                                    <label className="control-label"> Old Password </label>
                                                     <Field type="password"
                                                            name="password"
                                                            className="form-control"
@@ -143,12 +101,12 @@ export default class EmployeurRegister extends Component {
                                         <div className="row">
                                             <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
-                                                    <label className="control-label"> Téléphone </label>
-                                                    <Field type="text"
-                                                           name="telephone"
+                                                    <label className="control-label"> New Password </label>
+                                                    <Field type="password"
+                                                           name="newPassword"
                                                            className="form-control"
-                                                           />
-                                                    <ErrorMessage name="telephone">{msg => <div
+                                                          />
+                                                    <ErrorMessage name="newPassword">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
                                             </div>
@@ -157,12 +115,12 @@ export default class EmployeurRegister extends Component {
                                         <div className="row">
                                             <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
-                                                    <label className="control-label"> adresse </label>
-                                                    <Field type="text"
-                                                           name="adresse"
+                                                    <label className="control-label"> Confirm Password </label>
+                                                    <Field type="password"
+                                                           name="confirmPassword"
                                                            className="form-control"
                                                           />
-                                                    <ErrorMessage name="adresse">{msg => <div
+                                                    <ErrorMessage name="confirmPassword">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
                                             </div>
@@ -186,25 +144,14 @@ export default class EmployeurRegister extends Component {
                                             </div>
                                         </div>
 
-                                        <div className="row">
-
-                                            <div className="col-sm-4 offset-sm-4 text-center">
-                                                <span className="font-weight-light">Vous avez déjà un compte? </span>
-                                                <a href="/login" className="stretched-link"
-                                                  >Se connecter </a>
-
-                                            </div>
-                                        </div>
                                     </div>
                                 </Form>
                             )}
                         </Formik>
-
                     </div>
                 </div>
             </div>
+
         );
-
-
     }
 }
