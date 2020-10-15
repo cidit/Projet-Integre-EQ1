@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Employeur from '../model/Employeur';
 import EmployeurService from '../service/EmployeurService'
-import CreateStageComponent from './CreateStageComponent';
+import CreateStageComponent from './stage/CreateStageComponent';
 import { Link } from 'react-router-dom';
 
 class HomeEmployeur extends Component {
@@ -32,27 +32,7 @@ class HomeEmployeur extends Component {
 
         return (
             <div className="container-fluid">
-                <div className="row">
-                    <div className=" col-3">
-                    <div className="row">
-                        <button onClick={this.handleCreateStage.bind(this)}>Create stage</button>
-                        </div>
-
-                        <div className="row">   
-                        <button onClick={this.handleCreateStage.bind(this)}>Voir mes stages</button>
-                        </div>
-                    </div>
-
-                    <div className=" col-9">
-                        {this.state.createStage &&
-                            <CreateStageComponent employeur= {this.state.employeur}/>
-                        }
-
-                        
-                    </div>
-                </div>
-
-                
+               
 
 
             </div>

@@ -44,7 +44,7 @@ public class EmployeurServiceTest {
 
     @Test
     public void getEmployeurs() {
-        Mockito.when(employeurRepository.findAll()).thenReturn(Arrays.asList(employeur1, employeur2));
+        when(employeurRepository.findAll()).thenReturn(Arrays.asList(employeur1, employeur2));
         List<Employeur> all = employeurService.getEmployeurs();
         Assertions.assertEquals(2, all.size());
     }
@@ -61,14 +61,14 @@ public class EmployeurServiceTest {
         when(employeurRepository.save(employeur1)).thenReturn(employeur1);
         Employeur employeur = employeurService.saveEmployeur(employeur1);
         assertNotNull(employeur1);
-        assertEquals(employeur.getNomEntreprise(), employeur.getNomEntreprise());
+        assertEquals(employeur.getNom(), employeur.getNom());
     }
 
     @Test
     public void updateEmployeurWhenExists() {
         when(employeurRepository.save(employeur1)).thenReturn(employeur1);
         Employeur emp1 = employeurService.updateEmployeur(employeur1, 1L);
-        assertEquals(emp1.getNomEntreprise(), "Employeur_test_1");
+        assertEquals(emp1.getNom(), "Employeur_test_1");
     }
 
     @Test
@@ -82,7 +82,7 @@ public class EmployeurServiceTest {
         when(employeurRepository.findById(1L)).thenReturn(Optional.of(employeur1));
         when(employeurRepository.save(employeur3)).thenReturn(employeur3);
         Employeur emp = employeurService.updateEmployeur(employeur3, 1L);
-        assertEquals(emp.getNomEntreprise(), "Employeur_update");
+        assertEquals(emp.getNom(), "Employeur_update");
     }
 
     @Test

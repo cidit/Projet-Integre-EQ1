@@ -34,7 +34,6 @@ public class StageController {
 
     @PostMapping("createStage")
     public Stage createStage(@RequestBody Stage stage){
-        stage.setOuvert(true);
         return stageService.saveStage(stage);
     }
 
@@ -44,7 +43,8 @@ public class StageController {
     }
 
     @PutMapping("/updateStatusStage/{id}")
-    public Stage updateStatusStage(@RequestBody Stage stage, @PathVariable Long id){
+
+    public Stage updateStatusStage(@RequestBody Stage stage, @PathVariable Long id) throws Exception {
         return stageService.updateStatus(stage, id);
     }
 

@@ -1,4 +1,3 @@
-import EmployeurRegister from "../components/EmployeurRegister";
 import Employeur from './Employeur'
 export default class Stage{
     id;
@@ -10,7 +9,8 @@ export default class Stage{
     nbHeuresParSemaine= "";
     salaire= "";
     nbAdmis= "";
-    ouvert= "";
+    isOuvert = false;
+    isApprouve=false;
     dateLimiteCandidature= "";
     programme= "";
     ville ="";

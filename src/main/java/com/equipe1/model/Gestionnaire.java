@@ -20,8 +20,5 @@ public class Gestionnaire extends User {
     }
 
     @NotBlank
-    private String nom;
-
-    @NotBlank
     private String prenom;
 }

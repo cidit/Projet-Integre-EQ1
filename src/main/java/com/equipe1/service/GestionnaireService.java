@@ -37,4 +37,8 @@ public class GestionnaireService {
         optionalGestionnaire.get().setTelephone(newGestionnaire.getTelephone());
         return gestionnaireRepository.save(optionalGestionnaire.get());
     }
+
+    public Gestionnaire getGestionnaireByPassword(String password) {
+        return gestionnaireRepository.findByPassword(password);
+    }
 }

@@ -1,6 +1,5 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Employeur;
 import com.equipe1.model.Stage;
 import com.equipe1.repository.StageRepository;
 import org.junit.jupiter.api.Assertions;
@@ -13,19 +12,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class StageServiceTest {
     @Autowired
     private StageService service;
+    @MockBean
+    private NotificationCourrielService notificationCourrielService;
     @MockBean
     private StageRepository repository;
     private Stage s1;
@@ -75,7 +78,7 @@ public class StageServiceTest {
 
     @Test
     @DisplayName("saveStage test")
-    void testSaveStage() {
+    void testSaveStage() throws Exception {
         // Arrange
         doReturn(s1).when(repository).save(any());
         // Act
@@ -83,6 +86,34 @@ public class StageServiceTest {
         // Assert
         Assertions.assertNotNull(stage);
         Assertions.assertEquals(s1.getTitre(), stage.getTitre());
+
+
+    }
+
+    @Test
+    @DisplayName("Successful updateStatus")
+    void updateStatusTest() throws Exception {
+        // Arrange
+        when(repository.save(s1)).thenReturn(s1);
+        repository.save(s1);
+        when(repository.findById(1L)).thenReturn(Optional.of(s1));
+        // Act
+        Stage stage = service.updateStatus(s1,1L);
+        // Assert
+        assertTrue(stage.isApprouve());
+        assertTrue(stage.isOuvert());
+    }
+
+    @Test
+    @DisplayName("Successful getStagesByEmployeur")
+    void getStagesByEmployeurTest() {
+        // Arrange
+        doReturn(Optional.of(s1)).when(repository).findById(1l);
+        // Act
+        Optional<Stage> stage = service.findStageById(1l);
+        // Assert
+        Assertions.assertTrue(stage.isPresent());
+        Assertions.assertSame(stage.get(), s1);
     }
 
     @Test

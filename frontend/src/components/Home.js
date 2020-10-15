@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Register from './RegisterComponent';
-import HomeEmployeur from './HomeEmployeur';
+import ListStagesComponent from './stage/ListStageComponent';
 
 export default class Home extends Component {
     constructor(props) {
@@ -16,7 +15,7 @@ export default class Home extends Component {
 
     render(){
         return(
-           <div></div>
+           <div><ListStagesComponent/></div>
         );
     }
 }
