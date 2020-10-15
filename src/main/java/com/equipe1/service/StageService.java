@@ -2,7 +2,6 @@ package com.equipe1.service;
 
 import com.equipe1.model.Employeur;
 import com.equipe1.model.Stage;
-import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +18,9 @@ public class StageService {
     @Autowired
     private EmployeurService employeurService;
 
+    @Autowired
+    NotificationCourrielService notificationCourrielService;
+
     public StageService(StageRepository stageRepository){
         this.stageRepository = stageRepository;
     }
@@ -29,18 +31,14 @@ public class StageService {
 
     public List<Stage> getStagesByEmployeur(Long idEmployeur){
         Employeur employeur = employeurService.getEmployeurById(idEmployeur);
+        List<Stage> stages = new ArrayList<>();
 
-        List<Stage> stages = stageRepository.findAll();
-        List<Stage> stagesResul = new ArrayList<>();
-
-        for (Stage result: stages) {
-            if(result.getEmployeur().getId() == employeur.getId()){
-                stagesResul.add(result);
+        for (Stage stageTemp: stageRepository.findAll()) {
+            if(stageTemp.getEmployeur().getId() == employeur.getId()){
+                stages.add(stageTemp);
             }
-            System.out.println(result.getEmployeur().getNomEntreprise());
         }
-
-        return stagesResul;
+        return stages;
     }
 
     public Optional<Stage> findStageById(Long idStage){
@@ -62,9 +60,18 @@ public class StageService {
         optionalStage.get().setNbHeuresParSemaine(newStage.getNbHeuresParSemaine());
         optionalStage.get().setNbAdmis(newStage.getNbAdmis());
         optionalStage.get().setOuvert(newStage.isOuvert());
+        optionalStage.get().setApprouve(newStage.isApprouve());
         optionalStage.get().setDateLimiteCandidature(newStage.getDateLimiteCandidature());
         optionalStage.get().setProgramme(newStage.getProgramme());
         return stageRepository.save(optionalStage.get());
+    }
+
+    public Stage updateStatus(Stage newStage, long id) throws Exception {
+        Stage stage = newStage;
+        stage.setApprouve(true);
+        stage.setOuvert(true);
+        notificationCourrielService.sendMail(stage.getEmployeur());
+        return updateStage(stage,id);
     }
 
 }

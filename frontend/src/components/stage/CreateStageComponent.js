@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Stage from '../model/Stage'
-import StageService from '../service/StageService';
+import Stage from '../../model/Stage'
+import StageService from '../../service/StageService';
 import { Field, Form, ErrorMessage, withFormik } from "formik";
-import Employeur from '../model/Employeur';
-import '../css/Forms.css';
-import ValidationChamp from './ValidationChampVide'
-import ValidationDate from './ValidationDate'
-import EmployeurService from "../service/EmployeurService";
+import Employeur from '../../model/Employeur';
+import '../../App.css';
+import ValidationChamp from '../validation/ValidationChampVide'
+import ValidationDate from '../validation/ValidationDate'
+import EmployeurService from "../../service/EmployeurService";
 
 const isRequired = (message) => (value) => (!!value ? undefined : message);
 
@@ -139,11 +139,10 @@ class CreateStageComponent extends Component {
 }
 
 export default withFormik({
+
+  
   mapPropsToValues(props) {
-
-
     return new Stage;
-
   },
 
   validate(values) {
