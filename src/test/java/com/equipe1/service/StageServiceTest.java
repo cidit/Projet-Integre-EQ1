@@ -38,11 +38,13 @@ public class StageServiceTest {
 
     @BeforeEach
     public void setUp() {
+        employeur= new Employeur();
         s1 = new Stage();
         s1.setTitre("java");
         s2 = new Stage();
         s2.setTitre("c++");
-        employeur = new Employeur();
+        s1.setEmployeur(employeur);
+        s2.setEmployeur(employeur);
 
     }
 
