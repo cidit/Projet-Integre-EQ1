@@ -67,4 +67,11 @@ public class StageService {
         return stageRepository.save(optionalStage.get());
     }
 
+    public Stage updateStatus(Stage newStage, long id){
+        Stage stage = newStage;
+        stage.setApprouve(true);
+        stage.setOuvert(true);
+        return updateStage(stage,id);
+    }
+
 }

@@ -14,6 +14,24 @@ class StageService{
         return axios.get("http://localhost:8080/stageByEmployeurId?idEmployeur="+ idEmployeur);
     }
 
+    async getById(id) {
+        let data;
+        await fetch("http://localhost:8080/getStage?idStage=" + id, {method: "GET"})
+            .then(r => data = r.json())
+            .catch(error => data = {});
+        return data;
+    }
+
+    async updateStage(stage, id){
+        fetch( "http://localhost:8080/updateStatusStage/"+ id,
+            {method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(stage)} )
+            .then(r => r.json());
+
+    }
 
 
     createStage(stage){

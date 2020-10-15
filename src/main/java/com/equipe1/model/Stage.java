@@ -34,6 +34,7 @@ public class Stage implements Serializable {
     private boolean isOuvert;
     private String programme;
     private String ville;
+    private boolean isApprouve;
 
     public Stage() {
         this.isOuvert = true;

@@ -43,4 +43,9 @@ public class StageController {
         return stageService.updateStage(stage, id);
     }
 
+    @PutMapping("/updateStatusStage/{id}")
+    public Stage updateStatusStage(@RequestBody Stage stage, @PathVariable Long id){
+        return stageService.updateStatus(stage, id);
+    }
+
 }

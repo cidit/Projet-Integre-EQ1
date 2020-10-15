@@ -12,6 +12,7 @@ import HomeEtudiant from "./components/HomeEtudiant";
 import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
 import CreateStageComponent from './components/CreateStageComponent'
+import StageVeto from "./components/StageVeto";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
       <main>
         <HeaderComponent />
         <div className="container">
+
+            <StageVeto/>
          
         <Switch>
           <Route path="/" exact component={Home}/>

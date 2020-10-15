@@ -46,6 +46,7 @@ export default class ListStagesComponent extends Component {
                                         <th> date Finale </th>
                                         <th> Ville </th>
                                         <th> Heures par semaine </th>
+                                        <th> Veto </th>
                                     </tr>
                                 </thead>
                                 <tbody>

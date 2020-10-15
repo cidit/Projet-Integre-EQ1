@@ -65,8 +65,7 @@ class HeaderComponent extends Component {
 
     render() {
         return (
-            <div className="container-fluid
-            ">
+            <div className="container-fluid">
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Navbar.Brand href="/">
                     Projet intégré équipe 1
