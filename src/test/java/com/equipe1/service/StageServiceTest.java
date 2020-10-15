@@ -16,20 +16,25 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class StageServiceTest {
     @Autowired
-    private StageService service;
+    private StageService stageService;
     @MockBean
-    private StageRepository repository;
+    private StageRepository stageRepository;
+
+    @MockBean
+    private EmployeurService employeurService;
+
     private Stage s1;
     private Stage s2;
+    Employeur employeur;
 
     @BeforeEach
     public void setUp() {
@@ -37,15 +42,17 @@ public class StageServiceTest {
         s1.setTitre("java");
         s2 = new Stage();
         s2.setTitre("c++");
+        employeur = new Employeur();
+
     }
 
     @Test
     @DisplayName("getAll test")
     void testGetStages() {
         // Arrange
-        doReturn(Arrays.asList(s1, s2)).when(repository).findAll();
+        doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
         // Act
-        List<Stage> stages = service.getStages();
+        List<Stage> stages = stageService.getStages();
         // Assert
         Assertions.assertEquals(2, stages.size());
     }
@@ -54,9 +61,9 @@ public class StageServiceTest {
     @DisplayName("Successful findById test")
     void testFindStageById() {
         // Arrange
-        doReturn(Optional.of(s1)).when(repository).findById(1l);
+        doReturn(Optional.of(s1)).when(stageRepository).findById(1l);
         // Act
-        Optional<Stage> stage = service.findStageById(1l);
+        Optional<Stage> stage = stageService.findStageById(1l);
         // Assert
         Assertions.assertTrue(stage.isPresent());
         Assertions.assertSame(stage.get(), s1);
@@ -66,9 +73,9 @@ public class StageServiceTest {
     @DisplayName("Unsuccessful findById test")
     void testFindStageByIdNotFound() {
         // Arrange
-        doReturn(Optional.empty()).when(repository).findById(1l);
+        doReturn(Optional.empty()).when(stageRepository).findById(1l);
         // Act
-        Optional<Stage> stage = service.findStageById(1l);
+        Optional<Stage> stage = stageService.findStageById(1l);
         // Assert
         Assertions.assertFalse(stage.isPresent());
     }
@@ -77,9 +84,9 @@ public class StageServiceTest {
     @DisplayName("saveStage test")
     void testSaveStage() {
         // Arrange
-        doReturn(s1).when(repository).save(any());
+        doReturn(s1).when(stageRepository).save(any());
         // Act
-        Stage stage = service.saveStage(s1);
+        Stage stage = stageService.saveStage(s1);
         // Assert
         Assertions.assertNotNull(stage);
         Assertions.assertEquals(s1.getTitre(), stage.getTitre());
@@ -100,8 +107,8 @@ public class StageServiceTest {
         s1.setExigences("Etre empathique");
         s1.setDescription("Ceci un stage en java");
         //s1.setEmployeur(new Employeur("None", "None", "None"));
-        doReturn(s1).when(repository).save(any());
-        Stage stage = repository.save(s1);
+        doReturn(s1).when(stageRepository).save(any());
+        Stage stage = stageRepository.save(s1);
         Stage stageUpdate;
         stageUpdate = s1;
         stageUpdate.setProgramme("Informatique");
@@ -114,9 +121,9 @@ public class StageServiceTest {
         stageUpdate.setExigences("Etre en 3eme annee de DEC");
         stageUpdate.setDescription("Ceci un stage en java pour les etudiants en 3eme annee de DEC");
         //stageUpdate.setEmployeur(new Employeur("NB", "111-222-3333", "Montreal, QC"));
-        doReturn(stageUpdate).when(repository).save(any());
-        doReturn(Optional.of(s1)).when(repository).findById(s1.getId());
-        Stage updatedStage = service.updateStage(stageUpdate, stage.getId());
+        doReturn(stageUpdate).when(stageRepository).save(any());
+        doReturn(Optional.of(s1)).when(stageRepository).findById(s1.getId());
+        Stage updatedStage = stageService.updateStage(stageUpdate, stage.getId());
         // Assert
         Assertions.assertNotNull(updatedStage);
         Assertions.assertEquals(1l, updatedStage.getId());
@@ -133,5 +140,16 @@ public class StageServiceTest {
         //Assertions.assertEquals(new Employeur("NB", "111-222-3333", "Montreal, QC"), updatedStage.getEmployeur());
     }
 
-    // manque test unitiare get stage by employer dans service !!!
+    @Test
+    @DisplayName("Successful getStagesByEmployeur")
+    void getStagesByEmployeurTest() {
+        // Arrange
+        when(employeurService.getEmployeurById(1L)).thenReturn(employeur);
+        when(stageRepository.findAll()).thenReturn(Arrays.asList(s1,s2));
+        // Act
+        List<Stage> stages = stageService.getStagesByEmployeur(1L);
+        // Assert
+        Assertions.assertEquals(2, stages.size());
+    }
+
 }
