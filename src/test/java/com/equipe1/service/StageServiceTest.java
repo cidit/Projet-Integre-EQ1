@@ -1,6 +1,8 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Employeur;
 import com.equipe1.model.Stage;
+import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.StageRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,12 +36,19 @@ public class StageServiceTest {
     private Stage s1;
     private Stage s2;
 
+    @MockBean
+    private EmployeurRepository employeurRepository;
+    private Employeur employeur;
+
     @BeforeEach
     public void setUp() {
         s1 = new Stage();
         s1.setTitre("java");
         s2 = new Stage();
         s2.setTitre("c++");
+
+        employeur = new Employeur("Employeur_test_1", "438-568-896", "589 abc 23 re");
+        employeur.setEmail("e1@email.com");
     }
 
     @Test
@@ -108,12 +117,12 @@ public class StageServiceTest {
     @DisplayName("Successful getStagesByEmployeur")
     void getStagesByEmployeurTest() {
         // Arrange
-        doReturn(Optional.of(s1)).when(repository).findById(1l);
+        employeur.setId(1l);
+        doReturn(Optional.of(employeur)).when(employeurRepository).findById(1l);
         // Act
-        Optional<Stage> stage = service.findStageById(1l);
+        List<Stage> stage = service.getStagesByEmployeur(1l);
         // Assert
-        Assertions.assertTrue(stage.isPresent());
-        Assertions.assertSame(stage.get(), s1);
+        Assertions.assertTrue(stage.size() == 0);
     }
 
     @Test
@@ -163,6 +172,4 @@ public class StageServiceTest {
         Assertions.assertEquals(LocalDate.of(2021, 8, 21), updatedStage.getDateFin());
         //Assertions.assertEquals(new Employeur("NB", "111-222-3333", "Montreal, QC"), updatedStage.getEmployeur());
     }
-
-    // manque test unitiare get stage by employer dans service !!!
 }
