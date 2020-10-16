@@ -85,7 +85,7 @@ export default class ListEtudiantsComponent extends Component {
                                         <td>{etudiant.statutStage}</td>
                                         <td>
                                             <a href="" download="cv">
-                                            <img src={require('../images/PDF_file_icon.svg')} alt="PDFImage" width={150} height={30}/>
+                                            <img src={require('../../images/PDF_file_icon.svg')} alt="PDFImage" width={150} height={30}/>
                                             </a>
                                         </td>
                                         <td>Approuvé</td>
