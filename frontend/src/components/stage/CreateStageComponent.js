@@ -153,15 +153,15 @@ export default withFormik({
     const errors = {}
 
     if (startDate < today) {
-      errors.dateDebut = 'la Date de début ne doit être inférieure ou égale à la date d\'aujourd\'hui'
+      errors.dateDebut = 'la date de début ne doit être inférieure ou égale à la date d\'aujourd\'hui'
     }
 
     if (finalDate <= startDate) {
       errors.dateFin = 'La date finale ne doit pas être inférieure à la date initiale. '
     }
 
-    if (limitApplicationDate < startDate || limitApplicationDate > finalDate) {
-      errors.dateLimiteCandidature = 'la date est inférieure à la date de début ou supérieur à la date finale'
+    if (limitApplicationDate > startDate) {
+      errors.dateLimiteCandidature = 'la date est inférieure à la date de début'
     }
 
     if (!values) {

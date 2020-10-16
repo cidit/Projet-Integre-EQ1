@@ -13,17 +13,13 @@ class StageService{
     getStagesByEmployeurId(idEmployeur){
         return axios.get("http://localhost:8080/stageByEmployeurId?idEmployeur="+ idEmployeur);
     }
-
+    getStagesEtudiant(idEtudiant){
+        return axios.get("http://localhost:8080/stagesEtudiant?idEtudiant="+ idEtudiant);
+    }
 
 
     createStage(stage){
         return axios.post(STAGES_URL_POST,stage)
-    }
-
-    //fetch
-    getAllStages(){
-        return fetch(STAGES_URL).then(res =>{ return res.json();
-        }).then(res => {console.log(res)})   
     }
 
     createNewStage(stage){

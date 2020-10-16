@@ -1,6 +1,8 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Candidature;
 import com.equipe1.model.Employeur;
+import com.equipe1.model.Etudiant;
 import com.equipe1.model.Stage;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class StageService {
     private StageRepository stageRepository;
     @Autowired
     private EmployeurService employeurService;
+    @Autowired
+    private CandidatureService candidatureService;
 
     @Autowired
     NotificationCourrielService notificationCourrielService;
@@ -39,6 +43,24 @@ public class StageService {
             }
         }
         return stages;
+    }
+    public List<Stage> getStagesEtudiant(Long idEtudiant){
+        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(idEtudiant);
+        List<Stage> stages = stageRepository.findAll();
+        List<Stage> stagesResul = new ArrayList<>();
+        boolean isStageStudentCanApply;
+        System.out.println(stages);
+        for (Stage resultStage: stages) {
+            isStageStudentCanApply = true;
+            for (Candidature resultCandidature: candidatures) {
+                if(resultStage.getId().equals(resultCandidature.getStage().getId()))
+                    isStageStudentCanApply = false;
+            }
+            if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.isApprouve())
+                stagesResul.add(resultStage);
+        }
+
+        return stagesResul;
     }
 
     public Optional<Stage> findStageById(Long idStage){

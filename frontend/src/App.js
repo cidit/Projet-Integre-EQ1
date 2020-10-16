@@ -32,7 +32,9 @@ function App() {
           <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent} />
           <Route path='/etudiant' component={HomeEtudiant} />
+          <Route path='/offrestage' component={ListeStageEtudiantComponent} />
           <Route path='/createStage' component={CreateStageComponent} />
+          <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
           <Route path='/gestionnaire' component={GestionnaireOptions} />
           <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
         </Switch>
