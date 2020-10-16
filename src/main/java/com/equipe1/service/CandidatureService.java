@@ -41,7 +41,7 @@ public class CandidatureService {
     }
     public List<Candidature> findCandidatureByEtudiant(Long idEtudiant){
 
-        Etudiant etudiant = etudiantService.findEtudiantById(idEtudiant).get();
+        Etudiant etudiant = etudiantRepository.findById(idEtudiant).get();
         List<Candidature> candidatures = candidatureRepository.findAll();
         List<Candidature> candidatureList = new ArrayList<>();
         for (Candidature result: candidatures) {
@@ -58,12 +58,10 @@ public class CandidatureService {
     public Candidature createCandidature(Long idEtudiant, Long idStage){
         Candidature candidature = new Candidature();
         candidature.setStatut("En cours");
-        Etudiant etudiant = etudiantRepository.findById(idEtudiant).get();
-        Stage stage = stageRepository.findById(idStage).get();
-        System.out.println(stage);
-        System.out.println(etudiant);
-        candidature.setEtudiant(etudiant);
-        candidature.setStage(stage);
+        Optional<Stage> stage = stageRepository.findById(idStage);
+        Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudiant);
+        candidature.setEtudiant(etudiant.get());
+        candidature.setStage(stage.get());
         candidatureRepository.save(candidature);
         return candidature;
     }

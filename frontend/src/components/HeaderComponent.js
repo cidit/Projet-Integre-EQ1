@@ -17,6 +17,7 @@ function GestionnaireNav(){
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/etudiants">Liste d'étudiants</Nav.Link>
+            <Nav.Link href="/gestionnaire">Votre profil</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GestionnaireRepository extends JpaRepository<Gestionnaire, Long> {
 
-
+    Gestionnaire findByPassword(String password);
 }

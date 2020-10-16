@@ -1,5 +1,6 @@
 package com.equipe1.controller;
 
+import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.User;
 import com.equipe1.repository.UserRepository;
@@ -29,5 +30,14 @@ public class UserController {
             return null;
         var user = optionalUser.get();
         return user.getPassword().equals(password) ? user: null;
+    }
+
+    @GetMapping("/get/{email}")
+    public User getUserByEmail(@PathVariable String email){
+        var optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isEmpty())
+            return null;
+        var user = optionalUser.get();
+        return user.getEmail().equals(email) ? user: null;
     }
 }
