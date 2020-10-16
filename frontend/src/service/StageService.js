@@ -1,29 +1,29 @@
 import axios from 'axios'
 
-const STAGES_URL = "http://localhost:8080/stages";
-const STAGES_URL_POST = "http://localhost:8080/createStage";
+const STAGES_URL = "http://localhost:8080/stage";
+const STAGES_URL_POST = "http://localhost:8080/stage/createStage";
 
 
 class StageService{
 
     //axiom
     getStages(){
-        return axios.get(STAGES_URL);
+        return axios.get(STAGES_URL + "/findAll");
     }
     getStagesByEmployeurId(idEmployeur){
-        return axios.get("http://localhost:8080/stageByEmployeurId?idEmployeur="+ idEmployeur);
+        return axios.get("http://localhost:8080/stage/stageByEmployeurId?idEmployeur="+ idEmployeur);
     }
 
     async getById(id) {
         let data;
-        await fetch("http://localhost:8080/getStage?idStage=" + id, {method: "GET"})
+        await fetch("http://localhost:8080/stage/getStage?idStage=" + id, {method: "GET"})
             .then(r => data = r.json())
             .catch(error => data = {});
         return data;
     }
 
     async updateStage(stage, id){
-        fetch( "http://localhost:8080/updateStatusStage/"+ id,
+        fetch( "http://localhost:8080/stage/updateStatusStage/"+ id,
             {method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ class StageService{
 
     //fetch
     getAllStages(){
-        return fetch(STAGES_URL).then(res =>{ return res.json();
+        return fetch(STAGES_URL + "/findAll").then(res =>{ return res.json();
         }).then(res => {console.log(res)})   
     }
 

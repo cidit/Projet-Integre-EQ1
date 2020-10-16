@@ -15,5 +15,4 @@ export default class Stage{
     programme= "";
     ville ="";
     employeur= new Employeur();
-    isApprouve = false;
 }

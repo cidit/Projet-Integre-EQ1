@@ -66,12 +66,11 @@ public class StageService {
         return stageRepository.save(optionalStage.get());
     }
 
-
     public Stage updateStatus(Stage newStage, long id) throws Exception {
         Stage stage = newStage;
         stage.setApprouve(true);
         stage.setOuvert(true);
-        notificationCourrielService.sendMail(stage.getEmployeur());
+//        notificationCourrielService.sendMail(stage.getEmployeur());
         return updateStage(stage,id);
     }
 

@@ -14,6 +14,7 @@ import Logout from './components/Logout';
 import CreateStageComponent from './components/stage/CreateStageComponent'
 import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions'
 import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
+import StageVeto from "./components/StageVeto";
 
 function App() {
   return (

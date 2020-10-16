@@ -1,6 +1,5 @@
 package com.equipe1.controller;
 
-import com.equipe1.model.Employeur;
 import com.equipe1.model.Stage;
 import com.equipe1.service.StageService;
 import org.springframework.web.bind.annotation.*;
@@ -8,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+
 @CrossOrigin(origins ="http://localhost:3000")
 @RestController
+@RequestMapping("/stage")
 public class StageController {
     private StageService stageService;
 
@@ -17,7 +18,7 @@ public class StageController {
         this.stageService = stageService;
     }
 
-    @GetMapping(value = "/stages")
+    @GetMapping(value = "/findAll")
     public List<Stage> getAllStages(){
         return stageService.getStages();
     }
@@ -43,9 +44,7 @@ public class StageController {
     }
 
     @PutMapping("/updateStatusStage/{id}")
-
     public Stage updateStatusStage(@RequestBody Stage stage, @PathVariable Long id) throws Exception {
         return stageService.updateStatus(stage, id);
     }
-
 }
