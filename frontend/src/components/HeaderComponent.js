@@ -18,6 +18,7 @@ function GestionnaireNav(){
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/etudiants">Liste d'étudiants</Nav.Link>
             <Nav.Link href="/gestionnaire">Votre profil</Nav.Link>
+            <Nav.Link href="/stageVeto">Liste des stages</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );

@@ -31,6 +31,7 @@ function App() {
           <Route path='/create' component={EtudiantRegister} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
+          <Route path='/stageVeto' component={StageVeto} />
           <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent}></Route>
           <Route path='/etudiant' component={HomeEtudiant} />
