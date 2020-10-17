@@ -69,7 +69,7 @@ public class InsertDataService {
 
     @Transactional
     public void insertStage(){
-    Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.arturo.ortiz.celis@gmail.com");
+        Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.arturo.ortiz.celis@gmail.com");
 
         Stage stage1 = new Stage();
         stage1.setTitre("stage_1");
@@ -83,6 +83,22 @@ public class InsertDataService {
         stage1.setNbHeuresParSemaine(35);
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
+        stageService.saveStage(stage1);
+
+        stage1 = new Stage();
+        stage1.setTitre("stage_2");
+        stage1.setDescription("stage informatique ");
+        stage1.setNbAdmis(5);
+        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
+        stage1.setExigences("aucune exigence");
+        stage1.setProgramme("informatique");
+        stage1.setNbHeuresParSemaine(37);
+        stage1.setVille("Montreal");
+        stage1.setEmployeur(e2);
+        stage1.setOuvert(true);
+        stage1.setApprouve(true);
         stageService.saveStage(stage1);
 
     }

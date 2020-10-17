@@ -16,6 +16,7 @@ import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions';
 import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
 import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
 import ListeCandidaturesEtudiantComponent from './components/ListeCandidaturesEtudiantComponent';
+import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
           <Route path='/gestionnaire' component={GestionnaireOptions} />
           <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
+          <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
         </Switch>
        
         </div>

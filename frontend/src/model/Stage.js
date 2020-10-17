@@ -9,8 +9,8 @@ export default class Stage{
     nbHeuresParSemaine= "";
     salaire= "";
     nbAdmis= "";
-    isOuvert = false;
-    isApprouve=false;
+    isOuvert;
+    isApprouve;
     dateLimiteCandidature= "";
     programme= "";
     ville ="";
