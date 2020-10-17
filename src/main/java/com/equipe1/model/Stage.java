@@ -5,10 +5,11 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Data
-public class Stage  {
+public class Stage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,6 +27,9 @@ public class Stage  {
     private String programme;
     private String ville;
     private boolean isApprouve;
+
+    @OneToMany
+    private Set<Etudiant> etudiantsAdmits;
 
     public Stage() {
         this.isOuvert = false;
