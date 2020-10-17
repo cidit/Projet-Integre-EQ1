@@ -35,8 +35,10 @@ class GestionnaireServiceTest {
     public void setUp() {
         g1 = new Gestionnaire();
         g1.setNom("toto");
+        g1.setPassword("123456");
         g2 = new Gestionnaire();
         g2.setNom("tata");
+        g2.setPassword("123456");
     }
 
     @Test
@@ -90,15 +92,13 @@ class GestionnaireServiceTest {
     void testUpdateGestionnaire() {
         // Arrange + Act
         g1.setId(1l);
-        g1.setEmail("NONE");
-        g1.setTelephone("NONE");
+        g1.setPassword("12345");
         doReturn(g1).when(repository).save(any());
         Gestionnaire gestionnaire = repository.save(g1);
 
         Gestionnaire putContent = new Gestionnaire();
         putContent = g1;
-        putContent.setEmail("TI");
-        putContent.setTelephone("TI");
+        putContent.setPassword("totototo");
         doReturn(putContent).when(repository).save(any());
         doReturn(Optional.of(g1)).when(repository).findById(g1.getId());
         Gestionnaire updatedGestionnaire = service.updateGestionnaire(putContent, gestionnaire.getId());
@@ -106,8 +106,29 @@ class GestionnaireServiceTest {
         Assertions.assertNotNull(updatedGestionnaire);
         Assertions.assertEquals(1l, updatedGestionnaire.getId());
         Assertions.assertEquals(g1.getNom(), updatedGestionnaire.getNom());
-        Assertions.assertEquals("TI", updatedGestionnaire.getEmail());
-        Assertions.assertEquals("TI", updatedGestionnaire.getTelephone());
+        Assertions.assertEquals("totototo", updatedGestionnaire.getPassword());
     }
 
+    @Test
+    @DisplayName("TEST findByPassword Success")
+    void testFindGestionnaireByPassword() {
+        // Arrange
+        doReturn(g1).when(repository).findByPassword("123456");
+        // Act
+        Gestionnaire gestionnaire = service.getGestionnaireByPassword("123456");
+        // Assert
+        Assertions.assertNotNull(gestionnaire);
+        Assertions.assertSame(gestionnaire, g1);
+    }
+
+    @Test
+    @DisplayName("TEST findByPassword Not Found")
+    void testFindGestionnaireByPasswordNotFound() {
+        // Arrange
+        doReturn(null).when(repository).findByPassword("none");
+        // Act
+        Gestionnaire gestionnaire = service.getGestionnaireByPassword("none");
+        // Assert
+        Assertions.assertNull(gestionnaire);
+    }
 }

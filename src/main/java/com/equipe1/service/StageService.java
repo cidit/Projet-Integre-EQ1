@@ -1,8 +1,9 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Candidature;
 import com.equipe1.model.Employeur;
+import com.equipe1.model.Etudiant;
 import com.equipe1.model.Stage;
-import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,11 @@ public class StageService {
     private StageRepository stageRepository;
     @Autowired
     private EmployeurService employeurService;
+    @Autowired
+    private CandidatureService candidatureService;
+
+    @Autowired
+    NotificationCourrielService notificationCourrielService;
 
     public StageService(StageRepository stageRepository){
         this.stageRepository = stageRepository;
@@ -29,15 +35,29 @@ public class StageService {
 
     public List<Stage> getStagesByEmployeur(Long idEmployeur){
         Employeur employeur = employeurService.getEmployeurById(idEmployeur);
+        List<Stage> stages = new ArrayList<>();
 
+        for (Stage stageTemp: stageRepository.findAll()) {
+            if(stageTemp.getEmployeur().getId() == employeur.getId()){
+                stages.add(stageTemp);
+            }
+        }
+        return stages;
+    }
+    public List<Stage> getStagesEtudiant(Long idEtudiant){
+        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(idEtudiant);
         List<Stage> stages = stageRepository.findAll();
         List<Stage> stagesResul = new ArrayList<>();
-
-        for (Stage result: stages) {
-            if(result.getEmployeur().getId() == employeur.getId()){
-                stagesResul.add(result);
+        boolean isStageStudentCanApply;
+        System.out.println(stages);
+        for (Stage resultStage: stages) {
+            isStageStudentCanApply = true;
+            for (Candidature resultCandidature: candidatures) {
+                if(resultStage.getId().equals(resultCandidature.getStage().getId()))
+                    isStageStudentCanApply = false;
             }
-            System.out.println(result.getEmployeur().getNomEntreprise());
+            if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.isApprouve())
+                stagesResul.add(resultStage);
         }
 
         return stagesResul;
@@ -62,9 +82,18 @@ public class StageService {
         optionalStage.get().setNbHeuresParSemaine(newStage.getNbHeuresParSemaine());
         optionalStage.get().setNbAdmis(newStage.getNbAdmis());
         optionalStage.get().setOuvert(newStage.isOuvert());
+        optionalStage.get().setApprouve(newStage.isApprouve());
         optionalStage.get().setDateLimiteCandidature(newStage.getDateLimiteCandidature());
         optionalStage.get().setProgramme(newStage.getProgramme());
         return stageRepository.save(optionalStage.get());
+    }
+
+    public Stage updateStatus(Stage newStage, long id) throws Exception {
+        Stage stage = newStage;
+        stage.setApprouve(true);
+        stage.setOuvert(true);
+        notificationCourrielService.sendMail(stage.getEmployeur());
+        return updateStage(stage,id);
     }
 
 }

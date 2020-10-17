@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Stage from '../model/Stage'
-import StageService from '../service/StageService';
+import Stage from '../../model/Stage'
+import StageService from '../../service/StageService';
 import { Field, Form, ErrorMessage, withFormik } from "formik";
-import Employeur from '../model/Employeur';
-import '../css/Forms.css';
-import ValidationChamp from './ValidationChampVide'
-import ValidationDate from './ValidationDate'
-import EmployeurService from "../service/EmployeurService";
+import Employeur from '../../model/Employeur';
+import '../../App.css';
+import ValidationChamp from '../validation/ValidationChampVide'
+import ValidationDate from '../validation/ValidationDate'
+import EmployeurService from "../../service/EmployeurService";
 
 const isRequired = (message) => (value) => (!!value ? undefined : message);
 
@@ -139,11 +139,10 @@ class CreateStageComponent extends Component {
 }
 
 export default withFormik({
+
+  
   mapPropsToValues(props) {
-
-
     return new Stage;
-
   },
 
   validate(values) {
@@ -154,15 +153,15 @@ export default withFormik({
     const errors = {}
 
     if (startDate < today) {
-      errors.dateDebut = 'la Date de début ne doit être inférieure ou égale à la date d\'aujourd\'hui'
+      errors.dateDebut = 'la date de début ne doit être inférieure ou égale à la date d\'aujourd\'hui'
     }
 
     if (finalDate <= startDate) {
       errors.dateFin = 'La date finale ne doit pas être inférieure à la date initiale. '
     }
 
-    if (limitApplicationDate < startDate || limitApplicationDate > finalDate) {
-      errors.dateLimiteCandidature = 'la date est inférieure à la date de début ou supérieur à la date finale'
+    if (limitApplicationDate > startDate) {
+      errors.dateLimiteCandidature = 'la date est inférieure à la date de début'
     }
 
     if (!values) {

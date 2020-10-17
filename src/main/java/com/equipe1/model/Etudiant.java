@@ -20,9 +20,6 @@ public class Etudiant extends User {
     }
 
     @NotBlank
-    private String nom;
-
-    @NotBlank
     private String prenom;
 
     @NotBlank

@@ -32,15 +32,24 @@ public class StageController {
         return stageService.getStagesByEmployeur(idEmployeur);
     }
 
+    @GetMapping("/stagesEtudiant")
+    public List<Stage> getStagesEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
+        return stageService.getStagesEtudiant(idEtudiant);
+    }
+
     @PostMapping("createStage")
     public Stage createStage(@RequestBody Stage stage){
-        stage.setOuvert(true);
         return stageService.saveStage(stage);
     }
 
     @PutMapping("updateStage/{id}")
     public Stage updateStage(@RequestBody Stage stage, @PathVariable Long id){
         return stageService.updateStage(stage, id);
+    }
+
+    @PutMapping("/updateStatusStage/{id}")
+    public Stage updateStatusStage(@RequestBody Stage stage, @PathVariable Long id) throws Exception {
+        return stageService.updateStatus(stage, id);
     }
 
 }

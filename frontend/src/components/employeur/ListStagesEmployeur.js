@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import StageService from '../service/StageService';
+import StageService from '../../service/StageService';
 
 
-export default class ListStagesComponent extends Component {
+export default class ListStagesEmployeur extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +17,6 @@ export default class ListStagesComponent extends Component {
 
         this.props.history.push('/createStage')
     }
-
 
     componentDidMount() {
         var id;

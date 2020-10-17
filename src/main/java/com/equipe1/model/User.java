@@ -26,4 +26,6 @@ public class User {
 
     protected String desc;
 
+    protected String nom;
+
 }
