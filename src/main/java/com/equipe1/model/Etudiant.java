@@ -5,9 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @EqualsAndHashCode(callSuper = true)
@@ -35,7 +33,7 @@ public class Etudiant extends User {
 
     private String statutStage;
 
-    @Lob
-    @Column(columnDefinition = "BLOB")
-    private byte[] cv;
+    @OneToOne
+    @MapsId
+    private CV cv;
 }

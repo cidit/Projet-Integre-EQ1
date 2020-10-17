@@ -39,10 +39,7 @@ public class CandidatureServiceTest {
     private CandidatureRepository candidatureRepository;
     @MockBean
     private EtudiantRepository etudiantRepository;
-    @Autowired
-    private StageService stageService;
-    @Autowired
-    private EtudiantService etudiantService;
+
     @MockBean
     private StageRepository stageRepository;
 
