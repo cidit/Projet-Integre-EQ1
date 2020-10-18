@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './../App.css';
 import axios from "axios";
+import CVService from "../service/CVService";
 
 export default class HomeEtudiant extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ export default class HomeEtudiant extends Component {
             }))
 
         }
+        //console.log(cv);
         this.setState({hasUploadedCV: false});
     }
 
@@ -69,13 +71,6 @@ export default class HomeEtudiant extends Component {
         var id;
         if (localStorage.getItem("desc") == "Etudiant")
             id = localStorage.getItem("id");
-        const formData = new FormData();
-        formData.append('file', this.state.etudiant.cv);
-        const options = {
-            method: 'PUT',
-            body: formData
-        };
-        fetch('http://localhost:8080/etudiants/saveCV/' + id, options);
         this.setState({hasUploadedCV: true});
     }
 

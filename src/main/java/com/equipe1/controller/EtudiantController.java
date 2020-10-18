@@ -45,16 +45,6 @@ public class EtudiantController {
         return etudiantService.updateEtudiant(etudiant, id);
     }
 
-    @PutMapping("/saveCV/{id}")
-    public Etudiant saveCVEtudiant(@RequestParam("file") MultipartFile file, @PathVariable Long id) throws IOException {
-        Optional<Etudiant> etudiantFound = etudiantService.findEtudiantById(id);
-        Etudiant etudiant = etudiantFound.get();
-        byte[] bytes = file.getBytes();
-        etudiant.setCv(bytes);
-        System.out.println(etudiant + " , id : " + id);
-        return etudiantService.updateEtudiant(etudiant, id);
-    }
-
     @GetMapping("/matricule")
     public Optional<Etudiant> getEtudiantByMatricule(@RequestParam("matricule") String matricule){
         return etudiantService.findEtudiantByMatricule(matricule);

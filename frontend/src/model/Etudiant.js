@@ -1,3 +1,4 @@
+import CV from "./CV";
 import User from "./User";
 
 export default class Etudiant extends User {
@@ -12,5 +13,5 @@ export default class Etudiant extends User {
     adresse = "";
     statutStage = "";
     stage;
-    cv;
+    cv = new CV() ;
 }

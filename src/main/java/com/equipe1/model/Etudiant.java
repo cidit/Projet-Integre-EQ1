@@ -1,5 +1,6 @@
 package com.equipe1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,6 +18,7 @@ public class Etudiant extends User {
 
     {
         this.desc = "Etudiant";
+
     }
 
     @NotBlank
@@ -33,7 +35,8 @@ public class Etudiant extends User {
 
     private String statutStage;
 
+
     @OneToOne
-    @MapsId
+    @JsonIgnore
     private CV cv;
 }

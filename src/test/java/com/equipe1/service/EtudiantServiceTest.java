@@ -150,41 +150,7 @@ public class EtudiantServiceTest {
         Assertions.assertFalse(etudiant.isPresent());
     }
 
-    @Test
-    @DisplayName("TEST updateEtudiantCV")
-    void testUpdateEtudiantCV() throws DocumentException, IOException {
-        // Arrange
 
-        Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("HelloWorld.pdf"));
-
-        document.open();
-        Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
-        Chunk chunk = new Chunk("Hello World", font);
-
-        document.add(chunk);
-        document.close();
-
-        File pdfFile = new File("HelloWorld.pdf");
-        byte[] pdfData = FileUtils.readFileToByteArray(pdfFile);
-
-        // Act
-        e1.setId(1l);
-        doReturn(e1).when(repository).save(any());
-        Etudiant etudiant = repository.save(e1);
-
-        Etudiant putContent = new Etudiant();
-        putContent = e1;
-        putContent.setCv(pdfData);
-        doReturn(putContent).when(repository).save(any());
-        doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
-        Etudiant updatedEtudiant = service.updateEtudiantCV(putContent, etudiant.getId());
-        // Assert
-        Assertions.assertNotNull(updatedEtudiant);
-        Assertions.assertNotNull(updatedEtudiant.getCv());
-
-        FileUtils.writeByteArrayToFile(new File("HelloWorld2.pdf"), updatedEtudiant.getCv());
-    }
 
     @Test
     @DisplayName("TEST findByEmail Success")

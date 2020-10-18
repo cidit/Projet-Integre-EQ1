@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 
 import EtudiantRegister from "./components/EtudiantRegister";
-import ListStagesComponent from "./components/stage/ListStageComponent";
 import Login from "./components/Login";
 import { Route, Switch,Router , withRouter } from 'react-router-dom';
 import Home from "./components/Home";
@@ -14,6 +13,8 @@ import Logout from './components/Logout';
 import CreateStageComponent from './components/stage/CreateStageComponent'
 import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions'
 import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
+import ListeCandidaturesEtudiantComponent from "./components/ListeCandidaturesEtudiantComponent";
+import ApplicationStageComponent from "./components/ApplicationStageComponent";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
           <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent}/>
           <Route path='/etudiant' component={HomeEtudiant} />
-          <Route path='/offrestage' component={ListeStageEtudiantComponent} />
+          <Route path='/offrestage' component={ApplicationStageComponent} />
           <Route path='/createStage' component={CreateStageComponent} />
           <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
           <Route path='/gestionnaire' component={GestionnaireOptions} />
