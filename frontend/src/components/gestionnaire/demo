@@ -1,0 +1,99 @@
+constructor(props) {
+        super(props);
+        this.state = { etudiants: [], selections: [], checkedItems: new Map(), };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    async componentDidMount() {
+        var stage = new Stage();
+        stage = await StageService.getStageById(this.props.match.params.id);
+        const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.data.programme);
+        this.setState({ etudiants });
+
+        console.log(stage.data.etudiantsAdmits);
+        
+        var arr = this.state.selections;
+
+        if (stage.data.etudiantsAdmits.length === 0) {
+            console.log("EMPTY!");
+        } else {
+            console.log("FILLING!");
+            stage.data.etudiantsAdmits.forEach(etudiant => {
+                arr.push(etudiant);
+            });
+            this.setState({ selections: arr });
+        }
+    }
+    
+    handleChange(event) {
+        var isChecked = event.target.checked;
+        var item = event.target.value;
+        this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
+    }
+
+    handleSubmit() {
+        var mp = this.state.checkedItems;
+        var arr = this.state.selections;
+        mp.forEach((value, key)=>{ 
+            console.log(value + ":" + key)
+            var etudiant = new Etudiant();
+            etudiant = EtudiantService.getEtudiantById(key);
+            arr.push(etudiant);
+        }) 
+        this.setState({ selections: arr })
+        console.log(this.state.selections)
+        //StageService.addEtudiants(this.props.match.params.id, this.state.selections)
+    }
+    
+    render() {
+        return (
+
+            <div className="container">
+
+                <div>
+                    <button onClick={this.handleSubmit}>Sauvegarder</button>
+                </div>
+
+                <div className="row">
+                    <table className="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th> </th>
+                                <th> Matricule </th>
+                                <th> Nom </th>
+                                <th> Prénom </th>
+                                <th> Programme </th>
+                                <th> Courriel </th>
+                                <th> Téléphone </th>
+                                <th> Statut </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.etudiants
+                                .map(
+                                    etudiant =>
+                                    <tr key={etudiant.id}>
+                                        <td>
+                                            <input
+                                                type="checkbox"
+                                                value={etudiant.id}
+                                                onChange={this.handleChange}
+                                            />   
+                                        </td>
+                                        <td>{etudiant.matricule}</td>
+                                        <td>{etudiant.nom}</td>
+                                        <td>{etudiant.prenom}</td>
+                                        <td>{etudiant.programme}</td>
+                                        <td>{etudiant.email}</td>
+                                        <td>{etudiant.telephone}</td>
+                                        <td>{etudiant.statutStage}</td>
+                                    </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        )
+    }

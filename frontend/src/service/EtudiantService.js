@@ -12,6 +12,10 @@ class EtudiantService{
         return axios.get(ETUDIANTS_URL);
     }
 
+    getEtudiantById(id){
+        return axios.get(ETUDIANT_GET + id);
+    }
+
     getEtudiantByMatricule(matricule){
         return axios.get(ETUDIANT_MATRICULE + matricule);
     }

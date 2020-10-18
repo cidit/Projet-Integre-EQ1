@@ -6,12 +6,47 @@ import Stage from '../../model/Stage'
 export default class SelectionnerEtudiantComponent extends Component {    
     constructor(props) {
         super(props);
-        this.state = { etudiants: [], filter: '', etudiantsPermis: [], };
-        this.addAllEtudiant = this.addAllEtudiant.bind(this);
+        this.state = { etudiants: [], filter: '', etudiantsPermis: [], selections: {}, };
+        this.addAllEtudiants = this.addAllEtudiants.bind(this);
+        this.confirmerChoix = this.confirmerChoix.bind(this);
+        this.retourner = this.retourner.bind(this);
     }
 
-    addAllEtudiant(){
+    addAllEtudiants(){
         StageService.addEtudiants(this.props.match.params.id, this.state.etudiants);
+        this.props.history.push('/gestionnaireStage');
+    }
+
+    addEtudiant(etudiant){
+        var arr = this.state.etudiantsPermis;
+        if (arr.includes(etudiant)) {
+            alert("EXISTE DÉJÀ!");
+        }
+        else{
+            arr.push(etudiant);
+            this.setState({ etudiantsPermis: arr });
+        }
+        console.log(this.state.etudiantsPermis);
+    }
+
+    removeEtudiant(etudiant){
+        var arr = this.state.etudiantsPermis;
+        if (arr.includes(etudiant)) {
+            arr.pop(etudiant);
+            this.setState({ etudiantsPermis: arr });
+        }
+        else{
+            alert("DOES NOT EXIST!");
+        }
+        console.log(this.state.etudiantsPermis);
+    }
+
+    retourner(){
+        this.props.history.push('/gestionnaireStage');
+    }
+
+    confirmerChoix(){
+        StageService.addEtudiants(this.props.match.params.id, this.state.etudiantsPermis);
         this.props.history.push('/gestionnaireStage');
     }
 
@@ -30,7 +65,13 @@ export default class SelectionnerEtudiantComponent extends Component {
 
                 <div className="form-group">
                     <div className="row"> 
-                        <button onClick={this.addAllEtudiant}>SÉLECTIONNER TOUT</button>
+                        <button className="btn btn-secondary" onClick={this.retourner}>RETOUR</button>
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <div className="row"> 
+                        <button className="btn btn-primary" onClick={this.addAllEtudiants}>SÉLECTIONNER TOUT</button>
                     </div>
                 </div>
 
@@ -38,6 +79,8 @@ export default class SelectionnerEtudiantComponent extends Component {
                     <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
+                                <th> O </th>
+                                <th> X </th>
                                 <th> Matricule </th>
                                 <th> Nom </th>
                                 <th> Prénom </th>
@@ -52,6 +95,16 @@ export default class SelectionnerEtudiantComponent extends Component {
                                 .map(
                                     etudiant =>
                                     <tr key={etudiant.id}>
+                                        <td>
+                                            <button className="btn btn-primary" onClick={(e) => this.addEtudiant(etudiant)}>
+                                                Ajouté
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-danger" onClick={(e) => this.removeEtudiant(etudiant)}>
+                                                Enlevé
+                                            </button>
+                                        </td>
                                         <td>{etudiant.matricule}</td>
                                         <td>{etudiant.nom}</td>
                                         <td>{etudiant.prenom}</td>
@@ -64,6 +117,13 @@ export default class SelectionnerEtudiantComponent extends Component {
                         </tbody>
                     </table>
                 </div>
+
+                <div className="form-group">
+                    <div className="row"> 
+                        <button className="btn btn-success" onClick={this.confirmerChoix}>CONFIRMER</button>
+                    </div>
+                </div>
+
             </div>
         );
     }

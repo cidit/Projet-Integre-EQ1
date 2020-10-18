@@ -27,6 +27,7 @@ export default class GestionnaireListStageComponent extends Component {
                     <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
+                                <th> Nombre d'étudiant </th>
                                 <th> Titre </th>
                                 <th> Programme </th>
                                 <th> Description </th>
@@ -45,6 +46,7 @@ export default class GestionnaireListStageComponent extends Component {
                                 .map(
                                     stage =>
                                     <tr key={stage.id}>
+                                        <td>{stage.etudiantsAdmits.length}</td>
                                         <td>{stage.titre}</td>
                                         <td>{stage.programme}</td>
                                         <td>{stage.description}</td>
