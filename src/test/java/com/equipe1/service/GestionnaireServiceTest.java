@@ -35,8 +35,10 @@ class GestionnaireServiceTest {
     public void setUp() {
         g1 = new Gestionnaire();
         g1.setNom("toto");
+        g1.setPassword("123456");
         g2 = new Gestionnaire();
         g2.setNom("tata");
+        g2.setPassword("123456");
     }
 
     @Test
@@ -107,4 +109,26 @@ class GestionnaireServiceTest {
         Assertions.assertEquals("totototo", updatedGestionnaire.getPassword());
     }
 
+    @Test
+    @DisplayName("TEST findByPassword Success")
+    void testFindGestionnaireByPassword() {
+        // Arrange
+        doReturn(g1).when(repository).findByPassword("123456");
+        // Act
+        Gestionnaire gestionnaire = service.getGestionnaireByPassword("123456");
+        // Assert
+        Assertions.assertNotNull(gestionnaire);
+        Assertions.assertSame(gestionnaire, g1);
+    }
+
+    @Test
+    @DisplayName("TEST findByPassword Not Found")
+    void testFindGestionnaireByPasswordNotFound() {
+        // Arrange
+        doReturn(null).when(repository).findByPassword("none");
+        // Act
+        Gestionnaire gestionnaire = service.getGestionnaireByPassword("none");
+        // Assert
+        Assertions.assertNull(gestionnaire);
+    }
 }

@@ -10,8 +10,9 @@ import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantCompon
 import HomeEtudiant from "./components/HomeEtudiant";
 import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
-import CreateStageComponent from './components/stage/CreateStageComponent'
-import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions'
+import CreateStageComponent from './components/stage/CreateStageComponent';
+import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions';
+import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
 import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
 import ListeCandidaturesEtudiantComponent from "./components/ListeCandidaturesEtudiantComponent";
 import ApplicationStageComponent from "./components/ApplicationStageComponent";
@@ -31,11 +32,14 @@ function App() {
           <Route path='/register' component={Register} />
           <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent}/>
+
+
           <Route path='/etudiant' component={HomeEtudiant} />
           <Route path='/offrestage' component={ApplicationStageComponent} />
           <Route path='/createStage' component={CreateStageComponent} />
           <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
           <Route path='/gestionnaire' component={GestionnaireOptions} />
+          <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
         </Switch>
        
         </div>

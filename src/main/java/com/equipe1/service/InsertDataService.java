@@ -93,8 +93,8 @@ public class InsertDataService {
         g1.setNom("toto");
         g1.setPrenom("toto");
         g1.setEmail("toto@toto.to");
-        g1.setPassword("12345");
-        g1.setTelephone("12345");
+        g1.setPassword("123456");
+        g1.setTelephone("555-555-5555");
         gestionnaireService.saveGestionnaire(g1);
     }
 }
