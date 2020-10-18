@@ -1,13 +1,17 @@
 package com.equipe1.controller;
 
 import com.equipe1.model.Employeur;
+import com.equipe1.model.Etudiant;
 import com.equipe1.model.Stage;
 import com.equipe1.service.StageService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 @CrossOrigin(origins ="http://localhost:3000")
 @RestController
 public class StageController {
@@ -52,4 +56,8 @@ public class StageController {
         return stageService.updateStatus(stage, id);
     }
 
+    @PutMapping("/stages/updateEtudiantsAdmits/{stageId}")
+    public Stage updateEtudiantsAdmits(@PathVariable long stageId, @RequestBody List<Etudiant> etudiants){
+        return stageService.updateEtudiantsAdmits(stageId, new HashSet<>(etudiants));
+    }
 }

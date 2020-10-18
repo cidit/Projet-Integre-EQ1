@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+
+// TODO: UNTESTED
+
+
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/cvs")
@@ -15,11 +21,12 @@ public class CVController {
     @Autowired
     private CVService cvService;
 
-
     @GetMapping("/get/{id}")
     public CV getCV(@PathVariable long id) {
         return cvService.getCVById(id);
     }
+
+
 
     @GetMapping("/get/all")
     public List<CV> getCVs() {

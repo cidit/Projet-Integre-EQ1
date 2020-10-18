@@ -5,16 +5,12 @@ export default class GestionnaireListStageComponent extends Component {
     constructor(props) {
         super(props);
         this.state = { stages: [] };
+        this.handleClick = this.handleClick.bind(this);
     }
 
-    handleChangeText = event => {
-        this.setState({ filter: event.target.value });
-    };
-
-    handleChangeRadio = event => {
-        console.log(event.target.value)
-        this.setState({ statut: event.target.value });
-    };
+    handleClick(id){
+        this.props.history.push('/stageSelectEtudiants/' + id);
+    }
     
     async componentDidMount() {
             const { data: stages } = await StageService.getStages();
@@ -38,19 +34,34 @@ export default class GestionnaireListStageComponent extends Component {
                                 <th> Date Finale </th>
                                 <th> Ville </th>
                                 <th> Heures par semaine </th>
+                                <th> Statut approbation </th>
+                                <th> Statut overture </th>
+                                <th> Détails </th>
                             </tr>
                         </thead>
                         <tbody>
                             {this.state.stages
+                                .filter(stage => stage.approuve && stage.ouvert)
                                 .map(
                                     stage =>
                                     <tr key={stage.id}>
                                         <td>{stage.titre}</td>
                                         <td>{stage.programme}</td>
+                                        <td>{stage.description}</td>
                                         <td>{stage.dateDebut}</td>
                                         <td>{stage.dateFin}</td>
                                         <td>{stage.ville}</td>
                                         <td>{stage.nbHeuresParSemaine}</td>
+                                        
+                                        <td>{stage.approuve
+                                            ? <span className="text-success"> Approuvé </span>
+                                            : <span className="text-danger">En attente d'approbation</span>}</td>
+                                        <td>{stage.ouvert ? 'Ouvert' : 'Fermé'}</td>
+                                        <td>
+                                            <button className="btn btn-primary" onClick={() => this.handleClick(stage.id)} >
+                                                View
+                                            </button>
+                                        </td>
                                     </tr>
                             )}
                         </tbody>
