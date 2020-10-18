@@ -1,15 +1,9 @@
 package com.equipe1.controller;
 
-import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.service.EtudiantService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.Multipart;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,5 +62,10 @@ public class EtudiantController {
     @GetMapping("/email")
     public Etudiant getEmployeurByEmail(@RequestParam("email") String email){
         return etudiantService.getEtudiantByEmail(email);
+    }
+
+    @GetMapping("/get/{programme}")
+    public List<Etudiant> getAllEtudiantByProgramme(@PathVariable String programme){
+        return etudiantService.getEtudiantsByProgramme(programme);
     }
 }

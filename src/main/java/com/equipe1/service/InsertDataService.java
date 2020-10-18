@@ -40,7 +40,7 @@ public class InsertDataService {
         e1.setNom("truong");
         e1.setStatutStage("possede stage");
         e1.setTelephone("555-555-5555");
-        e1.setProgramme("TI");
+        e1.setProgramme("Techniques de l’informatique");
         etudiantRepository.save(e1);
 
         Etudiant e2 = new Etudiant();
@@ -52,7 +52,7 @@ public class InsertDataService {
         e2.setNom("truong");
         e2.setStatutStage("aucun stage");
         e2.setTelephone("555-444-4444");
-        e2.setProgramme("Secondaire 3");
+        e2.setProgramme("Techniques de l’informatique");
         etudiantRepository.save(e2);
     }
 
@@ -79,7 +79,7 @@ public class InsertDataService {
         stage1.setDateFin(LocalDate.of(2020,12,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
-        stage1.setProgramme("informatique");
+        stage1.setProgramme("Techniques de l’informatique");
         stage1.setNbHeuresParSemaine(35);
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
@@ -93,7 +93,7 @@ public class InsertDataService {
         stage1.setDateFin(LocalDate.of(2020,12,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
-        stage1.setProgramme("informatique");
+        stage1.setProgramme("Techniques de l’informatique");
         stage1.setNbHeuresParSemaine(37);
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);

@@ -189,10 +189,26 @@ export default class EtudiantRegister extends Component {
                                             <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
                                                     <label className="control-label">Programme</label>
-                                                    <Field type="text"
+                                                    <Field as="select"
                                                         name="programme"
                                                         className="form-control"
-                                                        placeholder="" />
+                                                        >
+                                                            <option value="">Choisir un programme</option>
+                                                            <option value="Gestion de commerces">Gestion de commerces</option>
+                                                            <option value="Soins infirmiers">Soins infirmiers</option>
+                                                            <option value="Soins infirmiers pour auxiliaires">Soins infirmiers pour auxiliaires</option>
+                                                            <option value="Techniques d’éducation à l’enfance">Techniques d’éducation à l’enfance</option>
+                                                            <option value="Techniques de bureautique">Techniques de bureautique</option>
+                                                            <option value="Techniques de comptabilité et de gestion">Techniques de comptabilité et de gestion</option>
+                                                            <option value="Techniques de l’informatique">Techniques de l’informatique</option>
+                                                            <option value="Techniques de la logistique du transport">Techniques de la logistique du transport</option>
+                                                            <option value="Technologie de l’architecture">Technologie de l’architecture</option>
+                                                            <option value="Technologie de l’électronique industrielle">Technologie de l’électronique industrielle</option>
+                                                            <option value="Technologie de l’estimation et de l’évaluation en bâtiment">Technologie de l’estimation et de l’évaluation en bâtiment</option>
+                                                            <option value="Technologie du génie civil">Technologie du génie civil</option>
+                                                            <option value="Techniques de la logistique du transport">Techniques de la logistique du transport</option>
+                                                            <option value="Technologie du génie physique">Technologie du génie physique</option>
+                                                        </Field>
                                                     <ErrorMessage name="programme">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>

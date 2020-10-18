@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import EtudiantService from '../../service/EtudiantService';
+import StageService from '../../service/StageService';
+import Stage from '../../model/Stage'
 
 export default class SelectionnerEtudiantComponent extends Component {    
     constructor(props) {
         super(props);
-        this.state = { etudiants: [], filter: '', };
+        this.state = { etudiants: [], filter: '', etudiantsPermis: [], };
+        this.addAllEtudiant = this.addAllEtudiant.bind(this);
     }
 
-    handleChangeText = event => {
-        this.setState({ filter: event.target.value });
-    };
-    
+    addAllEtudiant(){
+        StageService.addEtudiants(this.props.match.params.id, this.state.etudiants);
+        this.props.history.push('/gestionnaireStage');
+    }
+
     async componentDidMount() {
-        console.log(this.props.match.params.id);
-        const { data: etudiants } = await EtudiantService.getEtudiants();
+        var stage = new Stage();
+        stage = await StageService.getStageById(this.props.match.params.id);
+        const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.data.programme);
         this.setState({ etudiants });
     }
 
@@ -24,11 +29,8 @@ export default class SelectionnerEtudiantComponent extends Component {
                 <h1 className="text-center">Liste des étudiants</h1>
 
                 <div className="form-group">
-                    <div className="row">
-                        <h4 className="text-center">FILTRAGE MATRICULE</h4>
-                    </div>
                     <div className="row"> 
-                        <input type='text' value={this.state.filter} onChange={this.handleChangeText} />
+                        <button onClick={this.addAllEtudiant}>SÉLECTIONNER TOUT</button>
                     </div>
                 </div>
 
@@ -47,7 +49,6 @@ export default class SelectionnerEtudiantComponent extends Component {
                         </thead>
                         <tbody>
                             {this.state.etudiants
-                                .filter(etudiant => etudiant.matricule.includes(this.state.filter))
                                 .map(
                                     etudiant =>
                                     <tr key={etudiant.id}>

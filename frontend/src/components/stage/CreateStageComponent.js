@@ -45,7 +45,27 @@ class CreateStageComponent extends Component {
 
               <div className=" form-group col" >
                 <label className="control-label">Programme</label>
-                <Field  name="programme" className="form-control" validate={isRequired(<ValidationChamp field={" un Programme "} />)} />
+                <Field as="select"
+                    name="programme"
+                    className="form-control"
+                    validate={isRequired(<ValidationChamp field={" un Programme "} />)}
+                    >
+                    <option value="">Choisir un programme</option>
+                    <option value="Gestion de commerces">Gestion de commerces</option>
+                    <option value="Soins infirmiers">Soins infirmiers</option>
+                    <option value="Soins infirmiers pour auxiliaires">Soins infirmiers pour auxiliaires</option>
+                    <option value="Techniques d’éducation à l’enfance">Techniques d’éducation à l’enfance</option>
+                    <option value="Techniques de bureautique">Techniques de bureautique</option>
+                    <option value="Techniques de comptabilité et de gestion">Techniques de comptabilité et de gestion</option>
+                    <option value="Techniques de l’informatique">Techniques de l’informatique</option>
+                    <option value="Techniques de la logistique du transport">Techniques de la logistique du transport</option>
+                    <option value="Technologie de l’architecture">Technologie de l’architecture</option>
+                    <option value="Technologie de l’électronique industrielle">Technologie de l’électronique industrielle</option>
+                    <option value="Technologie de l’estimation et de l’évaluation en bâtiment">Technologie de l’estimation et de l’évaluation en bâtiment</option>
+                    <option value="Technologie du génie civil">Technologie du génie civil</option>
+                    <option value="Techniques de la logistique du transport">Techniques de la logistique du transport</option>
+                    <option value="Technologie du génie physique">Technologie du génie physique</option>
+                </Field>  
                 <ErrorMessage name="programme">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
 
@@ -160,8 +180,12 @@ export default withFormik({
       errors.dateFin = 'La date finale ne doit pas être inférieure à la date initiale. '
     }
 
-    if (limitApplicationDate > startDate) {
-      errors.dateLimiteCandidature = 'la date est inférieure à la date de début'
+    if (limitApplicationDate >= startDate) {
+      errors.dateLimiteCandidature = 'la date doit être inférieure à la date de début'
+    }
+
+    if (limitApplicationDate < today) {
+      errors.dateLimiteCandidature = 'la date limit ne doit être inférieure ou égale à la date d\'aujourd\'hui'
     }
 
     if (!values) {
