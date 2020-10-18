@@ -55,9 +55,12 @@ public class StageService {
         List<Stage> stages = stageRepository.findAll();
         List<Stage> stagesResul = new ArrayList<>();
         boolean isStageStudentCanApply;
-        System.out.println(stages);
         for (Stage resultStage : stages) {
-            isStageStudentCanApply = true;
+            isStageStudentCanApply = false;
+            for (Etudiant etudiant : resultStage.getEtudiantsAdmits()){
+                if(etudiant.getId().equals(idEtudiant))
+                    isStageStudentCanApply = true;
+            }
             for (Candidature resultCandidature : candidatures) {
                 if (resultStage.getId().equals(resultCandidature.getStage().getId()))
                     isStageStudentCanApply = false;

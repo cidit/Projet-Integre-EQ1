@@ -35,7 +35,6 @@ public class EtudiantController {
 
     @PutMapping("/update/{id}")
     public Etudiant updateEtudiant(@RequestBody Etudiant etudiant, @PathVariable Long id){
-        System.out.println(etudiant + " , id : " + id);
         return etudiantService.updateEtudiant(etudiant, id);
     }
 

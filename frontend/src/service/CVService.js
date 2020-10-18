@@ -1,22 +1,14 @@
 import axios from 'axios'
+import CV from "../model/CV";
 
 const CV_URL = "http://localhost:8080/cvs";
 
 
 class CVService{
 
+    createCV(idEtudiant, formData){
+        return axios.put(CV_URL + "/create/" + idEtudiant, formData)
 
-    createCV(idEtudiant, file){
-        const formData = new FormData();
-        formData.append('id', idEtudiant);
-        formData.append('name', "name");
-        formData.append('status', "UNREVIEWED");
-        formData.append('data', file);
-        const options = {
-            method: 'PUT',
-            body: formData
-        };
-        fetch(CV_URL + "/create", options);
     }
 }
 

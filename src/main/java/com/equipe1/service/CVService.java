@@ -1,13 +1,16 @@
 package com.equipe1.service;
 
 import com.equipe1.model.CV;
+import com.equipe1.model.Etudiant;
 import com.equipe1.repository.CVRepository;
 import com.equipe1.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -36,10 +39,16 @@ public class CVService {
         return cvRepository.saveAndFlush(cv);
     }
 
-    public CV saveEtudiantCV(long etudiantId, CV cv) {
-        var etudiant = etudiantRepository.findById(etudiantId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Invalid Etudiant id %s", etudiantId)));
+    public CV saveEtudiantCV(long etudiantId, MultipartFile file) throws IOException {
+        CV cv = new CV();
+        cv.setId(etudiantId);
+        cv.setData(file.getBytes());
+        cv.setName(file.getOriginalFilename());
+        cv.setStatus(CV.CVStatus.UNREVIEWED);
+        cvRepository.save(cv);
+        Etudiant etudiant = etudiantRepository.findById(etudiantId).get();
         etudiant.setCv(cv);
-        etudiantRepository.saveAndFlush(etudiant);
+        etudiantRepository.save(etudiant);
         return cv;
     }
 

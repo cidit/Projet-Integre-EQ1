@@ -7,20 +7,16 @@ export default class HomeEtudiant extends Component {
     constructor(props) {
         super(props);
         this.inputRef = React.createRef();
-        this.state = {etudiant: {}, displayInvalidFileMessage: false, displaySubmitCVButton: false, hasAlreadyCV: false, hasUploadedCV: false, id: ''};
+        this.state = {etudiant: {}, file: "", displayInvalidFileMessage: false, displaySubmitCVButton: false, hasAlreadyCV: false, hasUploadedCV: false, id: ''};
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }
-
     onChangeHandler = event => {
         var files = event.target.files
         if (this.checkMimeType(event)) {
-            this.setState(prevState => ({
-                etudiant: {
-                    ...prevState.etudiant,
-                    cv: files[0]
-                }
-            }))
+            this.setState({
+                file: event.target.files[0]
+            });
 
         }
         //console.log(cv);
@@ -68,10 +64,15 @@ export default class HomeEtudiant extends Component {
     }
     handleSubmit(event) {
         event.preventDefault()
-        var id;
+        var idEtudiant;
         if (localStorage.getItem("desc") == "Etudiant")
-            id = localStorage.getItem("id");
+            idEtudiant = localStorage.getItem("id");
+        const formData = new FormData();
+        console.log(this.state.file);
+        formData.append('file', this.state.file)
+        formData.append('name', this.state.file.name);
         this.setState({hasUploadedCV: true});
+        CVService.createCV(idEtudiant, formData)
     }
 
 
@@ -90,7 +91,7 @@ export default class HomeEtudiant extends Component {
                                                     className="form-control-file"
                                                     accept="application/pdf"
                                                     ref={this.inputRef}
-                                                    defaultValue= {this.state.etudiant.cv}
+                                                    defaultValue= {this.state.file}
                                                     onChange={this.onChangeHandler}/>
 
                 </label><br/>

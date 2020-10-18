@@ -4,7 +4,9 @@ import com.equipe1.model.CV;
 import com.equipe1.service.CVService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -33,14 +35,10 @@ public class CVController {
         return cvService.getCVs();
     }
 
-    @PutMapping("/update")
-    public CV updateCV(@RequestBody CV cv) {
-        return cvService.updateCV(cv);
-    }
 
-    @PostMapping("/create")
-    public CV createCV(@RequestBody CV cv) {
-        return cvService.saveCV(cv);
+    @PutMapping("/create/{idEtudiant}")
+    public CV saveCV(@RequestParam("file") MultipartFile multipartFile, @PathVariable Long idEtudiant) throws IOException {
+        return cvService.saveEtudiantCV(idEtudiant, multipartFile);
     }
 
     @DeleteMapping("/delete/{id}")
