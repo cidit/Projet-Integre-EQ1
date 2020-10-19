@@ -10,6 +10,16 @@ class CVService{
         return axios.put(CV_URL + "/create/" + idEtudiant, formData)
 
     }
+    updateCVStatus(isValid, id){
+        console.log(isValid);
+        const formData = new FormData();
+        formData.append('isValid', isValid);
+        const options = {
+            method: 'PUT',
+            body: formData
+        };
+        return axios.put(CV_URL + "/update/" + id, formData)
+    }
 }
 
 export default new CVService()
