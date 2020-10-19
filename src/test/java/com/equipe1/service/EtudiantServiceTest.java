@@ -15,8 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -42,12 +41,14 @@ public class EtudiantServiceTest {
         e1 = new Etudiant();
         e1.setNom("toto");
         e1.setMatricule("12345");
-        e1.setStatutStage("e1@email.com");
+        e1.setEmail("e1@email.com");
+        e1.setProgramme("Techniques de l’informatique");
 
         e2 = new Etudiant();
         e2.setNom("tata");
         e2.setMatricule("67890");
-        e1.setStatutStage("e2@email.com");
+        e1.setEmail("e2@email.com");
+        e1.setProgramme("Techniques de l’informatique");
     }
 
     @Test
@@ -208,5 +209,28 @@ public class EtudiantServiceTest {
         Etudiant etudiant = service.getEtudiantByEmail("no@email.com");
         // Assert
         Assertions.assertNull(etudiant);
+    }
+
+    @Test
+    @DisplayName("TEST findByProgramme Found")
+    void testFindEtudiantByProgrammeFound() {
+        // Arrange
+        doReturn(Arrays.asList(e1, e2)).when(repository).findAllByProgramme("Techniques de l’informatique");
+        // Act
+        List<Etudiant> etudiants = service.getEtudiantsByProgramme("Techniques de l’informatique");
+        // Assert
+        Assertions.assertNotNull(etudiants);
+        Assertions.assertEquals(etudiants.size(), 2);
+    }
+
+    @Test
+    @DisplayName("TEST findByProgramme Not Found")
+    void testFindEtudiantByProgrammeNotFound() {
+        // Arrange
+        doReturn(null).when(repository).findAllByProgramme("RIEN");
+        // Act
+        List<Etudiant> etudiants = service.getEtudiantsByProgramme("RIEN");
+        // Assert
+        Assertions.assertNull(etudiants);
     }
 }

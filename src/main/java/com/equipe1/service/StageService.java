@@ -107,7 +107,7 @@ public class StageService {
         if (optionnalStage.isPresent()) {
             var stage = optionnalStage.get();
             stage.setEtudiantsAdmits(etudiants);
-            return stageRepository.saveAndFlush(stage);
+            return stageRepository.save(stage);
         } else
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,

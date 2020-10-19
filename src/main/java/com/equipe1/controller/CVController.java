@@ -26,8 +26,6 @@ public class CVController {
         return cvService.getCVById(id);
     }
 
-
-
     @GetMapping("/get/all")
     public List<CV> getCVs() {
         return cvService.getCVs();
