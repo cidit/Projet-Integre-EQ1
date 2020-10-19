@@ -83,7 +83,7 @@ export default class ApplicationStageComponent extends Component {
                                 )}
                                 </tbody>
                             </table>
-                            {this.state.hasApplied? <label style={{color: "green"}}>Vous venez de téléverser votre CV</label>: null}<br/>
+                            {this.state.hasApplied? <label style={{color: "green"}}>Vous venez de postuler au stage</label>: null}<br/>
 
                         </div>
                     </div>

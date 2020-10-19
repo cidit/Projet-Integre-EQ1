@@ -23,11 +23,6 @@ public class CandidatureService {
     @Autowired
     private EtudiantRepository etudiantRepository;
 
-    @Autowired
-    private StageService stageService;
-    @Autowired
-    private EtudiantService etudiantService;
-
     public CandidatureService(CandidatureRepository candidatureRepository){
         this.candidatureRepository = candidatureRepository;
     }
@@ -48,12 +43,8 @@ public class CandidatureService {
             if(result.getEtudiant().equals(etudiant))
                 candidatureList.add(result);
         }
-
         return candidatureList;
-
     }
-
-
 
     public Candidature createCandidature(Long idEtudiant, Long idStage){
         Candidature candidature = new Candidature();

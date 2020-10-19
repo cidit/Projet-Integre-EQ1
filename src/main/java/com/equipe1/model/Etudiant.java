@@ -18,6 +18,7 @@ public class Etudiant extends User {
 
     {
         this.desc = "Etudiant";
+
     }
 
     @NotBlank

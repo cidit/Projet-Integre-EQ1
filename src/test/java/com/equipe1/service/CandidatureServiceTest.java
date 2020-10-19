@@ -86,15 +86,13 @@ public class CandidatureServiceTest {
 
     @Test
     public void saveCandidatureTest() {
+        // Arrange
         doReturn(s).when(stageRepository).save(any());
         doReturn(e).when(etudiantRepository).save(any());
-
         Stage stage = stageRepository.save(s);
         Etudiant etudiant = etudiantRepository.save(e);
         doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
         doReturn(Optional.of(e)).when(etudiantRepository).findById(e.getId());
-
-        // Arrange
         doReturn(c).when(candidatureRepository).save(any());
         // Act
         Candidature candidature = candidatureService.createCandidature(e.getId(), s.getId());
@@ -107,6 +105,7 @@ public class CandidatureServiceTest {
 
     @Test
     public void findCandidatureByEtudiant(){
+        // Arrange
         List<Candidature> candidatureList = new ArrayList<>();
         doReturn(s).when(stageRepository).save(any());
         doReturn(e).when(etudiantRepository).save(any());
@@ -117,10 +116,7 @@ public class CandidatureServiceTest {
         candidatureList.add(c);
         Stage stage = stageRepository.save(s);
         Etudiant etudiant = etudiantRepository.save(e);
-
-        // Arrange
         doReturn(candidatureList).when(candidatureRepository).findAll();
-
         // Act
         List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(etudiant.getId());
         // Assert
@@ -134,7 +130,6 @@ public class CandidatureServiceTest {
         c1.setId(1L);
         when(candidatureRepository.save(c1)).thenReturn(c1);
         candidatureRepository.save(c1);
-        //Candidature c3 = candidatureService.findCandidatureById(1L).get();
         when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
         when(candidatureRepository.save(c2)).thenReturn(c2);
         Candidature c3 = candidatureService.updateCandidature(c2, 1L);
