@@ -16,14 +16,12 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
     }
 
     async componentDidMount() {
-
         var id;
         if (localStorage.getItem("desc") == "Etudiant")
             id = localStorage.getItem("id");
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
-    }
-    handleSubmit(event) {
+    }    handleSubmit(event) {
         event.preventDefault()
         var idEtudiant;
 
