@@ -60,4 +60,9 @@ public class StageController {
     public Stage updateEtudiantsAdmits(@PathVariable long stageId, @RequestBody List<Etudiant> etudiants){
         return stageService.updateEtudiantsAdmits(stageId, new HashSet<>(etudiants));
     }
+
+    @GetMapping("/stages/getEtudiantsAdmits/{stageId}")
+    public Set<Etudiant> getEtudiantsAdmits(@PathVariable long stageId){
+        return stageService.getEtudiantsAdmits(stageId);
+    }
 }

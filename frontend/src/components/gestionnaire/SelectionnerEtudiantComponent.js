@@ -1,47 +1,24 @@
 import React, { Component } from 'react';
 import EtudiantService from '../../service/EtudiantService';
 import StageService from '../../service/StageService';
-import Stage from '../../model/Stage'
+import Stage from '../../model/Stage';
+import Etudiant from '../../model/Etudiant';
 
 export default class SelectionnerEtudiantComponent extends Component {    
     constructor(props) {
         super(props);
-        this.state = { etudiants: [], filter: '', etudiantsPermis: [], selections: {}, };
+        this.state = { etudiants: [], etudiantsPermis: [], disabledButtons: [], };
         this.addAllEtudiants = this.addAllEtudiants.bind(this);
         this.confirmerChoix = this.confirmerChoix.bind(this);
         this.retourner = this.retourner.bind(this);
     }
 
-    addAllEtudiants(){
-        StageService.addEtudiants(this.props.match.params.id, this.state.etudiants);
+    retourner(){
         this.props.history.push('/gestionnaireStage');
     }
 
-    addEtudiant(etudiant){
-        var arr = this.state.etudiantsPermis;
-        if (arr.includes(etudiant)) {
-            alert("EXISTE DÉJÀ!");
-        }
-        else{
-            arr.push(etudiant);
-            this.setState({ etudiantsPermis: arr });
-        }
-        console.log(this.state.etudiantsPermis);
-    }
-
-    removeEtudiant(etudiant){
-        var arr = this.state.etudiantsPermis;
-        if (arr.includes(etudiant)) {
-            arr.pop(etudiant);
-            this.setState({ etudiantsPermis: arr });
-        }
-        else{
-            alert("DOES NOT EXIST!");
-        }
-        console.log(this.state.etudiantsPermis);
-    }
-
-    retourner(){
+    addAllEtudiants(){
+        StageService.addEtudiants(this.props.match.params.id, this.state.etudiants);
         this.props.history.push('/gestionnaireStage');
     }
 
@@ -55,6 +32,45 @@ export default class SelectionnerEtudiantComponent extends Component {
         stage = await StageService.getStageById(this.props.match.params.id);
         const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.data.programme);
         this.setState({ etudiants });
+        this.setState({ disabledButtons: new Array(this.state.etudiants.length).fill(false)});
+
+        const { data: etudiantsPermis } = await StageService.getEtudiantsByStageId(this.props.match.params.id);
+        this.setState({ etudiantsPermis });
+        
+        var arr = new Array(this.state.etudiants.length).fill(false);
+        for(let etudiant of this.state.etudiantsPermis){
+            arr[etudiant.id] = true;
+        }
+        
+        this.setState({ disabledButtons: arr });
+    }
+
+    async AddToList(index, param, e) {
+        var etudiant = new Etudiant();
+            etudiant = await EtudiantService.getEtudiantById(index);
+
+        this.setState(oldState => {
+            const newEtudiantsPermis = [...oldState.etudiantsPermis];
+            newEtudiantsPermis[index] = etudiant.data;
+            const newDisabledButtons = [...oldState.disabledButtons];
+            newDisabledButtons[index] = true;
+            return {
+                disabledButtons: newDisabledButtons,
+                etudiantsPermis: newEtudiantsPermis,
+            }
+        });
+    }
+
+    async RemoveFromList(index, param, e) {
+        const newList = this.state.etudiantsPermis.filter((etudiant) => etudiant.id !== index);
+        this.setState(oldState => {
+            const newDisabledButtons = [...oldState.disabledButtons];
+            newDisabledButtons[index] = false;
+            return {
+                disabledButtons: newDisabledButtons,
+                etudiantsPermis: newList,
+            }
+        });
     }
 
     render() {
@@ -79,6 +95,7 @@ export default class SelectionnerEtudiantComponent extends Component {
                     <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
+                                <th> ID </th>
                                 <th> O </th>
                                 <th> X </th>
                                 <th> Matricule </th>
@@ -95,14 +112,17 @@ export default class SelectionnerEtudiantComponent extends Component {
                                 .map(
                                     etudiant =>
                                     <tr key={etudiant.id}>
+                                        <td>{etudiant.id}</td>
                                         <td>
-                                            <button className="btn btn-primary" onClick={(e) => this.addEtudiant(etudiant)}>
-                                                Ajouté
+                                            <button onClick={() => this.AddToList(etudiant.id)}
+                                                disabled={this.state.disabledButtons[etudiant.id]}>
+                                                {!this.state.disabledButtons[etudiant.id] ? ("Add") : "Already in"}
                                             </button>
                                         </td>
                                         <td>
-                                            <button className="btn btn-danger" onClick={(e) => this.removeEtudiant(etudiant)}>
-                                                Enlevé
+                                            <button onClick={() => this.RemoveFromList(etudiant.id)}
+                                                disabled={!this.state.disabledButtons[etudiant.id]}>
+                                                {this.state.disabledButtons[etudiant.id] ? ("Remove") : "Already out"}
                                             </button>
                                         </td>
                                         <td>{etudiant.matricule}</td>

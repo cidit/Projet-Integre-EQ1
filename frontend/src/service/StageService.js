@@ -19,6 +19,9 @@ class StageService{
     getStagesEtudiant(idEtudiant){
         return axios.get("http://localhost:8080/stagesEtudiant?idEtudiant="+ idEtudiant);
     }
+    getEtudiantsByStageId(idStage){
+        return axios.get("http://localhost:8080/stages/getEtudiantsAdmits/" + idStage);
+    }
 
 
     createStage(stage){

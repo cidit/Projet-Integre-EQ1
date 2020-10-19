@@ -13,7 +13,7 @@ class EtudiantService{
     }
 
     getEtudiantById(id){
-        return axios.get(ETUDIANT_GET + id);
+        return axios.get("http://localhost:8080/etudiants/get?idEtudiant=" + id);
     }
 
     getEtudiantByMatricule(matricule){

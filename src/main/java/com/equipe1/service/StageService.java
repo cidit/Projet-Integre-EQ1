@@ -114,4 +114,12 @@ public class StageService {
                     String.format("there are no stage with id %s", stageId));
     }
 
+    public Set<Etudiant> getEtudiantsAdmits(long stageId) {
+        Optional<Stage> optionnalStage = stageRepository.findById(stageId);
+        if (optionnalStage.isPresent()) {
+            var stage = optionnalStage.get();
+            return stage.getEtudiantsAdmits();
+        } else
+            return null;
+    }
 }
