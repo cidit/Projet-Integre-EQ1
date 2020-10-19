@@ -8,7 +8,6 @@ export default class ListEtudiantsComponent extends Component {
         super(props);
         this.state = { etudiants: [], filter: '', statut: '', idEtudiant: '', isCVApprouve: false};
         this.handleSubmit = this.handleSubmit.bind(this)
-
     }
 
     handleSubmit(event, isValid, id){
@@ -36,7 +35,6 @@ export default class ListEtudiantsComponent extends Component {
     downloadCV = (idEtudiant) => {
 
         return (dispatch) => {
-
             const method = 'GET';
             const url = 'http://localhost:8080/cvs/get/' + idEtudiant;
             axios
@@ -49,10 +47,9 @@ export default class ListEtudiantsComponent extends Component {
                     const downloadUrl = window.URL.createObjectURL(new Blob([data]));
                     const link = document.createElement('a');
                     link.href = downloadUrl;
-                    link.setAttribute('download', 'file.pdf'); //any other extension
+                    link.setAttribute('download', "etudiant" + idEtudiant + ".pdf"); //any other extension
                     document.body.appendChild(link);
                     link.click();
-                    link.remove();
                 });
         };
 

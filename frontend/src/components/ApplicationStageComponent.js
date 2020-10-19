@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import StageService from '../service/StageService';
 import EtudiantService from "../service/EtudiantService";
 import CandidatureService from "../service/CandidatureService";
+import axios from "axios";
 
 
 export default class ApplicationStageComponent extends Component {
@@ -9,10 +10,11 @@ export default class ApplicationStageComponent extends Component {
         super(props);
         this.state = {
             stages: [],
+            etudiant: "",
+            hasValidCV: false,
             hasApplied:""
         };
         this.handleSubmit = this.handleSubmit.bind(this)
-        //this.onChangeHandler = this.onChangeHandler.bind(this)
         this.addStage = this.addStage.bind(this);
 
     }
@@ -26,10 +28,25 @@ export default class ApplicationStageComponent extends Component {
         var id;
         if (localStorage.getItem("desc") == "Etudiant")
             id = localStorage.getItem("id");
-
+        const {data: etudiant} = await EtudiantService.getEtudiantById(id);
+        console.log(etudiant);
+        this.setState({etudiant: etudiant});
         StageService.getStagesEtudiant(id).then((res) => { this.setState({ stages: res.data }) })
-
+        if (this.state.etudiant.cv == undefined){
+            this.setState({ hasValidCV: false});
+        }
+        else {
+            if (this.state.etudiant.cv.status == 'APPROVED'){
+                this.setState({ hasValidCV: true});
+            }
+            else {
+                this.setState({ hasValidCV: false});
+            }
+        }
     }
+
+
+
     handleSubmit(event) {
         event.preventDefault()
         var idEtudiant;
@@ -77,7 +94,12 @@ export default class ApplicationStageComponent extends Component {
                                             <td>{stage.dateFin}</td>
                                             <td>{stage.ville}</td>
                                             <td>{stage.nbHeuresParSemaine}</td>
-                                            <td><button type="submit" className="btn btn-primary" value={stage.id} onClick={this.handleSubmit}>Postuler</button></td>
+                                            <td>{this.state.hasValidCV ?
+                                                <div>
+                                                    <button type="submit" className="btn btn-primary" value={stage.id} onClick={this.handleSubmit}>Postuler</button>
+                                                </div> : null
+                                            }
+                                            </td>
 
                                         </tr>
                                 )}
