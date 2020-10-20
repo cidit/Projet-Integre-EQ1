@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Service
 public class StageService {
-
     @Autowired
     private StageRepository stageRepository;
     @Autowired
@@ -72,5 +71,4 @@ public class StageService {
 //        notificationCourrielService.sendMail(stage.getEmployeur());
         return updateStage(stage,id);
     }
-
 }

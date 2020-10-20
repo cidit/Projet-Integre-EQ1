@@ -96,12 +96,12 @@ public class StageServiceTest {
         when(repository.save(s1)).thenReturn(s1);
         repository.save(s1);
         when(repository.findById(1L)).thenReturn(Optional.of(s1));
-        s1.setIsApprouve(Stage.StageStatus.APPROUVED);
+        s1.setIsApprouve(Stage.StageStatus.APPROVED);
         s1.setOuvert(true);
         // Act
         Stage stage = service.updateStatus(s1,1L);
         // Assert
-        assertSame(stage.getIsApprouve(), Stage.StageStatus.APPROUVED);
+        assertSame(stage.getIsApprouve(), Stage.StageStatus.APPROVED);
         assertTrue(stage.isOuvert());
     }
 

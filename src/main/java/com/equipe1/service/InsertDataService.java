@@ -75,9 +75,9 @@ public class InsertDataService {
         stage1.setTitre("Stage_1");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(2);
-        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateDebut(LocalDate.of(2020,10,12));
         stage1.setDateFin(LocalDate.of(2020,12,12));
-        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
+        stage1.setDateLimiteCandidature(LocalDate.of(2020,9,11));
         stage1.setExigences("aucune exigence");
         stage1.setProgramme("Informatique");
         stage1.setNbHeuresParSemaine(35);
@@ -91,9 +91,9 @@ public class InsertDataService {
         stage2.setTitre("Stage_2");
         stage2.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Odio euismod lacinia at quis risus sed vulputate. Faucibus in ornare quam viverra orci sagittis eu volutpat. ");
         stage2.setNbAdmis(5);
-        stage2.setDateDebut(LocalDate.now());
+        stage2.setDateDebut(LocalDate.of(2020,10,12));
         stage2.setDateFin(LocalDate.of(2020,12,12));
-        stage2.setDateLimiteCandidature(LocalDate.of(2020,11,11));
+        stage2.setDateLimiteCandidature(LocalDate.of(2020,9,11));
         stage2.setExigences("Travail d'equipe, Java, Python");
         stage2.setProgramme("Informatique");
         stage2.setNbHeuresParSemaine(35);
