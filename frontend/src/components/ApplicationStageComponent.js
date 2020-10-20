@@ -29,7 +29,6 @@ export default class ApplicationStageComponent extends Component {
         if (localStorage.getItem("desc") == "Etudiant")
             id = localStorage.getItem("id");
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);
-        console.log(etudiant);
         this.setState({etudiant: etudiant});
         StageService.getStagesEtudiant(id).then((res) => { this.setState({ stages: res.data }) })
         if (this.state.etudiant.cv == undefined){
@@ -60,6 +59,18 @@ export default class ApplicationStageComponent extends Component {
             window.location.reload();
         }, 1000);
     }
+    displayWarningMessage() {
+        if(this.state.stages.length != 0){
+            if (this.state.etudiant.cv == null)
+                return <label>Vous ne pourrez pas postuler si vous n'avez pas de CV.</label>
+            if (!this.state.hasValidCV)
+                return <label>Vous ne pourrez pas postuler si votre CV n'a pas été approuvé.</label>
+        }
+        else {
+                return <label>Aucune offre de stage n'est disponible pour vous.</label>
+        }
+    }
+
     render() {
         return (
             <form className="d-flex flex-column">
@@ -94,17 +105,19 @@ export default class ApplicationStageComponent extends Component {
                                             <td>{stage.dateFin}</td>
                                             <td>{stage.ville}</td>
                                             <td>{stage.nbHeuresParSemaine}</td>
-                                            <td>{this.state.hasValidCV ?
-                                                <div>
+                                            {this.state.hasValidCV ?
+
+                                                <td>
                                                     <button type="submit" className="btn btn-primary" value={stage.id} onClick={this.handleSubmit}>Postuler</button>
-                                                </div> : null
+                                                </td> : null
                                             }
-                                            </td>
 
                                         </tr>
                                 )}
                                 </tbody>
                             </table>
+                            {(this.displayWarningMessage())}<br/>
+
                             {this.state.hasApplied? <label style={{color: "green"}}>Vous venez de postuler au stage</label>: null}<br/>
 
                         </div>
