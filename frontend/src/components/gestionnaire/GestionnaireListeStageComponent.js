@@ -36,7 +36,7 @@ export default class GestionnaireListStageComponent extends Component {
                                 <th> Heures par semaine </th>
                                 <th> Statut approbation </th>
                                 <th> Statut overture </th>
-                                <th> Détails </th>
+                                <th> Assigner étudiant(s) </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,7 +59,7 @@ export default class GestionnaireListStageComponent extends Component {
                                         <td>{stage.ouvert ? 'Ouvert' : 'Fermé'}</td>
                                         <td>
                                             <button className="btn btn-primary" onClick={() => this.handleClick(stage.id)} >
-                                                View
+                                                Assigner
                                             </button>
                                         </td>
                                     </tr>

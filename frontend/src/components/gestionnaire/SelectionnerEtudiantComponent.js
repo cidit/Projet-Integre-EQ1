@@ -59,10 +59,7 @@ export default class SelectionnerEtudiantComponent extends Component {
         this.setState({ disabledButtons: bouttons });
 
         const stageEtudiants = [];
-        if (this.state.etudiantsPermis === []) {
-            console.log("EMPTY!")
-        }
-        else{   
+        if (this.state.etudiantsPermis !== []) { 
             for(let etudiant of this.state.etudiantsPermis){
                 stageEtudiants[etudiant.id] = etudiant;
             }
