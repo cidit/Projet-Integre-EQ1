@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import Etudiant from "../model/Etudiant";
-import { simpleFetch } from "../crud/DataCRUD";
 import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import UserService from "../service/UserService";
-import EmployeurService from "../service/EmployeurService";
 import EtudiantService from "../service/EtudiantService";
 
 
@@ -101,7 +99,9 @@ export default class EtudiantRegister extends Component {
                                                     <Field type="text"
                                                         name="nom"
                                                         className="form-control"
-                                                        placeholder="" />
+                                                        placeholder=""
+                                                           maxLength="255"
+                                                    />
                                                     <ErrorMessage name="nom">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -114,7 +114,9 @@ export default class EtudiantRegister extends Component {
                                                     <Field type="text"
                                                         name="prenom"
                                                         className="form-control"
-                                                        placeholder="" />
+                                                        placeholder=""
+                                                           maxLength="255"
+                                                    />
                                                     <ErrorMessage name="prenom">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -127,7 +129,9 @@ export default class EtudiantRegister extends Component {
                                                     <Field type="email"
                                                         name="email"
                                                         className="form-control"
-                                                        placeholder="example@email.com" />
+                                                        placeholder="example@email.com"
+                                                           maxLength="255"
+                                                    />
                                                     <ErrorMessage name="email">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -140,7 +144,9 @@ export default class EtudiantRegister extends Component {
                                                     <Field type="password"
                                                         name="password"
                                                         className="form-control"
-                                                        placeholder="" />
+                                                        placeholder=""
+                                                           maxLength="255"
+                                                    />
                                                     <ErrorMessage name="password">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -153,7 +159,9 @@ export default class EtudiantRegister extends Component {
                                                     <Field type="text"
                                                         name="matricule"
                                                         className="form-control"
-                                                        placeholder="" />
+                                                        placeholder=""
+                                                           maxLength="255"
+                                                    />
                                                     <ErrorMessage name="matricule">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -166,7 +174,9 @@ export default class EtudiantRegister extends Component {
                                                     <Field type="text"
                                                         name="telephone"
                                                         className="form-control"
-                                                        placeholder="" />
+                                                        placeholder=""
+                                                           maxLength="255"
+                                                    />
                                                     <ErrorMessage name="telephone">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -179,7 +189,9 @@ export default class EtudiantRegister extends Component {
                                                     <Field type="text"
                                                         name="adresse"
                                                         className="form-control"
-                                                        placeholder="" />
+                                                        placeholder=""
+                                                           maxLength="255"
+                                                    />
                                                     <ErrorMessage name="adresse">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -192,7 +204,9 @@ export default class EtudiantRegister extends Component {
                                                     <Field type="text"
                                                         name="programme"
                                                         className="form-control"
-                                                        placeholder="" />
+                                                        placeholder=""
+                                                           maxLength="255"
+                                                    />
                                                     <ErrorMessage name="programme">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>

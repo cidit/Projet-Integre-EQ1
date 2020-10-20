@@ -72,18 +72,36 @@ public class InsertDataService {
     Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.arturo.ortiz.celis@gmail.com");
 
         Stage stage1 = new Stage();
-        stage1.setTitre("stage_1");
+        stage1.setTitre("Stage_1");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(2);
         stage1.setDateDebut(LocalDate.now());
         stage1.setDateFin(LocalDate.of(2020,12,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
-        stage1.setProgramme("informatique");
+        stage1.setProgramme("Informatique");
         stage1.setNbHeuresParSemaine(35);
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
+        stage1.setSalaire(15);
         stageService.saveStage(stage1);
+
+
+        Stage stage2 = new Stage();
+        stage2.setTitre("Stage_2");
+        stage2.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Odio euismod lacinia at quis risus sed vulputate. Faucibus in ornare quam viverra orci sagittis eu volutpat. ");
+        stage2.setNbAdmis(5);
+        stage2.setDateDebut(LocalDate.now());
+        stage2.setDateFin(LocalDate.of(2020,12,12));
+        stage2.setDateLimiteCandidature(LocalDate.of(2020,11,11));
+        stage2.setExigences("Travail d'equipe, Java, Python");
+        stage2.setProgramme("Informatique");
+        stage2.setNbHeuresParSemaine(35);
+        stage2.setVille("Laval");
+        stage2.setEmployeur(e2);
+        stage2.setSalaire(18);
+        stageService.saveStage(stage2);
+
 
     }
 

@@ -25,10 +25,16 @@ public class Stage  {
     private boolean isOuvert;
     private String programme;
     private String ville;
-    private boolean isApprouve;
+    private StageStatus isApprouve;
+    private int salaire;
+
 
     public Stage() {
         this.isOuvert = false;
-        this.isApprouve = false;
+        this.isApprouve = StageStatus.WAITING;
+    }
+
+    public enum StageStatus {
+        WAITING, APPROUVED, DENIED
     }
 }

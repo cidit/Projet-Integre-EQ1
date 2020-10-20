@@ -11,7 +11,7 @@ export default class GestionnaireProfile extends Component {
 
     async componentDidMount() {
         var id;
-        if (localStorage.getItem("desc") == "Gestionnaire")
+        if (localStorage.getItem("desc") === "Gestionnaire")
             id = localStorage.getItem("id");
 
         const {data: gestionnaire} = await axios.get(

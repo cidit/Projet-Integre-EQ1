@@ -10,6 +10,7 @@ class StageService{
     getStages(){
         return axios.get(STAGES_URL + "/findAll");
     }
+
     getStagesByEmployeurId(idEmployeur){
         return axios.get("http://localhost:8080/stage/stageByEmployeurId?idEmployeur="+ idEmployeur);
     }
@@ -24,15 +25,15 @@ class StageService{
 
     async updateStage(stage, id){
         fetch( "http://localhost:8080/stage/updateStatusStage/"+ id,
-            {method: "POST",
+            {method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(stage)} )
-            .then(r => r.json());
-
+            .then(r => r.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => console.log('Success:', response));
     }
-
 
     createStage(stage){
         return axios.post(STAGES_URL_POST,stage)

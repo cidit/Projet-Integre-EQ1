@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import ListStagesComponent from './stage/ListStageComponent';
 
 export default class Home extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         if (this.props.location.search === "?refresh"){
              this.props.history.replace("/")
@@ -16,7 +11,7 @@ export default class Home extends Component {
     render(){
         return(
            <div>
-               {/*<ListStagesComponent/>*/}
+               <h2 class="text-center">Home page</h2>
            </div>
         );
     }

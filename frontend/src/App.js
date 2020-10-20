@@ -2,9 +2,8 @@ import React from 'react';
 import './App.css';
 
 import EtudiantRegister from "./components/EtudiantRegister";
-import ListStagesComponent from "./components/stage/ListStageComponent";
 import Login from "./components/Login";
-import { Route, Switch,Router , withRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
@@ -22,9 +21,6 @@ function App() {
       <main>
         <HeaderComponent />
         <div className="container">
-
-            <StageVeto/>
-         
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/stages" component={ListStagesEmployeur}/>

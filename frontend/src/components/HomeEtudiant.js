@@ -27,14 +27,14 @@ export default class HomeEtudiant extends Component {
 
     async componentDidMount() {
         var id;
-        if (localStorage.getItem("desc") == "Etudiant")
+        if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
 
         const {data: etudiant} = await axios.get(
             "http://localhost:8080/etudiants/get?idEtudiant=" + id
     );
         this.setState({etudiant: etudiant});
-        this.setState({hasAlreadyCV: this.state.etudiant.cv != undefined} );
+        this.setState({hasAlreadyCV: this.state.etudiant.cv !== undefined} );
     }
 
     onClickHandler = () => {
@@ -66,8 +66,8 @@ export default class HomeEtudiant extends Component {
     }
     handleSubmit(event) {
         event.preventDefault()
-        var id;
-        if (localStorage.getItem("desc") == "Etudiant")
+        let id;
+        if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
         const formData = new FormData();
         formData.append('file', this.state.etudiant.cv);

@@ -60,16 +60,15 @@ public class StageService {
         optionalStage.get().setNbHeuresParSemaine(newStage.getNbHeuresParSemaine());
         optionalStage.get().setNbAdmis(newStage.getNbAdmis());
         optionalStage.get().setOuvert(newStage.isOuvert());
-        optionalStage.get().setApprouve(newStage.isApprouve());
+        optionalStage.get().setIsApprouve(newStage.getIsApprouve());
         optionalStage.get().setDateLimiteCandidature(newStage.getDateLimiteCandidature());
         optionalStage.get().setProgramme(newStage.getProgramme());
+        optionalStage.get().setSalaire(newStage.getSalaire());
         return stageRepository.save(optionalStage.get());
     }
 
     public Stage updateStatus(Stage newStage, long id) throws Exception {
         Stage stage = newStage;
-        stage.setApprouve(true);
-        stage.setOuvert(true);
 //        notificationCourrielService.sendMail(stage.getEmployeur());
         return updateStage(stage,id);
     }

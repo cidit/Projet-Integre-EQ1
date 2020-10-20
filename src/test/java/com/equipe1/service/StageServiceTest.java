@@ -12,8 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.time.LocalDate;
@@ -97,10 +96,12 @@ public class StageServiceTest {
         when(repository.save(s1)).thenReturn(s1);
         repository.save(s1);
         when(repository.findById(1L)).thenReturn(Optional.of(s1));
+        s1.setIsApprouve(Stage.StageStatus.APPROUVED);
+        s1.setOuvert(true);
         // Act
         Stage stage = service.updateStatus(s1,1L);
         // Assert
-        assertTrue(stage.isApprouve());
+        assertSame(stage.getIsApprouve(), Stage.StageStatus.APPROUVED);
         assertTrue(stage.isOuvert());
     }
 
