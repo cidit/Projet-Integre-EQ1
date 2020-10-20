@@ -2,12 +2,8 @@ package com.equipe1.service;
 
 import com.equipe1.model.Etudiant;
 import com.equipe1.repository.EtudiantRepository;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfWriter;
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +47,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    @DisplayName("TEST GetAll")
     void testGetEtudiants() {
         // Arrange
         doReturn(Arrays.asList(e1, e2)).when(repository).findAll();
@@ -63,7 +57,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findById Success")
     void testFindEtudiantById() {
         // Arrange
         doReturn(Optional.of(e1)).when(repository).findById(1l);
@@ -75,7 +68,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findById Not Found")
     void testFindEtudiantByIdNotFound() {
         // Arrange
         doReturn(Optional.empty()).when(repository).findById(1l);
@@ -86,7 +78,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    @DisplayName("TEST saveEtudiant")
     void testSaveEtudiant() {
         // Arrange
         doReturn(e1).when(repository).save(any());
@@ -98,7 +89,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    @DisplayName("TEST updateEtudiant")
     void testUpdateEtudiant() {
         // Arrange + Act
         e1.setId(1l);
@@ -129,7 +119,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findByMatricule Success")
     void testFindEtudiantByMatricule() {
         // Arrange
         doReturn(Optional.of(e1)).when(repository).findByMatricule("12345");
@@ -141,7 +130,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findByMatricule Not Found")
     void testFindEtudiantByMatriculeNotFound() {
         // Arrange
         doReturn(Optional.empty()).when(repository).findByMatricule("X");
@@ -189,7 +177,6 @@ public class EtudiantServiceTest {
 //    }
 
     @Test
-    @DisplayName("TEST findByEmail Success")
     void testFindEtudiantByEmail() {
         // Arrange
         doReturn(e1).when(repository).findByEmail("e1@email.com");
@@ -201,7 +188,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findByEmail Not Found")
     void testFindEtudiantByEmailNotFound() {
         // Arrange
         doReturn(null).when(repository).findByEmail("no@email.com");
@@ -212,7 +198,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findByProgramme Found")
     void testFindEtudiantByProgrammeFound() {
         // Arrange
         doReturn(Arrays.asList(e1, e2)).when(repository).findAllByProgramme("Techniques de l’informatique");
@@ -224,7 +209,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findByProgramme Not Found")
     void testFindEtudiantByProgrammeNotFound() {
         // Arrange
         doReturn(null).when(repository).findAllByProgramme("RIEN");

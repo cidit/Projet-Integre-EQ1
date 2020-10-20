@@ -5,11 +5,9 @@ import com.equipe1.model.Candidature;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.Stage;
 import com.equipe1.repository.EmployeurRepository;
-import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.StageRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -18,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -31,18 +28,19 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class StageServiceTest {
+
     @Autowired
     private StageService stageService;
-    @MockBean
-    private NotificationCourrielService notificationCourrielService;
+
     @MockBean
     private StageRepository stageRepository;
+
     @MockBean
     private CandidatureService candidatureService;
+
     @MockBean
     private EmployeurRepository employeurRepository;
-    @MockBean
-    private EtudiantRepository etudiantRepository;
+
     private Stage s1;
     private Stage s2;
 
@@ -55,7 +53,6 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("getAll test")
     void testGetStages() {
         // Arrange
         doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
@@ -66,7 +63,6 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("Successful findById test")
     void testFindStageById() {
         // Arrange
         doReturn(Optional.of(s1)).when(stageRepository).findById(1l);
@@ -78,7 +74,6 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("Unsuccessful findById test")
     void testFindStageByIdNotFound() {
         // Arrange
         doReturn(Optional.empty()).when(stageRepository).findById(1l);
@@ -89,7 +84,6 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("saveStage test")
     void testSaveStage() throws Exception {
         // Arrange
         doReturn(s1).when(stageRepository).save(any());
@@ -101,8 +95,7 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("Successful updateStatus")
-    void updateStatusTest() throws Exception {
+    void testUpdateStatusTest() throws Exception {
         // Arrange
         when(stageRepository.save(s1)).thenReturn(s1);
         stageRepository.save(s1);
@@ -115,8 +108,7 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("Successful getStagesByEmployeur")
-    void getStagesByEmployeurTest() {
+    void testGetStagesByEmployeurTest() {
         Employeur e = new Employeur();
         e.setId(3L);
         s1.setEmployeur(e);
@@ -134,7 +126,6 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("updateStage test")
     void testUpdateStage() {
         s1.setId(1l);
         s1.setTitre("Stage en programmation");
@@ -179,7 +170,7 @@ public class StageServiceTest {
     }
 
     @Test
-    public void getStagesEtudiantValide(){
+    public void testGetStagesEtudiantValide(){
         s1.setId(2L);
         s1.setApprouve(true);
         s1.setOuvert(true);
@@ -194,14 +185,14 @@ public class StageServiceTest {
         doReturn(candidatures).when(candidatureService).findCandidatureByEtudiant(e1.getId());
         Mockito.when(stageRepository.findAll()).thenReturn(Arrays.asList(s1));
         List<Stage> stageList = stageService.getStagesEtudiant(e1.getId());
-
+        // Assert
         Assertions.assertNotNull(stageList);
         Assertions.assertEquals(stageList.size(), 1);
         Assertions.assertEquals(stageList.get(0), s1);
     }
 
     @Test
-    public void getStagesEtudiantInvalide(){
+    public void testGetStagesEtudiantInvalide(){
         s1.setId(2L);
         s1.setApprouve(true);
         s1.setOuvert(true);
@@ -216,12 +207,12 @@ public class StageServiceTest {
         doReturn(candidatures).when(candidatureService).findCandidatureByEtudiant(e1.getId());
         Mockito.when(stageRepository.findAll()).thenReturn(Arrays.asList(s1));
         List<Stage> stageList = stageService.getStagesEtudiant(e1.getId());
-
+        // Assert
         Assertions.assertEquals(stageList.size(), 0);
     }
 
     @Test
-    public void updateEtudiantsAdmits(){
+    public void testUpdateEtudiantsAdmits(){
         s1.setId(1L);
         s1.setApprouve(true);
         s1.setOuvert(true);
@@ -242,7 +233,7 @@ public class StageServiceTest {
     }
 
     @Test
-    public void getEtudiantsAdmitsByValideStageId(){
+    public void testGetEtudiantsAdmitsByValideStageId(){
         s1.setId(1L);
         s1.setApprouve(true);
         s1.setOuvert(true);
@@ -263,7 +254,7 @@ public class StageServiceTest {
     }
 
     @Test
-    public void getEtudiantsAdmitsByInvalideStageId(){
+    public void testGetEtudiantsAdmitsByInvalideStageId(){
         // Act
         Set<Etudiant> stageList = stageService.getEtudiantsAdmits(22L);
         // Assert

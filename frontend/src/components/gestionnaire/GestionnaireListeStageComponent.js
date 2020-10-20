@@ -30,7 +30,6 @@ export default class GestionnaireListStageComponent extends Component {
                                 <th> Nombre d'étudiant </th>
                                 <th> Titre </th>
                                 <th> Programme </th>
-                                <th> Description </th>
                                 <th> Date Début </th>
                                 <th> Date Finale </th>
                                 <th> Ville </th>
@@ -49,7 +48,6 @@ export default class GestionnaireListStageComponent extends Component {
                                         <td>{stage.etudiantsAdmits.length}</td>
                                         <td>{stage.titre}</td>
                                         <td>{stage.programme}</td>
-                                        <td>{stage.description}</td>
                                         <td>{stage.dateDebut}</td>
                                         <td>{stage.dateFin}</td>
                                         <td>{stage.ville}</td>

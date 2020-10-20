@@ -32,17 +32,16 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class CandidatureServiceTest {
+
     @Autowired
     private CandidatureService candidatureService;
 
     @MockBean
     private CandidatureRepository candidatureRepository;
+
     @MockBean
     private EtudiantRepository etudiantRepository;
-    @Autowired
-    private StageService stageService;
-    @Autowired
-    private EtudiantService etudiantService;
+
     @MockBean
     private StageRepository stageRepository;
 
@@ -52,8 +51,9 @@ public class CandidatureServiceTest {
     private Etudiant e;
     private Stage s;
     private Candidature c;
+
     @BeforeEach
-    public void setUpCandidatures() {
+    public void testSetUpCandidatures() {
         e1 = new Etudiant();
         e1.setId(2L);
         etudiantRepository.save(e1);
@@ -74,29 +74,27 @@ public class CandidatureServiceTest {
     }
 
     @Test
-    public void getCandidaturesTest() {
+    public void testGetCandidaturesTest() {
         Mockito.when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1, c2));
         List<Candidature> all = candidatureService.getCandidatures();
         Assertions.assertEquals(2, all.size());
     }
 
     @Test
-    public void getCandidaturesByIdTest() {
+    public void testGetCandidaturesByIdTest() {
         when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
         Candidature candidature = candidatureService.findCandidatureById(1L).get();
         assertEquals(candidature, c1);
     }
 
     @Test
-    public void saveCandidatureTest() {
+    public void testSaveCandidatureTest() {
         doReturn(s).when(stageRepository).save(any());
         doReturn(e).when(etudiantRepository).save(any());
-
         Stage stage = stageRepository.save(s);
         Etudiant etudiant = etudiantRepository.save(e);
         doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
         doReturn(Optional.of(e)).when(etudiantRepository).findById(e.getId());
-
         // Arrange
         doReturn(c).when(candidatureRepository).save(any());
         // Act
@@ -109,7 +107,7 @@ public class CandidatureServiceTest {
     }
 
     @Test
-    public void findCandidatureByEtudiant(){
+    public void testFindCandidatureByEtudiant(){
         List<Candidature> candidatureList = new ArrayList<>();
         doReturn(s).when(stageRepository).save(any());
         doReturn(e).when(etudiantRepository).save(any());
@@ -120,10 +118,8 @@ public class CandidatureServiceTest {
         candidatureList.add(c);
         Stage stage = stageRepository.save(s);
         Etudiant etudiant = etudiantRepository.save(e);
-
         // Arrange
         doReturn(candidatureList).when(candidatureRepository).findAll();
-
         // Act
         List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(etudiant.getId());
         // Assert
@@ -133,7 +129,7 @@ public class CandidatureServiceTest {
     }
 
     @Test
-    public void updateCandidature() {
+    public void testUpdateCandidature() {
         c1.setId(1L);
         when(candidatureRepository.save(c1)).thenReturn(c1);
         candidatureRepository.save(c1);

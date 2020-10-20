@@ -4,27 +4,41 @@ import StageService from '../../service/StageService';
 import Stage from '../../model/Stage';
 import Etudiant from '../../model/Etudiant';
 
+import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineCheckSquare, AiOutlineCloseSquare } from 'react-icons/ai';
+
 export default class SelectionnerEtudiantComponent extends Component {    
     constructor(props) {
         super(props);
         this.state = { etudiants: [], etudiantsPermis: [], disabledButtons: [], };
         this.addAllEtudiants = this.addAllEtudiants.bind(this);
+        this.removeAllEtudiants = this.removeAllEtudiants.bind(this);
         this.confirmerChoix = this.confirmerChoix.bind(this);
-        this.retourner = this.retourner.bind(this);
-    }
-
-    retourner(){
-        this.props.history.push('/gestionnaireStage');
+        this.annulerChoix = this.annulerChoix.bind(this);
     }
 
     addAllEtudiants(){
-        StageService.addEtudiants(this.props.match.params.id, this.state.etudiants);
-        this.props.history.push('/gestionnaireStage');
+        const etudiants = [];
+        for(let etudiant of this.state.etudiants){
+            etudiants.push(etudiant);
+        }
+
+        var bouttons = new Array(this.state.etudiants.length).fill(false);
+        for(let etudiant of this.state.etudiants){
+            bouttons[etudiant.id] = true;
+        }
+        
+        this.setState({ disabledButtons: bouttons });
+        this.setState({ etudiantsPermis: etudiants });
     }
 
-    confirmerChoix(){
-        StageService.addEtudiants(this.props.match.params.id, this.state.etudiantsPermis);
-        this.props.history.push('/gestionnaireStage');
+    removeAllEtudiants(){
+        var bouttons = new Array(this.state.etudiants.length).fill(false);
+        for(let etudiant of this.state.etudiants){
+            bouttons[etudiant.id] = false;
+        }
+        
+        this.setState({ disabledButtons: bouttons });
+        this.setState({ etudiantsPermis: [] });
     }
 
     async componentDidMount() {
@@ -36,13 +50,24 @@ export default class SelectionnerEtudiantComponent extends Component {
 
         const { data: etudiantsPermis } = await StageService.getEtudiantsByStageId(this.props.match.params.id);
         this.setState({ etudiantsPermis });
-        
-        var arr = new Array(this.state.etudiants.length).fill(false);
+ 
+        var bouttons = new Array(this.state.etudiants.length).fill(false);
         for(let etudiant of this.state.etudiantsPermis){
-            arr[etudiant.id] = true;
+            bouttons[etudiant.id] = true;
         }
         
-        this.setState({ disabledButtons: arr });
+        this.setState({ disabledButtons: bouttons });
+
+        const stageEtudiants = [];
+        if (this.state.etudiantsPermis === []) {
+            console.log("EMPTY!")
+        }
+        else{   
+            for(let etudiant of this.state.etudiantsPermis){
+                stageEtudiants[etudiant.id] = etudiant;
+            }
+        }
+        this.setState({ etudiantsPermis: stageEtudiants });
     }
 
     async AddToList(index, param, e) {
@@ -62,15 +87,25 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     async RemoveFromList(index, param, e) {
-        const newList = this.state.etudiantsPermis.filter((etudiant) => etudiant.id !== index);
+        var newList = this.state.etudiantsPermis.filter((value) => (value === undefined) ? "" : value);
+        const updatedList = newList.filter((etudiant) => etudiant.id !== index);
         this.setState(oldState => {
             const newDisabledButtons = [...oldState.disabledButtons];
             newDisabledButtons[index] = false;
             return {
                 disabledButtons: newDisabledButtons,
-                etudiantsPermis: newList,
+                etudiantsPermis: updatedList,
             }
         });
+    }
+
+    confirmerChoix(){
+        StageService.addEtudiants(this.props.match.params.id, this.state.etudiantsPermis);
+        this.props.history.push('/gestionnaireStage');
+    }
+
+    annulerChoix(){
+        this.props.history.push('/gestionnaireStage');
     }
 
     render() {
@@ -79,25 +114,18 @@ export default class SelectionnerEtudiantComponent extends Component {
             <div>
                 <h1 className="text-center">Liste des étudiants</h1>
 
-                <div className="form-group">
-                    <div className="row"> 
-                        <button className="btn btn-secondary" onClick={this.retourner}>RETOUR</button>
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <div className="row"> 
-                        <button className="btn btn-primary" onClick={this.addAllEtudiants}>SÉLECTIONNER TOUT</button>
-                    </div>
-                </div>
-
                 <div className="row">
                     <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th> ID </th>
-                                <th> O </th>
-                                <th> X </th>
+                                <th>  
+                                    <button onClick={this.addAllEtudiants}>
+                                        <h3> <AiOutlineCheckSquare /> </h3>
+                                    </button>
+                                    <button onClick={this.removeAllEtudiants}>
+                                        <h3> <AiOutlineCloseSquare /> </h3>
+                                    </button>
+                                </th>
                                 <th> Matricule </th>
                                 <th> Nom </th>
                                 <th> Prénom </th>
@@ -112,17 +140,16 @@ export default class SelectionnerEtudiantComponent extends Component {
                                 .map(
                                     etudiant =>
                                     <tr key={etudiant.id}>
-                                        <td>{etudiant.id}</td>
                                         <td>
                                             <button onClick={() => this.AddToList(etudiant.id)}
                                                 disabled={this.state.disabledButtons[etudiant.id]}>
-                                                {!this.state.disabledButtons[etudiant.id] ? ("Add") : "Already in"}
+                                                {!this.state.disabledButtons[etudiant.id] ? 
+                                                <h3> <AiFillCheckCircle /> </h3> : <h3> <AiOutlineCheckCircle /> </h3>}
                                             </button>
-                                        </td>
-                                        <td>
                                             <button onClick={() => this.RemoveFromList(etudiant.id)}
                                                 disabled={!this.state.disabledButtons[etudiant.id]}>
-                                                {this.state.disabledButtons[etudiant.id] ? ("Remove") : "Already out"}
+                                                {this.state.disabledButtons[etudiant.id] ? 
+                                                <h3> <AiFillCloseCircle /> </h3> : <h3> <AiOutlineCloseCircle /> </h3>}
                                             </button>
                                         </td>
                                         <td>{etudiant.matricule}</td>
@@ -140,7 +167,8 @@ export default class SelectionnerEtudiantComponent extends Component {
 
                 <div className="form-group">
                     <div className="row"> 
-                        <button className="btn btn-success" onClick={this.confirmerChoix}>CONFIRMER</button>
+                        <button className="btn btn-success" onClick={this.confirmerChoix}>Confirmer</button>
+                        <button className="btn btn-danger" onClick={this.annulerChoix}>Annuler</button>
                     </div>
                 </div>
 
