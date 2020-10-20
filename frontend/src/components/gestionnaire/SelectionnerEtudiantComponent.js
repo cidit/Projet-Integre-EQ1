@@ -116,10 +116,10 @@ export default class SelectionnerEtudiantComponent extends Component {
                         <thead>
                             <tr>
                                 <th>  
-                                    <button onClick={this.addAllEtudiants}>
+                                    <button className="btn btn-primary-outline" onClick={this.addAllEtudiants}>
                                         <h3> <AiOutlineCheckSquare /> </h3>
                                     </button>
-                                    <button onClick={this.removeAllEtudiants}>
+                                    <button className="btn btn-primary-outline" onClick={this.removeAllEtudiants}>
                                         <h3> <AiOutlineCloseSquare /> </h3>
                                     </button>
                                 </th>
@@ -138,12 +138,12 @@ export default class SelectionnerEtudiantComponent extends Component {
                                     etudiant =>
                                     <tr key={etudiant.id}>
                                         <td>
-                                            <button onClick={() => this.AddToList(etudiant.id)}
+                                            <button className="btn btn-primary-outline" onClick={() => this.AddToList(etudiant.id)}
                                                 disabled={this.state.disabledButtons[etudiant.id]}>
                                                 {!this.state.disabledButtons[etudiant.id] ? 
                                                 <h3> <AiFillCheckCircle /> </h3> : <h3> <AiOutlineCheckCircle /> </h3>}
                                             </button>
-                                            <button onClick={() => this.RemoveFromList(etudiant.id)}
+                                            <button className="btn btn-primary-outline" onClick={() => this.RemoveFromList(etudiant.id)}
                                                 disabled={!this.state.disabledButtons[etudiant.id]}>
                                                 {this.state.disabledButtons[etudiant.id] ? 
                                                 <h3> <AiFillCloseCircle /> </h3> : <h3> <AiOutlineCloseCircle /> </h3>}
