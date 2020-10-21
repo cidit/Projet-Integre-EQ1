@@ -8,7 +8,6 @@ export default class ListEtudiantsComponent extends Component {
         super(props);
         this.state = { etudiants: [], filter: '', statut: '', idEtudiant: '', isCVApprouve: false};
         this.handleSubmit = this.handleSubmit.bind(this)
-
     }
 
     handleSubmit(event, isValid, id){
@@ -26,37 +25,33 @@ export default class ListEtudiantsComponent extends Component {
         if (etudiant.cv.status = 'UNREVIEWED') {
             return(
             <div>
-                <button onClick={(event) =>  this.handleSubmit(event, true, etudiant.cv.id)}>Approuver
+                <button className="btn btn-primary" onClick={(event) =>  this.handleSubmit(event, true, etudiant.cv.id)}>Approuver
                 </button>
-                <button onClick={ (event) =>  this.handleSubmit(event, false, etudiant.cv.id)}>Refuser</button>
+                <button className="btn btn-primary" onClick={ (event) =>  this.handleSubmit(event, false, etudiant.cv.id)}>Refuser</button>
             </div>
             )
         }
     }
     downloadCV = (idEtudiant) => {
-
-        return (dispatch) => {
-
             const method = 'GET';
             const url = 'http://localhost:8080/cvs/get/' + idEtudiant;
-            axios
-                .request({
-                    url,
-                    method,
-                    responseType: 'blob', //important
-                })
-                .then(({ data }) => {
-                    const downloadUrl = window.URL.createObjectURL(new Blob([data]));
-                    const link = document.createElement('a');
-                    link.href = downloadUrl;
-                    link.setAttribute('download', 'file.pdf'); //any other extension
-                    document.body.appendChild(link);
-                    link.click();
-                    link.remove();
-                });
-        };
-
-
+            return () => {
+                axios
+                    .request({
+                        url,
+                        method,
+                        responseType: 'blob',
+                    })
+                    .then(({data}) => {
+                        const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.setAttribute('download', "etudiant" + idEtudiant + ".pdf"); //any other extension
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                    });
+            }
     }
 
     handleChangeText = event => {
@@ -135,7 +130,7 @@ export default class ListEtudiantsComponent extends Component {
                                         <td>{etudiant.telephone}</td>
                                         <td>{etudiant.statutStage}</td>
                                         <td>
-                                            {etudiant.cv != null ?<button onClick={this.downloadCV(etudiant.id)}>Telecharger</button>
+                                            {etudiant.cv != null ?<button onClick={this.downloadCV(etudiant.id)} className="btn btn-primary">Telecharger</button>
                                                 : <p>Pas de CV</p>}<br/>
                                         </td>
                                         <td>

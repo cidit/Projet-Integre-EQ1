@@ -7,7 +7,7 @@ export default class HomeEtudiant extends Component {
     constructor(props) {
         super(props);
         this.inputRef = React.createRef();
-        this.state = {etudiant: {}, file: "", displayInvalidFileMessage: false, displaySubmitCVButton: false, hasAlreadyCV: false, hasUploadedCV: false, id: ''};
+        this.state = {etudiant: {}, file: "", displayInvalidFileMessage: false, displaySubmitCVButton: false, CVInfoMessage: "", hasUploadedCV: false, id: ''};
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }
@@ -19,7 +19,6 @@ export default class HomeEtudiant extends Component {
             });
 
         }
-        //console.log(cv);
         this.setState({hasUploadedCV: false});
     }
 
@@ -32,12 +31,25 @@ export default class HomeEtudiant extends Component {
             "http://localhost:8080/etudiants/get?idEtudiant=" + id
     );
         this.setState({etudiant: etudiant});
-        this.setState({hasAlreadyCV: this.state.etudiant.cv != undefined} );
+
     }
 
-    onClickHandler = () => {
-        const data = new FormData()
-        data.append('file', this.state.selectedFile)
+    displayCVMessage(){
+        if (this.state.etudiant.cv != undefined) {
+            switch (this.state.etudiant.cv.status) {
+                case "APPROVED":
+                    return <label> Votre CV a déjà été approuvé. Mais vous pouvez le mettre à jour.</label>
+                case "DENIED" :
+                    return <label> Votre CV a été refusé. Veuillez en soumettre un autre pour postuler à une offre de stage.</label>
+                case "UNREVIEWED" :
+                    return <label> Votre CV a est en cours d'évaluation.</label>
+                default :
+                    break;
+            }
+        }
+        else {
+            return <label> Vous n'avez pas de CV, veuillez en soumettre afin de postuler à une offre de stage.</label>
+        }
     }
 
     checkMimeType = (event) => {
@@ -96,11 +108,11 @@ export default class HomeEtudiant extends Component {
                                                     onChange={this.onChangeHandler}/>
 
                 </label><br/>
-                {this.state.hasAlreadyCV ? <label>Rappel : vous avez déjà téléversé un CV</label>: null}<br/>
+                {this.displayCVMessage()}<br/>
                 {this.state.displayInvalidFileMessage ?
                     <label style={{color: "red"}}>Ce format de fichier n'est pas autorisé. Seuls les fichiers au format PDF sont autorisés.</label> : null}
                 {this.state.displaySubmitCVButton ? <button type="submit" className="btn btn-primary">Enregistrer mon CV</button> : null}<br/>
-                {this.state.hasUploadedCV? <label style={{color: "green"}}>Vous venez de téléverser votre CV</label>: null}<br/>
+                {this.state.hasUploadedCV? <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant être approuvé pour que vous puissiez appliquer aux offres de stage.</label>: null}<br/>
             </div>
             </form>
 

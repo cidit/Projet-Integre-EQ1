@@ -35,7 +35,6 @@ public class Etudiant extends User {
 
     private String statutStage;
 
-    @JsonIgnore
     @OneToOne
     private CV cv;
 }

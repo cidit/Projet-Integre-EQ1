@@ -20,7 +20,7 @@ export default class ListStagesEmployeur extends Component {
 
     componentDidMount() {
         var id;
-        if (localStorage.getItem("desc") == "Employeur")
+        if (localStorage.getItem("desc") === "Employeur")
             id = localStorage.getItem("id");
 
         StageService.getStagesByEmployeurId(id).then((res) => { this.setState({ stage: res.data }) })

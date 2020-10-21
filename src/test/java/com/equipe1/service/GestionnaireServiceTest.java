@@ -4,7 +4,6 @@ import com.equipe1.model.Gestionnaire;
 import com.equipe1.repository.GestionnaireRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,6 @@ class GestionnaireServiceTest {
     }
 
     @Test
-    @DisplayName("TEST GetAll")
     void testGetGestionnaires(){
         // Arrange
         doReturn(Arrays.asList(g1, g2)).when(repository).findAll();
@@ -53,7 +51,6 @@ class GestionnaireServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findById Success")
     void testFindGestionnaireById() {
         // Arrange
         doReturn(Optional.of(g1)).when(repository).findById(1l);
@@ -65,7 +62,6 @@ class GestionnaireServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findById Not Found")
     void testFindGestionnaireByIdNotFound() {
         // Arrange
         doReturn(Optional.empty()).when(repository).findById(1l);
@@ -76,7 +72,6 @@ class GestionnaireServiceTest {
     }
 
     @Test
-    @DisplayName("TEST saveGestionnaire")
     void testSaveGestionnaire() {
         // Arrange
         doReturn(g1).when(repository).save(any());
@@ -88,7 +83,6 @@ class GestionnaireServiceTest {
     }
 
     @Test
-    @DisplayName("TEST updateGestionnaire")
     void testUpdateGestionnaire() {
         // Arrange + Act
         g1.setId(1l);
@@ -110,7 +104,6 @@ class GestionnaireServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findByPassword Success")
     void testFindGestionnaireByPassword() {
         // Arrange
         doReturn(g1).when(repository).findByPassword("123456");
@@ -122,7 +115,6 @@ class GestionnaireServiceTest {
     }
 
     @Test
-    @DisplayName("TEST findByPassword Not Found")
     void testFindGestionnaireByPasswordNotFound() {
         // Arrange
         doReturn(null).when(repository).findByPassword("none");

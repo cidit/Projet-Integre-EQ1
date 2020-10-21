@@ -14,5 +14,6 @@ export default class Stage{
     dateLimiteCandidature= "";
     programme= "";
     ville ="";
+    etudiantsAdmits = [];
     employeur= new Employeur();
 }

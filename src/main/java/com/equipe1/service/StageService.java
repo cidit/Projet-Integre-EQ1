@@ -1,11 +1,9 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Stage;
+import com.equipe1.model.*;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,7 +26,10 @@ public class StageService {
     private CandidatureService candidatureService;
 
     @Autowired
-    NotificationCourrielService notificationCourrielService;
+    CourrielService courrielService;
+
+    @Autowired
+    Environment env;
 
     public StageService(StageRepository stageRepository) {
         this.stageRepository = stageRepository;
@@ -43,6 +44,8 @@ public class StageService {
         List<Stage> stages = new ArrayList<>();
 
         for (Stage stageTemp : stageRepository.findAll()) {
+            System.out.println("getEmployeur : " + stageTemp.getEmployeur());
+            System.out.println("employeurById : " + employeur);
             if (stageTemp.getEmployeur().getId() == employeur.getId()) {
                 stages.add(stageTemp);
             }
@@ -101,7 +104,10 @@ public class StageService {
         Stage stage = newStage;
         stage.setApprouve(true);
         stage.setOuvert(true);
-        notificationCourrielService.sendMail(stage.getEmployeur());
+
+        courrielService.sendSimpleMessage(new Courriel(stage.getEmployeur().getEmail(),
+                env.getProperty("my.subject.stage"), env.getProperty("my.message.stageApprouve")),
+                stage.getEmployeur().getNom());
         return updateStage(stage, id);
     }
 
@@ -110,11 +116,19 @@ public class StageService {
         if (optionnalStage.isPresent()) {
             var stage = optionnalStage.get();
             stage.setEtudiantsAdmits(etudiants);
-            return stageRepository.saveAndFlush(stage);
+            return stageRepository.save(stage);
         } else
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     String.format("there are no stage with id %s", stageId));
     }
 
+    public Set<Etudiant> getEtudiantsAdmits(long stageId) {
+        Optional<Stage> optionnalStage = stageRepository.findById(stageId);
+        if (optionnalStage.isPresent()) {
+            var stage = optionnalStage.get();
+            return stage.getEtudiantsAdmits();
+        } else
+            return null;
+    }
 }

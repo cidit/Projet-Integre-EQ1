@@ -21,51 +21,44 @@ export default class GestionnaireListStageComponent extends Component {
 
         return (
             <div>
-                <h1 className="text-center">Liste des stages approuvées</h1>
+                <div className="pt-3 mt-3">
+                    <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des stages approuvées</h5>
 
-                <div className="row">
-                    <table className="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th> Titre </th>
-                                <th> Programme </th>
-                                <th> Description </th>
-                                <th> Date Début </th>
-                                <th> Date Finale </th>
-                                <th> Ville </th>
-                                <th> Heures par semaine </th>
-                                <th> Statut approbation </th>
-                                <th> Statut overture </th>
-                                <th> Détails </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.stages
-                                .filter(stage => stage.approuve && stage.ouvert)
-                                .map(
-                                    stage =>
-                                    <tr key={stage.id}>
-                                        <td>{stage.titre}</td>
-                                        <td>{stage.programme}</td>
-                                        <td>{stage.description}</td>
-                                        <td>{stage.dateDebut}</td>
-                                        <td>{stage.dateFin}</td>
-                                        <td>{stage.ville}</td>
-                                        <td>{stage.nbHeuresParSemaine}</td>
-                                        
-                                        <td>{stage.approuve
-                                            ? <span className="text-success"> Approuvé </span>
-                                            : <span className="text-danger">En attente d'approbation</span>}</td>
-                                        <td>{stage.ouvert ? 'Ouvert' : 'Fermé'}</td>
-                                        <td>
-                                            <button className="btn btn-primary" onClick={() => this.handleClick(stage.id)} >
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                            )}
-                        </tbody>
-                    </table>
+                    <div className="row">
+                        <table className="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th> Titre </th>
+                                    <th> Programme </th>
+                                    <th> Date Début </th>
+                                    <th> Date Finale </th>
+                                    <th> Ville </th>
+                                    <th> Heures par semaine </th>
+                                    <th> Assigner étudiant(s) </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.stages
+                                    .filter(stage => stage.approuve && stage.ouvert)
+                                    .map(
+                                        stage =>
+                                        <tr key={stage.id}>
+                                            <td>{stage.titre}</td>
+                                            <td>{stage.programme}</td>
+                                            <td>{stage.dateDebut}</td>
+                                            <td>{stage.dateFin}</td>
+                                            <td>{stage.ville}</td>
+                                            <td>{stage.nbHeuresParSemaine}</td>
+                                            <td>
+                                                <button className="btn btn-primary" onClick={() => this.handleClick(stage.id)} >
+                                                    Assigner
+                                                </button>
+                                            </td>
+                                        </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         );

@@ -198,7 +198,7 @@ export default withFormik({
   saveCurrentEmployee(values) {
 
     var id;
-    if (localStorage.getItem("desc") == "Employeur")
+    if (localStorage.getItem("desc") === "Employeur")
       id = localStorage.getItem("id");
 
     let employee = new Employeur;
@@ -212,7 +212,7 @@ export default withFormik({
   handleSubmit(values, formikBag) {
 
     var id;
-    if (localStorage.getItem("desc") == "Employeur")
+    if (localStorage.getItem("desc") === "Employeur")
       id = localStorage.getItem("id");
 
     let stage = new Stage();

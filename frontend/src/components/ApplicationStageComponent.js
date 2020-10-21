@@ -3,46 +3,62 @@ import StageService from '../service/StageService';
 import EtudiantService from "../service/EtudiantService";
 import CandidatureService from "../service/CandidatureService";
 
-
 export default class ApplicationStageComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             stages: [],
+            etudiant: "",
+            hasValidCV: false,
             hasApplied:""
         };
         this.handleSubmit = this.handleSubmit.bind(this)
-        //this.onChangeHandler = this.onChangeHandler.bind(this)
-        this.addStage = this.addStage.bind(this);
-
-    }
-    addStage() {
-
-        this.props.history.push('/createStage')
     }
 
     async componentDidMount() {
-
         var id;
         if (localStorage.getItem("desc") == "Etudiant")
             id = localStorage.getItem("id");
-
+        const {data: etudiant} = await EtudiantService.getEtudiantById(id);
+        this.setState({etudiant: etudiant});
         StageService.getStagesEtudiant(id).then((res) => { this.setState({ stages: res.data }) })
-
+        if (this.state.etudiant.cv == undefined){
+            this.setState({ hasValidCV: false});
+        }
+        else {
+            if (this.state.etudiant.cv.status == 'APPROVED'){
+                this.setState({ hasValidCV: true});
+            }
+            else {
+                this.setState({ hasValidCV: false});
+            }
+        }
     }
+
     handleSubmit(event) {
         event.preventDefault()
         var idEtudiant;
         if (localStorage.getItem("desc") == "Etudiant")
             idEtudiant = localStorage.getItem("id");
         var idStage = event.target.value
-        this.componentDidMount();
         this.setState({hasApplied: true});
         CandidatureService.post(idEtudiant, idStage)
         setTimeout(function() {
             window.location.reload();
         }, 1000);
     }
+    displayWarningMessage() {
+        if(this.state.stages.length != 0){
+            if (this.state.etudiant.cv == null)
+                return <label>Vous ne pourrez pas postuler si vous n'avez pas de CV.</label>
+            if (!this.state.hasValidCV)
+                return <label>Vous ne pourrez pas postuler si votre CV n'a pas été approuvé.</label>
+        }
+        else {
+                return <label>Aucune offre de stage n'est disponible pour vous.</label>
+        }
+    }
+
     render() {
         return (
             <form className="d-flex flex-column">
@@ -77,14 +93,18 @@ export default class ApplicationStageComponent extends Component {
                                             <td>{stage.dateFin}</td>
                                             <td>{stage.ville}</td>
                                             <td>{stage.nbHeuresParSemaine}</td>
-                                            <td><button type="submit" className="btn btn-primary" value={stage.id} onClick={this.handleSubmit}>Postuler</button></td>
-
+                                            {this.state.hasValidCV ?
+                                                <td>
+                                                    <button type="submit" className="btn btn-primary" value={stage.id} onClick={this.handleSubmit}>Postuler</button>
+                                                </td> : null
+                                            }
                                         </tr>
                                 )}
                                 </tbody>
                             </table>
-                            {this.state.hasApplied? <label style={{color: "green"}}>Vous venez de postuler au stage</label>: null}<br/>
+                            {(this.displayWarningMessage())}<br/>
 
+                            {this.state.hasApplied? <label style={{color: "green"}}>Vous venez de postuler au stage</label>: null}<br/>
                         </div>
                     </div>
                 </div>
