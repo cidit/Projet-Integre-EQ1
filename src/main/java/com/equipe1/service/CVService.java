@@ -30,11 +30,13 @@ public class CVService {
     }
 
     public CV getCVById(long id) {
-        return cvRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Invalid CV id %s", id)));
+        return cvRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Invalid CV id %s", id)));
     }
 
     public CV getCVByEtudiantId(long id) {
-        var etudiant = etudiantRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Invalid CV id %s", id)));
+        var etudiant = etudiantRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Invalid CV id %s", id)));
         return etudiant.getCv();
     }
 
@@ -42,43 +44,33 @@ public class CVService {
         return cvRepository.saveAndFlush(cv);
     }
 
-    public CV saveEtudiantCV(long etudiantId, MultipartFile file) throws IOException {
-        CV cv = new CV();
-        cv.setId(etudiantId);
-        cv.setData(file.getBytes());
-        cv.setName(file.getOriginalFilename());
-        cv.setStatus(CV.CVStatus.UNREVIEWED);
-        cvRepository.save(cv);
-        Etudiant etudiant = etudiantRepository.findById(etudiantId).get();
+    public CV saveEtudiantCV(long etudiantId, CV cv) {
+        Etudiant etudiant = etudiantRepository.findById(etudiantId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        String.format("Invalid student id %s", etudiantId)));
         etudiant.setCv(cv);
         etudiantRepository.save(etudiant);
         return cv;
     }
 
-    public CV updateCV(CV cv, long id){
+    public CV updateCVStatus(boolean isValid, long id) throws Exception {
+        CV cv = cvRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Invalid CV id %s", id)));
+        cv.setStatus(isValid ? CV.CVStatus.APPROVED : CV.CVStatus.DENIED);
+        cvRepository.save(cv);
+        courrielService.sendMailCVApproval(cv.getEtudiant());
+        return cv;
+    }
+
+    public CV updateCV(CV cv, long id) {
         cv.setId(id);
         return updateCV(cv);
-    }
-    public CV updateCVStatus(boolean isValid, long id) throws Exception {
-        CV cv = cvRepository.findById(id).get();
-        Etudiant etudiant = etudiantRepository.findById(id).get();
-        if (isValid) {
-            cv.setStatus(CV.CVStatus.APPROVED);
-        }
-        else {
-            cv.setStatus(CV.CVStatus.DENIED);
-        }
-        cvRepository.save(cv);
-        courrielService.sendMailCVApproval(etudiant);
-        return cv;
-
     }
 
     public CV updateCV(CV cv) {
         return cvRepository.saveAndFlush(cv);
     }
 
-    public void deleteCV(long id) {
-        cvRepository.deleteById(id);
-    }
+//    public void deleteCV(long id) {
+//        cvRepository.deleteById(id);
+//    }
 }
