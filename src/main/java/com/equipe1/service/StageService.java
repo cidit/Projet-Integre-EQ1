@@ -1,11 +1,9 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Stage;
+import com.equipe1.model.*;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,7 +26,10 @@ public class StageService {
     private CandidatureService candidatureService;
 
     @Autowired
-    NotificationCourrielService notificationCourrielService;
+    CourrielService courrielService;
+
+    @Autowired
+    Environment env;
 
     public StageService(StageRepository stageRepository) {
         this.stageRepository = stageRepository;
@@ -103,7 +104,10 @@ public class StageService {
         Stage stage = newStage;
         stage.setApprouve(true);
         stage.setOuvert(true);
-        notificationCourrielService.sendMail(stage.getEmployeur());
+
+        courrielService.sendSimpleMessage(new Courriel(stage.getEmployeur().getEmail(),
+                env.getProperty("my.subject.stage"), env.getProperty("my.message.stageApprouve")),
+                stage.getEmployeur().getNom());
         return updateStage(stage, id);
     }
 

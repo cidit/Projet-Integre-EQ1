@@ -50,12 +50,6 @@ public class EtudiantService {
         return etudiantRepository.findByMatricule(matricule);
     }
 
-    public Etudiant updateEtudiantCV(Etudiant newEtudiant, long id){
-        Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
-        optionalEtudiant.get().setCv(newEtudiant.getCv());
-        return etudiantRepository.save(optionalEtudiant.get());
-    }
-
     public Etudiant getEtudiantByEmail(String email){
         return etudiantRepository.findByEmail(email);
     }

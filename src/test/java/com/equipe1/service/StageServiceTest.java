@@ -1,9 +1,6 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Stage;
+import com.equipe1.model.*;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.StageRepository;
 import org.junit.jupiter.api.Assertions;
@@ -18,12 +15,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.*;
-
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -31,6 +26,11 @@ public class StageServiceTest {
 
     @Autowired
     private StageService stageService;
+
+    @MockBean
+
+    private CourrielService courrielService;
+
     @MockBean
     private StageRepository stageRepository;
 
@@ -45,7 +45,7 @@ public class StageServiceTest {
 
     private Stage s1;
     private Stage s2;
-    Employeur employeur;
+    private Employeur employeur;
 
     @BeforeEach
     public void setUp() {
@@ -54,7 +54,9 @@ public class StageServiceTest {
         s1.setTitre("java");
         s2 = new Stage();
         s2.setTitre("c++");
-
+        employeur = new Employeur();
+        employeur.setNom("test");
+        employeur.setEmail("test@email.com");
     }
 
     @Test
@@ -102,32 +104,19 @@ public class StageServiceTest {
     @Test
     void testUpdateStatusTest() throws Exception {
         // Arrange
+
+        when(employeurRepository.save(employeur)).thenReturn(employeur);
         when(stageRepository.save(s1)).thenReturn(s1);
+        s1.setEmployeur(employeur);
         stageRepository.save(s1);
         when(stageRepository.findById(1L)).thenReturn(Optional.of(s1));
+
         // Act
         Stage stage = stageService.updateStatus(s1,1L);
+        doNothing().when(courrielService).sendSimpleMessage(new Courriel(),"test");
         // Assert
         assertTrue(stage.isApprouve());
         assertTrue(stage.isOuvert());
-    }
-
-    @Test
-    void testGetStagesByEmployeurTest() {
-        // Arrange
-        Employeur e = new Employeur();
-        e.setId(3L);
-        s1.setEmployeur(e);
-        doReturn(e).when(employeurRepository).save(any());
-        doReturn(Optional.of(e)).when(employeurRepository).findById(e.getId());
-        doReturn(s1).when(stageRepository).save(any());
-        Mockito.when(stageRepository.findAll()).thenReturn(Arrays.asList(s1));
-        // Act
-        List<Stage> stages = stageService.getStagesByEmployeur(e.getId());
-        // Assert
-        Assertions.assertNotNull(stages);
-        Assertions.assertEquals(stages.size(), 1);
-        Assertions.assertEquals(stages.get(0), s1);
     }
 
     @Test
@@ -177,11 +166,14 @@ public class StageServiceTest {
     @Test
     void getStagesByEmployeurTest() {
         // Arrange
+        s1.setEmployeur(employeur);
+        s2.setEmployeur(employeur);
         when(employeurService.getEmployeurById(1L)).thenReturn(employeur);
         when(stageRepository.findAll()).thenReturn(Arrays.asList(s1,s2));
         // Act
         List<Stage> stages = stageService.getStagesByEmployeur(1L);
         // Assert
+        Assertions.assertNotNull(stages);
         Assertions.assertEquals(2, stages.size());
     }
 
