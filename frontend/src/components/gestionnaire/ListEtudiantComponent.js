@@ -32,26 +32,26 @@ export default class ListEtudiantsComponent extends Component {
             )
         }
     }
-    downloadCV (idEtudiant) {
+    downloadCV = (idEtudiant) => {
             const method = 'GET';
             const url = 'http://localhost:8080/cvs/get/' + idEtudiant;
-            axios
-                .request({
-                    url,
-                    method,
-                    responseType: 'blob',
-                })
-                .then(({ data }) => {
-                    const downloadUrl = window.URL.createObjectURL(new Blob([data]));
-                    const link = document.createElement('a');
-                    link.href = downloadUrl;
-                    link.setAttribute('download', "etudiant" + idEtudiant + ".pdf"); //any other extension
-                    document.body.appendChild(link);
-                    link.click();
-                });
-
-
-
+            return () => {
+                axios
+                    .request({
+                        url,
+                        method,
+                        responseType: 'blob',
+                    })
+                    .then(({data}) => {
+                        const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.setAttribute('download', "etudiant" + idEtudiant + ".pdf"); //any other extension
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                    });
+            }
     }
 
     handleChangeText = event => {

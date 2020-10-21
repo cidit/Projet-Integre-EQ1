@@ -10,14 +10,21 @@ class StageService{
     getStages(){
         return axios.get(STAGES_URL);
     }
+    
     getStageById(id){
         return axios.get("http://localhost:8080/getStage?idStage=" + id);
     }
+
     getStagesByEmployeurId(idEmployeur){
         return axios.get("http://localhost:8080/stageByEmployeurId?idEmployeur="+ idEmployeur);
     }
+    
     getStagesEtudiant(idEtudiant){
         return axios.get("http://localhost:8080/stagesEtudiant?idEtudiant="+ idEtudiant);
+    }
+    
+    getEtudiantsByStageId(idStage){
+        return axios.get("http://localhost:8080/stages/getEtudiantsAdmits/" + idStage);
     }
 
 
@@ -37,6 +44,7 @@ class StageService{
           .then(response => console.log('Success:', response));
     }
 
+    /*
     addEtudiants(id, etudiants){
         fetch(STAGE_ETUDIANTS_URL_PUT + id, {
             method: 'PUT',
@@ -47,6 +55,11 @@ class StageService{
           }).then(res => res.json())
           .catch(error => console.error('Error:', error))
           .then(response => console.log('Success:', response));
+    }
+    */
+
+    addEtudiants(id, etudiants){
+        return axios.put(STAGE_ETUDIANTS_URL_PUT + id, etudiants);
     }
 }
 

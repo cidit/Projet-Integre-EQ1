@@ -1,4 +1,3 @@
-import { number } from "yup";
 
 class UserService {
     async getByEmail(email) {

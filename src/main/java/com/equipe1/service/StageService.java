@@ -110,11 +110,19 @@ public class StageService {
         if (optionnalStage.isPresent()) {
             var stage = optionnalStage.get();
             stage.setEtudiantsAdmits(etudiants);
-            return stageRepository.saveAndFlush(stage);
+            return stageRepository.save(stage);
         } else
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     String.format("there are no stage with id %s", stageId));
     }
 
+    public Set<Etudiant> getEtudiantsAdmits(long stageId) {
+        Optional<Stage> optionnalStage = stageRepository.findById(stageId);
+        if (optionnalStage.isPresent()) {
+            var stage = optionnalStage.get();
+            return stage.getEtudiantsAdmits();
+        } else
+            return null;
+    }
 }
