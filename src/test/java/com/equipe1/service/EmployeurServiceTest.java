@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -43,36 +42,36 @@ public class EmployeurServiceTest {
     }
 
     @Test
-    public void getEmployeurs() {
-        Mockito.when(employeurRepository.findAll()).thenReturn(Arrays.asList(employeur1, employeur2));
+    public void testGetEmployeurs() {
+        when(employeurRepository.findAll()).thenReturn(Arrays.asList(employeur1, employeur2));
         List<Employeur> all = employeurService.getEmployeurs();
         Assertions.assertEquals(2, all.size());
     }
 
     @Test
-    public void getEmployeurById() {
+    public void testGetEmployeurById() {
         when(employeurRepository.findById(1L)).thenReturn(Optional.of(employeur1));
         Employeur employeur = employeurService.getEmployeurById(1L);
         assertEquals(employeur, employeur1);
     }
 
     @Test
-    public void saveEmployeur() {
+    public void testSaveEmployeur() {
         when(employeurRepository.save(employeur1)).thenReturn(employeur1);
         Employeur employeur = employeurService.saveEmployeur(employeur1);
         assertNotNull(employeur1);
-        assertEquals(employeur.getNomEntreprise(), employeur.getNomEntreprise());
+        assertEquals(employeur.getNom(), employeur.getNom());
     }
 
     @Test
-    public void updateEmployeurWhenExists() {
+    public void testUpdateEmployeurWhenExists() {
         when(employeurRepository.save(employeur1)).thenReturn(employeur1);
         Employeur emp1 = employeurService.updateEmployeur(employeur1, 1L);
-        assertEquals(emp1.getNomEntreprise(), "Employeur_test_1");
+        assertEquals(emp1.getNom(), "Employeur_test_1");
     }
 
     @Test
-    public void updateEmployeurFromNewEmployeur() {
+    public void testUpdateEmployeurFromNewEmployeur() {
         employeur1.setId(1L);
         when(employeurRepository.save(employeur1)).thenReturn(employeur1);
         employeurRepository.save(employeur1);
@@ -82,11 +81,11 @@ public class EmployeurServiceTest {
         when(employeurRepository.findById(1L)).thenReturn(Optional.of(employeur1));
         when(employeurRepository.save(employeur3)).thenReturn(employeur3);
         Employeur emp = employeurService.updateEmployeur(employeur3, 1L);
-        assertEquals(emp.getNomEntreprise(), "Employeur_update");
+        assertEquals(emp.getNom(), "Employeur_update");
     }
 
     @Test
-    public void getEmployeurByEmail() {
+    public void testGetEmployeurByEmail() {
         when(employeurRepository.findEmployeurByEmail("e1@email.com")).thenReturn(employeur1);
         Employeur employeur = employeurService.getEmployeurByEmail("e1@email.com");
         assertEquals(employeur, employeur1);

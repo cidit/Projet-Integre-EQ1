@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Register from './RegisterComponent';
-import HomeEmployeur from './HomeEmployeur';
 
 export default class Home extends Component {
     constructor(props) {
@@ -8,15 +6,16 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        if (this.props.location.search === "?refresh"){
-             this.props.history.replace("/")
+        if (this.props.location.search === "?refresh") {
+            this.props.history.replace("/")
             window.location.reload(false);
         }
     }
 
-    render(){
-        return(
-           <div></div>
+    render() {
+        return (
+            <div>
+            </div>
         );
     }
 }

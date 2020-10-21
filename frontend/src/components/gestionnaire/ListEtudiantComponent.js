@@ -1,10 +1,57 @@
 import React, { Component } from 'react';
 import EtudiantService from '../../service/EtudiantService';
+import axios from 'axios'
+import CVService from "../../service/CVService";
 
 export default class ListEtudiantsComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = { etudiants: [], filter: '', statut: '', };
+        this.state = { etudiants: [], filter: '', statut: '', idEtudiant: '', isCVApprouve: false};
+        this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+    handleSubmit(event, isValid, id){
+        event.preventDefault();
+        CVService.updateCVStatus(isValid, id);
+        window.location.reload();
+    }
+    renderColonneApprobation(etudiant){
+        if (etudiant.cv == null){
+            return <p> Pas de CV</p>
+        }
+        if (etudiant.cv.status == 'APPROVED'){
+            return <p>Approuvé</p>
+        }
+        if (etudiant.cv.status = 'UNREVIEWED') {
+            return(
+            <div>
+                <button className="btn btn-primary" onClick={(event) =>  this.handleSubmit(event, true, etudiant.cv.id)}>Approuver
+                </button>
+                <button className="btn btn-primary" onClick={ (event) =>  this.handleSubmit(event, false, etudiant.cv.id)}>Refuser</button>
+            </div>
+            )
+        }
+    }
+    downloadCV = (idEtudiant) => {
+            const method = 'GET';
+            const url = 'http://localhost:8080/cvs/get/' + idEtudiant;
+            return () => {
+                axios
+                    .request({
+                        url,
+                        method,
+                        responseType: 'blob',
+                    })
+                    .then(({data}) => {
+                        const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+                        const link = document.createElement('a');
+                        link.href = downloadUrl;
+                        link.setAttribute('download', "etudiant" + idEtudiant + ".pdf"); //any other extension
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                    });
+            }
     }
 
     handleChangeText = event => {
@@ -24,6 +71,8 @@ export default class ListEtudiantsComponent extends Component {
     render() {
 
         return (
+            <form className="d-flex flex-column">
+
             <div>
                 <h1 className="text-center">Liste des étudiants</h1>
 
@@ -62,6 +111,8 @@ export default class ListEtudiantsComponent extends Component {
                                 <th> Courriel </th>
                                 <th> Téléphone </th>
                                 <th> Statut </th>
+                                <th> Télécharger son CV</th>
+                                <th> Etat du CV</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -78,12 +129,24 @@ export default class ListEtudiantsComponent extends Component {
                                         <td>{etudiant.email}</td>
                                         <td>{etudiant.telephone}</td>
                                         <td>{etudiant.statutStage}</td>
+                                        <td>
+                                            {etudiant.cv != null ?<button onClick={this.downloadCV(etudiant.id)} className="btn btn-primary">Telecharger</button>
+                                                : <p>Pas de CV</p>}<br/>
+                                        </td>
+                                        <td>
+                                            {this.renderColonneApprobation(etudiant)}
+
+
+
+                                        </td>
+
                                     </tr>
                             )}
                         </tbody>
                     </table>
                 </div>
             </div>
+            </form>
         );
     }
 }

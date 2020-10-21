@@ -1,29 +1,21 @@
 package com.equipe1.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Data
-public class Stage implements Serializable {
-
+public class Stage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String titre;
-
-
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Employeur employeur;
-
     private String description;
     private String exigences;
     private LocalDate dateDebut;
@@ -34,10 +26,13 @@ public class Stage implements Serializable {
     private boolean isOuvert;
     private String programme;
     private String ville;
+    private boolean isApprouve;
+
+    @OneToMany
+    private Set<Etudiant> etudiantsAdmits;
 
     public Stage() {
-        this.isOuvert = true;
-
+        this.isOuvert = false;
+        this.isApprouve = false;
     }
-
-  }
+}

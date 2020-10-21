@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './../App.css';
 import './../css/Register.css';
-import User from "../model/User";
 import LoginService from "../service/LoginService";
-import HomeEmployeur from './HomeEmployeur';
 
 export default class Login extends Component {
     constructor(props) {
@@ -22,13 +20,11 @@ export default class Login extends Component {
         event.preventDefault();
 
         let user = await LoginService.login(this.state["email"], this.state["password"])
-        if (user.id != undefined){
+        if (user.id !== undefined){
             this.props.history.push('/?refresh');
         }else{
             this.setState({isNotlogin : true})
         }
-
-        // validation invalid email/password missing
     }
 
     render(){
