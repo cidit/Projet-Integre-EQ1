@@ -1,25 +1,22 @@
 import React, { Component } from 'react';
 import './../App.css';
 import axios from "axios";
+import CVService from "../service/CVService";
 
 export default class HomeEtudiant extends Component {
     constructor(props) {
         super(props);
         this.inputRef = React.createRef();
-        this.state = {etudiant: {}, displayInvalidFileMessage: false, displaySubmitCVButton: false, hasAlreadyCV: false, hasUploadedCV: false, id: ''};
+        this.state = {etudiant: {}, file: "", displayInvalidFileMessage: false, displaySubmitCVButton: false, CVInfoMessage: "", hasUploadedCV: false, id: ''};
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }
-
     onChangeHandler = event => {
         var files = event.target.files
         if (this.checkMimeType(event)) {
-            this.setState(prevState => ({
-                etudiant: {
-                    ...prevState.etudiant,
-                    cv: files[0]
-                }
-            }))
+            this.setState({
+                file: event.target.files[0]
+            });
 
         }
         this.setState({hasUploadedCV: false});
@@ -34,12 +31,25 @@ export default class HomeEtudiant extends Component {
             "http://localhost:8080/etudiants/get?idEtudiant=" + id
     );
         this.setState({etudiant: etudiant});
-        this.setState({hasAlreadyCV: this.state.etudiant.cv != undefined} );
+
     }
 
-    onClickHandler = () => {
-        const data = new FormData()
-        data.append('file', this.state.selectedFile)
+    displayCVMessage(){
+        if (this.state.etudiant.cv != undefined) {
+            switch (this.state.etudiant.cv.status) {
+                case "APPROVED":
+                    return <label> Votre CV a déjà été approuvé. Mais vous pouvez le mettre à jour.</label>
+                case "DENIED" :
+                    return <label> Votre CV a été refusé. Veuillez en soumettre un autre pour postuler à une offre de stage.</label>
+                case "UNREVIEWED" :
+                    return <label> Votre CV a est en cours d'évaluation.</label>
+                default :
+                    break;
+            }
+        }
+        else {
+            return <label> Vous n'avez pas de CV, veuillez en soumettre afin de postuler à une offre de stage.</label>
+        }
     }
 
     checkMimeType = (event) => {
@@ -66,17 +76,15 @@ export default class HomeEtudiant extends Component {
     }
     handleSubmit(event) {
         event.preventDefault()
-        var id;
+        var idEtudiant;
         if (localStorage.getItem("desc") == "Etudiant")
-            id = localStorage.getItem("id");
+            idEtudiant = localStorage.getItem("id");
         const formData = new FormData();
-        formData.append('file', this.state.etudiant.cv);
-        const options = {
-            method: 'PUT',
-            body: formData
-        };
-        fetch('http://localhost:8080/etudiants/saveCV/' + id, options);
+        console.log(this.state.file);
+        formData.append('file', this.state.file)
+        formData.append('name', this.state.file.name);
         this.setState({hasUploadedCV: true});
+        CVService.createCV(idEtudiant, formData)
     }
 
 
@@ -95,15 +103,15 @@ export default class HomeEtudiant extends Component {
                                                     className="form-control-file"
                                                     accept="application/pdf"
                                                     ref={this.inputRef}
-                                                    defaultValue= {this.state.etudiant.cv}
+                                                    defaultValue= {this.state.file}
                                                     onChange={this.onChangeHandler}/>
 
                 </label><br/>
-                {this.state.hasAlreadyCV ? <label>Rappel : vous avez déjà téléversé un CV</label>: null}<br/>
+                {this.displayCVMessage()}<br/>
                 {this.state.displayInvalidFileMessage ?
                     <label style={{color: "red"}}>Ce format de fichier n'est pas autorisé. Seuls les fichiers au format PDF sont autorisés.</label> : null}
                 {this.state.displaySubmitCVButton ? <button type="submit" className="btn btn-primary">Enregistrer mon CV</button> : null}<br/>
-                {this.state.hasUploadedCV? <label style={{color: "green"}}>Vous venez de téléverser votre CV</label>: null}<br/>
+                {this.state.hasUploadedCV? <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant être approuvé pour que vous puissiez appliquer aux offres de stage.</label>: null}<br/>
             </div>
             </form>
 

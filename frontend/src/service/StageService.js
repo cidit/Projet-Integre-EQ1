@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const STAGES_URL = "http://localhost:8080/stages";
 const STAGES_URL_POST = "http://localhost:8080/createStage";
-
+const STAGE_ETUDIANTS_URL_PUT = "http://localhost:8080/stages/updateEtudiantsAdmits/";
 
 class StageService{
 
@@ -10,26 +10,37 @@ class StageService{
     getStages(){
         return axios.get(STAGES_URL);
     }
+    getStageById(id){
+        return axios.get("http://localhost:8080/getStage?idStage=" + id);
+    }
     getStagesByEmployeurId(idEmployeur){
         return axios.get("http://localhost:8080/stageByEmployeurId?idEmployeur="+ idEmployeur);
     }
-
+    getStagesEtudiant(idEtudiant){
+        return axios.get("http://localhost:8080/stagesEtudiant?idEtudiant="+ idEtudiant);
+    }
 
 
     createStage(stage){
         return axios.post(STAGES_URL_POST,stage)
     }
 
-    //fetch
-    getAllStages(){
-        return fetch(STAGES_URL).then(res =>{ return res.json();
-        }).then(res => {console.log(res)})   
-    }
-
     createNewStage(stage){
         fetch(STAGES_URL_POST, {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(stage), // data can be `string` or {object}!
+            headers:{
+              'Content-Type': 'application/json'
+            }
+          }).then(res => res.json())
+          .catch(error => console.error('Error:', error))
+          .then(response => console.log('Success:', response));
+    }
+
+    addEtudiants(id, etudiants){
+        fetch(STAGE_ETUDIANTS_URL_PUT + id, {
+            method: 'PUT',
+            body: JSON.stringify(etudiants),
             headers:{
               'Content-Type': 'application/json'
             }

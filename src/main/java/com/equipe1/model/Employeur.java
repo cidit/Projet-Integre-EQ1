@@ -21,10 +21,6 @@ public class Employeur extends User{
         this.desc = "Employeur";
     }
     private String adresse;
-
-    @JsonBackReference
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="employeur")
-    private Set<Stage> stages= new HashSet<>();
     private String nom;
     public Employeur(String nomEntreprise, String telephone, String adresse) {
         this.nom = nomEntreprise;
