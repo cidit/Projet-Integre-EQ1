@@ -54,6 +54,19 @@ public class InsertDataService {
         e2.setTelephone("555-444-4444");
         e2.setProgramme("Techniques de l’informatique");
         etudiantRepository.save(e2);
+
+        Etudiant e3 = new Etudiant();
+        e3.setAdresse("123456");
+        e3.setEmail("olingamedjoloic@gmail.com");
+        e3.setMatricule("1998277");
+        e3.setPassword("123456");
+        e3.setPrenom("Loic");
+        e3.setNom("Olinga");
+        e3.setStatutStage("aucun stage");
+        e3.setTelephone("555-444-4444");
+        e3.setProgramme("Techniques de l’informatique");
+        etudiantRepository.save(e3);
+
     }
 
     @Transactional

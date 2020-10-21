@@ -1,5 +1,7 @@
 package com.equipe1.service;
 
+import com.equipe1.model.CV;
+import com.equipe1.model.Etudiant;
 import com.equipe1.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,19 @@ public class NotificationCourrielService {
         String mailBody = "Bonjour " + user.getNom() + " \n" + environment.getProperty("my.message.stageApprouve");
         LOGGER.info("nom ==> " + user.getNom());
         String subject = "Approbation de votre offre de stage";
+        configMail(mailTo, subject , mailBody);
+    }
+
+    public void sendMailCVApproval(Etudiant etudiant) throws Exception {
+        String content = "";
+        if (etudiant.getCv().getStatus() == CV.CVStatus.APPROVED)
+            content = "Le CV que vous avez envoyé a été approuvé.";
+        if (etudiant.getCv().getStatus() == CV.CVStatus.DENIED)
+            content = "Le CV que vous avez envoyeé a été refusé.";
+        String mailTo = etudiant.getEmail();
+        String mailBody = "Bonjour, " + etudiant.getPrenom() + " " + etudiant.getNom() + " \n" + content;
+        LOGGER.info("nom ==> " + etudiant.getNom());
+        String subject = "Approbation de votre CV";
         configMail(mailTo, subject , mailBody);
     }
 

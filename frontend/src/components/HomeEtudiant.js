@@ -111,7 +111,7 @@ export default class HomeEtudiant extends Component {
                 {this.state.displayInvalidFileMessage ?
                     <label style={{color: "red"}}>Ce format de fichier n'est pas autorisé. Seuls les fichiers au format PDF sont autorisés.</label> : null}
                 {this.state.displaySubmitCVButton ? <button type="submit" className="btn btn-primary">Enregistrer mon CV</button> : null}<br/>
-                {this.state.hasUploadedCV? <label style={{color: "green"}}>Vous venez de téléverser votre CV</label>: null}<br/>
+                {this.state.hasUploadedCV? <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant être approuvé pour que vous puissiez appliquer aux offres de stage.</label>: null}<br/>
             </div>
             </form>
 

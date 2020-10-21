@@ -22,6 +22,9 @@ public class CVService {
     @Autowired
     EtudiantRepository etudiantRepository;
 
+    @Autowired
+    NotificationCourrielService notificationCourrielService;
+
     public List<CV> getCVs() {
         return cvRepository.findAll();
     }
@@ -55,6 +58,20 @@ public class CVService {
     public CV updateCV(CV cv, long id){
         cv.setId(id);
         return updateCV(cv);
+    }
+    public CV updateCVStatus(boolean isValid, long id) throws Exception {
+        CV cv = cvRepository.findById(id).get();
+        Etudiant etudiant = etudiantRepository.findById(id).get();
+        if (isValid) {
+            cv.setStatus(CV.CVStatus.APPROVED);
+        }
+        else {
+            cv.setStatus(CV.CVStatus.DENIED);
+        }
+        cvRepository.save(cv);
+        notificationCourrielService.sendMailCVApproval(etudiant);
+        return cv;
+
     }
 
     public CV updateCV(CV cv) {

@@ -25,9 +25,9 @@ export default class ListEtudiantsComponent extends Component {
         if (etudiant.cv.status = 'UNREVIEWED') {
             return(
             <div>
-                <button onClick={(event) =>  this.handleSubmit(event, true, etudiant.cv.id)}>Approuver
+                <button className="btn btn-primary" onClick={(event) =>  this.handleSubmit(event, true, etudiant.cv.id)}>Approuver
                 </button>
-                <button onClick={ (event) =>  this.handleSubmit(event, false, etudiant.cv.id)}>Refuser</button>
+                <button className="btn btn-primary" onClick={ (event) =>  this.handleSubmit(event, false, etudiant.cv.id)}>Refuser</button>
             </div>
             )
         }
@@ -132,7 +132,7 @@ export default class ListEtudiantsComponent extends Component {
                                         <td>{etudiant.telephone}</td>
                                         <td>{etudiant.statutStage}</td>
                                         <td>
-                                            {etudiant.cv != null ?<button onClick={this.downloadCV(etudiant.id)}>Telecharger</button>
+                                            {etudiant.cv != null ?<button onClick={this.downloadCV(etudiant.id)} className="btn btn-primary">Telecharger</button>
                                                 : <p>Pas de CV</p>}<br/>
                                         </td>
                                         <td>
