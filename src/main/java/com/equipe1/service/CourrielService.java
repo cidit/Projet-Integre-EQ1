@@ -22,7 +22,9 @@ public class CourrielService {
     JavaMailSenderImpl emailSender;
 
     public void sendSimpleMessage(Courriel mail, String nomDestinataire) throws Exception {
-        String mailBody = "Bonjour "+ nomDestinataire +  "\n\n" +mail.getContenu();
+        String content = "Votre affre de stage a été aprouvéé.";
+        mail.setSujet(content);
+        String mailBody = "Bonjour "+ nomDestinataire +  "\n\n" +content + mail.getContenu();
         configMail(mail.getDestinataire(), mail.getSujet(), mailBody);
     }
 
