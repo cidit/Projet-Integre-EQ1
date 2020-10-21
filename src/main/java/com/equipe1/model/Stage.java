@@ -26,13 +26,19 @@ public class Stage {
     private boolean isOuvert;
     private String programme;
     private String ville;
-    private boolean isApprouve;
+    private StageStatus isApprouve;
+    private int salaire;
+
 
     @OneToMany
     private Set<Etudiant> etudiantsAdmits;
 
     public Stage() {
         this.isOuvert = false;
-        this.isApprouve = false;
+        this.isApprouve = StageStatus.WAITING;
+    }
+
+    public enum StageStatus {
+        WAITING, APPROVED, DENIED
     }
 }

@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class StageService {
-
     @Autowired
     private StageRepository stageRepository;
 
@@ -94,14 +93,16 @@ public class StageService {
         optionalStage.get().setNbHeuresParSemaine(newStage.getNbHeuresParSemaine());
         optionalStage.get().setNbAdmis(newStage.getNbAdmis());
         optionalStage.get().setOuvert(newStage.isOuvert());
-        optionalStage.get().setApprouve(newStage.isApprouve());
+        optionalStage.get().setIsApprouve(newStage.getIsApprouve());
         optionalStage.get().setDateLimiteCandidature(newStage.getDateLimiteCandidature());
         optionalStage.get().setProgramme(newStage.getProgramme());
+        optionalStage.get().setSalaire(newStage.getSalaire());
         return stageRepository.save(optionalStage.get());
     }
 
     public Stage updateStatus(Stage newStage, long id) throws Exception {
         Stage stage = newStage;
+<<<<<<< HEAD
         stage.setApprouve(true);
         stage.setOuvert(true);
 
@@ -131,4 +132,9 @@ public class StageService {
         } else
             return null;
     }
+=======
+//        notificationCourrielService.sendMail(stage.getEmployeur());
+        return updateStage(stage,id);
+    }
+>>>>>>> eq1-66-isa
 }

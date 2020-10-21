@@ -12,7 +12,6 @@ export default class HomeEtudiant extends Component {
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }
     onChangeHandler = event => {
-        var files = event.target.files
         if (this.checkMimeType(event)) {
             this.setState({
                 file: event.target.files[0]
@@ -24,7 +23,7 @@ export default class HomeEtudiant extends Component {
 
     async componentDidMount() {
         var id;
-        if (localStorage.getItem("desc") == "Etudiant")
+        if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
 
         const {data: etudiant} = await axios.get(
@@ -32,6 +31,7 @@ export default class HomeEtudiant extends Component {
     );
         this.setState({etudiant: etudiant});
 
+        this.setState({hasAlreadyCV: this.state.etudiant.cv !== undefined} );
     }
 
     displayCVMessage(){
@@ -77,10 +77,9 @@ export default class HomeEtudiant extends Component {
     handleSubmit(event) {
         event.preventDefault()
         var idEtudiant;
-        if (localStorage.getItem("desc") == "Etudiant")
+        if (localStorage.getItem("desc") === "Etudiant")
             idEtudiant = localStorage.getItem("id");
         const formData = new FormData();
-        console.log(this.state.file);
         formData.append('file', this.state.file)
         formData.append('name', this.state.file.name);
         this.setState({hasUploadedCV: true});

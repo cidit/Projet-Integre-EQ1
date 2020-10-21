@@ -75,7 +75,15 @@ public class InsertDataService {
         e1.setEmail("carlos.arturo.ortiz.celis@gmail.com");
         e1.setPassword("12345");
         e1.setAdresse("12345");
-        e1.setNom("banque1");
+        e1.setNom("Banque1");
+        e1.setTelephone("888-888-8888");
+        employeurRepository.save(e1);
+
+        e1 = new Employeur();
+        e1.setEmail("employeur@email.com");
+        e1.setPassword("12345");
+        e1.setAdresse("12345");
+        e1.setNom("Hopital Général");
         e1.setTelephone("888-888-8888");
         employeurRepository.save(e1);
     }
@@ -85,17 +93,18 @@ public class InsertDataService {
         Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.arturo.ortiz.celis@gmail.com");
 
         Stage stage1 = new Stage();
-        stage1.setTitre("stage_1");
+        stage1.setTitre("Stage_1");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(2);
-        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateDebut(LocalDate.of(2020,10,12));
         stage1.setDateFin(LocalDate.of(2020,12,12));
-        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
+        stage1.setDateLimiteCandidature(LocalDate.of(2020,9,11));
         stage1.setExigences("aucune exigence");
         stage1.setProgramme("Techniques de l’informatique");
         stage1.setNbHeuresParSemaine(35);
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
+        stage1.setSalaire(15);
         stageService.saveStage(stage1);
 
         stage1 = new Stage();
@@ -111,9 +120,40 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        stage1.setApprouve(true);
+        stage1.setIsApprouve(Stage.StageStatus.APPROVED);
         stageService.saveStage(stage1);
 
+        Stage stage2 = new Stage();
+        stage2.setTitre("Stage_2");
+        stage2.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Odio euismod lacinia at quis risus sed vulputate. Faucibus in ornare quam viverra orci sagittis eu volutpat. ");
+        stage2.setNbAdmis(5);
+        stage2.setDateDebut(LocalDate.of(2021,4,7));
+        stage2.setDateFin(LocalDate.of(2021,12,23));
+        stage2.setDateLimiteCandidature(LocalDate.of(2020,12,6));
+        stage2.setExigences("Travail d'equipe, Java, Python");
+        stage2.setProgramme("Informatique");
+        stage2.setNbHeuresParSemaine(40);
+        stage2.setVille("Laval");
+        stage2.setEmployeur(e2);
+        stage2.setSalaire(18);
+        stageService.saveStage(stage2);
+
+        e2 = employeurRepository.findEmployeurByEmail("employeur@email.com");
+
+        stage2 = new Stage();
+        stage2.setTitre("Stage en hémodialise");
+        stage2.setDescription("Odio euismod lacinia at quis risus sed vulputate. Faucibus in ornare quam viverra orci sagittis eu volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+        stage2.setNbAdmis(14);
+        stage2.setDateDebut(LocalDate.of(2021,1,9));
+        stage2.setDateFin(LocalDate.of(2021,11,30));
+        stage2.setDateLimiteCandidature(LocalDate.of(2020,12,5));
+        stage2.setExigences("Travail d'equipe, compassion");
+        stage2.setProgramme("Technique infirmière");
+        stage2.setNbHeuresParSemaine(38);
+        stage2.setVille("Lasalle");
+        stage2.setEmployeur(e2);
+        stage2.setSalaire(20);
+        stageService.saveStage(stage2);
     }
 
     @Transactional

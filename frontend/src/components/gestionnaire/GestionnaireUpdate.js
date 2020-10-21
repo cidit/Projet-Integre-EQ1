@@ -95,6 +95,7 @@ export default class GestionnaireUpdate extends Component {
                                                     <Field type="password"
                                                            name="password"
                                                            className="form-control"
+                                                           maxLength="255"
                                                           />
                                                     <ErrorMessage name="password">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
@@ -109,6 +110,7 @@ export default class GestionnaireUpdate extends Component {
                                                     <Field type="password"
                                                            name="newPassword"
                                                            className="form-control"
+                                                           maxLength="255"
                                                           />
                                                     <ErrorMessage name="newPassword">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
@@ -123,6 +125,7 @@ export default class GestionnaireUpdate extends Component {
                                                     <Field type="password"
                                                            name="confirmPassword"
                                                            className="form-control"
+                                                           maxLength="255"
                                                           />
                                                     <ErrorMessage name="confirmPassword">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>

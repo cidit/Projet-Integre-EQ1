@@ -1,19 +1,18 @@
 package com.equipe1.controller;
 
-import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.Stage;
 import com.equipe1.service.StageService;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+
 @CrossOrigin(origins ="http://localhost:3000")
 @RestController
+@RequestMapping("/stages")
 public class StageController {
     private StageService stageService;
 
@@ -21,7 +20,7 @@ public class StageController {
         this.stageService = stageService;
     }
 
-    @GetMapping(value = "/stages")
+    @GetMapping(value = "/findAll")
     public List<Stage> getAllStages(){
         return stageService.getStages();
     }

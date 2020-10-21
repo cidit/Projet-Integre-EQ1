@@ -3,7 +3,7 @@ import './App.css';
 
 import EtudiantRegister from "./components/EtudiantRegister";
 import Login from "./components/Login";
-import { Route, Switch,Router , withRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
@@ -17,6 +17,7 @@ import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
 import ApplicationStageComponent from "./components/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/ListeCandidaturesEtudiantComponent';
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
+import StageVeto from "./components/StageVeto";
 
 function App() {
   return (
@@ -24,13 +25,13 @@ function App() {
       <main>
         <HeaderComponent />
         <div className="container">
-         
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/stages" component={ListStagesEmployeur}/>
           <Route path='/create' component={EtudiantRegister} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
+          <Route path='/stageVeto' component={StageVeto} />
           <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent}/>
 

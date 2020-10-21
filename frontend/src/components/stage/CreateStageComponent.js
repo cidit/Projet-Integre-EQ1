@@ -162,7 +162,7 @@ export default withFormik({
 
   
   mapPropsToValues(props) {
-    return new Stage;
+    return new Stage();
   },
 
   validate(values) {

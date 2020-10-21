@@ -13,7 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.assertTrue;
+=======
+import static org.junit.jupiter.api.Assertions.*;
+>>>>>>> eq1-66-isa
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -104,6 +108,7 @@ public class StageServiceTest {
     @Test
     void testUpdateStatusTest() throws Exception {
         // Arrange
+<<<<<<< HEAD
 
         when(employeurRepository.save(employeur)).thenReturn(employeur);
         when(stageRepository.save(s1)).thenReturn(s1);
@@ -111,11 +116,18 @@ public class StageServiceTest {
         stageRepository.save(s1);
         when(stageRepository.findById(1L)).thenReturn(Optional.of(s1));
 
+=======
+        when(repository.save(s1)).thenReturn(s1);
+        repository.save(s1);
+        when(repository.findById(1L)).thenReturn(Optional.of(s1));
+        s1.setIsApprouve(Stage.StageStatus.APPROVED);
+        s1.setOuvert(true);
+>>>>>>> eq1-66-isa
         // Act
         Stage stage = stageService.updateStatus(s1,1L);
         doNothing().when(courrielService).sendSimpleMessage(new Courriel(),"test");
         // Assert
-        assertTrue(stage.isApprouve());
+        assertSame(stage.getIsApprouve(), Stage.StageStatus.APPROVED);
         assertTrue(stage.isOuvert());
     }
 

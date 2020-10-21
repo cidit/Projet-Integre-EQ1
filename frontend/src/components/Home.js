@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 export default class Home extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         if (this.props.location.search === "?refresh") {
             this.props.history.replace("/")
@@ -12,10 +8,11 @@ export default class Home extends Component {
         }
     }
 
-    render() {
-        return (
-            <div>
-            </div>
+    render(){
+        return(
+           <div>
+               <h2 className="text-center">Home page</h2>
+           </div>
         );
     }
 }
