@@ -20,10 +20,10 @@ public class CVService {
     private CVRepository cvRepository;
 
     @Autowired
-    EtudiantRepository etudiantRepository;
+    private EtudiantRepository etudiantRepository;
 
     @Autowired
-    NotificationCourrielService notificationCourrielService;
+    private CourrielService courrielService;
 
     public List<CV> getCVs() {
         return cvRepository.findAll();
@@ -69,7 +69,7 @@ public class CVService {
             cv.setStatus(CV.CVStatus.DENIED);
         }
         cvRepository.save(cv);
-        notificationCourrielService.sendMailCVApproval(etudiant);
+        courrielService.sendMailCVApproval(etudiant);
         return cv;
 
     }

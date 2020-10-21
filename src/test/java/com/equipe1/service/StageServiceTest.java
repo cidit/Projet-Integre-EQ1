@@ -1,9 +1,6 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Stage;
+import com.equipe1.model.*;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.StageRepository;
 import org.junit.jupiter.api.Assertions;
@@ -20,20 +17,20 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.*;
-
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class StageServiceTest {
     @Autowired
     private StageService stageService;
+
     @MockBean
-    private NotificationCourrielService notificationCourrielService;
+    private CourrielService courrielService;
+
     @MockBean
     private StageRepository stageRepository;
     @MockBean
@@ -42,6 +39,8 @@ public class StageServiceTest {
     private EmployeurRepository employeurRepository;
     private Stage s1;
     private Stage s2;
+    private Employeur employeur;
+
 
     @BeforeEach
     public void setUp() {
@@ -49,6 +48,9 @@ public class StageServiceTest {
         s1.setTitre("java");
         s2 = new Stage();
         s2.setTitre("c++");
+        employeur = new Employeur();
+        employeur.setNom("test");
+        employeur.setEmail("test@email.com");
     }
 
     @Test
@@ -101,11 +103,16 @@ public class StageServiceTest {
     @DisplayName("Successful updateStatus")
     void updateStatusTest() throws Exception {
         // Arrange
+
+        when(employeurRepository.save(employeur)).thenReturn(employeur);
         when(stageRepository.save(s1)).thenReturn(s1);
+        s1.setEmployeur(employeur);
         stageRepository.save(s1);
         when(stageRepository.findById(1L)).thenReturn(Optional.of(s1));
+
         // Act
         Stage stage = stageService.updateStatus(s1,1L);
+        doNothing().when(courrielService).sendSimpleMessage(new Courriel(),"test");
         // Assert
         assertTrue(stage.isApprouve());
         assertTrue(stage.isOuvert());
