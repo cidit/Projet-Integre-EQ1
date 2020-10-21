@@ -1,18 +1,22 @@
 package com.equipe1.service;
 
 import com.equipe1.model.Employeur;
+import com.equipe1.model.Candidature;
+import com.equipe1.model.Etudiant;
 import com.equipe1.model.Stage;
+import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.StageRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.time.LocalDate;
@@ -24,6 +28,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class StageServiceTest {
+
     @Autowired
     private StageService stageService;
     @MockBean
@@ -31,6 +36,12 @@ public class StageServiceTest {
 
     @MockBean
     private EmployeurService employeurService;
+
+    @MockBean
+    private CandidatureService candidatureService;
+
+    @MockBean
+    private EmployeurRepository employeurRepository;
 
     private Stage s1;
     private Stage s2;
@@ -43,13 +54,10 @@ public class StageServiceTest {
         s1.setTitre("java");
         s2 = new Stage();
         s2.setTitre("c++");
-        s1.setEmployeur(employeur);
-        s2.setEmployeur(employeur);
 
     }
 
     @Test
-    @DisplayName("getAll test")
     void testGetStages() {
         // Arrange
         doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
@@ -60,7 +68,6 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("Successful findById test")
     void testFindStageById() {
         // Arrange
         doReturn(Optional.of(s1)).when(stageRepository).findById(1l);
@@ -72,7 +79,6 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("Unsuccessful findById test")
     void testFindStageByIdNotFound() {
         // Arrange
         doReturn(Optional.empty()).when(stageRepository).findById(1l);
@@ -83,8 +89,7 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("saveStage test")
-    void testSaveStage() {
+    void testSaveStage() throws Exception {
         // Arrange
         doReturn(s1).when(stageRepository).save(any());
         // Act
@@ -95,7 +100,37 @@ public class StageServiceTest {
     }
 
     @Test
-    @DisplayName("updateStage test")
+    void testUpdateStatusTest() throws Exception {
+        // Arrange
+        when(stageRepository.save(s1)).thenReturn(s1);
+        stageRepository.save(s1);
+        when(stageRepository.findById(1L)).thenReturn(Optional.of(s1));
+        // Act
+        Stage stage = stageService.updateStatus(s1,1L);
+        // Assert
+        assertTrue(stage.isApprouve());
+        assertTrue(stage.isOuvert());
+    }
+
+    @Test
+    void testGetStagesByEmployeurTest() {
+        // Arrange
+        Employeur e = new Employeur();
+        e.setId(3L);
+        s1.setEmployeur(e);
+        doReturn(e).when(employeurRepository).save(any());
+        doReturn(Optional.of(e)).when(employeurRepository).findById(e.getId());
+        doReturn(s1).when(stageRepository).save(any());
+        Mockito.when(stageRepository.findAll()).thenReturn(Arrays.asList(s1));
+        // Act
+        List<Stage> stages = stageService.getStagesByEmployeur(e.getId());
+        // Assert
+        Assertions.assertNotNull(stages);
+        Assertions.assertEquals(stages.size(), 1);
+        Assertions.assertEquals(stages.get(0), s1);
+    }
+
+    @Test
     void testUpdateStage() {
         s1.setId(1l);
         s1.setTitre("Stage en programmation");
@@ -108,7 +143,6 @@ public class StageServiceTest {
         s1.setDateFin(LocalDate.of(2021, 8, 20));
         s1.setExigences("Etre empathique");
         s1.setDescription("Ceci un stage en java");
-        //s1.setEmployeur(new Employeur("None", "None", "None"));
         doReturn(s1).when(stageRepository).save(any());
         Stage stage = stageRepository.save(s1);
         Stage stageUpdate;
@@ -122,7 +156,6 @@ public class StageServiceTest {
         stageUpdate.setDateFin(LocalDate.of(2021, 8, 21));
         stageUpdate.setExigences("Etre en 3eme annee de DEC");
         stageUpdate.setDescription("Ceci un stage en java pour les etudiants en 3eme annee de DEC");
-        //stageUpdate.setEmployeur(new Employeur("NB", "111-222-3333", "Montreal, QC"));
         doReturn(stageUpdate).when(stageRepository).save(any());
         doReturn(Optional.of(s1)).when(stageRepository).findById(s1.getId());
         Stage updatedStage = stageService.updateStage(stageUpdate, stage.getId());
@@ -139,11 +172,9 @@ public class StageServiceTest {
         Assertions.assertEquals(LocalDate.of(2021, 1, 2), updatedStage.getDateLimiteCandidature());
         Assertions.assertEquals(LocalDate.of(2021, 1, 21), updatedStage.getDateDebut());
         Assertions.assertEquals(LocalDate.of(2021, 8, 21), updatedStage.getDateFin());
-        //Assertions.assertEquals(new Employeur("NB", "111-222-3333", "Montreal, QC"), updatedStage.getEmployeur());
     }
 
     @Test
-    @DisplayName("Successful getStagesByEmployeur")
     void getStagesByEmployeurTest() {
         // Arrange
         when(employeurService.getEmployeurById(1L)).thenReturn(employeur);
@@ -154,4 +185,101 @@ public class StageServiceTest {
         Assertions.assertEquals(2, stages.size());
     }
 
+    @Test
+    public void testGetStagesEtudiantValide(){
+        s1.setId(2L);
+        s1.setApprouve(true);
+        s1.setOuvert(true);
+        Etudiant e1 = new Etudiant();
+        e1.setId(6L);
+        Set <Etudiant> etudiantsAdmis = new HashSet<>();
+        etudiantsAdmis.add(e1);
+        s1.setEtudiantsAdmits(etudiantsAdmis);
+        doReturn(s1).when(stageRepository).save(s1);
+        Candidature c = new Candidature();
+        c.setStage(new Stage());
+        c.setEtudiant(e1);
+        List<Candidature> candidatures = new ArrayList<>();
+        candidatures.add(c);
+        doReturn(candidatures).when(candidatureService).findCandidatureByEtudiant(e1.getId());
+        Mockito.when(stageRepository.findAll()).thenReturn(Arrays.asList(s1));
+        List<Stage> stageList = stageService.getStagesEtudiant(e1.getId());
+        // Assert
+        Assertions.assertNotNull(stageList);
+        Assertions.assertEquals(stageList.size(), 1);
+        Assertions.assertEquals(stageList.get(0), s1);
+    }
+
+    @Test
+    public void testGetStagesEtudiantInvalide(){
+        s1.setId(2L);
+        s1.setApprouve(true);
+        s1.setOuvert(true);
+        Etudiant e1 = new Etudiant();
+        e1.setId(6L);
+        Set <Etudiant> etudiantsAdmis = new HashSet<>();
+        etudiantsAdmis.add(e1);
+        s1.setEtudiantsAdmits(etudiantsAdmis);
+        doReturn(s1).when(stageRepository).save(s1);
+        Candidature c = new Candidature();
+        c.setStage(s1);
+        c.setEtudiant(e1);
+        List<Candidature> candidatures = new ArrayList<>();
+        candidatures.add(c);
+        doReturn(candidatures).when(candidatureService).findCandidatureByEtudiant(e1.getId());
+        Mockito.when(stageRepository.findAll()).thenReturn(Arrays.asList(s1));
+        List<Stage> stageList = stageService.getStagesEtudiant(e1.getId());
+        // Assert
+        Assertions.assertEquals(stageList.size(), 0);
+    }
+
+    @Test
+    public void testUpdateEtudiantsAdmits(){
+        s1.setId(1L);
+        s1.setApprouve(true);
+        s1.setOuvert(true);
+        Etudiant e1 = new Etudiant();
+        e1.setId(6L);
+        Etudiant e2 = new Etudiant();
+        e2.setId(7L);
+        Set<Etudiant> set = new HashSet<>();
+        set.add(e1); set.add(e2);
+        s1.setEtudiantsAdmits(set);
+        doReturn(s1).when(stageRepository).save(s1);
+        doReturn(Optional.of(s1)).when(stageRepository).findById(s1.getId());
+        // Act
+        Stage stage = stageService.updateEtudiantsAdmits(s1.getId(), set);
+        // Assert
+        Assertions.assertNotNull(stage);
+        Assertions.assertEquals(stage.getEtudiantsAdmits().size(), 2);
+    }
+
+    @Test
+    public void testGetEtudiantsAdmitsByValideStageId(){
+        s1.setId(1L);
+        s1.setApprouve(true);
+        s1.setOuvert(true);
+        Etudiant e1 = new Etudiant();
+        e1.setId(6L);
+        Etudiant e2 = new Etudiant();
+        e2.setId(7L);
+        Set<Etudiant> set = new HashSet<>();
+        set.add(e1); set.add(e2);
+        s1.setEtudiantsAdmits(set);
+        doReturn(s1).when(stageRepository).save(s1);
+        doReturn(Optional.of(s1)).when(stageRepository).findById(s1.getId());
+        // Act
+        Set<Etudiant> stageList = stageService.getEtudiantsAdmits(s1.getId());
+        // Assert
+        Assertions.assertNotNull(stageList);
+        Assertions.assertEquals(stageList.size(), 2);
+    }
+
+    @Test
+    public void testGetEtudiantsAdmitsByInvalideStageId(){
+        // Act
+        Set<Etudiant> stageList = stageService.getEtudiantsAdmits(22L);
+        // Assert
+        Assertions.assertNull(stageList);
+    }
 }

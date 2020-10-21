@@ -2,17 +2,21 @@ import axios from 'axios'
 
 const ETUDIANTS_URL = "http://localhost:8080/etudiants/findAll";
 const baseURL = "http://localhost:8080/etudiants";
-const ETUDIANT_MATRICULE = "http://localhost:8080/etudiants/matricule?matricule=";
+const ETUDIANT_GET = "http://localhost:8080/etudiants/get";
 
 class EtudiantService{
 
-    //axiom
     getEtudiants(){
         return axios.get(ETUDIANTS_URL);
     }
 
-    getEtudiantByMatricule(matricule){
-        return axios.get(ETUDIANT_MATRICULE + matricule);
+    getEtudiantById(id){
+        return axios.get(ETUDIANT_GET + "?idEtudiant=" + id);
+    }
+
+
+    getEtudiantsByProgramme(programme){
+        return axios.get(ETUDIANT_GET + "/" + programme);
     }
 
     async getByEmail(email){

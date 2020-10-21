@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import StageService from '../service/StageService';
+import StageService from '../../service/StageService';
 
 
-export default class ListStagesComponent extends Component {
+export default class ListStagesEmployeur extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,10 +18,9 @@ export default class ListStagesComponent extends Component {
         this.props.history.push('/createStage')
     }
 
-
     componentDidMount() {
         var id;
-        if (localStorage.getItem("desc") == "Employeur")
+        if (localStorage.getItem("desc") === "Employeur")
             id = localStorage.getItem("id");
 
         StageService.getStagesByEmployeurId(id).then((res) => { this.setState({ stage: res.data }) })

@@ -1,5 +1,6 @@
 package com.equipe1.service;
 
+import com.equipe1.model.CV;
 import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.repository.EtudiantRepository;
@@ -57,5 +58,9 @@ public class EtudiantService {
 
     public Etudiant getEtudiantByEmail(String email){
         return etudiantRepository.findByEmail(email);
+    }
+
+    public List<Etudiant> getEtudiantsByProgramme(String programme) {
+        return etudiantRepository.findAllByProgramme(programme);
     }
 }

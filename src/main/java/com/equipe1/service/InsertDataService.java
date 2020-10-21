@@ -40,7 +40,7 @@ public class InsertDataService {
         e1.setNom("truong");
         e1.setStatutStage("possede stage");
         e1.setTelephone("555-555-5555");
-        e1.setProgramme("TI");
+        e1.setProgramme("Techniques de l’informatique");
         etudiantRepository.save(e1);
 
         Etudiant e2 = new Etudiant();
@@ -52,31 +52,37 @@ public class InsertDataService {
         e2.setNom("truong");
         e2.setStatutStage("aucun stage");
         e2.setTelephone("555-444-4444");
-        e2.setProgramme("Secondaire 3");
+        e2.setProgramme("Techniques de l’informatique");
         etudiantRepository.save(e2);
+
+        Etudiant e3 = new Etudiant();
+        e3.setAdresse("123456");
+        e3.setEmail("olingamedjoloic@gmail.com");
+        e3.setMatricule("1998277");
+        e3.setPassword("123456");
+        e3.setPrenom("Loic");
+        e3.setNom("Olinga");
+        e3.setStatutStage("aucun stage");
+        e3.setTelephone("555-444-4444");
+        e3.setProgramme("Techniques de l’informatique");
+        etudiantRepository.save(e3);
+
     }
 
     @Transactional
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
-        e1.setEmail("banque1@email.com");
+        e1.setEmail("carlos.arturo.ortiz.celis@gmail.com");
         e1.setPassword("12345");
         e1.setAdresse("12345");
-        e1.setNomEntreprise("banque1");
+        e1.setNom("banque1");
         e1.setTelephone("888-888-8888");
         employeurRepository.save(e1);
     }
 
     @Transactional
     public void insertStage(){
-
-        Employeur e1 = new Employeur();
-        e1.setEmail("banque2@email.com");
-        e1.setPassword("12345");
-        e1.setAdresse("12345");
-        e1.setNomEntreprise("banque1");
-        e1.setTelephone("888-888-8888");
-        employeurRepository.save(e1);
+        Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.arturo.ortiz.celis@gmail.com");
 
         Stage stage1 = new Stage();
         stage1.setTitre("stage_1");
@@ -86,12 +92,26 @@ public class InsertDataService {
         stage1.setDateFin(LocalDate.of(2020,12,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
-        stage1.setProgramme("informatique");
+        stage1.setProgramme("Techniques de l’informatique");
         stage1.setNbHeuresParSemaine(35);
         stage1.setVille("Montreal");
-        stage1.setEmployeur(e1);
+        stage1.setEmployeur(e2);
+        stageService.saveStage(stage1);
 
-
+        stage1 = new Stage();
+        stage1.setTitre("stage_2");
+        stage1.setDescription("stage informatique ");
+        stage1.setNbAdmis(5);
+        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
+        stage1.setExigences("aucune exigence");
+        stage1.setProgramme("Techniques de l’informatique");
+        stage1.setNbHeuresParSemaine(37);
+        stage1.setVille("Montreal");
+        stage1.setEmployeur(e2);
+        stage1.setOuvert(true);
+        stage1.setApprouve(true);
         stageService.saveStage(stage1);
 
     }

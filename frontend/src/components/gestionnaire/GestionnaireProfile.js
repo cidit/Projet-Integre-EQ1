@@ -6,12 +6,11 @@ export default class GestionnaireProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {gestionnaire: {}};
-        
     }
 
     async componentDidMount() {
         var id;
-        if (localStorage.getItem("desc") == "Gestionnaire")
+        if (localStorage.getItem("desc") === "Gestionnaire")
             id = localStorage.getItem("id");
 
         const {data: gestionnaire} = await axios.get(

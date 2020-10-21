@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 
 import EtudiantRegister from "./components/EtudiantRegister";
-import ListStagesComponent from "./components/ListStageComponent";
 import Login from "./components/Login";
 import { Route, Switch,Router , withRouter } from 'react-router-dom';
 import Home from "./components/Home";
@@ -11,9 +10,13 @@ import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantCompon
 import HomeEtudiant from "./components/HomeEtudiant";
 import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
-import CreateStageComponent from './components/CreateStageComponent'
-import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions'
-import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent'
+import CreateStageComponent from './components/stage/CreateStageComponent';
+import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions';
+import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
+import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
+import ApplicationStageComponent from "./components/ApplicationStageComponent";
+import ListeCandidaturesEtudiantComponent from './components/ListeCandidaturesEtudiantComponent';
+import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
 
 function App() {
   return (
@@ -24,16 +27,23 @@ function App() {
          
         <Switch>
           <Route path="/" exact component={Home}/>
-          <Route path="/stages" component={ListStagesComponent}/>
+          <Route path="/stages" component={ListStagesEmployeur}/>
           <Route path='/create' component={EtudiantRegister} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
           <Route path='/logout' component={Logout} />
+          <Route path="/etudiants" component={ListEtudiantsComponent}/>
+
+
+          <Route path='/etudiant' component={HomeEtudiant} />
+          <Route path='/offrestage' component={ApplicationStageComponent} />
           <Route path="/etudiants" component={ListEtudiantsComponent} />
           <Route path='/etudiant' component={HomeEtudiant} />
           <Route path='/createStage' component={CreateStageComponent} />
+          <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
           <Route path='/gestionnaire' component={GestionnaireOptions} />
           <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
+          <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
         </Switch>
        
         </div>
@@ -41,5 +51,6 @@ function App() {
     
   );
 }
+
 
 export default App;

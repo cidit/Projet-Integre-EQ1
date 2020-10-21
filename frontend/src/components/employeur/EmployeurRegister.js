@@ -1,13 +1,10 @@
-import React, {Component} from 'react';
-import './../App.css';
-import './../css/Register.css';
-import Employeur from "../model/Employeur";
-import EmployeurService from "../service/EmployeurService";
-import {Redirect} from "react-router-dom";
-import {Formik, Field, Form, ErrorMessage, withFormik} from "formik";
+import React, { Component } from 'react';
+import '../../App.css';
+import '../../css/Register.css';
+import EmployeurService from "../../service/EmployeurService";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from 'yup';
-import ValidationChamp from './ValidationChampVide';
-import UserService from "../service/UserService";
+import UserService from "../../service/UserService";
 
 
 
@@ -23,22 +20,15 @@ const formSchema = Yup.object().shape({
         .required("Veuillez saisir un password valide")
         .min(6, "doivent comprendre au moins 6 caractères."),
     telephone: Yup.string().required('Veuillez saisir un telephone valide')
-                            .min(8, "doivent comprendre au moins 8 caractères.")
-                            .max(14,'Numéro de téléphone invalide')
-                            .matches(phoneRegExp, 'Numéro de téléphone invalide' ),
+        .min(8, "doivent comprendre au moins 8 caractères.")
+        .max(14, 'Numéro de téléphone invalide')
+        .matches(phoneRegExp, 'Numéro de téléphone invalide'),
     adresse: Yup.string().required('Veuillez saisir un adresse valide'),
 
 });
 
 
 export default class EmployeurRegister extends Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = new Employeur();
-    }
-
-  
 
     render() {
 
@@ -47,7 +37,7 @@ export default class EmployeurRegister extends Component {
             <div className="container ">
                 <div className="col">
                     <div className="card p-3 m-3">
-                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Nouvel employeur</h5>
+                        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Nouvel employeur</h5>
                         <Formik
                             initialValues={{
                                 nomEntreprise: "",
@@ -63,18 +53,17 @@ export default class EmployeurRegister extends Component {
 
                                 return new Promise(function (resolve) {
                                     setTimeout(() => {
-                                        resolve(EmployeurService.getByEmail(values.email)
+                                        resolve(UserService.getByEmail(values.email)
                                             .then((val) => {
-
                                                 if (val.email === values.email) {
                                                     actions.setFieldError('email', "Adresse électronique déjà utilisée")
                                                 } else {
                                                     EmployeurService.post(values);
                                                     actions.resetForm();
-                                                    actions.setStatus({message: "Utilisateur crée avec succès"});
+                                                    actions.setStatus({ message: "Utilisateur crée avec succès" });
 
                                                     setTimeout(() => {
-                                                        actions.setStatus({message: ''});
+                                                        actions.setStatus({ message: '' });
                                                     }, 3000);
 
                                                     actions.setSubmitting(false);
@@ -94,7 +83,7 @@ export default class EmployeurRegister extends Component {
                             }}
                         >
 
-                            {({status, isSubmitting, isValid, isValidating}) => (
+                            {({ status, isSubmitting, isValid, isValidating }) => (
                                 <Form>
                                     <div className="container text-left justify-content-center">
 
@@ -103,9 +92,9 @@ export default class EmployeurRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label">Nom de l'entreprise</label>
                                                     <Field type="text"
-                                                           name="nomEntreprise"
-                                                           className="form-control"
-                                                           />
+                                                        name="nomEntreprise"
+                                                        className="form-control"
+                                                    />
                                                     <ErrorMessage name="nomEntreprise">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -117,9 +106,9 @@ export default class EmployeurRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label"> Email </label>
                                                     <Field type="email"
-                                                           name="email"
-                                                           className="form-control"
-                                                           placeholder="example@email.com"/>
+                                                        name="email"
+                                                        className="form-control"
+                                                        placeholder="example@email.com" />
                                                     <ErrorMessage name="email">{msg => <div
                                                         className="badge alert-danger"> {msg}</div>}</ErrorMessage>
                                                 </div>
@@ -131,9 +120,9 @@ export default class EmployeurRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label"> Password </label>
                                                     <Field type="password"
-                                                           name="password"
-                                                           className="form-control"
-                                                          />
+                                                        name="password"
+                                                        className="form-control"
+                                                    />
                                                     <ErrorMessage name="password">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -145,9 +134,9 @@ export default class EmployeurRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label"> Téléphone </label>
                                                     <Field type="text"
-                                                           name="telephone"
-                                                           className="form-control"
-                                                           />
+                                                        name="telephone"
+                                                        className="form-control"
+                                                    />
                                                     <ErrorMessage name="telephone">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -159,9 +148,9 @@ export default class EmployeurRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label"> adresse </label>
                                                     <Field type="text"
-                                                           name="adresse"
-                                                           className="form-control"
-                                                          />
+                                                        name="adresse"
+                                                        className="form-control"
+                                                    />
                                                     <ErrorMessage name="adresse">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -172,15 +161,15 @@ export default class EmployeurRegister extends Component {
                                             <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
                                                     <button type="submit"
-                                                            className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
-                                                            className="btn btn-primary"
-                                                            disabled={isValidating || isSubmitting || !isValid}>Enregistrer
+                                                        className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
+                                                        className="btn btn-primary"
+                                                        disabled={isValidating || isSubmitting || !isValid}>Enregistrer
                                                     </button>
 
                                                     {status && status.message &&
-                                                    <div className="alert alert-success mt-3" role="alert">
-                                                        {status.message}
-                                                    </div>
+                                                        <div className="alert alert-success mt-3" role="alert">
+                                                            {status.message}
+                                                        </div>
                                                     }
                                                 </div>
                                             </div>
@@ -191,8 +180,7 @@ export default class EmployeurRegister extends Component {
                                             <div className="col-sm-4 offset-sm-4 text-center">
                                                 <span className="font-weight-light">Vous avez déjà un compte? </span>
                                                 <a href="/login" className="stretched-link"
-                                                  >Se connecter </a>
-
+                                                >Se connecter </a>
                                             </div>
                                         </div>
                                     </div>
@@ -204,7 +192,5 @@ export default class EmployeurRegister extends Component {
                 </div>
             </div>
         );
-
-
     }
 }
