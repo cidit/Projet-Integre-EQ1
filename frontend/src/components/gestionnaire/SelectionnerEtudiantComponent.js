@@ -16,6 +16,31 @@ export default class SelectionnerEtudiantComponent extends Component {
         this.annulerChoix = this.annulerChoix.bind(this);
     }
 
+    async componentDidMount() {
+        var stage = new Stage();
+        stage = await StageService.getStageById(this.props.match.params.id);
+        const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.data.programme);
+        this.setState({ etudiants });
+        this.setState({ disabledButtons: new Array(this.state.etudiants.length).fill(false)});
+
+        const { data: etudiantsPermis } = await StageService.getEtudiantsByStageId(this.props.match.params.id);
+        this.setState({ etudiantsPermis });
+ 
+        var bouttons = new Array(this.state.etudiants.length).fill(false);
+        for(let etudiant of this.state.etudiantsPermis){
+            bouttons[etudiant.id] = true;
+        }
+        this.setState({ disabledButtons: bouttons });
+
+        const stageEtudiants = [];
+        if (this.state.etudiantsPermis !== []) { 
+            for(let etudiant of this.state.etudiantsPermis){
+                stageEtudiants[etudiant.id] = etudiant;
+            }
+        }
+        this.setState({ etudiantsPermis: stageEtudiants });
+    }
+
     addAllEtudiants(){
         const etudiants = [];
         for(let etudiant of this.state.etudiants){
@@ -39,32 +64,6 @@ export default class SelectionnerEtudiantComponent extends Component {
         
         this.setState({ disabledButtons: bouttons });
         this.setState({ etudiantsPermis: [] });
-    }
-
-    async componentDidMount() {
-        var stage = new Stage();
-        stage = await StageService.getStageById(this.props.match.params.id);
-        const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.data.programme);
-        this.setState({ etudiants });
-        this.setState({ disabledButtons: new Array(this.state.etudiants.length).fill(false)});
-
-        const { data: etudiantsPermis } = await StageService.getEtudiantsByStageId(this.props.match.params.id);
-        this.setState({ etudiantsPermis });
- 
-        var bouttons = new Array(this.state.etudiants.length).fill(false);
-        for(let etudiant of this.state.etudiantsPermis){
-            bouttons[etudiant.id] = true;
-        }
-        
-        this.setState({ disabledButtons: bouttons });
-
-        const stageEtudiants = [];
-        if (this.state.etudiantsPermis !== []) { 
-            for(let etudiant of this.state.etudiantsPermis){
-                stageEtudiants[etudiant.id] = etudiant;
-            }
-        }
-        this.setState({ etudiantsPermis: stageEtudiants });
     }
 
     async AddToList(index, param, e) {
@@ -99,6 +98,8 @@ export default class SelectionnerEtudiantComponent extends Component {
     confirmerChoix(){
         StageService.addEtudiants(this.props.match.params.id, this.state.etudiantsPermis);
         this.props.history.push('/gestionnaireStage');
+        
+        window.location.reload();
     }
 
     annulerChoix(){
@@ -108,8 +109,8 @@ export default class SelectionnerEtudiantComponent extends Component {
     render() {
 
         return (
-            <div>
-                <h1 className="text-center">Liste des étudiants</h1>
+            <div className="pt-3 mt-3">
+                <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des étudiants</h5>
 
                 <div className="row">
                     <table className="table table-striped table-bordered">
@@ -141,12 +142,12 @@ export default class SelectionnerEtudiantComponent extends Component {
                                             <button className="btn btn-primary-outline" onClick={() => this.AddToList(etudiant.id)}
                                                 disabled={this.state.disabledButtons[etudiant.id]}>
                                                 {!this.state.disabledButtons[etudiant.id] ? 
-                                                <h3> <AiFillCheckCircle /> </h3> : <h3> <AiOutlineCheckCircle /> </h3>}
+                                                <h3> <AiFillCheckCircle style={{color: "green"}}/> </h3> : <h3> <AiOutlineCheckCircle /> </h3>}
                                             </button>
                                             <button className="btn btn-primary-outline" onClick={() => this.RemoveFromList(etudiant.id)}
                                                 disabled={!this.state.disabledButtons[etudiant.id]}>
                                                 {this.state.disabledButtons[etudiant.id] ? 
-                                                <h3> <AiFillCloseCircle /> </h3> : <h3> <AiOutlineCloseCircle /> </h3>}
+                                                <h3> <AiFillCloseCircle style={{color: "red"}}/> </h3> : <h3> <AiOutlineCloseCircle /> </h3>}
                                             </button>
                                         </td>
                                         <td>{etudiant.matricule}</td>
