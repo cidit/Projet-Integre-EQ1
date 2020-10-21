@@ -32,16 +32,14 @@ export default class ListEtudiantsComponent extends Component {
             )
         }
     }
-    downloadCV = (idEtudiant) => {
-
-        return (dispatch) => {
+    downloadCV (idEtudiant) {
             const method = 'GET';
             const url = 'http://localhost:8080/cvs/get/' + idEtudiant;
             axios
                 .request({
                     url,
                     method,
-                    responseType: 'blob', //important
+                    responseType: 'blob',
                 })
                 .then(({ data }) => {
                     const downloadUrl = window.URL.createObjectURL(new Blob([data]));
@@ -51,7 +49,7 @@ export default class ListEtudiantsComponent extends Component {
                     document.body.appendChild(link);
                     link.click();
                 });
-        };
+
 
 
     }
