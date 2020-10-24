@@ -50,18 +50,23 @@ public class StageController {
         return stageService.updateStage(stage, id);
     }
 
-    @PutMapping("/updateStatusStage/{id}")
+    @PutMapping("updateStatusStage/{id}")
     public Stage updateStatusStage(@RequestBody Stage stage, @PathVariable Long id) throws Exception {
         return stageService.updateStatus(stage, id);
     }
 
-    @PutMapping("/stages/updateEtudiantsAdmits/{stageId}")
+    @PutMapping("updateEtudiantsAdmits/{stageId}")
     public Stage updateEtudiantsAdmits(@PathVariable long stageId, @RequestBody List<Etudiant> etudiants){
         return stageService.updateEtudiantsAdmits(stageId, new HashSet<>(etudiants));
     }
 
-    @GetMapping("/stages/getEtudiantsAdmits/{stageId}")
+    @GetMapping("getEtudiantsAdmits/{stageId}")
     public Set<Etudiant> getEtudiantsAdmits(@PathVariable long stageId){
         return stageService.getEtudiantsAdmits(stageId);
+    }
+
+    @GetMapping("approuves")
+    public List<Stage> getAllStagesApprouves(){
+        return stageService.getStagesApprouves();
     }
 }

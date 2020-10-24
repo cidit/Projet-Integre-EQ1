@@ -120,7 +120,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        stage1.setIsApprouve(Stage.StageStatus.APPROVED);
+        stage1.setStatut(Stage.StageStatus.APPROVED);
         stageService.saveStage(stage1);
 
         Stage stage2 = new Stage();
@@ -161,7 +161,7 @@ public class InsertDataService {
         Gestionnaire g1 = new Gestionnaire();
         g1.setNom("toto");
         g1.setPrenom("toto");
-        g1.setEmail("toto@toto.to");
+        g1.setEmail("gestionnaire01@email.com");
         g1.setPassword("123456");
         g1.setTelephone("555-555-5555");
         gestionnaireService.saveGestionnaire(g1);

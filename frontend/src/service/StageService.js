@@ -1,18 +1,22 @@
+import axios from 'axios'
+
 const STAGE_ETUDIANTS_URL_PUT = "http://localhost:8080/stages/updateEtudiantsAdmits/";
 const STAGES_URL = "http://localhost:8080/stages";
 const STAGES_URL_POST = "http://localhost:8080/stages/createStage";
 
 class StageService{
 
-    //axiom
     getStages(){
         return axios.get(STAGES_URL + "/findAll");
+    }
+
+    getStagesApprouves(){
+        return axios.get(STAGES_URL + "/approuves");
     }
     
     getStageById(id){
         return axios.get(STAGES_URL + "/getStage?idStage=" + id);
     }
-
 
     getStagesByEmployeurId(idEmployeur){
         return axios.get(STAGES_URL + "/stageByEmployeurId?idEmployeur="+ idEmployeur);
@@ -25,6 +29,7 @@ class StageService{
     getEtudiantsByStageId(idStage) {
         return axios.get(STAGES_URL + "/getEtudiantsAdmits/" + idStage);
     }
+
     async getById(id) {
         let data;
         await fetch(STAGES_URL + "/getStage?idStage=" + id, {method: "GET"})
@@ -33,9 +38,8 @@ class StageService{
         return data;
     }
 
-
     createStage(stage){
-        return axios.post(STAGES_URL_POST,stage)
+        return axios.post(STAGES_URL_POST, stage)
     }
 
     addEtudiants(id, etudiants){

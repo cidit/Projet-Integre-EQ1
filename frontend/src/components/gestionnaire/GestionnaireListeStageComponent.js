@@ -13,7 +13,7 @@ export default class GestionnaireListStageComponent extends Component {
     }
     
     async componentDidMount() {
-            const { data: stages } = await StageService.getStages();
+            const { data: stages } = await StageService.getStagesApprouves();
             this.setState({ stages });
     }
 
@@ -39,7 +39,7 @@ export default class GestionnaireListStageComponent extends Component {
                             </thead>
                             <tbody>
                                 {this.state.stages
-                                    .filter(stage => stage.approuve && stage.ouvert)
+                                    .filter(stage => stage.ouvert)
                                     .map(
                                         stage =>
                                         <tr key={stage.id}>

@@ -67,10 +67,9 @@ public class StageService {
                 if (resultStage.getId().equals(resultCandidature.getStage().getId()))
                     isStageStudentCanApply = false;
             }
-            if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.isApprouve())
+            if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.getStatut() == Stage.StageStatus.APPROVED)
                 stagesResul.add(resultStage);
         }
-
         return stagesResul;
     }
 
@@ -93,7 +92,7 @@ public class StageService {
         optionalStage.get().setNbHeuresParSemaine(newStage.getNbHeuresParSemaine());
         optionalStage.get().setNbAdmis(newStage.getNbAdmis());
         optionalStage.get().setOuvert(newStage.isOuvert());
-        optionalStage.get().setIsApprouve(newStage.getIsApprouve());
+        optionalStage.get().setStatut(newStage.getStatut());
         optionalStage.get().setDateLimiteCandidature(newStage.getDateLimiteCandidature());
         optionalStage.get().setProgramme(newStage.getProgramme());
         optionalStage.get().setSalaire(newStage.getSalaire());
@@ -102,8 +101,7 @@ public class StageService {
 
     public Stage updateStatus(Stage newStage, long id) throws Exception {
         Stage stage = newStage;
-<<<<<<< HEAD
-        stage.setApprouve(true);
+        stage.setStatut(Stage.StageStatus.APPROVED);
         stage.setOuvert(true);
 
         courrielService.sendSimpleMessage(new Courriel(stage.getEmployeur().getEmail(),
@@ -132,9 +130,15 @@ public class StageService {
         } else
             return null;
     }
-=======
-//        notificationCourrielService.sendMail(stage.getEmployeur());
-        return updateStage(stage,id);
+
+    public List<Stage> getStagesApprouves() {
+        List<Stage> stages = stageRepository.findAll();
+        List<Stage> stagesApprouves = new ArrayList<>();
+        for (Stage resultStage : stages) {
+            if (resultStage.getStatut() == Stage.StageStatus.APPROVED){
+                stagesApprouves.add(resultStage);
+            }
+        }
+        return stagesApprouves;
     }
->>>>>>> eq1-66-isa
 }

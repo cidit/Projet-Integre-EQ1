@@ -12,12 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.assertTrue;
-=======
 import static org.junit.jupiter.api.Assertions.*;
->>>>>>> eq1-66-isa
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -56,8 +52,10 @@ public class StageServiceTest {
         employeur= new Employeur();
         s1 = new Stage();
         s1.setTitre("java");
+        s1.setStatut(Stage.StageStatus.APPROVED);
         s2 = new Stage();
         s2.setTitre("c++");
+        s2.setStatut(Stage.StageStatus.DENIED);
         employeur = new Employeur();
         employeur.setNom("test");
         employeur.setEmail("test@email.com");
@@ -106,28 +104,18 @@ public class StageServiceTest {
     }
 
     @Test
-    void testUpdateStatusTest() throws Exception {
+    void testUpdateStatus() throws Exception {
         // Arrange
-<<<<<<< HEAD
-
         when(employeurRepository.save(employeur)).thenReturn(employeur);
         when(stageRepository.save(s1)).thenReturn(s1);
         s1.setEmployeur(employeur);
         stageRepository.save(s1);
         when(stageRepository.findById(1L)).thenReturn(Optional.of(s1));
-
-=======
-        when(repository.save(s1)).thenReturn(s1);
-        repository.save(s1);
-        when(repository.findById(1L)).thenReturn(Optional.of(s1));
-        s1.setIsApprouve(Stage.StageStatus.APPROVED);
-        s1.setOuvert(true);
->>>>>>> eq1-66-isa
         // Act
         Stage stage = stageService.updateStatus(s1,1L);
         doNothing().when(courrielService).sendSimpleMessage(new Courriel(),"test");
         // Assert
-        assertSame(stage.getIsApprouve(), Stage.StageStatus.APPROVED);
+        assertSame(stage.getStatut(), Stage.StageStatus.APPROVED);
         assertTrue(stage.isOuvert());
     }
 
@@ -176,7 +164,7 @@ public class StageServiceTest {
     }
 
     @Test
-    void getStagesByEmployeurTest() {
+    void getStagesByEmployeur() {
         // Arrange
         s1.setEmployeur(employeur);
         s2.setEmployeur(employeur);
@@ -192,7 +180,7 @@ public class StageServiceTest {
     @Test
     public void testGetStagesEtudiantValide(){
         s1.setId(2L);
-        s1.setApprouve(true);
+        s1.setStatut(Stage.StageStatus.APPROVED);
         s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
@@ -217,7 +205,7 @@ public class StageServiceTest {
     @Test
     public void testGetStagesEtudiantInvalide(){
         s1.setId(2L);
-        s1.setApprouve(true);
+        s1.setStatut(Stage.StageStatus.APPROVED);
         s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
@@ -240,7 +228,7 @@ public class StageServiceTest {
     @Test
     public void testUpdateEtudiantsAdmits(){
         s1.setId(1L);
-        s1.setApprouve(true);
+        s1.setStatut(Stage.StageStatus.APPROVED);
         s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
@@ -261,7 +249,7 @@ public class StageServiceTest {
     @Test
     public void testGetEtudiantsAdmitsByValideStageId(){
         s1.setId(1L);
-        s1.setApprouve(true);
+        s1.setStatut(Stage.StageStatus.APPROVED);
         s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
@@ -285,5 +273,16 @@ public class StageServiceTest {
         Set<Etudiant> stageList = stageService.getEtudiantsAdmits(22L);
         // Assert
         Assertions.assertNull(stageList);
+    }
+
+    @Test
+    public void testGetAllStagesApprouves(){
+        // Arrange
+        doReturn(Arrays.asList(s1)).when(stageRepository).findAll();
+        // Act
+        List<Stage> stageList = stageService.getStagesApprouves();
+        // Assert
+        Assertions.assertNotNull(stageList);
+        Assertions.assertEquals(1, stageList.size());
     }
 }

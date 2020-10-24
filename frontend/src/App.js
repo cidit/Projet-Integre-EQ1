@@ -17,7 +17,6 @@ import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
 import ApplicationStageComponent from "./components/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/ListeCandidaturesEtudiantComponent';
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
-import StageVeto from "./components/StageVeto";
 
 function App() {
   return (
@@ -31,7 +30,6 @@ function App() {
           <Route path='/create' component={EtudiantRegister} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
-          <Route path='/stageVeto' component={StageVeto} />
           <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent}/>
 
