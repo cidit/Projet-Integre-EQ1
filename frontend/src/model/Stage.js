@@ -10,7 +10,7 @@ export default class Stage{
     salaire= "";
     nbAdmis= "";
     isOuvert;
-    isApprouve;
+    statut;
     dateLimiteCandidature= "";
     programme= "";
     ville ="";

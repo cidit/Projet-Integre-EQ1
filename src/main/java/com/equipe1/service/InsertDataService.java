@@ -11,11 +11,6 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 public class InsertDataService {
@@ -124,14 +119,14 @@ public class InsertDataService {
         stageService.saveStage(stage1);
 
         Stage stage2 = new Stage();
-        stage2.setTitre("Stage_2");
+        stage2.setTitre("Stage_3");
         stage2.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Odio euismod lacinia at quis risus sed vulputate. Faucibus in ornare quam viverra orci sagittis eu volutpat. ");
         stage2.setNbAdmis(5);
         stage2.setDateDebut(LocalDate.of(2021,4,7));
         stage2.setDateFin(LocalDate.of(2021,12,23));
         stage2.setDateLimiteCandidature(LocalDate.of(2020,12,6));
         stage2.setExigences("Travail d'equipe, Java, Python");
-        stage2.setProgramme("Informatique");
+        stage2.setProgramme("Techniques de l’informatique");
         stage2.setNbHeuresParSemaine(40);
         stage2.setVille("Laval");
         stage2.setEmployeur(e2);
@@ -148,7 +143,7 @@ public class InsertDataService {
         stage2.setDateFin(LocalDate.of(2021,11,30));
         stage2.setDateLimiteCandidature(LocalDate.of(2020,12,5));
         stage2.setExigences("Travail d'equipe, compassion");
-        stage2.setProgramme("Technique infirmière");
+        stage2.setProgramme("Soins infirmiers");
         stage2.setNbHeuresParSemaine(38);
         stage2.setVille("Lasalle");
         stage2.setEmployeur(e2);

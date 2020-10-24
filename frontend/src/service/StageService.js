@@ -38,6 +38,18 @@ class StageService{
         return data;
     }
 
+    async updateStage(stage, id){
+        fetch( STAGES_URL + "/updateStatusStage/"+ id,
+            {method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(stage)} )
+            .then(r => r.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => console.log('Success:', response));
+    }
+
     createStage(stage){
         return axios.post(STAGES_URL_POST, stage)
     }
