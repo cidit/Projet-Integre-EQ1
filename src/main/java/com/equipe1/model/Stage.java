@@ -30,7 +30,7 @@ public class Stage {
     private int salaire;
 
 
-    @OneToMany
+    @ManyToMany
     private Set<Etudiant> etudiantsAdmits;
 
     public Stage() {
