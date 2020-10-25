@@ -21,9 +21,15 @@ public class Employeur extends User{
         this.desc = "Employeur";
     }
     private String adresse;
+
+    @OneToMany(mappedBy = "employeur")
+    private Set<Contrat> contrat;
+
     private String nom;
-    public Employeur(String nomEntreprise, String telephone, String adresse) {
-        this.nom = nomEntreprise;
+
+    public Employeur(String nom, String telephone, String adresse) {
+
+        this.nom = nom;
         this.telephone = telephone;
         this.adresse = adresse;
     }

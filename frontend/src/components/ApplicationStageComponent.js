@@ -13,9 +13,15 @@ export default class ApplicationStageComponent extends Component {
             hasApplied:""
         };
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.addStage = this.addStage.bind(this);
+
+    }
+    addStage() {
+        this.props.history.push('/createStage')
     }
 
     async componentDidMount() {
+
         var id;
         if (localStorage.getItem("desc") == "Etudiant")
             id = localStorage.getItem("id");
@@ -41,6 +47,7 @@ export default class ApplicationStageComponent extends Component {
         if (localStorage.getItem("desc") == "Etudiant")
             idEtudiant = localStorage.getItem("id");
         var idStage = event.target.value
+        this.componentDidMount();
         this.setState({hasApplied: true});
         CandidatureService.post(idEtudiant, idStage)
         setTimeout(function() {
@@ -94,10 +101,12 @@ export default class ApplicationStageComponent extends Component {
                                             <td>{stage.ville}</td>
                                             <td>{stage.nbHeuresParSemaine}</td>
                                             {this.state.hasValidCV ?
+
                                                 <td>
                                                     <button type="submit" className="btn btn-primary" value={stage.id} onClick={this.handleSubmit}>Postuler</button>
                                                 </td> : null
                                             }
+
                                         </tr>
                                 )}
                                 </tbody>
@@ -105,6 +114,7 @@ export default class ApplicationStageComponent extends Component {
                             {(this.displayWarningMessage())}<br/>
 
                             {this.state.hasApplied? <label style={{color: "green"}}>Vous venez de postuler au stage</label>: null}<br/>
+
                         </div>
                     </div>
                 </div>

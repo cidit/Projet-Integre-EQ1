@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
@@ -25,7 +25,9 @@ function GestionnaireNav() {
     );
 }
 
+
 function EmployeurNav() {
+
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
@@ -36,7 +38,9 @@ function EmployeurNav() {
     );
 }
 
+
 function EtudiantNav() {
+
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
@@ -52,24 +56,24 @@ function EtudiantNav() {
 
 function NavType(props) {
     if (props.desc.toUpperCase() === "ETUDIANT")
-        return <EtudiantNav/>
+        return <EtudiantNav />
     else if (props.desc.toUpperCase() === "EMPLOYEUR")
-        return <EmployeurNav/>
+        return <EmployeurNav />
     else if (props.desc.toUpperCase() === "GESTIONNAIRE")
-        return <GestionnaireNav/>
+        return <GestionnaireNav />
     else
-        return <NotLoggedInNav/>
+        return <NotLoggedInNav />
 }
 
 class HeaderComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {desc: localStorage.getItem("desc") == null ? "" : localStorage.getItem("desc")}
-
+        this.state = {desc: localStorage.getItem("desc") === null ? "" : localStorage.getItem("desc")}
     }
 
     render() {
         return (
+
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Navbar.Brand href="/">
                     Projet intégré équipe 1
@@ -79,6 +83,7 @@ class HeaderComponent extends Component {
                     <NavType desc={this.state.desc}/>
                 </Navbar.Collapse>
             </Navbar>
+
         );
     }
 }

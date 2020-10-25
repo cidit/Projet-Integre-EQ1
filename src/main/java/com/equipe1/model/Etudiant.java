@@ -37,4 +37,7 @@ public class Etudiant extends User {
 
     @OneToOne
     private CV cv;
+
+    @OneToOne(mappedBy = "etudiant")
+    private Contrat contrat;
 }
