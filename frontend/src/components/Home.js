@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import HorizontalNonLinearStepper from '../components/contrat2.js/CreationContrat'
+import CollapsibleTable from '../components/contrat2.js/useCreateList'
 
 export default class Home extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ export default class Home extends Component {
     render() {
         return (
          <div>
-                <HorizontalNonLinearStepper/>
+                <CollapsibleTable/>
             </div>
         );
     }

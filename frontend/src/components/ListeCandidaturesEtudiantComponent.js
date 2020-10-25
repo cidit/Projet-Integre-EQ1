@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import StageService from '../service/StageService';
-import EtudiantService from "../service/EtudiantService";
 import CandidatureService from "../service/CandidatureService";
-
 
 export default class ListeCandidaturesEtudiantComponent extends Component {
     constructor(props) {
@@ -12,7 +9,6 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             employeurId: ""
         };
         this.handleSubmit = this.handleSubmit.bind(this)
-        //this.onChangeHandler = this.onChangeHandler.bind(this)
     }
 
     async componentDidMount() {
@@ -21,10 +17,9 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             id = localStorage.getItem("id");
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
-    }    handleSubmit(event) {
+    }
+    handleSubmit(event) {
         event.preventDefault()
-        var idEtudiant;
-
     }
     render() {
         return (

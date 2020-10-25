@@ -23,6 +23,7 @@ import Radio from '@material-ui/core/Radio';
 import { withStyles } from '@material-ui/core/styles';
 
 
+
 const useRowStyles = makeStyles({
     root: {
         '& > *': {
@@ -32,8 +33,8 @@ const useRowStyles = makeStyles({
 });
 
 function List(props) {
-    const { list } = props.list;
-    const { header } = props.header;
+    const { employeChoisi } = props;
+    //const { header } = props.header;
 
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = React.useState('');
@@ -47,33 +48,35 @@ function List(props) {
     };
 
     return (
-        <React.Fragment>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                           {header.map((_header)=>{
-                                <TableCell align="right">{_header}</TableCell>
-                           })}
+
+    <div>{employeChoisi}</div>
+        // <React.Fragment>
+        //     <TableContainer component={Paper}>
+        //         <Table className={classes.table} aria-label="simple table">
+        //             <TableHead>
+        //                 <TableRow>
+        //                    {header.map((_header)=>{
+        //                         <TableCell align="right">{_header}</TableCell>
+        //                    })}
                             
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {list.map((row) => (
-                            <TableRow key={row.name}>
-                                <TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </React.Fragment>
+        //                 </TableRow>
+        //             </TableHead>
+        //             <TableBody>
+        //                 {list.map((row) => (
+        //                     <TableRow key={row.name}>
+        //                         <TableCell component="th" scope="row">
+        //                             {row.name}
+        //                         </TableCell>
+        //                         <TableCell align="right">{row.calories}</TableCell>
+        //                         <TableCell align="right">{row.fat}</TableCell>
+        //                         <TableCell align="right">{row.carbs}</TableCell>
+        //                         <TableCell align="right">{row.protein}</TableCell>
+        //                     </TableRow>
+        //                 ))}
+        //             </TableBody>
+        //         </Table>
+        //     </TableContainer>
+        // </React.Fragment>
 
 
     )
@@ -84,35 +87,37 @@ export default function CollapsibleTable() {
     const [employeurChoisi, setEmployeurChoisi] = useState(null);
 
 
-    const { employeur, isLoading, error } = useCreateList(employeurs);
+    //const { employeur, isLoading, error } = useCreateList(employeurs);
 
     useEffect(() => {
         let mounted = true;
         EmployeurService.getAll().then(response => {
             if (mounted) setEmployeurs(response)
         });
-        //EmployeurService.getById(4).then(reponse => setEmployeurChoisi(reponse)).then((res) => console.log(res))
+        EmployeurService.getById(4).then(reponse => setEmployeurChoisi(reponse)).then((res) => console.log(res))
 
         return function cleanup() {
             mounted = false;
             setEmployeurs(null);
-            setEmployeurChoisi(null)
+           // setEmployeurChoisi(null)
         }
     }, []);
 
-const header =[
-    nom,
-    telephone,
-    email,
-];
+// const header =[
+//     nom,
+//     telephone,
+//     email,
+// ];
 
 
 
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
+
+    <div>employeur choisi desde cmp {employeurChoisi.id}</div>
                 
-                        <List list ={employeurs} />
+                        {/* <List list ={employeurChoisi.id} /> */}
                     
             </Table>
         </TableContainer>
