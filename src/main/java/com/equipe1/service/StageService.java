@@ -98,6 +98,7 @@ public class StageService {
         optionalStage.get().setDateLimiteCandidature(newStage.getDateLimiteCandidature());
         optionalStage.get().setProgramme(newStage.getProgramme());
         return stageRepository.save(optionalStage.get());
+
     }
 
     public Stage updateStatus(Stage newStage, long id) throws Exception {

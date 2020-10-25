@@ -23,7 +23,7 @@ function App() {
     
       <main>
         <HeaderComponent />
-        <div className="container">
+   
          
         <Switch>
           <Route path="/" exact component={Home}/>
@@ -45,8 +45,7 @@ function App() {
           <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
           <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
         </Switch>
-       
-        </div>
+  
       </main>
     
   );

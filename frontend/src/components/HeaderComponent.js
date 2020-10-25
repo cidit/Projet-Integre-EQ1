@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
-function NotLoggedInNav(){
+function NotLoggedInNav() {
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
@@ -12,7 +12,7 @@ function NotLoggedInNav(){
     );
 }
 
-function GestionnaireNav(){
+function GestionnaireNav() {
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
@@ -24,8 +24,8 @@ function GestionnaireNav(){
     );
 }
 
-function EmployeurNav(props){
-    return(
+function EmployeurNav(props) {
+    return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
@@ -35,8 +35,8 @@ function EmployeurNav(props){
     );
 }
 
-function EtudiantNav(props){
-    return(
+function EtudiantNav(props) {
+    return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/etudiant">Votre profil</Nav.Link>
@@ -50,39 +50,38 @@ function EtudiantNav(props){
 
 
 
-function NavType(props){
+function NavType(props) {
     if (props.desc.toUpperCase() === "ETUDIANT")
-        return <EtudiantNav/>
+        return <EtudiantNav />
     else if (props.desc.toUpperCase() === "EMPLOYEUR")
-        return <EmployeurNav/>
+        return <EmployeurNav />
     else if (props.desc.toUpperCase() === "GESTIONNAIRE")
-        return <GestionnaireNav/>
+        return <GestionnaireNav />
     else
-        return <NotLoggedInNav/>
+        return <NotLoggedInNav />
 }
 
 class HeaderComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {desc : localStorage.getItem("desc") == null ? "" : localStorage.getItem("desc")}
+        this.state = { desc: localStorage.getItem("desc") == null ? "" : localStorage.getItem("desc") }
 
     }
 
     render() {
         return (
-            <div className="container-fluid
-            ">
-            <Navbar bg="dark" variant="dark" expand="lg">
-                <Navbar.Brand href="/">
-                    Projet intégré équipe 1
+            <div className="container-fluid">
+                <Navbar bg="dark" variant="dark" expand="lg">
+                    <Navbar.Brand href="/">
+                        Projet intégré équipe 1
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
 
-                    <NavType desc={this.state.desc}/>
+                        <NavType desc={this.state.desc} />
 
-                </Navbar.Collapse>
-            </Navbar>
+                    </Navbar.Collapse>
+                </Navbar>
             </div>
         );
     }

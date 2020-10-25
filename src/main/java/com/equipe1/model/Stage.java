@@ -28,11 +28,10 @@ public class Stage {
     private String ville;
     private boolean isApprouve;
 
+    @OneToOne(mappedBy = "stage")
+    private Contrat contrat;
+
     @OneToMany
     private Set<Etudiant> etudiantsAdmits;
 
-    public Stage() {
-        this.isOuvert = false;
-        this.isApprouve = false;
-    }
 }

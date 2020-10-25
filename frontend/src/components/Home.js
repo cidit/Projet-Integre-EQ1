@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import HorizontalNonLinearStepper from '../components/contrat2.js/CreationContrat'
 
 export default class Home extends Component {
     constructor(props) {
@@ -14,7 +15,8 @@ export default class Home extends Component {
 
     render() {
         return (
-            <div>
+         <div>
+                <HorizontalNonLinearStepper/>
             </div>
         );
     }
