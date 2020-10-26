@@ -22,7 +22,7 @@ export default class GestionnaireListStageComponent extends Component {
         return (
             <div>
                 <div className="pt-3 mt-3">
-                    <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des stages approuvées</h5>
+                    <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des stages approuvés</h5>
 
                     <div className="row">
                         <table className="table table-striped table-bordered">

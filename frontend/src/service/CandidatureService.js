@@ -23,6 +23,11 @@ class CandidatureService{
 
     }
 
+    async getByStage(idStage) {
+        return axios.get(baseURL + "/getByStage?idStage="+ idStage);
+
+    }
+
     async post(idEtudiant, idStage){
         const formData = new FormData();
         formData.append('idEtudiant', idEtudiant);

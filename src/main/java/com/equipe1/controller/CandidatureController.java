@@ -35,7 +35,10 @@ public class CandidatureController {
     public List<Candidature> getCandidatureByEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
         return candidatureService.findCandidatureByEtudiant(idEtudiant);
     }
-
+    @GetMapping("getByStage")
+    public List<Candidature> getCandidatureByStage(@RequestParam("idStage") Long idStage){
+        return candidatureService.findCandidatureByStage(idStage);
+    }
 
     @PostMapping("createCandidature")
     public Candidature createCandidature(@RequestParam("idEtudiant") Long idEtudiant, @RequestParam("idStage") Long idStage){

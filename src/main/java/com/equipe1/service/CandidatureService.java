@@ -34,6 +34,17 @@ public class CandidatureService {
     public Optional<Candidature> findCandidatureById(Long idCandidature){
         return candidatureRepository.findById(idCandidature);
     }
+
+    public List<Candidature> findCandidatureByStage(Long idStage){
+        Stage stage = stageRepository.findById(idStage).get();
+        List<Candidature> candidatures = candidatureRepository.findAll();
+        List<Candidature> candidatureList = new ArrayList<>();
+        for (Candidature result: candidatures) {
+            if(result.getStage().equals(stage))
+                candidatureList.add(result);
+        }
+        return candidatureList;
+    }
     public List<Candidature> findCandidatureByEtudiant(Long idEtudiant){
 
         Etudiant etudiant = etudiantRepository.findById(idEtudiant).get();
@@ -48,7 +59,6 @@ public class CandidatureService {
 
     public Candidature createCandidature(Long idEtudiant, Long idStage){
         Candidature candidature = new Candidature();
-        candidature.setStatut("En cours");
         Optional<Stage> stage = stageRepository.findById(idStage);
         Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudiant);
         candidature.setEtudiant(etudiant.get());

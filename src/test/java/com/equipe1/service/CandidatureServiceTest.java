@@ -51,8 +51,8 @@ public class CandidatureServiceTest {
         e1 = new Etudiant();
         e1.setId(2L);
         etudiantRepository.save(e1);
-        c1 = new Candidature(e1, new Stage(), "En cours");
-        c2 = new Candidature(new Etudiant(), new Stage(), "Admis");
+        c1 = new Candidature(e1, new Stage());
+        c2 = new Candidature(new Etudiant(), new Stage());
         s = new Stage();
         e = new Etudiant();
         c = new Candidature();
@@ -60,7 +60,6 @@ public class CandidatureServiceTest {
         e.setPrenom("toto");
         e.setNom("toto");
         e.setMatricule("12345");
-        e.setStatutStage("e1@email.com");
         e.setProgramme("Programme1");
         e.setAdresse("123 Rue Bidon");
         s.setId(4L);
@@ -121,6 +120,26 @@ public class CandidatureServiceTest {
         Assertions.assertEquals(candidatures.size(), 1);
         Assertions.assertEquals(candidatures.get(0).getStage(), stage);
     }
+    @Test
+    public void testFindCandidatureByStage(){
+        // Arrange
+        List<Candidature> candidatureList = new ArrayList<>();
+        doReturn(s).when(stageRepository).save(any());
+        doReturn(e).when(etudiantRepository).save(any());
+        doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
+        doReturn(Optional.of(e)).when(etudiantRepository).findById(e.getId());
+        c = candidatureService.createCandidature(e.getId(), s.getId());
+        doReturn(c).when(candidatureRepository).save(any());
+        candidatureList.add(c);
+        Stage stage = stageRepository.save(s);
+        doReturn(candidatureList).when(candidatureRepository).findAll();
+        // Act
+        List<Candidature> candidatures = candidatureService.findCandidatureByStage(stage.getId());
+        // Assert
+        Assertions.assertNotNull(candidatures);
+        Assertions.assertEquals(candidatures.size(), 1);
+        Assertions.assertEquals(candidatures.get(0).getStage(), stage);
+    }
 
     @Test
     public void testUpdateCandidature() {
@@ -130,7 +149,7 @@ public class CandidatureServiceTest {
         when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
         when(candidatureRepository.save(c2)).thenReturn(c2);
         Candidature c3 = candidatureService.updateCandidature(c2, 1L);
-        assertEquals(c3.getStatut(), "Admis");
+        assertEquals(c3.getStatut(), Candidature.CandidatureStatut.EN_ATTENTE);
     }
 
 }

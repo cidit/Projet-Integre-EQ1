@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+ import React, {Component, useState} from 'react';
 import StageService from '../service/StageService';
 import Button from 'react-bootstrap/Button'
 import {Col, Container, Modal, Row} from "react-bootstrap";
@@ -87,6 +87,7 @@ function ShowStage(props) {
     const handleShowModal = () => setShowModal(true);
 
     const handleShowSnackbar = () => this.handleShowSnackbar();
+    console.log(props);
 
     function toggleBtns(isApprouved) {
         document.getElementsByName(approuved)[0].disabled = isApprouved

@@ -46,10 +46,10 @@ export default class ListEtudiantsComponent extends Component {
                         const downloadUrl = window.URL.createObjectURL(new Blob([data]));
                         const link = document.createElement('a');
                         link.href = downloadUrl;
-                        link.setAttribute('download', "etudiant" + idEtudiant + ".pdf"); //any other extension
+                        link.setAttribute('download', "etudiant" + idEtudiant + ".pdf");
                         document.body.appendChild(link);
                         link.click();
-                        link.remove();
+                        //link.remove();
                     });
             }
     }
