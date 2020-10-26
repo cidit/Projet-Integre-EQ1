@@ -59,9 +59,16 @@ class StageService{
         return axios.put(STAGE_ETUDIANTS_URL_PUT + id, etudiants);
     }
 
-    createStageAccepter(stage){
-        console.log(stage);
-        return axios.post(STAGES_URL_ACCEPTER, stage);
+    async createStageAccepter(idEtudiant, idStage){
+        const formData = new FormData();
+        formData.append('idEtudiant', idEtudiant);
+        formData.append('idStage', idStage);
+        const options = {
+            method: 'POST',
+            body: formData
+        };
+        fetch(STAGES_URL_ACCEPTER, options);
+
     }
 }
 

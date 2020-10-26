@@ -37,6 +37,4 @@ public class Etudiant extends User {
     @OneToOne
     private CV cv;
 
-    @OneToOne
-    private StageAccepter stageAccepter;
 }

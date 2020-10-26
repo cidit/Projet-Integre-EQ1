@@ -20,9 +20,12 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
         this.setState({ candidatures });
     }
 
-    AccepterStage(stage){
-        //console.log(stage);
-        StageService.createStageAccepter(stage);
+    AccepterStage(idStage){
+        console.log(idStage);
+        var idEtudiant;
+        if (localStorage.getItem("desc") === "Etudiant")
+            idEtudiant = localStorage.getItem("id");
+        StageService.createStageAccepter(idEtudiant, idStage);
     }
 
     render() {
@@ -61,7 +64,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                                 <td>{candidature.stage.nbHeuresParSemaine}</td>
                                                 <td>{candidature.statut}</td>
                                                 <td> 
-                                                    <button onClick={() => this.AccepterStage(candidature.stage)}> 
+                                                    <button onClick={() => this.AccepterStage(candidature.stage.id)}> 
                                                         Confirmer
                                                     </button>
                                                 </td>
