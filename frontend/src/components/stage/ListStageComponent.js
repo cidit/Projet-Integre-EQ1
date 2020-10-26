@@ -42,15 +42,9 @@ export default class ListStagesComponent extends Component {
                                     {this.state.stage.map(
                                         stage =>
                                             <tr key={stage.id}>
-                                                <td>{stage.titre}</td>
-                                                <td>{stage.programme}</td>
-                                                <td>{stage.description}</td>
-                                                <td>{stage.dateDebut}</td>
-                                                <td>{stage.dateFin}</td>
-                                                <td>{stage.ville}</td>
-                                                <td>{stage.nbHeuresParSemaine}</td>
+
                                                 <td>{stage.approuve
-                                                    ? <span className="text-success"> approuvé </span>
+                                                    ? <span className="text-success"> Approuvé </span>
                                                     : <span className="text-danger">En attente d'approbation</span>}</td>
                                                 <td>{stage.ouvert ? 'Oui' : 'Non'}</td>
                                                 
