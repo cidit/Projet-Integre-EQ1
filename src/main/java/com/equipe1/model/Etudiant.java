@@ -1,6 +1,5 @@
 package com.equipe1.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,4 +36,7 @@ public class Etudiant extends User {
 
     @OneToOne
     private CV cv;
+
+    @OneToOne
+    private StageAccepter stageAccepter;
 }

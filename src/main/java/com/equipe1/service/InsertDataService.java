@@ -1,9 +1,6 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Gestionnaire;
-import com.equipe1.model.Stage;
+import com.equipe1.model.*;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +8,11 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class InsertDataService {
@@ -23,6 +25,8 @@ public class InsertDataService {
     private StageService stageService;
     @Autowired
     private  GestionnaireService gestionnaireService;
+    @Autowired
+    private StageAccepterService stageAccepterService;
 
     @Transactional
     public void insertEtudiant(){
@@ -116,10 +120,17 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         stage1.setStatut(Stage.StageStatus.APPROVED);
+
+        Etudiant etudiant = new Etudiant();
+        etudiant = etudiantRepository.findByEmail("richard@email.com");
+        Set<Etudiant> set = new HashSet<>();
+        set.add(etudiant);
+        stage1.setEtudiantsAdmits(set);
+
         stageService.saveStage(stage1);
 
         Stage stage2 = new Stage();
-        stage2.setTitre("Stage_3");
+        stage2.setTitre("Stage_2");
         stage2.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Odio euismod lacinia at quis risus sed vulputate. Faucibus in ornare quam viverra orci sagittis eu volutpat. ");
         stage2.setNbAdmis(5);
         stage2.setDateDebut(LocalDate.of(2021,4,7));
@@ -149,6 +160,10 @@ public class InsertDataService {
         stage2.setEmployeur(e2);
         stage2.setSalaire(20);
         stageService.saveStage(stage2);
+
+        StageAccepter stageAccepter = stageAccepterService.saveStageAccepter(stage1);
+        etudiant.setStageAccepter(stageAccepter);
+        etudiantRepository.save(etudiant);
     }
 
     @Transactional
