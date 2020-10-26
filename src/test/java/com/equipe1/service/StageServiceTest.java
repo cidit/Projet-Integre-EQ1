@@ -49,7 +49,6 @@ public class StageServiceTest {
 
     @BeforeEach
     public void setUp() {
-        employeur= new Employeur();
         s1 = new Stage();
         s1.setTitre("java");
         s1.setStatut(Stage.StageStatus.APPROVED);

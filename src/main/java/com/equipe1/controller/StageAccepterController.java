@@ -16,9 +16,4 @@ public class StageAccepterController {
     public StageAccepter createEtudiant(@RequestBody Stage stage){
         return stageAccepterService.saveStageAccepter(stage);
     }
-
-    @PutMapping("/update/{id}")
-    public StageAccepter updateEtudiant(@RequestBody Stage stage, @PathVariable Long id){
-        return stageAccepterService.updateStageAccepter(stage, id);
-    }
 }

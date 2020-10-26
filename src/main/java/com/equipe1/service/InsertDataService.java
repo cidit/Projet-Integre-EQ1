@@ -3,6 +3,7 @@ package com.equipe1.service;
 import com.equipe1.model.*;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EtudiantRepository;
+import com.equipe1.repository.StageAccepterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,8 @@ public class InsertDataService {
     private  GestionnaireService gestionnaireService;
     @Autowired
     private StageAccepterService stageAccepterService;
+    @Autowired
+    private StageAccepterRepository stageAccepterRepository;
 
     @Transactional
     public void insertEtudiant(){
@@ -121,12 +124,6 @@ public class InsertDataService {
         stage1.setOuvert(true);
         stage1.setStatut(Stage.StageStatus.APPROVED);
 
-        Etudiant etudiant = new Etudiant();
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        Set<Etudiant> set = new HashSet<>();
-        set.add(etudiant);
-        stage1.setEtudiantsAdmits(set);
-
         stageService.saveStage(stage1);
 
         Stage stage2 = new Stage();
@@ -160,10 +157,6 @@ public class InsertDataService {
         stage2.setEmployeur(e2);
         stage2.setSalaire(20);
         stageService.saveStage(stage2);
-
-        StageAccepter stageAccepter = stageAccepterService.saveStageAccepter(stage1);
-        etudiant.setStageAccepter(stageAccepter);
-        etudiantRepository.save(etudiant);
     }
 
     @Transactional

@@ -18,8 +18,6 @@ public class StageAccepter {
     private LocalDate dateDebut;
     private LocalDate dateFin;
     private float nbHeuresParSemaine;
-    private int nbAdmis;
-    private String programme;
     private String ville;
     private int salaire;
 
