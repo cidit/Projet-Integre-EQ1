@@ -64,7 +64,8 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                                 <td>{candidature.stage.nbHeuresParSemaine}</td>
                                                 <td>{candidature.statut}</td>
                                                 <td> 
-                                                    <button onClick={() => this.AccepterStage(candidature.stage.id)}> 
+                                                    <button className="btn btn-primary" onClick={() => this.AccepterStage(candidature.stage.id)}
+                                                        disabled={candidature.statut !== "APPROUVE"}> 
                                                         Confirmer
                                                     </button>
                                                 </td>

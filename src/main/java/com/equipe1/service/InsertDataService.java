@@ -1,19 +1,14 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
-import com.equipe1.repository.EmployeurRepository;
-import com.equipe1.repository.EtudiantRepository;
-import com.equipe1.repository.StageAccepterRepository;
+import com.equipe1.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class InsertDataService {
@@ -27,9 +22,9 @@ public class InsertDataService {
     @Autowired
     private  GestionnaireService gestionnaireService;
     @Autowired
-    private StageAccepterService stageAccepterService;
+    private StageRepository stageRepository;
     @Autowired
-    private StageAccepterRepository stageAccepterRepository;
+    private CandidatureRepository candidatureRepository;
 
     @Transactional
     public void insertEtudiant(){
@@ -124,6 +119,11 @@ public class InsertDataService {
         stage1.setOuvert(true);
         stage1.setStatut(Stage.StageStatus.APPROVED);
 
+        Etudiant etudiant = etudiantRepository.findByEmail("richard@email.com");
+        Set<Etudiant> set = new HashSet<>();
+        set.add(etudiant);
+        stage1.setEtudiantsAdmits(set);
+
         stageService.saveStage(stage1);
 
         Stage stage2 = new Stage();
@@ -168,5 +168,16 @@ public class InsertDataService {
         g1.setPassword("123456");
         g1.setTelephone("555-555-5555");
         gestionnaireService.saveGestionnaire(g1);
+    }
+
+    @Transactional
+    public void insertCandidature(){
+        Etudiant etudiant = etudiantRepository.findByEmail("richard@email.com");
+        Optional<Stage> optionalStage = stageRepository.findById(7L);
+        Candidature candidature = new Candidature();
+        candidature.setEtudiant(etudiant);
+        candidature.setStage(optionalStage.get());
+        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
+        candidatureRepository.save(candidature);
     }
 }
