@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import StageService from '../service/StageService';
-import EtudiantService from "../service/EtudiantService";
 import CandidatureService from "../service/CandidatureService";
 
 
@@ -11,26 +10,23 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             candidatures: [],
             employeurId: ""
         };
-        this.handleSubmit = this.handleSubmit.bind(this)
-        //this.onChangeHandler = this.onChangeHandler.bind(this)
     }
 
     async componentDidMount() {
-
         var id;
-        if (localStorage.getItem("desc") == "Etudiant")
+        if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
     }
-    handleSubmit(event) {
-        event.preventDefault()
-        var idEtudiant;
 
+    AccepterStage(stage){
+        //console.log(stage);
+        StageService.createStageAccepter(stage);
     }
+
     render() {
         return (
-            <form className="d-flex flex-column">
                 <div className="container">
                     <div className="col">
                         <div className="pt-3 mt-3">
@@ -49,6 +45,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                         <th> Ville </th>
                                         <th> Nombre d'heures par semaine </th>
                                         <th> Statut</th>
+                                        <th> Confirmer stage choisi </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -63,6 +60,11 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                                 <td>{candidature.stage.ville}</td>
                                                 <td>{candidature.stage.nbHeuresParSemaine}</td>
                                                 <td>{candidature.statut}</td>
+                                                <td> 
+                                                    <button onClick={() => this.AccepterStage(candidature.stage)}> 
+                                                        Confirmer
+                                                    </button>
+                                                </td>
                                             </tr>
                                     )}
                                     </tbody>
@@ -72,7 +74,6 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                         </div>
                     </div>
                 </div>
-            </form>
         );
     }
 }

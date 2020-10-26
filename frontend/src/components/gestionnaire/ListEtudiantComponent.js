@@ -16,10 +16,10 @@ export default class ListEtudiantsComponent extends Component {
         window.location.reload();
     }
     renderColonneApprobation(etudiant){
-        if (etudiant.cv == null){
+        if (etudiant.cv === null){
             return <p> Pas de CV</p>
         }
-        if (etudiant.cv.status == 'APPROVED'){
+        if (etudiant.cv.status === 'APPROVED'){
             return <p>Approuvé</p>
         }
         if (etudiant.cv.status = 'UNREVIEWED') {
@@ -130,7 +130,7 @@ export default class ListEtudiantsComponent extends Component {
                                         <td>{etudiant.telephone}</td>
                                         <td>{etudiant.statutStage}</td>
                                         <td>
-                                            {etudiant.cv != null ?<button onClick={this.downloadCV(etudiant.id)} className="btn btn-primary">Telecharger</button>
+                                            {etudiant.cv !== null ?<button onClick={this.downloadCV(etudiant.id)} className="btn btn-primary">Telecharger</button>
                                                 : <p>Pas de CV</p>}<br/>
                                         </td>
                                         <td>
