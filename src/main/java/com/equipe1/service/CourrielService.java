@@ -1,6 +1,7 @@
 package com.equipe1.service;
 
 import com.equipe1.model.CV;
+import com.equipe1.model.Candidature;
 import com.equipe1.model.Courriel;
 import com.equipe1.model.Etudiant;
 import org.slf4j.Logger;
@@ -36,6 +37,18 @@ public class CourrielService {
         String mailBody = "Bonjour, " + etudiant.getPrenom() + " " + etudiant.getNom() + " \n" + content;
         LOGGER.info("nom ==> " + etudiant.getNom());
         String subject = "Approbation de votre CV";
+        configMail(mailTo, subject , mailBody);
+    }
+    public void sendCandidatureStatusUpdate(Candidature candidature) throws Exception {
+        String content = "";
+        if (candidature.getStatut() == Candidature.CandidatureStatut.APPROUVE)
+            content = "Vous avez été accepté(e) pour le stage " + candidature.getStage().getTitre();
+        if (candidature.getStatut() == Candidature.CandidatureStatut.REFUSE)
+            content = "Vous avez été refusé(e) pour le stage " + candidature.getStage().getTitre();
+        String mailTo = candidature.getEtudiant().getEmail();
+        String mailBody = "Bonjour, " + candidature.getEtudiant().getPrenom() + " " + candidature.getEtudiant().getNom() + " \n" + content;
+        LOGGER.info("nom ==> " + candidature.getEtudiant().getNom());
+        String subject = "Mise a jour concernant votre postulation pour le stage " + candidature.getStage().getTitre();
         configMail(mailTo, subject , mailBody);
     }
 

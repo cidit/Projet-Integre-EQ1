@@ -142,7 +142,7 @@ public class CandidatureServiceTest {
     }
 
     @Test
-    public void testUpdateCandidature() {
+    public void testUpdateCandidature() throws Exception {
         c1.setId(1L);
         when(candidatureRepository.save(c1)).thenReturn(c1);
         candidatureRepository.save(c1);

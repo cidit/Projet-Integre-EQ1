@@ -32,9 +32,9 @@ export default class ListEtudiantsComponent extends Component {
             )
         }
     }
-    downloadCV = (idEtudiant) => {
+    downloadCV = (etudiant) => {
             const method = 'GET';
-            const url = 'http://localhost:8080/cvs/get/' + idEtudiant;
+            const url = 'http://localhost:8080/cvs/get/' + etudiant.id;
             return () => {
                 axios
                     .request({
@@ -46,10 +46,9 @@ export default class ListEtudiantsComponent extends Component {
                         const downloadUrl = window.URL.createObjectURL(new Blob([data]));
                         const link = document.createElement('a');
                         link.href = downloadUrl;
-                        link.setAttribute('download', "etudiant" + idEtudiant + ".pdf");
+                        link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
                         document.body.appendChild(link);
                         link.click();
-                        //link.remove();
                     });
             }
     }
@@ -130,7 +129,7 @@ export default class ListEtudiantsComponent extends Component {
                                         <td>{etudiant.telephone}</td>
                                         <td>{etudiant.statutStage}</td>
                                         <td>
-                                            {etudiant.cv != null ?<button onClick={this.downloadCV(etudiant.id)} className="btn btn-primary">Telecharger</button>
+                                            {etudiant.cv != null ?<button onClick={this.downloadCV(etudiant)} className="btn btn-primary">Telecharger</button>
                                                 : <p>Pas de CV</p>}<br/>
                                         </td>
                                         <td>

@@ -1,9 +1,8 @@
 package com.equipe1.service;
 
-import com.equipe1.model.CV;
-import com.equipe1.model.Courriel;
-import com.equipe1.model.Etudiant;
+import com.equipe1.model.*;
 import com.equipe1.repository.CVRepository;
+import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.EtudiantRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,11 +26,14 @@ public class CourrielServiceTest {
     @MockBean
     private EtudiantRepository etudiantRepository;
 
+    @MockBean
+    private CandidatureRepository candidatureRepository;
+
     private Courriel mail;
     private Etudiant etudiant;
     private CV cv1;
     private CV cv2;
-
+    private Candidature candidature;
     @BeforeEach
     public void setUp() {
         mail = new Courriel();
@@ -54,10 +56,17 @@ public class CourrielServiceTest {
         etudiant.setNom("nom");
         etudiant.setEmail("test@test.com");
         when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
+
+        candidature = new Candidature();
+        candidature.setEtudiant(etudiant);
+        candidature.setStage(new Stage());
+        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
+        when(candidatureRepository.save(candidature)).thenReturn(candidature);
+
     }
 
     @Test
-    public void sendSimpleMessage() throws Exception {
+    public void sendSimpleMessageTest() throws Exception {
         courrielService.sendSimpleMessage(mail,"test");
 
         CourrielService courriel = mock(CourrielService.class);
@@ -66,7 +75,7 @@ public class CourrielServiceTest {
     }
 
     @Test
-    public void sendMailCVApproval() throws Exception {
+    public void sendMailCVApprovalTest() throws Exception {
         courrielService.sendMailCVApproval(etudiant);
 
         CourrielService courriel = mock(CourrielService.class);
@@ -77,5 +86,16 @@ public class CourrielServiceTest {
         etudiant.setCv(cv2);
         courriel.sendMailCVApproval(etudiant);
         verify( courriel, times(2)).sendMailCVApproval(etudiant);
+    }
+
+    @Test
+    public void sendCandidatureStatusUpdate() throws Exception {
+        courrielService.sendCandidatureStatusUpdate(candidature);
+
+        CourrielService courriel = mock(CourrielService.class);
+
+        courriel.sendCandidatureStatusUpdate(candidature);
+        verify( courriel, times(1)).sendCandidatureStatusUpdate(candidature);
+
     }
 }

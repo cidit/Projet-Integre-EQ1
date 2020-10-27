@@ -22,7 +22,8 @@ public class CandidatureService {
     private StageRepository stageRepository;
     @Autowired
     private EtudiantRepository etudiantRepository;
-
+    @Autowired
+    private CourrielService courrielService;
     public CandidatureService(CandidatureRepository candidatureRepository){
         this.candidatureRepository = candidatureRepository;
     }
@@ -67,10 +68,13 @@ public class CandidatureService {
         return candidature;
     }
 
-    public Candidature updateCandidature(Candidature newCandidature, long id){
+    public Candidature updateCandidature(Candidature newCandidature, long id) throws Exception {
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
+
         updatedCandidature.setStatut(newCandidature.getStatut());
-        return candidatureRepository.save(updatedCandidature);
+        candidatureRepository.save(updatedCandidature);
+        courrielService.sendCandidatureStatusUpdate(updatedCandidature);
+        return updatedCandidature;
     }
 
 
