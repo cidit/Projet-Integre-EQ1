@@ -24,7 +24,7 @@ import java.util.List;
 public class GenerateurPdf {
 
     private final int FONT_TAILLE_TITRE = 16;
-    private final int FONT_TAILLE_REGULIER = 12;
+    private final int FONT_TAILLE_REGULIER = 14;
 
     @Autowired
     private Environment env;
@@ -60,6 +60,7 @@ public class GenerateurPdf {
                 setPhrase("conviennent des conditions de stage suivantes : " , false)
         )));
 
+        //create table
         document.add(tableTitre("ENDROIT DU STAGE"));
 
         document.add(createTable(Arrays.asList(
@@ -84,6 +85,7 @@ public class GenerateurPdf {
                 ), 2, false)
         );
 
+        //liste taches et responsabilites
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "TÂCHES ET RESPONSABILITÉS DU STAGIAIRE"));
 
         document.add(setListOrdonee(Arrays.asList(
@@ -98,7 +100,7 @@ public class GenerateurPdf {
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "RESPONSABILITES"));
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "Le Collège s’engage à :"));
 
-           document.add(setListOrdonee(Arrays.asList(
+        document.add(setListOrdonee(Arrays.asList(
                 "Fournir à l’entreprise tous les renseignements concernant les conditions spécifiques du programme " +
                         "d’études et du programme d’alternance travail études.",
                 "Collaborer, au besoin, à la définition du plan de stage.",
@@ -109,36 +111,34 @@ public class GenerateurPdf {
                 "Fournir à l’entreprise le formulaire d’attestation de participation à un stage " +
                         "de formation admissible après réception du formulaire « Déclaration " +
                         "Relative au crédit d’impôt remboursable pour les stages »."
-
         )));
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "L’entreprise s’engage à :"));
-        com.itextpdf.text.List entrepriseResp = new com.itextpdf.text.List(false, 8);
-        entrepriseResp.add("test desde responsablity");
-        entrepriseResp.add("Embaucher l’étudiant stagiaire  aux conditions précisées dans la présente entente.");
-        entrepriseResp.add("Désigner un superviseur de stage qui assurera l’encadrement de l’étudiant stagiaire pour toute la durée du stage.");
-        entrepriseResp.add("mettre en place des mesures d’accueil, d’intégration et d’encadrement de l’étudiant stagiaire.");
-        entrepriseResp.add("procéder à l’évaluation de l’étudiant stagiaire.");
 
-        document.add(entrepriseResp);
+        document.add(setListOrdonee(Arrays.asList(
+                "test desde responsablity",
+                "Embaucher l’étudiant stagiaire  aux conditions précisées dans la présente entente.",
+                "Désigner un superviseur de stage qui assurera l’encadrement de l’étudiant stagiaire pour toute la durée du stage.",
+                "mettre en place des mesures d’accueil, d’intégration et d’encadrement de l’étudiant stagiaire.",
+                "procéder à l’évaluation de l’étudiant stagiaire."
+        )));
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "L’étudiant s’engage:"));
-        com.itextpdf.text.List etudiantResp = new com.itextpdf.text.List(false, 8);
-        etudiantResp.add("Assumer de façon responsable et sécuritaire, les tâches qui lui sont confiées.");
-        etudiantResp.add("Respecter les politiques, règles et procédures de l’entreprise ainsi que l’horaire de travail au même titre qu’un employé.");
-        etudiantResp.add("respecter les dates de début et de fin de stage.");
-        etudiantResp.add("référer rapidement au responsable des stages au cégep toute situation " +
-                "problématique affectant le bon déroulement du stage;");
-
-        document.add(etudiantResp);
+        document.add(setListOrdonee(Arrays.asList(
+                "Assumer de façon responsable et sécuritaire, les tâches qui lui sont confiées.",
+                "Respecter les politiques, règles et procédures de l’entreprise ainsi que l’horaire de travail au même titre qu’un employé.",
+                "respecter les dates de début et de fin de stage.",
+                "référer rapidement au responsable des stages au cégep toute situation " +
+                        "problématique affectant le bon déroulement du stage;"
+        )));
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, false), "Les parties s’engagent à respecter cette entente de stage " +
                 "en foi de quoi les parties ont signé, "));
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "Signatures "));
-        document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), ""));
-        document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), ""));
+        document.add( Chunk.NEWLINE );
 
+        //Signatures
         document.add(createTable(Arrays.asList(
                 createBoldCell("Pour l’entreprise", "", setFond(FONT_TAILLE_REGULIER, true)),
                 createBoldCell("Date", "", setFond(FONT_TAILLE_REGULIER, true)),
@@ -150,8 +150,6 @@ public class GenerateurPdf {
         );
         document.close();
         writer.close();
-
-
         return out;
     }
 
@@ -170,20 +168,11 @@ public class GenerateurPdf {
         return title;
     }
 
-
     private Image getImage() throws BadElementException, IOException {
         Image image1 = Image.getInstance("src/main/resources/static/images/logo_notfound.png");
         image1.scaleAbsolute(120, 60);
         image1.setAlignment(Element.IMGTEMPLATE);
         return image1;
-    }
-
-    private Image ImageQRCode(String content) throws BadElementException {
-        BarcodeQRCode qrCode2 = new BarcodeQRCode(content, 1000, 1000, null);
-        Image image2 = qrCode2.getImage();
-        image2.setAlignment(Element.ALIGN_CENTER);
-        image2.scaleAbsolute(200, 200);
-        return image2;
     }
 
     public static void main(String[] args) throws Exception {
@@ -212,12 +201,11 @@ public class GenerateurPdf {
         GenerateurPdf g = new GenerateurPdf();
         g.createPdf(s, user, etudiant);
 
-
     }
 
     private Paragraph subtitre(Font fontRegularBold, String text) {
-        final int SPACE_APRES = 10;
-        final int SPACE_BEFORE = 10;
+        final float SPACE_APRES = 10f;
+        final float SPACE_BEFORE = 10f;
         Paragraph program = new Paragraph(text, fontRegularBold);
         program.setAlignment(Element.ALIGN_LEFT);
         program.setSpacingAfter(SPACE_APRES);
@@ -225,12 +213,10 @@ public class GenerateurPdf {
         return program;
     }
 
-
     private Long getDureStage(Stage s) {
         Long days = DAYS.between(s.getDateDebut(), s.getDateFin());
         return days;
     }
-
 
     private Paragraph createBoldCell(String title, String data, Font fontRegularBold) {
         Paragraph paragraph = new Paragraph();
@@ -255,20 +241,21 @@ public class GenerateurPdf {
 
     }
 
-
     private PdfPTable createTable(List<Paragraph> paragraphs, int numColumns, boolean isSignature) {
-        final int LARGEUR_TABLE = 100;
+        final float LARGEUR_TABLE = 100f;
         PdfPTable table = new PdfPTable(numColumns);
         table.setWidthPercentage(LARGEUR_TABLE);
 
 
         for (int i = 0; i < paragraphs.size(); i++) {
             PdfPCell cell2 = new PdfPCell(paragraphs.get(i));
+            cell2.setPaddingBottom(10);
             if (isSignature) {
                 cell2.setPaddingBottom(50);
                 cell2.setBorder(1);
+
             }
-            cell2.setPaddingBottom(10);
+
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell2.setVerticalAlignment(Element.ALIGN_MIDDLE);
             table.addCell(cell2);
