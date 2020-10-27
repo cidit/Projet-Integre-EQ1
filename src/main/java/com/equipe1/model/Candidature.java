@@ -62,6 +62,6 @@ public class Candidature {
     }
 
     public enum CandidatureStatut {
-        EN_ATTENTE, APPROUVE, REFUSE
+        EN_ATTENTE, APPROUVE, REFUSE, CHOISI
     }
 }

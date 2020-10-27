@@ -49,6 +49,10 @@ class CandidatureService{
                 body: JSON.stringify(candidature)} )
             .then(r => r.json());
     }
+
+    async putCandidatureChoisi(id){
+        return axios.put(baseURL + "/updateChoisi/" + id);
+    }
 }
 
 export default new CandidatureService()

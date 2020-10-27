@@ -49,4 +49,9 @@ public class CandidatureController {
     public Candidature updateCandidature(@Valid @RequestBody Candidature candidature, @PathVariable Long id) {
         return candidatureService.updateCandidature(candidature, id);
     }
+
+    @PutMapping("updateChoisi/{id}")
+    public Candidature updateCandidatureChoisi(@PathVariable Long id) throws Exception {
+        return candidatureService.updateCandidatureChoisi(id);
+    }
 }

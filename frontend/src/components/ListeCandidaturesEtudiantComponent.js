@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import StageService from '../service/StageService';
 import CandidatureService from "../service/CandidatureService";
 
 
@@ -20,12 +19,8 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
         this.setState({ candidatures });
     }
 
-    AccepterStage(idStage){
-        console.log(idStage);
-        var idEtudiant;
-        if (localStorage.getItem("desc") === "Etudiant")
-            idEtudiant = localStorage.getItem("id");
-        StageService.createStageAccepter(idEtudiant, idStage);
+    AccepterStage(id){
+        CandidatureService.putCandidatureChoisi(id);
     }
 
     render() {
@@ -64,7 +59,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                                 <td>{candidature.stage.nbHeuresParSemaine}</td>
                                                 <td>{candidature.statut}</td>
                                                 <td> 
-                                                    <button className="btn btn-primary" onClick={() => this.AccepterStage(candidature.stage.id)}
+                                                    <button className="btn btn-primary" onClick={() => this.AccepterStage(candidature.id)}
                                                         disabled={candidature.statut !== "APPROUVE"}> 
                                                         Confirmer
                                                     </button>
