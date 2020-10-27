@@ -23,6 +23,9 @@ public class Candidature {
     private Stage stage;
     private String statut;
 
+    @OneToOne(mappedBy = "candidature")
+    private Contrat contrat;
+
     public String getStatut() {
         return statut;
     }

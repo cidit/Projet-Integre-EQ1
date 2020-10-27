@@ -65,8 +65,9 @@ public class CourrielService {
 
     public void sendMail2(User user,ByteArrayOutputStream b) throws Exception {
         String mailTo = user.getEmail();
-        String mailBody = " M, Mme " + user.getNom() + " " + env.getProperty("my.message.3");;
-        String subject = "certificat de personne en bonne santé.";
+        String mailBody = " M, Mme " + user.getNom() + " "
+                + "message de votre alkdfjaskldfjlkasjdflk";;
+        String subject = "contrat.";
         configMail2(mailTo, subject + " " + user.getNom(), mailBody,b);
     }
 

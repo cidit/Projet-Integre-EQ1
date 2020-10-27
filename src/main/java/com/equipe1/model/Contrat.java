@@ -12,7 +12,7 @@ public class Contrat {
     private Long id;
 
     @OneToOne
-    private Stage stage;
+    private Candidature candidature;
 
     @OneToOne
     private Etudiant etudiant;

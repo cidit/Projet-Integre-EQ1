@@ -51,8 +51,8 @@ public class ContratController {
         GenerateurPdf generateurPdf = new GenerateurPdf();
 
 
-         generateurPdf.createPdf(stage.get());
-        courrielService.sendMail2(stage.get().getEmployeur(),generateurPdf.createPdf(stage.get()) );
+        // generateurPdf.createPdf(stage.get());
+        //courrielService.sendMail2(stage.get().getEmployeur(),generateurPdf.createPdf(stage.get()) );
 
 
          return "hola";

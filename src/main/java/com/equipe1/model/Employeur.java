@@ -23,6 +23,9 @@ public class Employeur extends User{
     private String adresse;
 
     @OneToMany(mappedBy = "employeur")
+    private Set<Stage> stage;
+
+    @OneToMany(mappedBy = "employeur")
     private Set<Contrat> contrat;
 
     private String nom;
