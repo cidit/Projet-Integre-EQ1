@@ -3,8 +3,7 @@ import { ArrowDownwardIcon, } from '@material-ui/icons/ArrowDownward';
 import { IconButton } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import ContratService from '../../service/ContratService';
-import axios from "axios";
-import { string } from 'yup';
+
 
 export default function Telecharger(props) {
 
@@ -15,16 +14,17 @@ export default function Telecharger(props) {
     }
 
     return (
-        <label htmlFor="icon-button-file">
+     <td>
             <IconButton color="primary" component="span" onClick={clickHandle}>
                 <GetAppIcon />
-            </IconButton>
-        </label>
+           </IconButton>
+    </td>
+       
     )
 }
 
 function sauvegarderEtMontrerDoc(response) {
-    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const url = window.URL.createObjectURL(new Blob([response.data],{ type:'application/octet-stream' }));
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', 'file.pdf'); //or any other extension

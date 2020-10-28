@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import CreationContrat from './contrat/CreationContrat'
+import ListeContrats from './contrat/ListeContrats'
 
-
+import SauvegarderContrat from '../components/contrat/Testdeq'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -14,7 +14,8 @@ export default class Home extends Component {
     render(){
         return(
            <div>
-              <CreationContrat/>
+              <ListeContrats/>
+              <SauvegarderContrat/>
            </div>
 
         );
