@@ -7,14 +7,14 @@ class ContratService {
     async getContrats() {
         return await axios.get(baseURL + "findAll");
     }
-    async getDocumentContrat(url) {
+    async getDocumentContrat(_url) {
         const method = 'GET';
 
-        console.log(url)
+       
         //const url = 'http://localhost:8080/contrats/getContatFile/1';
         return () => {
             axios.request({
-                url: 'http://localhost:8080/contrats/getContatFile/1',
+                url: _url,
                 method: 'GET',
                 responseType: 'blob',
             })
