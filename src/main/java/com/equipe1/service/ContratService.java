@@ -28,4 +28,8 @@ public class ContratService {
     public Contrat saveContrat(Contrat contrat){
         return contratRepository.save(contrat);
     }
+
+    public List<Contrat> findAll() {
+        return contratRepository.findAll();
+    }
 }

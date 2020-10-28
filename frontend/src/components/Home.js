@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import HorizontalNonLinearStepper from '../components/contrat2.js/CreationContrat'
-import CollapsibleTable from '../components/contrat2.js/useCreateList'
+import CreationContrat from './contrat/CreationContrat'
+
+
 
 export default class Home extends Component {
     componentDidMount() {
@@ -13,7 +14,7 @@ export default class Home extends Component {
     render(){
         return(
            <div>
-               <h2 className="text-center">Home page</h2>
+              <CreationContrat/>
            </div>
 
         );

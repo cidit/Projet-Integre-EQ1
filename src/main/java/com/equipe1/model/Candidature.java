@@ -1,5 +1,6 @@
 package com.equipe1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,7 +24,8 @@ public class Candidature {
     private Stage stage;
     private String statut;
 
-    @OneToOne(mappedBy = "candidature")
+
+    @OneToOne
     private Contrat contrat;
 
     public String getStatut() {

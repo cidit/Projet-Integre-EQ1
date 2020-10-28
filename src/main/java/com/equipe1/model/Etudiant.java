@@ -42,6 +42,6 @@ public class Etudiant extends User {
    // private Stage stage;
 
 
-    @OneToOne(mappedBy = "etudiant")
+    @OneToOne
     private Contrat contrat;
 }

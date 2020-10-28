@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import javax.swing.border.Border;
-
 import static java.time.temporal.ChronoUnit.DAYS;
 
 import java.io.ByteArrayOutputStream;
@@ -21,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class GenerateurPdf {
+public class GenerateurPdfService {
 
     private final int FONT_TAILLE_TITRE = 16;
     private final int FONT_TAILLE_REGULIER = 14;
@@ -32,10 +30,10 @@ public class GenerateurPdf {
 
     public ByteArrayOutputStream createPdf(Stage s, Employeur employeur, Etudiant etudiant) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        //Document document = new Document();
-        //PdfWriter.getInstance(document, out);
-        Document document = new Document(PageSize.A4);
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/carlos/Documents/test.pdf"));
+        Document document = new Document();
+        PdfWriter writer= PdfWriter.getInstance(document, out);
+       // Document document = new Document(PageSize.A4);
+       // PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/carlos/Documents/test.pdf"));
         document.open();
 
         String text2 = " Le CÉGEP ANDRÉ-LAURENDEAU, corporation légalement constituée, situé au" +
@@ -198,7 +196,7 @@ public class GenerateurPdf {
         etudiant.setNom("Colomb");
         etudiant.setPrenom("Christophe" );
 
-        GenerateurPdf g = new GenerateurPdf();
+        GenerateurPdfService g = new GenerateurPdfService();
         g.createPdf(s, user, etudiant);
 
     }

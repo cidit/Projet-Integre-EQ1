@@ -1,6 +1,7 @@
 package com.equipe1.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +26,7 @@ public class Employeur extends User{
     @OneToMany(mappedBy = "employeur")
     private Set<Stage> stage;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "employeur")
     private Set<Contrat> contrat;
 
