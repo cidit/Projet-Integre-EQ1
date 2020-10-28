@@ -14,8 +14,8 @@ export default class Home extends Component {
     render(){
         return(
            <div>
-              <ListeContrats/>
-              <SauvegarderContrat/>
+              {/* <ListeContrats/>
+              <SauvegarderContrat/> */}
            </div>
 
         );
