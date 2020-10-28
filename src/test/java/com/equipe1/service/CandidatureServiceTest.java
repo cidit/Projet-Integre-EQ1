@@ -152,4 +152,14 @@ public class CandidatureServiceTest {
         assertEquals(c3.getStatut(), Candidature.CandidatureStatut.EN_ATTENTE);
     }
 
+    @Test
+    public void testUpdateCandidatureChoisi() {
+        c1.setId(1L);
+        when(candidatureRepository.save(c1)).thenReturn(c1);
+        candidatureRepository.save(c1);
+        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
+        when(candidatureRepository.save(c2)).thenReturn(c2);
+        Candidature c3 = candidatureService.updateCandidatureChoisi(1L);
+        assertEquals(c3.getStatut(), Candidature.CandidatureStatut.CHOISI);
+    }
 }

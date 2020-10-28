@@ -25,6 +25,8 @@ public class InsertDataService {
     private StageRepository stageRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    private CandidatureService candidatureService;
 
     @Transactional
     public void insertEtudiant(){
@@ -172,12 +174,90 @@ public class InsertDataService {
 
     @Transactional
     public void insertCandidature(){
+        Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.arturo.ortiz.celis@gmail.com");
+
+        Stage stage1 = new Stage();
+        stage1.setId(121L);
+        stage1.setTitre("stage_dummy1");
+        stage1.setDescription("stage informatique ");
+        stage1.setNbAdmis(5);
+        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
+        stage1.setExigences("aucune exigence");
+        stage1.setProgramme("Techniques de l’informatique");
+        stage1.setNbHeuresParSemaine(37);
+        stage1.setVille("Montreal");
+        stage1.setEmployeur(e2);
+        stage1.setOuvert(true);
+        stage1.setStatut(Stage.StageStatus.APPROVED);
+
         Etudiant etudiant = etudiantRepository.findByEmail("richard@email.com");
-        Optional<Stage> optionalStage = stageRepository.findById(7L);
-        Candidature candidature = new Candidature();
-        candidature.setEtudiant(etudiant);
-        candidature.setStage(optionalStage.get());
+        Set<Etudiant> set = new HashSet<>();
+        set.add(etudiant);
+        stage1.setEtudiantsAdmits(set);
+
+        stageService.saveStage(stage1);
+
+        stage1 = new Stage();
+        stage1.setId(122L);
+        stage1.setTitre("stage_dummy2");
+        stage1.setDescription("stage informatique ");
+        stage1.setNbAdmis(5);
+        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
+        stage1.setExigences("aucune exigence");
+        stage1.setProgramme("Techniques de l’informatique");
+        stage1.setNbHeuresParSemaine(37);
+        stage1.setVille("Montreal");
+        stage1.setEmployeur(e2);
+        stage1.setOuvert(true);
+        stage1.setStatut(Stage.StageStatus.APPROVED);
+
+        etudiant = etudiantRepository.findByEmail("richard@email.com");
+        set = new HashSet<>();
+        set.add(etudiant);
+        stage1.setEtudiantsAdmits(set);
+
+        stageService.saveStage(stage1);
+
+        stage1 = new Stage();
+        stage1.setId(123L);
+        stage1.setTitre("stage_dummy3");
+        stage1.setDescription("stage informatique ");
+        stage1.setNbAdmis(5);
+        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
+        stage1.setExigences("aucune exigence");
+        stage1.setProgramme("Techniques de l’informatique");
+        stage1.setNbHeuresParSemaine(37);
+        stage1.setVille("Montreal");
+        stage1.setEmployeur(e2);
+        stage1.setOuvert(true);
+        stage1.setStatut(Stage.StageStatus.DENIED);
+
+        etudiant = etudiantRepository.findByEmail("richard@email.com");
+        set = new HashSet<>();
+        set.add(etudiant);
+        stage1.setEtudiantsAdmits(set);
+
+        stageService.saveStage(stage1);
+
+        etudiant = etudiantRepository.findByEmail("richard@email.com");
+        Candidature candidature = candidatureService.createCandidature(etudiant.getId(), (long) 11);
         candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
+        candidatureRepository.save(candidature);
+
+        etudiant = etudiantRepository.findByEmail("richard@email.com");
+        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 12);
+        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
+        candidatureRepository.save(candidature);
+
+        etudiant = etudiantRepository.findByEmail("richard@email.com");
+        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 13);
+        candidature.setStatut(Candidature.CandidatureStatut.REFUSE);
         candidatureRepository.save(candidature);
     }
 }

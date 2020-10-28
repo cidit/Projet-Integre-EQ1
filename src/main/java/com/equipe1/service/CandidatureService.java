@@ -5,7 +5,6 @@ import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,12 +22,6 @@ public class CandidatureService {
 
     @Autowired
     private EtudiantRepository etudiantRepository;
-
-    @Autowired
-    CourrielService courrielService;
-
-    @Autowired
-    Environment env;
 
     public CandidatureService(CandidatureRepository candidatureRepository){
         this.candidatureRepository = candidatureRepository;
@@ -81,15 +74,9 @@ public class CandidatureService {
     }
 
 
-    public Candidature updateCandidatureChoisi(Long id) throws Exception {
+    public Candidature updateCandidatureChoisi(Long id) {
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
-
         updatedCandidature.setStatut(Candidature.CandidatureStatut.CHOISI);
-
-        courrielService.sendSimpleMessage(new Courriel("truongricharddev@gmail.com",
-                        env.getProperty("my.subject.stageChoisi"), env.getProperty("my.message.stageChoisi")),
-                        "Gestionnaire");
-
         return candidatureRepository.save(updatedCandidature);
     }
 }
