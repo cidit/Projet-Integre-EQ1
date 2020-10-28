@@ -12,13 +12,12 @@ class ContratService {
 
        
         //const url = 'http://localhost:8080/contrats/getContatFile/1';
-        return () => {
-            axios.request({
-                url: _url,
-                method: 'GET',
-                responseType: 'blob',
-            })
-        }
+        return ( axios.request({
+            url: _url,
+             method: 'GET',
+             responseType: 'blob',
+         }))
+        
     }
 
 }

@@ -9,11 +9,7 @@ import { string } from 'yup';
 export default function Telecharger(props) {
 
     const clickHandle = () => {
-        axios.request({
-           url: props.path,
-            method: 'GET',
-            responseType: 'blob',
-        }).then((response) => {
+       ContratService.getDocumentContrat(props.path).then((response) => {
             sauvegarderEtMontrerDoc(response)
         });
     }
