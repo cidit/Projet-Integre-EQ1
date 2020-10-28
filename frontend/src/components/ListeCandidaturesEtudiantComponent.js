@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 import CandidatureService from "../service/CandidatureService";
 
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
-import Demo from './demo';
+import Button from 'react-bootstrap/Button'
+import {Col, Container, Modal, Row} from "react-bootstrap";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from '@material-ui/lab/Alert';
 
 export default class ListeCandidaturesEtudiantComponent extends Component {
     constructor(props) {
@@ -16,12 +12,10 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
         this.state = {
             candidatures: [],
             employeurId: "",
-            idCandidature: "",
-            selected: false,
-            disabledButtons: [],
-            disableSubmit: true,
+            showSnackbar: false,
         };
-        AlertDialog = AlertDialog.bind(this);
+        
+        ShowCandidature = ShowCandidature.bind(this);
     }
 
     async componentDidMount() {
@@ -30,49 +24,10 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             id = localStorage.getItem("id");
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
-        this.setState({ disabledButtons: new Array(this.state.candidatures.length).fill(false)});
     }
-
-    select(index) {
-
-        this.setState(oldState => {
-            const newDisabledButtons = [...oldState.disabledButtons];
-            newDisabledButtons[index] = true;
-            return {
-                disabledButtons: newDisabledButtons,
-            }
-        });
-        this.setState({ selected: true });
-        this.setState({ disableSubmit: false });
-        this.setState({ idCandidature: index });
-    }
-
-    deselect(index) {
-        
-        this.setState(oldState => {
-            const newDisabledButtons = [...oldState.disabledButtons];
-            newDisabledButtons[index] = false;
-            return {
-                disabledButtons: newDisabledButtons,
-            }
-        });
-        this.setState({ selected: false });
-        this.setState({ disableSubmit: true });
-        this.setState({ idCandidature: "" });
-    }
-
-    submit(){
-        if (this.state.idCandidature === "") {
-            this.setState({ disableSubmit: true });
-        }
-        else{
-            this.setState({ disableSubmit: false });
-            //CandidatureService.putCandidatureChoisi(this.state.idCandidature);
-            if (window.confirm("Assurez-vous d'avoir bien sélectionné votre stage afin de pouvoir générer le contrat d'ici aux prochains jours!")) {
-                console.log("BOP!");
-            }
-        }
-    }
+    
+    handleCloseSnackbar = () => this.setState({showSnackbar: false});
+    handleShowSnackbar = () => this.setState({showSnackbar: true});
 
     render() {
         return (
@@ -87,13 +42,9 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                 <thead>
                                 <tr >
                                     <th> Titre </th>
+                                    <th> Statut </th>
                                     <th> Programme </th>
-                                    <th> Description </th>
-                                    <th> Date de début </th>
-                                    <th> Date de fin </th>
                                     <th> Ville </th>
-                                    <th> Nombre d'heures par semaine </th>
-                                    <th> Statut</th>
                                     <th> Confirmer choix </th>
                                 </tr>
                                 </thead>
@@ -101,38 +52,17 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                 {this.state.candidatures.map(
                                     candidature =>
                                         <tr key={candidature.id}>
-                                            <td>{candidature.stage.titre}</td>
-                                            <td>{candidature.stage.programme}</td>
-                                            <td>{candidature.stage.description}</td>
-                                            <td>{candidature.stage.dateDebut}</td>
-                                            <td>{candidature.stage.dateFin}</td>
-                                            <td>{candidature.stage.ville}</td>
-                                            <td>{candidature.stage.nbHeuresParSemaine}</td>
-                                            <td>{candidature.statut}</td>
-                                            <td> 
-                                                <button className="btn btn-primary" onClick={() => this.select(candidature.id)}
-                                                    disabled={candidature.statut !== "APPROUVE" || this.state.selected}
-                                                    hidden={this.state.disabledButtons[candidature.id]}> 
-                                                    Confirmer
-                                                </button>
-                                                <button className="btn btn-danger" onClick={() => this.deselect(candidature.id)}
-                                                    disabled={candidature.statut !== "APPROUVE"}
-                                                    hidden={!this.state.disabledButtons[candidature.id]}> 
-                                                    Annuler
-                                                </button>
-                                            </td>
+                                            <ShowCandidature candidature={candidature}/>
                                         </tr>
                                 )}
                                 </tbody>
                             </table>
-
-                            
-                            <button className="btn btn-primary" onClick={() => this.submit()}
-                                disabled={this.state.disableSubmit}>
-                                Confirmer
-                            </button>
-                            
-                            <Demo/>
+                            <Snackbar open={this.state.showSnackbar} autoHideDuration={6000}
+                                      onClose={this.handleCloseSnackbar}>
+                                <Alert onClose={this.handleCloseSnackbar} severity="success">
+                                    Changements effectués avec succès
+                                </Alert>
+                            </Snackbar>
                         </div>
                     </div>
                 </div>
@@ -141,43 +71,118 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
     }
 }
 
-function AlertDialog() {
-    const [open, setOpen] = React.useState(false);
+function ShowCandidature(props) {
+    const approuved = "CHOISI";
+
+    const [showModal, setShowModal] = useState(false);
+
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
+
+    const handleShowSnackbar = () => this.handleShowSnackbar();
+
+    console.log(props);
+
+    function toggleBtns(isApprouved) {
+        document.getElementsByName(approuved)[0].disabled = isApprouved
+    }
+
+    async function handleClick(event) {
+        event.preventDefault();
+
+        console.log(props.candidature.stage.employeur)
+
+        toggleBtns(event.target.name === approuved);
+
+        await CandidatureService.putCandidatureChoisi(props.candidature.id);
   
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
-  
+        handleShowSnackbar();
+        handleCloseModal();
+    }
+
     return (
-      <div>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-          Confirmer
-        </Button>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{"Confirmer votre stage?"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Assurez-vous d'avoir bien sélectionné votre stage afin de pouvoir générer le contrat d'ici aux prochains jours!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Annuler
-            </Button>
-            <Button onClick={handleClose} color="primary" autoFocus>
-              Confirmer
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
+        <>
+            <td>{props.candidature.stage.titre}</td>
+            <td>{props.candidature.statut}</td>
+            <td>{props.candidature.stage.programme}</td>
+            <td>{props.candidature.stage.ville}</td>
+            <td>
+                <Button onClick={handleShowModal}
+                        disabled={props.candidature.statut === "REFUSE" || props.candidature.statut === "EN_ATTENTE"}>
+                    Consulter
+                </Button>
+            </td>
+
+            <Modal
+                size="lg"
+                show={showModal}
+                onHide={handleCloseModal}
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        {props.candidature.stage.titre}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="show-grid">
+                    <Container>
+                        <Row>
+                            <Col className="font-weight-bold" style={{color: "red"}}>***Attention***</Col>
+                        </Row>
+                        <Row>
+                            <Col style={{color: "red"}}>Assurez-vous d'avoir bien confirmer votre stage afin de pouvoir générer le contrat d'ici aux prochains jours!</Col>
+                        </Row>
+
+                        <Row>
+                            <Col className="font-weight-bold">Employeur</Col>
+                            <Col className="font-weight-bold">Ville</Col>
+                            <Col className="font-weight-bold" xs={6} md={4}>Salaire</Col>
+                        </Row>
+                        <Row>
+                            <Col>{props.candidature.stage.employeur.nom}</Col>
+                            <Col>{props.candidature.stage.ville}</Col>
+                            <Col xs={6} md={4}>{props.candidature.stage.salaire}$/h</Col>
+                        </Row>
+
+                        <Row>
+                            <Col className="font-weight-bold">Date de début</Col>
+                            <Col className="font-weight-bold">Date de fin</Col>
+                            <Col className="font-weight-bold" xs={6} md={4}>Heures par semaine</Col>
+                        </Row>
+                        <Row>
+                            <Col>{props.candidature.stage.dateDebut}</Col>
+                            <Col>{props.candidature.stage.dateFin}</Col>
+                            <Col xs={6} md={4}>{props.candidature.stage.nbHeuresParSemaine}</Col>
+                        </Row>
+
+                        <Row>
+                            <Col className="font-weight-bold" xs={6} md={4}>Description</Col>
+                        </Row>
+                        <Row>
+                            <Col>{props.candidature.stage.description}</Col>
+                        </Row>
+
+
+                        <Row>
+                            <Col className="font-weight-bold" xs={6} md={4}>Exigences</Col>
+                        </Row>
+                        <Row>
+                            <Col>{props.candidature.stage.exigences}</Col>
+                        </Row>
+                    </Container>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button type="button" className="btnVeto" name={approuved}
+                            disabled={props.candidature.statut === approuved} 
+                            value={props.candidature.id} onClick={handleClick}
+                            variant="success">Confirmer ma présence</Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    )
+}
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
