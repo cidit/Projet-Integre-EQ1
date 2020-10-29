@@ -19,6 +19,8 @@ import ListeCandidaturesEtudiantComponent from './components/ListeCandidaturesEt
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
 import StageVeto from "./components/StageVeto";
 import ContratsEmployeur from './components/employeur/ContratEmployeur'
+import ContratEtudiant from './components/etudiant/ContratEtudiant'
+
 
 
 function App() {
@@ -46,6 +48,7 @@ function App() {
           <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
           <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
           <Route path='/contratsEmployeur' component={ContratsEmployeur} />
+          <Route path='/contratEtudiant' component={ContratEtudiant} />
         </Switch>
   
       </main>

@@ -6,32 +6,30 @@ import useListeContrats from '../contrat/useListeContrats'
 import ContratService from '../../service/ContratService'
 
 export default function ContratsEmployeur() {
-    const [id , setId] = useState(4);
-    const [employeur , setEmployeur] = useState(null);
-   
+    const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
+    const [contratsEmployeur, setContratsEmployeur] = useState([]);
+    const [employeur, setEmployeur] = useState(null);
 
-   const getEmployeur= async ()=>{
-        var id;
-        if (localStorage.getItem("desc") === "Employeur"){
-            id = localStorage.getItem("id");
-            setId(id);
-        }
-        const response = await EmployeurService.getById(id);
-        setEmployeur(response.data);
-    };
+    //get contrats by employeur
+    const getContratsByEmployeurId = async () => {
 
-   const { contratsEmployeur, error, isLoading, isEmployeur, isEtudiant } = useListeContrats(id);
+        const response = await ContratService.getContratByEmployeurId(id);
+        setContratsEmployeur(response.data);
+        console.log("inside useEffect employeur")
+    }
+
+    //monter et demonter le composant (equivaut -> ComponentDidMOunt + componentWillUnmount)
+    //https://fr.reactjs.org/docs/hooks-effect.html
 
     useEffect(() => {
-        getEmployeur();
+        getContratsByEmployeurId();
         return () => {
-           
         }
     }, [])
 
     return (
         <div>
-            <ListeContrats contrat={contratsEmployeur}/>
+            <ListeContrats contrat={contratsEmployeur} />
         </div>
     )
 }

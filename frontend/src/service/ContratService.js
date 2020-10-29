@@ -22,6 +22,7 @@ class ContratService {
     }
 
     async getContratByEtudiantId(id) {
+        console.log(id)
         return await axios.get(baseURL + "getByEtudiantId/"+ id);
     }
 
