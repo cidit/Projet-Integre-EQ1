@@ -60,7 +60,7 @@ public class CourrielServiceTest {
         candidature = new Candidature();
         candidature.setEtudiant(etudiant);
         candidature.setStage(new Stage());
-        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
+        candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
         when(candidatureRepository.save(candidature)).thenReturn(candidature);
 
     }

@@ -17,16 +17,16 @@ export default class ApplicationStageComponent extends Component {
 
     async componentDidMount() {
         var id;
-        if (localStorage.getItem("desc") == "Etudiant")
+        if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);
         this.setState({etudiant: etudiant});
         StageService.getStagesEtudiant(id).then((res) => { this.setState({ stages: res.data }) })
-        if (this.state.etudiant.cv == undefined){
+        if (this.state.etudiant.cv === undefined){
             this.setState({ hasValidCV: false});
         }
         else {
-            if (this.state.etudiant.cv.status == 'APPROVED'){
+            if (this.state.etudiant.cv.status === 'APPROVED'){
                 this.setState({ hasValidCV: true});
             }
             else {
@@ -38,7 +38,7 @@ export default class ApplicationStageComponent extends Component {
     handleSubmit(event) {
         event.preventDefault()
         var idEtudiant;
-        if (localStorage.getItem("desc") == "Etudiant")
+        if (localStorage.getItem("desc") === "Etudiant")
             idEtudiant = localStorage.getItem("id");
         var idStage = event.target.value
         this.setState({hasApplied: true});
@@ -48,8 +48,8 @@ export default class ApplicationStageComponent extends Component {
         }, 1000);
     }
     displayWarningMessage() {
-        if(this.state.stages.length != 0){
-            if (this.state.etudiant.cv == null)
+        if(this.state.stages.length !== 0){
+            if (this.state.etudiant.cv === null)
                 return <label>Vous ne pourrez pas postuler si vous n'avez pas de CV.</label>
             if (!this.state.hasValidCV)
                 return <label>Vous ne pourrez pas postuler si votre CV n'a pas été approuvé.</label>

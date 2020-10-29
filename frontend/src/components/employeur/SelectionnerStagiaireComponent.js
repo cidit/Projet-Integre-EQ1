@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import CandidatureService from "../../service/CandidatureService";
 import axios from "axios";
+import CVService from "../../service/CVService";
 
 export default class SelectionnerStagiaireComponent extends Component {
     constructor(props) {
@@ -17,33 +18,22 @@ export default class SelectionnerStagiaireComponent extends Component {
     }
 
     handleClick(candidature){
-        candidature.statut = "APPROUVE";
-        CandidatureService.put(candidature, candidature.id);
+        CandidatureService.putCandidatureApprouve(candidature.id);
         this.setState({});
         setTimeout(function() {
             window.location.reload();
         }, 500);
     }
 
-    downloadCV = (etudiant) => {
-        const method = 'GET';
-        const url = 'http://localhost:8080/cvs/get/' + etudiant.id;
-        return () => {
-            axios
-                .request({
-                    url,
-                    method,
-                    responseType: 'blob',
-                })
-                .then(({data}) => {
-                    const downloadUrl = window.URL.createObjectURL(new Blob([data]));
-                    const link = document.createElement('a');
-                    link.href = downloadUrl;
-                    link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
-                    document.body.appendChild(link);
-                    link.click();
-                });
-        }
+    downloadCV (etudiant) {
+        CVService.getCVByEtudiant(etudiant).then((data) => {
+            const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
+            document.body.appendChild(link);
+            link.click();
+        });
     }
 
 
@@ -77,7 +67,7 @@ export default class SelectionnerStagiaireComponent extends Component {
                                             <td>{candidature.etudiant.prenom}</td>
                                             <td>{candidature.etudiant.nom}</td>
                                             <td>{candidature.etudiant.programme}</td>
-                                            <td><button onClick={this.downloadCV(candidature.etudiant)} className="btn btn-primary">Telecharger</button></td>
+                                            <td><button onClick={() => this.downloadCV(candidature.etudiant)} className="btn btn-primary">Telecharger</button></td>
                                             <td>{candidature.etudiant.telephone}</td>
                                             <td>{candidature.etudiant.email}</td>
                                             <td>{candidature.etudiant.adresse}</td>

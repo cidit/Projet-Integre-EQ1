@@ -1,9 +1,6 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Stage;
+import com.equipe1.model.*;
 import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.StageRepository;
@@ -16,10 +13,13 @@ import java.util.Optional;
 
 @Service
 public class CandidatureService {
+
     @Autowired
     private CandidatureRepository candidatureRepository;
+
     @Autowired
     private StageRepository stageRepository;
+
     @Autowired
     private EtudiantRepository etudiantRepository;
     @Autowired
@@ -68,14 +68,23 @@ public class CandidatureService {
         return candidature;
     }
 
-    public Candidature updateCandidature(Candidature newCandidature, long id) throws Exception {
+    public Candidature updateCandidatureApprouve(Long id) throws Exception {
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
         updatedCandidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
-
         candidatureRepository.save(updatedCandidature);
         courrielService.sendCandidatureStatusUpdate(updatedCandidature);
         return updatedCandidature;
     }
 
 
+    public Candidature updateCandidatureChoisi(Long id) {
+        Candidature updatedCandidature = candidatureRepository.findById(id).get();
+        updatedCandidature.setStatut(Candidature.CandidatureStatut.CHOISI);
+        return candidatureRepository.save(updatedCandidature);
+    }
+
+    public Optional<Candidature> getCandidatureChoisi(Long id) {
+        Optional<Candidature> optionalCandidature = candidatureRepository.findCandidatureByEtudiant_Id(id, Candidature.CandidatureStatut.CHOISI);
+        return optionalCandidature;
+    }
 }

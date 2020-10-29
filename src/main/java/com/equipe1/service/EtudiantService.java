@@ -1,13 +1,9 @@
 package com.equipe1.service;
 
-import com.equipe1.model.CV;
-import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;

@@ -17,10 +17,10 @@ export default class ListEtudiantsComponent extends Component {
         window.location.reload();
     }
     renderColonneApprobation(etudiant){
-        if (etudiant.cv == null){
+        if (etudiant.cv === null){
             return <p> Pas de CV</p>
         }
-        if (etudiant.cv.status == 'APPROVED'){
+        if (etudiant.cv.status === 'APPROVED'){
             return <p>Approuvé</p>
         }
         if (etudiant.cv.status = 'UNREVIEWED') {

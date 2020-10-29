@@ -41,7 +41,7 @@ public class CourrielService {
     }
     public void sendCandidatureStatusUpdate(Candidature candidature) throws Exception {
         String content = "";
-        if (candidature.getStatut() == Candidature.CandidatureStatut.APPROUVE)
+        if (candidature.getStatut() == Candidature.CandidatureStatut.CHOISI)
             content = "Vous avez été accepté(e) pour le stage " + candidature.getStage().getTitre();
         if (candidature.getStatut() == Candidature.CandidatureStatut.REFUSE)
             content = "Vous avez été refusé(e) pour le stage " + candidature.getStage().getTitre();
