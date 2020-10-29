@@ -1,8 +1,4 @@
 import React, {Component} from "react";
-import Stage from "../../model/Stage";
-import StageService from "../../service/StageService";
-import EtudiantService from "../../service/EtudiantService";
-import Etudiant from "../../model/Etudiant";
 import CandidatureService from "../../service/CandidatureService";
 import axios from "axios";
 
@@ -23,6 +19,7 @@ export default class SelectionnerStagiaireComponent extends Component {
     handleClick(candidature){
         candidature.statut = "APPROUVE";
         CandidatureService.put(candidature, candidature.id);
+        this.setState({});
         setTimeout(function() {
             window.location.reload();
         }, 500);
@@ -65,7 +62,6 @@ export default class SelectionnerStagiaireComponent extends Component {
                                 <th> Nom </th>
                                 <th> Programme </th>
                                 <th> Telecharger CV</th>
-                                <th> Date application </th>
                                 <th> Telephone </th>
                                 <th> Email </th>
                                 <th> Adresse </th>
@@ -82,7 +78,6 @@ export default class SelectionnerStagiaireComponent extends Component {
                                             <td>{candidature.etudiant.nom}</td>
                                             <td>{candidature.etudiant.programme}</td>
                                             <td><button onClick={this.downloadCV(candidature.etudiant)} className="btn btn-primary">Telecharger</button></td>
-                                            <td></td>
                                             <td>{candidature.etudiant.telephone}</td>
                                             <td>{candidature.etudiant.email}</td>
                                             <td>{candidature.etudiant.adresse}</td>

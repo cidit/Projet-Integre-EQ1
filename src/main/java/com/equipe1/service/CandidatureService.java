@@ -70,8 +70,8 @@ public class CandidatureService {
 
     public Candidature updateCandidature(Candidature newCandidature, long id) throws Exception {
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
+        updatedCandidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
 
-        updatedCandidature.setStatut(newCandidature.getStatut());
         candidatureRepository.save(updatedCandidature);
         courrielService.sendCandidatureStatusUpdate(updatedCandidature);
         return updatedCandidature;

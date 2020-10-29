@@ -91,9 +91,7 @@ public class CourrielServiceTest {
     @Test
     public void sendCandidatureStatusUpdate() throws Exception {
         courrielService.sendCandidatureStatusUpdate(candidature);
-
         CourrielService courriel = mock(CourrielService.class);
-
         courriel.sendCandidatureStatusUpdate(candidature);
         verify( courriel, times(1)).sendCandidatureStatusUpdate(candidature);
 

@@ -1,11 +1,5 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import StageService from '../../service/StageService';
-import Button from 'react-bootstrap/Button';
-import {Col, Container, Modal, Row} from "react-bootstrap";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from '@material-ui/lab/Alert';
-import CandidatureService from "../../service/CandidatureService";
-import EtudiantService from "../../service/EtudiantService";
 
 export default class ListStagesEmployeur extends Component {
     constructor(props) {

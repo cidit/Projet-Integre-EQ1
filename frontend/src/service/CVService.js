@@ -10,9 +10,17 @@ class CVService{
         return axios.put(CV_URL + "/create/" + idEtudiant, formData)
 
     }
-    getCVByEtudiant(idEtudiant){
+    async getCVByEtudiant(etudiant) {
+        const method = 'GET';
+        const url = 'http://localhost:8080/cvs/get/' + etudiant.id;
+        return (axios.request({
+                url,
+                method,
+                responseType: 'blob'
+            }))
 
     }
+
     updateCVStatus(isValid, id){
         console.log(isValid);
         const formData = new FormData();
