@@ -1,51 +1,75 @@
 import React from 'react'
+import { useState, useEffect } from "react";
+import ContratService from '../../service/ContratService'
 
-export default function useListeContrats(id) {
-    const {_id} = id;
+export default function useListeContrats(props) {
     const [contrats, setContrats] = useState(null);
+    const [contratsEmployeur, setContratsEmployeur] = useState(null);
+    const [contratEtudiant, setContratEtudiant] = useState(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [isEmployeur, setIsEmployeur] = useState(false);
     const [isEtudiant, setIsEtudiant] = useState(false);
 
 
-
+    //get All contrats
     const getAllContrats = async () => {
-        ContratService.getContrats().then((res) => setContrats(res.data));
-        setIsloading(false);
+        const response = await ContratService.getContrats();
+        setContrats(response.data)
+        setIsLoading(false);
     }
 
     useEffect(() => {
         getAllContrats();
         return () => {
         }
-    }, [contrats])
+    }, [])
 
 
-    const getById = async (_id) => {
-        ContratService.getById(id).then((res) => {
-            setContrats(res.data);
-
-            //if(res.data.){}
-        
-        
-        
+    //get contrats by employeur
+    const getByEmployeurId = async () => {
+        await ContratService.getByEmployeurId(props.id).then((res) => {
+            setContratsEmployeur(res.data);
         });
-        setIsloading(false);
+        setIsEmployeur(true)
+        setIsLoading(false);
+        console.log("inside useEffect employeur")
+    }
+
+    //monter et demonter le composant (equivaut -> ComponentDidMOunt + componentWillUnmount)
+    //https://fr.reactjs.org/docs/hooks-effect.html
+
+    useEffect(() => {
+        getByEmployeurId();
+        return () => {
+        }
+    }, [])
+
+/*
+    //get contrats by etudiant
+    const getByEtudaintId = async (_id) => {
+        ContratService.getByEtudaintId(id).then((res) => {
+            setContratEtudiant(res.data);
+        });
+        setIsLoading(false);
+        setIsEtudiant(true);
+        console.log("inside useEffect Etudiant")
     }
 
     useEffect(() => {
-        getById();
+        getByEtudaintId();
         return () => {
         }
-    }, [contrats])
+    }, [contratEtudiant])*/
 
 
-    return (
-        contratsList,
+    return {
+        contrats,
+        contratsEmployeur,
+        contratEtudiant,
         error,
         isLoading,
         isEmployeur,
         isEtudiant
-    )
+    }
 }

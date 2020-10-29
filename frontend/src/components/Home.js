@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ListeContrats from './contrat/ListeContrats'
 
 import SauvegarderContrat from '../components/contrat/Testdeq'
+import ContratsEmployeur from '../components/employeur/ContratEmployeur'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -14,8 +15,9 @@ export default class Home extends Component {
     render(){
         return(
            <div>
-              {/* <ListeContrats/>
-              <SauvegarderContrat/> */}
+               {/* <ListeContrats/> */}
+             
+              <SauvegarderContrat/> 
            </div>
 
         );

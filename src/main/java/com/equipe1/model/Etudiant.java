@@ -41,7 +41,7 @@ public class Etudiant extends User {
    // @ManyToOne(fetch = FetchType.LAZY)
    // private Stage stage;
 
-
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(mappedBy = "etudiant")
     private Contrat contrat;
 }

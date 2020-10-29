@@ -18,8 +18,7 @@ public class Contrat {
     @OneToOne(mappedBy = "contrat")
     private Candidature candidature;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "contrat")
+    @OneToOne
     private Etudiant etudiant;
 
     @ManyToOne(fetch = FetchType.LAZY)

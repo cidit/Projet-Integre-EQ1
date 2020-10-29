@@ -5,19 +5,23 @@ const baseURL = "http://localhost:8080/contrats/";
 class ContratService {
 
     async getContrats() {
-        return await axios.get(baseURL + "findAll");
+        return await axios.get('http://localhost:8080/contrats/findAll');
     }
 
     async telechargerDocument(id) {
         return ( axios.request({
-            url: baseURL + id,
+            url: baseURL + "getContratFile/"+ id,
             method: 'GET',
             responseType: 'blob',
         }))
     }
 
-    async getContratById(id) {
-        return await axios.get(baseURL + "getById"+ id);
+    async getContratByEmployeurId(id) {
+        return await axios.get(baseURL + "getByEmployeurId/"+ id);
+    }
+
+    async getContratByEtudiantId(id) {
+        return await axios.get(baseURL + "getByEtudiantId/"+ id);
     }
 
 

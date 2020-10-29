@@ -83,6 +83,18 @@ public class ContratController {
          return contratService.getContratById(id);
     }
 
+    @GetMapping(value = "getByEmployeurId/{id}")
+    public List<Contrat> getContratsByEmployeur (@PathVariable Long id){
+        Optional<Employeur> employeur = employeurRepository.findById(id);
+        return contratService.getContratsByEmployeur(employeur.get());
+    }
+
+    @GetMapping(value = "getByEtudiantId/{id}")
+    public Contrat getContratsByEtudiant (@PathVariable Long id){
+        Optional<Etudiant> etudiant = etudiantRepository.findById(id);
+        return contratService.getContratsByEtudaint(etudiant.get());
+    }
+
 
 
 

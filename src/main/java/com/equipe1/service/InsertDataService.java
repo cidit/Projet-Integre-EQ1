@@ -40,7 +40,8 @@ public class InsertDataService {
 
 
         Contrat contrat = new Contrat();
-contrat.setEmployeur(employeurTest);
+        contrat.setEmployeur(employeurTest);
+        contrat.setEtudiant(etudiantTest);
         contrat.setDocumentContrat(generateurPdfService.createPdf(stageTest.get(),employeurTest,etudiantTest).toByteArray());
 
         contratService.saveContrat(contrat);
