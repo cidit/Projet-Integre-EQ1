@@ -17,6 +17,7 @@ class ContratService {
     }
 
     async getContratByEmployeurId(id) {
+        console.log(id)
         return await axios.get(baseURL + "getByEmployeurId/"+ id);
     }
 

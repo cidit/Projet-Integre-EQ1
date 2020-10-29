@@ -17,7 +17,7 @@ export default class Home extends Component {
            <div>
                {/* <ListeContrats/> */}
              
-              <SauvegarderContrat/> 
+              {/* <SauvegarderContrat/>  */}
            </div>
 
         );

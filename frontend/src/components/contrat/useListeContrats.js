@@ -2,9 +2,9 @@ import React from 'react'
 import { useState, useEffect } from "react";
 import ContratService from '../../service/ContratService'
 
-export default function useListeContrats(props) {
-    const [contrats, setContrats] = useState(null);
-    const [contratsEmployeur, setContratsEmployeur] = useState(null);
+export default function useListeContrats(id) {
+    const [contrats, setContrats] = useState([]);
+    const [contratsEmployeur, setContratsEmployeur] = useState([]);
     const [contratEtudiant, setContratEtudiant] = useState(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
@@ -26,11 +26,12 @@ export default function useListeContrats(props) {
     }, [])
 
 
+    
     //get contrats by employeur
     const getByEmployeurId = async () => {
-        await ContratService.getByEmployeurId(props.id).then((res) => {
-            setContratsEmployeur(res.data);
-        });
+
+        const response = await ContratService.getContratByEmployeurId(id);
+        setContratsEmployeur(response.data);
         setIsEmployeur(true)
         setIsLoading(false);
         console.log("inside useEffect employeur")

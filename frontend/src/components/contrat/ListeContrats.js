@@ -1,47 +1,10 @@
 import React, { useState, useEffect } from "react";
-import useDocuments from './useDocuments'
-import CircularUnderLoad from '../utils/IsLoading'
-import Contrat from '../../model/Contrat'
-import ContratService from "../../service/ContratService";
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Telecharger from '../utils/telecharger'
-import IsLoading from '../utils/IsLoading'
-import useListeContrats from "./useListeContrats";
-import { Col, Container, Modal, Row } from "react-bootstrap";
-import Snackbar from "@material-ui/core/Snackbar";
-import Alert from '@material-ui/lab/Alert';
-
 
 
 const url = 'http://localhost:8080/contrats/getContatFile/';
 
 function ListeContrats(props) {
-  //const [contrats, setContrat] = useState([]);
-  //const [isLoading, setIsloading] = useState(true);
-
-  /*const doFetch = async () => {
-    ContratService.getContrats().then((res) => setContrat(res.data));
-    setIsloading(false);
-  }*/
-
-  /*useEffect(() => {
-    doFetch();
-    return () => {
-    }
-  }, [contrats])*/
-
-
-console.log(props.contrat)
-
- 
-
-  // if (isLoading) {
-  //   return <IsLoading />
-  // }
-
-  console.log("desde lista")
-  console.log(props.contrats)
-
 
   return (
 
@@ -68,7 +31,7 @@ console.log(props.contrat)
                 </tr>
               </thead>
               <tbody>
-                {props.contrats.map(
+             {props.contrat.map(
                   data =>
                     <tr key={data.id}>
                       <td>{data.id}</td>
@@ -94,7 +57,7 @@ console.log(props.contrat)
                       <td>{data.dateGeneration}</td>
                       <Telecharger path={data.id} />
                     </tr>
-                )}
+                )}  
               </tbody>
             </table>
           </div>
@@ -102,12 +65,6 @@ console.log(props.contrat)
       </div>
     </div>
 
-
-
   )
-
-
-
-
 };
 export default ListeContrats; 
