@@ -1,24 +1,19 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
-<<<<<<< HEAD
 import com.equipe1.repository.*;
-=======
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.StageRepository;
->>>>>>> eq1-106-carlos
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-<<<<<<< HEAD
-import java.time.LocalDateTime;
+
 import java.util.*;
-=======
+
 import java.util.Optional;
->>>>>>> eq1-106-carlos
 
 @Component
 public class InsertDataService {
@@ -34,8 +29,7 @@ public class InsertDataService {
     StageRepository stageRepository;
     @Autowired
     private  GestionnaireService gestionnaireService;
-    @Autowired
-    private StageRepository stageRepository;
+
     @Autowired
     private CandidatureRepository candidatureRepository;
     @Autowired
