@@ -54,4 +54,9 @@ public class CandidatureController {
     public Candidature updateCandidatureChoisi(@PathVariable Long id) {
         return candidatureService.updateCandidatureChoisi(id);
     }
+
+    @GetMapping("getChoisi/{id}")
+    public Optional<Candidature> getCandidatureChoisi(@PathVariable Long id) {
+        return candidatureService.getCandidatureChoisi(id);
+    }
 }

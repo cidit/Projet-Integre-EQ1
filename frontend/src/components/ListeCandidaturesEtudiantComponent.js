@@ -1,5 +1,6 @@
 import React, {Component, useState} from 'react';
 import CandidatureService from "../service/CandidatureService";
+import Candidature from "../model/Candidature";
 
 import Button from 'react-bootstrap/Button'
 import {Col, Container, Modal, Row} from "react-bootstrap";
@@ -13,6 +14,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             candidatures: [],
             employeurId: "",
             showSnackbar: false,
+            disabledAll: false,
         };
         
         ShowCandidature = ShowCandidature.bind(this);
@@ -24,17 +26,32 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             id = localStorage.getItem("id");
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
+
+        var candidature = new Candidature();
+        candidature = await CandidatureService.getCandidatureChoisi(id);
+        if (candidature === null) {
+            console.log("NOTHING!");
+            this.setState({ disabledAll: false });
+        }
+        else{
+            this.setState({ disabledAll: true });
+        }
     }
     
     handleCloseSnackbar = () => this.setState({showSnackbar: false});
     handleShowSnackbar = () => this.setState({showSnackbar: true});
+    handleDisableAll = () => this.setState({disabledAll: true});
 
     render() {
         return (
             <div className="container">
                 <div className="col">
                     <div className="pt-3 mt-3">
-                        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Vos candidatures</h5>
+                        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0' }}>Vos candidatures</h5>
+                        
+                        <h5 className="card-title text-center p-3" 
+                            style={{ background: '#FFCCCB' }}
+                            hidden={!this.state.disabledAll}>Vous avez déjà confirmer votre stage</h5>
 
                         <div className="row">
 
@@ -49,10 +66,10 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {this.state.candidatures.map(
-                                    candidature =>
+                                {this.state.candidatures
+                                    .map(candidature =>
                                         <tr key={candidature.id}>
-                                            <ShowCandidature candidature={candidature}/>
+                                            <ShowCandidature candidature={candidature} disabledAll={this.state.disabledAll}/>
                                         </tr>
                                 )}
                                 </tbody>
@@ -80,8 +97,7 @@ function ShowCandidature(props) {
     const handleShowModal = () => setShowModal(true);
 
     const handleShowSnackbar = () => this.handleShowSnackbar();
-
-    console.log(props);
+    const handleDisableAll = () => this.handleDisableAll();
 
     function toggleBtns(isApprouved) {
         document.getElementsByName(approuved)[0].disabled = isApprouved
@@ -90,14 +106,15 @@ function ShowCandidature(props) {
     async function handleClick(event) {
         event.preventDefault();
 
-        console.log(props.candidature.stage.employeur)
-
         toggleBtns(event.target.name === approuved);
 
         await CandidatureService.putCandidatureChoisi(props.candidature.id);
-  
+
         handleShowSnackbar();
         handleCloseModal();
+        handleDisableAll();
+
+        //window.location.reload();
     }
 
     return (
@@ -108,7 +125,9 @@ function ShowCandidature(props) {
             <td>{props.candidature.stage.ville}</td>
             <td>
                 <Button onClick={handleShowModal}
-                        disabled={props.candidature.statut === "REFUSE" || props.candidature.statut === "EN_ATTENTE"}>
+                        disabled={props.candidature.statut === "REFUSE" 
+                                || props.candidature.statut === "EN_ATTENTE"
+                                || props.disabledAll === true}>
                     Consulter
                 </Button>
             </td>

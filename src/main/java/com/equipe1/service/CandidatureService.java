@@ -79,4 +79,9 @@ public class CandidatureService {
         updatedCandidature.setStatut(Candidature.CandidatureStatut.CHOISI);
         return candidatureRepository.save(updatedCandidature);
     }
+
+    public Optional<Candidature> getCandidatureChoisi(Long id) {
+        Optional<Candidature> optionalCandidature = candidatureRepository.findCandidatureByEtudiant_Id(id, Candidature.CandidatureStatut.CHOISI);
+        return optionalCandidature;
+    }
 }

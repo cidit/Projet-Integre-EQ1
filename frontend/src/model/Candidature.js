@@ -1,7 +1,7 @@
 
 export default class Candidature {
     id;
-    etudiant
+    etudiant;
     stage;
     statut;
 }

@@ -1,4 +1,4 @@
- import React, {Component, useState} from 'react';
+import React, {Component, useState} from 'react';
 import StageService from '../service/StageService';
 import Button from 'react-bootstrap/Button'
 import {Col, Container, Modal, Row} from "react-bootstrap";
@@ -21,14 +21,6 @@ export default class ListStagesComponent extends Component {
         StageService.getStages().then((res) => {
             this.setState({stage: res.data})
         })
-    }
-
-    findStage(id) {
-        for (let i = 0; i < this.state.stage.length; i++) {
-            if (this.state.stage[i].id === id) {
-                return this.state.stage[i]
-            }
-        }
     }
 
     handleCloseSnackbar = () => this.setState({showSnackbar: false});

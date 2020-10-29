@@ -18,8 +18,9 @@ class CandidatureService{
             .catch(error => data = {});
         return data;
     }
-    async getByEtudiant(idEtudiant) {
-        return axios.get(baseURL + "/getByEtudiant?idEtudiant="+ idEtudiant);
+
+    getByEtudiant(idEtudiant) {
+        return axios.get(baseURL + "/getByEtudiant?idEtudiant=" + idEtudiant);
 
     }
 
@@ -40,18 +41,29 @@ class CandidatureService{
 
     }
 
-    async put(candidature,id){
+    async put(candidature, id){
         fetch(baseURL + "/update/"+id,
             {method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(candidature)} )
-            .then(r => r.json());
+            .then(r => r.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => console.log('Success:', response));
     }
 
     async putCandidatureChoisi(id){
         return axios.put(baseURL + "/updateChoisi/" + id);
+    }
+
+    async getCandidatureChoisi(id){
+        let data;
+        await fetch(baseURL + "/getChoisi/" + id, {method: "GET"})
+            .then(r => data = r.json())
+            .catch(error => data = {});
+        console.log(data);
+        return data;
     }
 }
 
