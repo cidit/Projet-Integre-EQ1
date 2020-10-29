@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Telecharger from '../utils/telecharger'
+import { Alert } from '@material-ui/lab';
 
 
 const url = 'http://localhost:8080/contrats/getContatFile/';
@@ -8,12 +9,20 @@ function ListeContrats(props) {
 
   return (
 
-    <div className="container">
+   
+
+    <div className="container-fluid">
       <div className="col">
         <div className="pt-3 mt-3">
-          <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Contrats</h5>
 
+        {props.contrat.length > 0 &&
+          <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Contrats</h5> 
+          }
           <div className="row">
+
+          
+          {props.contrat.length > 0  ?
+ 
 
             <table className="table table-striped table-bordered">
               <thead>
@@ -39,19 +48,19 @@ function ListeContrats(props) {
                       <td>{data.etudiant.nom}</td>
                       <td>{data.etudiant.programme}</td>
                       {data.signatureEmployeur ?
-                        <td>Signé</td>
+                        <td style={{color:"green"}} >Signé</td>
                         :
-                        <td>Pas Signé</td>
+                        <td style={{color:"red"}}>Pas Signé</td>
                       }
                        {data.signatureEtudiant ?
-                        <td>Signé</td>
+                        <td style={{color:"green"}} >Signé</td>
                         :
-                        <td>Pas Signé</td>
+                        <td style={{color:"red"}}>Pas Signé</td>
                       }
                       {data.signatureAdmin ?
-                        <td>Signé</td>
+                        <td style={{color:"green"}} >Signé</td>
                         :
-                        <td>Pas Signé</td>
+                        <td style={{color:"red"}}>Pas Signé</td>
                       }
                      
                       <td>{data.dateGeneration}</td>
@@ -60,6 +69,12 @@ function ListeContrats(props) {
                 )}  
               </tbody>
             </table>
+
+            :
+            <Alert severity="info" variant="filled">Vous n'avez aucun contrat à signer pour le moment</Alert>
+            
+            }
+
           </div>
         </div>
       </div>
