@@ -14,7 +14,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             candidatures: [],
             employeurId: "",
             showSnackbar: false,
-            disabledAll: false,
+            disabledAllButtons: false,
         };
         
         ShowCandidature = ShowCandidature.bind(this);
@@ -29,18 +29,14 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 
         var candidature = new Candidature();
         candidature = await CandidatureService.getCandidatureChoisi(id);
-        if (candidature === null) {
-            console.log("NOTHING!");
-            this.setState({ disabledAll: false });
-        }
-        else{
-            this.setState({ disabledAll: true });
+        if (candidature !== null) {
+            this.setState({ disabledAllButtons: true });
         }
     }
     
     handleCloseSnackbar = () => this.setState({showSnackbar: false});
     handleShowSnackbar = () => this.setState({showSnackbar: true});
-    handleDisableAll = () => this.setState({disabledAll: true});
+    handleDisableAll = () => this.setState({disabledAllButtons: true});
 
     render() {
         return (
@@ -51,7 +47,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                         
                         <h5 className="card-title text-center p-3" 
                             style={{ background: '#FFCCCB' }}
-                            hidden={!this.state.disabledAll}>Vous avez déjà confirmer votre stage</h5>
+                            hidden={!this.state.disabledAllButtons}>Vous avez déjà confirmer votre stage pour la session</h5>
 
                         <div className="row">
 
@@ -69,7 +65,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                 {this.state.candidatures
                                     .map(candidature =>
                                         <tr key={candidature.id}>
-                                            <ShowCandidature candidature={candidature} disabledAll={this.state.disabledAll}/>
+                                            <ShowCandidature candidature={candidature} disabledAll={this.state.disabledAllButtons}/>
                                         </tr>
                                 )}
                                 </tbody>
@@ -120,7 +116,7 @@ function ShowCandidature(props) {
     return (
         <>
             <td>{props.candidature.stage.titre}</td>
-            <td>{props.candidature.statut}</td>
+            <td className={props.candidature.stage.statut}>{props.candidature.statut}</td>
             <td>{props.candidature.stage.programme}</td>
             <td>{props.candidature.stage.ville}</td>
             <td>
