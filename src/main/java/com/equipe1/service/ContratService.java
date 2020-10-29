@@ -32,4 +32,9 @@ public class ContratService {
     public List<Contrat> findAll() {
         return contratRepository.findAll();
     }
+
+    public Contrat findById(Long id) {
+        return contratRepository.findById(id)
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Invalid Contrat id %s",id)));
+    }
 }

@@ -8,7 +8,7 @@ import ContratService from '../../service/ContratService';
 export default function Telecharger(props) {
 
     const clickHandle = () => {
-       ContratService.getDocumentContrat(props.path).then((response) => {
+       ContratService.telechargerDocument(props.path).then((response) => {
             sauvegarderEtMontrerDoc(response)
         });
     }

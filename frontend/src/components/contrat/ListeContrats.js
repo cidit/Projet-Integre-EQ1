@@ -6,6 +6,7 @@ import ContratService from "../../service/ContratService";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Telecharger from '../utils/telecharger'
 import IsLoading from '../utils/IsLoading'
+import useListeContrats from "./useListeContrats";
 
 
 const url = 'http://localhost:8080/contrats/getContatFile/';
@@ -23,12 +24,15 @@ function ListeContrats() {
     doFetch();
     return () => {
     }
-  }, [])
+  }, [contrats])
 
 
   if(isLoading){
     return <IsLoading/>
   }
+
+
+  const {contratsList, error, isLoading,isEmployeur, isEtudiant }= useListeContrats();
 
   return (
     <div>
@@ -47,15 +51,12 @@ function ListeContrats() {
               <tr key={data.id}>
                 <td>{data.id}</td>
                 <td>{data.dateGeneration}</td>
-                <Telecharger path={url+ data.id} />
+                <Telecharger path={data.id} />
               </tr>
           )}
         </tbody>
       </table>
     </div>
   )
-
-
-
 };
 export default ListeContrats; 

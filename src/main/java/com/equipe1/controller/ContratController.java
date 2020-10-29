@@ -41,29 +41,12 @@ public class ContratController {
     EmployeurRepository employeurRepository;
 
 
-  /* @GetMapping("/pdf")
-    public ResponseEntity<ByteArrayOutputStream> contratAppercue(){
-        Optional<Stage> stage = stageRepository.findById(5L);
-
-        GenerateurPdf generateurPdf = new GenerateurPdf();
-
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource((generateurPdf.createPdf(stage.get()).toByteArray()));
-
-                courrielService.sendMail2(user,g.createPdf(s));
-
-    }*/
-
+    //harcoding
      @GetMapping("/pdf")
      public ResponseEntity<InputStreamResource>  ersourceyes () throws Exception {
-
          Etudiant etudiantTest = etudiantRepository.findByEmail("richard@email.com");
          Employeur employeurTest = employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
          Optional<Stage> stageTest = stageRepository.findById(6L);
-
-
 
          byte [] pdfile= generateurPdfService.createPdf(stageTest.get(), employeurTest, etudiantTest).toByteArray();
 
@@ -78,14 +61,11 @@ public class ContratController {
      }
 
 
-    @GetMapping("/getContatFile/{id}")
+    @GetMapping("/getContratFile/{id}")
     public ResponseEntity<byte[]> getContratById(@PathVariable Long id) throws Exception {
         Contrat contrat = contratService.getContratById(id);
-
         byte [] pdfile = contrat.getDocumentContrat();
-
         InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(pdfile));
-
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.valueOf("application/pdf"));
         header.setContentLength(pdfile.length);
@@ -96,6 +76,11 @@ public class ContratController {
     @GetMapping(value = "findAll")
     public List<Contrat> getContrats (){
          return contratService.findAll();
+    }
+
+    @GetMapping(value = "getContratById/{id}")
+    public Contrat getById(@PathVariable Long id){
+         return contratService.getContratById(id);
     }
 
 
