@@ -97,6 +97,7 @@ public class StageService {
         optionalStage.get().setProgramme(newStage.getProgramme());
         optionalStage.get().setSalaire(newStage.getSalaire());
         return stageRepository.save(optionalStage.get());
+
     }
 
     public Stage updateStatus(Stage newStage, long id) throws Exception {

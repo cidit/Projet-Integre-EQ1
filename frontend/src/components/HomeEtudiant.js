@@ -74,6 +74,7 @@ export default class HomeEtudiant extends Component {
         return true;
 
     }
+
     handleSubmit(event) {
         event.preventDefault()
         var idEtudiant;

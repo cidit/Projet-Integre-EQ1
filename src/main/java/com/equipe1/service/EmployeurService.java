@@ -25,7 +25,8 @@ public class EmployeurService {
     }
 
     public Employeur getEmployeurById(Long idEmployeur){
-        return employeurRepo.findById(idEmployeur).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Invalid Employeur id %s",idEmployeur)));
+        return employeurRepo.findById(idEmployeur)
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Invalid Employeur id %s",idEmployeur)));
     }
 
     public Employeur getEmployeurByEmail(String email){

@@ -1,14 +1,24 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
+<<<<<<< HEAD
 import com.equipe1.repository.*;
+=======
+import com.equipe1.repository.EmployeurRepository;
+import com.equipe1.repository.EtudiantRepository;
+import com.equipe1.repository.StageRepository;
+>>>>>>> eq1-106-carlos
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+<<<<<<< HEAD
 import java.time.LocalDateTime;
 import java.util.*;
+=======
+import java.util.Optional;
+>>>>>>> eq1-106-carlos
 
 @Component
 public class InsertDataService {
@@ -19,6 +29,9 @@ public class InsertDataService {
     private EmployeurRepository employeurRepository;
     @Autowired
     private StageService stageService;
+
+    @Autowired
+    StageRepository stageRepository;
     @Autowired
     private  GestionnaireService gestionnaireService;
     @Autowired
@@ -27,6 +40,28 @@ public class InsertDataService {
     private CandidatureRepository candidatureRepository;
     @Autowired
     private CandidatureService candidatureService;
+
+    @Autowired
+    private ContratService contratService;
+
+    @Autowired
+    GenerateurPdfService generateurPdfService;
+
+    @Transactional
+    public void insertContrat() throws Exception {
+        Etudiant etudiantTest= etudiantRepository.findByEmail("richard@email.com");
+        Employeur employeurTest= employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
+        Optional<Stage> stageTest = stageRepository.findById(6L);
+
+
+        Contrat contrat = new Contrat();
+        contrat.setEmployeur(employeurTest);
+        contrat.setEtudiant(etudiantTest);
+        contrat.setDocumentContrat(generateurPdfService.createPdf(stageTest.get(),employeurTest,etudiantTest).toByteArray());
+
+        contratService.saveContrat(contrat);
+        etudiantTest.setContrat(contrat);
+    }
 
     @Transactional
     public void insertEtudiant(){
@@ -71,7 +106,7 @@ public class InsertDataService {
     @Transactional
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
-        e1.setEmail("carlos.arturo.ortiz.celis@gmail.com");
+        e1.setEmail("carlos.test@gmail.com");
         e1.setPassword("12345");
         e1.setAdresse("12345");
         e1.setNom("Banque1");

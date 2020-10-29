@@ -1,5 +1,6 @@
 package com.equipe1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,10 @@ public class Candidature {
     @OneToOne
     private Stage stage;
     private CandidatureStatut statut;
+
+
+    @OneToOne
+    private Contrat contrat;
 
     public CandidatureStatut getStatut() {
         return statut;

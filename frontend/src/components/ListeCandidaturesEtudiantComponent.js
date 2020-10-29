@@ -16,8 +16,9 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             showSnackbar: false,
             disabledAllButtons: false,
         };
-        
+
         ShowCandidature = ShowCandidature.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     async componentDidMount() {
@@ -26,12 +27,14 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             id = localStorage.getItem("id");
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
-
-        var candidature = new Candidature();
+        var candidature;
         candidature = await CandidatureService.getCandidatureChoisi(id);
         if (candidature !== null) {
             this.setState({ disabledAllButtons: true });
         }
+    }
+    handleSubmit(event) {
+        event.preventDefault()
     }
     
     handleCloseSnackbar = () => this.setState({showSnackbar: false});

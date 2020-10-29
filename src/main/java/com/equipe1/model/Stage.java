@@ -29,9 +29,11 @@ public class Stage {
     private StageStatus statut;
     private int salaire;
 
-
     @ManyToMany
     private Set<Etudiant> etudiantsAdmits;
+
+    //@OneToMany(mappedBy = "stage")
+    //private Set<Etudiant> etudiant;
 
     public Stage() {
         this.isOuvert = false;
@@ -41,4 +43,7 @@ public class Stage {
     public enum StageStatus {
         WAITING, APPROVED, DENIED
     }
+
+
+
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -18,7 +19,6 @@ public class Etudiant extends User {
 
     {
         this.desc = "Etudiant";
-
     }
 
     @NotBlank
@@ -38,4 +38,7 @@ public class Etudiant extends User {
     @OneToOne
     private CV cv;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "etudiant")
+    private Contrat contrat;
 }
