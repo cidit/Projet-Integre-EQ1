@@ -58,6 +58,18 @@ class CandidatureService{
         console.log(data);
         return data;
     }
+
+    async getAllChoisis(){
+        let data;
+        await fetch(baseURL +"/getAllChoisis", {method: "GET"} )
+            .then(r => data = r.json())
+            .catch(error => data = {});
+        return data;
+    }
+
+    async getCandidaturesChoisis() {
+        return await axios.get(baseURL +"/getAllChoisis");
+    }
 }
 
 export default new CandidatureService()

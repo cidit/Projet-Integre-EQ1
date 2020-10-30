@@ -26,22 +26,19 @@ public class ContratController {
 
     @Autowired
     private ContratService contratService;
-
     @Autowired
     StageRepository stageRepository;
     @Autowired
     CourrielService courrielService;
-
     @Autowired
     GenerateurPdfService generateurPdfService;
-
     @Autowired
     EtudiantRepository etudiantRepository;
     @Autowired
     EmployeurRepository employeurRepository;
 
 
-    //harcoding
+    //harcoding for test
      @GetMapping("/pdf")
      public ResponseEntity<InputStreamResource>  ersourceyes () throws Exception {
          Etudiant etudiantTest = etudiantRepository.findByEmail("richard@email.com");
@@ -59,7 +56,6 @@ public class ContratController {
                  .body(resource);
 
      }
-
 
     @GetMapping("/getContratFile/{id}")
     public ResponseEntity<byte[]> getContratById(@PathVariable Long id) throws Exception {
@@ -94,11 +90,4 @@ public class ContratController {
         Optional<Etudiant> etudiant = etudiantRepository.findById(id);
         return contratService.getContratsByEtudiantChoisi(etudiant.get());
     }
-
-
-
-
-
-
-
 }

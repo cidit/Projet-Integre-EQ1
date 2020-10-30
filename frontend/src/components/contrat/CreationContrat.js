@@ -8,32 +8,25 @@ import Telecharger from '../utils/telecharger'
 import CandidatureService from '../../service/CandidatureService'
 import ApercuContrat from './ApercuContrat'
 import Televerser from './Televerser'
+import ListCandidatureChoisi from './ListCandidatureChoisi'
 
 import SauvegarderContrat from './Testdeq'
+import ChoisirTemplateContrat from "./ChoisirTemplateContrat";
 
 function CreationContrat() {
-  const [candidatures, setCandidatures] = useState([]);
-  const [isLoading, setIsloading] = useState(true);
 
-  const getAllCandidature = async () => {
-    const response = CandidatureService.getAllChoisis();
-    setCandidatures(response.data);
-  }
-
-  useEffect(() => {
-    getAllCandidature();
-
-    return () => {
-    }
-  }, [])
 
 
   return (
     <div className="container-fluid">
+<div className="row">
+  <ListCandidatureChoisi/>
+</div>
+
       <div className="row aling-items-center">
         <div className="col-sm-6">
 
-          <ApercuContrat />
+          <ChoisirTemplateContrat/>
 
         </div>
 

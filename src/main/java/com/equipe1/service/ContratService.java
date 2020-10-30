@@ -49,12 +49,14 @@ public class ContratService {
                 contratSignatureEmployeurOk.add(candidatureTmp.getContrat());
             }
         }
+
         return contratSignatureEmployeurOk;
     }
 
     private boolean isSigneParEmployeur(Etudiant etudiant, Candidature candidatureTmp) {
         return candidatureTmp.getEtudiant().equals(etudiant)
                 && candidatureTmp.getContrat() != null
-                && candidatureTmp.getContrat().isSignatureEmployeur();
+                && candidatureTmp.getContrat().getSignatureEmployeur() !=null
+                &&candidatureTmp.getContrat().getSignatureEmployeur().equals(Contrat.SignatureEtat.SIGNE);
     }
 }
