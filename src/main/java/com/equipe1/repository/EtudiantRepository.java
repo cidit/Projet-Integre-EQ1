@@ -16,6 +16,4 @@ public interface EtudiantRepository extends JpaRepository<Etudiant, Long> {
     Etudiant findByEmail(String email);
 
     List<Etudiant> findAllByProgramme(String programme);
-
-    Contrat findByContrat(Contrat contrat);
 }

@@ -38,7 +38,4 @@ public class Etudiant extends User {
     @OneToOne
     private CV cv;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "etudiant")
-    private Contrat contrat;
 }

@@ -23,13 +23,6 @@ public class Employeur extends User{
     }
     private String adresse;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "employeur")
-    private Set<Stage> stage;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "employeur")
-    private Set<Contrat> contrat;
 
     private String nom;
 

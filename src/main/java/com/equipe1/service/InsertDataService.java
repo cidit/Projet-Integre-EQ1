@@ -54,7 +54,7 @@ public class InsertDataService {
         contrat.setDocumentContrat(generateurPdfService.createPdf(stageTest.get(),employeurTest,etudiantTest).toByteArray());
 
         contratService.saveContrat(contrat);
-        etudiantTest.setContrat(contrat);
+        //etudiantTest.setContrat(contrat);
     }
 
     @Transactional
@@ -118,7 +118,7 @@ public class InsertDataService {
 
     @Transactional
     public void insertStage(){
-        Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.arturo.ortiz.celis@gmail.com");
+        Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
 
         Stage stage1 = new Stage();
         stage1.setTitre("Stage_1");
@@ -203,7 +203,7 @@ public class InsertDataService {
 
     @Transactional
     public void insertCandidature(){
-        Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.arturo.ortiz.celis@gmail.com");
+        Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
 
         Stage stage1 = new Stage();
         stage1.setTitre("stage_dummy1");
