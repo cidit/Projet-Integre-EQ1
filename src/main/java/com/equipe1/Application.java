@@ -5,28 +5,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 @SpringBootApplication
 public class Application {
 
-	@Autowired
-	private InsertDataService service;
+    @Autowired
+    private InsertDataService service;
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
-	@Bean
-	CommandLineRunner commandLineRunner(){
-		return new CommandLineRunner() {
-			@Override
-			public void run(String... args) throws Exception {
-				service.insertEtudiant();
-				service.insertEmployeur();
-				service.insertStage();
-				service.insertGestionnaire();
-			}
-		};
-	}
+    @Bean
+    CommandLineRunner commandLineRunner() {
+        return new CommandLineRunner() {
+            @Override
+            public void run(String... args) throws Exception {
+                service.insertEtudiant();
+                service.insertEmployeur();
+                service.insertStage();
+                service.insertGestionnaire();
+            }
+        };
+    }
+
+//    @Scheduled
+//    void updateEtudiantEnregistré() {
+//
+//    }
+}
+
+@Configuration
+@EnableScheduling
+@ConditionalOnProperty(name = "scheduling.enabled", matchIfMissing = true)
+class SchedulingConfiguration {
 }
