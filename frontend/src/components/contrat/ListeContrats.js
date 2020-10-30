@@ -7,6 +7,10 @@ const url = 'http://localhost:8080/contrats/getContatFile/';
 
 function ListeContrats(props) {
 
+
+
+  console.log(props.contrat);
+
   return (
 
    

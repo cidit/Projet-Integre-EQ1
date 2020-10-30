@@ -32,21 +32,12 @@ public class InsertDataService {
     @Autowired
     GenerateurPdfService generateurPdfService;
 
-    @Transactional
-    public void insertContrat() throws Exception {
-        Etudiant etudiantTest= etudiantRepository.findByEmail("richard@email.com");
-        Employeur employeurTest= employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
-        Optional<Stage> stageTest = stageRepository.findById(6L);
+    @Autowired
+    private CandidatureService candidatureService;
 
 
-        Contrat contrat = new Contrat();
-        contrat.setEmployeur(employeurTest);
-        contrat.setEtudiant(etudiantTest);
-        contrat.setDocumentContrat(generateurPdfService.createPdf(stageTest.get(),employeurTest,etudiantTest).toByteArray());
 
-        contratService.saveContrat(contrat);
-        etudiantTest.setContrat(contrat);
-    }
+
 
     @Transactional
     public void insertEtudiant(){
@@ -184,5 +175,50 @@ public class InsertDataService {
         g1.setPassword("123456");
         g1.setTelephone("555-555-5555");
         gestionnaireService.saveGestionnaire(g1);
+    }
+
+    @Transactional
+    public void insertCandidature(){
+        Etudiant etudiantTest= etudiantRepository.findByEmail("richard@email.com");
+        Etudiant etudiantTest2= etudiantRepository.findByEmail("alex@email.com");
+        Employeur employeurTest= employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
+        Optional<Stage> stageTest = stageRepository.findById(6L);
+        Optional<Stage> stageTest2 = stageRepository.findById(7L);
+
+        Candidature c = new Candidature();
+        c.setEtudiant(etudiantTest);
+        c.setStage(stageTest.get());
+
+        candidatureService.save(c);
+
+
+        c.setEtudiant(etudiantTest2);
+        c.setStage(stageTest2.get());
+
+        candidatureService.save(c);
+    }
+    @Transactional
+    public void insertContrat() throws Exception {
+        Etudiant etudiantTest= etudiantRepository.findByEmail("richard@email.com");
+        Etudiant etudiantTest2= etudiantRepository.findByEmail("alex@email.com");
+        Employeur employeurTest= employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
+        Optional<Stage> stageTest = stageRepository.findById(6L);
+
+        Contrat contrat = new Contrat();
+        contrat.setEmployeur(employeurTest);
+       // contrat.setEtudiant(etudiantTest);
+        contrat.setSignatureEmployeur(true);
+        contrat.setDocumentContrat(generateurPdfService.createPdf(stageTest.get(),employeurTest,etudiantTest).toByteArray());
+
+        contratService.saveContrat(contrat);
+
+        //deuxieme pour test
+        Contrat contrat2 = new Contrat();
+        contrat2.setEmployeur(employeurTest);
+       // contrat2.setEtudiant(etudiantTest2);
+        contrat2.setDocumentContrat(generateurPdfService.createPdf(stageTest.get(),employeurTest,etudiantTest).toByteArray());
+
+        contratService.saveContrat(contrat2);
+
     }
 }

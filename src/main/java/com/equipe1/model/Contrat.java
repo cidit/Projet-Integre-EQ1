@@ -14,12 +14,9 @@ public class Contrat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "contrat")
-    private Candidature candidature;
 
     @OneToOne
-    private Etudiant etudiant;
+    private Candidature candidature;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Employeur employeur;

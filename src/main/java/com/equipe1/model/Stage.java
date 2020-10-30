@@ -16,6 +16,7 @@ public class Stage {
     private String titre;
     @ManyToOne(fetch = FetchType.LAZY)
     private Employeur employeur;
+
     private String description;
     private String exigences;
     private LocalDate dateDebut;
@@ -44,6 +45,22 @@ public class Stage {
         WAITING, APPROVED, DENIED
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Stage{" +
+                "titre='" + titre + '\'' +
+                ", description='" + description + '\'' +
+                ", exigences='" + exigences + '\'' +
+                ", dateDebut=" + dateDebut +
+                ", dateFin=" + dateFin +
+                ", dateLimiteCandidature=" + dateLimiteCandidature +
+                ", nbHeuresParSemaine=" + nbHeuresParSemaine +
+                ", nbAdmis=" + nbAdmis +
+                ", isOuvert=" + isOuvert +
+                ", programme='" + programme + '\'' +
+                ", ville='" + ville + '\'' +
+                ", statut=" + statut +
+                ", salaire=" + salaire +
+                '}';
+    }
 }

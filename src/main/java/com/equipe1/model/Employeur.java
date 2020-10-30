@@ -40,4 +40,16 @@ public class Employeur extends User{
         this.adresse = adresse;
     }
 
+    @Override
+    public String toString() {
+        return "Employeur{" +
+                "adresse='" + adresse + '\'' +
+                ", nom='" + nom + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", desc='" + desc + '\'' +
+                ", nom='" + nom + '\'' +
+                '}';
+    }
 }

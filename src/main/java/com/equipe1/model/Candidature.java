@@ -24,8 +24,8 @@ public class Candidature {
     private Stage stage;
     private String statut;
 
-
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(mappedBy = "candidature")
     private Contrat contrat;
 
     public String getStatut() {

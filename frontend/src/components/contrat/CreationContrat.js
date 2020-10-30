@@ -5,25 +5,48 @@ import Contrat from '../../model/Contrat'
 import ContratService from "../../service/ContratService";
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Telecharger from '../utils/telecharger'
-import Paper from '@material-ui/core'
+import CandidatureService from '../../service/CandidatureService'
+import ApercuContrat from './ApercuContrat'
+import Televerser from './Televerser'
 
 import SauvegarderContrat from './Testdeq'
 
 function CreationContrat() {
-  const [contrats, setContrat] = useState([]);
+  const [candidatures, setCandidatures] = useState([]);
   const [isLoading, setIsloading] = useState(true);
 
+  const getAllCandidature = async () => {
+    const response = CandidatureService.getAll();
+    setCandidatures(response.data);
+  }
+
   useEffect(() => {
+    getAllCandidature();
 
     return () => {
     }
   }, [])
 
 
-  return ( 
-    <div>
-      
-      <Paper elevation={3} variant="outlined"><SauvegarderContrat/></Paper ></div>
+  return (
+    <div className="container-fluid">
+      <div className="row aling-items-center">
+        <div className="col-sm-6">
+
+          <ApercuContrat />
+
+        </div>
+
+        <div className="col-sm-6">
+
+          <Televerser />
+
+        </div>
+      </div>
+
+
+
+    </div>
   )
 
 

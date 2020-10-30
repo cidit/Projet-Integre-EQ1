@@ -63,5 +63,9 @@ public class CandidatureService {
         return candidatureRepository.save(updatedCandidature);
     }
 
+    public Candidature save(Candidature candidature){
+        return candidatureRepository.save(candidature);
+    }
+
 
 }

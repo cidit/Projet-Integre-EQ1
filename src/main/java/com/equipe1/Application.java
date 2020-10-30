@@ -26,7 +26,9 @@ public class Application {
 				service.insertEmployeur();
 				service.insertStage();
 				service.insertGestionnaire();
+				service.insertCandidature();
 				service.insertContrat();
+
 			}
 		};
 	}

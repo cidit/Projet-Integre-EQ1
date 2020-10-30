@@ -90,9 +90,9 @@ public class ContratController {
     }
 
     @GetMapping(value = "getByEtudiantId/{id}")
-    public Contrat getContratsByEtudiant (@PathVariable Long id){
+    public List<Contrat> getContratsByEtudiant (@PathVariable Long id){
         Optional<Etudiant> etudiant = etudiantRepository.findById(id);
-        return contratService.getContratsByEtudaint(etudiant.get());
+        return contratService.getContratsByEtudiantChoisi(etudiant.get());
     }
 
 
