@@ -7,7 +7,6 @@ class HomeEmployeur extends Component {
         super(props);
         this.state = { employeur: {}, createStage: false };
         this.handleCreateStage = this.handleCreateStage.bind(this)
-
     }
 
     async componentDidMount() {

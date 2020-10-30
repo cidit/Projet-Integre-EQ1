@@ -28,7 +28,7 @@ export default class ApplicationStageComponent extends Component {
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);
         this.setState({etudiant: etudiant});
         StageService.getStagesEtudiant(id).then((res) => { this.setState({ stages: res.data }) })
-        if (this.state.etudiant.cv === undefined){
+        if (this.state.etudiant.cv === undefined || this.state.etudiant.cv === null){
             this.setState({ hasValidCV: false});
         }
         else {
