@@ -14,7 +14,6 @@ public class Contrat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @OneToOne
     private Candidature candidature;
 
@@ -24,6 +23,8 @@ public class Contrat {
     @Lob
     @Column(columnDefinition = "BLOB")
     private byte[] documentContrat;
+
+
     private LocalDate dateGeneration;
     private LocalDate dateFinale;
     private boolean signatureAdmin;

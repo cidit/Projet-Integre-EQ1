@@ -8,6 +8,7 @@ export default class ListEtudiantsComponent extends Component {
         super(props);
         this.state = { etudiants: [], filter: '', statut: '', idEtudiant: '', isCVApprouve: false};
         this.handleSubmit = this.handleSubmit.bind(this)
+
     }
 
     handleSubmit(event, isValid, id){
@@ -16,10 +17,10 @@ export default class ListEtudiantsComponent extends Component {
         window.location.reload();
     }
     renderColonneApprobation(etudiant){
-        if (etudiant.cv == null){
+        if (etudiant.cv === null){
             return <p> Pas de CV</p>
         }
-        if (etudiant.cv.status == 'APPROVED'){
+        if (etudiant.cv.status === 'APPROVED'){
             return <p>Approuvé</p>
         }
         if (etudiant.cv.status = 'UNREVIEWED') {
@@ -32,27 +33,16 @@ export default class ListEtudiantsComponent extends Component {
             )
         }
     }
-    downloadCV = (idEtudiant) => {
-            const method = 'GET';
-            const url = 'http://localhost:8080/cvs/get/' + idEtudiant;
-            return () => {
-                axios
-                    .request({
-                        url,
-                        method,
-                        responseType: 'blob',
-                    })
-                    .then(({data}) => {
-                        const downloadUrl = window.URL.createObjectURL(new Blob([data]));
-                        const link = document.createElement('a');
-                        link.href = downloadUrl;
-                        link.setAttribute('download', "etudiant" + idEtudiant + ".pdf"); //any other extension
-                        document.body.appendChild(link);
-                        link.click();
-                        link.remove();
-                    });
-            }
-    }
+     downloadCV (etudiant) {
+                CVService.getCVByEtudiant(etudiant).then((data) => {
+                    const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+                    const link = document.createElement('a');
+                    link.href = downloadUrl;
+                    link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
+                    document.body.appendChild(link);
+                    link.click();
+                });
+        }
 
     handleChangeText = event => {
         this.setState({ filter: event.target.value });
@@ -130,7 +120,7 @@ export default class ListEtudiantsComponent extends Component {
                                         <td>{etudiant.telephone}</td>
                                         <td>{etudiant.statutStage}</td>
                                         <td>
-                                            {etudiant.cv != null ?<button onClick={this.downloadCV(etudiant.id)} className="btn btn-primary">Telecharger</button>
+                                            {etudiant.cv != null ?<button onClick={() => this.downloadCV(etudiant)} className="btn btn-primary">Telecharger</button>
                                                 : <p>Pas de CV</p>}<br/>
                                         </td>
                                         <td>

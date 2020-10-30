@@ -1,23 +1,19 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import StageService from '../../service/StageService';
-
 
 export default class ListStagesEmployeur extends Component {
     constructor(props) {
         super(props);
         this.state = {
             stage: [],
+            candidatures:[],
             employeurId: ""
         };
 
-        this.addStage = this.addStage.bind(this);
     }
-
-    addStage() {
-
-        this.props.history.push('/createStage')
+    handleClick(id){
+        this.props.history.push('/stageSelectStagiaire/' + id);
     }
-
     componentDidMount() {
         var id;
         if (localStorage.getItem("desc") === "Employeur")
@@ -41,11 +37,12 @@ export default class ListStagesEmployeur extends Component {
                                         <th> Titre </th>
                                         <th> Programme </th>
                                         <th> Description </th>
-                                        <th> date Début </th>
-                                        <th> date Finale </th>
+                                        <th> Date de début </th>
+                                        <th> Date de fin </th>
                                         <th> Ville </th>
                                         <th> Heures par semaine </th>
-                                        <th> Veto </th>
+                                        <th> Statut </th>
+                                        <th> Choisir un stagiaire </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,6 +56,13 @@ export default class ListStagesEmployeur extends Component {
                                                 <td>{stage.dateFin}</td>
                                                 <td>{stage.ville}</td>
                                                 <td>{stage.nbHeuresParSemaine}</td>
+                                                <td>{stage.statut}</td>
+                                                <td>
+                                                    {stage.statut == 'APPROVED' ? <button className="btn btn-primary" onClick={() => this.handleClick(stage.id)} >
+                                                        Choisir
+                                                    </button> : <p>Stage non approuvé</p> }
+
+                                                </td>
                                             </tr>
                                     )}
                                 </tbody>
@@ -71,4 +75,3 @@ export default class ListStagesEmployeur extends Component {
         );
     }
 }
-

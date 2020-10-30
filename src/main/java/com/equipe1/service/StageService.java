@@ -43,7 +43,7 @@ public class StageService {
         List<Stage> stages = new ArrayList<>();
 
         for (Stage stageTemp : stageRepository.findAll()) {
-            System.out.println("getEmployeur : " + stageTemp.getEmployeur());
+            System.out.println("getEmployeur : " + stageTemp);
             System.out.println("employeurById : " + employeur);
             if (stageTemp.getEmployeur().getId() == employeur.getId()) {
                 stages.add(stageTemp);

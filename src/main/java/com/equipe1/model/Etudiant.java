@@ -38,7 +38,4 @@ public class Etudiant extends User {
     @OneToOne
     private CV cv;
 
-   // @ManyToOne(fetch = FetchType.LAZY)
-   // private Stage stage;
-
 }

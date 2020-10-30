@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Employeur from '../model/Employeur';
 import EmployeurService from '../service/EmployeurService'
 import CreateStageComponent from './stage/CreateStageComponent';
-import { Link } from 'react-router-dom';
 
 class HomeEmployeur extends Component {
     constructor(props) {

@@ -23,14 +23,6 @@ export default class ListStagesComponent extends Component {
         })
     }
 
-    findStage(id) {
-        for (let i = 0; i < this.state.stage.length; i++) {
-            if (this.state.stage[i].id === id) {
-                return this.state.stage[i]
-            }
-        }
-    }
-
     handleCloseSnackbar = () => this.setState({showSnackbar: false});
     handleShowSnackbar = () => this.setState({showSnackbar: true});
 
@@ -87,6 +79,7 @@ function ShowStage(props) {
     const handleShowModal = () => setShowModal(true);
 
     const handleShowSnackbar = () => this.handleShowSnackbar();
+    console.log(props);
 
     function toggleBtns(isApprouved) {
         document.getElementsByName(approuved)[0].disabled = isApprouved

@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
@@ -51,8 +52,8 @@ public class CandidatureServiceTest {
         e1 = new Etudiant();
         e1.setId(2L);
         etudiantRepository.save(e1);
-        c1 = new Candidature(e1, new Stage(), "En cours");
-        c2 = new Candidature(new Etudiant(), new Stage(), "Admis");
+        c1 = new Candidature(e1, new Stage());
+        c2 = new Candidature(new Etudiant(), new Stage());
         s = new Stage();
         e = new Etudiant();
         c = new Candidature();
@@ -60,7 +61,6 @@ public class CandidatureServiceTest {
         e.setPrenom("toto");
         e.setNom("toto");
         e.setMatricule("12345");
-        e.setStatutStage("e1@email.com");
         e.setProgramme("Programme1");
         e.setAdresse("123 Rue Bidon");
         s.setId(4L);
@@ -121,16 +121,86 @@ public class CandidatureServiceTest {
         Assertions.assertEquals(candidatures.size(), 1);
         Assertions.assertEquals(candidatures.get(0).getStage(), stage);
     }
+    @Test
+    public void testFindCandidatureByStage(){
+        // Arrange
+        List<Candidature> candidatureList = new ArrayList<>();
+        doReturn(s).when(stageRepository).save(any());
+        doReturn(e).when(etudiantRepository).save(any());
+        doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
+        doReturn(Optional.of(e)).when(etudiantRepository).findById(e.getId());
+        c = candidatureService.createCandidature(e.getId(), s.getId());
+        doReturn(c).when(candidatureRepository).save(any());
+        candidatureList.add(c);
+        Stage stage = stageRepository.save(s);
+        doReturn(candidatureList).when(candidatureRepository).findAll();
+        // Act
+        List<Candidature> candidatures = candidatureService.findCandidatureByStage(stage.getId());
+        // Assert
+        Assertions.assertNotNull(candidatures);
+        Assertions.assertEquals(candidatures.size(), 1);
+        Assertions.assertEquals(candidatures.get(0).getStage(), stage);
+    }
 
     @Test
-    public void testUpdateCandidature() {
+    public void testUpdateCandidatureApprouve() throws Exception {
         c1.setId(1L);
         when(candidatureRepository.save(c1)).thenReturn(c1);
         candidatureRepository.save(c1);
         when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
         when(candidatureRepository.save(c2)).thenReturn(c2);
-        Candidature c3 = candidatureService.updateCandidature(c2, 1L);
-        assertEquals(c3.getStatut(), "Admis");
+        Candidature c3 = candidatureService.updateCandidatureApprouve(c2.getId());
+        // Assert
+        assertEquals(c3.getStatut(), Candidature.CandidatureStatut.APPROUVE);
     }
 
+    @Test
+    public void testUpdateCandidatureChoisi() {
+        c1.setId(1L);
+        when(candidatureRepository.save(c1)).thenReturn(c1);
+        candidatureRepository.save(c1);
+        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
+        when(candidatureRepository.save(c2)).thenReturn(c2);
+        Candidature candidature = candidatureService.updateCandidatureChoisi(1L);
+        // Assert
+        assertEquals(candidature.getStatut(), Candidature.CandidatureStatut.CHOISI);
+    }
+
+    @Test
+    public void testGetCandidatureChoisiValid() {
+        // Arrange
+        doReturn(s).when(stageRepository).save(any());
+        doReturn(e).when(etudiantRepository).save(any());
+        Stage stage = stageRepository.save(s);
+        Etudiant etudiant = etudiantRepository.save(e);
+        doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
+        doReturn(Optional.of(e)).when(etudiantRepository).findById(e.getId());
+        doReturn(Optional.of(c)).when(candidatureRepository).findById(c.getId());
+        doReturn(c).when(candidatureRepository).save(any());
+
+        Candidature candidature = candidatureService.createCandidature(e.getId(), s.getId());
+        Candidature candidatureUpdated = candidatureService.updateCandidatureChoisi(candidature.getId());
+        // Act
+        when(candidatureRepository.findCandidatureByEtudiant_Id(etudiant.getId(), Candidature.CandidatureStatut.CHOISI))
+                .thenReturn(Optional.of(candidatureUpdated));
+
+        Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(etudiant.getId());
+        // Assert
+        assertEquals(candidatureUpdated.getStatut(), Candidature.CandidatureStatut.CHOISI);
+        assertTrue(optionalCandidature.isPresent());
+        assertEquals(optionalCandidature.get().getStatut(), Candidature.CandidatureStatut.CHOISI);
+    }
+
+    @Test
+    public void testGetCandidatureChoisiInvalid() {
+        // Arrange
+        doReturn(e).when(etudiantRepository).save(any());
+        Etudiant etudiant = etudiantRepository.save(e);
+        // Act
+        when(candidatureRepository.findCandidatureByEtudiant_Id(etudiant.getId(), Candidature.CandidatureStatut.CHOISI))
+                .thenReturn(Optional.empty());
+        Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(etudiant.getId());
+        // Assert
+        assertFalse(optionalCandidature.isPresent());
+    }
 }

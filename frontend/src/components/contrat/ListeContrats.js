@@ -49,8 +49,8 @@ function ListeContrats(props) {
                     <tr key={data.id}>
                       <td>{data.id}</td>
                       <td>{data.employeur.nom}</td>
-                      <td>{data.etudiant.nom}</td>
-                      <td>{data.etudiant.programme}</td>
+                      <td>{data.candidature.etudiant.nom}</td>
+                      <td>{data.candidature.etudiant.programme}</td>
                       {data.signatureEmployeur ?
                         <td style={{color:"green"}} >Signé</td>
                         :

@@ -3,16 +3,12 @@ package com.equipe1.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Candidature {
     @Id
@@ -22,17 +18,17 @@ public class Candidature {
     private Etudiant etudiant;
     @OneToOne
     private Stage stage;
-    private String statut;
+    private CandidatureStatut statut;
 
     @JsonIgnore
     @OneToOne(mappedBy = "candidature")
     private Contrat contrat;
 
-    public String getStatut() {
+    public CandidatureStatut getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(CandidatureStatut statut) {
         this.statut = statut;
     }
 
@@ -40,10 +36,14 @@ public class Candidature {
         return id;
     }
 
-    public Candidature(Etudiant etudiant, Stage stage, String statut) {
+    public Candidature() {
+        this.statut = CandidatureStatut.EN_ATTENTE;
+    }
+
+    public Candidature(Etudiant etudiant, Stage stage) {
         this.etudiant = etudiant;
         this.stage = stage;
-        this.statut = statut;
+        this.statut = CandidatureStatut.EN_ATTENTE;
     }
 
     public void setId(Long id) {
@@ -64,5 +64,9 @@ public class Candidature {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public enum CandidatureStatut {
+        EN_ATTENTE, REFUSE, CHOISI, APPROUVE
     }
 }

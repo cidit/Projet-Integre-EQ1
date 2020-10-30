@@ -3,6 +3,7 @@ import axios from 'axios'
 const STAGE_ETUDIANTS_URL_PUT = "http://localhost:8080/stages/updateEtudiantsAdmits/";
 const STAGES_URL = "http://localhost:8080/stages";
 const STAGES_URL_POST = "http://localhost:8080/stages/createStage";
+const STAGES_URL_ACCEPTER = "http://localhost:8080/stageAccepter/create";
 
 class StageService{
 

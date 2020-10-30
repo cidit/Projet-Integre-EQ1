@@ -35,15 +35,35 @@ public class CandidatureController {
     public List<Candidature> getCandidatureByEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
         return candidatureService.findCandidatureByEtudiant(idEtudiant);
     }
-
+    @GetMapping("getByStage")
+    public List<Candidature> getCandidatureByStage(@RequestParam("idStage") Long idStage){
+        return candidatureService.findCandidatureByStage(idStage);
+    }
 
     @PostMapping("createCandidature")
     public Candidature createCandidature(@RequestParam("idEtudiant") Long idEtudiant, @RequestParam("idStage") Long idStage){
         return candidatureService.createCandidature(idEtudiant, idStage);
     }
 
-    @PutMapping("update/{id}")
-    public Candidature updateCandidature(@Valid @RequestBody Candidature candidature, @PathVariable Long id) {
-        return candidatureService.updateCandidature(candidature, id);
+
+    @PutMapping("updateChoisi/{id}")
+    public Candidature updateCandidatureChoisi(@PathVariable Long id) throws Exception {
+        return candidatureService.updateCandidatureChoisi(id);
+    }
+
+    @PutMapping("updateApprouve/{id}")
+    public Candidature updateCandidatureApprouve(@PathVariable Long id) throws Exception {
+        return candidatureService.updateCandidatureApprouve(id);
+    }
+
+
+    @GetMapping("getChoisi/{id}")
+    public Optional<Candidature> getCandidatureChoisi(@PathVariable Long id) {
+        return candidatureService.getCandidatureChoisi(id);
+    }
+
+    @GetMapping("getAllChoisis")
+    public List<Candidature> getAllCandidatureChoisi() {
+        return candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI);
     }
 }

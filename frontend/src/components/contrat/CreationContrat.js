@@ -16,7 +16,7 @@ function CreationContrat() {
   const [isLoading, setIsloading] = useState(true);
 
   const getAllCandidature = async () => {
-    const response = CandidatureService.getAll();
+    const response = CandidatureService.getAllChoisis();
     setCandidatures(response.data);
   }
 

@@ -44,11 +44,17 @@ public class ContratService {
     public List<Contrat> getContratsByEtudiantChoisi(Etudiant etudiant) {
         List<Contrat> contratSignatureEmployeurOk = new ArrayList<>();
 
-        for (Candidature contr: candidatureRepository.findAll()) {
-            if(contr.getContrat().isSignatureEmployeur()){
-                contratSignatureEmployeurOk.add(contr.getContrat());
+        for (Candidature candidatureTmp: candidatureRepository.findAll()) {
+            if(isSigneParEmployeur(etudiant, candidatureTmp)){
+                contratSignatureEmployeurOk.add(candidatureTmp.getContrat());
             }
         }
         return contratSignatureEmployeurOk;
+    }
+
+    private boolean isSigneParEmployeur(Etudiant etudiant, Candidature candidatureTmp) {
+        return candidatureTmp.getEtudiant().equals(etudiant)
+                && candidatureTmp.getContrat() != null
+                && candidatureTmp.getContrat().isSignatureEmployeur();
     }
 }
