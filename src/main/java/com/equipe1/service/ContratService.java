@@ -1,15 +1,14 @@
 package com.equipe1.service;
 
-import com.equipe1.model.CV;
-import com.equipe1.model.Contrat;
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Etudiant;
+import com.equipe1.model.*;
+import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.ContratRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,6 +16,9 @@ public class ContratService {
 
     @Autowired
     private ContratRepository contratRepository;
+
+    @Autowired
+    private CandidatureRepository candidatureRepository;
 
     public List<Contrat> getContrats() {
         return contratRepository.findAll();
@@ -35,16 +37,26 @@ public class ContratService {
         return contratRepository.findAll();
     }
 
-    public Contrat findById(Long id) {
-        return contratRepository.findById(id)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Invalid Contrat id %s",id)));
-    }
-
     public List<Contrat> getContratsByEmployeur(Employeur employeur){
         return contratRepository.findByEmployeur(employeur);
     }
 
-    public Contrat getContratsByEtudaint(Etudiant etudiant) {
-        return contratRepository.findByEtudiant(etudiant);
+    public List<Contrat> getContratsByEtudiantChoisi(Etudiant etudiant) {
+        List<Contrat> contratSignatureEmployeurOk = new ArrayList<>();
+
+        for (Candidature candidatureTmp: candidatureRepository.findAll()) {
+            if(isSigneParEmployeur(etudiant, candidatureTmp)){
+                contratSignatureEmployeurOk.add(candidatureTmp.getContrat());
+            }
+        }
+
+        return contratSignatureEmployeurOk;
+    }
+
+    private boolean isSigneParEmployeur(Etudiant etudiant, Candidature candidatureTmp) {
+        return candidatureTmp.getEtudiant().equals(etudiant)
+                && candidatureTmp.getContrat() != null
+                && candidatureTmp.getContrat().getSignatureEmployeur() !=null
+                &&candidatureTmp.getContrat().getSignatureEmployeur().equals(Contrat.SignatureEtat.SIGNE);
     }
 }

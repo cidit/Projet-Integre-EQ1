@@ -42,22 +42,6 @@ public class InsertDataService {
     GenerateurPdfService generateurPdfService;
 
     @Transactional
-    public void insertContrat() throws Exception {
-        Etudiant etudiantTest= etudiantRepository.findByEmail("richard@email.com");
-        Employeur employeurTest= employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
-        Optional<Stage> stageTest = stageRepository.findById(6L);
-
-
-        Contrat contrat = new Contrat();
-        contrat.setEmployeur(employeurTest);
-        contrat.setEtudiant(etudiantTest);
-        contrat.setDocumentContrat(generateurPdfService.createPdf(stageTest.get(),employeurTest,etudiantTest).toByteArray());
-
-        contratService.saveContrat(contrat);
-        //etudiantTest.setContrat(contrat);
-    }
-
-    @Transactional
     public void insertEtudiant(){
         Etudiant e1 = new Etudiant();
         e1.setAdresse("123456");
@@ -312,5 +296,33 @@ public class InsertDataService {
         candidature = candidatureService.createCandidature(etudiant.getId(), (long) 14);
         candidature.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
         candidatureRepository.save(candidature);
+    }
+    @Transactional
+    public void insertContrat() throws Exception {
+        Employeur employeurTest= employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
+        Optional<Stage> stageTest = stageRepository.findById(6L);
+        Optional <Candidature> candidature = candidatureRepository.findById(15L);
+        Optional <Candidature> candidature2 = candidatureRepository.findById(16L);
+
+        Contrat contrat = new Contrat();
+        contrat.setEmployeur(employeurTest);
+        contrat.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
+        contrat.setCandidature(candidature2.get());
+        contrat.setDocumentContrat(generateurPdfService.createPdf(candidature2.get().getStage(),
+                employeurTest,candidature2.get().getEtudiant()).toByteArray());
+
+        contratService.saveContrat(contrat);
+
+        //deuxieme pour test
+        Contrat contrat2 = new Contrat();
+        contrat2.setEmployeur(employeurTest);
+        contrat2.setCandidature(candidature.get());
+
+        contrat2.setDocumentContrat(generateurPdfService.createPdf(candidature.get().getStage(),
+                employeurTest,candidature.get().getEtudiant()).toByteArray());
+
+        contratService.saveContrat(contrat2);
+
+
     }
 }

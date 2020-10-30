@@ -16,6 +16,7 @@ public class Stage {
     private String titre;
     @ManyToOne(fetch = FetchType.LAZY)
     private Employeur employeur;
+
     private String description;
     private String exigences;
     private LocalDate dateDebut;
@@ -43,7 +44,5 @@ public class Stage {
     public enum StageStatus {
         WAITING, APPROVED, DENIED
     }
-
-
 
 }

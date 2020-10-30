@@ -7,15 +7,13 @@ import ContratService from '../../service/ContratService'
 
 export default function ContratsEmployeur() {
     const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
-    const [contratsEmployeur, setContratsEmployeur] = useState([]);
+    const [contratsEmployeur, setContratsEmployeur] = useState(null);
     const [employeur, setEmployeur] = useState(null);
 
     //get contrats by employeur
     const getContratsByEmployeurId = async () => {
-
         const response = await ContratService.getContratByEmployeurId(id);
         setContratsEmployeur(response.data);
-        console.log("inside useEffect employeur")
     }
 
     //monter et demonter le composant (equivaut -> ComponentDidMOunt + componentWillUnmount)
@@ -24,12 +22,14 @@ export default function ContratsEmployeur() {
     useEffect(() => {
         getContratsByEmployeurId();
         return () => {
+            setContratsEmployeur([]);
         }
     }, [])
 
     return (
-        <div>
+        <div>{contratsEmployeur != null &&
             <ListeContrats contrat={contratsEmployeur} />
+        }
         </div>
     )
 }

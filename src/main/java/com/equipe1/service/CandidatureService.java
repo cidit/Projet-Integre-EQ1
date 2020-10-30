@@ -76,6 +76,10 @@ public class CandidatureService {
         return updatedCandidature;
     }
 
+    public Candidature save(Candidature candidature){
+        return candidatureRepository.save(candidature);
+    }
+
 
     public Candidature updateCandidatureChoisi(Long id) {
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
@@ -86,5 +90,9 @@ public class CandidatureService {
     public Optional<Candidature> getCandidatureChoisi(Long id) {
         Optional<Candidature> optionalCandidature = candidatureRepository.findCandidatureByEtudiant_Id(id, Candidature.CandidatureStatut.CHOISI);
         return optionalCandidature;
+    }
+
+    public List<Candidature> getListCandidaturesChoisis(Candidature.CandidatureStatut status){
+        return candidatureRepository.findByStatut(status);
     }
 }

@@ -61,4 +61,9 @@ public class CandidatureController {
     public Optional<Candidature> getCandidatureChoisi(@PathVariable Long id) {
         return candidatureService.getCandidatureChoisi(id);
     }
+
+    @GetMapping("getAllChoisis")
+    public List<Candidature> getAllCandidatureChoisi() {
+        return candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI);
+    }
 }
