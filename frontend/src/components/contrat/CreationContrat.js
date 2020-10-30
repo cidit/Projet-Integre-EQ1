@@ -13,14 +13,14 @@ import ListCandidatureChoisi from './ListCandidatureChoisi'
 import SauvegarderContrat from './Testdeq'
 import ChoisirTemplateContrat from "./ChoisirTemplateContrat";
 
-function CreationContrat() {
+function CreationContrat(id) {
 
-
+console.log(id )
 
   return (
     <div className="container-fluid">
 <div className="row">
-  <ListCandidatureChoisi/>
+
 </div>
 
       <div className="row aling-items-center">

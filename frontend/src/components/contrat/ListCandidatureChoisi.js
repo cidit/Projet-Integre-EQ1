@@ -20,15 +20,19 @@ import { Button, Container } from '@material-ui/core';
 import ChoisirTemplateContrat from './ChoisirTemplateContrat';
 import useDocuments from './useDocuments';
 import useAssistantContrat from './useAssistantContrat';
+import { Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router'
+import CreationContrat from '../contrat/CreationContrat'
 
 const useRowStyles = makeStyles({
     root: {
         '& > *': {
             borderBottom: 'unset',
-            backgroundColor:'#E2E4E3',
+            backgroundColor:'#E9E9E9  ',
         },
     },
 });
+
 
 function Row(props) {
     const { row } = props;
@@ -36,17 +40,23 @@ function Row(props) {
     const [candidature, setCandidature] = useState(null);
     const [isCandidatureValide, setIsCandidatureValide] = useState(false);
     const classes = useRowStyles();
+    const [redirect, setRedirect] = useState(false);
 
+
+
+    const  history = useHistory();
+   
+    
 const handleSelectCandidature = (_row) => {
     setCandidature(_row);
+    setRedirect(true);
 
-    setCandidature(_row);
-    
-
-    
 
 }
-
+if(redirect) {
+    CreationContrat(candidature.id)
+    return <Redirect to="/CreationContrat" />
+   } else {
  return (
         <React.Fragment>
             <TableRow className={classes.root}>
@@ -150,10 +160,8 @@ const handleSelectCandidature = (_row) => {
             </TableRow>
         </React.Fragment>
     );
+ }
 }
-
-
-
 export default function ListCandidatureChoisi() {
     const [candidaturesChoisis, setCandidaturesChoisis] = useState([]);
 

@@ -4,6 +4,7 @@ import ListeContrats from './contrat/ListeContrats'
 import SauvegarderContrat from '../components/contrat/Testdeq'
 import ContratsEmployeur from '../components/employeur/ContratEmployeur'
 import CreationContrat from '../components/contrat/CreationContrat'
+import ListCandidatureChoisi from './contrat/ListCandidatureChoisi'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -19,8 +20,7 @@ export default class Home extends Component {
                {/* <ListeContrats/> */}
              
               {/* <SauvegarderContrat/>  */}
-
-             {/* <CreationContrat/>  */}
+<ListCandidatureChoisi/>  
            </div>
 
         );
