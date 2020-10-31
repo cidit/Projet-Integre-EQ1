@@ -45,6 +45,7 @@ public class CVService {
     }
 
     public CV saveEtudiantCV(long etudiantId, CV cv) {
+        cvRepository.save(cv);
         Etudiant etudiant = etudiantRepository.findById(etudiantId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         String.format("Invalid student id %s", etudiantId)));
@@ -57,7 +58,7 @@ public class CVService {
         CV cv = cvRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Invalid CV id %s", id)));
         cv.setStatus(isValid ? CV.CVStatus.APPROVED : CV.CVStatus.DENIED);
         cvRepository.save(cv);
-        courrielService.sendMailCVApproval(cv.getEtudiant());
+        courrielService.sendMailCVApproval(etudiantRepository.findByCV(cv));
         return cv;
     }
 
