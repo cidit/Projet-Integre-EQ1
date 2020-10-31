@@ -74,6 +74,7 @@ public class ContratService {
                 .dateFinale(candidature.get().getStage().getDateFin())
                 .employeur(candidature.get().getStage().getEmployeur())
                 .build();
+        //si ya los tiene no crea una nueva
         return contratRepository.save(contrat);
     }
 

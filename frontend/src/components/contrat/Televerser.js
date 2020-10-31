@@ -24,16 +24,16 @@ const useStyles = makeStyles((theme) => ({
 function Televerser(idCandidature) {
     const [file, setFile] = useState([]);
     const [preogres, setProgres] = useState(0);
-    const [message, setMessage] = useState('');
+    const [messageResponse, setMessageResponse] = useState('');
     const [fileInfos, setFileInfos] = useState('');
     const classes = useStyles();
-  
+
     const { params } = useRouteMatch();
     const [displayInvalidFileMessage, setDisplayInvalidFileMessage] = useState(false)
 
 
 
-    
+
 
     const saveContrat = async (e) => {
 
@@ -51,55 +51,64 @@ function Televerser(idCandidature) {
                 setFile(files[0])
             }
         }
-     
-        if(file){
-        const formData = new FormData();
-        formData.append('file', e.target.files[0])
-        formData.append('name', e.target.files[0].name);
-        //ContratService.createContrat(params.id, formData).then((res) => setMessage(res.data));
-        
+
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', e.target.files[0])
+            formData.append('name', e.target.files[0].name);
+            ContratService.createContrat(params.id, formData).then((res) => setMessageResponse(res.data));
+
         }
-        
+
     };
 
     return (
-        <div className={classes.root}>
-            <input
-                //accept="application/pdf"
-                className={classes.input}
-                id="contained-button-file"
-                type="file"
-                onChange={saveContrat}
-            />
-            <label htmlFor="contained-button-file">
-                <Button variant="contained" color="primary" component="span">
-                   Téléverser
+        <div>
+            <div className={classes.root}>
+                <input
+                    //accept="application/pdf"
+                    className={classes.input}
+                    id="contained-button-file"
+                    type="file"
+                    onChange={saveContrat}
+                />
+                <label htmlFor="contained-button-file">
+                    <Button variant="contained" color="primary" component="span">
+                        Téléverser
         </Button>
-            </label>
-            <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
-            <label htmlFor="icon-button-file">
-                <IconButton color="primary" aria-label="upload picture" component="span">
-                    <PublishIcon />
-                </IconButton>
-            </label>
+                </label>
+                <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
+                <label htmlFor="icon-button-file">
+                    <IconButton color="primary" aria-label="upload picture" component="span">
+                        <PublishIcon />
+                    </IconButton>
+                </label>
 
+
+
+
+            </div>
             {displayInvalidFileMessage &&
-            AlertFormatInvalide()
+                AlertFormatInvalide("Seuls les fichiers en format pdf sont acceptés", "warning")
+            }
+            {messageResponse &&
+            AlertFormatInvalide( messageResponse,"warning")
             }
 
-
         </div>
+
     )
 }
 
 export default Televerser;
 
-function AlertFormatInvalide() {
+function AlertFormatInvalide(message, type) {
+
     return <div className="container">
-      <div className="row justify-content-md-center">
-        <div className="col">
-          <Alert severity="info" variant="filled" className="m-3 text-center">Seuls les fichiers en format .pdf sont acceptés</Alert>
+        <div className="row justify-content-md-center">
+            <div className="col">
+                <Alert severity={type} variant="filled" className="m-3 text-center">{message}</Alert>
+            </div>
         </div>
-      </div>
     </div>;
-  }
+}

@@ -14,16 +14,16 @@ export default class Home extends Component {
         }
     }
 
-    render(){
-        return(
-           <div>
-              {/* <ContratsEmployeur/>  */}
-             
-           
- <ListCandidatureChoisi/> 
+    render() {
+        return (
+            <div>
+                {/* <ContratsEmployeur/>  */}
 
 
-           </div>
+                {/* <ListCandidatureChoisi /> */}
+
+
+            </div>
 
         );
     }
