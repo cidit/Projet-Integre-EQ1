@@ -4,6 +4,7 @@ import com.equipe1.model.*;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.StageRepository;
+import com.equipe1.service.CandidatureService;
 import com.equipe1.service.ContratService;
 import com.equipe1.service.CourrielService;
 import com.equipe1.service.GenerateurPdfService;
@@ -14,9 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -36,6 +39,7 @@ public class ContratController {
     EtudiantRepository etudiantRepository;
     @Autowired
     EmployeurRepository employeurRepository;
+
 
 
     //harcoding for test
@@ -89,5 +93,10 @@ public class ContratController {
     public List<Contrat> getContratsByEtudiant (@PathVariable Long id){
         Optional<Etudiant> etudiant = etudiantRepository.findById(id);
         return contratService.getContratsByEtudiantChoisi(etudiant.get());
+    }
+
+    @PostMapping("/create/{idCandidature}")
+    public Contrat saveCV(@RequestParam("file") MultipartFile file, @PathVariable Long idCandidature) throws IOException {
+         return contratService.createContrat(file, idCandidature);
     }
 }

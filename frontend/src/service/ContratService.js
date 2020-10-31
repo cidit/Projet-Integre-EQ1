@@ -26,6 +26,16 @@ class ContratService {
         return await axios.get(baseURL + "getByEtudiantId/"+ id);
     }
 
+    createContrat(idCandidature, file){
+        return axios.put(baseURL + "/create/" + idCandidature, file)
+    }
+    createContratV2(idCandidature, file){
+
+     
+
+        return axios.create(baseURL + "/create/" + idCandidature, file);
+    }
+
 
 }
 export default new ContratService()

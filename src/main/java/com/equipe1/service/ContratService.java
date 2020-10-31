@@ -6,10 +6,15 @@ import com.equipe1.repository.ContratRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContratService {
@@ -19,6 +24,8 @@ public class ContratService {
 
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    CandidatureService candidatureService;
 
     public List<Contrat> getContrats() {
         return contratRepository.findAll();
@@ -51,6 +58,17 @@ public class ContratService {
         }
 
         return contratSignatureEmployeurOk;
+    }
+
+    public Contrat createContrat(MultipartFile file,  Long idCandidature) throws IOException {
+        Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
+        Contrat contrat =  Contrat.builder()
+                .candidature(candidature.get())
+                .documentContrat(file.getBytes())
+                .dateFinale(candidature.get().getStage().getDateFin())
+                .employeur(candidature.get().getStage().getEmployeur())
+                .build();
+        return contratRepository.save(contrat);
     }
 
     private boolean isSigneParEmployeur(Etudiant etudiant, Candidature candidatureTmp) {

@@ -26,6 +26,7 @@ import CreationContrat from './components/contrat/CreationContrat'
 
 
 
+
 function App() {
   return (
     
@@ -54,7 +55,7 @@ function App() {
           <Route path='/contratsEmployeur' component={ContratsEmployeur} />
           <Route path='/contratEtudiant' component={ContratEtudiant} />
           <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi} />
-          <Route path='/CreationContrat' component={CreationContrat} />
+          <Route path='/CreationContrat/:id' component={CreationContrat} />
           
 
 

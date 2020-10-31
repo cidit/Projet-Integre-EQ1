@@ -24,6 +24,54 @@ import { Redirect } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import CreationContrat from '../contrat/CreationContrat'
 
+
+export default function ListCandidatureChoisi() {
+    const [candidaturesChoisis, setCandidaturesChoisis] = useState([]);
+
+    const getCandidaturesChoisis = async () => {
+        const response = await CandidatureService.getCandidaturesChoisis();
+        setCandidaturesChoisis(response.data);
+    }
+
+    useEffect(() => {
+        getCandidaturesChoisis();
+        return () => {
+            setCandidaturesChoisis([]);
+        }
+    }, []);
+
+
+    //return <ChoisirTemplateContrat parametre={} />
+
+    return (
+        <Container>
+            <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="left">Détails</TableCell>
+                            <TableCell >Employeur</TableCell>
+                            <TableCell >Étudiant prenom</TableCell>
+                            <TableCell >Étudiant nom</TableCell>
+                            <TableCell >Stage</TableCell>
+                            <TableCell >
+                               generer contrat
+                            </TableCell>
+
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {candidaturesChoisis.map((row) => (
+                            <Row key={row.id} row={row} />
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Container>
+
+    )
+}
+
 const useRowStyles = makeStyles({
     root: {
         '& > *': {
@@ -42,20 +90,18 @@ function Row(props) {
     const classes = useRowStyles();
     const [redirect, setRedirect] = useState(false);
 
-
-
-    const  history = useHistory();
-   
     
 const handleSelectCandidature = (_row) => {
     setCandidature(_row);
     setRedirect(true);
-
-
 }
+
+
+
 if(redirect) {
-    CreationContrat(candidature.id)
-    return <Redirect to="/CreationContrat" />
+    //CreationContrat(candidature)
+ 
+    return <Redirect to={`/CreationContrat/${candidature.id}`} />
    } else {
  return (
         <React.Fragment>
@@ -104,7 +150,7 @@ if(redirect) {
                             <Typography variant="h6" gutterBottom component="div" className="pt-3 text-info">
                                 Étudiant(e)
                 </Typography>
-                            <Table size="big" aria-label="purchases">
+                            <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow className="border-bottom-0">
                                         <TableCell>Programme</TableCell>
@@ -161,50 +207,4 @@ if(redirect) {
         </React.Fragment>
     );
  }
-}
-export default function ListCandidatureChoisi() {
-    const [candidaturesChoisis, setCandidaturesChoisis] = useState([]);
-
-    const getCandidaturesChoisis = async () => {
-        const response = await CandidatureService.getCandidaturesChoisis();
-        setCandidaturesChoisis(response.data);
-    }
-
-    useEffect(() => {
-        getCandidaturesChoisis();
-        return () => {
-            setCandidaturesChoisis([]);
-        }
-    }, []);
-
-
-    //return <ChoisirTemplateContrat parametre={} />
-
-    return (
-        <Container>
-            <TableContainer component={Paper}>
-                <Table aria-label="collapsible table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="left">Détails</TableCell>
-                            <TableCell >Employeur</TableCell>
-                            <TableCell >Étudiant prenom</TableCell>
-                            <TableCell >Étudiant nom</TableCell>
-                            <TableCell >Stage</TableCell>
-                            <TableCell >
-                               generer contrat
-                            </TableCell>
-
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {candidaturesChoisis.map((row) => (
-                            <Row key={row.id} row={row} />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Container>
-
-    )
 }

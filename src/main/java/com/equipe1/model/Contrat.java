@@ -1,11 +1,15 @@
 package com.equipe1.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
 @Data
+@AllArgsConstructor
+@Builder
 public class Contrat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

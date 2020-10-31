@@ -220,10 +220,9 @@ export default class EtudiantRegister extends Component {
                                                             <option value="Technologie du génie civil">Technologie du génie civil</option>
                                                             <option value="Techniques de la logistique du transport">Techniques de la logistique du transport</option>
                                                             <option value="Technologie du génie physique">Technologie du génie physique</option>
-                                                        </Field>
-                                                        placeholder=""
-                                                           maxLength="255"
-                                                    />
+                                                        </Field >
+                                                       
+                                                  
                                                     <ErrorMessage name="programme">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
