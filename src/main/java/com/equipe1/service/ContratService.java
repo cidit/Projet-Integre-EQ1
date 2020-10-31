@@ -59,4 +59,15 @@ public class ContratService {
                 && candidatureTmp.getContrat().getSignatureEmployeur() !=null
                 &&candidatureTmp.getContrat().getSignatureEmployeur().equals(Contrat.SignatureEtat.SIGNE);
     }
+
+    public Contrat updateStatutContrat(String user, Contrat.SignatureEtat etat, Long id) {
+        Contrat contrat = contratRepository.findById(id).get();
+        if (user.equals("Employeur")){
+            if (etat.equals(Contrat.SignatureEtat.EN_ATTENTE))
+
+            contrat.setSignatureEmployeur(etat);
+        }
+        contratRepository.save(contrat);
+        return contrat;
+    }
 }

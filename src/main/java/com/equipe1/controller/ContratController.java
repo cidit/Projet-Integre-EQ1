@@ -90,4 +90,9 @@ public class ContratController {
         Optional<Etudiant> etudiant = etudiantRepository.findById(id);
         return contratService.getContratsByEtudiantChoisi(etudiant.get());
     }
+
+    @GetMapping(value = "updateStatutContratSignatureEmployeurEnAttente/{id}")
+    public Contrat updateStatutContratSignatureEmployeurEnAttente (@PathVariable Long id){
+        return contratService.updateStatutContrat("Employeur", Contrat.SignatureEtat.EN_ATTENTE, id);
+    }
 }
