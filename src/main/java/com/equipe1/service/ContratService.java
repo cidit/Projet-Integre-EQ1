@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +64,11 @@ public class ContratService {
     public Contrat createContrat(MultipartFile file,  Long idCandidature) throws IOException {
         Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
         Contrat contrat =  Contrat.builder()
+                .dateFinale(candidature.get().getStage().getDateFin())
+                .dateGeneration(LocalDate.now())
+                .signatureAdmin(Contrat.SignatureEtat.PAS_SIGNE)
+                .signatureEmployeur(Contrat.SignatureEtat.PAS_SIGNE)
+                .signatureEtudiant(Contrat.SignatureEtat.PAS_SIGNE)
                 .candidature(candidature.get())
                 .documentContrat(file.getBytes())
                 .dateFinale(candidature.get().getStage().getDateFin())
@@ -70,6 +76,16 @@ public class ContratService {
                 .build();
         return contratRepository.save(contrat);
     }
+
+    public boolean isCandidatureHasContrat (Long candidatureId){
+        boolean hasContrat = false;
+        Optional <Candidature> candidature = candidatureService.findCandidatureById(candidatureId);
+        for (Contrat c: contratRepository.findAll()) {
+               hasContrat = c.getCandidature().equals(candidature.get());
+        }
+        return hasContrat;
+    }
+
 
     private boolean isSigneParEmployeur(Etudiant etudiant, Candidature candidatureTmp) {
         return candidatureTmp.getEtudiant().equals(etudiant)

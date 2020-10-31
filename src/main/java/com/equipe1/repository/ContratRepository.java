@@ -1,5 +1,6 @@
 package com.equipe1.repository;
 
+import com.equipe1.model.Candidature;
 import com.equipe1.model.Contrat;
 import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
@@ -10,7 +11,9 @@ import java.util.List;
 public interface ContratRepository extends JpaRepository<Contrat, Long> {
 
     List<Contrat> findByEmployeur(Employeur employeur);
+    Contrat findByCandidature(Candidature candidature);
 
+    //Contrat findByCandidatureExists(Candidature candidature);
 
 
 }

@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from "react";
-import useDocuments from './useDocuments'
-import CircularUnderLoad from '../utils/IsLoading'
-import Contrat from '../../model/Contrat'
-import ContratService from "../../service/ContratService";
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import Telecharger from '../utils/telecharger'
+
 import CandidatureService from '../../service/CandidatureService'
-import ApercuContrat from './ApercuContrat'
+
 import Televerser from './Televerser'
-import ListCandidatureChoisi from './ListCandidatureChoisi'
 
-import SauvegarderContrat from './Testdeq'
-import ChoisirTemplateContrat from "./ChoisirTemplateContrat";
-
-import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -109,3 +99,4 @@ function CreationContrat(id) {
 
 };
 export default CreationContrat; 
+

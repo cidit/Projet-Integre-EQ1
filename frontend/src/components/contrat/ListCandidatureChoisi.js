@@ -17,19 +17,27 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import CandidatureService from '../../service/CandidatureService'
 import { Button, Container } from '@material-ui/core';
-import ChoisirTemplateContrat from './ChoisirTemplateContrat';
-import useDocuments from './useDocuments';
-import useAssistantContrat from './useAssistantContrat';
 import { Redirect } from 'react-router-dom'
-import { useHistory } from 'react-router'
-import CreationContrat from '../contrat/CreationContrat'
+import ContratService from '../../service/ContratService'
 
 
 export default function ListCandidatureChoisi() {
     const [candidaturesChoisis, setCandidaturesChoisis] = useState([]);
+    const [candidatureSansContrat, setCandidatureSansContrat] = useState([]);
 
     const getCandidaturesChoisis = async () => {
         const response = await CandidatureService.getCandidaturesChoisis();
+        const data = response.data;
+       
+
+        //pending
+       
+        for (let index = 0; index < response.data.length; index++) {
+           if(ContratService.candidatureHasContrat(data[index].id)){
+            setCandidatureSansContrat(data)
+           }
+            
+        }
         setCandidaturesChoisis(response.data);
     }
 
@@ -39,6 +47,9 @@ export default function ListCandidatureChoisi() {
             setCandidaturesChoisis([]);
         }
     }, []);
+
+
+    
 
 
     //return <ChoisirTemplateContrat parametre={} />
@@ -102,8 +113,9 @@ if(redirect) {
     //CreationContrat(candidature)
  
     return <Redirect to={`/CreationContrat/${candidature.id}`} />
-   } else {
+   } 
  return (
+     
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
@@ -206,5 +218,5 @@ if(redirect) {
             </TableRow>
         </React.Fragment>
     );
- }
+ 
 }

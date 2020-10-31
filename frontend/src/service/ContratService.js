@@ -17,23 +17,24 @@ class ContratService {
     }
 
     async getContratByEmployeurId(id) {
-        console.log(id)
         return await axios.get(baseURL + "getByEmployeurId/"+ id);
     }
 
     async getContratByEtudiantId(id) {
-        console.log(id)
         return await axios.get(baseURL + "getByEtudiantId/"+ id);
     }
 
-    createContrat(idCandidature, file){
-        return axios.put(baseURL + "/create/" + idCandidature, file)
+    async candidatureHasContrat(idcandidature) {
+        return await axios.get(baseURL + "contratExiste/"+ idcandidature);
     }
-    createContratV2(idCandidature, file){
 
-     
 
-        return axios.create(baseURL + "/create/" + idCandidature, file);
+    async createContrat(idCandidature, file){
+        return axios.put(baseURL + "create/" + idCandidature, file)
+    }
+
+    asucreateContratV2(idCandidature, file){
+        return axios.post(baseURL + "create/" + idCandidature, file);
     }
 
 

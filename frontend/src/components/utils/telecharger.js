@@ -1,19 +1,27 @@
-import React from 'react';
-import { ArrowDownwardIcon, } from '@material-ui/icons/ArrowDownward';
+import React, { useState } from 'react';
 import { IconButton } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import ContratService from '../../service/ContratService';
-
+import { Redirect } from 'react-router-dom'
 
 
 export default function Telecharger(props) {
+    const [redirect, setRedirect] = useState(false)
 
     const clickHandle = () => {
        ContratService.telechargerDocument(props.path).then((response) => {
             sauvegarderEtMontrerDoc(response)
         });
+        setRedirect(true);
     }
 
+
+    console.log("path");
+    console.log(props)
+    
+    if(redirect) {
+        return <Redirect to={`/televerserContrats/${props.path}`} />
+       } else
     return (
      <td>
             <IconButton color="primary" component="span" onClick={clickHandle}>

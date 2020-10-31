@@ -3,11 +3,9 @@ import Telecharger from '../utils/telecharger'
 import { Alert } from '@material-ui/lab';
 
 
-const url = 'http://localhost:8080/contrats/getContatFile/';
-
 function ListeContrats(props) {
 
-  if (props.contrat.length === 0) {
+  if (props.contrats.length === 0) {
     return (
       AlertAucunContrat()
     )
@@ -29,11 +27,11 @@ function ListeContrats(props) {
                     <th> Signature de l'étudiant(e)</th>
                     <th> Signature de l'Cégep</th>
                     <th> Date de creation</th>
-                    <th> Télécharger contrat</th>
+                    <th> Télécharger contrat et aller signer</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {props.contrat.map(
+                  {props.contrats.map(
                     data =>
                       <tr key={data.id}>
                         <td>{data.id}</td>

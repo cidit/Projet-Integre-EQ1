@@ -95,8 +95,21 @@ public class ContratController {
         return contratService.getContratsByEtudiantChoisi(etudiant.get());
     }
 
-    @PostMapping("/create/{idCandidature}")
-    public Contrat saveCV(@RequestParam("file") MultipartFile file, @PathVariable Long idCandidature) throws IOException {
-         return contratService.createContrat(file, idCandidature);
+    @GetMapping(value = "contratExiste/{id}")
+    public  boolean candidatureHasContrat (@PathVariable Long id){
+        return contratService.isCandidatureHasContrat(id);
+    }
+
+    @PutMapping ("/create/{idCandidature}")
+    public ResponseEntity<String> saveContrat(@RequestParam("file") MultipartFile file, @PathVariable Long idCandidature) {
+        String message = "";
+        try {
+            contratService.createContrat(file, idCandidature);
+            message = "Fichier téléversé avec succès: " + file.getOriginalFilename();
+            return new ResponseEntity<>(message,  HttpStatus.OK);
+        } catch (Exception e) {
+            message = "Un problème est survenu, veuillez réessayer plus tard !";
+            return new ResponseEntity<>(message,  HttpStatus.BAD_REQUEST);
+        }
     }
 }

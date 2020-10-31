@@ -28,7 +28,7 @@ export default function ContratsEmployeur() {
 
     return (
         <div>{contratsEmployeur != null &&
-            <ListeContrats contrat={contratsEmployeur} />
+            <ListeContrats contrats={contratsEmployeur} />
         }
         </div>
     )
