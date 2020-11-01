@@ -29,10 +29,30 @@ class ContratService {
     }
 
 
-    createContrat(idCandidature, file, desc){
-        return axios.put(baseURL + "create/" + idCandidature, file, desc);
+    createContrat(idCandidature, formData){
+        return axios.put(baseURL + "create/" + idCandidature, formData).then((result) => {
+            console.log(result.data);
+        })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
+    accepteSignatureContrat(id, desc){
+        var formData = new FormData();
+        formData.append('desc', desc);
+        return axios.put(baseURL + "accepteSignatureContrat/" + id, formData)
+    }
+
+    refuseSignatureContrat(id, desc){
+        var formData = new FormData();
+        formData.append('desc', desc);
+        return axios.put(baseURL + "refuseSignatureContrat/" + id, formData)
+    }
+
+    refuseeSignatureContrat(id, desc){
+        return axios.put(baseURL + "refuseSignatureContrat/" + id, desc)
+    }
     async updateContratEmployeur(idCandidature, file){
         return axios.put(baseURL + "updateContratEmployeur/" + idCandidature, file)
     }

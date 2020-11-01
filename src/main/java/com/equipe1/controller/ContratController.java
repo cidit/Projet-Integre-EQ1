@@ -75,7 +75,7 @@ public class ContratController {
 
     @GetMapping(value = "findAll")
     public List<Contrat> getContrats (){
-         return contratService.findAll();
+         return contratService.getContrats();
     }
 
     @GetMapping(value = "getContratById/{id}")
@@ -95,27 +95,29 @@ public class ContratController {
         return contratService.getContratsByEtudiantChoisi(etudiant.get());
     }
 
-    @GetMapping(value = "updateStatutContratSignatureEmployeurEnAttente/{id}")
-    public Contrat updateStatutContratSignatureEmployeurEnAttente (@PathVariable Long id) {
-        return contratService.updateStatutContrat("Employeur", Contrat.SignatureEtat.EN_ATTENTE, id);
+    @PutMapping(value = "accepteSignatureContrat/{id}")
+    public Contrat accepteSignatureContrat (@PathVariable Long id, @RequestParam("desc") String desc) {
+        return contratService.updateStatutContrat(desc, Contrat.SignatureEtat.SIGNE, id);
     }
+    @PutMapping(value = "refuseSignatureContrat/{id}")
+    public Contrat refuseSignatureContrat (@PathVariable Long id, @RequestParam("desc") String desc) {
+        return contratService.updateStatutContrat(desc, Contrat.SignatureEtat.PAS_SIGNE, id);
+    }
+
     @GetMapping(value = "contratExiste/{id}")
     public  boolean candidatureHasContrat (@PathVariable Long id){
         return contratService.isCandidatureHasContrat(id);
     }
 
     @PutMapping ("create/{idCandidature}")
-    public ResponseEntity<String> saveContrat(@RequestParam("file") MultipartFile file, @PathVariable Long idCandidature, String desc) throws IOException {
+    public ResponseEntity<String> saveContrat(@RequestParam("file") MultipartFile file, @RequestParam("desc") String desc, @PathVariable Long idCandidature) throws IOException {
         String message = "";
-        System.out.println("CONTRAT : " + file.getBytes() );
-        try {
-            contratService.createContrat(file, idCandidature, desc);
-            message = "Fichier téléversé avec succès: " + file.getOriginalFilename();
-            return new ResponseEntity<>(message,  HttpStatus.OK);
-        } catch (Exception e) {
-            message = "Un problème est survenu, veuillez réessayer plus tard !";
-            return new ResponseEntity<>(message,  HttpStatus.BAD_REQUEST);
-        }
+        System.out.println("desc : " + desc);
+        System.out.println("contrat : " + file.getOriginalFilename());
+        System.out.println("id : " + idCandidature);
+        contratService.updateContrat(file, idCandidature, desc);
+        return new ResponseEntity<>(message,  HttpStatus.OK);
     }
+
 
 }

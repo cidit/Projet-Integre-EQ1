@@ -1,15 +1,28 @@
 import React from 'react';
 import Telecharger from '../utils/telecharger'
 import { Alert } from '@material-ui/lab';
+import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineCheckSquare, AiOutlineCloseSquare } from 'react-icons/ai';
+import ContratService from "../../service/ContratService";
 
 
 const url = 'http://localhost:8080/contrats/getContratFile/';
 
+function approuveSignature (id, desc) {
+  ContratService.accepteSignatureContrat(id, desc);
+  setTimeout((function() {
+    window.location.reload();
+  }), 800);
 
+}
+function refuseSignature (id, desc) {
+  ContratService.refuseSignatureContrat(id, desc);
+  setTimeout((function() {
+    window.location.reload();
+  }), 800);
+}
+export function ListeContratsGestionnaire(props) {
 
-function ListeContratsGestionnaire(props) {
-
-  if (props.contrat.length === 0) {
+  if (props.contrats.length === 0) {
     return (
         AlertAucunContrat()
     )
@@ -36,7 +49,8 @@ function ListeContratsGestionnaire(props) {
                   </tr>
                   </thead>
                   <tbody>
-                  {props.contrat.map(
+                  {props.contrats
+                      .map(
                       data =>
                           <tr key={data.id}>
                             <td>{data.id}</td>
@@ -46,13 +60,38 @@ function ListeContratsGestionnaire(props) {
                             <td>{data.dateGeneration}</td>
                             <Telecharger path={data.id} />
                             <td>
-                              <select value={data.signatureEmployeur}>
-                                <option value={"SIGNE"}>Signé</option>
-                                <option value={"PAS_SIGNE"}>Pas signé</option>
-                                <option value={"EN_ATTENTE"}>En attente</option>
-                              </select>
+                              {data.signatureEmployeur == "EN_ATTENTE"?
+                                  <div>
+                                    <button className="btn btn-primary-outline" onClick={() => approuveSignature(data.id, "Employeur")}>
+                                      <h3> <AiFillCheckCircle style={{color: "green"}}/> </h3>
+                                    </button>
+                                    <button className="btn btn-primary-outline" onClick={() => refuseSignature(data.id, "Employeur")}>
+                                      <h3> <AiFillCloseCircle style={{color: "red"}}/> </h3>
+                                    </button>
+                                  </div> : data.signatureEmployeur}
                             </td>
-                            <td></td>
+                            <td>
+                              {data.signatureEtudiant == "EN_ATTENTE"?
+                                  <div>
+                                    <button className="btn btn-primary-outline" onClick={() => approuveSignature(data.id, "Etudiant")}>
+                                      <h3> <AiFillCheckCircle style={{color: "green"}}/> </h3>
+                                    </button>
+                                    <button className="btn btn-primary-outline" onClick={() => refuseSignature(data.id, "Etudiant")}>
+                                      <h3> <AiFillCloseCircle style={{color: "red"}}/> </h3>
+                                    </button>
+                                  </div> : data.signatureEtudiant}
+                            </td>
+                            <td>
+                              {data.signatureAdmin == "EN_ATTENTE"?
+                                  <div>
+                                    <button className="btn btn-primary-outline" onClick={() => approuveSignature(data.id, "Admin")}>
+                                      <h3> <AiFillCheckCircle style={{color: "green"}}/> </h3>
+                                    </button>
+                                    <button className="btn btn-primary-outline" onClick={() => refuseSignature(data.id, "Admin")}>
+                                      <h3> <AiFillCloseCircle style={{color: "red"}}/> </h3>
+                                    </button>
+                                  </div> : data.signatureAdmin}
+                            </td>
                           </tr>
                   )}
                   </tbody>
@@ -90,13 +129,18 @@ export function ListeContratsEmployeur(props) {
                     <th> Étudiant(e) </th>
                     <th> Programme </th>
                     <th> Date de creation</th>
+                    <th> Etat </th>
                     <th> Télécharger contrat</th>
 
 
                   </tr>
                   </thead>
                   <tbody>
-                  {props.contrats.map(
+                  {props.contrats
+                      .filter(data => data.signatureEmployeur == 'PAS_SIGNE' &&
+                          data.signatureAdmin == 'PAS_SIGNE' &&
+                          data.signatureEtudiant == 'PAS_SIGNE')
+                      .map(
                       data =>
                           <tr key={data.id}>
                             <td>{data.id}</td>
@@ -104,6 +148,7 @@ export function ListeContratsEmployeur(props) {
                             <td>{data.candidature.etudiant.nom}</td>
                             <td>{data.candidature.etudiant.programme}</td>
                             <td>{data.dateGeneration}</td>
+                            <td>{data.signatureEmployeur}</td>
                             <Telecharger path={data.id} />
                           </tr>
                   )}

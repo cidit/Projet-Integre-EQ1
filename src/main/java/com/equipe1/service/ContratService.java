@@ -61,29 +61,15 @@ public class ContratService {
         return contratSignatureEmployeurOk;
     }
 
-    public Contrat createContrat(MultipartFile file,  Long idCandidature, String desc) throws IOException {
-        Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
-        Contrat.SignatureEtat etatSignatureAdmin = Contrat.SignatureEtat.PAS_SIGNE;
-        Contrat.SignatureEtat etatSignatureEmployeur = Contrat.SignatureEtat.PAS_SIGNE;
-        Contrat.SignatureEtat etatSignatureEtudiant = Contrat.SignatureEtat.PAS_SIGNE;
+    public Contrat updateContrat(MultipartFile file,  Long idContrat, String desc) throws IOException {
+        Contrat contrat = contratRepository.findById(idContrat).get();
+        contrat.setDocumentContrat(file.getBytes());
         if (desc.equals("Employeur"))
-            etatSignatureEmployeur = Contrat.SignatureEtat.EN_ATTENTE;
+            contrat.setSignatureEmployeur(Contrat.SignatureEtat.EN_ATTENTE);
         if (desc.equals("Etudiant"))
-            etatSignatureEtudiant = Contrat.SignatureEtat.EN_ATTENTE;
+            contrat.setSignatureEtudiant(Contrat.SignatureEtat.EN_ATTENTE);
         if (desc.equals("Administration"))
-            etatSignatureAdmin = Contrat.SignatureEtat.EN_ATTENTE;
-
-        Contrat contrat =  Contrat.builder()
-                .dateFinale(candidature.get().getStage().getDateFin())
-                .dateGeneration(LocalDate.now())
-                .signatureAdmin(etatSignatureAdmin)
-                .signatureEmployeur(etatSignatureEmployeur)
-                .signatureEtudiant(etatSignatureEtudiant)
-                .candidature(candidature.get())
-                .documentContrat(file.getBytes())
-                .dateFinale(candidature.get().getStage().getDateFin())
-                .employeur(candidature.get().getStage().getEmployeur())
-                .build();
+            contrat.setSignatureAdmin(Contrat.SignatureEtat.EN_ATTENTE);
         //si ya los tiene no crea una nueva
         return contratRepository.save(contrat);
     }
@@ -105,13 +91,15 @@ public class ContratService {
                 &&candidatureTmp.getContrat().getSignatureEmployeur().equals(Contrat.SignatureEtat.SIGNE);
     }
 
-    public Contrat updateStatutContrat(String user, Contrat.SignatureEtat etat, Long id) {
+    public Contrat updateStatutContrat(String desc, Contrat.SignatureEtat etat, Long id) {
         Contrat contrat = contratRepository.findById(id).get();
-        if (user.equals("Employeur")){
-            if (etat.equals(Contrat.SignatureEtat.EN_ATTENTE))
-
+        if (desc.equals("Employeur"))
             contrat.setSignatureEmployeur(etat);
-        }
+        if (desc.equals("Etudiant"))
+            contrat.setSignatureEtudiant(etat);
+        if (desc.equals("Admin"))
+            contrat.setSignatureAdmin(etat);
+
         contratRepository.save(contrat);
         return contrat;
     }

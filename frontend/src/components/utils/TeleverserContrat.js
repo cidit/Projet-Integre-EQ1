@@ -53,8 +53,8 @@ export default class TeleverserContrat extends Component {
         var id = this.props.match.params.id;
         const formData = new FormData();
         formData.append('file', this.state.file)
-        formData.append('name', this.state.file.name)
-        ContratService.createContrat(id, formData, desc);
+        formData.append('desc', desc);
+        ContratService.createContrat(id, formData);
     }
 
 

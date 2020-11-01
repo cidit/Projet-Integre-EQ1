@@ -24,6 +24,7 @@ import ContratEtudiant from './components/etudiant/ContratEtudiant'
 import ListCandidatureChoisi from './components/contrat/ListCandidatureChoisi'
 import CreationContrat from './components/contrat/CreationContrat'
 import TeleverserContrat from './components/utils/TeleverserContrat'
+import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire";
 
 
 
@@ -54,6 +55,7 @@ function App() {
           <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
           <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent} />
           <Route path='/contratsEmployeur' component={ContratsEmployeur} />
+          <Route path='/contratsGestionnaire' component={ContratsGestionnaire} />
           <Route path='/contratEtudiant' component={ContratEtudiant} />
           <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi} />
           <Route path='/CreationContrat/:id' component={CreationContrat} />

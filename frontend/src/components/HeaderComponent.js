@@ -20,6 +20,7 @@ function GestionnaireNav() {
             <Nav.Link href="/etudiants">Liste d'étudiants</Nav.Link>
             <Nav.Link href="/gestionnaire">Votre profil</Nav.Link>
             <Nav.Link href="/stageVeto">Liste des stages</Nav.Link>
+            <Nav.Link href="/contratsGestionnaire">Contrats</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );
@@ -33,8 +34,8 @@ function EmployeurNav() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
             <Nav.Link href="/stages">Voir toutes les offres de stage</Nav.Link>
-            <Nav.Link href="/logout">Logout</Nav.Link>
             <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
+            <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );
 }
