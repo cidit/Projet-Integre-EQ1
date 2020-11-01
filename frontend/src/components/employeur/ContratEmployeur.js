@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import EmployeurService from '../../service/EmployeurService'
 import useListeContrats from '../contrat/useListeContrats'
 import ContratService from '../../service/ContratService'
+import {ListeContratsEmployeur} from '../contrat/ListeContrats'
 
 export default function ContratsEmployeur() {
     const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
@@ -28,7 +29,7 @@ export default function ContratsEmployeur() {
 
     return (
         <div>{contratsEmployeur != null &&
-            <ListeContrats contrat={contratsEmployeur} />
+            <ListeContratsEmployeur contrats={contratsEmployeur} />
         }
         </div>
     )

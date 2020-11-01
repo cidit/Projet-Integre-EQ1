@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import ListeContrats from './contrat/ListeContrats'
 
-import SauvegarderContrat from '../components/contrat/Testdeq'
+
 import ContratsEmployeur from '../components/employeur/ContratEmployeur'
 import CreationContrat from '../components/contrat/CreationContrat'
+import ListCandidatureChoisi from './contrat/ListCandidatureChoisi'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -13,15 +14,16 @@ export default class Home extends Component {
         }
     }
 
-    render(){
-        return(
-           <div>
-               {/* <ListeContrats/> */}
-             
-              {/* <SauvegarderContrat/>  */}
+    render() {
+        return (
+            <div>
+                {/* <ContratsEmployeur/>  */}
 
-             {/* <CreationContrat/>  */}
-           </div>
+
+                {/* <ListCandidatureChoisi /> */}
+
+
+            </div>
 
         );
     }

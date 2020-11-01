@@ -23,26 +23,12 @@ public class Employeur extends User{
     }
     private String adresse;
 
-
     private String nom;
 
     public Employeur(String nom, String telephone, String adresse) {
-
         this.nom = nom;
         this.telephone = telephone;
         this.adresse = adresse;
     }
 
-    @Override
-    public String toString() {
-        return "Employeur{" +
-                "adresse='" + adresse + '\'' +
-                ", nom='" + nom + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", desc='" + desc + '\'' +
-                ", nom='" + nom + '\'' +
-                '}';
-    }
 }

@@ -8,7 +8,6 @@ class CVService{
 
     createCV(idEtudiant, formData){
         return axios.put(CV_URL + "/create/" + idEtudiant, formData)
-
     }
     async getCVByEtudiant(etudiant) {
         const method = 'GET';

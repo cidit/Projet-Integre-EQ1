@@ -4,6 +4,7 @@ import com.equipe1.model.*;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.StageRepository;
+import com.equipe1.service.CandidatureService;
 import com.equipe1.service.ContratService;
 import com.equipe1.service.CourrielService;
 import com.equipe1.service.GenerateurPdfService;
@@ -14,9 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -36,6 +39,7 @@ public class ContratController {
     EtudiantRepository etudiantRepository;
     @Autowired
     EmployeurRepository employeurRepository;
+
 
 
     //harcoding for test
@@ -92,7 +96,26 @@ public class ContratController {
     }
 
     @GetMapping(value = "updateStatutContratSignatureEmployeurEnAttente/{id}")
-    public Contrat updateStatutContratSignatureEmployeurEnAttente (@PathVariable Long id){
+    public Contrat updateStatutContratSignatureEmployeurEnAttente (@PathVariable Long id) {
         return contratService.updateStatutContrat("Employeur", Contrat.SignatureEtat.EN_ATTENTE, id);
     }
+    @GetMapping(value = "contratExiste/{id}")
+    public  boolean candidatureHasContrat (@PathVariable Long id){
+        return contratService.isCandidatureHasContrat(id);
+    }
+
+    @PutMapping ("create/{idCandidature}")
+    public ResponseEntity<String> saveContrat(@RequestParam("file") MultipartFile file, @PathVariable Long idCandidature, String desc) throws IOException {
+        String message = "";
+        System.out.println("CONTRAT : " + file.getBytes() );
+        try {
+            contratService.createContrat(file, idCandidature, desc);
+            message = "Fichier téléversé avec succès: " + file.getOriginalFilename();
+            return new ResponseEntity<>(message,  HttpStatus.OK);
+        } catch (Exception e) {
+            message = "Un problème est survenu, veuillez réessayer plus tard !";
+            return new ResponseEntity<>(message,  HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

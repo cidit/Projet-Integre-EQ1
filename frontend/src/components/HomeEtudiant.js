@@ -7,7 +7,11 @@ export default class HomeEtudiant extends Component {
     constructor(props) {
         super(props);
         this.inputRef = React.createRef();
-        this.state = {etudiant: {}, file: "", displayInvalidFileMessage: false, displaySubmitCVButton: false, CVInfoMessage: "", hasUploadedCV: false, id: ''};
+        this.state = {etudiant: {}, file: "", 
+            displayInvalidFileMessage: false, 
+            displaySubmitCVButton: false, 
+            CVInfoMessage: "", 
+            hasUploadedCV: false, id: ''};
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }

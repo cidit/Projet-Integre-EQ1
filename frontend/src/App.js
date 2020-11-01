@@ -21,6 +21,10 @@ import StageVeto from "./components/StageVeto";
 import SelectionnerStagiaireComponent from "./components/employeur/SelectionnerStagiaireComponent";
 import ContratsEmployeur from './components/employeur/ContratEmployeur'
 import ContratEtudiant from './components/etudiant/ContratEtudiant'
+import ListCandidatureChoisi from './components/contrat/ListCandidatureChoisi'
+import CreationContrat from './components/contrat/CreationContrat'
+import TeleverserContrat from './components/utils/TeleverserContrat'
+
 
 
 
@@ -51,6 +55,12 @@ function App() {
           <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent} />
           <Route path='/contratsEmployeur' component={ContratsEmployeur} />
           <Route path='/contratEtudiant' component={ContratEtudiant} />
+          <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi} />
+          <Route path='/CreationContrat/:id' component={CreationContrat} />
+          <Route path='/televerserContrats/:id' component={TeleverserContrat} />
+          
+
+
         </Switch>
   
       </main>

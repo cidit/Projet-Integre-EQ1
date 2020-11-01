@@ -17,18 +17,81 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import CandidatureService from '../../service/CandidatureService'
 import { Button, Container } from '@material-ui/core';
-import ChoisirTemplateContrat from './ChoisirTemplateContrat';
-import useDocuments from './useDocuments';
-import useAssistantContrat from './useAssistantContrat';
+import { Redirect } from 'react-router-dom'
+import ContratService from '../../service/ContratService'
+
+
+export default function ListCandidatureChoisi() {
+    const [candidaturesChoisis, setCandidaturesChoisis] = useState([]);
+    const [candidatureSansContrat, setCandidatureSansContrat] = useState([]);
+
+    const getCandidaturesChoisis = async () => {
+        const response = await CandidatureService.getCandidaturesChoisis();
+        const data = response.data;
+       
+
+        //pending
+       
+        for (let index = 0; index < response.data.length; index++) {
+           if(ContratService.candidatureHasContrat(data[index].id)){
+            setCandidatureSansContrat(data)
+           }
+            
+        }
+        setCandidaturesChoisis(response.data);
+    }
+
+    useEffect(() => {
+        getCandidaturesChoisis();
+        return () => {
+            setCandidaturesChoisis([]);
+        }
+    }, []);
+
+
+    
+
+
+    //return <ChoisirTemplateContrat parametre={} />
+
+    return (
+        <Container>
+            <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="left">Détails</TableCell>
+                            <TableCell >Employeur</TableCell>
+                            <TableCell >Étudiant prenom</TableCell>
+                            <TableCell >Étudiant nom</TableCell>
+                            <TableCell >Stage</TableCell>
+                            <TableCell >
+                               generer contrat
+                            </TableCell>
+
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {candidaturesChoisis.map((row) => (
+                            <Row key={row.id} row={row} />
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Container>
+
+    )
+}
 
 const useRowStyles = makeStyles({
     root: {
         '& > *': {
             borderBottom: 'unset',
-            backgroundColor:'#E2E4E3',
+            backgroundColor:'#E9E9E9  ',
         },
     },
 });
+
 
 function Row(props) {
     const { row } = props;
@@ -36,18 +99,23 @@ function Row(props) {
     const [candidature, setCandidature] = useState(null);
     const [isCandidatureValide, setIsCandidatureValide] = useState(false);
     const classes = useRowStyles();
+    const [redirect, setRedirect] = useState(false);
 
+    
 const handleSelectCandidature = (_row) => {
     setCandidature(_row);
-
-    setCandidature(_row);
-    
-
-    
-
+    setRedirect(true);
 }
 
+
+
+if(redirect) {
+    //CreationContrat(candidature)
+ 
+    return <Redirect to={`/CreationContrat/${candidature.id}`} />
+   } 
  return (
+     
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
@@ -94,7 +162,7 @@ const handleSelectCandidature = (_row) => {
                             <Typography variant="h6" gutterBottom component="div" className="pt-3 text-info">
                                 Étudiant(e)
                 </Typography>
-                            <Table size="big" aria-label="purchases">
+                            <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow className="border-bottom-0">
                                         <TableCell>Programme</TableCell>
@@ -150,53 +218,5 @@ const handleSelectCandidature = (_row) => {
             </TableRow>
         </React.Fragment>
     );
-}
-
-
-
-export default function ListCandidatureChoisi() {
-    const [candidaturesChoisis, setCandidaturesChoisis] = useState([]);
-
-    const getCandidaturesChoisis = async () => {
-        const response = await CandidatureService.getCandidaturesChoisis();
-        setCandidaturesChoisis(response.data);
-    }
-
-    useEffect(() => {
-        getCandidaturesChoisis();
-        return () => {
-            setCandidaturesChoisis([]);
-        }
-    }, []);
-
-
-    //return <ChoisirTemplateContrat parametre={} />
-
-    return (
-        <Container>
-            <TableContainer component={Paper}>
-                <Table aria-label="collapsible table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="left">Détails</TableCell>
-                            <TableCell >Employeur</TableCell>
-                            <TableCell >Étudiant prenom</TableCell>
-                            <TableCell >Étudiant nom</TableCell>
-                            <TableCell >Stage</TableCell>
-                            <TableCell >
-                               generer contrat
-                            </TableCell>
-
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {candidaturesChoisis.map((row) => (
-                            <Row key={row.id} row={row} />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Container>
-
-    )
+ 
 }

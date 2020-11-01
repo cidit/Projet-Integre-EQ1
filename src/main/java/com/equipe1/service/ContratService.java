@@ -6,10 +6,16 @@ import com.equipe1.repository.ContratRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContratService {
@@ -19,6 +25,8 @@ public class ContratService {
 
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    CandidatureService candidatureService;
 
     public List<Contrat> getContrats() {
         return contratRepository.findAll();
@@ -52,6 +60,43 @@ public class ContratService {
 
         return contratSignatureEmployeurOk;
     }
+
+    public Contrat createContrat(MultipartFile file,  Long idCandidature, String desc) throws IOException {
+        Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
+        Contrat.SignatureEtat etatSignatureAdmin = Contrat.SignatureEtat.PAS_SIGNE;
+        Contrat.SignatureEtat etatSignatureEmployeur = Contrat.SignatureEtat.PAS_SIGNE;
+        Contrat.SignatureEtat etatSignatureEtudiant = Contrat.SignatureEtat.PAS_SIGNE;
+        if (desc.equals("Employeur"))
+            etatSignatureEmployeur = Contrat.SignatureEtat.EN_ATTENTE;
+        if (desc.equals("Etudiant"))
+            etatSignatureEtudiant = Contrat.SignatureEtat.EN_ATTENTE;
+        if (desc.equals("Administration"))
+            etatSignatureAdmin = Contrat.SignatureEtat.EN_ATTENTE;
+
+        Contrat contrat =  Contrat.builder()
+                .dateFinale(candidature.get().getStage().getDateFin())
+                .dateGeneration(LocalDate.now())
+                .signatureAdmin(etatSignatureAdmin)
+                .signatureEmployeur(etatSignatureEmployeur)
+                .signatureEtudiant(etatSignatureEtudiant)
+                .candidature(candidature.get())
+                .documentContrat(file.getBytes())
+                .dateFinale(candidature.get().getStage().getDateFin())
+                .employeur(candidature.get().getStage().getEmployeur())
+                .build();
+        //si ya los tiene no crea una nueva
+        return contratRepository.save(contrat);
+    }
+
+    public boolean isCandidatureHasContrat (Long candidatureId){
+        boolean hasContrat = false;
+        Optional <Candidature> candidature = candidatureService.findCandidatureById(candidatureId);
+        for (Contrat c: contratRepository.findAll()) {
+               hasContrat = c.getCandidature().equals(candidature.get());
+        }
+        return hasContrat;
+    }
+
 
     private boolean isSigneParEmployeur(Etudiant etudiant, Candidature candidatureTmp) {
         return candidatureTmp.getEtudiant().equals(etudiant)

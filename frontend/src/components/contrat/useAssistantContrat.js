@@ -14,7 +14,6 @@ export default function useAssistantContrat(candidature) {
         }
     }, [])
 
-
         return {
             isLoading,
             error,
