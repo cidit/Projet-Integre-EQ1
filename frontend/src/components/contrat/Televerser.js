@@ -8,7 +8,10 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import PublishIcon from '@material-ui/icons/Publish';
 import ContratService from '../../service/ContratService'
 import { useRouteMatch } from "react-router-dom"
-import { Alert } from '@material-ui/lab';
+import Typography from '@material-ui/core/Typography';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +28,8 @@ function Televerser(idCandidature) {
     const [file, setFile] = useState([]);
     const [preogres, setProgres] = useState(0);
     const [messageResponse, setMessageResponse] = useState('');
-    const [fileInfos, setFileInfos] = useState('');
+    const [isButtonDisable, setIsButtonDisable] = useState(false)
+    const [isSubmit, setIsSubmit] = useState(false)
     const classes = useStyles();
 
     const { params } = useRouteMatch();
@@ -36,31 +40,50 @@ function Televerser(idCandidature) {
 
 
     const saveContrat = async (e) => {
+            console.log(file)
+            var response = await ContratService.createContrat(params.id, file);
+            setMessageResponse(response.data);
+            setIsButtonDisable(true)
+            console.log(response.data.status)
+            setIsSubmit(true)
+    }
 
-        setFile(e.target.files[0])
+    const selectFile = (e) => {
         let files = e.target.files;
-
-        const types = ['application/pdf']
+        const types = "application/pdf"
         for (var x = 0; x < files.length; x++) {
-            if (types.every(type => files[x].type !== type)) {
+            if (files[x].type !== types) {
                 setDisplayInvalidFileMessage(true);
-                console.log(files.type)
-                return;
+                setIsButtonDisable(false);
+                setFile("")
             } else {
                 setDisplayInvalidFileMessage(false);
                 setFile(files[0])
+                setIsButtonDisable(true);
             }
         }
 
-        if (file) {
-            const formData = new FormData();
-            formData.append('file', e.target.files[0])
-            formData.append('name', e.target.files[0].name);
-            ContratService.createContrat(params.id, formData).then((res) => setMessageResponse(res.data));
+    };
+
+
+    const deleteFile = () => {
+        setFile([]);
+        setIsButtonDisable(false);
+    }
+
+
+    useEffect(() => {
+        return () => {
+            setFile([]);
+            setIsSubmit(false);
+            setDisplayInvalidFileMessage(false);
+            setIsButtonDisable(false);
 
         }
+    }, [])
 
-    };
+    console.log("set file")
+    console.log(file.name)
 
     return (
         <div>
@@ -70,21 +93,47 @@ function Televerser(idCandidature) {
                     className={classes.input}
                     id="contained-button-file"
                     type="file"
-                    onChange={saveContrat}
+                    onChange={selectFile}
+                    disabled={isButtonDisable}
                 />
+
                 <label htmlFor="contained-button-file">
-                    <Button variant="contained" color="primary" component="span">
-                        Téléverser
-        </Button>
+                    <Button variant="contained" color="primary" component="span" disabled={isButtonDisable}>
+                        Selectionner un fichier
+                            </Button>
                 </label>
-                <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
+                <input accept="image/*" className={classes.input} id="icon-button-file" type="file" disabled={isButtonDisable} />
                 <label htmlFor="icon-button-file">
-                    <IconButton color="primary" aria-label="upload picture" component="span">
+                    <IconButton color="primary" aria-label="upload picture" component="span" disabled={isButtonDisable}>
                         <PublishIcon />
                     </IconButton>
                 </label>
 
-
+                {file.name &&
+                <>
+                    <div className="row">
+                        <div className="col">
+                            <Alert severity="success" variant="filled"> {file.name}</Alert>
+                        </div>
+                        <div className="col">
+                            <IconButton color="primary" aria-label="upload picture" component="span" onClick={deleteFile}>
+                                <HighlightOffIcon style={{ color: "red" }} />
+                            </IconButton>
+                        </div>
+                    </div>
+                    <div className="row">
+                        
+                        <div className="col-md-auto">
+                        <Button variant="contained" color="primary" component="span" className="mt-4"
+                        onClick={saveContrat}
+                        disabled={isSubmit}
+                        >
+                        Confirmer et envoyer au employeur
+                            </Button>
+                        </div>
+                    </div>
+                   </>
+                }
 
 
             </div>
@@ -92,7 +141,7 @@ function Televerser(idCandidature) {
                 AlertFormatInvalide("Seuls les fichiers en format pdf sont acceptés", "warning")
             }
             {messageResponse &&
-            AlertFormatInvalide( messageResponse,"warning")
+                AlertFormatInvalide(messageResponse, "info")
             }
 
         </div>
@@ -104,10 +153,10 @@ export default Televerser;
 
 function AlertFormatInvalide(message, type) {
 
-    return <div className="container">
+    return <div className="container-fluid">
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity={type} variant="filled" className="m-3 text-center">{message}</Alert>
+                <Alert severity={type} variant="filled" className="text-center">{message}</Alert>
             </div>
         </div>
     </div>;

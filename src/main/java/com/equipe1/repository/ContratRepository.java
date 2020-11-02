@@ -7,11 +7,12 @@ import com.equipe1.model.Etudiant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ContratRepository extends JpaRepository<Contrat, Long> {
 
     List<Contrat> findByEmployeur(Employeur employeur);
-    Contrat findByCandidature(Candidature candidature);
+    Optional<Contrat> findByCandidature(Candidature candidature);
 
     //Contrat findByCandidatureExists(Candidature candidature);
 

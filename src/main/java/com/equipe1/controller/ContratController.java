@@ -100,6 +100,17 @@ public class ContratController {
         return contratService.isCandidatureHasContrat(id);
     }
 
+    @GetMapping(value = "getApercueContrat/{idCandidature}")
+    public ResponseEntity<byte[]> getApercueContrat(@PathVariable Long idCandidature) throws Exception {
+        byte [] pdfile = contratService.createApercueContrat(idCandidature).toByteArray();
+        //InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(pdfile));
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.valueOf("application/pdf"));
+        header.setContentLength(pdfile.length);
+        header.set("Content-Disposition", "attachment; filename=" );
+        return new ResponseEntity<>(pdfile,  HttpStatus.OK);
+    }
+
     @PutMapping ("/create/{idCandidature}")
     public ResponseEntity<String> saveContrat(@RequestParam("file") MultipartFile file, @PathVariable Long idCandidature) {
         String message = "";

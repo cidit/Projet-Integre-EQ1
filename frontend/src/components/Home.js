@@ -17,10 +17,10 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-                {/* <ContratsEmployeur/>  */}
+          
 
 
-                {/* <ListCandidatureChoisi /> */}
+              <ListCandidatureChoisi /> 
 
 
             </div>

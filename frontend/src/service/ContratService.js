@@ -16,6 +16,14 @@ class ContratService {
         }))
     }
 
+    async telechargerApercueContrat(id) {
+        return ( axios.request({
+            url: baseURL + "getApercueContrat/"+ id,
+            method: 'GET',
+            responseType: 'blob',
+        }))
+    }
+
     async getContratByEmployeurId(id) {
         return await axios.get(baseURL + "getByEmployeurId/"+ id);
     }
@@ -30,13 +38,11 @@ class ContratService {
 
 
     async createContrat(idCandidature, file){
-        return axios.put(baseURL + "create/" + idCandidature, file)
+        const formData = new FormData();
+            formData.append('file', file)
+            formData.append('name',file.name);
+        return axios.put(baseURL + "create/" + idCandidature, formData)
     }
-
-    asucreateContratV2(idCandidature, file){
-        return axios.post(baseURL + "create/" + idCandidature, file);
-    }
-
 
 }
 export default new ContratService()

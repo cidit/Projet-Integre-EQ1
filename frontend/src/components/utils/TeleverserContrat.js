@@ -5,8 +5,6 @@ import PublishIcon from '@material-ui/icons/Publish';
 import { withStyles } from '@material-ui/styles';
 
 
-
-
 export default class TeleverserContrat extends Component {
     constructor(props) {
         super(props);
@@ -21,7 +19,6 @@ export default class TeleverserContrat extends Component {
                 <p>instrictions a suivre</p>
                 <p>id du contrat</p>
                 <div>{this.props.match.params.id}</div>
-               
 
                 <div >
                     <input
