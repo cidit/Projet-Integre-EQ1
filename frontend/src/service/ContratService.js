@@ -8,6 +8,10 @@ class ContratService {
         return await axios.get('http://localhost:8080/contrats/findAll');
     }
 
+    async getCandidaturesSansContrat() {
+        return await axios.get(baseURL +'getCandidaturesSansContrat');
+    }
+
     async telechargerDocument(id) {
         return ( axios.request({
             url: baseURL + "getContratFile/"+ id,

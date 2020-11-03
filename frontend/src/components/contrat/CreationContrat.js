@@ -1,28 +1,21 @@
-import React, { useState, useEffect } from "react";
-import CandidatureService from '../../service/CandidatureService'
-import Televerser from './Televerser'
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { useRouteMatch } from "react-router-dom"
-import CreationContratApercue from './CreationContratApercue'
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Typography from '@material-ui/core/Typography';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import React, { useEffect, useState } from "react";
+import { useRouteMatch } from "react-router-dom";
+import CandidatureService from '../../service/CandidatureService';
+import CreationContratApercue from './CreationContratApercue';
+import Televerser from './Televerser';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,21 +28,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CreationContrat(id) {
+function CreationContrat() {
   const [candidatureFinal, setCandidatureFinal] = useState('')
   const classes = useStyles();
   const [isCreationAuto, setIsCreationAuto] = useState(false);
   const [isTeleversement, setIsTeleversement] = useState(false)
-
   //permet d'utiliser params.id from url
   const { params } = useRouteMatch();
 
-
   const getcandidaturefinal = async () => {
     const response = await CandidatureService.getById(params.id);
-    await setCandidatureFinal(response)
-
-
+    setCandidatureFinal(response)
   }
 
   useEffect(() => {
@@ -58,7 +47,6 @@ function CreationContrat(id) {
       setCandidatureFinal('');
     }
   }, [])
-
 
   const creationAutomatique = () => {
     setIsCreationAuto(!isCreationAuto)
@@ -78,12 +66,15 @@ function CreationContrat(id) {
           <Typography className={classes.heading} variant="h4" component="h4"> Informations pour le contrat</Typography>
         </AccordionSummary>
         <AccordionDetails className="row justify-content-md-center m-3  p-2" >
+         
           {candidatureFinal &&
             createTableauEntreprise(candidatureFinal)
           }
+         
           {candidatureFinal &&
             createTableauEtudiant(candidatureFinal)
           }
+         
           {candidatureFinal &&
             createTableauStage(candidatureFinal)
           }
@@ -97,8 +88,8 @@ function CreationContrat(id) {
           <Typography className={classes.heading} variant="h4" component="h4">  Créer et envoyer un contrat</Typography>
         </AccordionSummary>
         <AccordionDetails className="row justify-content-md-center m-3 p-2" >
+          
           <div className="col-5">
-
             <Button variant="contained" color="primary"
               component="span"
               className="mt-4 btn-lg btn-block"
@@ -106,7 +97,6 @@ function CreationContrat(id) {
               disabled={isTeleversement}>
               Créer un contrat automatiquement
            </Button>
-
           </div>
 
           <div className="col-5">
@@ -116,7 +106,6 @@ function CreationContrat(id) {
               téléverser un fichier depuis mon ordinateur
             </Button>
           </div>
-
 
         </AccordionDetails>
       </Accordion>
@@ -139,8 +128,6 @@ function CreationContrat(id) {
             </CardActions>
           </Card>
         </div>
-
-
       }
       {/* televerser lui meme */}
       {isTeleversement &&
@@ -160,12 +147,9 @@ function CreationContrat(id) {
             </CardActions>
           </Card>
         </div>
-
-
       }
     </div >
   )
-
 
 
 };

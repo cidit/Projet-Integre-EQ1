@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,24 +38,14 @@ public class ContratController {
     @Autowired
     EmployeurRepository employeurRepository;
 
+    @GetMapping(value = "findAll")
+    public List<Contrat> getContrats() {
+        return contratService.findAll();
+    }
 
-    //harcoding for test
-    @GetMapping("/pdf")
-    public ResponseEntity<InputStreamResource> ersourceyes() throws Exception {
-        Etudiant etudiantTest = etudiantRepository.findByEmail("richard@email.com");
-        Employeur employeurTest = employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
-        Optional<Stage> stageTest = stageRepository.findById(6L);
-
-        byte[] pdfile = generateurPdfService.createPdf(stageTest.get(), employeurTest, etudiantTest).toByteArray();
-
-        InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(pdfile));
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=")
-                .contentType(MediaType.APPLICATION_PDF)
-                .contentLength(pdfile.length)
-                .body(resource);
-
+    @GetMapping(value = "getContratById/{id}")
+    public Contrat getById(@PathVariable Long id) {
+        return contratService.getContratById(id);
     }
 
     @GetMapping("/getContratFile/{id}")
@@ -70,20 +60,15 @@ public class ContratController {
         return new ResponseEntity<>(pdfile, header, HttpStatus.OK);
     }
 
-    @GetMapping(value = "findAll")
-    public List<Contrat> getContrats() {
-        return contratService.findAll();
-    }
-
-    @GetMapping(value = "getContratById/{id}")
-    public Contrat getById(@PathVariable Long id) {
-        return contratService.getContratById(id);
-    }
-
     @GetMapping(value = "getByEmployeurId/{id}")
     public List<Contrat> getContratsByEmployeur(@PathVariable Long id) {
         Optional<Employeur> employeur = employeurRepository.findById(id);
         return contratService.getContratsByEmployeur(employeur.get());
+    }
+
+    @GetMapping(value = "getCandidaturesSansContrat")
+    public List<Candidature> getCandidaturesSansContrat() {
+        return contratService.listCandidatureSansContrat();
     }
 
     @GetMapping(value = "getByEtudiantId/{id}")
@@ -100,7 +85,6 @@ public class ContratController {
     @GetMapping(value = "getApercueContrat/{idCandidature}")
     public ResponseEntity<byte[]> getApercueContrat(@PathVariable Long idCandidature) throws Exception {
         byte[] pdfile = contratService.createApercueContrat(idCandidature).toByteArray();
-        //InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(pdfile));
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.valueOf("application/pdf"));
         header.setContentLength(pdfile.length);

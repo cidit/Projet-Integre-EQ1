@@ -33,6 +33,8 @@ public class ContratServiceTest {
     @MockBean
     private CandidatureRepository candidatureRepository;
     @MockBean
+    private CandidatureService candidatureService;
+    @MockBean
     private ContratRepository contratRepository;
     @MockBean
     private EmployeurRepository employeurRepository;
@@ -175,5 +177,15 @@ public class ContratServiceTest {
         when(contratRepository.findAll()).thenReturn(Arrays.asList(contrat2, contrat1));
         boolean hascontrat = contratService.candidatureHasContrat(1L);
         assertTrue(hascontrat);
+    }
+
+    @Test
+    public void listCandidatureSansContrat() {
+        when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI))
+                .thenReturn(Arrays.asList(candidature2,candidature1));
+
+        List<Candidature> all = contratService.listCandidatureSansContrat();
+        assertEquals(2, all.size());
+        assertEquals(all.get(0),candidature2);
     }
 }

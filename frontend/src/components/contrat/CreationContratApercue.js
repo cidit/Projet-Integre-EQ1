@@ -1,23 +1,19 @@
-import React from 'react';
-import { useState, useEffect } from "react";
-import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import ContratService from '../../service/ContratService';
-import { useRouteMatch } from "react-router-dom"
-import Divider from '@material-ui/core/Divider';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import { makeStyles } from '@material-ui/core/styles';
-import Iframe from 'react-iframe'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import ModalMessage from '../../components/utils/ModalMessage'
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import React, { useEffect, useState } from 'react';
+import Iframe from 'react-iframe';
+import { useRouteMatch } from "react-router-dom";
+import ModalMessage from '../../components/utils/ModalMessage';
+import ContratService from '../../service/ContratService';
 
 const styles = (theme) => ({
   root: {
@@ -78,8 +74,6 @@ const iframeStyle = {
 
 }
 
-
-
 export default function CreationContratApercue() {
   const [open, setOpen] = useState(false);
   const [imageContrat, setImageContrat] = useState('')
@@ -126,7 +120,6 @@ export default function CreationContratApercue() {
 
   const candidatureHasContratFunction = async () => {
     const response = await ContratService.candidatureHasContrat(params.id);
-    console.log(response.data)
     setCandidatureHasContrat(response.data);
   }
 

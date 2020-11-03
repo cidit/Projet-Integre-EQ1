@@ -1,13 +1,16 @@
 package com.equipe1.service;
 
-import com.equipe1.model.*;
+import com.equipe1.model.Candidature;
+import com.equipe1.model.Contrat;
+import com.equipe1.model.Employeur;
+import com.equipe1.model.Etudiant;
 import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.ContratRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,13 +26,13 @@ public class ContratService {
 
     @Autowired
     private ContratRepository contratRepository;
-
     @Autowired
     private CandidatureRepository candidatureRepository;
     @Autowired
     CandidatureService candidatureService;
     @Autowired
     GenerateurPdfService generateurPdfService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContratService.class);
 
     public Contrat getContratById(long id) {
         return contratRepository.findById(id)
@@ -77,17 +80,15 @@ public class ContratService {
         Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
         if(candidatureHasContrat(idCandidature)){
             Optional<Contrat> contrat = contratRepository.findByCandidature(candidature.get());
+            LOGGER.info("Contrat override ==> " + contrat.get().getDateGeneration());
             return contratRepository.save(contrat.get());
         } else {
             Contrat newContrat = createContratBuilder(candidature);
             newContrat.setDocumentContrat(newContratDocument(candidature).toByteArray());
+            LOGGER.info("New Contrat cree ==> " + newContrat.getDateGeneration());
             return contratRepository.save(newContrat);
         }
-
-
     }
-
-
 
     public ByteArrayOutputStream createApercueContrat(Long idCandidature) throws Exception {
         Optional <Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
@@ -102,8 +103,10 @@ public class ContratService {
     public boolean candidatureHasContrat(Long candidatureId) {
         boolean hasContrat = false;
         Optional<Candidature> candidature = candidatureService.findCandidatureById(candidatureId);
-        for (Contrat c : contratRepository.findAll()) {
-            hasContrat = c.getCandidature().equals(candidature.get());
+        if(candidature.isPresent()){
+            for (Contrat c : contratRepository.findAll()) {
+                hasContrat = c.getCandidature().equals(candidature.get());
+            }
         }
         return hasContrat;
     }
@@ -117,7 +120,6 @@ public class ContratService {
     }
 
     public Contrat createContratBuilder(Optional<Candidature> candidature) {
-
             Contrat newContrat = Contrat.builder()
                     .dateFinale(candidature.get().getStage().getDateFin())
                     .dateGeneration(LocalDate.now())
@@ -129,7 +131,17 @@ public class ContratService {
                     .employeur(candidature.get().getStage().getEmployeur())
                     .build();
             return newContrat;
+    }
 
+    public List<Candidature> listCandidatureSansContrat(){
+        List<Candidature> canditaturesSansContrat = new ArrayList<>();
+        List<Candidature> canditaturesTemp = candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI);
 
+        for (Candidature candTemp: canditaturesTemp) {
+            if(!contratRepository.findByCandidature(candTemp).isPresent()){
+                canditaturesSansContrat.add(candTemp);
+            }
+        }
+        return canditaturesSansContrat;
     }
 }

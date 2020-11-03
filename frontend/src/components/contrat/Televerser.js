@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { DropzoneArea } from 'material-ui-dropzone';
-import { DropzoneDialog } from 'material-ui-dropzone'
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import PublishIcon from '@material-ui/icons/Publish';
-import ContratService from '../../service/ContratService'
-import { useRouteMatch } from "react-router-dom"
-import Typography from '@material-ui/core/Typography';
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/core/styles';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import PublishIcon from '@material-ui/icons/Publish';
+import { Alert } from '@material-ui/lab';
+import React, { useEffect, useState } from "react";
+import { useRouteMatch } from "react-router-dom";
 import ModalMessage from '../../components/utils/ModalMessage';
+import ContratService from '../../service/ContratService';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,15 +21,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Televerser(idCandidature) {
+function Televerser() {
     const [file, setFile] = useState([]);
-    const [preogres, setProgres] = useState(0);
     const [messageResponse, setMessageResponse] = useState('');
     const [isButtonDisable, setIsButtonDisable] = useState(false)
     const [isSubmit, setIsSubmit] = useState(false)
     const [candidatureHasContrat, setCandidatureHasContrat] = useState(false)
     const classes = useStyles();
-
     const { params } = useRouteMatch();
     const [displayInvalidFileMessage, setDisplayInvalidFileMessage] = useState(false)
 
@@ -68,10 +62,8 @@ function Televerser(idCandidature) {
 
     const candidatureHasContratFunction = async () => {
         const response = await ContratService.candidatureHasContrat(params.id);
-        console.log(response)
         setCandidatureHasContrat(response.data);
     }
-
 
     useEffect(() => {
         candidatureHasContratFunction();
@@ -80,6 +72,7 @@ function Televerser(idCandidature) {
             setIsSubmit(false);
             setDisplayInvalidFileMessage(false);
             setIsButtonDisable(false);
+            setCandidatureHasContrat(false);
         }
     }, [])
 
@@ -106,7 +99,6 @@ function Televerser(idCandidature) {
                             <PublishIcon />
                         </IconButton>
                     </label>
-
                 </div>
 
 
@@ -135,12 +127,12 @@ function Televerser(idCandidature) {
                         </div>
                     </>
                 }
-
-
             </div>
+
             {displayInvalidFileMessage &&
                 AlertFormatInvalide("Seuls les fichiers en format pdf sont acceptés", "warning")
             }
+
             {messageResponse &&
 
                 <ModalMessage
@@ -156,9 +148,7 @@ function Televerser(idCandidature) {
                     redirect="/"
                     title="Le contrat existe déjà" />
             }
-
         </div>
-
     )
 }
 

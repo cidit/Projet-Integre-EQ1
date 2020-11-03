@@ -20,7 +20,6 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class GenerateurPdfServiceTest {
 
-
     @MockBean
     private EmployeurRepository employeurRepository;
     @Autowired
