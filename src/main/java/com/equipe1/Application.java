@@ -1,6 +1,5 @@
 package com.equipe1;
 
-import com.equipe1.model.Etudiant;
 import com.equipe1.model.Session;
 import com.equipe1.service.InsertDataService;
 import com.equipe1.service.SessionService;
@@ -38,9 +37,24 @@ public class Application {
                 insertDataService.insertEmployeur();
                 insertDataService.insertStage();
                 insertDataService.insertGestionnaire();
-                updateSessionTask();
+                insertBootSession();
             }
         };
+    }
+
+    void insertBootSession() {
+        if (sessionService.getAll().isEmpty()) {
+            var today = LocalDate.now();
+            int month = today.getMonthValue() > 6 ? 7 : 1;
+            var startDate = LocalDate.of(today.getYear(), month, 1);
+
+            var session = Session.builder()
+                    .startDate(startDate)
+                    .endDate(startDate.plusMonths(6))
+                    .build();
+
+            sessionService.update(session);
+        }
     }
 
     @Scheduled(cron = "0 0 0 1 1 *")
@@ -58,11 +72,12 @@ public class Application {
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusMonths(6))
                 .build();
-        sessionService.create(session);
+        sessionService.update(session);
     }
 }
 
 @Configuration
 @EnableScheduling
 @ConditionalOnProperty(name = "scheduling.enabled", matchIfMissing = true)
-class SchedulingConfiguration { }
+class SchedulingConfiguration {
+}

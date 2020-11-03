@@ -1,7 +1,6 @@
 package com.equipe1.controller;
 
 import com.equipe1.model.Etudiant;
-import com.equipe1.model.Session;
 import com.equipe1.service.EtudiantService;
 import com.equipe1.service.SessionService;
 import org.springframework.web.bind.annotation.*;
@@ -33,22 +32,12 @@ public class EtudiantController {
 
     @GetMapping("/registration/register/{id}")
     public Optional<Etudiant> registerEtudiant(@PathVariable long id) {
-        var optionalEtudiant = etudiantService.findEtudiantById(id);
-        if (optionalEtudiant.isPresent()) {
-            var session = sessionService.getCurrent();
-            session.getEtudiants().add(optionalEtudiant.get());
-        }
-        return optionalEtudiant;
+        return etudiantService.registerEtudiant(id);
     }
 
     @GetMapping("/registration/isRegistered/{id}")
-    public boolean isRegisteredEtudiant(@PathVariable long id) {
-        var optionalEtudiant = etudiantService.findEtudiantById(id);
-        if (optionalEtudiant.isPresent()) {
-            var session = sessionService.getCurrent();
-            return session.getEtudiants().stream().anyMatch(etudiant -> etudiant.getId() == id);
-        }
-        return false;
+    public boolean isEtudiantRegistered(@PathVariable long id) {
+        return etudiantService.isEtudiantRegistered(id);
     }
 
     @PostMapping("/create")

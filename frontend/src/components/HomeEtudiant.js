@@ -66,7 +66,7 @@ export default class HomeEtudiant extends Component {
                 this.setState({displaySubmitCVButton: true});
             }
         }
-        ;
+
         if (err !== '') {
             event.target.value = null
             return false;

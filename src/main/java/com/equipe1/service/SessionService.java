@@ -22,7 +22,9 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public void create(Session session) { sessionRepository.save(session); }
+    public void update(Session session) { sessionRepository.save(session); }
 
-    // public Session createValid() {}
+    public void delete(long id) {
+        sessionRepository.deleteById(id);
+    }
 }
