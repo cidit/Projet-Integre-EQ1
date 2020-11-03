@@ -22,5 +22,7 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
+    public void create(Session session) { sessionRepository.save(session); }
+
     // public Session createValid() {}
 }

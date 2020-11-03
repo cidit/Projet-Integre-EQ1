@@ -1,7 +1,9 @@
 package com.equipe1.controller;
 
 import com.equipe1.model.Etudiant;
+import com.equipe1.model.Session;
 import com.equipe1.service.EtudiantService;
+import com.equipe1.service.SessionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class EtudiantController {
 
     private EtudiantService etudiantService;
+    private SessionService sessionService;
 
     public EtudiantController(EtudiantService service){
         this.etudiantService = service;
@@ -26,6 +29,26 @@ public class EtudiantController {
     @GetMapping("/get")
     public Optional<Etudiant> getEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
         return etudiantService.findEtudiantById(idEtudiant);
+    }
+
+    @GetMapping("/registration/register/{id}")
+    public Optional<Etudiant> registerEtudiant(@PathVariable long id) {
+        var optionalEtudiant = etudiantService.findEtudiantById(id);
+        if (optionalEtudiant.isPresent()) {
+            var session = sessionService.getCurrent();
+            session.getEtudiants().add(optionalEtudiant.get());
+        }
+        return optionalEtudiant;
+    }
+
+    @GetMapping("/registration/isRegistered/{id}")
+    public boolean isRegisteredEtudiant(@PathVariable long id) {
+        var optionalEtudiant = etudiantService.findEtudiantById(id);
+        if (optionalEtudiant.isPresent()) {
+            var session = sessionService.getCurrent();
+            return session.getEtudiants().stream().anyMatch(etudiant -> etudiant.getId() == id);
+        }
+        return false;
     }
 
     @PostMapping("/create")
