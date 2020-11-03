@@ -2,34 +2,27 @@ package com.equipe1.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Data
 @AllArgsConstructor
+@Builder
 public class Candidature {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
+
     @ManyToOne
     private Etudiant etudiant;
+
     @OneToOne
     private Stage stage;
+
     private CandidatureStatut statut;
-
-    public CandidatureStatut getStatut() {
-        return statut;
-    }
-
-    public void setStatut(CandidatureStatut statut) {
-        this.statut = statut;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public Candidature() {
         this.statut = CandidatureStatut.EN_ATTENTE;
@@ -39,6 +32,10 @@ public class Candidature {
         this.etudiant = etudiant;
         this.stage = stage;
         this.statut = CandidatureStatut.EN_ATTENTE;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
@@ -59,6 +56,14 @@ public class Candidature {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public CandidatureStatut getStatut() {
+        return statut;
+    }
+
+    public void setStatut(CandidatureStatut statut) {
+        this.statut = statut;
     }
 
     public enum CandidatureStatut {

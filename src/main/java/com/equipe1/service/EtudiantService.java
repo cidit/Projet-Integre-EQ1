@@ -14,6 +14,9 @@ public class EtudiantService {
     @Autowired
     private EtudiantRepository etudiantRepository;
 
+    @Autowired
+    private SessionService sessionService;
+
     public EtudiantService(EtudiantRepository etudiantRepository){
         this.etudiantRepository = etudiantRepository;
     }
@@ -52,5 +55,24 @@ public class EtudiantService {
 
     public List<Etudiant> getEtudiantsByProgramme(String programme) {
         return etudiantRepository.findAllByProgramme(programme);
+    }
+
+    public Optional<Etudiant> registerEtudiant(long id) {
+        var optionalEtudiant = findEtudiantById(id);
+        if (optionalEtudiant.isPresent()) {
+            var session = sessionService.getCurrent();
+            session.getEtudiants().add(optionalEtudiant.get());
+            sessionService.update(session);
+        }
+        return optionalEtudiant;
+    }
+
+    public boolean isEtudiantRegistered(long id) {
+        var optionalEtudiant = findEtudiantById(id);
+        if (optionalEtudiant.isPresent()) {
+            var session = sessionService.getCurrent();
+            return session.getEtudiants().stream().anyMatch(etudiant -> etudiant.getId() == id);
+        }
+        return false;
     }
 }

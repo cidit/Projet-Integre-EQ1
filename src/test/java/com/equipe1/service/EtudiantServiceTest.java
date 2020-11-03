@@ -1,7 +1,11 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Candidature;
 import com.equipe1.model.Etudiant;
+import com.equipe1.model.Session;
+import com.equipe1.model.Stage;
 import com.equipe1.repository.EtudiantRepository;
+import com.equipe1.repository.SessionRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,10 +15,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -28,6 +35,10 @@ public class EtudiantServiceTest {
     @MockBean
     private EtudiantRepository repository;
 
+    @MockBean
+    private SessionRepository sessionRepository;
+
+    private Session session;
     private Etudiant e1;
     private Etudiant e2;
 
@@ -44,6 +55,14 @@ public class EtudiantServiceTest {
         e2.setMatricule("67890");
         e1.setEmail("e2@email.com");
         e1.setProgramme("Techniques de l’informatique");
+
+        session = Session.builder()
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusMonths(6))
+                .etudiants(new HashSet<>())
+                .candidatures(new HashSet<>())
+                .build();
+        sessionRepository.save(session);
     }
 
     @Test
@@ -179,5 +198,39 @@ public class EtudiantServiceTest {
         List<Etudiant> etudiants = service.getEtudiantsByProgramme("RIEN");
         // Assert
         Assertions.assertNull(etudiants);
+    }
+
+    @Test
+    void testRegisterEtudiant() {
+        // Arrange
+        e1.setId(1L);
+        doReturn(e1).when(repository).save(e1);
+        doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
+        repository.save(e1);
+
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
+        // Act
+        Optional<Etudiant> optionalEtudiant = service.registerEtudiant(e1.getId());
+        // Assert
+        Assertions.assertTrue(optionalEtudiant.isPresent());
+    }
+
+    @Test
+    void testIsEtudiantRegistered() {
+        // Arrange
+        e1.setId(1L);
+        doReturn(e1).when(repository).save(e1);
+        doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
+        repository.save(e1);
+
+        session.getEtudiants().add(e1);
+        when(sessionRepository.save(session)).thenReturn(session);
+        sessionRepository.save(session);
+        when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
+        // Act
+        boolean flag = service.isEtudiantRegistered(e1.getId());
+        // Assert
+        Assertions.assertTrue(flag);
     }
 }

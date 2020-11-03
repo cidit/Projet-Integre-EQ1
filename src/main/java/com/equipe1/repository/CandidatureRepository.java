@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface CandidatureRepository extends JpaRepository<Candidature, Long> {
     Optional<Candidature> findByEtudiant(Etudiant etudiant);
 
-    @Query("SELECT c FROM Candidature c where c.etudiant.id = :id and c.statut = :statut")
-    Optional<Candidature> findCandidatureByEtudiant_Id(Long id, Candidature.CandidatureStatut statut);
+    //@Query("SELECT c FROM Candidature c where c.etudiant.id = :id and c.statut = :statut")
+    //Optional<Candidature> findCandidatureByEtudiant_Id(Long id, Candidature.CandidatureStatut statut);
 
 }

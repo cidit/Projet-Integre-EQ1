@@ -3,13 +3,17 @@ package com.equipe1.service;
 import com.equipe1.model.*;
 import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.EtudiantRepository;
+import com.equipe1.repository.SessionRepository;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CandidatureService {
@@ -22,6 +26,11 @@ public class CandidatureService {
 
     @Autowired
     private EtudiantRepository etudiantRepository;
+
+    @Autowired
+    private SessionRepository sessionRepository;
+
+    private SessionService sessionService;
 
     public CandidatureService(CandidatureRepository candidatureRepository){
         this.candidatureRepository = candidatureRepository;
@@ -77,11 +86,35 @@ public class CandidatureService {
     public Candidature updateCandidatureChoisi(Long id) {
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
         updatedCandidature.setStatut(Candidature.CandidatureStatut.CHOISI);
-        return candidatureRepository.save(updatedCandidature);
+        Candidature savedCandidature = candidatureRepository.save(updatedCandidature);
+
+        Optional<Session> session = sessionRepository.findCurrentAccordingTo(LocalDate.now());
+        Set<Candidature> currentSessionCandidatures = session.get().getCandidatures();
+        currentSessionCandidatures.add(savedCandidature);
+        session.get().setCandidatures(currentSessionCandidatures);
+        sessionRepository.save(session.get());
+
+        return savedCandidature;
     }
 
     public Optional<Candidature> getCandidatureChoisi(Long id) {
-        Optional<Candidature> optionalCandidature = candidatureRepository.findCandidatureByEtudiant_Id(id, Candidature.CandidatureStatut.CHOISI);
+        Optional<Candidature> optionalCandidature = Optional.empty();
+        boolean flag = false;
+        Set<Candidature> currentSessionCandidatures = null;
+        Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
+        if (optionalEtudiant.isPresent()) {
+            Optional<Session> session = sessionRepository.findCurrentAccordingTo(LocalDate.now());
+            flag = session.get().getEtudiants().stream().anyMatch(etudiant -> etudiant.getId() == id);
+            System.out.println(flag);
+            currentSessionCandidatures = session.get().getCandidatures();
+        }
+        if (flag){
+            Set<Candidature> filtered = currentSessionCandidatures.stream()
+                                        .filter(candidature -> candidature.getEtudiant().getId() == id && candidature.getStatut() == Candidature.CandidatureStatut.CHOISI)
+                                        .collect(Collectors.toSet());
+            System.out.println(filtered);
+            optionalCandidature = Optional.of(filtered.iterator().next());
+        }
         return optionalCandidature;
     }
 }

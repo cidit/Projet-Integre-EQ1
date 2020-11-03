@@ -28,6 +28,16 @@ public class EtudiantController {
         return etudiantService.findEtudiantById(idEtudiant);
     }
 
+    @GetMapping("/registration/register/{id}")
+    public Optional<Etudiant> registerEtudiant(@PathVariable long id) {
+        return etudiantService.registerEtudiant(id);
+    }
+
+    @GetMapping("/registration/isRegistered/{id}")
+    public boolean isEtudiantRegistered(@PathVariable long id) {
+        return etudiantService.isEtudiantRegistered(id);
+    }
+
     @PostMapping("/create")
     public Etudiant createEtudiant(@RequestBody Etudiant etudiant){
         return etudiantService.saveEtudiant(etudiant);
