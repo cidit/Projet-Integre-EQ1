@@ -1,5 +1,5 @@
 import React from 'react'
-import ListeContrats, {ListeContratsEmployeur} from '../contrat/ListeContrats'
+import ListeContrats, {ListeContratsEmployeur, ListeContratsEtudiant} from '../contrat/ListeContrats'
 import { useState, useEffect } from "react";
 import EmployeurService from '../../service/EmployeurService'
 import useListeContrats from '../contrat/useListeContrats'
@@ -26,7 +26,7 @@ export default function ContratEtudiant() {
 
     return (
         <div>{contratEtudiant != null &&
-            <ListeContratsEmployeur contrat={contratEtudiant} />
+            <ListeContratsEtudiant contrats={contratEtudiant} />
         }
         </div>
     )

@@ -6,19 +6,30 @@ import { withStyles } from '@material-ui/styles';
 import CVService from "../../service/CVService";
 import {useRouteMatch} from "react-router-dom";
 import ContratService from "../../service/ContratService";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from '@material-ui/lab/Alert';
+
 
 export default class TeleverserContrat extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            file: null
+            file: null,
+            showSnackbarValid: false,
+            showSnackbarInvalid: false
+
         }
 
         this.handleClick = this.handleClick.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }
 
+    handleCloseSnackbarValid = () => this.setState({showSnackbarValid: false});
+    handleShowSnackbarValid = () => this.setState({showSnackbarValid: true});
+
+    handleCloseSnackbarInvalid = () => this.setState({showSnackbarInvalid: false});
+    handleShowSnackbarInvalid = () => this.setState({showSnackbarInvalid: true});
 
     checkMimeType = (event) => {
         let files = event.target.files
@@ -55,12 +66,17 @@ export default class TeleverserContrat extends Component {
         formData.append('file', this.state.file)
         formData.append('desc', desc);
         ContratService.createContrat(id, formData);
+        if(this.state.file != undefined){
+            this.handleShowSnackbarValid()
+        }
+        else {
+            this.handleShowSnackbarInvalid();
+        }
     }
 
 
-    render() {
 
-  
+    render() {
         return (
             <form>
             <div>
@@ -93,7 +109,23 @@ export default class TeleverserContrat extends Component {
 
 
             </div>
+                <Snackbar open={this.state.showSnackbarValid} autoHideDuration={6000}
+                          onClose={this.handleCloseSnackbarValid}>
+                    <Alert onClose={this.handleCloseSnackbarValid} severity="success">
+                        Le contrat a été téléversé.
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={this.state.showSnackbarInvalid} autoHideDuration={6000}
+                          onClose={this.handleCloseSnackbarInvalid}>
+                    <Alert onClose={this.handleCloseSnackbarInvalid} severity="error">
+                        Il n'y a pas de contrat a téléverser.
+                    </Alert>
+                </Snackbar>
             </form>
+
         )
     }
+}
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
 }

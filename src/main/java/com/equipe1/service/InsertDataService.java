@@ -204,7 +204,7 @@ public class InsertDataService {
         stage1.setOuvert(true);
         stage1.setStatut(Stage.StageStatus.APPROVED);
 
-        Etudiant etudiant = etudiantRepository.findByEmail("richard@email.com");
+        Etudiant etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
         Set<Etudiant> set = new HashSet<>();
         set.add(etudiant);
         stage1.setEtudiantsAdmits(set);
@@ -277,7 +277,7 @@ public class InsertDataService {
 
         stageService.saveStage(stage1);
 
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
+        etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
         Candidature candidature = candidatureService.createCandidature(etudiant.getId(), (long) 11);
         candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
         candidatureRepository.save(candidature);

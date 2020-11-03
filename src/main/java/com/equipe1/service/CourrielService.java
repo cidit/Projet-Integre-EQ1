@@ -1,10 +1,6 @@
 package com.equipe1.service;
 
-import com.equipe1.model.CV;
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Courriel;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.User;
+import com.equipe1.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +94,33 @@ public class CourrielService {
         mailSender.send(message);
         LOGGER.info("Mail sent to ==> " + mailTo);
     }
+
+    public void sendContratScolarite(Contrat contrat, String desc) throws Exception {
+        String mailTo = "";
+        String subject = "";
+        String mailBody = "";
+        if (desc.equals("Employeur")){
+            mailTo = contrat.getCandidature().getEtudiant().getEmail();
+            subject = "Contrat pour votre stage " + contrat.getCandidature().getStage().getTitre() + " chez " + contrat.getEmployeur().getNom();
+            mailBody = "Voici votre contrat de stage en piece-jointe.";
+        }
+        else {
+            mailTo = "stagescegepandrelaurendeau@gmail.com";
+            subject = "Contrat de stage pour l'etudiant " + contrat.getCandidature().getEtudiant().getPrenom() + " " + contrat.getCandidature().getEtudiant().getNom();
+            mailBody = "Voici le contrat de stage en piece-jointe.";
+        }
+
+        final InputStreamSource attachment = new ByteArrayResource(contrat.getDocumentContrat());
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setTo(mailTo);
+        helper.setSubject(subject);
+        helper.setText(mailBody, true);
+        helper.addAttachment("Contrat_" + contrat.getCandidature().getStage().getTitre() + contrat.getCandidature().getEtudiant().getNom() + ".pdf", attachment);
+        mailSender.send(message);
+        LOGGER.info("Mail sent to ==> " + mailTo);
+    }
+
 
 
 }

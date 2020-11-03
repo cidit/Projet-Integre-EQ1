@@ -23,7 +23,6 @@ public class Contrat {
     private byte[] documentContrat;
     private LocalDate dateGeneration;
     private LocalDate dateFinale;
-    private SignatureEtat signatureAdmin;
     private SignatureEtat signatureEmployeur;
     private SignatureEtat signatureEtudiant;
 
@@ -33,7 +32,6 @@ public class Contrat {
         EN_ATTENTE
     }
     public Contrat() {
-        this.signatureAdmin= SignatureEtat.PAS_SIGNE;
         this.signatureEmployeur= SignatureEtat.PAS_SIGNE;
         this.signatureEtudiant= SignatureEtat.PAS_SIGNE;
         this.dateGeneration = LocalDate.now();

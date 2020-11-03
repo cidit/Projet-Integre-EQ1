@@ -27,6 +27,8 @@ public class ContratService {
     private CandidatureRepository candidatureRepository;
     @Autowired
     CandidatureService candidatureService;
+    @Autowired
+    CourrielService courrielService;
 
     public List<Contrat> getContrats() {
         return contratRepository.findAll();
@@ -68,8 +70,6 @@ public class ContratService {
             contrat.setSignatureEmployeur(Contrat.SignatureEtat.EN_ATTENTE);
         if (desc.equals("Etudiant"))
             contrat.setSignatureEtudiant(Contrat.SignatureEtat.EN_ATTENTE);
-        if (desc.equals("Administration"))
-            contrat.setSignatureAdmin(Contrat.SignatureEtat.EN_ATTENTE);
         //si ya los tiene no crea una nueva
         return contratRepository.save(contrat);
     }
@@ -91,16 +91,22 @@ public class ContratService {
                 &&candidatureTmp.getContrat().getSignatureEmployeur().equals(Contrat.SignatureEtat.SIGNE);
     }
 
-    public Contrat updateStatutContrat(String desc, Contrat.SignatureEtat etat, Long id) {
+    public Contrat updateStatutContrat(String desc, Contrat.SignatureEtat etat, Long id) throws Exception {
         Contrat contrat = contratRepository.findById(id).get();
-        if (desc.equals("Employeur"))
+        if (desc.equals("Employeur")){
             contrat.setSignatureEmployeur(etat);
-        if (desc.equals("Etudiant"))
-            contrat.setSignatureEtudiant(etat);
-        if (desc.equals("Admin"))
-            contrat.setSignatureAdmin(etat);
+            contratRepository.save(contrat);
+            if(etat.equals(Contrat.SignatureEtat.SIGNE))
+                courrielService.sendContratScolarite(contrat, desc);
+        }
 
-        contratRepository.save(contrat);
+        if (desc.equals("Etudiant")){
+            contrat.setSignatureEtudiant(etat);
+            contratRepository.save(contrat);
+            if(etat.equals(Contrat.SignatureEtat.SIGNE))
+                courrielService.sendContratScolarite(contrat, desc);
+        }
+
         return contrat;
     }
 }

@@ -96,11 +96,11 @@ public class ContratController {
     }
 
     @PutMapping(value = "accepteSignatureContrat/{id}")
-    public Contrat accepteSignatureContrat (@PathVariable Long id, @RequestParam("desc") String desc) {
+    public Contrat accepteSignatureContrat (@PathVariable Long id, @RequestParam("desc") String desc) throws Exception {
         return contratService.updateStatutContrat(desc, Contrat.SignatureEtat.SIGNE, id);
     }
     @PutMapping(value = "refuseSignatureContrat/{id}")
-    public Contrat refuseSignatureContrat (@PathVariable Long id, @RequestParam("desc") String desc) {
+    public Contrat refuseSignatureContrat (@PathVariable Long id, @RequestParam("desc") String desc) throws Exception {
         return contratService.updateStatutContrat(desc, Contrat.SignatureEtat.PAS_SIGNE, id);
     }
 
@@ -112,9 +112,6 @@ public class ContratController {
     @PutMapping ("create/{idCandidature}")
     public ResponseEntity<String> saveContrat(@RequestParam("file") MultipartFile file, @RequestParam("desc") String desc, @PathVariable Long idCandidature) throws IOException {
         String message = "";
-        System.out.println("desc : " + desc);
-        System.out.println("contrat : " + file.getOriginalFilename());
-        System.out.println("id : " + idCandidature);
         contratService.updateContrat(file, idCandidature, desc);
         return new ResponseEntity<>(message,  HttpStatus.OK);
     }
