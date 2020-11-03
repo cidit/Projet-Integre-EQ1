@@ -38,15 +38,10 @@ function Televerser(idCandidature) {
     const [displayInvalidFileMessage, setDisplayInvalidFileMessage] = useState(false)
 
     const saveContrat = async (e) => {
-
-      
-            var response = await ContratService.createContrat(params.id, file);
-            setMessageResponse(response.data);
-            setIsButtonDisable(true)
-            console.log(response.data.status)
-            setIsSubmit(true)
-       
-
+        var response = await ContratService.createContrat(params.id, file);
+        setMessageResponse(response.data);
+        setIsButtonDisable(true)
+        setIsSubmit(true)
     }
 
     const selectFile = (e) => {
@@ -73,7 +68,8 @@ function Televerser(idCandidature) {
 
     const candidatureHasContratFunction = async () => {
         const response = await ContratService.candidatureHasContrat(params.id);
-        setCandidatureHasContrat(response);
+        console.log(response)
+        setCandidatureHasContrat(response.data);
     }
 
 
@@ -146,19 +142,20 @@ function Televerser(idCandidature) {
                 AlertFormatInvalide("Seuls les fichiers en format pdf sont acceptés", "warning")
             }
             {messageResponse &&
-                AlertFormatInvalide(messageResponse, "info")
+
+                <ModalMessage
+                    message={messageResponse}
+                    redirect="/listCandidatureChoisi"
+                    title="Le contrat existe déjà" />
+                // AlertFormatInvalide(messageResponse, "info")
             }
 
             {candidatureHasContrat &&
-            <ModalMessage 
-                message={"un contrat a déjà été créé pour ce stage, si vous souhaitez le supprimer veuillez consulter la liste de tous les contrats"}
-                redirect ="/"
-                title = "Le contrat existe déjà"/>
-            
+                <ModalMessage
+                    message={"un contrat a déjà été créé pour ce stage, si vous souhaitez le supprimer veuillez consulter la liste de tous les contrats"}
+                    redirect="/"
+                    title="Le contrat existe déjà" />
             }
-
-
-
 
         </div>
 

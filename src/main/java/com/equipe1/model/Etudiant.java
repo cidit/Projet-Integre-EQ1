@@ -38,4 +38,6 @@ public class Etudiant extends User {
     @OneToOne
     private CV cv;
 
+
+
 }

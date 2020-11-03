@@ -17,10 +17,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
 import Iframe from 'react-iframe'
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-
-
-
+import ModalMessage from '../../components/utils/ModalMessage'
 
 const styles = (theme) => ({
   root: {
@@ -87,10 +84,13 @@ export default function CreationContratApercue() {
   const [open, setOpen] = useState(false);
   const [imageContrat, setImageContrat] = useState('')
   const [isSubmit, setIsSubmit] = useState(false)
-  const { params } = useRouteMatch();
+
   const [isLoading, setIsLoading] = useState(false)
   const [candidatureHasContrat, setCandidatureHasContrat] = useState(false)
   const classes = useStyles();
+  const [messageResponse, setMessageResponse] = useState('');
+  const [isButtonDisable, setIsButtonDisable] = useState(false)
+  const { params } = useRouteMatch();
 
 
   const getApercueContrat = async () => {
@@ -102,6 +102,7 @@ export default function CreationContratApercue() {
   };
 
   useEffect(() => {
+    candidatureHasContratFunction()
     return () => {
       URL.revokeObjectURL(imageContrat)
     }
@@ -117,59 +118,79 @@ export default function CreationContratApercue() {
 
 
   const saveContrat = async (e) => {
-   /* var response = await ContratService.createContrat(params.id, file);
+    const response = await ContratService.createContratAuto(params.id);
     setMessageResponse(response.data);
     setIsButtonDisable(true)
-    console.log(response.data.status)
     setIsSubmit(true)
-*/
+  }
 
-}
+  const candidatureHasContratFunction = async () => {
+    const response = await ContratService.candidatureHasContrat(params.id);
+    console.log(response.data)
+    setCandidatureHasContrat(response.data);
+  }
 
   return (
 
     <div>
-        <div className="col">
-          <Button variant="contained" color="primary" component="button" className="mt-4 btn btn-primary btn-lg btn-block" onClick={handleClickOpen}>
-            Voir apercue
+      {candidatureHasContrat &&
+        <ModalMessage
+          message={"un contrat a déjà été créé pour ce stage, si vous souhaitez le supprimer veuillez consulter la liste de tous les contrats"}
+          redirect="/"
+          title="Le contrat existe déjà" />
+      }
+
+      {messageResponse &&
+
+        <ModalMessage
+          message={messageResponse}
+          redirect="/listCandidatureChoisi"
+          title="Le contrat existe déjà" />
+        // AlertFormatInvalide(messageResponse, "info")
+      }
+
+
+      <div className="col">
+        <Button variant="contained" color="primary" component="button" className="mt-4 btn btn-primary btn-lg btn-block" onClick={handleClickOpen}>
+          Voir apercue
            </Button>
-          {isLoading ?
-            <CircularProgress />
-            : null
-          }
-          <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-            <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-              Apercue de contrat
+        {isLoading ?
+          <CircularProgress />
+          : null
+        }
+        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+          <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+            Apercue de contrat
             </DialogTitle>
 
-            <Dialog fullScreen open={open} >
+          <Dialog fullScreen open={open} >
 
-              <Toolbar style={{ background: '#ECECEC' }}>
-                <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-                  <CloseIcon />
-                </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                  Fermer
+            <Toolbar style={{ background: '#ECECEC' }}>
+              <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" className={classes.title}>
+                Fermer
                </Typography>
-              </Toolbar>
+            </Toolbar>
 
-              {/* affichage du contrat */}
-              <Iframe src={imageContrat} width={'100%'} height={'90%'} style={iframeStyle}></Iframe>
+            {/* affichage du contrat */}
+            <Iframe src={imageContrat} width={'100%'} height={'90%'} style={iframeStyle}></Iframe>
 
-            </Dialog>
-            <DialogActions>
-
-            </DialogActions>
           </Dialog>
-        </div>
-        <div className="col">
-          <Button variant="contained" color="primary" component="span" className="mt-4 btn-lg btn-block" fullWidth
-           onClick={saveContrat}
+          <DialogActions>
+
+          </DialogActions>
+        </Dialog>
+      </div>
+      <div className="col">
+        <Button variant="contained" color="primary" component="span" className="mt-4 btn-lg btn-block" fullWidth
+          onClick={saveContrat}
           disabled={isSubmit}
-          >
-            Confirmer et envoyer au employeur
+        >
+          Confirmer et envoyer au employeur
         </Button>
-        </div>
+      </div>
     </div>
   );
 }

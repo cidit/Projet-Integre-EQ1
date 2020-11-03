@@ -27,7 +27,6 @@ import TeleverserContrat from './components/utils/TeleverserContrat'
 
 
 
-
 function App() {
   return (
     
@@ -58,8 +57,7 @@ function App() {
           <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi} />
           <Route path='/CreationContrat/:id' component={CreationContrat} />
           <Route path='/televerserContrats/:id' component={TeleverserContrat} />
-          
-
+          <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi} />
 
         </Switch>
   

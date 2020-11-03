@@ -140,21 +140,14 @@ function CreationContrat(id) {
           </Card>
         </div>
 
+
       }
-
-
-
-
-
-
-
-
       {/* televerser lui meme */}
       {isTeleversement &&
 
-<div className="row m-3">
+        <div className="row m-3">
           <Card className="col p-4 ">
-          <CardActionArea>
+            <CardActionArea>
               <CardContent className="text-center">
                 <Typography className={classes.heading} >
                   <AnnouncementIcon className="mr-3 " style={{ color: "#F2DE15  " }} />
@@ -170,8 +163,6 @@ function CreationContrat(id) {
 
 
       }
-
-
     </div >
   )
 

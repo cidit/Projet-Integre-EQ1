@@ -1,11 +1,12 @@
 package com.equipe1.model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -27,15 +28,29 @@ public class Contrat {
     private SignatureEtat signatureAdmin;
     private SignatureEtat signatureEmployeur;
     private SignatureEtat signatureEtudiant;
+
     public enum SignatureEtat {
         SIGNE,
         PAS_SIGNE,
         EN_ATTENTE
     }
+
     public Contrat() {
-        this.signatureAdmin= SignatureEtat.PAS_SIGNE;
-        this.signatureEmployeur= SignatureEtat.PAS_SIGNE;
-        this.signatureEtudiant= SignatureEtat.PAS_SIGNE;
+        this.signatureAdmin = SignatureEtat.PAS_SIGNE;
+        this.signatureEmployeur = SignatureEtat.PAS_SIGNE;
+        this.signatureEtudiant = SignatureEtat.PAS_SIGNE;
         this.dateGeneration = LocalDate.now();
+    }
+
+    @Override
+    public String toString() {
+        return "Contrat{" +
+                "id=" + id +
+                ", dateGeneration=" + dateGeneration +
+                ", dateFinale=" + dateFinale +
+                ", signatureAdmin=" + signatureAdmin +
+                ", signatureEmployeur=" + signatureEmployeur +
+                ", signatureEtudiant=" + signatureEtudiant +
+                '}';
     }
 }

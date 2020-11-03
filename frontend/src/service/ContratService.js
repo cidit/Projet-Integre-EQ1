@@ -44,5 +44,9 @@ class ContratService {
         return axios.put(baseURL + "create/" + idCandidature, formData)
     }
 
+    async createContratAuto(idCandidature, file){
+        return axios.put(baseURL + "createAuto/" + idCandidature)
+    }
+
 }
 export default new ContratService()

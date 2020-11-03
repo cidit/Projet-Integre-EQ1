@@ -173,34 +173,6 @@ public class GenerateurPdfService {
         return image1;
     }
 
-    public static void main(String[] args) throws Exception {
-        Stage s = new Stage();
-        s.setNbAdmis(2);
-        s.setProgramme("Tecnique informatique");
-        s.setExigences("exigences");
-        s.setVille("montreal");
-        s.setDateDebut(LocalDate.of(2020, 10, 1));
-        s.setDateFin(LocalDate.of(2020, 10, 31));
-
-        //Long days = getDureStage(s);
-        //System.out.println(days);
-
-        Employeur user = new Employeur();
-        user.setNom("carlos");
-        user.setEmail("carlos.arturo.ortiz.celis@gmail.com");
-        user.setTelephone("4444444444");
-        user.setAdresse("adres12345");
-
-
-        Etudiant etudiant = new Etudiant();
-        etudiant.setNom("Colomb");
-        etudiant.setPrenom("Christophe" );
-
-        GenerateurPdfService g = new GenerateurPdfService();
-        g.createPdf(s, user, etudiant);
-
-    }
-
     private Paragraph subtitre(Font fontRegularBold, String text) {
         final float SPACE_APRES = 10f;
         final float SPACE_BEFORE = 10f;
