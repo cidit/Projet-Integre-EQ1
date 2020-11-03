@@ -98,6 +98,8 @@ public class ContratService {
             contratRepository.save(contrat);
             if(etat.equals(Contrat.SignatureEtat.SIGNE))
                 courrielService.sendContratScolarite(contrat, desc);
+            if(etat.equals(Contrat.SignatureEtat.PAS_SIGNE))
+                courrielService.sendRefusContrat(contrat, desc);
         }
 
         if (desc.equals("Etudiant")){
@@ -105,6 +107,8 @@ public class ContratService {
             contratRepository.save(contrat);
             if(etat.equals(Contrat.SignatureEtat.SIGNE))
                 courrielService.sendContratScolarite(contrat, desc);
+            if(etat.equals(Contrat.SignatureEtat.PAS_SIGNE))
+                courrielService.sendRefusContrat(contrat, desc);
         }
 
         return contrat;

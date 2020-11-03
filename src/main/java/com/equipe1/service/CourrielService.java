@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
@@ -122,5 +123,25 @@ public class CourrielService {
     }
 
 
+    public void sendRefusContrat(Contrat contrat, String desc) throws MessagingException {
+        String mailTo = "";
+        String subject = "";
+        String mailBody = "";
+        if (desc.equals("Employeur")){
+            mailTo = contrat.getEmployeur().getEmail();
+        }
+        else {
+            mailTo = contrat.getCandidature().getEtudiant().getEmail();
+        }
+        subject = "Le contrat que vous aviez téléversé est invalide";
+        mailBody = "Le contrat que vous aviez téléversé est invalide, nous vous invitions a le signer et a le dater convenablement.";
 
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setTo(mailTo);
+        helper.setSubject(subject);
+        helper.setText(mailBody, true);
+        mailSender.send(message);
+        LOGGER.info("Mail sent to ==> " + mailTo);
+    }
 }
