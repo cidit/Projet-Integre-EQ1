@@ -107,7 +107,16 @@ public class CourrielServiceTest {
     }
 
     @Test
+    public void testSendContratScolariteEmployeur() throws Exception {
+        courrielService.sendContratScolarite(contrat, "Employeur");
+        CourrielService courriel = mock(CourrielService.class);
+        courriel.sendContratScolarite(contrat, "Employeur");
+        verify( courriel, times(1)).sendContratScolarite(contrat, "Employeur");
+    }
+
+    @Test
     public void testSendContratScolariteEtudiant() throws Exception {
+        courrielService.sendContratScolarite(contrat, "Etudiant");
         CourrielService courriel = mock(CourrielService.class);
         courriel.sendContratScolarite(contrat, "Etudiant");
         verify( courriel, times(1)).sendContratScolarite(contrat, "Etudiant");
@@ -115,6 +124,7 @@ public class CourrielServiceTest {
 
     @Test
     public void testSendRefusContratEmployeur() throws Exception {
+        courrielService.sendRefusContrat(contrat, "Employeur");
         CourrielService courriel = mock(CourrielService.class);
         courriel.sendRefusContrat(contrat, "Employeur");
         verify( courriel, times(1)).sendRefusContrat(contrat, "Employeur");
@@ -122,6 +132,7 @@ public class CourrielServiceTest {
 
     @Test
     public void testSendRefusContratEtudiant() throws Exception {
+        courrielService.sendRefusContrat( contrat, "Etudiant");
         CourrielService courriel = mock(CourrielService.class);
         courriel.sendRefusContrat(contrat, "Etudiant");
         verify( courriel, times(1)).sendRefusContrat(contrat, "Etudiant");
