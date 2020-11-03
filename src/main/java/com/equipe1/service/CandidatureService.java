@@ -105,7 +105,6 @@ public class CandidatureService {
         if (optionalEtudiant.isPresent()) {
             Optional<Session> session = sessionRepository.findCurrentAccordingTo(LocalDate.now());
             flag = session.get().getEtudiants().stream().anyMatch(etudiant -> etudiant.getId() == id);
-            System.out.println(flag);
             currentSessionCandidatures = session.get().getCandidatures();
         }
         if (flag){

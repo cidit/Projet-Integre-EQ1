@@ -52,7 +52,6 @@ class SessionServiceTest {
     void testGetCurrent() {
         when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
 
-        //Session currentSession = sessionService.getCurrent();
         Session currentSession =  sessionRepository.findCurrentAccordingTo(LocalDate.now()).get();
         Assertions.assertEquals(session, currentSession);
     }
@@ -75,7 +74,6 @@ class SessionServiceTest {
         Assertions.assertEquals(1, currentSession.getEtudiants().size());
 
         currentSession.getEtudiants().add(etudiant2);
-        //sessionService.update(currentSession);
         sessionRepository.save(currentSession);
 
         Assertions.assertEquals(2, sessionRepository.findById(currentSession.getId()).get().getEtudiants().size());
@@ -89,7 +87,6 @@ class SessionServiceTest {
         when(sessionRepository.findAll()).thenReturn(Arrays.asList(session));
 
         Assertions.assertEquals(1, sessionRepository.findAll().size());
-        //sessionService.delete(session.getId());
         sessionRepository.deleteById(session.getId());
 
         verify(sessionRepository, times(1)).deleteById(eq(session.getId()));
