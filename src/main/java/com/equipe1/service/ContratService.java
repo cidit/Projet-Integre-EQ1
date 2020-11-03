@@ -70,7 +70,6 @@ public class ContratService {
             contrat.setSignatureEmployeur(Contrat.SignatureEtat.EN_ATTENTE);
         if (desc.equals("Etudiant"))
             contrat.setSignatureEtudiant(Contrat.SignatureEtat.EN_ATTENTE);
-        //si ya los tiene no crea una nueva
         return contratRepository.save(contrat);
     }
 
