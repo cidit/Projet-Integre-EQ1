@@ -89,6 +89,7 @@ export default function CreationContratApercue() {
   const [isSubmit, setIsSubmit] = useState(false)
   const { params } = useRouteMatch();
   const [isLoading, setIsLoading] = useState(false)
+  const [candidatureHasContrat, setCandidatureHasContrat] = useState(false)
   const classes = useStyles();
 
 
@@ -114,60 +115,61 @@ export default function CreationContratApercue() {
     setOpen(false);
   };
 
+
+  const saveContrat = async (e) => {
+   /* var response = await ContratService.createContrat(params.id, file);
+    setMessageResponse(response.data);
+    setIsButtonDisable(true)
+    console.log(response.data.status)
+    setIsSubmit(true)
+*/
+
+}
+
   return (
 
     <div>
-      <div className="row">
+        <div className="col">
+          <Button variant="contained" color="primary" component="button" className="mt-4 btn btn-primary btn-lg btn-block" onClick={handleClickOpen}>
+            Voir apercue
+           </Button>
+          {isLoading ?
+            <CircularProgress />
+            : null
+          }
+          <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+            <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+              Apercue de contrat
+            </DialogTitle>
 
-        <Button variant="contained" color="primary" component="span" className="m-3" onClick={handleClickOpen}>
-          Voir apercue
-      </Button>
+            <Dialog fullScreen open={open} >
 
+              <Toolbar style={{ background: '#ECECEC' }}>
+                <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                  <CloseIcon />
+                </IconButton>
+                <Typography variant="h6" className={classes.title}>
+                  Fermer
+               </Typography>
+              </Toolbar>
 
-        {isLoading ?
-          <CircularProgress />
-          : null
-        }
-       
-        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-          <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-            Apercue de contrat
-        </DialogTitle>
+              {/* affichage du contrat */}
+              <Iframe src={imageContrat} width={'100%'} height={'90%'} style={iframeStyle}></Iframe>
 
-          <Dialog fullScreen open={open} >
-            <Toolbar style={{ background: '#E3F9F0 ' }}>
-              <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-                <CloseIcon />
-              </IconButton>
-              <Typography variant="h6" className={classes.title}>
-                Fermer
-            </Typography>
-            </Toolbar>
+            </Dialog>
+            <DialogActions>
 
-            {/* affichage du contrat */}
-            <Iframe src={imageContrat} width={'100%'} height={'90%'} style={iframeStyle}></Iframe>
-
-
+            </DialogActions>
           </Dialog>
-
-          <DialogActions>
-
-          </DialogActions>
-        </Dialog>
-      </div>
-      <div className="row">
-      <div className="col">
-        <Button variant="contained" color="primary" component="span" className="mt-4" >
-          Confirmer et envoyer au employeur
+        </div>
+        <div className="col">
+          <Button variant="contained" color="primary" component="span" className="mt-4 btn-lg btn-block" fullWidth
+           onClick={saveContrat}
+          disabled={isSubmit}
+          >
+            Confirmer et envoyer au employeur
         </Button>
-      </div>
-
-      </div>
-     
+        </div>
     </div>
-
-
-
-
   );
 }

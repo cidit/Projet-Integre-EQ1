@@ -71,30 +71,32 @@ public class ContratService {
             contratRepository.save(contrat.get());
             return contrat.get();
         } else {
-            Contrat newContrat = Contrat.builder()
-                    .dateFinale(candidature.get().getStage().getDateFin())
-                    .dateGeneration(LocalDate.now())
-                    .signatureAdmin(Contrat.SignatureEtat.PAS_SIGNE)
-                    .signatureEmployeur(Contrat.SignatureEtat.PAS_SIGNE)
-                    .signatureEtudiant(Contrat.SignatureEtat.PAS_SIGNE)
-                    .candidature(candidature.get())
-                    .documentContrat(file.getBytes())
-                    .dateFinale(candidature.get().getStage().getDateFin())
-                    .employeur(candidature.get().getStage().getEmployeur())
-                    .build();
+            Contrat newContrat = createContratBuilder(candidature);
+            newContrat.setDocumentContrat(file.getBytes());
             return contratRepository.save(newContrat);
         }
     }
 
-    public ByteArrayOutputStream createApercueContrat(Long idCandidature) throws Exception {
-        Optional <Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
-        return generateurPdfService.createPdf(candidature.get().getStage(),
-                candidature.get().getStage().getEmployeur(),candidature.get().getEtudiant() );
+    public Contrat createContrat(Long idCandidature) throws Exception {
+        Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
+            Contrat newContrat = createContratBuilder(candidature);
+            newContrat.setDocumentContrat(newContratDocument(candidature).toByteArray());
+            return contratRepository.save(newContrat);
     }
 
 
 
-    public boolean isCandidatureHasContrat(Long candidatureId) {
+    public ByteArrayOutputStream createApercueContrat(Long idCandidature) throws Exception {
+        Optional <Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
+        return newContratDocument(candidature);
+    }
+
+    private ByteArrayOutputStream newContratDocument(Optional<Candidature> candidature) throws Exception {
+        return generateurPdfService.createPdf(candidature.get().getStage(),
+                candidature.get().getStage().getEmployeur(), candidature.get().getEtudiant());
+    }
+
+    public boolean candidatureHasContrat(Long candidatureId) {
         boolean hasContrat = false;
         Optional<Candidature> candidature = candidatureService.findCandidatureById(candidatureId);
         for (Contrat c : contratRepository.findAll()) {
@@ -109,5 +111,19 @@ public class ContratService {
                 && candidatureTmp.getContrat() != null
                 && candidatureTmp.getContrat().getSignatureEmployeur() != null
                 && candidatureTmp.getContrat().getSignatureEmployeur().equals(Contrat.SignatureEtat.SIGNE);
+    }
+
+    private Contrat createContratBuilder(Optional<Candidature> candidature) {
+        Contrat newContrat = Contrat.builder()
+                .dateFinale(candidature.get().getStage().getDateFin())
+                .dateGeneration(LocalDate.now())
+                .signatureAdmin(Contrat.SignatureEtat.PAS_SIGNE)
+                .signatureEmployeur(Contrat.SignatureEtat.PAS_SIGNE)
+                .signatureEtudiant(Contrat.SignatureEtat.PAS_SIGNE)
+                .candidature(candidature.get())
+                .dateFinale(candidature.get().getStage().getDateFin())
+                .employeur(candidature.get().getStage().getEmployeur())
+                .build();
+        return newContrat;
     }
 }

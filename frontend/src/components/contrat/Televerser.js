@@ -11,6 +11,7 @@ import { useRouteMatch } from "react-router-dom"
 import Typography from '@material-ui/core/Typography';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import ModalMessage from '../../components/utils/ModalMessage';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,22 +31,22 @@ function Televerser(idCandidature) {
     const [messageResponse, setMessageResponse] = useState('');
     const [isButtonDisable, setIsButtonDisable] = useState(false)
     const [isSubmit, setIsSubmit] = useState(false)
+    const [candidatureHasContrat, setCandidatureHasContrat] = useState(false)
     const classes = useStyles();
 
     const { params } = useRouteMatch();
     const [displayInvalidFileMessage, setDisplayInvalidFileMessage] = useState(false)
 
-
-
-
-
     const saveContrat = async (e) => {
-            console.log(file)
+
+      
             var response = await ContratService.createContrat(params.id, file);
             setMessageResponse(response.data);
             setIsButtonDisable(true)
             console.log(response.data.status)
             setIsSubmit(true)
+       
+
     }
 
     const selectFile = (e) => {
@@ -62,7 +63,6 @@ function Televerser(idCandidature) {
                 setIsButtonDisable(true);
             }
         }
-
     };
 
 
@@ -71,25 +71,26 @@ function Televerser(idCandidature) {
         setIsButtonDisable(false);
     }
 
+    const candidatureHasContratFunction = async () => {
+        const response = await ContratService.candidatureHasContrat(params.id);
+        setCandidatureHasContrat(response);
+    }
+
 
     useEffect(() => {
+        candidatureHasContratFunction();
         return () => {
             setFile([]);
             setIsSubmit(false);
             setDisplayInvalidFileMessage(false);
             setIsButtonDisable(false);
-
         }
     }, [])
-
-    console.log("set file")
-    console.log(file.name)
 
     return (
         <div>
             <div className={classes.root}>
                 <input
-                    //accept="application/pdf"
                     className={classes.input}
                     id="contained-button-file"
                     type="file"
@@ -97,42 +98,46 @@ function Televerser(idCandidature) {
                     disabled={isButtonDisable}
                 />
 
-                <label htmlFor="contained-button-file">
-                    <Button variant="contained" color="primary" component="span" disabled={isButtonDisable}>
-                        Selectionner un fichier
+                <div className="row">
+                    <label htmlFor="contained-button-file">
+                        <Button variant="contained" color="primary" component="span" disabled={isButtonDisable}>
+                            Selectionner un fichier
                             </Button>
-                </label>
-                <input accept="image/*" className={classes.input} id="icon-button-file" type="file" disabled={isButtonDisable} />
-                <label htmlFor="icon-button-file">
-                    <IconButton color="primary" aria-label="upload picture" component="span" disabled={isButtonDisable}>
-                        <PublishIcon />
-                    </IconButton>
-                </label>
+                    </label>
+                    <input accept="image/*" className={classes.input} id="icon-button-file" type="file" disabled={isButtonDisable} />
+                    <label htmlFor="icon-button-file">
+                        <IconButton color="primary" aria-label="upload picture" component="span" disabled={isButtonDisable}>
+                            <PublishIcon />
+                        </IconButton>
+                    </label>
+
+                </div>
+
 
                 {file.name &&
-                <>
-                    <div className="row">
-                        <div className="col">
-                            <Alert severity="success" variant="filled"> {file.name}</Alert>
+                    <>
+                        <div className="row">
+                            <div className="col">
+                                <Alert severity="success" > {file.name}</Alert>
+                            </div>
+                            <div className="col">
+                                <IconButton color="primary" aria-label="upload picture" component="span" onClick={deleteFile}>
+                                    <HighlightOffIcon style={{ color: "red" }} />
+                                </IconButton>
+                            </div>
                         </div>
-                        <div className="col">
-                            <IconButton color="primary" aria-label="upload picture" component="span" onClick={deleteFile}>
-                                <HighlightOffIcon style={{ color: "red" }} />
-                            </IconButton>
-                        </div>
-                    </div>
-                    <div className="row">
-                        
-                        <div className="col-md-auto">
-                        <Button variant="contained" color="primary" component="span" className="mt-4"
-                        onClick={saveContrat}
-                        disabled={isSubmit}
-                        >
-                        Confirmer et envoyer au employeur
+                        <div className="row">
+
+                            <div className="col">
+                                <Button variant="contained" color="primary" component="span" className="mt-4"
+                                    onClick={saveContrat}
+                                    disabled={isSubmit}
+                                >
+                                    Confirmer et envoyer au employeur
                             </Button>
+                            </div>
                         </div>
-                    </div>
-                   </>
+                    </>
                 }
 
 
@@ -144,6 +149,17 @@ function Televerser(idCandidature) {
                 AlertFormatInvalide(messageResponse, "info")
             }
 
+            {candidatureHasContrat &&
+            <ModalMessage 
+                message={"un contrat a déjà été créé pour ce stage, si vous souhaitez le supprimer veuillez consulter la liste de tous les contrats"}
+                redirect ="/"
+                title = "Le contrat existe déjà"/>
+            
+            }
+
+
+
+
         </div>
 
     )
@@ -153,11 +169,10 @@ export default Televerser;
 
 function AlertFormatInvalide(message, type) {
 
-    return <div className="container-fluid">
+    return (
         <div className="row justify-content-md-center">
-            <div className="col">
-                <Alert severity={type} variant="filled" className="text-center">{message}</Alert>
-            </div>
+            <Alert severity={type} variant="outlined" className="text-center">{message}</Alert>
         </div>
-    </div>;
+    );
+
 }
