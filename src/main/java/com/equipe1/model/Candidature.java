@@ -60,4 +60,8 @@ public class Candidature {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    public enum CandidatureStatut {
+        EN_ATTENTE, APPROUVE, REFUSE, CHOISI
+    }
 }

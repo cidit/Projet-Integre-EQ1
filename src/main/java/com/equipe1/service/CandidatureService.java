@@ -46,6 +46,7 @@ public class CandidatureService {
         return candidatureList;
     }
 
+
     public Candidature createCandidature(Long idEtudiant, Long idStage){
         Candidature candidature = new Candidature();
         candidature.setStatut("En cours");
@@ -61,6 +62,17 @@ public class CandidatureService {
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
         updatedCandidature.setStatut(newCandidature.getStatut());
         return candidatureRepository.save(updatedCandidature);
+    }
+
+    public List<Candidature> findAllByStage(Long stage){
+        List<Candidature> all = getCandidatures();
+        List<Candidature> candidatures = new ArrayList<>();
+        for (Candidature result: all) {
+            if(result.getStage().getId().equals(stage))
+                candidatures.add(result);
+        }
+
+        return candidatures;
     }
 
 

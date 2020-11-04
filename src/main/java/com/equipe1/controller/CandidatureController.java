@@ -2,6 +2,7 @@ package com.equipe1.controller;
 
 import com.equipe1.model.Candidature;
 import com.equipe1.model.Employeur;
+import com.equipe1.model.Stage;
 import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.service.CandidatureService;
 import com.equipe1.service.EmployeurService;
@@ -36,6 +37,10 @@ public class CandidatureController {
         return candidatureService.findCandidatureByEtudiant(idEtudiant);
     }
 
+    @GetMapping("/getByStage")
+    public List<Candidature> findAllByStage(@RequestParam("stage") Long stage){
+        return candidatureService.findAllByStage(stage);
+    }
 
     @PostMapping("createCandidature")
     public Candidature createCandidature(@RequestParam("idEtudiant") Long idEtudiant, @RequestParam("idStage") Long idStage){

@@ -1,10 +1,17 @@
 import React, {Component, useState} from 'react';
-import StageService from '../service/StageService';
 import Button from 'react-bootstrap/Button'
 import {Col, Container, Modal, Row} from "react-bootstrap";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from '@material-ui/lab/Alert';
-import '../css/StageVeto.css';
+import '../../css/StageVeto.css';
+import {Table, TableBody, TableContainer} from "@material-ui/core";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import StageService from "../../service/StageService";
+import Paper from "@material-ui/core/Paper";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import StageVeto from "../StageVeto";
 
 export default class ListStagesComponent extends Component {
     constructor(props) {
@@ -15,12 +22,17 @@ export default class ListStagesComponent extends Component {
         };
 
         ShowStage = ShowStage.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+    handleClick (event, id)  {
+        this.props.history.push('/stage/' +id);
+        console.log("OK")
     }
 
     componentDidMount() {
         StageService.getStages().then((res) => {
             this.setState({stage: res.data})
-        })
+        });
     }
 
     findStage(id) {
@@ -35,49 +47,110 @@ export default class ListStagesComponent extends Component {
     handleShowSnackbar = () => this.setState({showSnackbar: true});
 
     render() {
+        const headCells = [
+            { id: 'titre', numeric: false, disablePadding: true, label: 'Titre', align: 'left' },
+            { id: 'statut', numeric: false, disablePadding: false, label: 'Statut', align: 'left' },
+            { id: 'programme', numeric: true, disablePadding: false, label: 'Programme', align: 'left' },
+            { id: 'ville', numeric: true, disablePadding: false, label: 'Ville', align: 'left' },
+        ];
+
         return (
 
-            <div className="container">
-                <div className="col">
-                    <div className="pt-3 mt-3">
-                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Stages</h5>
+            <div>
+                <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Stages</h5>
 
-                        <div className="row">
+                <TableContainer  component={Paper}>
+                    <Table
+                        stickyHeader
+                        size="small"
+                    >
+                        <TableHead>
+                            <TableRow>
+                                {headCells.map((headCell) => (
+                                    <TableCell
+                                        key={headCell.id}
+                                        align={headCell.align}
+                                        // padding={headCell.disablePadding ? 'none' : 'default'}
+                                        // sortDirection={orderBy === headCell.id ? order : false}
+                                    >
+                                        <TableSortLabel
+                                            // active={orderBy === headCell.id}
+                                            // direction={orderBy === headCell.id ? order : 'asc'}
+                                            // onClick={createSortHandler(headCell.id)}
+                                        >
+                                            {headCell.label}
+                {/*                            {orderBy === headCell.id ? (*/}
+                {/*                                <span className={classes.visuallyHidden}>*/}
+                {/*  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}*/}
+                {/*</span>*/}
+                {/*                            ) : null}*/}
+                                        </TableSortLabel>
+                                    </TableCell>
+                                ))}
 
-                            <table className="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th> Titre</th>
-                                    <th> Status </th>
-                                    <th> Programme</th>
-                                    <th> Ville</th>
-                                    <th> Détails</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {this.state.stage.map(
-                                    stage =>
-                                        <tr key={stage.id}>
-                                            <ShowStage stage={stage}/>
-                                        </tr>
-                                )}
-                                </tbody>
-                            </table>
-                            <Snackbar open={this.state.showSnackbar} autoHideDuration={6000}
-                                      onClose={this.handleCloseSnackbar}>
-                                <Alert onClose={this.handleCloseSnackbar} severity="success">
-                                    Changements effectués avec succès
-                                </Alert>
-                            </Snackbar>
-                        </div>
-                    </div>
-                </div>
+                            </TableRow>
+                        </TableHead>
+
+
+                        <TableBody>
+                            {this.state.stage.map(
+                                stage =>
+                                    <TableRow
+                                        key={stage.id}
+                                        hover
+                                        onClick={(event) => this.handleClick(event, stage.id)}>
+                                        <TableCell component="th" scope="row">
+                                            {stage.titre}
+                                        </TableCell>
+                                        <TableCell align="left">{stage.statut}</TableCell>
+                                        <TableCell align="left">{stage.programme}</TableCell>
+                                        <TableCell align="left">{stage.ville}</TableCell>
+                                    </TableRow>
+
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+
+
             </div>
+
+
         );
     }
+
+
+
 }
 
-export function ShowStage(props) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function ShowStage(props) {
     const approuved = "APPROVED";
     const denied = "DENIED";
 

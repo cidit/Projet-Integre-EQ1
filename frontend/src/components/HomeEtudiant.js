@@ -29,6 +29,7 @@ export default class HomeEtudiant extends Component {
         const {data: etudiant} = await axios.get(
             "http://localhost:8080/etudiants/get?idEtudiant=" + id
     );
+
         this.setState({etudiant: etudiant});
 
         this.setState({hasAlreadyCV: this.state.etudiant.cv !== undefined} );
