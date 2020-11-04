@@ -1,16 +1,26 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './../App.css';
 import axios from "axios";
 import CVService from "../service/CVService";
+import SessionService from "../service/SessionService";
 
 export default class HomeEtudiant extends Component {
     constructor(props) {
         super(props);
         this.inputRef = React.createRef();
-        this.state = {etudiant: {}, file: "", displayInvalidFileMessage: false, displaySubmitCVButton: false, CVInfoMessage: "", hasUploadedCV: false, id: ''};
+        this.state = {
+            etudiant: {},
+            file: "",
+            displayInvalidFileMessage: false,
+            displaySubmitCVButton: false,
+            CVInfoMessage: "",
+            hasUploadedCV: false,
+            id: ''
+        };
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
     }
+
     onChangeHandler = event => {
         if (this.checkMimeType(event)) {
             this.setState({
@@ -28,26 +38,33 @@ export default class HomeEtudiant extends Component {
 
         const {data: etudiant} = await axios.get(
             "http://localhost:8080/etudiants/get?idEtudiant=" + id
-    );
-        this.setState({etudiant: etudiant});
+        );
 
-        this.setState({hasAlreadyCV: this.state.etudiant.cv !== undefined} );
+        const {data: isRegistered} = await SessionService.isRegistered(etudiant.id)
+
+        console.log(isRegistered)
+
+        this.setState({
+            etudiant: etudiant,
+            hasAlreadyCV: this.state.etudiant.cv !== undefined,
+            isRegistered: isRegistered
+        });
     }
 
-    displayCVMessage(){
+    displayCVMessage() {
         if (this.state.etudiant.cv != undefined) {
             switch (this.state.etudiant.cv.status) {
                 case "APPROVED":
                     return <label> Votre CV a déjà été approuvé. Mais vous pouvez le mettre à jour.</label>
                 case "DENIED" :
-                    return <label> Votre CV a été refusé. Veuillez en soumettre un autre pour postuler à une offre de stage.</label>
+                    return <label> Votre CV a été refusé. Veuillez en soumettre un autre pour postuler à une offre de
+                        stage.</label>
                 case "UNREVIEWED" :
                     return <label> Votre CV a est en cours d'évaluation.</label>
                 default :
                     break;
             }
-        }
-        else {
+        } else {
             return <label> Vous n'avez pas de CV, veuillez en soumettre afin de postuler à une offre de stage.</label>
         }
     }
@@ -74,6 +91,7 @@ export default class HomeEtudiant extends Component {
         return true;
 
     }
+
     handleSubmit(event) {
         event.preventDefault()
         var idEtudiant;
@@ -86,32 +104,44 @@ export default class HomeEtudiant extends Component {
         CVService.createCV(idEtudiant, formData)
     }
 
+    register = event => {
+        SessionService.register(this.state.etudiant.id)
+        this.setState({})
+    }
 
     render() {
         return (
             <form onSubmit={this.handleSubmit} className="d-flex flex-column">
-            <div className="container">
-                <h3>Votre profil</h3>
-                <label>Nom complet : {this.state.etudiant.prenom}  {this.state.etudiant.nom}</label><br/>
-                <label>Matricule : {this.state.etudiant.matricule} </label><br/>
-                <label>Adresse : {this.state.etudiant.adresse}</label><br/>
-                <label>Email : {this.state.etudiant.email}</label><br/>
-                <label>Adresse : {this.state.etudiant.adresse}</label><br/>
-                <label>Programme : {this.state.etudiant.programme}</label><br/>
-                <label>Televerser votre CV : <input type="file" name="file"
-                                                    className="form-control-file"
-                                                    accept="application/pdf"
-                                                    ref={this.inputRef}
-                                                    defaultValue= {this.state.file}
-                                                    onChange={this.onChangeHandler}/>
+                <div className="container">
+                    <h3>Votre profil</h3>
+                    <label>Nom complet : {this.state.etudiant.prenom} {this.state.etudiant.nom}</label><br/>
+                    <label>Matricule : {this.state.etudiant.matricule} </label><br/>
+                    <label>Adresse : {this.state.etudiant.adresse}</label><br/>
+                    <label>Email : {this.state.etudiant.email}</label><br/>
+                    <label>Adresse : {this.state.etudiant.adresse}</label><br/>
+                    <label>Programme : {this.state.etudiant.programme}</label><br/>
+                    <label>Televerser votre CV : <input type="file" name="file"
+                                                        className="form-control-file"
+                                                        accept="application/pdf"
+                                                        ref={this.inputRef}
+                                                        defaultValue={this.state.file}
+                                                        onChange={this.onChangeHandler}/>
 
-                </label><br/>
-                {this.displayCVMessage()}<br/>
-                {this.state.displayInvalidFileMessage ?
-                    <label style={{color: "red"}}>Ce format de fichier n'est pas autorisé. Seuls les fichiers au format PDF sont autorisés.</label> : null}
-                {this.state.displaySubmitCVButton ? <button type="submit" className="btn btn-primary">Enregistrer mon CV</button> : null}<br/>
-                {this.state.hasUploadedCV? <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant être approuvé pour que vous puissiez appliquer aux offres de stage.</label>: null}<br/>
-            </div>
+                    </label><br/>
+                    {this.displayCVMessage()}<br/>
+                    {this.state.displayInvalidFileMessage ?
+                        <label style={{color: "red"}}>Ce format de fichier n'est pas autorisé. Seuls les fichiers au
+                            format PDF sont autorisés.</label> : null}
+                    {this.state.displaySubmitCVButton ?
+                        <button type="submit" className="btn btn-primary">Enregistrer mon CV</button> : null}<br/>
+                    {this.state.hasUploadedCV ?
+                        <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant être
+                            approuvé pour que vous puissiez appliquer aux offres de stage.</label> :
+                        null}<br/>
+                    {this.state.isRegistered ?
+                        <p>Vous etes deja enregistré pour cette session</p> :
+                        <p>vous n'etes pas encore enregistré pour cette session <button onClick={this.register}>S'enregistrer</button></p>}
+                </div>
             </form>
 
         );

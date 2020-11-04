@@ -28,7 +28,7 @@ public class EtudiantController {
         return etudiantService.findEtudiantById(idEtudiant);
     }
 
-    @GetMapping("/registration/register/{id}")
+    @PutMapping("/registration/register/{id}")
     public Optional<Etudiant> registerEtudiant(@PathVariable long id) {
         return etudiantService.registerEtudiant(id);
     }
