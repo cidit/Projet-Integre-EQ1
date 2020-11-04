@@ -88,7 +88,7 @@ public class ContratService {
         } else {
             Contrat newContrat = createContratBuilder(candidature);
             newContrat.setDocumentContrat(file.getBytes());
-            courrielService.sendContratScolarite(newContrat,"Employeur");
+            courrielService.sendContratScolarite(newContrat,"premier");
             return contratRepository.save(newContrat);
         }
     }
@@ -103,7 +103,7 @@ public class ContratService {
             Contrat newContrat = createContratBuilder(candidature);
             newContrat.setDocumentContrat(newContratDocument(candidature).toByteArray());
             LOGGER.info("New Contrat cree ==> " + newContrat.getDateGeneration());
-            courrielService.sendContratScolarite(newContrat,"Employeur");
+            courrielService.sendContratScolarite(newContrat,"premier");
             return contratRepository.save(newContrat);
         }
 

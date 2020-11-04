@@ -65,6 +65,12 @@ public class ContratServiceTest {
     @MockBean
     private ContratRepository contratRepository;
 
+    @MockBean
+    private GenerateurPdfService generateurPdfService;
+
+    @MockBean
+    private CourrielService courrielService;
+
     private Candidature c1;
     private Candidature c2;
     private Etudiant e1;
@@ -73,8 +79,7 @@ public class ContratServiceTest {
     private Contrat contrat;
     private Employeur employeur;
 
-    @MockBean
-    private GenerateurPdfService generateurPdfService;
+
     private Candidature candidature1;
     private Candidature candidature2;
     private Contrat contrat1;
@@ -94,7 +99,7 @@ public class ContratServiceTest {
         etudiantRepository.save(e1);
         c1 = new Candidature(e1, new Stage());
         c2 = new Candidature(new Etudiant(), new Stage());
-        s = new Stage();
+
         e = new Etudiant();
         e.setId(3L);
         e.setPrenom("toto");
@@ -109,6 +114,7 @@ public class ContratServiceTest {
         employeur.setId(20L);
         employeur.setEmail("bidon@gmail.com");
         employeurRepository.save(employeur);
+        s = new Stage();
         s.setId(4L);
         s.setTitre("TP");
 
@@ -269,10 +275,10 @@ public class ContratServiceTest {
 
     @Test
     void createContratEtDocument() throws Exception {
+        contrat1.setCandidature(candidature1);
         stage.setEmployeur(user);
         candidature1.setStage(s);
         candidature1.setEtudiant(etudiant);
-        candidature1.setContrat(contrat1);
 
         when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature1));
         when(contratRepository.findByCandidature(candidature1)).thenReturn(Optional.of(contrat1));

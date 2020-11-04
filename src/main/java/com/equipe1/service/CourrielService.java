@@ -106,6 +106,12 @@ public class CourrielService {
             mailTo = contrat.getCandidature().getEtudiant().getEmail();
             subject = "Contrat pour votre stage " + contrat.getCandidature().getStage().getTitre() + " chez " + contrat.getEmployeur().getNom();
             mailBody = "Voici votre contrat de stage en piece-jointe.";
+        } else if (desc.equals("premier")){ //changer pour le vrai discriminat
+            mailTo = contrat.getCandidature().getStage().getEmployeur().getEmail();
+            subject = "Contrat pour offre de stage " + contrat.getCandidature().getStage().getTitre() + " pour l'étudiat " +
+                    contrat.getCandidature().getEtudiant().getNom() + " " +
+                    contrat.getCandidature().getEtudiant().getPrenom();
+            mailBody = "Voici le contrat de stage en piece-jointe.";
         }
         else {
             mailTo = "stagescegepandrelaurendeau@gmail.com";
