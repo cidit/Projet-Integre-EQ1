@@ -107,10 +107,12 @@ export default function CreationContratApercue() {
 
 
   const saveContrat = async (e) => {
+    setIsLoading(true)
     const response = await ContratService.createContratAuto(params.id);
     setMessageResponse(response.data);
     setIsButtonDisable(true)
     setIsSubmit(true)
+    setIsLoading(false)
   }
 
   const candidatureHasContratFunction = async () => {
