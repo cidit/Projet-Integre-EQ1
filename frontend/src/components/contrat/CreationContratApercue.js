@@ -15,6 +15,7 @@ import { useRouteMatch } from "react-router-dom";
 import ModalMessage from '../../components/utils/ModalMessage';
 import ContratService from '../../service/ContratService';
 
+
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -42,11 +43,6 @@ const DialogTitle = withStyles(styles)((props) => {
   );
 });
 
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
 
 const DialogActions = withStyles((theme) => ({
   root: {
@@ -66,8 +62,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const iframeStyle = {
-  width: '80%',
-  height: '80%',
+  width: '100%',
+  height: '100%',
   border: '0',
   position: 'relative',
   margin: 'auto'
@@ -78,7 +74,6 @@ export default function CreationContratApercue() {
   const [open, setOpen] = useState(false);
   const [imageContrat, setImageContrat] = useState('')
   const [isSubmit, setIsSubmit] = useState(false)
-
   const [isLoading, setIsLoading] = useState(false)
   const [candidatureHasContrat, setCandidatureHasContrat] = useState(false)
   const classes = useStyles();
@@ -90,7 +85,7 @@ export default function CreationContratApercue() {
   const getApercueContrat = async () => {
     setIsLoading(true)
     const response = await ContratService.telechargerApercueContrat(params.id)
-    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const url = window.URL.createObjectURL(new Blob([response.data], { type:"application/pdf" }));
     await setImageContrat(url)
     setIsLoading(false)
   };
@@ -112,16 +107,22 @@ export default function CreationContratApercue() {
 
 
   const saveContrat = async (e) => {
+    setIsLoading(true)
     const response = await ContratService.createContratAuto(params.id);
     setMessageResponse(response.data);
     setIsButtonDisable(true)
     setIsSubmit(true)
+    setIsLoading(false)
   }
 
   const candidatureHasContratFunction = async () => {
     const response = await ContratService.candidatureHasContrat(params.id);
     setCandidatureHasContrat(response.data);
   }
+
+  if(isLoading){
+    return <CircularProgress disableShrink />;
+}
 
   return (
 
@@ -136,7 +137,7 @@ export default function CreationContratApercue() {
       {messageResponse &&
 
         <ModalMessage
-          message={messageResponse}
+          message={messageResponse + " Le contrat a été envoyé au employeur, vous pouvez passer au contrat suivant"}
           redirect="/listCandidatureChoisi"
           title="Le contrat existe déjà" />
         // AlertFormatInvalide(messageResponse, "info")
@@ -145,7 +146,7 @@ export default function CreationContratApercue() {
 
       <div className="col">
         <Button variant="contained" color="primary" component="button" className="mt-4 btn btn-primary btn-lg btn-block" onClick={handleClickOpen}>
-          Voir apercue
+          Voir aperçue
            </Button>
         {isLoading ?
           <CircularProgress />
@@ -153,7 +154,7 @@ export default function CreationContratApercue() {
         }
         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
           <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-            Apercue de contrat
+          Aperçue de contrat
             </DialogTitle>
 
           <Dialog fullScreen open={open} >
@@ -163,12 +164,13 @@ export default function CreationContratApercue() {
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" className={classes.title}>
-                Fermer
+                <strong>Fermer</strong>
                </Typography>
             </Toolbar>
 
             {/* affichage du contrat */}
-            <Iframe src={imageContrat} width={'100%'} height={'90%'} style={iframeStyle}></Iframe>
+
+            <iframe src={imageContrat} width={'100%'} height={'100%'} style={iframeStyle}></iframe>
 
           </Dialog>
           <DialogActions>

@@ -79,16 +79,16 @@ public class ContratService {
             contrat.setSignatureEtudiant(Contrat.SignatureEtat.EN_ATTENTE);
         return contratRepository.save(contrat);
     }
-    public Contrat createContrat(MultipartFile file, Long idCandidature) throws IOException {
+    public Contrat createContrat(MultipartFile file, Long idCandidature) throws Exception {
         Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
         Optional<Contrat> contrat = contratRepository.findByCandidature(candidature.get());
         if (contrat.isPresent()) {
             contrat.get().setDocumentContrat(file.getBytes());
-            contratRepository.save(contrat.get());
-            return contrat.get();
+            return contratRepository.save(contrat.get());
         } else {
             Contrat newContrat = createContratBuilder(candidature);
             newContrat.setDocumentContrat(file.getBytes());
+            courrielService.sendContratScolarite(newContrat,"Systeme");
             return contratRepository.save(newContrat);
         }
     }
@@ -103,8 +103,10 @@ public class ContratService {
             Contrat newContrat = createContratBuilder(candidature);
             newContrat.setDocumentContrat(newContratDocument(candidature).toByteArray());
             LOGGER.info("New Contrat cree ==> " + newContrat.getDateGeneration());
+            courrielService.sendContratScolarite(newContrat,"Systeme");
             return contratRepository.save(newContrat);
         }
+
     }
 
     public ByteArrayOutputStream createApercueContrat(Long idCandidature) throws Exception {
@@ -113,7 +115,6 @@ public class ContratService {
     }
 
     public ByteArrayOutputStream newContratDocument(Optional<Candidature> candidature) throws Exception {
-        System.out.println(candidature.get().getStage().getEmployeur());
         return generateurPdfService.createPdf(candidature.get().getStage(),
                 candidature.get().getStage().getEmployeur(), candidature.get().getEtudiant());
     }

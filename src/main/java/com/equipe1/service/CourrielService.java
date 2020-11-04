@@ -28,6 +28,9 @@ public class CourrielService {
     @Autowired
     Environment env;
 
+    @Autowired
+    private JavaMailSender mailSender;
+
     public void sendSimpleMessage(Courriel mail, String nomDestinataire) throws Exception {
         String content = "Votre affre de stage a été aprouvéé.";
         mail.setSujet(content);
@@ -73,16 +76,7 @@ public class CourrielService {
         LOGGER.info("Mail sent to ==> " + mailTo);
     }
 
-    public void sendMail2(User user,ByteArrayOutputStream b) throws Exception {
-        String mailTo = user.getEmail();
-        String mailBody = " M, Mme " + user.getNom() + " "
-                + "message de votre alkdfjaskldfjlkasjdflk";;
-        String subject = "contrat.";
-        configMail2(mailTo, subject + " " + user.getNom(), mailBody,b);
-    }
 
-    @Autowired
-    private JavaMailSender mailSender;
 
     private void configMail2(String mailTo, String subject, String mailBody, ByteArrayOutputStream b) throws Exception {
         final InputStreamSource attachment = new ByteArrayResource(b.toByteArray());
@@ -104,6 +98,12 @@ public class CourrielService {
             mailTo = contrat.getCandidature().getEtudiant().getEmail();
             subject = "Contrat pour votre stage " + contrat.getCandidature().getStage().getTitre() + " chez " + contrat.getEmployeur().getNom();
             mailBody = "Voici votre contrat de stage en piece-jointe.";
+        } else if (desc.equals("Systeme")){ //changer pour le vrai discriminat
+            mailTo = contrat.getCandidature().getStage().getEmployeur().getEmail();
+            subject = "Contrat pour offre de stage " + contrat.getCandidature().getStage().getTitre() + " pour l'étudiat " +
+                    contrat.getCandidature().getEtudiant().getNom() + " " +
+                    contrat.getCandidature().getEtudiant().getPrenom();
+            mailBody = "Voici le contrat de stage en piece-jointe.";
         }
         else {
             mailTo = "stagescegepandrelaurendeau@gmail.com";

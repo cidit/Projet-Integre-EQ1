@@ -188,7 +188,6 @@ public class InsertDataService {
     @Transactional
     public void insertCandidature(){
         Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
-
         Stage stage1 = new Stage();
         stage1.setTitre("stage_dummy1");
         stage1.setDescription("stage informatique ");

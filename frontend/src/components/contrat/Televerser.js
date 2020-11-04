@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import ModalMessage from '../../components/utils/ModalMessage';
 import ContratService from '../../service/ContratService';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,12 +31,15 @@ function Televerser() {
     const classes = useStyles();
     const { params } = useRouteMatch();
     const [displayInvalidFileMessage, setDisplayInvalidFileMessage] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const saveContrat = async (e) => {
+        setIsLoading(true)
         var response = await ContratService.createContrat(params.id, file);
         setMessageResponse(response.data);
         setIsButtonDisable(true)
         setIsSubmit(true)
+        setIsLoading(false)
     }
 
     const selectFile = (e) => {
@@ -75,6 +79,10 @@ function Televerser() {
             setCandidatureHasContrat(false);
         }
     }, [])
+
+    if(isLoading){
+        return <CircularProgress disableShrink />;
+    }
 
     return (
         <div>
@@ -134,11 +142,10 @@ function Televerser() {
             }
 
             {messageResponse &&
-
-            <ModalMessage
-                message={messageResponse}
-                redirect="/listCandidatureChoisi"
-                title="Le contrat existe déjà" />
+                <ModalMessage
+                    message={messageResponse + " Le contrat a été envoyé au employeur, vous pouvez passer au contrat suivant"}
+                    redirect="/listCandidatureChoisi"
+                    title="Le contrat existe déjà" />
                 // AlertFormatInvalide(messageResponse, "info")
             }
 

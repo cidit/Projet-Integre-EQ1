@@ -16,6 +16,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import ContratService from '../../service/ContratService';
+import { Alert } from '@material-ui/lab';
 
 const useRowStyles = makeStyles({
     root: {
@@ -41,34 +42,39 @@ export default function ListCandidatureChoisi() {
         }
     }, []);
 
-
-    return (
-        <Container>
-            {candidaturesChoisis &&
-                <TableContainer component={Paper}>
-                    <Table aria-label="collapsible table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="left">Détails</TableCell>
-                                <TableCell >Employeur</TableCell>
-                                <TableCell >Étudiant prenom</TableCell>
-                                <TableCell >Étudiant nom</TableCell>
-                                <TableCell >Stage</TableCell>
-                                <TableCell >
-                                    generer contrat
+    if (candidaturesChoisis.length === 0) {
+        return (
+            AlertAucunContrat(true)
+        )
+    } else {
+        return (
+            <Container>
+                {candidaturesChoisis &&
+                    <TableContainer component={Paper}>
+                        <Table aria-label="collapsible table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="left">Détails</TableCell>
+                                    <TableCell >Employeur</TableCell>
+                                    <TableCell >Étudiant prenom</TableCell>
+                                    <TableCell >Étudiant nom</TableCell>
+                                    <TableCell >Stage</TableCell>
+                                    <TableCell >
+                                        Générer un contrat
                                 </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {candidaturesChoisis.map((row) => (
-                                <Row key={row.id} row={row} />
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            }
-        </Container>
-    )
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {candidaturesChoisis.map((row) => (
+                                    <Row key={row.id} row={row} />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                }
+            </Container>
+        )
+    }
 };
 
 
@@ -107,7 +113,7 @@ function Row(props) {
                 <TableCell >{row.etudiant.prenom}</TableCell>
                 <TableCell>{row.etudiant.nom}</TableCell>
                 <TableCell >{row.stage.titre}</TableCell>
-                <TableCell ><button className="btn btn-primary" onClick={() => handleSelectCandidature(row)}>generer contrat</button></TableCell>
+                <TableCell ><button className="btn btn-primary" onClick={() => handleSelectCandidature(row)}>Générer contrat</button></TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -199,4 +205,13 @@ function Row(props) {
         </React.Fragment>
     );
 
-}
+};
+function AlertAucunContrat(isGestionnaire) {
+    return <div className="container">
+      <div className="row justify-content-md-center">
+        <div className="col">
+         <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun contrat à signer pour le moment</Alert>
+        </div>
+      </div>
+    </div>;
+  }

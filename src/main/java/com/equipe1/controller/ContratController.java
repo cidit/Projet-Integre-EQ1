@@ -1,6 +1,9 @@
 package com.equipe1.controller;
 
-import com.equipe1.model.*;
+import com.equipe1.model.Candidature;
+import com.equipe1.model.Contrat;
+import com.equipe1.model.Employeur;
+import com.equipe1.model.Etudiant;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.StageRepository;
@@ -52,13 +55,13 @@ public class ContratController {
     }
 
     @GetMapping(value = "findAll")
-    public List<Contrat> getContrats (){
-         return contratService.getContrats();
+    public List<Contrat> getContrats() {
+        return contratService.getContrats();
     }
 
     @GetMapping(value = "getContratById/{id}")
-    public Contrat getById(@PathVariable Long id){
-         return contratService.getContratById(id);
+    public Contrat getById(@PathVariable Long id) {
+        return contratService.getContratById(id);
     }
 
 
@@ -80,11 +83,12 @@ public class ContratController {
     }
 
     @PutMapping(value = "accepteSignatureContrat/{id}")
-    public Contrat accepteSignatureContrat (@PathVariable Long id, @RequestParam("desc") String desc) throws Exception {
+    public Contrat accepteSignatureContrat(@PathVariable Long id, @RequestParam("desc") String desc) throws Exception {
         return contratService.updateStatutContrat(desc, Contrat.SignatureEtat.SIGNE, id);
     }
+
     @PutMapping(value = "refuseSignatureContrat/{id}")
-    public Contrat refuseSignatureContrat (@PathVariable Long id, @RequestParam("desc") String desc) throws Exception {
+    public Contrat refuseSignatureContrat(@PathVariable Long id, @RequestParam("desc") String desc) throws Exception {
         return contratService.updateStatutContrat(desc, Contrat.SignatureEtat.PAS_SIGNE, id);
     }
 
@@ -103,23 +107,19 @@ public class ContratController {
         return new ResponseEntity<>(pdfile, HttpStatus.OK);
     }
 
-    @PutMapping ("update/{idContrat}")
+    @PutMapping("update/{idContrat}")
     public ResponseEntity<String> updateContrat(@RequestParam("file") MultipartFile file, @RequestParam("desc") String desc, @PathVariable Long idContrat) throws IOException, IOException {
         String message = "";
         contratService.updateContrat(file, idContrat, desc);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
     @PutMapping("/create/{idCandidature}")
-    public ResponseEntity<String> saveContrat(@RequestParam("file") MultipartFile file, @PathVariable Long idCandidature) {
+    public ResponseEntity<String> saveContrat(@RequestParam("file") MultipartFile file, @PathVariable Long idCandidature) throws Exception {
         String message = "";
-        try {
-            contratService.createContrat(file, idCandidature);
-            message = "Fichier " + file.getOriginalFilename() + " téléversé avec succès: ";
-            return new ResponseEntity<>(message, HttpStatus.OK);
-        } catch (Exception e) {
-            message = "Un problème est survenu, veuillez réessayer plus tard !";
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-        }
+        contratService.createContrat(file, idCandidature);
+        message = "Fichier " + file.getOriginalFilename() + " téléversé avec succès. ";
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @PutMapping("/createAuto/{idCandidature}")
@@ -128,7 +128,6 @@ public class ContratController {
         contratService.createContratEtDocument(idCandidature);
         message = " Contrat créé avec succès";
         return new ResponseEntity<>(message, HttpStatus.OK);
-
     }
 }
 
