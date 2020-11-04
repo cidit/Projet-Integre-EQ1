@@ -45,4 +45,23 @@ public class Stage {
         WAITING, APPROVED, DENIED
     }
 
+    @Override
+    public String toString() {
+        return "Stage{" +
+                "id=" + id +
+                ", titre='" + titre + '\'' +
+                ", description='" + description + '\'' +
+                ", exigences='" + exigences + '\'' +
+                ", dateDebut=" + dateDebut +
+                ", dateFin=" + dateFin +
+                ", dateLimiteCandidature=" + dateLimiteCandidature +
+                ", nbHeuresParSemaine=" + nbHeuresParSemaine +
+                ", nbAdmis=" + nbAdmis +
+                ", isOuvert=" + isOuvert +
+                ", programme='" + programme + '\'' +
+                ", ville='" + ville + '\'' +
+                ", statut=" + statut +
+                ", salaire=" + salaire +
+                '}';
+    }
 }

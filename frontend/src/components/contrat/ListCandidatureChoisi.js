@@ -1,10 +1,9 @@
-import React from 'react';
-import { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,32 +11,26 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import CandidatureService from '../../service/CandidatureService'
-import { Button, Container } from '@material-ui/core';
-import { Redirect } from 'react-router-dom'
-import ContratService from '../../service/ContratService'
+import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import ContratService from '../../service/ContratService';
 
+const useRowStyles = makeStyles({
+    root: {
+        '& > *': {
+            borderBottom: 'unset',
+            backgroundColor: '#E9E9E9  ',
+        },
+    },
+});
 
 export default function ListCandidatureChoisi() {
     const [candidaturesChoisis, setCandidaturesChoisis] = useState([]);
-    const [candidatureSansContrat, setCandidatureSansContrat] = useState([]);
 
     const getCandidaturesChoisis = async () => {
-        const response = await CandidatureService.getCandidaturesChoisis();
-        const data = response.data;
-       
-
-        //pending
-       
-        for (let index = 0; index < response.data.length; index++) {
-           if(ContratService.candidatureHasContrat(data[index].id)){
-            setCandidatureSansContrat(data)
-           }
-            
-        }
+        const response = await ContratService.getCandidaturesSansContrat();
         setCandidaturesChoisis(response.data);
     }
 
@@ -49,48 +42,35 @@ export default function ListCandidatureChoisi() {
     }, []);
 
 
-    
-
-
-    //return <ChoisirTemplateContrat parametre={} />
-
     return (
         <Container>
-            <TableContainer component={Paper}>
-                <Table aria-label="collapsible table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="left">Détails</TableCell>
-                            <TableCell >Employeur</TableCell>
-                            <TableCell >Étudiant prenom</TableCell>
-                            <TableCell >Étudiant nom</TableCell>
-                            <TableCell >Stage</TableCell>
-                            <TableCell >
-                               generer contrat
-                            </TableCell>
-
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {candidaturesChoisis.map((row) => (
-                            <Row key={row.id} row={row} />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            {candidaturesChoisis &&
+                <TableContainer component={Paper}>
+                    <Table aria-label="collapsible table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="left">Détails</TableCell>
+                                <TableCell >Employeur</TableCell>
+                                <TableCell >Étudiant prenom</TableCell>
+                                <TableCell >Étudiant nom</TableCell>
+                                <TableCell >Stage</TableCell>
+                                <TableCell >
+                                    generer contrat
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {candidaturesChoisis.map((row) => (
+                                <Row key={row.id} row={row} />
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            }
         </Container>
-
     )
-}
+};
 
-const useRowStyles = makeStyles({
-    root: {
-        '& > *': {
-            borderBottom: 'unset',
-            backgroundColor:'#E9E9E9  ',
-        },
-    },
-});
 
 
 function Row(props) {
@@ -101,21 +81,21 @@ function Row(props) {
     const classes = useRowStyles();
     const [redirect, setRedirect] = useState(false);
 
-    
-const handleSelectCandidature = (_row) => {
-    setCandidature(_row);
-    setRedirect(true);
-}
+
+    const handleSelectCandidature = (_row) => {
+        setCandidature(_row);
+        setRedirect(true);
+    }
 
 
 
-if(redirect) {
-    //CreationContrat(candidature)
- 
-    return <Redirect to={`/CreationContrat/${candidature.id}`} />
-   } 
- return (
-     
+    if (redirect) {
+        //CreationContrat(candidature)
+
+        return <Redirect to={`/CreationContrat/${candidature.id}`} />
+    }
+    return (
+
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
@@ -218,5 +198,5 @@ if(redirect) {
             </TableRow>
         </React.Fragment>
     );
- 
+
 }

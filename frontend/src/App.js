@@ -28,7 +28,6 @@ import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire
 
 
 
-
 function App() {
   return (
     
@@ -60,8 +59,7 @@ function App() {
           <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi} />
           <Route path='/CreationContrat/:id' component={CreationContrat} />
           <Route path='/televerserContrats/:id' component={TeleverserContrat} />
-          
-
+          <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi} />
 
         </Switch>
   

@@ -1,7 +1,6 @@
-import React from 'react'
-import ListeContrats, {ListeContratsEtudiant} from '../contrat/ListeContrats'
-import { useState, useEffect } from "react";
-import ContratService from '../../service/ContratService'
+import {ListeContratsEtudiant} from '../contrat/ListeContrats'
+import React, { useEffect, useState } from 'react';
+import ContratService from '../../service/ContratService';
 
 export default function ContratEtudiant() {
     const id = localStorage.getItem("desc") === "Etudiant" ? localStorage.getItem("id") : '';
@@ -17,7 +16,7 @@ export default function ContratEtudiant() {
         return () => {
             setContratEtudiant([])
         }
-    }, [])
+    },[])
 
     return (
         <div>{contratEtudiant != null &&

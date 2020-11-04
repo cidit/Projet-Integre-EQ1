@@ -1,10 +1,6 @@
-import React from 'react'
-import ListeContrats from '../contrat/ListeContrats'
-import { useState, useEffect } from "react";
-import EmployeurService from '../../service/EmployeurService'
-import useListeContrats from '../contrat/useListeContrats'
-import ContratService from '../../service/ContratService'
 import {ListeContratsEmployeur} from '../contrat/ListeContrats'
+import React, { useEffect, useState } from 'react';
+import ContratService from '../../service/ContratService';
 
 export default function ContratsEmployeur() {
     const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';

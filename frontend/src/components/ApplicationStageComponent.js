@@ -113,8 +113,6 @@ export default class ApplicationStageComponent extends Component {
                             </table>
                             {(this.displayWarningMessage())}<br/>
 
-                            {this.state.hasApplied? <label style={{color: "green"}}>Vous venez de postuler au stage</label>: null}<br/>
-
                         </div>
                     </div>
                 </div>

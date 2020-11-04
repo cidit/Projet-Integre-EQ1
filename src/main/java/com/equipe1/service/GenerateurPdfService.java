@@ -4,19 +4,19 @@ import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.Stage;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class GenerateurPdfService {
@@ -31,9 +31,9 @@ public class GenerateurPdfService {
     public ByteArrayOutputStream createPdf(Stage s, Employeur employeur, Etudiant etudiant) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Document document = new Document();
-        PdfWriter writer= PdfWriter.getInstance(document, out);
-       // Document document = new Document(PageSize.A4);
-       // PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/carlos/Documents/test.pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, out);
+        // Document document = new Document(PageSize.A4);
+        // PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/carlos/Documents/test.pdf"));
         document.open();
 
         String text2 = " Le CÉGEP ANDRÉ-LAURENDEAU, corporation légalement constituée, situé au" +
@@ -46,16 +46,15 @@ public class GenerateurPdfService {
                 setPhrase("Dans le cadre de la formule Alternance travail-études du programme de ", false),
                 setPhrase(s.getProgramme(), true),
                 setPhrase(text2, false),
-                //setPhrase(env.getProperty("my.text.cegepInfo"), false),
                 setPhrase(text3, false),
-                setPhrase( s.getVille() +" ,", true),
-                setPhrase( " à l'adresse: " , false),
-                setPhrase(employeur.getAdresse() +" ,", true),
-                setPhrase( " au téléphone ", false),
-                setPhrase(employeur.getTelephone() +" ,", true),
-                setPhrase( " et l'étudiant " , false),
-                setPhrase( etudiant.getPrenom() +" " +  etudiant.getNom() +" ," , true),
-                setPhrase("conviennent des conditions de stage suivantes : " , false)
+                setPhrase(s.getVille() + " ,", true),
+                setPhrase(" à l'adresse: ", false),
+                setPhrase(employeur.getAdresse() + " ,", true),
+                setPhrase(" au téléphone ", false),
+                setPhrase(employeur.getTelephone() + " ,", true),
+                setPhrase(" et l'étudiant ", false),
+                setPhrase(etudiant.getPrenom() + " " + etudiant.getNom() + " ,", true),
+                setPhrase("conviennent des conditions de stage suivantes : ", false)
         )));
 
         //create table
@@ -134,7 +133,7 @@ public class GenerateurPdfService {
                 "en foi de quoi les parties ont signé, "));
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "Signatures "));
-        document.add( Chunk.NEWLINE );
+        document.add(Chunk.NEWLINE);
 
         //Signatures
         document.add(createTable(Arrays.asList(
@@ -153,7 +152,7 @@ public class GenerateurPdfService {
 
     private com.itextpdf.text.List setListOrdonee(List<String> line) {
         com.itextpdf.text.List taches = new com.itextpdf.text.List(false, 8);
-        for (String l: line) {
+        for (String l : line) {
             taches.add(l);
         }
         return taches;
@@ -171,34 +170,6 @@ public class GenerateurPdfService {
         image1.scaleAbsolute(120, 60);
         image1.setAlignment(Element.IMGTEMPLATE);
         return image1;
-    }
-
-    public static void main(String[] args) throws Exception {
-        Stage s = new Stage();
-        s.setNbAdmis(2);
-        s.setProgramme("Tecnique informatique");
-        s.setExigences("exigences");
-        s.setVille("montreal");
-        s.setDateDebut(LocalDate.of(2020, 10, 1));
-        s.setDateFin(LocalDate.of(2020, 10, 31));
-
-        //Long days = getDureStage(s);
-        //System.out.println(days);
-
-        Employeur user = new Employeur();
-        user.setNom("carlos");
-        user.setEmail("carlos.arturo.ortiz.celis@gmail.com");
-        user.setTelephone("4444444444");
-        user.setAdresse("adres12345");
-
-
-        Etudiant etudiant = new Etudiant();
-        etudiant.setNom("Colomb");
-        etudiant.setPrenom("Christophe" );
-
-        GenerateurPdfService g = new GenerateurPdfService();
-        g.createPdf(s, user, etudiant);
-
     }
 
     private Paragraph subtitre(Font fontRegularBold, String text) {
@@ -269,7 +240,7 @@ public class GenerateurPdfService {
         return new Phrase(mot, setFond(FONT_TAILLE_REGULIER, isGras));
     }
 
-    private Paragraph setParagraphe(List<Phrase> phrases){
+    private Paragraph setParagraphe(List<Phrase> phrases) {
         Paragraph paragraph = new Paragraph();
         for (Phrase p : phrases) {
             paragraph.add(p);

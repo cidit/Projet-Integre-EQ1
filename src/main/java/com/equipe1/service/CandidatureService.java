@@ -62,8 +62,8 @@ public class CandidatureService {
         Candidature candidature = new Candidature();
         Optional<Stage> stage = stageRepository.findById(idStage);
         Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudiant);
-        candidature.setEtudiant(etudiant.get());
-        candidature.setStage(stage.get());
+        candidature.setEtudiant(etudiant.isPresent() ?etudiant.get() : null);
+        candidature.setStage(stage.isPresent() ? stage.get() : null);
         candidatureRepository.save(candidature);
         return candidature;
     }
