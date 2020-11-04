@@ -22,6 +22,7 @@ function GestionnaireNav() {
             <Nav.Link href="/stageVeto">Veto des stages</Nav.Link>
             <Nav.Link href="/contratsGestionnaire">Gérer contrats</Nav.Link>
             <Nav.Link href="/listCandidatureChoisi">Contrats à générer</Nav.Link>
+            <Nav.Link href="/stages">Choix stagiaires</Nav.Link>
             {/*<Nav.Link href="/listestages">Liste de isa</Nav.Link>*/}
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
