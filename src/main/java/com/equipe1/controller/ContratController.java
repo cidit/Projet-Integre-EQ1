@@ -109,8 +109,8 @@ public class ContratController {
         return contratService.isCandidatureHasContrat(id);
     }
 
-    @PutMapping ("create/{idContrat}")
-    public ResponseEntity<String> saveContrat(@RequestParam("file") MultipartFile file, @RequestParam("desc") String desc, @PathVariable Long idContrat) throws IOException {
+    @PutMapping ("update/{idContrat}")
+    public ResponseEntity<String> updateContrat(@RequestParam("file") MultipartFile file, @RequestParam("desc") String desc, @PathVariable Long idContrat) throws IOException {
         String message = "";
         contratService.updateContrat(file, idContrat, desc);
         return new ResponseEntity<>(message,  HttpStatus.OK);

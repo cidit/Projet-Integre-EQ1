@@ -65,7 +65,7 @@ export default class TeleverserContrat extends Component {
         const formData = new FormData();
         formData.append('file', this.state.file)
         formData.append('desc', desc);
-        ContratService.createContrat(id, formData);
+        ContratService.updateContrat(id, formData);
         if(this.state.file != undefined){
             this.handleShowSnackbarValid()
         }
