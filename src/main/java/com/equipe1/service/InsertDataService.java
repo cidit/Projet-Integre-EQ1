@@ -1,14 +1,18 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
-import com.equipe1.repository.*;
+import com.equipe1.repository.CandidatureRepository;
+import com.equipe1.repository.EmployeurRepository;
+import com.equipe1.repository.EtudiantRepository;
+import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Component
 public class InsertDataService {
@@ -27,6 +31,9 @@ public class InsertDataService {
     private CandidatureRepository candidatureRepository;
     @Autowired
     private CandidatureService candidatureService;
+
+    @Autowired
+    private EtudiantService etudiantService;
 
     @Transactional
     public void insertEtudiant(){
@@ -104,6 +111,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setSalaire(15);
+        stage1.setStatut(Stage.StageStatus.APPROVED);
         stageService.saveStage(stage1);
 
         stage1 = new Stage();
@@ -159,6 +167,13 @@ public class InsertDataService {
         stage2.setEmployeur(e2);
         stage2.setSalaire(20);
         stageService.saveStage(stage2);
+
+
+//        Candidature c = new Candidature();
+//        candidatureService.createCandidature((long) 1, (long) 6);
+//        candidatureService.createCandidature((long) 2, (long) 6);
+//        candidatureService.createCandidature((long) 3, (long) 6);
+
     }
 
     @Transactional

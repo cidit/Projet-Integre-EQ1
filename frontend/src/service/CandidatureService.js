@@ -25,8 +25,7 @@ class CandidatureService{
     }
 
     async getByStage(idStage) {
-        return axios.get(baseURL + "/getByStage?idStage="+ idStage);
-
+        return axios.get(baseURL + "/getByStage?stage="+ idStage);
     }
 
     async post(idEtudiant, idStage){

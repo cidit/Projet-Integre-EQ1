@@ -42,8 +42,6 @@ export default class HomeEtudiant extends Component {
 
         const {data: isRegistered} = await SessionService.isRegistered(etudiant.id)
 
-        console.log(isRegistered)
-
         this.setState({
             etudiant: etudiant,
             hasAlreadyCV: this.state.etudiant.cv !== undefined,

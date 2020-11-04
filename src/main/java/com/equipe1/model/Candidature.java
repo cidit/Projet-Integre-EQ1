@@ -58,6 +58,7 @@ public class Candidature {
         this.stage = stage;
     }
 
+
     public CandidatureStatut getStatut() {
         return statut;
     }

@@ -18,7 +18,12 @@ import ApplicationStageComponent from "./components/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/ListeCandidaturesEtudiantComponent';
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
 import StageVeto from "./components/StageVeto";
+
 import SelectionnerStagiaireComponent from "./components/employeur/SelectionnerStagiaireComponent";
+
+import StageComponent from "./components/stage/StageComponent";
+import ListeStage from "./components/stage/ListeStage";
+
 
 
 function App() {
@@ -46,8 +51,10 @@ function App() {
           <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
           <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
           <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent} />
+          <Route path="/stage/:id" component={StageComponent}/>
+          {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
+          <Route path="/listestages" component={ListeStage}/>
         </Switch>
-       
         </div>
       </main>
     

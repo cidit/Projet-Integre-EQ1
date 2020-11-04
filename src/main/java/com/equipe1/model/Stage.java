@@ -29,7 +29,6 @@ public class Stage {
     private StageStatus statut;
     private int salaire;
 
-
     @ManyToMany
     private Set<Etudiant> etudiantsAdmits;
 
