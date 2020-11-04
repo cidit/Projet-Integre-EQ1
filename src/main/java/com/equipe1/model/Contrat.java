@@ -3,10 +3,12 @@ package com.equipe1.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@EqualsAndHashCode(exclude="candidature")
 @Entity
 @Data
 @AllArgsConstructor
