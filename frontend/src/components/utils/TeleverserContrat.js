@@ -79,7 +79,6 @@ export default class TeleverserContrat extends Component {
             <div>
                 <h3>Televerser votre contrat</h3>
                 <p>Veuillez televerser le contrat que vous venez de telecharger daté et signé </p>
-
                 <div >
                     <input
                         id="contained-button-file"
