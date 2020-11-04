@@ -55,7 +55,7 @@ export default function ListCandidatureChoisi() {
                                 <TableCell >Étudiant nom</TableCell>
                                 <TableCell >Stage</TableCell>
                                 <TableCell >
-                                    generer contrat
+                                Générer un contrat
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -66,7 +66,7 @@ export default function ListCandidatureChoisi() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            }
+            } 
         </Container>
     )
 };
@@ -107,7 +107,7 @@ function Row(props) {
                 <TableCell >{row.etudiant.prenom}</TableCell>
                 <TableCell>{row.etudiant.nom}</TableCell>
                 <TableCell >{row.stage.titre}</TableCell>
-                <TableCell ><button className="btn btn-primary" onClick={() => handleSelectCandidature(row)}>generer contrat</button></TableCell>
+                <TableCell ><button className="btn btn-primary" onClick={() => handleSelectCandidature(row)}>Générer contrat</button></TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

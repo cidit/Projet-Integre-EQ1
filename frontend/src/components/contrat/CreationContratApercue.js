@@ -66,8 +66,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const iframeStyle = {
-  width: '80%',
-  height: '80%',
+  width: '100%',
+  height: '100%',
   border: '0',
   position: 'relative',
   margin: 'auto'
@@ -90,7 +90,7 @@ export default function CreationContratApercue() {
   const getApercueContrat = async () => {
     setIsLoading(true)
     const response = await ContratService.telechargerApercueContrat(params.id)
-    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const url = window.URL.createObjectURL(new Blob([response.data], { type:"application/pdf" }));
     await setImageContrat(url)
     setIsLoading(false)
   };
@@ -136,7 +136,7 @@ export default function CreationContratApercue() {
       {messageResponse &&
 
         <ModalMessage
-          message={messageResponse}
+          message={messageResponse + " Le contrat a été envoyé au employeur, vous pouvez passer au contrat suivant"}
           redirect="/listCandidatureChoisi"
           title="Le contrat existe déjà" />
         // AlertFormatInvalide(messageResponse, "info")
@@ -163,12 +163,13 @@ export default function CreationContratApercue() {
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" className={classes.title}>
-                Fermer
+                <strong>Fermer</strong>
                </Typography>
             </Toolbar>
 
             {/* affichage du contrat */}
-            <Iframe src={imageContrat} width={'100%'} height={'90%'} style={iframeStyle}></Iframe>
+
+            <iframe src={imageContrat} width={'100%'} height={'100%'} style={iframeStyle}></iframe>
 
           </Dialog>
           <DialogActions>

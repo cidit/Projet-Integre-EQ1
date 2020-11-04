@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,10 @@ public class ContratServiceTest {
     private byte [] file;
     private Stage stage;
 
+    private Stage s;
+    private Employeur user;
+
+
     @BeforeEach
     public void setUp() {
     candidature1 = new Candidature();
@@ -62,6 +67,25 @@ public class ContratServiceTest {
         file = new ByteArrayOutputStream().toByteArray();
         stage = new Stage();
         fileByteArray = new ByteArrayOutputStream();
+
+
+        s = new Stage();
+        s.setNbAdmis(2);
+        s.setProgramme("Tecnique informatique");
+        s.setExigences("exigences");
+        s.setVille("montreal");
+        s.setDateDebut(LocalDate.of(2020, 10, 1));
+        s.setDateFin(LocalDate.of(2020, 10, 31));
+
+        user = new Employeur();
+        user.setNom("carlos");
+        user.setEmail("carlos.arturo@gmail");
+        user.setTelephone("4444444444");
+        user.setAdresse("adres12345");
+
+        etudiant = new Etudiant();
+        etudiant.setNom("Colomb");
+        etudiant.setPrenom("Christophe");
     }
 
     @Test
@@ -98,6 +122,7 @@ public class ContratServiceTest {
     @Test
     void getContratsByEtudiantChoisi() {
 
+
         contrat1.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
         contrat2.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
         candidature1.setEtudiant(etudiant);
@@ -116,9 +141,11 @@ public class ContratServiceTest {
     void createContratAvecFile() throws IOException {
         MultipartFile result = new MockMultipartFile("test",file);
 
-        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(candidature1));
+        when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature1));
         when(contratRepository.findByCandidature(candidature1)).thenReturn(Optional.of(contrat1));
         when(contratRepository.save(contrat1)).thenReturn(contrat1);
+
+
 
         Contrat contrat = contratService.createContrat(result,1L);
         assertEquals(contrat, contrat1);
@@ -127,33 +154,23 @@ public class ContratServiceTest {
 
     @Test
     void createContratEtDocument() throws Exception {
-        /*stage.setEmployeur(employeur);
-        candidature1.setStage(stage);
+        stage.setEmployeur(user);
+        candidature1.setStage(s);
         candidature1.setEtudiant(etudiant);
-        when(contratRepository.save(contrat1)).thenReturn(contrat1);
-        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(candidature1));
-        when(generateurPdfService.createPdf(stage,employeur,etudiant)).thenReturn(fileByteArray);;
+        candidature1.setContrat(contrat1);
 
-        Contrat contrat = contratService.createContratEtDocument(1L);
-
-        when(contratRepository.findById(3l)).thenReturn(Optional.ofNullable(contrat));
-
-        //when(contratRepository.save(contrat)).thenReturn(contrat1);
-        //System.out.println(contrat1 + "desde contract");
-        //assertEquals(contrat, contrat1);
-        //assertNotNull(contrat);*/
-
-        stage.setEmployeur(employeur);
-        candidature1.setStage(stage);
-        candidature1.setEtudiant(etudiant);
-        when(generateurPdfService.createPdf(stage,employeur,etudiant)).thenReturn(fileByteArray);;
-        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(candidature1));
+        when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature1));
         when(contratRepository.findByCandidature(candidature1)).thenReturn(Optional.of(contrat1));
-        when(contratRepository.save(contrat1)).thenReturn(contrat1);
+        when(employeurRepository.findEmployeurByEmail("carlos.arturo@gmail")).thenReturn(user);
+        when(generateurPdfService.createPdf(candidature1.getStage()
+                ,candidature1.getStage().getEmployeur()
+                ,candidature1.getEtudiant())).thenReturn(fileByteArray);;
+        when(contratService.createContratEtDocument(1L)).thenReturn(contrat1);
 
         Contrat contrat = contratService.createContratEtDocument(1L);
-        when(contratRepository.save(contrat)).thenReturn(contrat1);
-        assertEquals(contrat.getCandidature(), candidature1);
+
+        assertNotNull(contrat);
+        assertEquals(contrat, contrat1);
     }
 
     @Test
@@ -162,8 +179,9 @@ public class ContratServiceTest {
         candidature1.setEtudiant(etudiant);
         candidature1.setContrat(contrat1);
         candidature1.setStage(stage);
+
         when(generateurPdfService.createPdf(stage,employeur,etudiant)).thenReturn(fileByteArray);
-        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(candidature1));
+        when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature1));
         ByteArrayOutputStream apercue =  contratService.createApercueContrat(1L);
 
         assertEquals(apercue,fileByteArray);
@@ -173,7 +191,7 @@ public class ContratServiceTest {
     void candidatureHasContrat() {
        contrat1.setCandidature(candidature1);
        contrat2.setCandidature(candidature2);
-        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(candidature1));
+        when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature1));
         when(contratRepository.findAll()).thenReturn(Arrays.asList(contrat2, contrat1));
         boolean hascontrat = contratService.candidatureHasContrat(1L);
         assertTrue(hascontrat);

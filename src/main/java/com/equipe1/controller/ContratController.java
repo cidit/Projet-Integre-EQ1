@@ -97,7 +97,7 @@ public class ContratController {
         String message = "";
         try {
             contratService.createContrat(file, idCandidature);
-            message = "Fichier " + file.getOriginalFilename() + " téléversé avec succès: ";
+            message = "Fichier " + file.getOriginalFilename() + " téléversé avec succès. ";
             return new ResponseEntity<>(message, HttpStatus.OK);
         } catch (Exception e) {
             message = "Un problème est survenu, veuillez réessayer plus tard !";
@@ -110,7 +110,7 @@ public class ContratController {
         String message = "";
         try {
             contratService.createContratEtDocument(idCandidature);
-            message = " Contrat créé avec succès";
+            message = " Contrat créé avec succès.";
             return new ResponseEntity<>(message, HttpStatus.OK);
         } catch (Exception e) {
             message = "Un problème est survenu, veuillez réessayer plus tard !";

@@ -136,7 +136,7 @@ function Televerser() {
             {messageResponse &&
 
                 <ModalMessage
-                    message={messageResponse}
+                    message={messageResponse + " Le contrat a été envoyé au employeur, vous pouvez passer au contrat suivant"}
                     redirect="/listCandidatureChoisi"
                     title="Le contrat existe déjà" />
                 // AlertFormatInvalide(messageResponse, "info")

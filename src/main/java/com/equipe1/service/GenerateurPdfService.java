@@ -62,7 +62,7 @@ public class GenerateurPdfService {
 
         document.add(createTable(Arrays.asList(
                 createBoldCell("Ville: ", s.getVille(), setFond(FONT_TAILLE_REGULIER, true)),
-                createBoldCell("Adress: ", employeur.getAdresse(), setFond(FONT_TAILLE_REGULIER, true)),
+                createBoldCell("Adresse: ", employeur.getAdresse(), setFond(FONT_TAILLE_REGULIER, true)),
                 createBoldCell("Téléphone: ", employeur.getTelephone(), setFond(FONT_TAILLE_REGULIER, true)),
                 createBoldCell("Courriel: ", employeur.getEmail(), setFond(FONT_TAILLE_REGULIER, true))
         ), 2, false));
@@ -94,7 +94,7 @@ public class GenerateurPdfService {
                 "Supporter la migration des clients existants pour des fonctionnalités complexes."
         )));
 
-        document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "RESPONSABILITES"));
+        document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "RESPONSABILITÉS"));
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "Le Collège s’engage à :"));
 
         document.add(setListOrdonee(Arrays.asList(
@@ -166,7 +166,7 @@ public class GenerateurPdfService {
     }
 
     private Image getImage() throws BadElementException, IOException {
-        Image image1 = Image.getInstance("src/main/resources/static/images/logo_notfound.png");
+        Image image1 = Image.getInstance("src/main/resources/static/images/logoCegep.jpg");
         image1.scaleAbsolute(120, 60);
         image1.setAlignment(Element.IMGTEMPLATE);
         return image1;

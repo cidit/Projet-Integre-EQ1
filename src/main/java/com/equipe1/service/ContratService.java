@@ -64,6 +64,7 @@ public class ContratService {
 
     public Contrat createContrat(MultipartFile file, Long idCandidature) throws IOException {
         Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
+        System.out.println(candidature.isPresent() + " is present");
         Optional<Contrat> contrat = contratRepository.findByCandidature(candidature.get());
         if (contrat.isPresent()) {
             contrat.get().setDocumentContrat(file.getBytes());
@@ -86,8 +87,10 @@ public class ContratService {
             Contrat newContrat = createContratBuilder(candidature);
             newContrat.setDocumentContrat(newContratDocument(candidature).toByteArray());
             LOGGER.info("New Contrat cree ==> " + newContrat.getDateGeneration());
+            System.out.println(newContrat + " desde create doc");
             return contratRepository.save(newContrat);
         }
+
     }
 
     public ByteArrayOutputStream createApercueContrat(Long idCandidature) throws Exception {
@@ -96,6 +99,7 @@ public class ContratService {
     }
 
     public ByteArrayOutputStream newContratDocument(Optional<Candidature> candidature) throws Exception {
+        System.out.println(candidature.get());
         return generateurPdfService.createPdf(candidature.get().getStage(),
                 candidature.get().getStage().getEmployeur(), candidature.get().getEtudiant());
     }
