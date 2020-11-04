@@ -32,7 +32,10 @@ export default class ApplicationStageComponent extends Component {
             this.setState({ hasValidCV: false});
         }
         else {
-            if (this.state.etudiant.cv.status === 'APPROVED'){
+            if (this.state.etudiant.cv === null){
+                this.setState({ hasValidCV: false});
+            }
+            else if (this.state.etudiant.cv.status === 'APPROVED'){
                 this.setState({ hasValidCV: true});
             }
             else {

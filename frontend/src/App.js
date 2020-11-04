@@ -18,6 +18,7 @@ import ApplicationStageComponent from "./components/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/ListeCandidaturesEtudiantComponent';
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
 import StageVeto from "./components/StageVeto";
+
 import SelectionnerStagiaireComponent from "./components/employeur/SelectionnerStagiaireComponent";
 import ContratsEmployeur from './components/employeur/ContratEmployeur'
 import ContratEtudiant from './components/etudiant/ContratEtudiant'
@@ -25,6 +26,10 @@ import ListCandidatureChoisi from './components/contrat/ListCandidatureChoisi'
 import CreationContrat from './components/contrat/CreationContrat'
 import TeleverserContrat from './components/utils/TeleverserContrat'
 import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire";
+
+
+import StageComponent from "./components/stage/StageComponent";
+import ListeStage from "./components/stage/ListeStage";
 
 
 
@@ -60,9 +65,10 @@ function App() {
           <Route path='/CreationContrat/:id' component={CreationContrat} />
           <Route path='/televerserContrats/:id' component={TeleverserContrat} />
           <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi} />
-
+          <Route path="/stage/:id" component={StageComponent}/>
+          {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
+          <Route path="/listestages" component={ListeStage}/>
         </Switch>
-  
       </main>
     
   );

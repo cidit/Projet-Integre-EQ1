@@ -1,10 +1,4 @@
 import React, { Component } from 'react';
-import ListeContrats from './contrat/ListeContrats'
-
-
-import ContratsEmployeur from '../components/employeur/ContratEmployeur'
-import CreationContrat from '../components/contrat/CreationContrat'
-import ListCandidatureChoisi from './contrat/ListCandidatureChoisi'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -14,17 +8,11 @@ export default class Home extends Component {
         }
     }
 
-    render() {
-        return (
-            <div>
-          
-
-
-            {/* <ListCandidatureChoisi />   */}
-
-
-            </div>
-
+    render(){
+        return(
+           <div>
+               <h2 className="text-center">Home page</h2>
+           </div>
         );
     }
 }

@@ -1,9 +1,11 @@
 package com.equipe1.service;
 import com.equipe1.model.Candidature;
 import com.equipe1.model.Etudiant;
+import com.equipe1.model.Session;
 import com.equipe1.model.Stage;
 import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.EtudiantRepository;
+import com.equipe1.repository.SessionRepository;
 import com.equipe1.repository.StageRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,10 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+
+import java.time.LocalDate;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,12 +41,16 @@ public class CandidatureServiceTest {
     @MockBean
     private StageRepository stageRepository;
 
+    @MockBean
+    private SessionRepository sessionRepository;
+
     private Candidature c1;
     private Candidature c2;
     private Etudiant e1;
     private Etudiant e;
     private Stage s;
     private Candidature c;
+    private Session session;
 
     @BeforeEach
     public void testSetUpCandidatures() {
@@ -65,6 +70,14 @@ public class CandidatureServiceTest {
         e.setAdresse("123 Rue Bidon");
         s.setId(4L);
         s.setTitre("TP");
+
+        session = Session.builder()
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusMonths(6))
+                .etudiants(new HashSet<>())
+                .candidatures(new HashSet<>())
+                .build();
+        sessionRepository.save(session);
     }
 
     @Test
@@ -156,11 +169,15 @@ public class CandidatureServiceTest {
 
     @Test
     public void testUpdateCandidatureChoisi() {
+        // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
         c1.setId(1L);
         when(candidatureRepository.save(c1)).thenReturn(c1);
         candidatureRepository.save(c1);
         when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
         when(candidatureRepository.save(c2)).thenReturn(c2);
+        // Act
         Candidature candidature = candidatureService.updateCandidatureChoisi(1L);
         // Assert
         assertEquals(candidature.getStatut(), Candidature.CandidatureStatut.CHOISI);
@@ -171,20 +188,24 @@ public class CandidatureServiceTest {
         // Arrange
         doReturn(s).when(stageRepository).save(any());
         doReturn(e).when(etudiantRepository).save(any());
-        Stage stage = stageRepository.save(s);
-        Etudiant etudiant = etudiantRepository.save(e);
         doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
         doReturn(Optional.of(e)).when(etudiantRepository).findById(e.getId());
         doReturn(Optional.of(c)).when(candidatureRepository).findById(c.getId());
         doReturn(c).when(candidatureRepository).save(any());
 
+        c.setStatut(Candidature.CandidatureStatut.CHOISI);
+        c.setEtudiant(e);
+        candidatureRepository.save(c);
+        session.getEtudiants().add(e);
+        session.getCandidatures().add(c);
+        when(sessionRepository.save(session)).thenReturn(session);
+        sessionRepository.save(session);
+        when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
+
         Candidature candidature = candidatureService.createCandidature(e.getId(), s.getId());
         Candidature candidatureUpdated = candidatureService.updateCandidatureChoisi(candidature.getId());
         // Act
-        when(candidatureRepository.findCandidatureByEtudiant_Id(etudiant.getId(), Candidature.CandidatureStatut.CHOISI))
-                .thenReturn(Optional.of(candidatureUpdated));
-
-        Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(etudiant.getId());
+        Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(e.getId());
         // Assert
         assertEquals(candidatureUpdated.getStatut(), Candidature.CandidatureStatut.CHOISI);
         assertTrue(optionalCandidature.isPresent());
@@ -197,8 +218,6 @@ public class CandidatureServiceTest {
         doReturn(e).when(etudiantRepository).save(any());
         Etudiant etudiant = etudiantRepository.save(e);
         // Act
-        when(candidatureRepository.findCandidatureByEtudiant_Id(etudiant.getId(), Candidature.CandidatureStatut.CHOISI))
-                .thenReturn(Optional.empty());
         Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(etudiant.getId());
         // Assert
         assertFalse(optionalCandidature.isPresent());
