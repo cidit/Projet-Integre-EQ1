@@ -24,8 +24,6 @@ public class Contrat {
     private byte[] documentContrat;
     private LocalDate dateGeneration;
     private LocalDate dateFinale;
-
-    private SignatureEtat signatureAdmin;
     private SignatureEtat signatureEmployeur;
     private SignatureEtat signatureEtudiant;
 
@@ -36,7 +34,8 @@ public class Contrat {
     }
 
     public Contrat() {
-        this.signatureAdmin = SignatureEtat.PAS_SIGNE;
+        this.signatureEmployeur= SignatureEtat.PAS_SIGNE;
+        this.signatureEtudiant= SignatureEtat.PAS_SIGNE;
         this.signatureEmployeur = SignatureEtat.PAS_SIGNE;
         this.signatureEtudiant = SignatureEtat.PAS_SIGNE;
         this.dateGeneration = LocalDate.now();
@@ -48,7 +47,6 @@ public class Contrat {
                 "id=" + id +
                 ", dateGeneration=" + dateGeneration +
                 ", dateFinale=" + dateFinale +
-                ", signatureAdmin=" + signatureAdmin +
                 ", signatureEmployeur=" + signatureEmployeur +
                 ", signatureEtudiant=" + signatureEtudiant +
                 '}';

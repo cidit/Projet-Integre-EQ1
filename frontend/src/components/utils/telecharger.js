@@ -12,6 +12,7 @@ export default function Telecharger(props) {
        ContratService.telechargerDocument(props.path).then((response) => {
             sauvegarderEtMontrerDoc(response)
         });
+       if (window.localStorage.getItem("desc") != "Gestionnaire")
         setRedirect(true);
     }
 

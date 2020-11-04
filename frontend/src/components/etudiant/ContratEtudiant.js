@@ -1,18 +1,18 @@
+import {ListeContratsEtudiant} from '../contrat/ListeContrats'
 import React, { useEffect, useState } from 'react';
 import ContratService from '../../service/ContratService';
-import ListeContrats from '../contrat/ListeContrats';
 
 export default function ContratEtudiant() {
     const id = localStorage.getItem("desc") === "Etudiant" ? localStorage.getItem("id") : '';
     const [contratEtudiant, setContratEtudiant] = useState(null);
 
-    const getByContratEtudaintId = async () => {
+    const getByContratEtudiantId = async () => {
         const response = await ContratService.getContratByEtudiantId(id);
         setContratEtudiant(response.data);
     }
 
     useEffect(() => {
-        getByContratEtudaintId();
+        getByContratEtudiantId();
         return () => {
             setContratEtudiant([])
         }
@@ -20,7 +20,7 @@ export default function ContratEtudiant() {
 
     return (
         <div>{contratEtudiant != null &&
-            <ListeContrats contrat={contratEtudiant} />
+            <ListeContratsEtudiant contrats={contratEtudiant} />
         }
         </div>
     )

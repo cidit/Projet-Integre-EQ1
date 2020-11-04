@@ -31,9 +31,11 @@ public class CourrielServiceTest {
 
     private Courriel mail;
     private Etudiant etudiant;
+    private Employeur employeur;
     private CV cv1;
     private CV cv2;
     private Candidature candidature;
+    private Contrat contrat;
     @BeforeEach
     public void setUp() {
         mail = new Courriel();
@@ -57,12 +59,19 @@ public class CourrielServiceTest {
         etudiant.setEmail("test@test.com");
         when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
 
+        employeur = new Employeur();
+        employeur.setEmail("employeur@gmail.com");
+
         candidature = new Candidature();
         candidature.setEtudiant(etudiant);
         candidature.setStage(new Stage());
         candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
         when(candidatureRepository.save(candidature)).thenReturn(candidature);
 
+        contrat = new Contrat();
+        contrat.setDocumentContrat(new byte[10]);
+        contrat.setCandidature(candidature);
+        contrat.setEmployeur(employeur);
     }
 
     @Test
@@ -95,5 +104,37 @@ public class CourrielServiceTest {
         courriel.sendCandidatureStatusUpdate(candidature);
         verify( courriel, times(1)).sendCandidatureStatusUpdate(candidature);
 
+    }
+
+    @Test
+    public void testSendContratScolariteEmployeur() throws Exception {
+        courrielService.sendContratScolarite(contrat, "Employeur");
+        CourrielService courriel = mock(CourrielService.class);
+        courriel.sendContratScolarite(contrat, "Employeur");
+        verify( courriel, times(1)).sendContratScolarite(contrat, "Employeur");
+    }
+
+    @Test
+    public void testSendContratScolariteEtudiant() throws Exception {
+        courrielService.sendContratScolarite(contrat, "Etudiant");
+        CourrielService courriel = mock(CourrielService.class);
+        courriel.sendContratScolarite(contrat, "Etudiant");
+        verify( courriel, times(1)).sendContratScolarite(contrat, "Etudiant");
+    }
+
+    @Test
+    public void testSendRefusContratEmployeur() throws Exception {
+        courrielService.sendRefusContrat(contrat, "Employeur");
+        CourrielService courriel = mock(CourrielService.class);
+        courriel.sendRefusContrat(contrat, "Employeur");
+        verify( courriel, times(1)).sendRefusContrat(contrat, "Employeur");
+    }
+
+    @Test
+    public void testSendRefusContratEtudiant() throws Exception {
+        courrielService.sendRefusContrat( contrat, "Etudiant");
+        CourrielService courriel = mock(CourrielService.class);
+        courriel.sendRefusContrat(contrat, "Etudiant");
+        verify( courriel, times(1)).sendRefusContrat(contrat, "Etudiant");
     }
 }

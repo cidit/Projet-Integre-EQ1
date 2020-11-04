@@ -31,8 +31,16 @@ public class ContratService {
     @Autowired
     CandidatureService candidatureService;
     @Autowired
+    CourrielService courrielService;
+    @Autowired
     GenerateurPdfService generateurPdfService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ContratService.class);
+
+
+    public List<Contrat> getContrats() {
+        return contratRepository.findAll();
+    }
 
     public Contrat getContratById(long id) {
         return contratRepository.findById(id)
@@ -62,17 +70,25 @@ public class ContratService {
         return contratSignatureEmployeurOk;
     }
 
-    public Contrat createContrat(MultipartFile file, Long idCandidature) throws IOException {
+    public Contrat updateContrat(MultipartFile file,  Long idContrat, String desc) throws IOException {
+        Contrat contrat = contratRepository.findById(idContrat).get();
+        contrat.setDocumentContrat(file.getBytes());
+        if (desc.equals("Employeur"))
+            contrat.setSignatureEmployeur(Contrat.SignatureEtat.EN_ATTENTE);
+        if (desc.equals("Etudiant"))
+            contrat.setSignatureEtudiant(Contrat.SignatureEtat.EN_ATTENTE);
+        return contratRepository.save(contrat);
+    }
+    public Contrat createContrat(MultipartFile file, Long idCandidature) throws Exception {
         Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
-        System.out.println(candidature.isPresent() + " is present");
         Optional<Contrat> contrat = contratRepository.findByCandidature(candidature.get());
         if (contrat.isPresent()) {
             contrat.get().setDocumentContrat(file.getBytes());
-            contratRepository.save(contrat.get());
-            return contrat.get();
+            return contratRepository.save(contrat.get());
         } else {
             Contrat newContrat = createContratBuilder(candidature);
             newContrat.setDocumentContrat(file.getBytes());
+            courrielService.sendContratScolarite(newContrat,"Employeur");
             return contratRepository.save(newContrat);
         }
     }
@@ -87,7 +103,7 @@ public class ContratService {
             Contrat newContrat = createContratBuilder(candidature);
             newContrat.setDocumentContrat(newContratDocument(candidature).toByteArray());
             LOGGER.info("New Contrat cree ==> " + newContrat.getDateGeneration());
-            System.out.println(newContrat + " desde create doc");
+            courrielService.sendContratScolarite(newContrat,"Employeur");
             return contratRepository.save(newContrat);
         }
 
@@ -99,7 +115,6 @@ public class ContratService {
     }
 
     public ByteArrayOutputStream newContratDocument(Optional<Candidature> candidature) throws Exception {
-        System.out.println(candidature.get());
         return generateurPdfService.createPdf(candidature.get().getStage(),
                 candidature.get().getStage().getEmployeur(), candidature.get().getEtudiant());
     }
@@ -127,7 +142,6 @@ public class ContratService {
             Contrat newContrat = Contrat.builder()
                     .dateFinale(candidature.get().getStage().getDateFin())
                     .dateGeneration(LocalDate.now())
-                    .signatureAdmin(Contrat.SignatureEtat.PAS_SIGNE)
                     .signatureEmployeur(Contrat.SignatureEtat.PAS_SIGNE)
                     .signatureEtudiant(Contrat.SignatureEtat.PAS_SIGNE)
                     .candidature(candidature.get())
@@ -147,5 +161,28 @@ public class ContratService {
             }
         }
         return canditaturesSansContrat;
+    }
+
+    public Contrat updateStatutContrat(String desc, Contrat.SignatureEtat etat, Long id) throws Exception {
+        Contrat contrat = contratRepository.findById(id).get();
+        if (desc.equals("Employeur")){
+            contrat.setSignatureEmployeur(etat);
+            contratRepository.save(contrat);
+            if(etat.equals(Contrat.SignatureEtat.SIGNE))
+                courrielService.sendContratScolarite(contrat, desc);
+            if(etat.equals(Contrat.SignatureEtat.PAS_SIGNE))
+                courrielService.sendRefusContrat(contrat, desc);
+        }
+
+        if (desc.equals("Etudiant")){
+            contrat.setSignatureEtudiant(etat);
+            contratRepository.save(contrat);
+            if(etat.equals(Contrat.SignatureEtat.SIGNE))
+                courrielService.sendContratScolarite(contrat, desc);
+            if(etat.equals(Contrat.SignatureEtat.PAS_SIGNE))
+                courrielService.sendRefusContrat(contrat, desc);
+        }
+
+        return contrat;
     }
 }

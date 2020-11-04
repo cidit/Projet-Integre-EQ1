@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import ModalMessage from '../../components/utils/ModalMessage';
 import ContratService from '../../service/ContratService';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,12 +31,15 @@ function Televerser() {
     const classes = useStyles();
     const { params } = useRouteMatch();
     const [displayInvalidFileMessage, setDisplayInvalidFileMessage] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const saveContrat = async (e) => {
+        setIsLoading(true)
         var response = await ContratService.createContrat(params.id, file);
         setMessageResponse(response.data);
         setIsButtonDisable(true)
         setIsSubmit(true)
+        setIsLoading(false)
     }
 
     const selectFile = (e) => {
@@ -76,6 +80,10 @@ function Televerser() {
         }
     }, [])
 
+    if(isLoading){
+        return <CircularProgress disableShrink />;
+    }
+
     return (
         <div>
             <div className={classes.root}>
@@ -91,7 +99,7 @@ function Televerser() {
                     <label htmlFor="contained-button-file">
                         <Button variant="contained" color="primary" component="span" disabled={isButtonDisable}>
                             Selectionner un fichier
-                            </Button>
+                        </Button>
                     </label>
                     <input accept="image/*" className={classes.input} id="icon-button-file" type="file" disabled={isButtonDisable} />
                     <label htmlFor="icon-button-file">
@@ -103,38 +111,37 @@ function Televerser() {
 
 
                 {file.name &&
-                    <>
-                        <div className="row">
-                            <div className="col">
-                                <Alert severity="success" > {file.name}</Alert>
-                            </div>
-                            <div className="col">
-                                <IconButton color="primary" aria-label="upload picture" component="span" onClick={deleteFile}>
-                                    <HighlightOffIcon style={{ color: "red" }} />
-                                </IconButton>
-                            </div>
+                <>
+                    <div className="row">
+                        <div className="col">
+                            <Alert severity="success" > {file.name}</Alert>
                         </div>
-                        <div className="row">
+                        <div className="col">
+                            <IconButton color="primary" aria-label="upload picture" component="span" onClick={deleteFile}>
+                                <HighlightOffIcon style={{ color: "red" }} />
+                            </IconButton>
+                        </div>
+                    </div>
+                    <div className="row">
 
-                            <div className="col">
-                                <Button variant="contained" color="primary" component="span" className="mt-4"
+                        <div className="col">
+                            <Button variant="contained" color="primary" component="span" className="mt-4"
                                     onClick={saveContrat}
                                     disabled={isSubmit}
-                                >
-                                    Confirmer et envoyer au employeur
+                            >
+                                Confirmer et envoyer au employeur
                             </Button>
-                            </div>
                         </div>
-                    </>
+                    </div>
+                </>
                 }
             </div>
 
             {displayInvalidFileMessage &&
-                AlertFormatInvalide("Seuls les fichiers en format pdf sont acceptés", "warning")
+            AlertFormatInvalide("Seuls les fichiers en format pdf sont acceptés", "warning")
             }
 
             {messageResponse &&
-
                 <ModalMessage
                     message={messageResponse + " Le contrat a été envoyé au employeur, vous pouvez passer au contrat suivant"}
                     redirect="/listCandidatureChoisi"
@@ -143,10 +150,10 @@ function Televerser() {
             }
 
             {candidatureHasContrat &&
-                <ModalMessage
-                    message={"un contrat a déjà été créé pour ce stage, si vous souhaitez le supprimer veuillez consulter la liste de tous les contrats"}
-                    redirect="/"
-                    title="Le contrat existe déjà" />
+            <ModalMessage
+                message={"un contrat a déjà été créé pour ce stage, si vous souhaitez le supprimer veuillez consulter la liste de tous les contrats"}
+                redirect="/"
+                title="Le contrat existe déjà" />
             }
         </div>
     )

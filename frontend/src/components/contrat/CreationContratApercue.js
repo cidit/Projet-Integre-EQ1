@@ -15,6 +15,7 @@ import { useRouteMatch } from "react-router-dom";
 import ModalMessage from '../../components/utils/ModalMessage';
 import ContratService from '../../service/ContratService';
 
+
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -42,11 +43,6 @@ const DialogTitle = withStyles(styles)((props) => {
   );
 });
 
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
 
 const DialogActions = withStyles((theme) => ({
   root: {
@@ -78,7 +74,6 @@ export default function CreationContratApercue() {
   const [open, setOpen] = useState(false);
   const [imageContrat, setImageContrat] = useState('')
   const [isSubmit, setIsSubmit] = useState(false)
-
   const [isLoading, setIsLoading] = useState(false)
   const [candidatureHasContrat, setCandidatureHasContrat] = useState(false)
   const classes = useStyles();
@@ -122,6 +117,10 @@ export default function CreationContratApercue() {
     const response = await ContratService.candidatureHasContrat(params.id);
     setCandidatureHasContrat(response.data);
   }
+
+  if(isLoading){
+    return <CircularProgress disableShrink />;
+}
 
   return (
 

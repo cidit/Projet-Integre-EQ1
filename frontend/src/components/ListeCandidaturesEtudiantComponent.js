@@ -50,7 +50,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                         
                         <h5 className="card-title text-center p-3" 
                             style={{ background: '#FFCCCB' }}
-                            hidden={!this.state.disabledAllButtons}>Vous avez déjà confirmer votre stage pour la session</h5>
+                            hidden={!this.state.disabledAllButtons}>Vous avez déjà un stage pour cette session</h5>
 
                         <div className="row">
 

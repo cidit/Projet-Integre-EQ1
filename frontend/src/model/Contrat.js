@@ -8,7 +8,6 @@ export default class Contrat {
     contrat = [];
     dateGeneration = "";
     dateFinale = "";
-    signatureAdmin = "";
     signatureEmployeur = "";
     signatureEtudiant = "";
 }

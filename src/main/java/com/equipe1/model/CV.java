@@ -26,10 +26,6 @@ public class CV {
     @Column(columnDefinition = "BLOB")
     private byte[] data;
 
-    @OneToOne
-    @JsonIgnore
-    private Etudiant etudiant;
-
     public enum CVStatus {
         APPROVED, DENIED, UNREVIEWED
     }
