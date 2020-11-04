@@ -106,7 +106,7 @@ export default class HomeEtudiant extends Component {
 
     register = event => {
         SessionService.register(this.state.etudiant.id)
-        this.setState({})
+        this.setState({isRegistered: true})
     }
 
     render() {
