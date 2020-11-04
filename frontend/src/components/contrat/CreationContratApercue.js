@@ -146,7 +146,7 @@ export default function CreationContratApercue() {
 
       <div className="col">
         <Button variant="contained" color="primary" component="button" className="mt-4 btn btn-primary btn-lg btn-block" onClick={handleClickOpen}>
-          Voir apercue
+          Voir aperçue
            </Button>
         {isLoading ?
           <CircularProgress />
@@ -154,7 +154,7 @@ export default function CreationContratApercue() {
         }
         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
           <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-            Apercue de contrat
+          Aperçue de contrat
             </DialogTitle>
 
           <Dialog fullScreen open={open} >
