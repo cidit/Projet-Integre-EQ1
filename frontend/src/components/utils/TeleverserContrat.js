@@ -77,14 +77,11 @@ export default class TeleverserContrat extends Component {
         return (
             <form>
             <div>
-                <p>instrictions a suivre</p>
-                <p>id du contrat</p>
-                <div>{this.props.match.params.id}</div>
+                <h3>Televerser votre contrat</h3>
+                <p>Veuillez televerser le contrat que vous venez de telecharger daté et signé </p>
 
                 <div >
                     <input
-                        //accept="application/pdf"
-                      
                         id="contained-button-file"
                         type="file"
                         display = "none"
