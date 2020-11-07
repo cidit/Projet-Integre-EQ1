@@ -1,6 +1,5 @@
 import React, {Component, useState} from 'react';
 import CandidatureService from "../service/CandidatureService";
-import Candidature from "../model/Candidature";
 
 import Button from 'react-bootstrap/Button'
 import {Col, Container, Modal, Row} from "react-bootstrap";
@@ -18,7 +17,6 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
         };
 
         ShowCandidature = ShowCandidature.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     async componentDidMount() {
@@ -27,15 +25,11 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             id = localStorage.getItem("id");
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
-        var candidature;
-        candidature = await CandidatureService.getCandidatureChoisi(id);
+        var candidature = await CandidatureService.getCandidatureChoisi(id);
         console.log(candidature);
         if (candidature !== null) {
             this.setState({ disabledAllButtons: true });
         }
-    }
-    handleSubmit(event) {
-        event.preventDefault()
     }
     
     handleCloseSnackbar = () => this.setState({showSnackbar: false});
@@ -48,16 +42,12 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                 <div className="col">
                     <div className="pt-3 mt-3">
                         <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0' }}>Vos candidatures</h5>
-                        
-                        <h5 className="card-title text-center p-3" 
-                            style={{ background: '#FFCCCB' }}
-                            hidden={!this.state.disabledAllButtons}>Vous avez déjà un stage pour cette session</h5>
 
                         <div className="row">
 
                             <table className="table table-striped table-bordered">
                                 <thead>
-                                <tr >
+                                <tr>
                                     <th> Titre </th>
                                     <th> Statut </th>
                                     <th> Programme </th>
@@ -89,6 +79,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 }
 
 function ShowCandidature(props) {
+
     const approuved = "CHOISI";
 
     const [showModal, setShowModal] = useState(false);
@@ -108,13 +99,13 @@ function ShowCandidature(props) {
 
         toggleBtns(event.target.name === approuved);
 
+        props.candidature.statut = event.target.name;
+
         await CandidatureService.putCandidatureChoisi(props.candidature.id);
 
         handleShowSnackbar();
         handleCloseModal();
         handleDisableAll();
-
-        //window.location.reload();
     }
 
     return (
