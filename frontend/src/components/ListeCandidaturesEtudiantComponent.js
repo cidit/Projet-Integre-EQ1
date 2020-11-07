@@ -99,6 +99,7 @@ function ShowCandidature(props) {
 
         toggleBtns(event.target.name === approuved);
 
+        console.log("VALUE : " + event.target.name);
         props.candidature.statut = event.target.name;
 
         await CandidatureService.putCandidatureChoisi(props.candidature.id);
@@ -111,7 +112,11 @@ function ShowCandidature(props) {
     return (
         <>
             <td>{props.candidature.stage.titre}</td>
-            <td className={props.candidature.stage.statut}>{props.candidature.statut}</td>
+            <td className={props.candidature.statut === "CHOISI" ? "APPROVED" : "WAITING"}>
+                {props.candidature.statut === "EN_ATTENTE" ? "EN ATTENTE" : "" ||
+                 props.candidature.statut === "APPROUVE" ? "APPROUVÉE" : "" ||
+                 props.candidature.statut === "CHOISI" ? "CHOISI" : ""}
+            </td>
             <td>{props.candidature.stage.programme}</td>
             <td>{props.candidature.stage.ville}</td>
             <td>
