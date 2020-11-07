@@ -40,6 +40,7 @@ public class Application {
                 insertDataService.insertGestionnaire();
                 //insertDataService.insertCandidature();
                 insertBootSession();
+                insertDataService.insertEvaluationStagieire();
             }
         };
     }

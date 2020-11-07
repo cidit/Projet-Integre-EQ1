@@ -37,4 +37,7 @@ public class Etudiant extends User {
     private CV cv;
 
     private boolean enregistre;
+
+    //@ManyToOne
+   // private Evaluation evaluation;
 }

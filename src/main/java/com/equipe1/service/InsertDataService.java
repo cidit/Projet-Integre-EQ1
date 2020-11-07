@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,6 +43,11 @@ public class InsertDataService {
     GenerateurPdfService generateurPdfService;
     @Autowired
     private EtudiantService etudiantService;
+
+    @Autowired
+    private EvaluationStagiaireService evaluationStagiaireService;
+    @Autowired
+    private QuestionService questionService;
 
     @Transactional
     public void insertEtudiant(){
@@ -334,4 +340,29 @@ public class InsertDataService {
 
 
     }
+
+    @Transactional
+    public void insertEvaluationStagieire() throws Exception {
+
+        EvaluationStagiaire e = new EvaluationStagiaire();
+        Question q1 = new Question();
+        e.setDateCreation(LocalDate.now());
+        evaluationStagiaireService.save(e);
+
+
+
+        q1.setEnnonce("enonce 1");
+        q1.setReponse("reposnse question 1");
+        q1.setEvaluation(e);
+
+        Question q2 = new Question();
+        q2.setEnnonce("enonce 2");
+        q2.setReponse("reposnse question 2");
+        q2.setEvaluation(e);
+        questionService.saveAllQuestions(Arrays.asList(q1,q2));
+
+
+    }
+
+
 }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import EvaluationStagiaire from './evaluations/EvaluationStagiaire'
+import CreateQuestions from './evaluations/createQuestions'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -11,7 +13,11 @@ export default class Home extends Component {
     render(){
         return(
            <div>
-               <h2 className="text-center">Home page</h2>
+          {/* <EvaluationStagiaire/> */}
+          <CreateQuestions/>
+
+
+
            </div>
         );
     }
