@@ -1,14 +1,8 @@
 package com.equipe1.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,11 +18,13 @@ public class Session {
     @Id
     private long id;
 
-    private LocalDate startDate, endDate;
+    private LocalDate startDate; //, endDate;
 
-    @OneToMany
+    @ManyToMany
     private Set<Etudiant> etudiants;
 
     @OneToMany
     private Set<Candidature> candidatures;
+
+    private String nom;
 }

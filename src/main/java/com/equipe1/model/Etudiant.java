@@ -8,11 +8,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "sessions", callSuper = true)
 public class Etudiant extends User {
 
     {
@@ -35,6 +35,10 @@ public class Etudiant extends User {
 
     @OneToOne
     private CV cv;
+
+    @ManyToMany
+    @JsonIgnore
+    private Set<Session> sessions;
 
     private boolean enregistre;
 }
