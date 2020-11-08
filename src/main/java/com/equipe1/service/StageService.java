@@ -1,6 +1,7 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
+import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -17,6 +18,8 @@ import java.util.Set;
 public class StageService {
     @Autowired
     private StageRepository stageRepository;
+    @Autowired
+    private CandidatureRepository candidatureRepository;
 
     @Autowired
     private EmployeurService employeurService;
@@ -25,6 +28,8 @@ public class StageService {
 
     @Autowired
     CourrielService courrielService;
+
+
 
     @Autowired
     Environment env;
@@ -140,5 +145,24 @@ public class StageService {
             }
         }
         return stagesApprouves;
+    }
+
+    public List<Stage> getStagesAyantAucunStagiaire() {
+        List<Stage> stages = stageRepository.findAll();
+        List<Stage> resultStages = new ArrayList<>();
+        for (Stage stage : stages) {
+            if (!hasStagiare(stage))
+                resultStages.add(stage);
+        }
+        return resultStages;
+    }
+
+    private boolean hasStagiare(Stage stage) {
+        List<Candidature> candidatures = candidatureService.findCandidatureByStage(stage.getId());
+        for(Candidature candidature : candidatures){
+            if(candidature.getStatut().equals(Candidature.CandidatureStatut.CHOISI))
+                return true;
+        }
+        return false;
     }
 }

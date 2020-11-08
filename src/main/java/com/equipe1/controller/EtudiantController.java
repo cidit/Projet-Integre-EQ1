@@ -67,4 +67,9 @@ public class EtudiantController {
     public List<Etudiant> getAllEtudiantByProgramme(@PathVariable String programme){
         return etudiantService.getEtudiantsByProgramme(programme);
     }
+
+    @GetMapping("/get/aucunStage")
+    public List<Etudiant> getAllEtudiantsAucunStage(){
+        return etudiantService.getEtudiantsAucunStage();
+    }
 }
