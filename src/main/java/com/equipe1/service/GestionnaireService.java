@@ -37,7 +37,8 @@ public class GestionnaireService {
         return gestionnaireRepository.save(optionalGestionnaire.get());
     }
 
-    public Gestionnaire getGestionnaireByPassword(String password) {
-        return gestionnaireRepository.findByPassword(password);
+    public boolean getGestionnaireByPassword(String password) {
+        Optional<Gestionnaire> optionalGestionnaire = gestionnaireRepository.findByPassword(password);
+        return optionalGestionnaire.isPresent();
     }
 }

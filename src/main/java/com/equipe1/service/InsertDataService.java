@@ -255,7 +255,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        stage1.setStatut(Stage.StageStatus.DENIED);
+        stage1.setStatut(Stage.StageStatus.APPROVED);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         set = new HashSet<>();
@@ -277,7 +277,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        stage1.setStatut(Stage.StageStatus.DENIED);
+        stage1.setStatut(Stage.StageStatus.APPROVED);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         set = new HashSet<>();
@@ -293,12 +293,12 @@ public class InsertDataService {
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         candidature = candidatureService.createCandidature(etudiant.getId(), (long) 12);
-        candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
+        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         candidature = candidatureService.createCandidature(etudiant.getId(), (long) 13);
-        candidature.setStatut(Candidature.CandidatureStatut.REFUSE);
+        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
