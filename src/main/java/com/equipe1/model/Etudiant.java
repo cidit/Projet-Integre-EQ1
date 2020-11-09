@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -35,5 +36,9 @@ public class Etudiant extends User {
 
     @OneToOne
     private CV cv;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Session> session;
+
     private boolean enregistre;
 }

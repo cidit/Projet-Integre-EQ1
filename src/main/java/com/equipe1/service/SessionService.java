@@ -14,15 +14,15 @@ public class SessionService {
     @Autowired
     private SessionRepository sessionRepository;
 
-    public Session getCurrent() {
-        return sessionRepository.findCurrentAccordingTo(LocalDate.now()).get();
-    }
-
     public List<Session> getAll() {
         return sessionRepository.findAll();
     }
 
-    public void update(Session session) { sessionRepository.save(session); }
+    public Session getSessionById(Long id) {
+        return sessionRepository.findById(id).get();
+    }
+
+    public Session create(Session session) { return sessionRepository.save(session); }
 
     public void delete(long id) {
         sessionRepository.deleteById(id);
