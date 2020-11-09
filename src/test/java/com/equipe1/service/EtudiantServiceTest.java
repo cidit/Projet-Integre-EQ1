@@ -245,10 +245,14 @@ public class EtudiantServiceTest {
 
     @Test
     void testGetEtudiantsAucunStage(){
+        //Arrange
         doReturn(Arrays.asList(e1, e2)).when(repository).findAll();
         doReturn(Arrays.asList(c1)).when(candidatureService).findCandidatureByEtudiant(e1.getId());
+
+        //Act
         List<Etudiant> etudiants = service.getEtudiantsAucunStage();
 
+        //Assert
         assertNotNull(etudiants);
         assertEquals(etudiants.size(), 2);
         assertEquals(etudiants.get(0), e1);

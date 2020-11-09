@@ -88,7 +88,7 @@ public class EtudiantService {
             if (!hasStage(etudiant))
                 resultListEtudiants.add(etudiant);
         }
-        return etudiants;
+        return resultListEtudiants;
     }
 
     private boolean hasStage(Etudiant etudiant) {
