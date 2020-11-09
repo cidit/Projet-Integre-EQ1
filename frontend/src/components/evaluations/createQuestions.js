@@ -3,12 +3,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from "react";
 import {
     RadioGroup, Typography, ButtonBase, Grid, FormControlLabel, Radio, TableRow,
-    TableHead, TableContainer, TableCell, TableBody, Table
+    TableHead, TableContainer, TableCell, TableBody, Table, Button, Container
 } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+    },
+    table: {
+
     },
     paper: {
         padding: theme.spacing(2),
@@ -27,93 +34,161 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const initialState = [
-    { question_1: 'planifier et organiser son travail de façon efficace', response_1: "true" },
-    { question_2: 'comprendre rapidement les directives relatives à son travail', response_2: "true" },
-    { question_3: 'maintenir un rythme de travail soutenu', response_3: "true" },
-    { question_4: 'établir ses priorités', response_4: "true" },
-    { question_5: 'respecter ses échéanciers', response_5: "true" },
+
+
+const ChoixResponses = ['Totalement en accord', 'Plutôt en accord', 'Plutôt en désaccord', 'Totalement en désaccord', 'N/A']
+
+const initialInputs = [
+    { id: "0", question: 'planifier et organiser son travail de façon efficace' },
+    { id: "1", question: 'comprendre rapidement les directives relatives à son travail' },
+    { id: "2", question: 'maintenir un rythme de travail soutenu' },
+    { id: "3", question: 'établir ses priorités' },
+    { id: "4", question: 'respecter ses échéanciers' },
 ];
-
-const ChoixResponses = ['Totalement en accord', 'Plutôt en accord', 'Plutôt en désaccord', 'Totalement en désaccord']
-
-
 
 export default function CreateQuestions() {
     const classes = useStyles();
-    const [questions, setquestions] = useState(initialState)
+    const [questions, setInputs] = useState(initialInputs)
+    const [evaluation, setEvaluation] = useState([])
+    const [isCopletedQuestions, setIsCopletedQuestions] = useState(true)
 
-
-    const change = () => {
-        setquestions({ ...questions, question_1: "soy la question qui vines de changer", response_1: 'soy la response al question' })
-
-
-    }
 
     useEffect(() => {
-        change();
         return () => {
-
+            setEvaluation([]);
         }
     }, [])
 
+
     const handleChange = (e) => {
-        console.log(e.target.value)
+        //update response pour question
+        for (var i = 0; i < evaluation.length; i++) {
+
+            if (evaluation[i].id === e.target.id) {
+                evaluation.splice(evaluation.id, 1)
+            }
+        }
+        evaluation.push({
+            id: e.target.id,
+            question: questions[e.target.id].question,
+            response: e.target.value
+        });
+
+        if (evaluation.length === questions.length) {
+            setIsCopletedQuestions(false)
+        }
+
     }
 
-    return (
-        <div  >
-            <Grid container spacing={3}>
-                <Grid item xs={6}>
-                    <Paper className={classes.paper}>xs=6</Paper>
-                </Grid>
-                <Grid item xs>
-                    <Paper className={classes.paper}>xs</Paper>
-                </Grid>
-                <Grid item xs>
-                    <Paper className={classes.paper}>xs</Paper>
-                </Grid>
 
-            </Grid>
-
-            <RadioGroup
-                aria-label="Location"
-                name="location"
-                className={classes.group}
-                //value={location}
-                onChange={handleChange}
-                row={true}
-            >
-                <FormControlLabel value="company" control={<Radio />} label="Company" />
-                <FormControlLabel value="home" control={<Radio />} label="Home" />
-                <FormControlLabel value="other" control={<Radio />} label="Other" />
-            </RadioGroup>
+    if (questions.length === 0) {
+        return <p>Loading....</p>
+    } else {
+        return (
+            <div >
+                {questions &&
+                    <div className="container-fluid">
+                        <TableContainer component={Paper}>
+                            <Table className={classes.table} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>
+                                            <TableCell></TableCell>
+                                            {ChoixResponses.map((choix, i) =>
+                                                <TableCell key={i} component="th"  >{choix}</TableCell>
+                                            )}
+                                        </TableCell>
 
 
-          <div className="container-fluid">
-          <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell><strong>Le stagiaire a été en mesure de :</strong></TableCell>
-                                <TableCell align="right">Calories</TableCell>
-                                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                                <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+
+                                    <TableRow>
+                                        <TableCell><strong>Le stagiaire a été en mesure de :</strong></TableCell>
+                                    </TableRow>
+
+                                 
+                                    
 
 
-          </div>
-                
-           
+                                    <TableRow>
+                                        {questions.map(data => (
+                                            <>
 
-            <p>{questions.question_1}</p>
-            <p>{questions.response_1}</p>
-        </div>
-    )
+
+
+
+                                                <RadioGroup
+                                                    //className={classes.group}
+                                                    onChange={handleChange}
+                                                    row={true}
+                                                    key={data.id}
+                                                >
+                                                    <TableCell className='col'  >
+                                                        {data.question}
+                                                    </TableCell>
+
+                                                    <TableCell className='col'>
+                                                        <FormControlLabel
+                                                            value={ChoixResponses[0]}
+                                                            control={<Radio id={data.id} />}
+                                                            label={ChoixResponses[0]}
+                                                        />
+                                                    </TableCell>
+
+                                                    <TableCell className='col'>
+                                                        <FormControlLabel
+                                                            value={ChoixResponses[1]}
+                                                            control={<Radio id={data.id} />}
+                                                            label={ChoixResponses[1]}
+                                                        />
+                                                    </TableCell>
+
+                                                    <TableCell className='col'>
+                                                        <FormControlLabel
+                                                            value={ChoixResponses[2]}
+                                                            control={<Radio id={data.id} />}
+                                                            label={ChoixResponses[2]}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell className='col'>
+                                                        <FormControlLabel
+                                                            value={ChoixResponses[3]}
+                                                            control={<Radio id={data.id} />}
+                                                            label={ChoixResponses[3]}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell className='col'>
+                                                        <FormControlLabel
+                                                            value={ChoixResponses[4]}
+                                                            control={<Radio id={data.id} />}
+                                                            label={ChoixResponses[4]}
+                                                        />
+                                                    </TableCell>
+
+
+                                                </RadioGroup>
+                                            </>
+                                        ))}
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                        <Button variant="contained" color="primary" disabled={isCopletedQuestions} className='mt-3'>
+                            Continuer
+                        </Button>
+
+
+
+
+                    </div>
+
+
+                }
+            </div >
+        )
+    }
 }
