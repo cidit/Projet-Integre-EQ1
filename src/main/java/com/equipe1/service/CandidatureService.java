@@ -102,32 +102,29 @@ public class CandidatureService {
     public Candidature updateCandidatureChoisi(Long id) {
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
         updatedCandidature.setStatut(Candidature.CandidatureStatut.CHOISI);
-        Candidature savedCandidature = candidatureRepository.save(updatedCandidature);
-
-        Optional<Session> session = sessionRepository.findCurrentAccordingTo(LocalDate.now());
-        Set<Candidature> currentSessionCandidatures = session.get().getCandidatures();
-        currentSessionCandidatures.add(savedCandidature);
-        session.get().setCandidatures(currentSessionCandidatures);
-        sessionRepository.save(session.get());
-
-        return savedCandidature;
+        return candidatureRepository.save(updatedCandidature);
     }
 
     public Optional<Candidature> getCandidatureChoisi(Long id) {
         Optional<Candidature> optionalCandidature = Optional.empty();
         boolean flag = false;
-        Set<Candidature> currentSessionCandidatures = new HashSet<>();
+        List<Candidature> currentSessionCandidatures = new ArrayList<>();
         Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
         if (optionalEtudiant.isPresent()) {
-            Optional<Session> session = sessionRepository.findCurrentAccordingTo(LocalDate.now());
-            flag = session.get().getEtudiants().stream().anyMatch(etudiant -> etudiant.getId() == id);
-            currentSessionCandidatures = session.get().getCandidatures();
+
+            Optional<Session> sessionActuelle = sessionRepository.findCurrentSession();
+            flag = optionalEtudiant.get()
+                    .getSession()
+                    .stream()
+                    .anyMatch(sessionEtudiant -> sessionEtudiant.getId() == sessionActuelle.get().getId());
+
+            currentSessionCandidatures = candidatureRepository.findAll();
         }
         if (flag){
             Set<Candidature> filtered = currentSessionCandidatures.stream()
                                         .filter(candidature -> candidature.getEtudiant().getId() == id && candidature.getStatut() == Candidature.CandidatureStatut.CHOISI)
                                         .collect(Collectors.toSet());
-            System.out.println(filtered);
+
             if (!filtered.isEmpty())
                 optionalCandidature = Optional.of(filtered.iterator().next());
         }

@@ -47,22 +47,24 @@ public class CandidatureController {
         return candidatureService.createCandidature(idEtudiant, idStage);
     }
 
-
+    /*
     @PutMapping("updateChoisi/{id}")
     public Candidature updateCandidatureChoisi(@PathVariable Long id){
         return candidatureService.updateCandidatureChoisi(id);
     }
+     */
 
     @PutMapping("updateApprouve/{id}")
     public Candidature updateCandidatureApprouve(@PathVariable Long id) throws Exception {
         return candidatureService.updateCandidatureApprouve(id);
     }
 
-
+    /*
     @GetMapping("getChoisi/{id}")
     public Optional<Candidature> getCandidatureChoisi(@PathVariable Long id) {
         return candidatureService.getCandidatureChoisi(id);
     }
+     */
 
     @GetMapping("getAllChoisis")
     public List<Candidature> getAllCandidatureChoisi() {

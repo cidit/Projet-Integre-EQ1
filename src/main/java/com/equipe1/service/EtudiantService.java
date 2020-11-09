@@ -2,6 +2,7 @@ package com.equipe1.service;
 
 import com.equipe1.model.Candidature;
 import com.equipe1.model.Etudiant;
+import com.equipe1.model.Session;
 import com.equipe1.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,9 +66,9 @@ public class EtudiantService {
     public Optional<Etudiant> registerEtudiant(long id) {
         var optionalEtudiant = findEtudiantById(id);
         if (optionalEtudiant.isPresent()) {
-            var session = sessionService.getCurrent();
-            session.getEtudiants().add(optionalEtudiant.get());
-            sessionService.update(session);
+            Optional<Session> session = sessionService.findCurrentSession();
+            optionalEtudiant.get().getSession().add(session.get());
+            etudiantRepository.save(optionalEtudiant.get());
         }
         return optionalEtudiant;
     }
@@ -75,8 +76,11 @@ public class EtudiantService {
     public boolean isEtudiantRegistered(long id) {
         var optionalEtudiant = findEtudiantById(id);
         if (optionalEtudiant.isPresent()) {
-            var session = sessionService.getCurrent();
-            return session.getEtudiants().stream().anyMatch(etudiant -> etudiant.getId() == id);
+            Optional<Session> sessionActuelle = sessionService.findCurrentSession();
+            return optionalEtudiant.get()
+                                   .getSession()
+                                   .stream()
+                                   .anyMatch(sessionEtudiant -> sessionEtudiant.getId() == sessionActuelle.get().getId());
         }
         return false;
     }

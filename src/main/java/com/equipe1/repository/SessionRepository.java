@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
 
-    @Query("select s from Session s where s.startDate <= ?1 and s.endDate >= ?1")
-    Optional<Session> findCurrentAccordingTo(LocalDate currentDate);
+    @Query("select s from Session s where s.isCurrent = true")
+    Optional<Session> findCurrentSession();
 }

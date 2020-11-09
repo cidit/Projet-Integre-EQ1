@@ -3,7 +3,6 @@ package com.equipe1.service;
 import com.equipe1.model.Candidature;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.Session;
-import com.equipe1.model.Stage;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.SessionRepository;
 import org.junit.jupiter.api.Assertions;
@@ -16,10 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -66,10 +62,8 @@ public class EtudiantServiceTest {
         c1.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
         c1.setEtudiant(e1);
         session = Session.builder()
+                .name("AUT-2020")
                 .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusMonths(6))
-                .etudiants(new HashSet<>())
-                .candidatures(new HashSet<>())
                 .build();
         sessionRepository.save(session);
     }
@@ -212,31 +206,42 @@ public class EtudiantServiceTest {
     @Test
     void testRegisterEtudiant() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        sessionRepository.save(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        List<Session> list = new ArrayList<>();
+        list.add(session);
+
         e1.setId(1L);
+        e1.setSession(list);
         doReturn(e1).when(repository).save(e1);
         doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
         repository.save(e1);
 
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
         // Act
         Optional<Etudiant> optionalEtudiant = service.registerEtudiant(e1.getId());
         // Assert
         Assertions.assertTrue(optionalEtudiant.isPresent());
+        Assertions.assertEquals("AUT-2020", optionalEtudiant.get().getSession().get(0).getName());
     }
 
     @Test
     void testIsEtudiantRegistered() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        sessionRepository.save(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        List<Session> list = new ArrayList<>();
+        list.add(session);
+
         e1.setId(1L);
+        e1.setSession(list);
         doReturn(e1).when(repository).save(e1);
         doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
         repository.save(e1);
 
-        session.getEtudiants().add(e1);
-        when(sessionRepository.save(session)).thenReturn(session);
-        sessionRepository.save(session);
-        when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
         // Act
         boolean flag = service.isEtudiantRegistered(e1.getId());
         // Assert
