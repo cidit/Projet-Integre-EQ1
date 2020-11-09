@@ -88,8 +88,8 @@ export default function CreateQuestions3() {
 
     const handleChange = (e) => {
         //setInitialRadios(...initialRadios,{  id: e.target.name, value:  e.target.value, checked:  e.target.checked,
-                                name: e.target.name+ e.target.id})
-        console.log(index)
+       //                         name: e.target.name+ e.target.id})
+        //console.log(index)
         //setCheckedId(e.target.id)
        // setcheckOptionValue(e.target.value)
        // setinputName(e.target.name)

@@ -93,33 +93,21 @@ export default function CreateQuestions() {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>
-                                            <TableCell></TableCell>
+                                           
                                             {ChoixResponses.map((choix, i) =>
-                                                <TableCell key={i} component="th"  >{choix}</TableCell>
+                                                <TableCell key={i} component="td" className='col' >{choix}</TableCell>
                                             )}
                                         </TableCell>
-
-
-
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-
                                     <TableRow>
                                         <TableCell><strong>Le stagiaire a été en mesure de :</strong></TableCell>
                                     </TableRow>
 
-                                 
-                                    
-
-
                                     <TableRow>
                                         {questions.map(data => (
                                             <>
-
-
-
-
                                                 <RadioGroup
                                                     //className={classes.group}
                                                     onChange={handleChange}
@@ -134,7 +122,7 @@ export default function CreateQuestions() {
                                                         <FormControlLabel
                                                             value={ChoixResponses[0]}
                                                             control={<Radio id={data.id} />}
-                                                            label={ChoixResponses[0]}
+                                                           // label={ChoixResponses[0]}
                                                         />
                                                     </TableCell>
 
@@ -142,7 +130,7 @@ export default function CreateQuestions() {
                                                         <FormControlLabel
                                                             value={ChoixResponses[1]}
                                                             control={<Radio id={data.id} />}
-                                                            label={ChoixResponses[1]}
+                                                           // label={ChoixResponses[1]}
                                                         />
                                                     </TableCell>
 
@@ -150,21 +138,21 @@ export default function CreateQuestions() {
                                                         <FormControlLabel
                                                             value={ChoixResponses[2]}
                                                             control={<Radio id={data.id} />}
-                                                            label={ChoixResponses[2]}
+                                                            //label={ChoixResponses[2]}
                                                         />
                                                     </TableCell>
                                                     <TableCell className='col'>
                                                         <FormControlLabel
                                                             value={ChoixResponses[3]}
                                                             control={<Radio id={data.id} />}
-                                                            label={ChoixResponses[3]}
+                                                            //label={ChoixResponses[3]}
                                                         />
                                                     </TableCell>
                                                     <TableCell className='col'>
                                                         <FormControlLabel
                                                             value={ChoixResponses[4]}
                                                             control={<Radio id={data.id} />}
-                                                            label={ChoixResponses[4]}
+                                                           //label={ChoixResponses[4]}
                                                         />
                                                     </TableCell>
 
@@ -181,12 +169,7 @@ export default function CreateQuestions() {
                             Continuer
                         </Button>
 
-
-
-
                     </div>
-
-
                 }
             </div >
         )
