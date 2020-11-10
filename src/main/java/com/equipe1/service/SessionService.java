@@ -19,11 +19,16 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public Session getSessionById(Long id) {
-        return sessionRepository.findById(id).get();
+    public Optional<Session> getSessionById(Long id) {
+        return sessionRepository.findById(id);
     }
 
-    public Session create(Session session) { return sessionRepository.save(session); }
+    public Session create(Session session) {
+        Optional<Session> lastSession = sessionRepository.findCurrentSession();
+        lastSession.get().setCurrent(false);
+        sessionRepository.save(lastSession.get());
+        return sessionRepository.save(session);
+    }
 
     public void delete(long id) {
         sessionRepository.deleteById(id);

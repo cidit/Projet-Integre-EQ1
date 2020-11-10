@@ -8,6 +8,7 @@ import com.equipe1.service.SessionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController()
@@ -25,7 +26,7 @@ public class SessionController {
     }
 
     @GetMapping("get/{id}")
-    public Session getSessionById(@PathVariable Long id){
+    public Optional<Session> getSessionById(@PathVariable Long id){
         return sessionService.getSessionById(id);
     }
 
