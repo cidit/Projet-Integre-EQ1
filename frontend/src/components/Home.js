@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import EvaluationStagiaire from './evaluations/EvaluationStagiaire'
+
 import CreateQuestions from './evaluations/createQuestions'
+import EvaluationStagiaire from '../components/evaluations/EvaluationStagiaire'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -14,7 +15,10 @@ export default class Home extends Component {
         return(
            <div>
           {/* <EvaluationStagiaire/> */}
-          <CreateQuestions/>
+          {/* <CreateQuestions/> */}
+          {/* <EvaluationStagiaire/> */}
+
+          <EvaluationStagiaire/>
 
 
 
