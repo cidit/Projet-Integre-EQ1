@@ -22,16 +22,7 @@ const useStyles = makeStyles((theme) => ({
         margin: 'auto',
         maxWidth: 500,
     },
-    image: {
-        width: 128,
-        height: 128,
-    },
-    img: {
-        margin: 'auto',
-        display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
-    },
+   
 }));
 
 
@@ -46,9 +37,9 @@ const initialInputs = [
     { id: "4", question: 'respecter ses échéanciers' },
 ];
 
-export default function CreateQuestions() {
+export default function CreateQuestions(props) {
     const classes = useStyles();
-    const [questions, setInputs] = useState(initialInputs)
+    const [questions, setInputs] = useState(props.questions)
     const [evaluation, setEvaluation] = useState([])
     const [isCopletedQuestions, setIsCopletedQuestions] = useState(true)
 
@@ -94,6 +85,7 @@ export default function CreateQuestions() {
                 {questions &&
                     <TableContainer>
                         <Table>
+                
                             <TableHead>
                                 <tr className='row border-bottom m-2 p-3 font-weight-bold' >
                                     <th className='col' align="left">Quéstion</th>
@@ -167,6 +159,7 @@ export default function CreateQuestions() {
                             Continuer
                             </Button>
                     </TableContainer >
+                
                 }
 
 

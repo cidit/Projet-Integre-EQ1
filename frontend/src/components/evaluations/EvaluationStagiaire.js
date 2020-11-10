@@ -1,12 +1,22 @@
-import Paper from '@material-ui/core/Paper';
+
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from "react";
 import EtudiantService from '../../service/EtudiantService';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Avatar, Grid, Paper, Button } from '@material-ui/core';
+import PersonIcon from '@material-ui/icons/Person';
+import { useRouteMatch } from "react-router-dom";
+import { Redirect } from 'react-router-dom'
+import useSetQuestions from './useSetQuestions';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
+    },
+    paper: {
+        padding: theme.spacing(2),
+        margin: 'auto',
+        maxWidth: '70%',
     },
     heading: {
         fontSize: theme.typography.pxToRem(18),
@@ -15,39 +25,55 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EvaluationStagiaire() {
-    const [etudiant, setetudiant] = useState('')
     const classes = useStyles();
+    const { params } = useRouteMatch();
+    const [redirect, setRedirect] = useState(false)
+
+    //defini origin du id
+    const{etudiant} = useSetQuestions(1);
 
 
-    const getEtudiant = async () => {
-        const response = await EtudiantService.getEtudiantById(1);
-        setetudiant(response.data);
-        console.log(response.data)
+    const goToEvaluation=()=>{
+        setRedirect(true);
     }
 
-    useEffect(() => {
-        getEtudiant()
-        return () => {
-            setetudiant('')
-        }
-    }, [])
 
-
+    if(redirect) {
+        return <Redirect to={`/createEvaluation/${etudiant.id}`} />
+    } 
     return (
         <div>
-            <div className='container'>
-                <Typography className={classes.heading} >
+            <Paper className={classes.paper} width="75%">
+                <Typography className={classes.heading} align='center'>
                     FICHE D’ÉVALUATION DU STAGIAIRE
               </Typography>
+                <Avatar alt={etudiant.nom} src="/static/images/avatar/1.jpg" className={classes.large} />
+                <Typography variant="h4" align='center'>{etudiant.prenom} {etudiant.nom}</Typography>
+                <Typography variant="subtitle2" align='center'>{etudiant.programme} </Typography>
+                <br></br>
 
-                <div class="card" >
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Cras justo odio</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
-                    </ul>
-                </div>
-            </div>
+                <Typography variant="subtitle2" align='center'>
+                    <PersonIcon /> Information
+                 </Typography>
+                <br></br>
+
+                <Grid container spacing={3}>
+                    <Grid item xs={3}>
+                        <Paper className={classes.paper}>Téléphone</Paper>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Paper className={classes.paper}>{etudiant.telephone}</Paper>
+                    </Grid>
+                </Grid>
+                <Grid container justify="center" >
+                <Button variant="contained" color="primary" className='m-3' onClick={goToEvaluation}>
+                    Commmencer l'evaluation
+                </Button>
+            </Grid>
+            </Paper>
+
+
+           
         </div>
 
 

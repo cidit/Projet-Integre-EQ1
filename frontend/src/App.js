@@ -30,6 +30,7 @@ import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire
 
 import StageComponent from "./components/stage/StageComponent";
 import ListeStage from "./components/stage/ListeStage";
+import CreateEvaluation from './components/evaluations/CreateEvaluation'
 
 
 
@@ -66,6 +67,7 @@ function App() {
           <Route path='/televerserContrats/:id' component={TeleverserContrat} />
           <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi} />
           <Route path="/stage/:id" component={StageComponent}/>
+          <Route path="/createEvaluation/:id" component={CreateEvaluation}/>
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
         </Switch>
