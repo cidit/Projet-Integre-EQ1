@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from "react";
 import {
     RadioGroup, Typography, ButtonBase, Grid, FormControlLabel, Radio, TableRow,
-    TableHead, TableContainer, TableCell, TableBody, Table, Button, Container
+    TableHead, TableContainer, div, TableBody, Table, Button, Container, TableCell, CircularProgress
 } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+
+
 
 
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const ChoixResponses = ['Totalement en accord', 'Plutôt en accord', 'Plutôt en désaccord', 'Totalement en désaccord', 'N/A']
+const ChoixResponses = ['Totalement en accord', 'Plutôt en accord', 'Plutôt en désaccord', 'Totalement en désaccord', 'Non Applicable']
 
 const initialInputs = [
     { id: "0", question: 'planifier et organiser son travail de façon efficace' },
@@ -80,97 +80,96 @@ export default function CreateQuestions() {
 
     }
 
+    const sendQuestionaire = () => {
+        console.log("send");
+        console.log(evaluation);
+    }
+
 
     if (questions.length === 0) {
-        return <p>Loading....</p>
+        return <CircularProgress disableShrink />
     } else {
         return (
             <div >
                 {questions &&
-                    <div className="container-fluid">
-                        <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <tr className='row border-bottom m-2 p-3 font-weight-bold' >
+                                    <th className='col' align="left">Quéstion</th>
+                                    {ChoixResponses.map((choix, i) =>
+                                        <th key={i} align="center" className='col'>{choix}</th>
+                                    )}
+
+                                </tr>
+
+                            </TableHead>
+                            <tbody>
+                                {questions.map(data =>
+                                    <TableRow key={data.id}>
                                         <TableCell>
-                                           
-                                            {ChoixResponses.map((choix, i) =>
-                                                <TableCell key={i} component="td" className='col' >{choix}</TableCell>
-                                            )}
+                                            <RadioGroup
+                                                onChange={handleChange}
+                                                row={true}
+                                                component='td'
+                                            >
+                                                <div className='col' >
+                                                    {data.question}
+                                                </div>
+
+                                                <div className='col' align="center" >
+                                                    <FormControlLabel
+                                                        value={ChoixResponses[0]}
+                                                        control={<Radio id={data.id} />}
+                                                    // label={ChoixResponses[0]}
+                                                    />
+                                                </div>
+
+                                                <div className='col' align="center">
+                                                    <FormControlLabel
+                                                        value={ChoixResponses[1]}
+                                                        control={<Radio id={data.id} />}
+                                                    // label={ChoixResponses[1]}
+                                                    />
+                                                </div>
+
+                                                <div className='col' align="center">
+                                                    <FormControlLabel
+                                                        value={ChoixResponses[2]}
+                                                        control={<Radio id={data.id} />}
+                                                    //label={ChoixResponses[2]}
+                                                    />
+                                                </div>
+                                                <div className='col' align="center">
+                                                    <FormControlLabel
+                                                        value={ChoixResponses[3]}
+                                                        control={<Radio id={data.id} />}
+                                                    //label={ChoixResponses[3]}
+                                                    />
+                                                </div>
+                                                <div className='col' align="center">
+                                                    <FormControlLabel
+                                                        value={ChoixResponses[4]}
+                                                        control={<Radio id={data.id} />}
+                                                    //label={ChoixResponses[4]}
+                                                    />
+                                                </div>
+                                            </RadioGroup>
                                         </TableCell>
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell><strong>Le stagiaire a été en mesure de :</strong></TableCell>
-                                    </TableRow>
+                                )}
+                            </tbody>
+                        </Table>
+                        <p className="card-text m-2"><small className="text-danger ml-auto">* veuillez répondre à toutes les questions</small></p>
 
-                                    <TableRow>
-                                        {questions.map(data => (
-                                            <>
-                                                <RadioGroup
-                                                    //className={classes.group}
-                                                    onChange={handleChange}
-                                                    row={true}
-                                                    key={data.id}
-                                                >
-                                                    <TableCell className='col'  >
-                                                        {data.question}
-                                                    </TableCell>
-
-                                                    <TableCell className='col'>
-                                                        <FormControlLabel
-                                                            value={ChoixResponses[0]}
-                                                            control={<Radio id={data.id} />}
-                                                           // label={ChoixResponses[0]}
-                                                        />
-                                                    </TableCell>
-
-                                                    <TableCell className='col'>
-                                                        <FormControlLabel
-                                                            value={ChoixResponses[1]}
-                                                            control={<Radio id={data.id} />}
-                                                           // label={ChoixResponses[1]}
-                                                        />
-                                                    </TableCell>
-
-                                                    <TableCell className='col'>
-                                                        <FormControlLabel
-                                                            value={ChoixResponses[2]}
-                                                            control={<Radio id={data.id} />}
-                                                            //label={ChoixResponses[2]}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell className='col'>
-                                                        <FormControlLabel
-                                                            value={ChoixResponses[3]}
-                                                            control={<Radio id={data.id} />}
-                                                            //label={ChoixResponses[3]}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell className='col'>
-                                                        <FormControlLabel
-                                                            value={ChoixResponses[4]}
-                                                            control={<Radio id={data.id} />}
-                                                           //label={ChoixResponses[4]}
-                                                        />
-                                                    </TableCell>
-
-
-                                                </RadioGroup>
-                                            </>
-                                        ))}
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-
-                        <Button variant="contained" color="primary" disabled={isCopletedQuestions} className='mt-3'>
+                        <Button variant="contained" className=' m-2'color="primary" disabled={isCopletedQuestions}
+                            onClick={sendQuestionaire}>
                             Continuer
-                        </Button>
-
-                    </div>
+                            </Button>
+                    </TableContainer >
                 }
+
+
             </div >
         )
     }
