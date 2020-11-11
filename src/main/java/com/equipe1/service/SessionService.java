@@ -19,17 +19,17 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public Session getSessionById(Long id) {
-        return sessionRepository.findById(id).get();
+    public Optional<Session> getSessionById(Long id) {
+        return sessionRepository.findById(id);
     }
 
     public Session create(Session session) {
-        List<Session> sessions = sessionRepository.findAll();
-        for (Session sessionSauvegardee : sessions){
-            if(sessionSauvegardee.isCurrent())
-                sessionSauvegardee.setCurrent(false);
-        }
         session.setDateDebut(LocalDate.now());
+        Optional<Session> lastSession = sessionRepository.findCurrentSession();
+        if (!lastSession.isEmpty()){
+            lastSession.get().setCurrent(false);
+            sessionRepository.save(lastSession.get());
+        }
         return sessionRepository.save(session);
     }
 
