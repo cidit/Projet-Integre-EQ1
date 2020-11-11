@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Data
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class Session {
 
@@ -24,4 +23,8 @@ public class Session {
     private String nom;
     private LocalDate dateDebut;
     private boolean isCurrent;
+
+    public Session() {
+        this.isCurrent = true;
+    }
 }

@@ -12,21 +12,29 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
+@ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class EtudiantServiceTest {
 
     @Autowired
     private EtudiantService service;
+
     @MockBean
     private CandidatureService candidatureService;
 
@@ -61,6 +69,13 @@ public class EtudiantServiceTest {
         c1 = new Candidature();
         c1.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
         c1.setEtudiant(e1);
+
+        session = Session.builder()
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
+                .build();
+        sessionRepository.save(session);
     }
 
     @Test
@@ -202,7 +217,6 @@ public class EtudiantServiceTest {
     void testRegisterEtudiant() {
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
-        sessionRepository.save(session);
         when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
 
         List<Session> list = new ArrayList<>();
@@ -224,7 +238,6 @@ public class EtudiantServiceTest {
     void testIsEtudiantRegistered() {
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
-        sessionRepository.save(session);
         when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
 
         List<Session> list = new ArrayList<>();

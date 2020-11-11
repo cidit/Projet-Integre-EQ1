@@ -1,6 +1,9 @@
 package com.equipe1.service;
 
-import com.equipe1.model.*;
+import com.equipe1.model.Candidature;
+import com.equipe1.model.Etudiant;
+import com.equipe1.model.Session;
+import com.equipe1.model.Stage;
 import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.SessionRepository;
@@ -8,8 +11,10 @@ import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
