@@ -3,6 +3,7 @@ package com.equipe1.service;
 import com.equipe1.model.*;
 import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.EmployeurRepository;
+import com.equipe1.repository.SessionRepository;
 import com.equipe1.repository.StageRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,14 +15,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -50,6 +51,10 @@ public class StageServiceTest {
     @MockBean
     private EmployeurRepository employeurRepository;
 
+    @MockBean
+    private SessionRepository sessionRepository;
+
+    private Session session;
     private Stage s1;
     private Stage s2;
     private Employeur employeur;
@@ -74,6 +79,12 @@ public class StageServiceTest {
         c2.setStatut(Candidature.CandidatureStatut.APPROUVE);
         c2.setStage(s2);
 
+        session = Session.builder()
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
+                .build();
+        sessionRepository.save(session);
     }
 
     @Test
@@ -108,8 +119,10 @@ public class StageServiceTest {
     }
 
     @Test
-    void testSaveStage() throws Exception {
+    void testSaveStage() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
         doReturn(s1).when(stageRepository).save(any());
         // Act
         Stage stage = stageService.saveStage(s1);
@@ -181,10 +194,20 @@ public class StageServiceTest {
     @Test
     void getStagesByEmployeur() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
         s1.setEmployeur(employeur);
         s2.setEmployeur(employeur);
         when(employeurService.getEmployeurById(1L)).thenReturn(employeur);
         when(stageRepository.findAll()).thenReturn(Arrays.asList(s1,s2));
+
+        s1.setSession(session);
+        doReturn(s1).when(stageRepository).save(s1);
+        stageRepository.save(s1);
+
+        s2.setSession(session);
+        doReturn(s2).when(stageRepository).save(s2);
+        stageRepository.save(s2);
         // Act
         List<Stage> stages = stageService.getStagesByEmployeur(1L);
         // Assert
@@ -293,7 +316,13 @@ public class StageServiceTest {
     @Test
     public void testGetAllStagesApprouves(){
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(s1)).when(stageRepository).findAll();
+
+        s1.setSession(session);
+        doReturn(s1).when(stageRepository).save(s1);
+        stageRepository.save(s1);
         // Act
         List<Stage> stageList = stageService.getStagesApprouves();
         // Assert

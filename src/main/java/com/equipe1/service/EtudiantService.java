@@ -69,11 +69,12 @@ public class EtudiantService {
         Session sessionEnCours = sessionRepository.findCurrentSession().get();
         List<Etudiant> etudiants = etudiantRepository.findAllByProgramme(programme);
         List<Etudiant> etudiantsFiltresAvecSession = new ArrayList<>();
-        for(Etudiant etudiant : etudiants){
-            if(etudiant.getSession().contains(sessionEnCours))
-                etudiantsFiltresAvecSession.add(etudiant);
+        if (etudiants != null){
+            for(Etudiant etudiant : etudiants){
+                if(etudiant.getSession().contains(sessionEnCours))
+                    etudiantsFiltresAvecSession.add(etudiant);
+            }
         }
-
         return etudiantsFiltresAvecSession;
     }
 

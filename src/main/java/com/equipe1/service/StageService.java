@@ -16,13 +16,16 @@ import java.util.Set;
 
 @Service
 public class StageService {
+
     @Autowired
     private StageRepository stageRepository;
+
     @Autowired
     private CandidatureRepository candidatureRepository;
 
     @Autowired
     private EmployeurService employeurService;
+
     @Autowired
     private CandidatureService candidatureService;
 
@@ -31,6 +34,7 @@ public class StageService {
 
     @Autowired
     private SessionService sessionService;
+
     @Autowired
     Environment env;
 

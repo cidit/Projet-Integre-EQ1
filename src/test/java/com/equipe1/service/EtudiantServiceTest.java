@@ -112,6 +112,8 @@ public class EtudiantServiceTest {
     @Test
     void testSaveEtudiant() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
         doReturn(e1).when(repository).save(any());
         // Act
         Etudiant etudiant = service.saveEtudiant(e1);
@@ -195,22 +197,40 @@ public class EtudiantServiceTest {
     @Test
     void testFindEtudiantByProgrammeFound() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        List<Session> list = new ArrayList<>();
+        list.add(session);
+
+        e1.setSession(list);
+        doReturn(e1).when(repository).save(e1);
+        repository.save(e1);
+
+        e2.setSession(list);
+        doReturn(e2).when(repository).save(e2);
+        repository.save(e2);
+
         doReturn(Arrays.asList(e1, e2)).when(repository).findAllByProgramme("Techniques de l’informatique");
         // Act
         List<Etudiant> etudiants = service.getEtudiantsByProgramme("Techniques de l’informatique");
         // Assert
         Assertions.assertNotNull(etudiants);
-        Assertions.assertEquals(etudiants.size(), 2);
+        Assertions.assertEquals(2, etudiants.size());
     }
 
     @Test
     void testFindEtudiantByProgrammeNotFound() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
         doReturn(null).when(repository).findAllByProgramme("RIEN");
+
         // Act
         List<Etudiant> etudiants = service.getEtudiantsByProgramme("RIEN");
         // Assert
-        Assertions.assertNull(etudiants);
+        Assertions.assertNotNull(etudiants);
+        Assertions.assertEquals(0, etudiants.size());
     }
 
     @Test
