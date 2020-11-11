@@ -1,12 +1,11 @@
 
+import { Avatar, Button, Grid, makeStyles, Paper } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import React, { useEffect, useState } from "react";
-import EtudiantService from '../../service/EtudiantService';
-import { makeStyles, Avatar, Grid, Paper, Button } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
-import { useRouteMatch } from "react-router-dom";
-import { Redirect } from 'react-router-dom'
-import useSetQuestions from './useSetQuestions';
+import React, { useEffect, useState } from "react";
+import { Redirect, useRouteMatch } from "react-router-dom";
+import photo from '../../images/photo-avatar-profil.png';
+import EtudiantService from '../../service/EtudiantService';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +60,7 @@ export default function EvaluationStagiaire() {
                 <Typography className={classes.heading} align='center'>
                     FICHE D’ÉVALUATION DU STAGIAIRE
               </Typography>
-                <Avatar alt={etudiant.nom} src="/static/images/avatar/1.jpg" className={classes.large} />
+                <Avatar alt={etudiant.nom} src={photo} className={classes.large} />
                 <Typography variant="h4" align='center'>{etudiant.prenom} {etudiant.nom}</Typography>
                 <Typography variant="subtitle2" align='center'>{etudiant.programme} </Typography>
                 <br></br>

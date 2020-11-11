@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import EtudiantService from '../../service/EtudiantService';
+import { useState } from "react";
 
 
 const optionsReponses = ['Totalement en accord', 
@@ -17,20 +16,20 @@ const productiviteQuestionsList = [
 ];
 
 const qualiteTravailQuestionsList = [
-    { id: "0", question: 'respecter les mandats qui lui ont été confiés' },
-    { id: "1", question: 'porter attention aux détails dans la réalisation de ses tâches' },
-    { id: "2", question: 'vérifier son travail, s’assurer que rien n’a été oublié' },
-    { id: "3", question: 'rechercher des occasions de se perfectionner' },
-    { id: "4", question: 'faire une bonne analyse des problèmes rencontrés' },
+    { id: "0", question: 'Respecter les mandats qui lui ont été confiés' },
+    { id: "1", question: 'Porter attention aux détails dans la réalisation de ses tâches' },
+    { id: "2", question: 'Vérifier son travail, s’assurer que rien n’a été oublié' },
+    { id: "3", question: 'Rechercher des occasions de se perfectionner' },
+    { id: "4", question: 'Faire une bonne analyse des problèmes rencontrés' },
 ];
 
 const relationsQuestionsList = [
-    { id: "0", question: 'établir facilement des contacts avec les gens' },
-    { id: "1", question: 'contribuer activement au travail d’équipe' },
-    { id: "2", question: 's’adapter facilement à la culture de l’entreprise' },
-    { id: "3", question: 'accepter les critiques constructives' },
-    { id: "4", question: 'être respectueux envers les gens' },
-    { id: "5", question: 'faire preuve d’écoute active en essayant de comprendre le point de vue de l’autre' },
+    { id: "0", question: 'Établir facilement des contacts avec les gens' },
+    { id: "1", question: 'Contribuer activement au travail d’équipe' },
+    { id: "2", question: 'S’adapter facilement à la culture de l’entreprise' },
+    { id: "3", question: 'Accepter les critiques constructives' },
+    { id: "4", question: 'Être respectueux envers les gens' },
+    { id: "5", question: 'Faire preuve d’écoute active en essayant de comprendre le point de vue de l’autre' },
 ];
 
 const habilitesPersoQuestionsList = [

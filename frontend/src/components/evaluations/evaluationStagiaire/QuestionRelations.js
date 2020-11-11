@@ -1,7 +1,7 @@
-import useSetQuestions from '../useSetQuestions';
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
+import { Redirect } from 'react-router-dom';
 import CreateQuestions from '../createQuestions';
-import { Redirect } from 'react-router-dom'
+import useSetQuestions from '../useSetQuestions';
 
 export default function QuestionRelations() {
     const { relationsQuestions } = useSetQuestions();
@@ -17,6 +17,6 @@ export default function QuestionRelations() {
       return <Redirect to={"/questionsHabilites"} />
     }
       return (
-          <CreateQuestions questions= {relationsQuestions}  fied={"Qualité des relations interpersonnelles"} continuer={goToHabilites}/>
+          <CreateQuestions questions= {relationsQuestions}  fied={"Qualité des relations interpersonnelles"} continuer={goToHabilites} isAvantDerniere = {true}/>
         )
 }

@@ -1,8 +1,7 @@
-import useSetQuestions from '../useSetQuestions';
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
+import { Redirect } from 'react-router-dom';
 import CreateQuestions from '../createQuestions';
-import { Redirect } from 'react-router-dom'
-import QuestionQualiteTravail from './QuestionQualiteTravail'
+import useSetQuestions from '../useSetQuestions';
 
 export default function QuestionProductivite(props) {
   const { productiviteQuestions } = useSetQuestions();

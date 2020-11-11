@@ -1,15 +1,10 @@
-import Paper from '@material-ui/core/Paper';
+import {
+    Button, FormControlLabel, Radio, RadioGroup,
+    Table, TableCell, TableContainer, TableHead, TableRow
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from "react";
-import {
-    RadioGroup, Typography, ButtonBase, Grid, FormControlLabel, Radio, TableRow,
-    TableHead, TableContainer, div, TableBody, Table, Button, Container, TableCell, CircularProgress
-} from '@material-ui/core';
 import ModalMessage from '../../components/utils/ModalMessage';
-
-
-
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,36 +22,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
 const ChoixResponses = ['Totalement en accord', 'Plutôt en accord', 'Plutôt en désaccord', 'Totalement en désaccord', 'Non Applicable']
-
-const initialInputs = [
-    { id: "0", question: 'planifier et organiser son travail de façon efficace' },
-    { id: "1", question: 'comprendre rapidement les directives relatives à son travail' },
-    { id: "2", question: 'maintenir un rythme de travail soutenu' },
-    { id: "3", question: 'établir ses priorités' },
-    { id: "4", question: 'respecter ses échéanciers' },
-];
 
 export default function CreateQuestions(props) {
     const classes = useStyles();
     const [questions, setQuestions] = useState(props.questions)
     const [evaluation, setEvaluation] = useState([])
-    const [isCopletedQuestions, setIsCopletedQuestions] = useState(false)
-    //const [questionLength, setQuestionLength] = useState(props.questions.length)
+    const [isCopletedQuestions, setIsCopletedQuestions] = useState(true)
+    const [questionLength, setQuestionLength] = useState(props.questions.length)
 
     console.log("QUESTIONS DESDE CREATE QUESTION")
     console.log(props.questions)
 
-    const updateQuestions = () => {
-        setQuestions(props.questions)
-    }
 
     useEffect(() => {
-        updateQuestions();
+
         return () => {
             setEvaluation([]);
             setQuestions([])
+            setQuestionLength(0)
         }
     }, [])
 
@@ -79,11 +63,13 @@ export default function CreateQuestions(props) {
             response: e.target.value
         });
 
-        // if (evaluation.length === questionLength) {
-        //     setIsCopletedQuestions(false)
-        // }
+        if (evaluation.length === questionLength) {
+            setIsCopletedQuestions(false)
+        }
 
     }
+
+
 
     const sendQuestionaire = () => {
         //var response = EvaluationService.putEvaluation(evaluation, 1)
@@ -97,8 +83,9 @@ export default function CreateQuestions(props) {
 
 
     return (
-        <div >
+        <div className='container table table-striped '>
             {questions &&
+
                 <TableContainer>
                     <Table>
 
@@ -170,17 +157,21 @@ export default function CreateQuestions(props) {
                     </Table>
                     <p className="card-text m-2"><small className="text-danger ml-auto">* veuillez répondre à toutes les questions</small></p>
 
-
-                    {!props.isFinalStep &&
+                    { !props.isFinalStep && props.isAvantDerniere  ?
+                        <Button variant="contained" className=' m-2' color="primary" disabled={isCopletedQuestions}
+                            onClick={sendQuestionaire}>
+                            Terminer et envoyer
+                      </Button>
+                        :
                         <Button variant="contained" className=' m-2' color="primary" disabled={isCopletedQuestions}
                             onClick={sendQuestionaire}>
                             Continuer
-                             </Button>
-
-                    }
+                        </Button>
+                        }
+                   
+                  
                 </TableContainer >
             }
-
             {props.isFinalStep &&
                 <ModalMessage
                     message={"Votre évaluation a été soumise avec succès. Merci pour votre soutien!"}
