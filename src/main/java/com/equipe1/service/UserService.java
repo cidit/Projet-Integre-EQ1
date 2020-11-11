@@ -4,7 +4,6 @@ import com.equipe1.model.Reminder;
 import com.equipe1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<Reminder> getRemindersFor( long userId){
+    public List<Reminder> getRemindersFor(long userId){
         var optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             return null; // TODO

@@ -1,26 +1,16 @@
 package com.equipe1.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public interface Reminder {
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+    enum EtudiantReminder implements Reminder {
+        NO_CV, NO_CANDIDATURE_ON_STAGE, SIGNATURE_MISSING_ON_CONTRAT, NOT_REGISTERED_THIS_SESSION, STAGE_FREQUENTATION_NOT_CONFIRMED
+    }
 
-//@Entity
-//@AllArgsConstructor
-//@NoArgsConstructor
-@Data
-@Builder
+    enum EmployeurReminder implements Reminder {
+        OPEN_STAGE_HAS_CANDIDATURES, SIGNATURE_MISSING_ON_CONTRAT, NO_OPEN_STAGE_THIS_SESSION
+    }
 
-public class Reminder {
-
-//    SHOULD NOT BE AN ENTITY
-//    @Id
-//    private Long id;
-
-    private String title;
-    private String message;
-
+    enum GestionaireReminder implements Reminder {
+        UNREVIEWED_CVS, UNREVIEWED_STAGES, CONTRAT_READY_TO_BE_GENERATED, NEW_SESSION_SOON
+    }
 }

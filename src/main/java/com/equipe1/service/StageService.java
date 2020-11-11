@@ -44,7 +44,7 @@ public class StageService {
         for (Stage stageTemp : stageRepository.findAll()) {
             System.out.println("getEmployeur : " + stageTemp);
             System.out.println("employeurById : " + employeur);
-            if (stageTemp.getEmployeur().getId() == employeur.getId()) {
+            if (stageTemp.getEmployeur().getId().equals(employeur.getId())) {
                 stages.add(stageTemp);
             }
         }
@@ -59,12 +59,16 @@ public class StageService {
         for (Stage resultStage : stages) {
             isStageStudentCanApply = false;
             for (Etudiant etudiant : resultStage.getEtudiantsAdmits()){
-                if(etudiant.getId().equals(idEtudiant))
+                if(etudiant.getId().equals(idEtudiant)) {
                     isStageStudentCanApply = true;
+                    break;
+                }
             }
             for (Candidature resultCandidature : candidatures) {
-                if (resultStage.getId().equals(resultCandidature.getStage().getId()))
+                if (resultStage.getId().equals(resultCandidature.getStage().getId())) {
                     isStageStudentCanApply = false;
+                    break;
+                }
             }
             if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.getStatut() == Stage.StageStatus.APPROVED)
                 stagesResul.add(resultStage);
@@ -83,31 +87,33 @@ public class StageService {
 
     public Stage updateStage(Stage newStage, long id) {
         Optional<Stage> optionalStage = stageRepository.findById(id);
-        optionalStage.get().setTitre(newStage.getTitre());
-        optionalStage.get().setDescription(newStage.getDescription());
-        optionalStage.get().setExigences(newStage.getExigences());
-        optionalStage.get().setDateDebut(newStage.getDateDebut());
-        optionalStage.get().setDateFin(newStage.getDateFin());
-        optionalStage.get().setNbHeuresParSemaine(newStage.getNbHeuresParSemaine());
-        optionalStage.get().setNbAdmis(newStage.getNbAdmis());
-        optionalStage.get().setOuvert(newStage.isOuvert());
-        optionalStage.get().setStatut(newStage.getStatut());
-        optionalStage.get().setDateLimiteCandidature(newStage.getDateLimiteCandidature());
-        optionalStage.get().setProgramme(newStage.getProgramme());
-        optionalStage.get().setSalaire(newStage.getSalaire());
-        return stageRepository.save(optionalStage.get());
-
+        if (optionalStage.isPresent()) {
+            var stage = optionalStage.get();
+            stage.setTitre(newStage.getTitre());
+            stage.setDescription(newStage.getDescription());
+            stage.setExigences(newStage.getExigences());
+            stage.setDateDebut(newStage.getDateDebut());
+            stage.setDateFin(newStage.getDateFin());
+            stage.setNbHeuresParSemaine(newStage.getNbHeuresParSemaine());
+            stage.setNbAdmis(newStage.getNbAdmis());
+            stage.setOuvert(newStage.isOuvert());
+            stage.setStatut(newStage.getStatut());
+            stage.setDateLimiteCandidature(newStage.getDateLimiteCandidature());
+            stage.setProgramme(newStage.getProgramme());
+            stage.setSalaire(newStage.getSalaire());
+            return stageRepository.save(stage);
+        }
+        return newStage;
     }
 
     public Stage updateStatus(Stage newStage, long id) throws Exception {
-        Stage stage = newStage;
-        stage.setStatut(Stage.StageStatus.APPROVED);
-        stage.setOuvert(true);
+        newStage.setStatut(Stage.StageStatus.APPROVED);
+        newStage.setOuvert(true);
 
-        courrielService.sendSimpleMessage(new Courriel(stage.getEmployeur().getEmail(),
+        courrielService.sendSimpleMessage(new Courriel(newStage.getEmployeur().getEmail(),
                 env.getProperty("my.subject.stage"), env.getProperty("my.message.stageApprouve")),
-                stage.getEmployeur().getNom());
-        return updateStage(stage, id);
+                newStage.getEmployeur().getNom());
+        return updateStage(newStage, id);
     }
 
     public Stage updateEtudiantsAdmits(long stageId, Set<Etudiant> etudiants) {
@@ -140,5 +146,9 @@ public class StageService {
             }
         }
         return stagesApprouves;
+    }
+
+    public List<Stage> getByStatutWaiting() {
+        return stageRepository.getByStatut(Stage.StageStatus.WAITING);
     }
 }

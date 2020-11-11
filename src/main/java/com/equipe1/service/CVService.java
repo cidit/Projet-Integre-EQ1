@@ -7,10 +7,8 @@ import com.equipe1.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -71,7 +69,8 @@ public class CVService {
         return cvRepository.saveAndFlush(cv);
     }
 
-//    public void deleteCV(long id) {
-//        cvRepository.deleteById(id);
-//    }
+    // TODO TEST
+    public List<CV> getByDataIsNotNullAndStatusNotReviewed() {
+        return cvRepository.getByDataIsNotNullAndStatus(CV.CVStatus.UNREVIEWED);
+    }
 }

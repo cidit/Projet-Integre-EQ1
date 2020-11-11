@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import Button from "@material-ui/core";
 
 export default class Home extends Component {
     componentDidMount() {
@@ -12,6 +13,7 @@ export default class Home extends Component {
         return(
            <div>
                <h2 className="text-center">Home page</h2>
+
            </div>
         );
     }

@@ -1,10 +1,9 @@
 package com.equipe1.controller;
 
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Etudiant;
 import com.equipe1.model.Reminder;
 import com.equipe1.model.User;
 import com.equipe1.repository.UserRepository;
+import com.equipe1.service.ReminderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +16,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ReminderService reminderService;
 
     @GetMapping("findAll")
     public List<User> getAllUsers(){
@@ -42,8 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/reminders/{userId}")
-    public List<Reminder> getRemindersFor(@PathVariable long userId){
-
-        return null; // TODO
+    public List<? extends Reminder> getMessagesFor(@PathVariable long userId){
+        return reminderService.getRemindersFor(userId);
     }
 }

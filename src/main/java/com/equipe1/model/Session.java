@@ -18,7 +18,7 @@ public class Session {
     @Id
     private long id;
 
-    private LocalDate startDate; //, endDate;
+    private LocalDate startDate, endDate;
 
     @ManyToMany
     private Set<Etudiant> etudiants;
