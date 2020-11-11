@@ -36,6 +36,14 @@ class EtudiantService{
                 body: JSON.stringify(etudiant)} )
             .then(r => r.json());
     }
+
+    isRegistered(id) {
+        return axios.get( baseURL + "/registration/isRegistered/" + id)
+    }
+
+    register(id) {
+        return axios.put(baseURL + "/registration/register/" + id)
+    }
 }
 
 export default new EtudiantService()

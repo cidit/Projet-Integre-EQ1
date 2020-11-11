@@ -66,7 +66,7 @@ public class SessionServiceTest {
     }
 
     @Test
-    void TesGetSessionByIdInalid() {
+    void TesGetSessionByIdInvalid() {
         // Arrange
         doReturn(Optional.empty()).when(sessionRepository).findById(2L);
         // Act

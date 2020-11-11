@@ -8,6 +8,7 @@ class SessionService {
         console.log(session)
         return axios.post(BASE_URL + "createSession", session)
     }
+
 }
 
 export default new SessionService();

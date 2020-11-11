@@ -3,6 +3,7 @@ import './../App.css';
 import axios from "axios";
 import CVService from "../service/CVService";
 import SessionService from "../service/SessionService";
+import EtudiantService from "../service/EtudiantService";
 
 export default class HomeEtudiant extends Component {
     constructor(props) {
@@ -40,7 +41,7 @@ export default class HomeEtudiant extends Component {
             "http://localhost:8080/etudiants/get?idEtudiant=" + id
         );
 
-        const {data: isRegistered} = await SessionService.isRegistered(etudiant.id)
+        const {data: isRegistered} = await EtudiantService.isRegistered(etudiant.id)
 
         this.setState({
             etudiant: etudiant,
@@ -103,7 +104,7 @@ export default class HomeEtudiant extends Component {
     }
 
     register = event => {
-        SessionService.register(this.state.etudiant.id)
+        EtudiantService.register(this.state.etudiant.id)
         this.setState({isRegistered: true})
     }
 

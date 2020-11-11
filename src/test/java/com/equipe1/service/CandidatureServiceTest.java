@@ -195,8 +195,6 @@ public class CandidatureServiceTest {
         doReturn(Optional.of(e1)).when(etudiantRepository).findById(e1.getId());
         doReturn(e1).when(etudiantRepository).save(any());
         etudiantRepository.save(e1);
-
-        Candidature candidatureUpdated = candidatureService.updateCandidatureChoisi(c1.getId());
         // Act
         Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(e1.getId());
         // Assert
