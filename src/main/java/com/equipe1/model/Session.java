@@ -6,22 +6,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Data
 @Entity
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 public class Session {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String name;
-    private LocalDate startDate;
+    private String nom;
+    private LocalDate dateDebut;
     private boolean isCurrent;
-
-    public Session() {
-        this.isCurrent = true;
-    }
 }

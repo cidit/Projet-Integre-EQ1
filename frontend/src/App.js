@@ -27,9 +27,9 @@ import CreationContrat from './components/contrat/CreationContrat'
 import TeleverserContrat from './components/utils/TeleverserContrat'
 import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire";
 
-
 import StageComponent from "./components/stage/StageComponent";
 import ListeStage from "./components/stage/ListeStage";
+import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
 
 
 
@@ -68,6 +68,9 @@ function App() {
           <Route path="/stage/:id" component={StageComponent}/>
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
+          <Route path="/createSession" component={CreateSessionComponent}/>
+
+
         </Switch>
       </main>
     

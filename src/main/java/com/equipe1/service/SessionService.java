@@ -23,7 +23,15 @@ public class SessionService {
         return sessionRepository.findById(id).get();
     }
 
-    public Session create(Session session) { return sessionRepository.save(session); }
+    public Session create(Session session) {
+        List<Session> sessions = sessionRepository.findAll();
+        for (Session sessionSauvegardee : sessions){
+            if(sessionSauvegardee.isCurrent())
+                sessionSauvegardee.setCurrent(false);
+        }
+        session.setDateDebut(LocalDate.now());
+        return sessionRepository.save(session);
+    }
 
     public void delete(long id) {
         sessionRepository.deleteById(id);

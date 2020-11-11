@@ -61,11 +61,6 @@ public class EtudiantServiceTest {
         c1 = new Candidature();
         c1.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
         c1.setEtudiant(e1);
-        session = Session.builder()
-                .name("AUT-2020")
-                .startDate(LocalDate.now())
-                .build();
-        sessionRepository.save(session);
     }
 
     @Test
@@ -223,7 +218,6 @@ public class EtudiantServiceTest {
         Optional<Etudiant> optionalEtudiant = service.registerEtudiant(e1.getId());
         // Assert
         Assertions.assertTrue(optionalEtudiant.isPresent());
-        Assertions.assertEquals("AUT-2020", optionalEtudiant.get().getSession().get(0).getName());
     }
 
     @Test

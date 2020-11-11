@@ -67,7 +67,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                             <Snackbar open={this.state.showSnackbar} autoHideDuration={6000}
                                       onClose={this.handleCloseSnackbar}>
                                 <Alert onClose={this.handleCloseSnackbar} severity="success">
-                                    Changements effectués avec succès
+                                    Vous venez de confirmer votre stage.
                                 </Alert>
                             </Snackbar>
                         </div>

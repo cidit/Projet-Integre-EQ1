@@ -71,12 +71,6 @@ public class CandidatureServiceTest {
         e.setAdresse("123 Rue Bidon");
         s.setId(4L);
         s.setTitre("TP");
-
-        session = Session.builder()
-                .name("AUT-2020")
-                .startDate(LocalDate.now())
-                .build();
-        sessionRepository.save(session);
     }
 
     @Test
