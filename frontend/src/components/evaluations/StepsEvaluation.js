@@ -5,9 +5,9 @@ import CreateQuestions from './createQuestions'
 export default function StepsEvaluation(props) {
   
 
-    const {etudiant, productiviteQuestions,  qualiteTravailQuestions,  relationsQuestions, habilitesQuestions,
+    const {productiviteQuestions,  qualiteTravailQuestions,  relationsQuestions, habilitesQuestions,
         optionsReponse} = useSetQuestions();
-        console.log(props)
+        console.log(props.step)
         switch (props.step) {
             case 0:
               return <CreateQuestions questions={productiviteQuestions} label={"Productivite"}/>;

@@ -5,6 +5,7 @@ import {
     RadioGroup, Typography, ButtonBase, Grid, FormControlLabel, Radio, TableRow,
     TableHead, TableContainer, div, TableBody, Table, Button, Container, TableCell, CircularProgress
 } from '@material-ui/core';
+import ModalMessage from '../../components/utils/ModalMessage';
 
 
 
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         margin: 'auto',
         maxWidth: 500,
     },
-   
+
 }));
 
 
@@ -39,17 +40,29 @@ const initialInputs = [
 
 export default function CreateQuestions(props) {
     const classes = useStyles();
-    const [questions, setInputs] = useState(props.questions)
+    const [questions, setQuestions] = useState(props.questions)
     const [evaluation, setEvaluation] = useState([])
-    const [isCopletedQuestions, setIsCopletedQuestions] = useState(true)
+    const [isCopletedQuestions, setIsCopletedQuestions] = useState(false)
+    //const [questionLength, setQuestionLength] = useState(props.questions.length)
 
+    console.log("QUESTIONS DESDE CREATE QUESTION")
+    console.log(props.questions)
+
+    const updateQuestions = () => {
+        setQuestions(props.questions)
+    }
 
     useEffect(() => {
+        updateQuestions();
         return () => {
             setEvaluation([]);
+            setQuestions([])
         }
     }, [])
 
+    const continuer = (e) => {
+        props.continuer();
+    }
 
     const handleChange = (e) => {
         //update response pour question
@@ -60,110 +73,122 @@ export default function CreateQuestions(props) {
             }
         }
         evaluation.push({
-            id: e.target.id,
+            // id: e.target.id,
+            section: props.field,
             question: questions[e.target.id].question,
             response: e.target.value
         });
 
-        if (evaluation.length === questions.length) {
-            setIsCopletedQuestions(false)
-        }
+        // if (evaluation.length === questionLength) {
+        //     setIsCopletedQuestions(false)
+        // }
 
     }
 
     const sendQuestionaire = () => {
+        //var response = EvaluationService.putEvaluation(evaluation, 1)
+
+        setEvaluation([])
+        setIsCopletedQuestions(true)
         console.log("send");
-        console.log(evaluation);
+        continuer();
     }
 
 
-    if (questions.length === 0) {
-        return <CircularProgress disableShrink />
-    } else {
-        return (
-            <div >
-                {questions &&
-                    <TableContainer>
-                        <Table>
-                
-                            <TableHead>
-                                <tr className='row border-bottom m-2 p-3 font-weight-bold' >
-                                    <th className='col' align="left">Quéstion</th>
-                                    {ChoixResponses.map((choix, i) =>
-                                        <th key={i} align="center" className='col'>{choix}</th>
-                                    )}
 
-                                </tr>
+    return (
+        <div >
+            {questions &&
+                <TableContainer>
+                    <Table>
 
-                            </TableHead>
-                            <tbody>
-                                {questions.map(data =>
-                                    <TableRow key={data.id}>
-                                        <TableCell>
-                                            <RadioGroup
-                                                onChange={handleChange}
-                                                row={true}
-                                                component='td'
-                                            >
-                                                <div className='col' >
-                                                    {data.question}
-                                                </div>
-
-                                                <div className='col' align="center" >
-                                                    <FormControlLabel
-                                                        value={ChoixResponses[0]}
-                                                        control={<Radio id={data.id} />}
-                                                    // label={ChoixResponses[0]}
-                                                    />
-                                                </div>
-
-                                                <div className='col' align="center">
-                                                    <FormControlLabel
-                                                        value={ChoixResponses[1]}
-                                                        control={<Radio id={data.id} />}
-                                                    // label={ChoixResponses[1]}
-                                                    />
-                                                </div>
-
-                                                <div className='col' align="center">
-                                                    <FormControlLabel
-                                                        value={ChoixResponses[2]}
-                                                        control={<Radio id={data.id} />}
-                                                    //label={ChoixResponses[2]}
-                                                    />
-                                                </div>
-                                                <div className='col' align="center">
-                                                    <FormControlLabel
-                                                        value={ChoixResponses[3]}
-                                                        control={<Radio id={data.id} />}
-                                                    //label={ChoixResponses[3]}
-                                                    />
-                                                </div>
-                                                <div className='col' align="center">
-                                                    <FormControlLabel
-                                                        value={ChoixResponses[4]}
-                                                        control={<Radio id={data.id} />}
-                                                    //label={ChoixResponses[4]}
-                                                    />
-                                                </div>
-                                            </RadioGroup>
-                                        </TableCell>
-                                    </TableRow>
+                        <TableHead>
+                            <tr className='row border-bottom m-2 p-3 font-weight-bold' >
+                                <th className='col' align="left">Quéstion</th>
+                                {ChoixResponses.map((choix, i) =>
+                                    <th key={i} align="center" className='col'>{choix}</th>
                                 )}
-                            </tbody>
-                        </Table>
-                        <p className="card-text m-2"><small className="text-danger ml-auto">* veuillez répondre à toutes les questions</small></p>
 
-                        <Button variant="contained" className=' m-2'color="primary" disabled={isCopletedQuestions}
+                            </tr>
+
+                        </TableHead>
+                        <tbody>
+                            {questions.map(data =>
+                                <TableRow key={data.id}>
+                                    <TableCell>
+                                        <RadioGroup
+                                            onChange={handleChange}
+                                            row={true}
+                                            component='td'
+                                        >
+                                            <div className='col' >
+                                                {data.question}
+                                            </div>
+
+                                            <div className='col' align="center" >
+                                                <FormControlLabel
+                                                    value={ChoixResponses[0]}
+                                                    control={<Radio id={data.id} />}
+                                                // label={ChoixResponses[0]}
+                                                />
+                                            </div>
+
+                                            <div className='col' align="center">
+                                                <FormControlLabel
+                                                    value={ChoixResponses[1]}
+                                                    control={<Radio id={data.id} />}
+                                                // label={ChoixResponses[1]}
+                                                />
+                                            </div>
+
+                                            <div className='col' align="center">
+                                                <FormControlLabel
+                                                    value={ChoixResponses[2]}
+                                                    control={<Radio id={data.id} />}
+                                                //label={ChoixResponses[2]}
+                                                />
+                                            </div>
+                                            <div className='col' align="center">
+                                                <FormControlLabel
+                                                    value={ChoixResponses[3]}
+                                                    control={<Radio id={data.id} />}
+                                                //label={ChoixResponses[3]}
+                                                />
+                                            </div>
+                                            <div className='col' align="center">
+                                                <FormControlLabel
+                                                    value={ChoixResponses[4]}
+                                                    control={<Radio id={data.id} />}
+                                                //label={ChoixResponses[4]}
+                                                />
+                                            </div>
+                                        </RadioGroup>
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </tbody>
+                    </Table>
+                    <p className="card-text m-2"><small className="text-danger ml-auto">* veuillez répondre à toutes les questions</small></p>
+
+
+                    {!props.isFinalStep &&
+                        <Button variant="contained" className=' m-2' color="primary" disabled={isCopletedQuestions}
                             onClick={sendQuestionaire}>
                             Continuer
-                            </Button>
-                    </TableContainer >
-                
-                }
+                             </Button>
 
+                    }
+                </TableContainer >
+            }
 
-            </div >
-        )
-    }
+            {props.isFinalStep &&
+                <ModalMessage
+                    message={"Votre évaluation a été soumise avec succès. Merci pour votre soutien!"}
+                    redirect="/"
+                    title="nouvelle évaluation" />
+            }
+
+        </div >
+    )
+
 }

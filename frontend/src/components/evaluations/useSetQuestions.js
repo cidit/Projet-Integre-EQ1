@@ -43,6 +43,7 @@ const habilitesPersoQuestionsList = [
     { id: "6", question: 'Être ponctuel et assidu à son travail' },
 ];
 
+const _choixResponses = ['Totalement en accord', 'Plutôt en accord', 'Plutôt en désaccord', 'Totalement en désaccord', 'Non Applicable']
 
 
 export default function useSetQuestions(id) {
@@ -53,25 +54,16 @@ export default function useSetQuestions(id) {
     const [relationsQuestions, setRelationsQuestions] = useState(relationsQuestionsList);
     const [habilitesQuestions, setHabilitesQuestions] = useState(habilitesPersoQuestionsList);
 
-    const getEtudiant = async () => {
-        const response = await EtudiantService.getEtudiantById(id);
-        setEtudiant(response.data);
-        console.log(response.data)
-    }
 
-    useEffect(() => {
-        getEtudiant()
-        return () => {
-            setEtudiant('')
-        }
-    }, [])
-   
+    console.log("render")
+    
     return {
         etudiant,
         productiviteQuestions,
         qualiteTravailQuestions,
         relationsQuestions,
         habilitesQuestions,
-        optionsReponse
+        optionsReponse,
+    
     }
 }

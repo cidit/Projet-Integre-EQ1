@@ -28,18 +28,32 @@ export default function EvaluationStagiaire() {
     const classes = useStyles();
     const { params } = useRouteMatch();
     const [redirect, setRedirect] = useState(false)
+    const [etudiant, setEtudiant] = useState('')
 
     //defini origin du id
-    const{etudiant} = useSetQuestions(1);
+    
 
 
     const goToEvaluation=()=>{
         setRedirect(true);
     }
 
+    const getEtudiant = async () => {
+        const response = await EtudiantService.getEtudiantById(1);
+        setEtudiant(response.data);
+        console.log(response.data)
+    }
+
+    useEffect(() => {
+        getEtudiant()
+        return () => {
+            setEtudiant('')
+        }
+    }, [])
+
 
     if(redirect) {
-        return <Redirect to={`/createEvaluation/${etudiant.id}`} />
+        return <Redirect to={`/questionProductivite/${etudiant.id}`} />
     } 
     return (
         <div>

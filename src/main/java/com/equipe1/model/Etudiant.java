@@ -38,6 +38,7 @@ public class Etudiant extends User {
 
     private boolean enregistre;
 
-    //@ManyToOne
-   // private Evaluation evaluation;
+    @ToString.Exclude
+    @OneToOne
+    private EvaluationStagiaire evaluationStagiaire;
 }

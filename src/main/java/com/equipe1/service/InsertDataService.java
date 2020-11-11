@@ -351,12 +351,12 @@ public class InsertDataService {
 
 
 
-        q1.setEnnonce("enonce 1");
+        q1.setQuestion("enonce 1");
         q1.setReponse("reposnse question 1");
         q1.setEvaluation(e);
 
         Question q2 = new Question();
-        q2.setEnnonce("enonce 2");
+        q2.setQuestion("enonce 2");
         q2.setReponse("reposnse question 2");
         q2.setEvaluation(e);
         questionService.saveAllQuestions(Arrays.asList(q1,q2));

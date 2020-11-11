@@ -15,6 +15,8 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "evaluation_id")
     private Evaluation evaluation;
-    private String ennonce;
+    private String question;
     private String reponse;
+    private String section;
+    private String commentaire;
 }

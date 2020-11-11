@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Redirect } from 'react-router-dom'
+import ModalMessage from '../../components/utils/ModalMessage';
 
 export default function AlertDialog(props) {
     const [open, setOpen] = React.useState(true);

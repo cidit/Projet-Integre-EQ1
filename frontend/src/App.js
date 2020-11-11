@@ -31,7 +31,10 @@ import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire
 import StageComponent from "./components/stage/StageComponent";
 import ListeStage from "./components/stage/ListeStage";
 import CreateEvaluation from './components/evaluations/CreateEvaluation'
-
+import QuestionProductivite from './components/evaluations/evaluationStagiaire/QuestionProductivite'
+import QuestionQualiteTravail from './components/evaluations/evaluationStagiaire/QuestionQualiteTravail'
+import QuestionRelations from './components/evaluations/evaluationStagiaire/QuestionRelations'
+import QuestionsHabilites from './components/evaluations/evaluationStagiaire/QuestionsHabilites'
 
 
 function App() {
@@ -70,6 +73,10 @@ function App() {
           <Route path="/createEvaluation/:id" component={CreateEvaluation}/>
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
+          <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
+          <Route path="/questionQualiteTravail" component={QuestionQualiteTravail}/>
+          <Route path="/questionRelations" component={QuestionRelations}/>
+          <Route path="/questionsHabilites" component={QuestionsHabilites}/>
         </Switch>
       </main>
     

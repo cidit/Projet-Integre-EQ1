@@ -161,7 +161,6 @@ export function ListeContratsEmployeur(props) {
 };
 
 export function ListeContratsEtudiant(props) {
-  console.log(props.contrats)
   if (isListeVideEtudiant(props)) {
     return (
         AlertAucunContrat(false)
