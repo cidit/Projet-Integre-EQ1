@@ -4,6 +4,7 @@ import com.equipe1.model.Candidature;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.Session;
 import com.equipe1.repository.EtudiantRepository;
+import com.equipe1.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,8 @@ public class EtudiantService {
     private EtudiantRepository etudiantRepository;
 
     @Autowired
-    private SessionService sessionService;
+    private SessionRepository sessionRepository;
+
     @Autowired
     private CandidatureService candidatureService;
 
@@ -35,7 +37,7 @@ public class EtudiantService {
     }
 
     public Etudiant saveEtudiant(Etudiant etudiant){
-        Session sessionEnCours = sessionService.findCurrentSession().get();
+        Session sessionEnCours = sessionRepository.findCurrentSession().get();
         List<Session> sessions = new ArrayList<>();
         sessions.add(sessionEnCours);
         etudiant.setStatutStage("aucun stage");
@@ -64,7 +66,7 @@ public class EtudiantService {
     }
 
     public List<Etudiant> getEtudiantsByProgramme(String programme) {
-        Session sessionEnCours = sessionService.findCurrentSession().get();
+        Session sessionEnCours = sessionRepository.findCurrentSession().get();
         List<Etudiant> etudiants = etudiantRepository.findAllByProgramme(programme);
         List<Etudiant> etudiantsFiltresAvecSession = new ArrayList<>();
         for(Etudiant etudiant : etudiants){
@@ -79,7 +81,7 @@ public class EtudiantService {
     public Optional<Etudiant> registerEtudiant(long id) {
         var optionalEtudiant = findEtudiantById(id);
         if (optionalEtudiant.isPresent()) {
-            Optional<Session> session = sessionService.findCurrentSession();
+            Optional<Session> session = sessionRepository.findCurrentSession();
             optionalEtudiant.get().getSession().add(session.get());
             optionalEtudiant.get().setEnregistre(true);
             etudiantRepository.save(optionalEtudiant.get());
@@ -90,7 +92,7 @@ public class EtudiantService {
     public boolean isEtudiantRegistered(long id) {
         var optionalEtudiant = findEtudiantById(id);
         if (optionalEtudiant.isPresent()) {
-            Optional<Session> sessionActuelle = sessionService.findCurrentSession();
+            Optional<Session> sessionActuelle = sessionRepository.findCurrentSession();
             return optionalEtudiant.get()
                                    .getSession()
                                    .stream()

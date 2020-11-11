@@ -14,21 +14,24 @@ public class InsertDataService {
 
     @Autowired
     private EtudiantRepository etudiantRepository;
+
     @Autowired
     private EmployeurRepository employeurRepository;
+
     @Autowired
     private StageService stageService;
 
     @Autowired
     StageRepository stageRepository;
+
     @Autowired
     private  GestionnaireService gestionnaireService;
 
     @Autowired
     private CandidatureRepository candidatureRepository;
-
     @Autowired
     private SessionRepository sessionRepository;
+
     @Autowired
     private CandidatureService candidatureService;
 
@@ -37,26 +40,33 @@ public class InsertDataService {
 
     @Autowired
     GenerateurPdfService generateurPdfService;
+
     @Autowired
     private EtudiantService etudiantService;
 
+    private Session sessionActuelle;
+
+    private List<Session> sessionList;
+
     @Transactional
     public void insertSession() {
-
-        Session session = Session.builder()
-                .id(1L)
-                .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
-                .isCurrent(true)
-                .build();
+        Session session = new Session();
+        session.setNom("AUT-2020");
+        //session.setDateDebut(LocalDate.now());
+        session.setDateDebut(LocalDate.of(2017, 7, 24));
         sessionRepository.save(session);
-    }
 
+        sessionActuelle = sessionRepository.findCurrentSession().get();
+
+        sessionList = new ArrayList<>();
+        sessionList.add(sessionActuelle);
+    }
     @Transactional
     public void insertEtudiant(){
         Session session = sessionRepository.findCurrentSession().get();
         List<Session> sessions = new ArrayList<>();
         sessions.add(session);
+
         Etudiant e1 = new Etudiant();
         e1.setAdresse("123456");
         e1.setEmail("richard@email.com");
@@ -69,6 +79,7 @@ public class InsertDataService {
         e1.setProgramme("Techniques de l’informatique");
         e1.setSession(sessions);
         e1.setEnregistre(true);
+        e1.setSession(sessionList);
         etudiantRepository.save(e1);
 
         Etudiant e2 = new Etudiant();
@@ -81,8 +92,8 @@ public class InsertDataService {
         e2.setStatutStage("aucun stage");
         e2.setTelephone("555-444-4444");
         e2.setProgramme("Techniques de l’informatique");
-        e2.setSession(sessions);
         e2.setEnregistre(true);
+        e2.setSession(sessionList);
         etudiantRepository.save(e2);
 
         Etudiant e3 = new Etudiant();
@@ -95,7 +106,7 @@ public class InsertDataService {
         e3.setStatutStage("aucun stage");
         e3.setTelephone("555-444-4444");
         e3.setProgramme("Techniques de l’informatique");
-        e3.setSession(sessions);
+        e3.setSession(sessionList);
         e3.setEnregistre(true);
         etudiantRepository.save(e3);
 
@@ -141,6 +152,7 @@ public class InsertDataService {
         stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(session);
         stageService.saveStage(stage1);
+        stage1.setSession(sessionActuelle);
 
         stage1 = new Stage();
         stage1.setTitre("stage_2");
@@ -156,6 +168,7 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         stage1.setStatut(Stage.StageStatus.APPROVED);
+        stage1.setSession(sessionActuelle);
 
         Etudiant etudiant = etudiantRepository.findByEmail("richard@email.com");
         Set<Etudiant> set = new HashSet<>();
@@ -178,9 +191,7 @@ public class InsertDataService {
         stage2.setVille("Laval");
         stage2.setEmployeur(e2);
         stage2.setSalaire(18);
-        stage2.setSession(session);
-
-        stageService.saveStage(stage2);
+        stage2.setSession(sessionActuelle);
 
         e2 = employeurRepository.findEmployeurByEmail("employeur@email.com");
 
@@ -197,7 +208,7 @@ public class InsertDataService {
         stage2.setVille("Lasalle");
         stage2.setEmployeur(e2);
         stage2.setSalaire(20);
-        stage2.setSession(session);
+        stage2.setSession(sessionActuelle);
         stageService.saveStage(stage2);
 
 
@@ -236,6 +247,7 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         stage1.setStatut(Stage.StageStatus.APPROVED);
+        stage1.setSession(sessionActuelle);
 
         Etudiant etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
         Set<Etudiant> set = new HashSet<>();
@@ -258,6 +270,7 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         stage1.setStatut(Stage.StageStatus.APPROVED);
+        stage1.setSession(sessionActuelle);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         set = new HashSet<>();
@@ -280,6 +293,7 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         stage1.setStatut(Stage.StageStatus.APPROVED);
+        stage1.setSession(sessionActuelle);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         set = new HashSet<>();
@@ -302,6 +316,7 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         stage1.setStatut(Stage.StageStatus.APPROVED);
+        stage1.setSession(sessionActuelle);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         set = new HashSet<>();
@@ -330,6 +345,7 @@ public class InsertDataService {
         candidature.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
         candidatureRepository.save(candidature);
     }
+
     @Transactional
     public void insertContrat() throws Exception {
         Employeur employeurTest= employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
@@ -355,7 +371,5 @@ public class InsertDataService {
                 employeurTest,candidature.get().getEtudiant()).toByteArray());
 
         contratService.saveContrat(contrat2);
-
-
     }
 }

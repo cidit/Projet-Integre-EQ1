@@ -108,7 +108,7 @@ export function ShowStage(props) {
 
         toggleBtns(event.target.name === approuved);
 
-        await StageService.updateStage(props.stages, parseInt(event.target.value));
+        await StageService.updateStage(props.stage, parseInt(event.target.value));
 
         handleShowSnackbar();
         handleCloseModal();

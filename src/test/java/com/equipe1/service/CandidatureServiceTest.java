@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
+@ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class CandidatureServiceTest {
@@ -71,6 +73,13 @@ public class CandidatureServiceTest {
         e.setAdresse("123 Rue Bidon");
         s.setId(4L);
         s.setTitre("TP");
+
+        session = Session.builder()
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
+                .build();
+        sessionRepository.save(session);
     }
 
     @Test
@@ -184,7 +193,6 @@ public class CandidatureServiceTest {
         doReturn(Arrays.asList(c1)).when(candidatureRepository).findAll();
 
         when(sessionRepository.save(session)).thenReturn(session);
-        sessionRepository.save(session);
         when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
 
         List<Session> list = new ArrayList<>();
