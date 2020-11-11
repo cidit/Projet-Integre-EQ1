@@ -1,6 +1,8 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Etudiant;
 import com.equipe1.model.Session;
+import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ public class SessionService {
 
     @Autowired
     private SessionRepository sessionRepository;
+    @Autowired
+    private EtudiantRepository etudiantRepository;
 
     public List<Session> getAll() {
         return sessionRepository.findAll();
@@ -26,9 +30,15 @@ public class SessionService {
     public Session create(Session session) {
         session.setDateDebut(LocalDate.now());
         Optional<Session> lastSession = sessionRepository.findCurrentSession();
+        List<Etudiant> etudiants =  etudiantRepository.findAll();
         if (!lastSession.isEmpty()){
             lastSession.get().setCurrent(false);
             sessionRepository.save(lastSession.get());
+        }
+
+        for(Etudiant etudiant : etudiants){
+            etudiant.setEnregistre(false);
+            etudiantRepository.save(etudiant);
         }
         return sessionRepository.save(session);
     }

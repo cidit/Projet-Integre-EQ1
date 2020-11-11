@@ -1,19 +1,13 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
-import com.equipe1.repository.CandidatureRepository;
-import com.equipe1.repository.EmployeurRepository;
-import com.equipe1.repository.EtudiantRepository;
-import com.equipe1.repository.StageRepository;
+import com.equipe1.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class InsertDataService {
@@ -32,6 +26,9 @@ public class InsertDataService {
 
     @Autowired
     private CandidatureRepository candidatureRepository;
+
+    @Autowired
+    private SessionRepository sessionRepository;
     @Autowired
     private CandidatureService candidatureService;
 
@@ -44,7 +41,22 @@ public class InsertDataService {
     private EtudiantService etudiantService;
 
     @Transactional
+    public void insertSession() {
+
+        Session session = Session.builder()
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
+                .isCurrent(true)
+                .build();
+        sessionRepository.save(session);
+    }
+
+    @Transactional
     public void insertEtudiant(){
+        Session session = sessionRepository.findCurrentSession().get();
+        List<Session> sessions = new ArrayList<>();
+        sessions.add(session);
         Etudiant e1 = new Etudiant();
         e1.setAdresse("123456");
         e1.setEmail("richard@email.com");
@@ -55,6 +67,8 @@ public class InsertDataService {
         e1.setStatutStage("possede stage");
         e1.setTelephone("555-555-5555");
         e1.setProgramme("Techniques de l’informatique");
+        e1.setSession(sessions);
+        e1.setEnregistre(true);
         etudiantRepository.save(e1);
 
         Etudiant e2 = new Etudiant();
@@ -67,6 +81,8 @@ public class InsertDataService {
         e2.setStatutStage("aucun stage");
         e2.setTelephone("555-444-4444");
         e2.setProgramme("Techniques de l’informatique");
+        e2.setSession(sessions);
+        e2.setEnregistre(true);
         etudiantRepository.save(e2);
 
         Etudiant e3 = new Etudiant();
@@ -79,6 +95,8 @@ public class InsertDataService {
         e3.setStatutStage("aucun stage");
         e3.setTelephone("555-444-4444");
         e3.setProgramme("Techniques de l’informatique");
+        e3.setSession(sessions);
+        e3.setEnregistre(true);
         etudiantRepository.save(e3);
 
     }
@@ -105,6 +123,7 @@ public class InsertDataService {
     @Transactional
     public void insertStage(){
         Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
+        Session session = sessionRepository.findCurrentSession().get();
 
         Stage stage1 = new Stage();
         stage1.setTitre("Stage_1");
@@ -120,6 +139,7 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setSalaire(15);
         stage1.setStatut(Stage.StageStatus.APPROVED);
+        stage1.setSession(session);
         stageService.saveStage(stage1);
 
         stage1 = new Stage();
@@ -141,6 +161,7 @@ public class InsertDataService {
         Set<Etudiant> set = new HashSet<>();
         set.add(etudiant);
         stage1.setEtudiantsAdmits(set);
+        stage1.setSession(session);
 
         stageService.saveStage(stage1);
 
@@ -157,6 +178,8 @@ public class InsertDataService {
         stage2.setVille("Laval");
         stage2.setEmployeur(e2);
         stage2.setSalaire(18);
+        stage2.setSession(session);
+
         stageService.saveStage(stage2);
 
         e2 = employeurRepository.findEmployeurByEmail("employeur@email.com");
@@ -174,6 +197,7 @@ public class InsertDataService {
         stage2.setVille("Lasalle");
         stage2.setEmployeur(e2);
         stage2.setSalaire(20);
+        stage2.setSession(session);
         stageService.saveStage(stage2);
 
 

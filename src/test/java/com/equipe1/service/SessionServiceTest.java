@@ -40,7 +40,9 @@ public class SessionServiceTest {
                 .id(1L)
                 .nom("AUT-2020")
                 .dateDebut(LocalDate.now())
+                .isCurrent(true)
                 .build();
+        doReturn(session).when(sessionRepository).save(session);
         sessionRepository.save(session);
     }
 

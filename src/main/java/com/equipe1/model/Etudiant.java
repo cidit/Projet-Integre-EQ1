@@ -39,4 +39,5 @@ public class Etudiant extends User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Session> session;
+    private boolean isEnregistre;
 }

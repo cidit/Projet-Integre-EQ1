@@ -10,7 +10,7 @@ export default class ListStagesComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            stage: [],
+            stages: [],
             showSnackbar: false
         };
 
@@ -18,8 +18,8 @@ export default class ListStagesComponent extends Component {
     }
 
     componentDidMount() {
-        StageService.getStages().then((res) => {
-            this.setState({stage: res.data})
+        StageService.getStagesSession().then((res) => {
+            this.setState({stages: res.data})
         })
     }
 
@@ -27,45 +27,56 @@ export default class ListStagesComponent extends Component {
     handleShowSnackbar = () => this.setState({showSnackbar: true});
 
     render() {
-        return (
+        if (this.state.stages.length === 0) {
+            return <div className="container">
+                <div className="row justify-content-md-center">
+                    <div className="col">
+                        <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a aucun stage à approuver pour cette session.</Alert>
+                    </div>
+                </div>
+            </div>;
+        } else {
+            return (
 
-            <div className="container">
-                <div className="col">
-                    <div className="pt-3 mt-3">
-                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Stages</h5>
+                <div className="container">
+                    <div className="col">
+                        <div className="pt-3 mt-3">
+                            <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Stages</h5>
 
-                        <div className="row">
+                            <div className="row">
 
-                            <table className="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th> Titre</th>
-                                    <th> Status </th>
-                                    <th> Programme</th>
-                                    <th> Ville</th>
-                                    <th> Détails</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {this.state.stage.map(
-                                    stage =>
-                                        <tr key={stage.id}>
-                                            <ShowStage stage={stage}/>
-                                        </tr>
-                                )}
-                                </tbody>
-                            </table>
-                            <Snackbar open={this.state.showSnackbar} autoHideDuration={6000}
-                                      onClose={this.handleCloseSnackbar}>
-                                <Alert onClose={this.handleCloseSnackbar} severity="success">
-                                    Changements effectués avec succès
-                                </Alert>
-                            </Snackbar>
+                                <table className="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th> Titre</th>
+                                        <th> Status </th>
+                                        <th> Programme</th>
+                                        <th> Ville</th>
+                                        <th> Détails</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {this.state.stages.map(
+                                        stage =>
+                                            <tr key={stage.id}>
+                                                <ShowStage stage={stage}/>
+                                            </tr>
+                                    )}
+                                    </tbody>
+                                </table>
+                                <Snackbar open={this.state.showSnackbar} autoHideDuration={6000}
+                                          onClose={this.handleCloseSnackbar}>
+                                    <Alert onClose={this.handleCloseSnackbar} severity="success">
+                                        Changements effectués avec succès
+                                    </Alert>
+                                </Snackbar>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
+
     }
 }
 
@@ -97,7 +108,7 @@ export function ShowStage(props) {
 
         toggleBtns(event.target.name === approuved);
 
-        await StageService.updateStage(props.stage, parseInt(event.target.value));
+        await StageService.updateStage(props.stages, parseInt(event.target.value));
 
         handleShowSnackbar();
         handleCloseModal();

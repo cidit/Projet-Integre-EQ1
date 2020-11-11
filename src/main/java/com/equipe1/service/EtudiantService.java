@@ -35,7 +35,12 @@ public class EtudiantService {
     }
 
     public Etudiant saveEtudiant(Etudiant etudiant){
+        Session sessionEnCours = sessionService.findCurrentSession().get();
+        List<Session> sessions = new ArrayList<>();
+        sessions.add(sessionEnCours);
         etudiant.setStatutStage("aucun stage");
+        etudiant.setSession(sessions);
+        etudiant.setEnregistre(true);
         etudiant = etudiantRepository.save(etudiant);
         return etudiant;
     }
@@ -59,7 +64,15 @@ public class EtudiantService {
     }
 
     public List<Etudiant> getEtudiantsByProgramme(String programme) {
-        return etudiantRepository.findAllByProgramme(programme);
+        Session sessionEnCours = sessionService.findCurrentSession().get();
+        List<Etudiant> etudiants = etudiantRepository.findAllByProgramme(programme);
+        List<Etudiant> etudiantsFiltresAvecSession = new ArrayList<>();
+        for(Etudiant etudiant : etudiants){
+            if(etudiant.getSession().contains(sessionEnCours))
+                etudiantsFiltresAvecSession.add(etudiant);
+        }
+
+        return etudiantsFiltresAvecSession;
     }
 
 
@@ -68,6 +81,7 @@ public class EtudiantService {
         if (optionalEtudiant.isPresent()) {
             Optional<Session> session = sessionService.findCurrentSession();
             optionalEtudiant.get().getSession().add(session.get());
+            optionalEtudiant.get().setEnregistre(true);
             etudiantRepository.save(optionalEtudiant.get());
         }
         return optionalEtudiant;
@@ -108,4 +122,5 @@ public class EtudiantService {
            return false;
         }
     }
+
 }

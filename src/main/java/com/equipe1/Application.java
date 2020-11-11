@@ -34,6 +34,7 @@ public class Application {
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {
+                insertDataService.insertSession();
                 insertDataService.insertEtudiant();
                 insertDataService.insertEmployeur();
                 insertDataService.insertStage();
