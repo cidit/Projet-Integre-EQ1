@@ -13,6 +13,7 @@ export default class HomeEtudiant extends Component {
             etudiant: {},
             file: "",
             displayInvalidFileMessage: false,
+            displayNoSessionMessage: false,
             displaySubmitCVButton: false,
             CVInfoMessage: "",
             hasUploadedCV: false,
@@ -77,7 +78,13 @@ export default class HomeEtudiant extends Component {
                 err += files[x].type + ' is not a supported format\n'
                 this.setState({displayInvalidFileMessage: true});
                 this.setState({displaySubmitCVButton: false});
-            } else {
+            } 
+            else if(!this.state.isRegistered){
+                err += files[x].type + ' you must register to current session\n'
+                this.setState({displayNoSessionMessage: true});
+                this.setState({displaySubmitCVButton: false});
+            }
+            else {
                 this.setState({displayInvalidFileMessage: false});
                 this.setState({displaySubmitCVButton: true});
             }
@@ -110,42 +117,50 @@ export default class HomeEtudiant extends Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit} className="d-flex flex-column">
-                    <div className="container">
-                        <h3>Votre profil</h3>
-                        <label>Nom complet : {this.state.etudiant.prenom} {this.state.etudiant.nom}</label><br/>
-                        <label>Matricule : {this.state.etudiant.matricule} </label><br/>
-                        <label>Adresse : {this.state.etudiant.adresse}</label><br/>
-                        <label>Email : {this.state.etudiant.email}</label><br/>
-                        <label>Adresse : {this.state.etudiant.adresse}</label><br/>
-                        <label>Programme : {this.state.etudiant.programme}</label><br/>
-                        <label>Televerser votre CV : <input type="file" name="file"
-                                                            className="form-control-file"
-                                                            accept="application/pdf"
-                                                            ref={this.inputRef}
-                                                            defaultValue={this.state.file}
-                                                            onChange={this.onChangeHandler}/>
+            <div className="container">
+                <div className="col">
+                    <div className="card p-3 m-3">
+                        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Votre profil</h5>
+                        <form onSubmit={this.handleSubmit} className="d-flex flex-column">
+                            <div className="container">
+                                <label>Nom complet : {this.state.etudiant.prenom} {this.state.etudiant.nom}</label><br/>
+                                <label>Matricule : {this.state.etudiant.matricule} </label><br/>
+                                <label>Adresse : {this.state.etudiant.adresse}</label><br/>
+                                <label>Email : {this.state.etudiant.email}</label><br/>
+                                <label>Adresse : {this.state.etudiant.adresse}</label><br/>
+                                <label>Programme : {this.state.etudiant.programme}</label><br/>
+                                <label>Televerser votre CV : <input type="file" name="file"
+                                                                    className="form-control-file"
+                                                                    accept="application/pdf"
+                                                                    ref={this.inputRef}
+                                                                    defaultValue={this.state.file}
+                                                                    onChange={this.onChangeHandler}/>
 
-                        </label><br/>
-                        {this.displayCVMessage()}<br/>
-                        {this.state.displayInvalidFileMessage ?
-                            <label style={{color: "red"}}>Ce format de fichier n'est pas autorisé. Seuls les fichiers au
-                                format PDF sont autorisés.</label> : null}
-                        {this.state.displaySubmitCVButton ?
-                            <button type="submit" className="btn btn-primary">Enregistrer mon CV</button> : null}<br/>
-                        {this.state.hasUploadedCV ?
-                            <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant être
-                                approuvé pour que vous puissiez appliquer aux offres de stage.</label> :
-                            null}<br/>
+                                </label>
+                                <br/>
+                                {this.displayCVMessage()}
+                                <br/>
+                                {this.state.displayInvalidFileMessage ?
+                                    <label style={{color: "red"}}>Ce format de fichier n'est pas autorisé. Seuls les fichiers au
+                                        format PDF sont autorisés.</label> : null}
+                                {this.state.displayNoSessionMessage ?
+                                    <label style={{color: "red"}}>Vous devez vous enregistrer à la session.</label> : null}
+                                {this.state.displaySubmitCVButton ?
+                                    <button type="submit" className="btn btn-primary">Enregistrer mon CV</button> : null}<br/>
+                                {this.state.hasUploadedCV ?
+                                    <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant être
+                                        approuvé pour que vous puissiez appliquer aux offres de stage.</label> : null}
+                                <br/>
+
+                                {this.state.isRegistered ?
+                                    <p style={{color: "green"}}>*Vous etes enregistré pour cette session.</p> :
+                                    <p style={{color: "red"}}>*Vous n'etes pas encore enregistré pour cette session.</p>}
+                            </div>
+                        </form>
+                        {this.state.isRegistered ? "" : <button onClick={this.register}>Confirmer ma présence pour la session.</button>}
                     </div>
-                </form>
-                {this.state.isRegistered ?
-                    <p>Vous etes deja enregistré pour cette session</p> :
-                    <p>vous n'etes pas encore enregistré pour cette session <button onClick={this.register}>S'enregistrer</button></p>}
+                </div>
             </div>
-
-
         );
     }
 }
