@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import StageService from '../service/StageService';
-import EtudiantService from "../service/EtudiantService";
-import CandidatureService from "../service/CandidatureService";
+import StageService from '../../service/StageService';
+import EtudiantService from "../../service/EtudiantService";
+import CandidatureService from "../../service/CandidatureService";
 
 export default class ApplicationStageComponent extends Component {
     constructor(props) {

@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import CandidatureService from "../service/CandidatureService";
+import CandidatureService from "../../service/CandidatureService";
 
 import Button from 'react-bootstrap/Button'
 import {Col, Container, Modal, Row} from "react-bootstrap";

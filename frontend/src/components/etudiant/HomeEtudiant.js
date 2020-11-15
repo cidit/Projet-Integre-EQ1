@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
-import './../App.css';
-import axios from "axios";
-import CVService from "../service/CVService";
-import SessionService from "../service/SessionService";
-import EtudiantService from "../service/EtudiantService";
+import CVService from "../../service/CVService";
+import EtudiantService from "../../service/EtudiantService";
 
 export default class HomeEtudiant extends Component {
     constructor(props) {
@@ -38,9 +35,7 @@ export default class HomeEtudiant extends Component {
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
 
-        const {data: etudiant} = await axios.get(
-            "http://localhost:8080/etudiants/get?idEtudiant=" + id
-        );
+        const {data: etudiant} = await EtudiantService.getEtudiantById(id);
 
         const {data: isRegistered} = await EtudiantService.isRegistered(etudiant.id)
 

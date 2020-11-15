@@ -29,7 +29,7 @@ export default class GestionnaireListStageComponent extends Component {
             </div>;
         } else {
             return (
-                <div>
+                <div className="container">
                     <div className="pt-3 mt-3">
                         <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des stages approuvés</h5>
 
