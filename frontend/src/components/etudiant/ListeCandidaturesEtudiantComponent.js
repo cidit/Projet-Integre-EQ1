@@ -6,6 +6,9 @@ import {Col, Container, Modal, Row} from "react-bootstrap";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from '@material-ui/lab/Alert';
 
+import { Redirect } from 'react-router-dom';
+import EtudiantService from "../../service/EtudiantService";
+
 export default class ListeCandidaturesEtudiantComponent extends Component {
     constructor(props) {
         super(props);
@@ -14,19 +17,31 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             employeurId: "",
             showSnackbar: false,
             disabledAllButtons: false,
+            readyToRedirect: false,
         };
 
         ShowCandidature = ShowCandidature.bind(this);
     }
 
     async componentDidMount() {
+
         var id;
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
+        
+        const response = await EtudiantService.isRegistered(id);
+        if(!response.data){
+            this.setState({
+              readyToRedirect: true
+            });
+        }
+
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
         var candidature = await CandidatureService.getCandidatureChoisi(id);
-        console.log(candidature);
+        
+        //console.log(candidature);
+        
         if (candidature !== null) {
             this.setState({ disabledAllButtons: true });
         }
@@ -37,6 +52,8 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
     handleDisableAll = () => this.setState({disabledAllButtons: true});
 
     render() {
+        
+        if (this.state.readyToRedirect) return <Redirect to="/etudiant" />
         return (
             <div className="container">
                 <div className="col">

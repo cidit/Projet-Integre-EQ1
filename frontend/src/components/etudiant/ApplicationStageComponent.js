@@ -3,6 +3,8 @@ import StageService from '../../service/StageService';
 import EtudiantService from "../../service/EtudiantService";
 import CandidatureService from "../../service/CandidatureService";
 
+import { Redirect } from 'react-router-dom';
+
 export default class ApplicationStageComponent extends Component {
     constructor(props) {
         super(props);
@@ -10,7 +12,8 @@ export default class ApplicationStageComponent extends Component {
             stages: [],
             etudiant: "",
             hasValidCV: false,
-            hasApplied:""
+            hasApplied:"",
+            readyToRedirect: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this)
         this.addStage = this.addStage.bind(this);
@@ -25,6 +28,14 @@ export default class ApplicationStageComponent extends Component {
         var id;
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
+
+        const response = await EtudiantService.isRegistered(id);
+        if(!response.data){
+            this.setState({
+                readyToRedirect: true
+            });
+        }
+
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);
         this.setState({etudiant: etudiant});
         StageService.getStagesEtudiant(id).then((res) => { this.setState({ stages: res.data }) })
@@ -70,6 +81,9 @@ export default class ApplicationStageComponent extends Component {
     }
 
     render() {
+        
+        if (this.state.readyToRedirect) return <Redirect to="/etudiant" />
+
         return (
             <form className="d-flex flex-column">
             <div className="container">
