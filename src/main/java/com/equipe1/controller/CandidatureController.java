@@ -49,7 +49,7 @@ public class CandidatureController {
 
 
     @PutMapping("updateChoisi/{id}")
-    public Candidature updateCandidatureChoisi(@PathVariable Long id) throws Exception {
+    public Candidature updateCandidatureChoisi(@PathVariable Long id){
         return candidatureService.updateCandidatureChoisi(id);
     }
 
@@ -68,4 +68,6 @@ public class CandidatureController {
     public List<Candidature> getAllCandidatureChoisi() {
         return candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI);
     }
+
+
 }

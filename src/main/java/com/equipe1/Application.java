@@ -37,7 +37,7 @@ public class Application {
                 insertDataService.insertEtudiant();
                 insertDataService.insertEmployeur();
                 insertDataService.insertStage();
-                insertDataService.insertGestionnaire();
+                //insertDataService.insertGestionnaire();
                 //insertDataService.insertCandidature();
                 insertBootSession();
             }

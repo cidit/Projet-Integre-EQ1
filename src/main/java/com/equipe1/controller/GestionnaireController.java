@@ -39,7 +39,7 @@ public class GestionnaireController {
     }
 
     @GetMapping("password")
-    public Gestionnaire getGestionnaireByPassword(@RequestParam("password") String password){
+    public boolean getGestionnaireByPassword(@RequestParam("password") String password){
         return gestionnaireService.getGestionnaireByPassword(password);
     }
 }

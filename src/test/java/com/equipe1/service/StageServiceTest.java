@@ -1,6 +1,7 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
+import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.StageRepository;
 import org.junit.jupiter.api.Assertions;
@@ -34,6 +35,8 @@ public class StageServiceTest {
 
     @MockBean
     private StageRepository stageRepository;
+    @MockBean
+    private CandidatureRepository candidatureRepository;
 
     @MockBean
     private EmployeurService employeurService;
@@ -47,6 +50,8 @@ public class StageServiceTest {
     private Stage s1;
     private Stage s2;
     private Employeur employeur;
+    private Candidature c1;
+    private Candidature c2;
 
     @BeforeEach
     public void setUp() {
@@ -59,6 +64,13 @@ public class StageServiceTest {
         employeur = new Employeur();
         employeur.setNom("test");
         employeur.setEmail("test@email.com");
+        c1 = new Candidature();
+        c1.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
+        c1.setStage(s1);
+        c2 = new Candidature();
+        c2.setStatut(Candidature.CandidatureStatut.APPROUVE);
+        c2.setStage(s2);
+
     }
 
     @Test
@@ -284,5 +296,20 @@ public class StageServiceTest {
         // Assert
         Assertions.assertNotNull(stageList);
         Assertions.assertEquals(1, stageList.size());
+    }
+
+    @Test
+    public void testGetAllStagesAyantAucunStagiaire(){
+        // Arrange
+        doReturn(Arrays.asList(c1, c2)).when(candidatureRepository).findAll();
+        doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
+        // Act
+        List<Stage> stageList = stageService.getStagesAyantAucunStagiaire();
+        // Assert
+        Assertions.assertNotNull(stageList);
+        Assertions.assertEquals(stageList.size(), 2);
+        Assertions.assertEquals(stageList.get(0), s1);
+        Assertions.assertEquals(stageList.get(1), s2);
+
     }
 }

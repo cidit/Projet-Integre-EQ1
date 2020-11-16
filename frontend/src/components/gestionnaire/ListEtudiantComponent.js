@@ -33,9 +33,9 @@ export default class ListEtudiantsComponent extends Component {
             )
         }
     }
-     downloadCV (etudiant) {
-                CVService.getCVByEtudiant(etudiant).then((data) => {
-                    const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+     downloadCV = (etudiant) => {
+         CVService.getCVByEtudiant(etudiant).then((response) => {
+                    const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');
                     link.href = downloadUrl;
                     link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
@@ -77,11 +77,11 @@ export default class ListEtudiantsComponent extends Component {
                         <h4 className="text-center">STATUT DE STAGE</h4>
                     </div>
                     <div className="row">
-                        <label><input type="radio" name="statut" value="aucun stage" 
+                        <label><input type="radio" name="statut" value="Aucun stage"
                                 onChange={this.handleChangeRadio}/> N'a aucun stage</label>
                     </div>
                     <div className="row">
-                        <label><input type="radio" name="statut" value="possede stage" 
+                        <label><input type="radio" name="statut" value="Possede un stage"
                                 onChange={this.handleChangeRadio}/> Possède un stage</label>
                     </div>
                     <div className="row">

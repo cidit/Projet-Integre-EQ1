@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -31,6 +31,8 @@ public class EtudiantServiceTest {
 
     @Autowired
     private EtudiantService service;
+    @MockBean
+    private CandidatureService candidatureService;
 
     @MockBean
     private EtudiantRepository repository;
@@ -41,6 +43,10 @@ public class EtudiantServiceTest {
     private Session session;
     private Etudiant e1;
     private Etudiant e2;
+
+    private Candidature c1;
+    private Candidature c2;
+
 
     @BeforeEach
     public void setUp() {
@@ -56,6 +62,9 @@ public class EtudiantServiceTest {
         e1.setEmail("e2@email.com");
         e1.setProgramme("Techniques de l’informatique");
 
+        c1 = new Candidature();
+        c1.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
+        c1.setEtudiant(e1);
         session = Session.builder()
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusMonths(6))
@@ -232,5 +241,22 @@ public class EtudiantServiceTest {
         boolean flag = service.isEtudiantRegistered(e1.getId());
         // Assert
         Assertions.assertTrue(flag);
+    }
+
+    @Test
+    void testGetEtudiantsAucunStage(){
+        //Arrange
+        doReturn(Arrays.asList(e1, e2)).when(repository).findAll();
+        doReturn(Arrays.asList(c1)).when(candidatureService).findCandidatureByEtudiant(e1.getId());
+
+        //Act
+        List<Etudiant> etudiants = service.getEtudiantsAucunStage();
+
+        //Assert
+        assertNotNull(etudiants);
+        assertEquals(etudiants.size(), 2);
+        assertEquals(etudiants.get(0), e1);
+        assertEquals(etudiants.get(1), e2);
+
     }
 }
