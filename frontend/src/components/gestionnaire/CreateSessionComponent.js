@@ -27,6 +27,7 @@ class CreateSessionComponent extends Component {
 
 
     render() {
+
         return (
             <div className="card p-3">
                 <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0' }}>Creer une nouvelle session</h5>

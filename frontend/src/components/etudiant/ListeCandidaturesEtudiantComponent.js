@@ -54,6 +54,15 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
     render() {
         
         if (this.state.readyToRedirect) return <Redirect to="/etudiant" />
+        if (this.state.candidatures.length === 0){
+            return <div className="container">
+                <div className="row justify-content-md-center">
+                    <div className="col">
+                        <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez pas encore postulé à une offre de stage cette session.</Alert>
+                    </div>
+                </div>
+            </div>;
+        }
         return (
             <div className="container">
                 <div className="col">
