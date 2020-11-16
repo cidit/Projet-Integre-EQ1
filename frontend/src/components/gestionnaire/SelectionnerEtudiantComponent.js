@@ -17,7 +17,7 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     async componentDidMount() {
-        var stage = new Stage();
+        let stage = new Stage();
         stage = await StageService.getStageById(this.props.match.params.id);
         const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.data.programme);
         this.setState({ etudiants });
@@ -25,8 +25,8 @@ export default class SelectionnerEtudiantComponent extends Component {
 
         const { data: etudiantsPermis } = await StageService.getEtudiantsByStageId(this.props.match.params.id);
         this.setState({ etudiantsPermis });
- 
-        var bouttons = new Array(this.state.etudiants.length).fill(false);
+
+        let bouttons = new Array(this.state.etudiants.length).fill(false);
         for(let etudiant of this.state.etudiantsPermis){
             bouttons[etudiant.id] = true;
         }
@@ -47,7 +47,7 @@ export default class SelectionnerEtudiantComponent extends Component {
             etudiants.push(etudiant);
         }
 
-        var bouttons = new Array(this.state.etudiants.length).fill(false);
+        let bouttons = new Array(this.state.etudiants.length).fill(false);
         for(let etudiant of this.state.etudiants){
             bouttons[etudiant.id] = true;
         }
@@ -57,7 +57,7 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     removeAllEtudiants(){
-        var bouttons = new Array(this.state.etudiants.length).fill(false);
+        let bouttons = new Array(this.state.etudiants.length).fill(false);
         for(let etudiant of this.state.etudiants){
             bouttons[etudiant.id] = false;
         }
@@ -67,8 +67,8 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     async AddToList(index, param, e) {
-        var etudiant = new Etudiant();
-            etudiant = await EtudiantService.getEtudiantById(index);
+        let etudiant = new Etudiant();
+        etudiant = await EtudiantService.getEtudiantById(index);
 
         this.setState(oldState => {
             const newEtudiantsPermis = [...oldState.etudiantsPermis];
@@ -83,7 +83,7 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     async RemoveFromList(index, param, e) {
-        var newList = this.state.etudiantsPermis.filter((value) => (value === undefined) ? "" : value);
+        let newList = this.state.etudiantsPermis.filter((value) => (value === undefined) ? "" : value);
         const updatedList = newList.filter((etudiant) => etudiant.id !== index);
         this.setState(oldState => {
             const newDisabledButtons = [...oldState.disabledButtons];

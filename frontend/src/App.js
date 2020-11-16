@@ -30,6 +30,9 @@ import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire
 
 import StageComponent from "./components/stage/StageComponent";
 import ListeStage from "./components/stage/ListeStage";
+import {createMuiTheme} from "@material-ui/core";
+import {ThemeProvider} from "@material-ui/core/styles";
+import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 
 
 
@@ -37,6 +40,7 @@ function App() {
   return (
     
       <main>
+        <ThemeProvider theme={theme}>
         <HeaderComponent />
 
         <Switch>
@@ -66,13 +70,37 @@ function App() {
           <Route path='/televerserContrats/:id' component={TeleverserContrat} />
           <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi} />
           <Route path="/stage/:id" component={StageComponent}/>
+          <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
         </Switch>
+          </ThemeProvider>
       </main>
     
   );
 }
-
+const theme = createMuiTheme({
+  palette:{
+    primary:{
+      main: "#616161",
+      light: "#8e8e8e",
+      dark: "#373737",
+    },
+    secondary:{
+      main:"#ff8d0b",
+      light: "#ffbe49",
+      dark: "#c55e00",
+    },
+    type: "dark",
+    action:{
+        hover: "#ff8d0b",
+        disabled: "#ac0505",
+        selected :"#ffbe49"
+    },
+    background:{
+      table: "#624864"
+    }
+  }
+});
 
 export default App;

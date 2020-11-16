@@ -9,7 +9,7 @@ export default class GestionnaireProfile extends Component {
     }
 
     async componentDidMount() {
-        var id;
+        let id;
         if (localStorage.getItem("desc") === "Gestionnaire")
             id = localStorage.getItem("id");
 

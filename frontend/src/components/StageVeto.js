@@ -70,8 +70,8 @@ export default class ListStagesComponent extends Component {
 }
 
 export function ShowStage(props) {
-    const approuved = "APPROVED";
-    const denied = "DENIED";
+    const approuved = "APPROUVÉ";
+    const denied = "REFUSÉ";
 
     const [showModal, setShowModal] = useState(false);
 
@@ -90,12 +90,12 @@ export function ShowStage(props) {
         event.preventDefault();
 
 
-        console.log(props.stage.employeur)
+        // console.log(props.stage.employeur)
 
         props.stage.statut = event.target.name;
         props.stage.ouvert = event.target.name === approuved;
 
-        toggleBtns(event.target.name === approuved);
+        // toggleBtns(event.target.name === approuved);
 
         await StageService.updateStage(props.stage, parseInt(event.target.value));
 

@@ -32,7 +32,7 @@ export default class HomeEtudiant extends Component {
     }
 
     async componentDidMount() {
-        var id;
+        let id;
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
 
@@ -50,7 +50,7 @@ export default class HomeEtudiant extends Component {
     }
 
     displayCVMessage() {
-        if (this.state.etudiant.cv != undefined) {
+        if (this.state.etudiant.cv !== undefined && this.state.etudiant.cv !== null ) {
             switch (this.state.etudiant.cv.status) {
                 case "APPROVED":
                     return <label> Votre CV a déjà été approuvé. Mais vous pouvez le mettre à jour.</label>
@@ -71,7 +71,7 @@ export default class HomeEtudiant extends Component {
         let files = event.target.files
         let err = ''
         const types = ['application/pdf']
-        for (var x = 0; x < files.length; x++) {
+        for (let x = 0; x < files.length; x++) {
             if (types.every(type => files[x].type !== type)) {
                 err += files[x].type + ' is not a supported format\n'
                 this.setState({displayInvalidFileMessage: true});
@@ -92,7 +92,7 @@ export default class HomeEtudiant extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        var idEtudiant;
+        let idEtudiant;
         if (localStorage.getItem("desc") === "Etudiant")
             idEtudiant = localStorage.getItem("id");
         const formData = new FormData();

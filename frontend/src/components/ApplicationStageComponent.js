@@ -22,7 +22,7 @@ export default class ApplicationStageComponent extends Component {
 
     async componentDidMount() {
 
-        var id;
+        let id;
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);
@@ -46,10 +46,10 @@ export default class ApplicationStageComponent extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        var idEtudiant;
+        let idEtudiant;
         if (localStorage.getItem("desc") === "Etudiant")
             idEtudiant = localStorage.getItem("id");
-        var idStage = event.target.value
+        const idStage = event.target.value;
         this.componentDidMount();
         this.setState({hasApplied: true});
         CandidatureService.post(idEtudiant, idStage)
