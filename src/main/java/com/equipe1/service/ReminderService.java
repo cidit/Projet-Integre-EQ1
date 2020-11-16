@@ -52,7 +52,12 @@ public class ReminderService {
         }
 
         // cherche si un contrat est pret a etre généré
-        // TODO
+        for (var stage : stages)
+            if (candidatureService.findAllByStage(stage.getId()).stream().anyMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.CHOISI)) {
+                messages.add(Reminder.GestionaireReminder.CONTRAT_READY_TO_BE_GENERATED);
+                break;
+            }
+
         // cherche si la date de nouvelle session aproche
         // TODO
         return messages;
@@ -103,7 +108,6 @@ public class ReminderService {
         if (candidatureService.findCandidatureByEtudiant(user.getId()).isEmpty() &&
                 !stageService.getStages().isEmpty()) {
             messages.add(Reminder.EtudiantReminder.NO_CANDIDATURE_ON_STAGE);
-
         }
 
         // cherche si il manque sa signature sur le contrat
@@ -122,6 +126,6 @@ public class ReminderService {
         )
             messages.add(Reminder.EtudiantReminder.STAGE_FREQUENTATION_NOT_CONFIRMED);
 
-            return messages;
+        return messages;
     }
 }

@@ -133,8 +133,7 @@ public class StageService {
         if (optionnalStage.isPresent()) {
             var stage = optionnalStage.get();
             return stage.getEtudiantsAdmits();
-        } else
-            return null;
+        } else return null;
     }
 
     public List<Stage> getStagesApprouves() {

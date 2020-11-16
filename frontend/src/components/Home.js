@@ -1,20 +1,23 @@
-import React, { Component } from 'react';
-// import Button from "@material-ui/core";
+import React from 'react';
+import {Container, List} from "@material-ui/core";
 
-export default class Home extends Component {
-    componentDidMount() {
-        if (this.props.location.search === "?refresh") {
-            this.props.history.replace("/")
-            window.location.reload(false);
-        }
+export default function Home(props) {
+    if (props.location.search === "?refresh") {
+        props.history.replace("/")
+        window.location.reload(false);
     }
+    const [userId, userDesc] = [localStorage.getItem("id"), localStorage.getItem("desc")];
+    // const [reminders, setReminders] = useState(UserService.getReminders(userId))
 
-    render(){
-        return(
-           <div>
-               <h2 className="text-center">Home page</h2>
+    //let cards = []
 
-           </div>
-        );
-    }
+    return (
+        <Container>
+            {/*<Button onClick={setReminders(UserService.getReminders(userId))}>Refresh</Button>*/}
+            <List>
+                {/*{reminders}*/}
+            </List>
+        </Container>
+    )
 }
+
