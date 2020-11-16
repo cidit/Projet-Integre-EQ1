@@ -12,7 +12,9 @@ class UserService {
         await fetch("http://localhost:8080/users/reminders/" + id, {method: "GET"})
             .then(response => data = response.json())
             .catch(err => data = {})
+
         return data
+        //return fetch("http://localhost:8080/users/reminders/" + id, {method: "GET"})
     }
 }
 
