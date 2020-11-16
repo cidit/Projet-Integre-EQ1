@@ -1,7 +1,9 @@
 package com.equipe1.service;
 
 
+import com.equipe1.model.Etudiant;
 import com.equipe1.model.Session;
+import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.SessionRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +33,9 @@ public class SessionServiceTest {
 
     @MockBean
     private SessionRepository sessionRepository;
+
+    @MockBean
+    private EtudiantRepository etudiantRepository;
 
     private Session session;
 
@@ -80,8 +85,14 @@ public class SessionServiceTest {
     @Test
     void testCreate() {
         // Arrange
+        Etudiant e1 = new Etudiant();
+        e1.setEnregistre(true);
+        etudiantRepository.save(e1);
         Session newSession = new Session();
         newSession.setNom("HIV-2021");
+
+        when(etudiantRepository.save(e1)).thenReturn(e1);
+        when(etudiantRepository.findAll()).thenReturn(Arrays.asList(e1));
         when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
         when(sessionRepository.save(newSession)).thenReturn(newSession);
         // Act
@@ -90,6 +101,8 @@ public class SessionServiceTest {
         Assertions.assertNotNull(currentSession);
         Assertions.assertTrue(currentSession.isCurrent());
         Assertions.assertEquals("HIV-2021", currentSession.getNom());
+        Assertions.assertEquals(false, e1.isEnregistre());
+
     }
 
     @Test

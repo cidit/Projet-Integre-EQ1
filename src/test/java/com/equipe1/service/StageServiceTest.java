@@ -60,15 +60,27 @@ public class StageServiceTest {
     private Employeur employeur;
     private Candidature c1;
     private Candidature c2;
+    private Candidature c3;
+
 
     @BeforeEach
     public void setUp() {
+        session = Session.builder()
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
+                .build();
+        //sessionRepository.save(session);
         s1 = new Stage();
+        s1.setId(30L);
         s1.setTitre("java");
         s1.setStatut(Stage.StageStatus.APPROVED);
+        s1.setSession(session);
         s2 = new Stage();
+        s2.setId(35L);
         s2.setTitre("c++");
         s2.setStatut(Stage.StageStatus.DENIED);
+        s2.setSession(session);
         employeur = new Employeur();
         employeur.setNom("test");
         employeur.setEmail("test@email.com");
@@ -78,13 +90,12 @@ public class StageServiceTest {
         c2 = new Candidature();
         c2.setStatut(Candidature.CandidatureStatut.APPROUVE);
         c2.setStage(s2);
+        c3 = new Candidature();
+        c3.setStatut(Candidature.CandidatureStatut.CHOISI);
+        c3.setStage(s2);
 
-        session = Session.builder()
-                .id(1L)
-                .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
-                .build();
-        sessionRepository.save(session);
+
+
     }
 
     @Test
@@ -93,6 +104,16 @@ public class StageServiceTest {
         doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
         // Act
         List<Stage> stages = stageService.getStages();
+        // Assert
+        Assertions.assertEquals(2, stages.size());
+    }
+    @Test
+    void testGetStagesSessionEnCours () {
+        // Arrange
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
+        // Act
+        List<Stage> stages = stageService.getStagesSessionEnCours();
         // Assert
         Assertions.assertEquals(2, stages.size());
     }
@@ -138,9 +159,9 @@ public class StageServiceTest {
         when(stageRepository.save(s1)).thenReturn(s1);
         s1.setEmployeur(employeur);
         stageRepository.save(s1);
-        when(stageRepository.findById(1L)).thenReturn(Optional.of(s1));
+        when(stageRepository.findById(30L)).thenReturn(Optional.of(s1));
         // Act
-        Stage stage = stageService.updateStatus(s1,1L);
+        Stage stage = stageService.updateStatus(s1,30L);
         doNothing().when(courrielService).sendSimpleMessage(new Courriel(),"test");
         // Assert
         assertSame(stage.getStatut(), Stage.StageStatus.APPROVED);
@@ -333,15 +354,17 @@ public class StageServiceTest {
     @Test
     public void testGetAllStagesAyantAucunStagiaire(){
         // Arrange
-        doReturn(Arrays.asList(c1, c2)).when(candidatureRepository).findAll();
+        doReturn(Arrays.asList(c1)).when(candidatureService).findCandidatureByStage(30L);
+        doReturn(Arrays.asList(c2, c3)).when(candidatureService).findCandidatureByStage(35L);
         doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
+
         // Act
         List<Stage> stageList = stageService.getStagesAyantAucunStagiaire();
         // Assert
         Assertions.assertNotNull(stageList);
-        Assertions.assertEquals(stageList.size(), 2);
+        Assertions.assertEquals(stageList.size(), 1);
         Assertions.assertEquals(stageList.get(0), s1);
-        Assertions.assertEquals(stageList.get(1), s2);
 
     }
+
 }
