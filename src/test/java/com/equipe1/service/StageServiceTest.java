@@ -52,10 +52,10 @@ public class StageServiceTest {
     public void setUp() {
         s1 = new Stage();
         s1.setTitre("java");
-        s1.setStatut(Stage.StageStatus.APPROVED);
+        s1.setStatut(Stage.StageStatus.APPROUVÉ);
         s2 = new Stage();
         s2.setTitre("c++");
-        s2.setStatut(Stage.StageStatus.DENIED);
+        s2.setStatut(Stage.StageStatus.REFUSÉ);
         employeur = new Employeur();
         employeur.setNom("test");
         employeur.setEmail("test@email.com");
@@ -115,7 +115,7 @@ public class StageServiceTest {
         Stage stage = stageService.updateStatus(s1,1L);
         doNothing().when(courrielService).sendSimpleMessage(new Courriel(),"test");
         // Assert
-        assertSame(stage.getStatut(), Stage.StageStatus.APPROVED);
+        assertSame(stage.getStatut(), Stage.StageStatus.APPROUVÉ);
         assertTrue(stage.isOuvert());
     }
 
@@ -180,7 +180,7 @@ public class StageServiceTest {
     @Test
     public void testGetStagesEtudiantValide(){
         s1.setId(2L);
-        s1.setStatut(Stage.StageStatus.APPROVED);
+        s1.setStatut(Stage.StageStatus.APPROUVÉ);
         s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
@@ -205,7 +205,7 @@ public class StageServiceTest {
     @Test
     public void testGetStagesEtudiantInvalide(){
         s1.setId(2L);
-        s1.setStatut(Stage.StageStatus.APPROVED);
+        s1.setStatut(Stage.StageStatus.APPROUVÉ);
         s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
@@ -228,7 +228,7 @@ public class StageServiceTest {
     @Test
     public void testUpdateEtudiantsAdmits(){
         s1.setId(1L);
-        s1.setStatut(Stage.StageStatus.APPROVED);
+        s1.setStatut(Stage.StageStatus.APPROUVÉ);
         s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
@@ -249,7 +249,7 @@ public class StageServiceTest {
     @Test
     public void testGetEtudiantsAdmitsByValideStageId(){
         s1.setId(1L);
-        s1.setStatut(Stage.StageStatus.APPROVED);
+        s1.setStatut(Stage.StageStatus.APPROUVÉ);
         s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);

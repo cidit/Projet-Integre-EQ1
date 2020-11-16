@@ -14,7 +14,6 @@ import {
 } from "@material-ui/core";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import {makeStyles, ThemeProvider} from "@material-ui/core/styles";
-import Styles from "../utils/Styles";
 
 
 export default class SelectionnerStagiaireComponent extends Component {

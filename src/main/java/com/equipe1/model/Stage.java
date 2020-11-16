@@ -3,7 +3,6 @@ package com.equipe1.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -38,11 +37,11 @@ public class Stage {
 
     public Stage() {
         this.isOuvert = false;
-        this.statut = StageStatus.WAITING;
+        this.statut = StageStatus.EN_ATTENTE;
     }
 
     public enum StageStatus {
-        WAITING, APPROVED, DENIED
+        EN_ATTENTE, APPROUVÉ, REFUSÉ
     }
 
     @Override

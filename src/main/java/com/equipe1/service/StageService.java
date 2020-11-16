@@ -66,7 +66,7 @@ public class StageService {
                 if (resultStage.getId().equals(resultCandidature.getStage().getId()))
                     isStageStudentCanApply = false;
             }
-            if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.getStatut() == Stage.StageStatus.APPROVED)
+            if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.getStatut() == Stage.StageStatus.APPROUVÉ)
                 stagesResul.add(resultStage);
         }
         return stagesResul;
@@ -101,7 +101,7 @@ public class StageService {
 
     public Stage updateStatus(Stage newStage, long id) throws Exception {
         Stage stage = newStage;
-        stage.setStatut(Stage.StageStatus.APPROVED);
+        stage.setStatut(Stage.StageStatus.APPROUVÉ);
         stage.setOuvert(true);
 
         courrielService.sendSimpleMessage(new Courriel(stage.getEmployeur().getEmail(),
@@ -135,7 +135,7 @@ public class StageService {
         List<Stage> stages = stageRepository.findAll();
         List<Stage> stagesApprouves = new ArrayList<>();
         for (Stage resultStage : stages) {
-            if (resultStage.getStatut() == Stage.StageStatus.APPROVED){
+            if (resultStage.getStatut() == Stage.StageStatus.APPROUVÉ){
                 stagesApprouves.add(resultStage);
             }
         }
