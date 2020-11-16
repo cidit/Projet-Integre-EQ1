@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
-
     @Query("select s from Session s where s.isCurrent = true")
     Optional<Session> findCurrentSession();
 }

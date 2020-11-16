@@ -79,7 +79,7 @@ public class EtudiantService {
     }
 
 
-    public Optional<Etudiant> registerEtudiant(long id) {
+    public Optional<Etudiant> registerEtudiantSession(long id) {
         var optionalEtudiant = findEtudiantById(id);
         if (optionalEtudiant.isPresent()) {
             Optional<Session> session = sessionRepository.findCurrentSession();

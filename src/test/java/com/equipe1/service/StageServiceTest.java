@@ -219,7 +219,7 @@ public class StageServiceTest {
         when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
         s1.setEmployeur(employeur);
         s2.setEmployeur(employeur);
-        when(employeurService.getEmployeurById(1L)).thenReturn(employeur);
+
         when(stageRepository.findAll()).thenReturn(Arrays.asList(s1,s2));
 
         s1.setSession(session);
@@ -229,8 +229,9 @@ public class StageServiceTest {
         s2.setSession(session);
         doReturn(s2).when(stageRepository).save(s2);
         stageRepository.save(s2);
+
         // Act
-        List<Stage> stages = stageService.getStagesByEmployeur(1L);
+        List<Stage> stages = stageService.getStagesByEmployeur(employeur.getId());
         // Assert
         Assertions.assertNotNull(stages);
         Assertions.assertEquals(2, stages.size());

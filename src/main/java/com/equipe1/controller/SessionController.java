@@ -1,14 +1,8 @@
 package com.equipe1.controller;
-
-import com.equipe1.model.Employeur;
 import com.equipe1.model.Session;
-import com.equipe1.model.Stage;
-import com.equipe1.service.EmployeurService;
 import com.equipe1.service.SessionService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController()
@@ -23,11 +17,6 @@ public class SessionController {
     @GetMapping("findAll")
     public List<Session> getAllSessions(){
         return sessionService.getAll();
-    }
-
-    @GetMapping("get/{id}")
-    public Optional<Session> getSessionById(@PathVariable Long id){
-        return sessionService.getSessionById(id);
     }
 
     @PostMapping("createSession")

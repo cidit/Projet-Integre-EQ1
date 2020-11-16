@@ -1,7 +1,6 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
-import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -20,11 +19,6 @@ public class StageService {
     @Autowired
     private StageRepository stageRepository;
 
-    @Autowired
-    private CandidatureRepository candidatureRepository;
-
-    @Autowired
-    private EmployeurService employeurService;
 
     @Autowired
     private CandidatureService candidatureService;
@@ -60,11 +54,10 @@ public class StageService {
 
     public List<Stage> getStagesByEmployeur(Long idEmployeur) {
         Session sessionEnCours = sessionService.findCurrentSession().get();
-        Employeur employeur = employeurService.getEmployeurById(idEmployeur);
         List<Stage> stages = new ArrayList<>();
 
         for (Stage stage : stageRepository.findAll()) {
-            if (stage.getEmployeur().getId() == employeur.getId() && stage.getSession().equals(sessionEnCours))
+            if (stage.getEmployeur().getId() == idEmployeur && stage.getSession().equals(sessionEnCours))
                 stages.add(stage);
         }
         return stages;

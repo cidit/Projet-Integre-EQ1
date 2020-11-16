@@ -23,10 +23,6 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public Optional<Session> getSessionById(Long id) {
-        return sessionRepository.findById(id);
-    }
-
     public Session create(Session session) {
         session.setDateDebut(LocalDate.now());
         Optional<Session> lastSession = sessionRepository.findCurrentSession();
@@ -41,10 +37,6 @@ public class SessionService {
             etudiantRepository.save(etudiant);
         }
         return sessionRepository.save(session);
-    }
-
-    public void delete(long id) {
-        sessionRepository.deleteById(id);
     }
 
     public Optional<Session> findCurrentSession() { return sessionRepository.findCurrentSession(); };

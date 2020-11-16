@@ -249,7 +249,7 @@ public class EtudiantServiceTest {
         repository.save(e1);
 
         // Act
-        Optional<Etudiant> optionalEtudiant = service.registerEtudiant(e1.getId());
+        Optional<Etudiant> optionalEtudiant = service.registerEtudiantSession(e1.getId());
         // Assert
         Assertions.assertTrue(optionalEtudiant.isPresent());
     }

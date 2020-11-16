@@ -62,27 +62,6 @@ public class SessionServiceTest {
     }
 
     @Test
-    void TesGetSessionByIdValid() {
-        // Arrange
-        doReturn(Optional.of(session)).when(sessionRepository).findById(1L);
-        // Act
-        Optional<Session> sessionFound = sessionService.getSessionById(1L);
-        // Assert
-        Assertions.assertTrue(sessionFound.isPresent());
-        Assertions.assertSame(sessionFound.get(), session);
-    }
-
-    @Test
-    void TesGetSessionByIdInvalid() {
-        // Arrange
-        doReturn(Optional.empty()).when(sessionRepository).findById(2L);
-        // Act
-        Optional<Session> sessionNotFound = sessionService.getSessionById(2L);
-        // Assert
-        Assertions.assertFalse(sessionNotFound.isPresent());
-    }
-
-    @Test
     void testCreate() {
         // Arrange
         Etudiant e1 = new Etudiant();
@@ -103,17 +82,6 @@ public class SessionServiceTest {
         Assertions.assertEquals("HIV-2021", currentSession.getNom());
         Assertions.assertEquals(false, e1.isEnregistre());
 
-    }
-
-    @Test
-    void testDelete() {
-        // Arrange
-        doReturn(Optional.of(session)).when(sessionRepository).findById(1L);
-        // Act
-        sessionService.delete(1L);
-        //Assert
-        Mockito.verify(sessionRepository, times(1))
-                .deleteById(1L);
     }
 
     @Test
