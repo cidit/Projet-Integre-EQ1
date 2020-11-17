@@ -5,6 +5,7 @@ import com.equipe1.repository.QuestionRepository;
 import com.equipe1.service.CommentaireService;
 import com.equipe1.service.EtudiantService;
 import com.equipe1.service.EvaluationStagiaireService;
+import com.equipe1.service.RecepteurDonneesEvaluation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -38,43 +39,9 @@ public class EvaluationStagiaireController {
     }
 
     @PutMapping("/newEvaluation/{id}")
-    public EvaluationStagiaire updateEtudiant(@RequestBody List<DonnesToEvaluation> evaluation,
-                                              @PathVariable Long id){
-
-        Optional<Etudiant> etudiant = etudiantService.findEtudiantById(id);
-       EvaluationStagiaire evaluationStagiaire = etudiant.get().getEvaluationStagiaire();
-
-
-        if(evaluationStagiaire  == null){
-            evaluationStagiaire = new EvaluationStagiaire();
-            evaluationStagiaireService.save(evaluationStagiaire);
-            etudiant.get().setEvaluationStagiaire(evaluationStagiaire);
-            etudiantService.saveEtudiant(etudiant.get());
-
-            System.out.println(etudiant.get().getId() + " id " + evaluationStagiaire.getId() + " id evaluation inside if");
-        }
-
-       /* for (Question q: questions) {
-            q.setEvaluation(evaluationStagiaire);
-            questionRepository.save(q);
-            System.out.println(q);
-        }
-
-        for (Commentaire c: commentaires) {
-            c.setEvaluation(evaluationStagiaire);
-            commentaireService.saveCommentaire(c);
-        }*/
-//seter commentaires
-        //reformater optional
-        return evaluationStagiaire;
-    }
-
-
-   @Data
-   @AllArgsConstructor
-    private static class DonnesToEvaluation{
-        List<Question> questions;
-        String commentaires;
+    public EvaluationStagiaire updateEtudiant(@RequestBody RecepteurDonneesEvaluation evaluation,
+                                              @PathVariable  Long id){
+        return evaluationStagiaireService.saveEvaluation(evaluation,id);
     }
 
 }

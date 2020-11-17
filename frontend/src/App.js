@@ -74,9 +74,9 @@ function App() {
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
           <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
-          <Route path="/questionQualiteTravail" component={QuestionQualiteTravail}/>
-          <Route path="/questionRelations" component={QuestionRelations}/>
-          <Route path="/questionsHabilites" component={QuestionsHabilites}/>
+          <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
+          <Route path="/questionRelations/:id" component={QuestionRelations}/>
+          <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
           <Route path="/evaluationMilieuStage/:id" component={EvaluationMilieuStage}/>
           <Route path="/observationsMilieuStage/:id" component={ObservationsMilieuStage}/>
         </Switch>

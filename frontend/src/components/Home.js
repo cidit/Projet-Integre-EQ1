@@ -4,6 +4,7 @@ import CreateQuestions from './evaluations/createQuestions'
 import EvaluationStagiaire from '../components/evaluations/EvaluationStagiaire'
 import EvaluationMilieuStage from './evaluations/evaluationMilieuStage/EvaluationMilieuStage'
 import EvaluationMilieuHome from './enseignant/EvaluationMilieuHome'
+import ApreciationGlobaleStagiaire from '../components/evaluations/evaluationStagiaire/ApreciationGlobaleStagiaire'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -25,6 +26,12 @@ export default class Home extends Component {
           {/* <EvaluationMilieuStage/> */}
 
           {/* <EvaluationMilieuHome/> */}
+
+         
+         
+          {/* pending */}
+
+          {/* <ApreciationGlobaleStagiaire/> */}
 
 
 

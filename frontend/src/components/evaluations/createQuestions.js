@@ -215,7 +215,6 @@ export default function CreateQuestions(props) {
                         />
                     </FormControl>
 
-
                     {props.isFinalStep ?
 
                         <div>

@@ -42,7 +42,16 @@ const habilitesPersoQuestionsList = [
     { id: "6", question: 'Être ponctuel et assidu à son travail' },
 ];
 
-const _choixResponses = ['Totalement en accord', 'Plutôt en accord', 'Plutôt en désaccord', 'Totalement en désaccord', 'Non Applicable']
+const apretiationGlobaleStagiaire=[
+    { id: "0", question: 'Les habiletés démontrées dépassent de beaucoup les attentes' },
+    { id: "1", question: 'Les habiletés démontrées dépassent les attentes' },
+    { id: "2", question: 'Les habiletés démontrées répondent pleinement aux attentes' },
+    { id: "3", question: 'Les habiletés démontrées répondent partiellement aux attentes' },
+    { id: "4", question: 'Les habiletés démontrées ne répondent pas aux attentes' },
+    { id: "5", question: 'L’entreprise aimerait accueillir cet élève pour son prochain stage :' },
+    { id: "6", question: 'La formation technique du stagiaire était-elle suffisante pour accomplir le mandat de stage' },
+]
+
 
 //milieu de stage 
 const evaluationMilieuStage = [
@@ -75,18 +84,23 @@ export default function useSetQuestions(id) {
     const [habilitesQuestions, setHabilitesQuestions] = useState(habilitesPersoQuestionsList);
     const [evaluationMilieuStageQuestions, setEvaluationMilieuStageQuestions] = useState(evaluationMilieuStage)
     const [observationsGeneralesQuestions, setObservationsGeneralesQuestions] = useState(observationsGenerales)
+    const [apretiationGlobaleStagiaireQuestions, setapretiationGlobaleStagiaireQuestions] = useState(apretiationGlobaleStagiaire)
 
 
     console.log("render")
     
     return {
+        //stagiaire
         etudiant,
         productiviteQuestions,
         qualiteTravailQuestions,
         relationsQuestions,
         habilitesQuestions,
+        apretiationGlobaleStagiaireQuestions,
         optionsReponse,
+        //milieu Stage
         evaluationMilieuStageQuestions,
         observationsGeneralesQuestions
+        
     }
 }
