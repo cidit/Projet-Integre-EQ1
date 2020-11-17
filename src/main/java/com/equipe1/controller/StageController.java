@@ -25,6 +25,11 @@ public class StageController {
         return stageService.getStages();
     }
 
+    @GetMapping(value = "/getStagesSession")
+    public List<Stage> getStagesSessionEnCours(){
+        return stageService.getStagesSessionEnCours();
+    }
+
     @GetMapping("getStage")
     public Optional<Stage> getStage(@RequestParam("idStage") Long idStage){
         return stageService.findStageById(idStage);
@@ -68,5 +73,10 @@ public class StageController {
     @GetMapping("approuves")
     public List<Stage> getAllStagesApprouves(){
         return stageService.getStagesApprouves();
+    }
+
+    @GetMapping("ayantStagiaire")
+    public List<Stage> getAllStagesAyantAucunStagiare(){
+        return stageService.getStagesAyantAucunStagiaire();
     }
 }

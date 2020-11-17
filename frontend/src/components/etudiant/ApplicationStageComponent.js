@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import StageService from '../service/StageService';
-import EtudiantService from "../service/EtudiantService";
-import CandidatureService from "../service/CandidatureService";
+import StageService from '../../service/StageService';
+import EtudiantService from "../../service/EtudiantService";
+import CandidatureService from "../../service/CandidatureService";
+
+import { Redirect } from 'react-router-dom';
+import {Alert} from "@material-ui/lab";
 
 export default class ApplicationStageComponent extends Component {
     constructor(props) {
@@ -10,7 +13,8 @@ export default class ApplicationStageComponent extends Component {
             stages: [],
             etudiant: "",
             hasValidCV: false,
-            hasApplied:""
+            hasApplied:"",
+            readyToRedirect: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this)
         this.addStage = this.addStage.bind(this);
@@ -25,6 +29,14 @@ export default class ApplicationStageComponent extends Component {
         var id;
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
+
+        const response = await EtudiantService.isRegistered(id);
+        if(!response.data){
+            this.setState({
+                readyToRedirect: true
+            });
+        }
+
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);
         this.setState({etudiant: etudiant});
         StageService.getStagesEtudiant(id).then((res) => { this.setState({ stages: res.data }) })
@@ -57,19 +69,41 @@ export default class ApplicationStageComponent extends Component {
             window.location.reload();
         }, 1000);
     }
-    displayWarningMessage() {
-        if(this.state.stages.length !== 0){
-            if (this.state.etudiant.cv === null)
-                return <label>Vous ne pourrez pas postuler si vous n'avez pas de CV.</label>
-            if (!this.state.hasValidCV)
-                return <label>Vous ne pourrez pas postuler si votre CV n'a pas été approuvé.</label>
-        }
-        else {
-                return <label>Aucune offre de stage n'est disponible pour vous.</label>
-        }
-    }
 
     render() {
+        
+        if (this.state.readyToRedirect) return <Redirect to="/etudiant" />
+
+        if(this.state.stages.length !== 0){
+            if (this.state.etudiant.cv === null){
+                return <div className="container">
+                    <div className="row justify-content-md-center">
+                        <div className="col">
+                            <Alert severity="info" variant="filled" className="m-3 text-center">Vous ne pourrez pas postuler si vous n'avez pas de CV.</Alert>
+                        </div>
+                    </div>
+                </div>;
+            }
+            if (!this.state.hasValidCV){
+                return <div className="container">
+                    <div className="row justify-content-md-center">
+                        <div className="col">
+                            <Alert severity="info" variant="filled" className="m-3 text-center">Vous ne pourrez pas postuler si votre CV n'a pas été approuvé.</Alert>
+                        </div>
+                    </div>
+                </div>;
+            }
+        }
+        else {
+            return <div className="container">
+                <div className="row justify-content-md-center">
+                    <div className="col">
+                        <Alert severity="info" variant="filled" className="m-3 text-center">Aucune offre de stage n'est disponible pour vous.</Alert>
+                    </div>
+                </div>
+            </div>;
+        }
+
         return (
             <form className="d-flex flex-column">
             <div className="container">
@@ -114,7 +148,6 @@ export default class ApplicationStageComponent extends Component {
                                 )}
                                 </tbody>
                             </table>
-                            {(this.displayWarningMessage())}<br/>
 
                         </div>
                     </div>

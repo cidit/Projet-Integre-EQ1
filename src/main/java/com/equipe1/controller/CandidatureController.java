@@ -1,15 +1,9 @@
 package com.equipe1.controller;
 
 import com.equipe1.model.Candidature;
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Stage;
-import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.service.CandidatureService;
-import com.equipe1.service.EmployeurService;
-import com.equipe1.service.StageService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,9 +41,8 @@ public class CandidatureController {
         return candidatureService.createCandidature(idEtudiant, idStage);
     }
 
-
     @PutMapping("updateChoisi/{id}")
-    public Candidature updateCandidatureChoisi(@PathVariable Long id) throws Exception {
+    public Candidature updateCandidatureChoisi(@PathVariable Long id){
         return candidatureService.updateCandidatureChoisi(id);
     }
 
@@ -57,7 +50,6 @@ public class CandidatureController {
     public Candidature updateCandidatureApprouve(@PathVariable Long id) throws Exception {
         return candidatureService.updateCandidatureApprouve(id);
     }
-
 
     @GetMapping("getChoisi/{id}")
     public Optional<Candidature> getCandidatureChoisi(@PathVariable Long id) {
@@ -69,9 +61,21 @@ public class CandidatureController {
         return candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI);
     }
 
+
     @GetMapping("getByPremierMoisStage")
     public List<Candidature> getAllForEvaluationMilieuStage() {
         //return toutes les candidatures ayant un stage rendue a la 4 semaine
         return candidatureService.getListByDateStage();
     }
+
+    @PutMapping("convoqueEtudiantEntrevue/{id}")
+    public Candidature convoqueEtudiantEntrevue(@PathVariable Long id){
+        return candidatureService.convoqueEtudiantEntrevue(id);
+    }
+
+    @PutMapping("entrevuePasseeConfirmation/{id}")
+    public Candidature entrevuePasseeConfirmation(@PathVariable Long id){
+        return candidatureService.entrevuePasseeConfirmation(id);
+    }
+
 }

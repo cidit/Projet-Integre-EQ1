@@ -29,6 +29,8 @@ public class Stage {
     private String ville;
     private StageStatus statut;
     private int salaire;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Session session;
 
     @ManyToMany
     private Set<Etudiant> etudiantsAdmits;

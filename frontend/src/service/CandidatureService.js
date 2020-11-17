@@ -70,8 +70,19 @@ class CandidatureService{
         return await axios.get(baseURL +"/getAllChoisis");
     }
 
+
     async getCandidaturesByPremierMoisStage() {
         return await axios.get(baseURL +"/getByPremierMoisStage");
+    }
+
+    async convoqueEtudiantEntrevue(id){
+        return axios.put(baseURL + "/convoqueEtudiantEntrevue/" + id);
+    }
+
+    async entrevuePasseeConfirmation(id){
+        console.log(id)
+        return axios.put(baseURL + "/entrevuePasseeConfirmation/" + id);
+
     }
 }
 

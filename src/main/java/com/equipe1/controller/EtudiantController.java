@@ -30,7 +30,7 @@ public class EtudiantController {
 
     @PutMapping("/registration/register/{id}")
     public Optional<Etudiant> registerEtudiant(@PathVariable long id) {
-        return etudiantService.registerEtudiant(id);
+        return etudiantService.registerEtudiantSession(id);
     }
 
     @GetMapping("/registration/isRegistered/{id}")
@@ -66,5 +66,10 @@ public class EtudiantController {
     @GetMapping("/get/{programme}")
     public List<Etudiant> getAllEtudiantByProgramme(@PathVariable String programme){
         return etudiantService.getEtudiantsByProgramme(programme);
+    }
+
+    @GetMapping("/get/aucunStage")
+    public List<Etudiant> getAllEtudiantsAucunStage(){
+        return etudiantService.getEtudiantsAucunStage();
     }
 }

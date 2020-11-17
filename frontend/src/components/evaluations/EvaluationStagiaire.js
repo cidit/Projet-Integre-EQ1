@@ -38,7 +38,8 @@ export default function EvaluationStagiaire() {
     }
 
     const getEtudiant = async () => {
-        const response = await EtudiantService.getEtudiantById(1);
+        const response = await EtudiantService.getEtudiantById(2);
+        console.log(response)
         setEtudiant(response.data);
     }
 

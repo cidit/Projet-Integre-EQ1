@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class GestionnaireServiceTest {
@@ -106,21 +108,20 @@ class GestionnaireServiceTest {
     @Test
     void testFindGestionnaireByPassword() {
         // Arrange
-        doReturn(g1).when(repository).findByPassword("123456");
+        doReturn(Optional.of(g1)).when(repository).findByPassword("123456");
         // Act
-        Gestionnaire gestionnaire = service.getGestionnaireByPassword("123456");
+        boolean flag = service.getGestionnaireByPassword("123456");
         // Assert
-        Assertions.assertNotNull(gestionnaire);
-        Assertions.assertSame(gestionnaire, g1);
+        Assertions.assertTrue(flag);
     }
 
     @Test
     void testFindGestionnaireByPasswordNotFound() {
         // Arrange
-        doReturn(null).when(repository).findByPassword("none");
+        doReturn(Optional.empty()).when(repository).findByPassword("none");
         // Act
-        Gestionnaire gestionnaire = service.getGestionnaireByPassword("none");
+        boolean flag = service.getGestionnaireByPassword("none");
         // Assert
-        Assertions.assertNull(gestionnaire);
+        Assertions.assertFalse(flag);
     }
 }

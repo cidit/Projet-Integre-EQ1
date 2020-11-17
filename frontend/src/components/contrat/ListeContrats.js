@@ -4,9 +4,6 @@ import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import ContratService from "../../service/ContratService";
 import Telecharger from '../utils/telecharger';
 
-
-const url = 'http://localhost:8080/contrats/getContratFile/';
-
 function isListeVideEmployeur(props){
   const map = props.contrats.filter(data => data.signatureEmployeur === 'PAS_SIGNE' &&
       data.signatureEtudiant === 'PAS_SIGNE')

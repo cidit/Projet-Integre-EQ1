@@ -1,11 +1,13 @@
 import React, {Component, useState} from 'react';
-import CandidatureService from "../service/CandidatureService";
-import Candidature from "../model/Candidature";
+import CandidatureService from "../../service/CandidatureService";
 
 import Button from 'react-bootstrap/Button'
 import {Col, Container, Modal, Row} from "react-bootstrap";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from '@material-ui/lab/Alert';
+
+import { Redirect } from 'react-router-dom';
+import EtudiantService from "../../service/EtudiantService";
 
 export default class ListeCandidaturesEtudiantComponent extends Component {
     constructor(props) {
@@ -15,27 +17,34 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             employeurId: "",
             showSnackbar: false,
             disabledAllButtons: false,
+            readyToRedirect: false,
         };
 
         ShowCandidature = ShowCandidature.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     async componentDidMount() {
+
         var id;
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
+        
+        const response = await EtudiantService.isRegistered(id);
+        if(!response.data){
+            this.setState({
+              readyToRedirect: true
+            });
+        }
+
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
-        var candidature;
-        candidature = await CandidatureService.getCandidatureChoisi(id);
-        console.log(candidature);
+        var candidature = await CandidatureService.getCandidatureChoisi(id);
+        
+        //console.log(candidature);
+        
         if (candidature !== null) {
             this.setState({ disabledAllButtons: true });
         }
-    }
-    handleSubmit(event) {
-        event.preventDefault()
     }
     
     handleCloseSnackbar = () => this.setState({showSnackbar: false});
@@ -43,25 +52,33 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
     handleDisableAll = () => this.setState({disabledAllButtons: true});
 
     render() {
+        
+        if (this.state.readyToRedirect) return <Redirect to="/etudiant" />
+        if (this.state.candidatures.length === 0){
+            return <div className="container">
+                <div className="row justify-content-md-center">
+                    <div className="col">
+                        <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez pas encore postulé à une offre de stage cette session.</Alert>
+                    </div>
+                </div>
+            </div>;
+        }
         return (
             <div className="container">
                 <div className="col">
                     <div className="pt-3 mt-3">
                         <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0' }}>Vos candidatures</h5>
-                        
-                        <h5 className="card-title text-center p-3" 
-                            style={{ background: '#FFCCCB' }}
-                            hidden={!this.state.disabledAllButtons}>Vous avez déjà un stage pour cette session</h5>
 
                         <div className="row">
 
                             <table className="table table-striped table-bordered">
                                 <thead>
-                                <tr >
+                                <tr>
                                     <th> Titre </th>
                                     <th> Statut </th>
                                     <th> Programme </th>
                                     <th> Ville </th>
+                                    <th> Confirmer entrevue </th>
                                     <th> Confirmer choix </th>
                                 </tr>
                                 </thead>
@@ -77,7 +94,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                             <Snackbar open={this.state.showSnackbar} autoHideDuration={6000}
                                       onClose={this.handleCloseSnackbar}>
                                 <Alert onClose={this.handleCloseSnackbar} severity="success">
-                                    Changements effectués avec succès
+                                    Vous venez de confirmer votre stage.
                                 </Alert>
                             </Snackbar>
                         </div>
@@ -89,6 +106,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 }
 
 function ShowCandidature(props) {
+
     const approuved = "CHOISI";
 
     const [showModal, setShowModal] = useState(false);
@@ -103,26 +121,58 @@ function ShowCandidature(props) {
         document.getElementsByName(approuved)[0].disabled = isApprouved
     }
 
+    function entrevuePasseeConfirmation(candidature){
+        console.log(candidature.id)
+        CandidatureService.entrevuePasseeConfirmation(candidature.id);
+        setTimeout(function() {
+            window.location.reload();
+        }, 500);
+    }
+
+
+    function renderColonneEntrevue(candidature){
+        if (candidature.entrevueStatut === 'PAS_CONVOQUE')
+            return <p>Pas convoqué</p>
+        if (candidature.entrevueStatut === 'PASSEE')
+            return <p>Entrevue passeé </p>
+        return(
+            <div>
+                <button className="btn btn-primary" onClick={(event) =>  entrevuePasseeConfirmation(candidature)}>Confirmer entrevue
+                </button>
+            </div>
+        )
+
+    }
+
     async function handleClick(event) {
         event.preventDefault();
 
         toggleBtns(event.target.name === approuved);
+
+        console.log("VALUE : " + event.target.name);
+        props.candidature.statut = event.target.name;
 
         await CandidatureService.putCandidatureChoisi(props.candidature.id);
 
         handleShowSnackbar();
         handleCloseModal();
         handleDisableAll();
-
-        //window.location.reload();
     }
 
     return (
         <>
             <td>{props.candidature.stage.titre}</td>
-            <td className={props.candidature.stage.statut}>{props.candidature.statut}</td>
+            <td className={props.candidature.statut === "CHOISI" ? "APPROVED" : "WAITING"}>
+                {props.candidature.statut === "EN_ATTENTE" ? "EN ATTENTE" : "" ||
+                 props.candidature.statut === "APPROUVE" ? "APPROUVÉE" : "" ||
+                 props.candidature.statut === "CHOISI" ? "CHOISI" : ""}
+            </td>
             <td>{props.candidature.stage.programme}</td>
             <td>{props.candidature.stage.ville}</td>
+            <td>
+                {renderColonneEntrevue(props.candidature)}
+            </td>
+
             <td>
                 <Button onClick={handleShowModal}
                         disabled={props.candidature.statut === "REFUSE" 

@@ -28,7 +28,6 @@ public class Contrat {
     private LocalDate dateFinale;
     private SignatureEtat signatureEmployeur;
     private SignatureEtat signatureEtudiant;
-
     public enum SignatureEtat {
         SIGNE,
         PAS_SIGNE,

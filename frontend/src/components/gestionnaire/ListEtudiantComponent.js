@@ -33,9 +33,9 @@ export default class ListEtudiantsComponent extends Component {
             )
         }
     }
-     downloadCV (etudiant) {
-                CVService.getCVByEtudiant(etudiant).then((data) => {
-                    const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+     downloadCV = (etudiant) => {
+         CVService.getCVByEtudiant(etudiant).then((response) => {
+                    const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');
                     link.href = downloadUrl;
                     link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
@@ -52,7 +52,7 @@ export default class ListEtudiantsComponent extends Component {
         console.log(event.target.value)
         this.setState({ statut: event.target.value });
     };
-    
+
     async componentDidMount() {
             const { data: etudiants } = await EtudiantService.getEtudiants();
             this.setState({ etudiants });
@@ -77,11 +77,11 @@ export default class ListEtudiantsComponent extends Component {
                         <h4 className="text-center">STATUT DE STAGE</h4>
                     </div>
                     <div className="row">
-                        <label><input type="radio" name="statut" value="aucun stage" 
+                        <label><input type="radio" name="statut" value="Aucun stage"
                                 onChange={this.handleChangeRadio}/> N'a aucun stage</label>
                     </div>
                     <div className="row">
-                        <label><input type="radio" name="statut" value="possede stage" 
+                        <label><input type="radio" name="statut" value="Possede un stage"
                                 onChange={this.handleChangeRadio}/> Possède un stage</label>
                     </div>
                     <div className="row">
@@ -100,6 +100,7 @@ export default class ListEtudiantsComponent extends Component {
                                 <th> Programme </th>
                                 <th> Courriel </th>
                                 <th> Téléphone </th>
+                                <th> Enregistré a la session en cours</th>
                                 <th> Statut </th>
                                 <th> Télécharger son CV</th>
                                 <th> Etat du CV</th>
@@ -118,6 +119,10 @@ export default class ListEtudiantsComponent extends Component {
                                         <td>{etudiant.programme}</td>
                                         <td>{etudiant.email}</td>
                                         <td>{etudiant.telephone}</td>
+                                        <td>
+                                            {etudiant.enregistre ?<p>Oui</p>
+                                                : <p>Non</p>}
+                                        </td>
                                         <td>{etudiant.statutStage}</td>
                                         <td>
                                             {etudiant.cv != null ?<button onClick={() => this.downloadCV(etudiant)} className="btn btn-primary">Telecharger</button>
