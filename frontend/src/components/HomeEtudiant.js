@@ -36,6 +36,7 @@ export default class HomeEtudiant extends Component {
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
 
+
         const {data: etudiant} = await axios.get(
             "http://localhost:8080/etudiants/get?idEtudiant=" + id
         );

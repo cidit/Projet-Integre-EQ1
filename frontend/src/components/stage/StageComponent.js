@@ -4,19 +4,13 @@ import MuiAlert from '@material-ui/lab/Alert';
 import StageService from "../../service/StageService";
 import '../../css/StageVeto.css';
 import axios from "axios";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Checkbox from "@material-ui/core/Checkbox";
-import ListItemText from "@material-ui/core/ListItemText";
 import Box from "@material-ui/core/Box";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
 import * as PropTypes from "prop-types";
 import StageInfo from "./StageInfoComponent";
 import SelectionnerStagiaireComponent from "../employeur/SelectionnerStagiaireComponent";
-import {Modal} from "react-bootstrap";
+import SelectionnerEtudiantComponent from "../gestionnaire/SelectionnerEtudiantComponent";
 
 export default class StageComponent extends Component {
     constructor(props) {
@@ -27,7 +21,6 @@ export default class StageComponent extends Component {
             candidatures: [],
             showModal: false
         };
-        ListeCandidatures = ListeCandidatures.bind(this);
         this.handleShowModal = this.handleShowModal.bind(this)
     }
 
@@ -54,26 +47,18 @@ export default class StageComponent extends Component {
                     stage={this.state.stage}
                     employeur={this.state.employeur}
                     candidatures={this.state.candidatures}
-                    stage={this.state.stage}
                 />
             </div>
         );
     }
 }
 
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
-
 export function Veto(props){
-    const approuved = "APPROUVÉ";
+    const approved = "APPROUVÉ";
     const denied = "REFUSÉ";
 
     function toggleBtns(isApprouved) {
-        document.getElementsByName(approuved)[0].disabled = isApprouved
+        document.getElementsByName(approved)[0].disabled = isApprouved
         document.getElementsByName(denied)[0].disabled = !isApprouved
     }
 
@@ -81,25 +66,29 @@ export function Veto(props){
         event.preventDefault();
 
         props.stage.statut = event.target.name;
-        props.stage.ouvert = event.target.name === approuved;
-
-        toggleBtns(event.target.name === approuved);
-
-
-
+        props.stage.ouvert = event.target.name === approved;
+        toggleBtns(event.target.name === approved);
         await StageService.updateStage(props.stage, parseInt(event.target.value));
-
-        // handleShowSnackbar();
-        // handleCloseModal();
+        window.location.reload()
     }
 
     return (
         <>
+            <div>
+                <h4>Informations à regarder: </h4>
+                <ul>
+                    <li>Est-ce que la durée du stage est suffisante?</li>
+                    <li>Est-ce que la date de début est adéquate?</li>
+                    <li>Est-ce que le nombre d'heures par semaine est faisable?</li>
+                    <li>Est-ce que le salaire est adéquat?</li>
+                    <li>ESt-ce que les exigences et la description sont adaptés pour le programme ciblé?</li>
+                </ul>
+            </div>
             <Button
                 type="button"
                 className="btnVeto"
-                name={approuved}
-                disabled={props.stage.statut === approuved}
+                name={approved}
+                disabled={props.stage.statut === approved}
                 value={props.stage.id}
                 onClick={handleClickStatut}
                 variant="success"
@@ -122,7 +111,7 @@ export function Veto(props){
 }
 
 
-export function MyTabs(props) {
+function MyTabs(props) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -133,20 +122,23 @@ export function MyTabs(props) {
         {gestionnaire: true, employeur: true},
         {gestionnaire: true, employeur: true},
         {gestionnaire: true, employeur: false},
-        {gestionnaire: true, employeur: true}
+        {gestionnaire: true, employeur: false},
+        {gestionnaire: true, employeur: false},
     ];
 
     const tags = [
         {label: "Info", disabled: false},
         {label: "Choix des stagiaires",  disabled: props.candidatures.length === 0},
         {label: "Veto",  disabled: false},
-        {label: "Hello",  disabled: false}
+        {label: "Assigner étudiants",  disabled: false},
+        {label: "Evaluation",  disabled: false},
     ];
     const panels =[
         {component: <StageInfo stage={props.stage} employeur={props.employeur} />},
         {component: <SelectionnerStagiaireComponent id={props.stage.id}/>},
         {component: <Veto stage={props.stage}/>},
-        {component: <p>Hello</p>}
+        {component: <SelectionnerEtudiantComponent stage={props.stage}/>},
+        {component: <p>TODO</p>},
     ];
 
     let usedTags=[];
@@ -189,12 +181,6 @@ export function MyTabs(props) {
 
 }
 
-function hasRole(role){
-    return window.localStorage.getItem("desc") === role;
-}
-
-
-
 export function TabPanel(props) {
     const {children, value, index, ...other} = props;
 
@@ -221,76 +207,6 @@ TabPanel.propTypes = {
 };
 
 
-export function ListeCandidatures(props) {
-    const [checked, setChecked] = React.useState([]);
-    const handleCloseModal = () => this.setState({showModal: false});
-
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-        setChecked(newChecked);
-    };
-
-    function HandleClick(e) {
-        e.preventDefault();
-        console.log(checked)
-
-        for (let i = 0; i < checked.length; i++) {
-            checked[i].statut = "CHOISI";
-            axios.put("http://localhost:8080/candidatures/update/" + checked[i].id, checked[i]).then(res => console.log(res))
-        }
-        handleCloseModal();
-    }
-
-    return (
-        <>
-            <List>
-                {props.candidatures.map((candidature) => {
-                    // const labelId = `checkbox-list-label-${value}`;
-
-                    return (
-                        <ListItem
-                            key={candidature.id}
-                            role={undefined}
-                            dense
-                            button
-                            onClick={handleToggle(candidature)}
-                        >
-                            <ListItemIcon>
-                                <Checkbox
-                                    edge="start"
-                                    checked={checked.indexOf(candidature) !== -1}
-                                    // checked={checked.indexOf(candidature.id) !== -1}
-                                    tabIndex={-1}
-                                    disableRipple
-                                    // inputProps={{ 'aria-labelledby': labelId }}
-                                />
-                            </ListItemIcon>
-                            <ListItemText
-                                id={candidature.id}
-                                primary={`${candidature.etudiant.nom}, ${candidature.etudiant.prenom}`}
-                            />
-                        </ListItem>
-                    );
-                })}
-            </List>
-
-            <Button
-                onClick={HandleClick}
-            >
-                Confirmer
-            </Button>
-        </>
-
-    );
-
-
-}
 
 
 function Alert(props) {

@@ -2,11 +2,10 @@ import React, {Component} from "react";
 import EtudiantService from "../../service/EtudiantService";
 import {Col, Container, Row} from "react-bootstrap";
 import {makeStyles} from "@material-ui/core/styles";
-import StageInfo from "../stage/StageInfoComponent";
-import SelectionnerStagiaireComponent from "../employeur/SelectionnerStagiaireComponent";
+
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import {TabPanel, Veto} from "../stage/StageComponent";
+import {TabPanel} from "../stage/StageComponent";
 
 export default class EtudiantComponent extends Component{
     constructor(props){
@@ -52,22 +51,34 @@ export function MyTabs(props) {
 
     const roles = [
         {gestionnaire: true, employeur: true, etudiant: true},
+        {gestionnaire: false, employeur: true, etudiant: false},
 
     ];
 
     const tags = [
         {label: "Info", disabled: false},
+        {label: "Evaluation", disabled: false},
         // {label: "Choix des stagiaires",  disabled: props.candidatures.length === 0},
         // {label: "Veto",  disabled: false},
         // {label: "Hello",  disabled: false}
     ];
     const panels =[
-        {component: <Info
-                etudiant={props.etudiant}
-            />},
+        {
+            component:
+            <div>
+                <InfoEtudiant
+                    etudiant={props.etudiant}
+                />
+
+
+
+            </div>
+
+        },
+        {component: <p>TODO</p>},
         // {component: <SelectionnerStagiaireComponent id={props.stage.id}/>},
         // {component: <Veto stage={props.stage}/>},
-        // {component: <p>Hello</p>}
+
     ];
 
     let usedTags=[];
@@ -104,12 +115,31 @@ export function MyTabs(props) {
                     <TabPanel
                         key={panel.id}
                         value={value}
-                        index={panel.id}>
+                        index={panel.id}
+                    >
                         {panel.component}
                     </TabPanel>
             )}
+
+
+
         </>
     );
+
+}
+
+
+function SessionInfo(props) {
+
+    return (
+        <>
+
+        </>
+    );
+}
+
+
+function CV (props){
 
 }
 
@@ -130,7 +160,7 @@ export function Data(props){
     );
 }
 
-export function Info(props){
+export function InfoEtudiant(props){
 
 
     return(
@@ -155,7 +185,7 @@ export function Info(props){
                       info={props.etudiant.programme}
                   />
                   <Data
-                      header={"Addresse"}
+                      header={"Adresse"}
                       info={props.etudiant.adresse}
                   />
                   <Data

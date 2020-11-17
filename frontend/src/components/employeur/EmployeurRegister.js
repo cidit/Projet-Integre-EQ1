@@ -13,7 +13,7 @@ const formSchema = Yup.object().shape({
     nomEntreprise: Yup.string().required('Veuillez saisir un nom valide'),
     email: Yup.string()
         .required('Veuillez saisir un email valide')
-        .email("Courriel inavalide"),
+        .email("Courriel invalide"),
     password: Yup.string()
         .required("Veuillez saisir un password valide")
         .min(6, "doivent comprendre au moins 6 caractères."),
@@ -166,8 +166,7 @@ export default class EmployeurRegister extends Component {
                                             <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
                                                     <button type="submit"
-                                                            className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
-                                                            className="btn btn-primary"
+                                                            className={`btn btn-primary submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
                                                             disabled={isValidating || isSubmitting || !isValid}>Enregistrer
                                                     </button>
 

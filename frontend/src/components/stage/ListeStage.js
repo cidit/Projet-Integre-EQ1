@@ -1,17 +1,12 @@
-import React, {Component, useState} from 'react';
-import Button from 'react-bootstrap/Button'
-import {Col, Container, Modal, Row} from "react-bootstrap";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from '@material-ui/lab/Alert';
+import React, {Component} from 'react';
+
 import '../../css/StageVeto.css';
-import {createMuiTheme, Table, TableBody, TableContainer} from "@material-ui/core";
+import { Table, TableBody, TableContainer} from "@material-ui/core";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import StageService from "../../service/StageService";
-import Paper from "@material-ui/core/Paper";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import StageVeto from "../StageVeto";
 import {makeStyles} from "@material-ui/core/styles";
 
 export default class ListStagesComponent extends Component {
@@ -22,7 +17,6 @@ export default class ListStagesComponent extends Component {
             showSnackbar: false
         };
 
-        // ShowStage = ShowStage.bind(this);
         handleClick = handleClick.bind(this);
     }
 

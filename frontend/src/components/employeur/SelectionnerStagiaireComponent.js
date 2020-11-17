@@ -9,11 +9,10 @@ import {
     Paper,
     Table,
     TableRow,
-    Checkbox,
-    createMuiTheme
+    Checkbox
 } from "@material-ui/core";
 import GetAppIcon from '@material-ui/icons/GetApp';
-import {makeStyles, ThemeProvider} from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 
 
 export default class SelectionnerStagiaireComponent extends Component {
@@ -40,6 +39,8 @@ export default class SelectionnerStagiaireComponent extends Component {
     }
 
 
+
+
     // downloadCV (etudiant) {
     //     CVService.getCVByEtudiant(etudiant).then((data) => {
     //         const downloadUrl = window.URL.createObjectURL(new Blob([data]));
@@ -58,12 +59,8 @@ export default class SelectionnerStagiaireComponent extends Component {
 
         return (
             <div>
-                {/*<ThemeProvider theme={theme}>*/}
                     <h5 className="card-title text-center" >Liste des candidats</h5>
                     <CustomTable candidatures={this.state.candidatures}/>
-
-                    <button>Confirmer</button>
-                {/*</ThemeProvider>*/}
 
             </div>
         );
@@ -72,11 +69,7 @@ export default class SelectionnerStagiaireComponent extends Component {
 
 
 }
-// const theme = createMuiTheme({
-//     palette: {
-//         type: "dark",
-//     },
-// });
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -93,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
 
 function CustomTable(props){
     const classes = useStyles();
-    // const classes = Styles.GetStyle();
     const [selected, setSelected] = React.useState([]);
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
@@ -127,11 +119,27 @@ function CustomTable(props){
         setSelected(newSelected);
     };
 
+    function handleConfirmation(event){
+        event.preventDefault();
+        if (selected.length === 0) {
+            return;
+        }
+        for (let i = 0; i < selected.length; i++) {
+            CandidatureService.putCandidatureApprouve(selected[i]);
+
+        }
+        setTimeout(function() {
+            window.location.reload();
+        }, 500);
+    }
+
+
 
 
     function downloadCV (etudiant) {
-        CVService.getCVByEtudiant(etudiant).then((data) => {
-            const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+        CVService.getCVByEtudiant(etudiant).then((response) => {
+            console.log(etudiant)
+            const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = downloadUrl;
             link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
@@ -141,6 +149,7 @@ function CustomTable(props){
     }
 
     return(
+        <>
         <TableContainer component={Paper}>
             <Table className={classes.table}>
                 <TableHead>
@@ -180,7 +189,6 @@ function CustomTable(props){
                                         <TableCell padding="checkbox">
                                             <Checkbox
                                                 checked={isItemSelected}
-                                                // inputProps={{ 'aria-labelledby': labelId }}
                                             />
                                         </TableCell>
                                         <TableCell>{candidature.etudiant.prenom}</TableCell>
@@ -201,74 +209,77 @@ function CustomTable(props){
 
             </Table>
         </TableContainer>
-    );
+            <button onClick={handleConfirmation}>Confirmer</button>
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function OG(){
-    return(
-        <>
-            <div>
-                <div className="pt-3 mt-3">
-                    <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des candidats</h5>
-
-                    <div className="row">
-                        <table className="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th> Prenom </th>
-                                <th> Nom </th>
-                                <th> Programme </th>
-                                <th> Telecharger CV</th>
-                                <th> Telephone </th>
-                                <th> Email </th>
-                                <th> Adresse </th>
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {this.state.candidatures
-                                .filter(candidature => candidature.statut === "EN_ATTENTE")
-                                .map(
-                                    candidature =>
-                                        <tr key={candidature.id}>
-                                            <td>{candidature.etudiant.prenom}</td>
-                                            <td>{candidature.etudiant.nom}</td>
-                                            <td>{candidature.etudiant.programme}</td>
-                                            <td><button onClick={() => this.downloadCV(candidature.etudiant)} className="btn btn-primary">Telecharger</button></td>
-                                            <td>{candidature.etudiant.telephone}</td>
-                                            <td>{candidature.etudiant.email}</td>
-                                            <td>{candidature.etudiant.adresse}</td>
-
-                                            <td>
-                                                <button className="btn btn-primary" onClick={() => this.handleClick(candidature)}>
-                                                    Accepter
-                                                </button>
-                                            </td>
-                                        </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
         </>
     );
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function OG(){
+//     return(
+//         <>
+//             <div>
+//                 <div className="pt-3 mt-3">
+//                     <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des candidats</h5>
+//
+//                     <div className="row">
+//                         <table className="table table-striped table-bordered">
+//                             <thead>
+//                             <tr>
+//                                 <th> Prénom </th>
+//                                 <th> Nom </th>
+//                                 <th> Programme </th>
+//                                 <th> Télécharger CV</th>
+//                                 <th> Telephone </th>
+//                                 <th> Email </th>
+//                                 <th> Adresse </th>
+//
+//                             </tr>
+//                             </thead>
+//                             <tbody>
+//                             {this.state.candidatures
+//                                 .filter(candidature => candidature.statut === "EN_ATTENTE")
+//                                 .map(
+//                                     candidature =>
+//                                         <tr key={candidature.id}>
+//                                             <td>{candidature.etudiant.prenom}</td>
+//                                             <td>{candidature.etudiant.nom}</td>
+//                                             <td>{candidature.etudiant.programme}</td>
+//                                             <td><button onClick={() => this.downloadCV(candidature.etudiant)} className="btn btn-primary">Telecharger</button></td>
+//                                             <td>{candidature.etudiant.telephone}</td>
+//                                             <td>{candidature.etudiant.email}</td>
+//                                             <td>{candidature.etudiant.adresse}</td>
+//
+//                                             <td>
+//                                                 <button className="btn btn-primary" onClick={() => this.handleClick(candidature)}>
+//                                                     Accepter
+//                                                 </button>
+//                                             </td>
+//                                         </tr>
+//                                 )}
+//                             </tbody>
+//                         </table>
+//                     </div>
+//                 </div>
+//             </div>
+//         </>
+//     );
+// }
 

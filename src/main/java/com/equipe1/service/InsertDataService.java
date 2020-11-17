@@ -280,7 +280,6 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         stage1.setStatut(Stage.StageStatus.REFUSÉ);
-git add
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         set = new HashSet<>();

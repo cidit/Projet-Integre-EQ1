@@ -51,7 +51,7 @@ function App() {
           <Route path='/register' component={Register} />
           <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent}/>
-          <Route path='/stageVeto' component={StageVeto} />
+          {/*<Route path='/stageVeto' component={StageVeto} />*/}
           <Route path='/etudiant' component={HomeEtudiant} />
           <Route path='/offrestage' component={ApplicationStageComponent} />
           <Route path="/etudiants" component={ListEtudiantsComponent} />
@@ -91,14 +91,14 @@ const theme = createMuiTheme({
       light: "#ffbe49",
       dark: "#c55e00",
     },
-    type: "dark",
+    // type: "dark",
     action:{
         hover: "#ff8d0b",
         disabled: "#ac0505",
         selected :"#ffbe49"
     },
     background:{
-      table: "#624864"
+      table: "#8e8e8e"
     }
   }
 });
