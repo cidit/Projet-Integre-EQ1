@@ -263,7 +263,7 @@ export default function CreateQuestions(props) {
             { isSubmit &&
                 <ModalMessage
                     message={"Votre évaluation a été soumise avec succès. Merci pour votre soutien!"}
-                    redirect="/"
+                    redirect={props.redirect}
                     title="nouvelle évaluation" />
             }
 

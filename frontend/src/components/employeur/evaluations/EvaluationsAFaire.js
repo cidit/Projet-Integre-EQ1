@@ -9,7 +9,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { Alert } from '@material-ui/lab';
 import { useEffect, useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
-import CandidatureService from '../../service/CandidatureService';
+import CandidatureService from '../../../service/CandidatureService'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -17,9 +17,9 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
     },
     paper: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(3),
         margin: 'auto',
-        maxWidth: '70%',
+        maxWidth: '100%',
     },
     heading: {
         fontSize: theme.typography.pxToRem(18),
@@ -35,28 +35,28 @@ const useRowStyles = makeStyles({
         },
     },
 });
-export default function EvaluationMilieuHome() {
+export default function EvaluationsAFaire(props) {
     const classes = useStyles();
     const { params } = useRouteMatch();
     const [redirect, setRedirect] = useState(false)
     const [candidatures, setCandidatures] = useState([])
 
-    //defini origin du id
-
-
-
+  
     const goToEvaluation = () => {
         setRedirect(true);
     }
 
-    const getEtudiant = async () => {
-        const response = await CandidatureService.getCandidaturesByPremierMoisStage();
+    console.log("id desde a faire")
+    console.log(props.id)
+
+    const getCandidature = async () => {
+        const response = await CandidatureService.getCandidaturesAEvaluerParEmployeur(props.id);
         setCandidatures(response.data);
         console.log(response.data)
     }
 
     useEffect(() => {
-        getEtudiant()
+        getCandidature()
         return () => {
             setCandidatures([])
         }
@@ -69,16 +69,14 @@ export default function EvaluationMilieuHome() {
         )
     } else {
         return (
-            <Container>
+            <Paper className={classes.root}>
                 {candidatures &&
                     <TableContainer component={Paper}>
                         <Table aria-label="collapsible table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="left">Détails</TableCell>
-                                    <TableCell >Employeur</TableCell>
-                                    <TableCell >Étudiant prenom</TableCell>
-                                    <TableCell >Étudiant nom</TableCell>
+                                    <TableCell align="left" className='mr-10'>Détails</TableCell>
+                                    <TableCell >Étudiant </TableCell>
                                     <TableCell >Stage</TableCell>
                                     <TableCell >
                                         Évaluer
@@ -93,7 +91,7 @@ export default function EvaluationMilieuHome() {
                         </Table>
                     </TableContainer>
                 }
-            </Container>
+            </Paper>
         )
     }
 };
@@ -115,7 +113,9 @@ function Row(props) {
     }
 
     if (redirect) {
-        return <Redirect to={`/evaluationMilieuStage/${candidature.id}`} />
+        console.log("idetudiant")
+        console.log(candidature.etudiant.id)
+        return <Redirect to={`/evaluationStagiaire/${candidature.id}`} />
     }
     return (
 
@@ -126,9 +126,7 @@ function Row(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell >{row.stage.employeur.nom}</TableCell>
-                <TableCell >{row.etudiant.prenom}</TableCell>
-                <TableCell>{row.etudiant.nom}</TableCell>
+                <TableCell >{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
                 <TableCell >{row.stage.titre}</TableCell>
                 <TableCell ><button className="btn btn-primary" onClick={() => handleSelectCandidature(row)}>Commencer l'évaluation</button></TableCell>
             </TableRow>
@@ -137,28 +135,6 @@ function Row(props) {
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1} >
 
-                            {/* Employeur */}
-                            <Typography variant="h6" gutterBottom component="div" className="pt-3 text-info">
-                                Employeur
-                </Typography>
-                            <Table size="small" aria-label="purchases">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Email</TableCell>
-                                        <TableCell>Adresse</TableCell>
-                                        <TableCell align="right">Téléphone</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow >
-                                        <TableCell component="th" scope="row">
-                                            {row.stage.employeur.email}
-                                        </TableCell>
-                                        <TableCell>{row.stage.employeur.adresse}</TableCell>
-                                        <TableCell align="right">{row.stage.employeur.telephone}</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
 
                             {/* Etudiant */}
 
@@ -232,3 +208,4 @@ function AlertAucunContrat(isGestionnaire) {
       </div>
     </div>;
   }
+

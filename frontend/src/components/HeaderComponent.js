@@ -39,6 +39,7 @@ function EmployeurNav() {
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
             <Nav.Link href="/stages">Voir toutes les offres de stage</Nav.Link>
             <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
+            <Nav.Link href="/evaluationsEmployeur">Évaluations</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );

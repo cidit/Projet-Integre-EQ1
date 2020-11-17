@@ -1,7 +1,5 @@
-package com.equipe1.service;
+package com.equipe1.model;
 
-import com.equipe1.model.Commentaire;
-import com.equipe1.model.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

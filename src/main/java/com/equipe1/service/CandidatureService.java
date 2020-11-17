@@ -141,18 +141,6 @@ public class CandidatureService {
         return candidatureRepository.findByStatut(status);
     }
 
-
-    public List<Candidature> getListByDateStage() {
-        List<Candidature> candidatureBydateStage = new ArrayList<>();
-        for (Candidature c : candidatureRepository.findAll()) {
-            if (LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L))) {
-                candidatureBydateStage.add(c);
-            }
-            ;
-        }
-        return candidatureBydateStage;
-    }
-
     public Candidature convoqueEtudiantEntrevue(Long id){
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
         updatedCandidature.setEntrevueStatut(Candidature.CandidatureEntrevueStatut.CONVOQUE);
@@ -164,5 +152,35 @@ public class CandidatureService {
         updatedCandidature.setEntrevueStatut(Candidature.CandidatureEntrevueStatut.PASSEE);
         return candidatureRepository.save(updatedCandidature);
 
+    }
+
+    public List<Candidature> getListByDateStage() {
+        List<Candidature> candidatureBydateStage = new ArrayList<>();
+        for (Candidature c : candidatureRepository.findAll()) {
+            if (LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L)) && !c.isEvaluee()) {
+                candidatureBydateStage.add(c);
+            }
+        }
+        return candidatureBydateStage;
+    }
+
+    public List<Candidature> getListCandidatureByEmployeurToEvaluer(Long idEmployeur){
+        List<Candidature> candidatureByemployeur = new ArrayList<>();
+        for (Candidature c: getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)) {
+            if(employeurExiste(idEmployeur, c) && !c.isEvaluee() && isUneSemaineAvantLaFin(c)){
+                candidatureByemployeur.add(c);
+                System.out.println(c);
+            }
+        }
+        return candidatureByemployeur;
+    }
+
+    private boolean isUneSemaineAvantLaFin(Candidature c) {
+        var semaineAvantLafinStage = c.getStage().getDateFin().minusWeeks(2);
+        return LocalDate.now().isAfter(semaineAvantLafinStage);
+    }
+
+    private boolean employeurExiste(Long idEmployeur, Candidature c) {
+        return c.getStage().getEmployeur().getId() == idEmployeur;
     }
 }

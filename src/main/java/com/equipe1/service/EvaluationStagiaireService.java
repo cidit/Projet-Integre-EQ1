@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -24,6 +22,8 @@ public class EvaluationStagiaireService {
     private QuestionRepository questionRepository;
     @Autowired
     private CommentaireService commentaireService;
+    @Autowired
+    private CandidatureService candidatureService;
 
 
 
@@ -37,19 +37,25 @@ public class EvaluationStagiaireService {
     }
 
 
-    public EvaluationStagiaire saveEvaluation(RecepteurDonneesEvaluation receptorDonnesEvaluation, Long idEtudiant) {
-        Optional<Etudiant> etudiant = etudiantService.findEtudiantById(idEtudiant);
-        EvaluationStagiaire evaluationStagiaire = etudiant.get().getEvaluationStagiaire();
-        Commentaire commentaire =receptorDonnesEvaluation.getCommentaires();
+    public EvaluationStagiaire saveEvaluation(RecepteurDonneesEvaluation receptorDonnesEvaluation, Long idCandidature) {
+        Etudiant etudiant = new Etudiant();
+        Employeur employeur = new Employeur();
+        Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
 
+        if(candidature.isPresent()){
+            etudiant = candidature.get().getEtudiant();
+            employeur = candidature.get().getStage().getEmployeur();
+        }
+        EvaluationStagiaire evaluationStagiaire = etudiant.getEvaluationStagiaire();
+        Commentaire commentaire =receptorDonnesEvaluation.getCommentaires();
 
         if(evaluationStagiaire  == null){
             evaluationStagiaire = new EvaluationStagiaire();
+            evaluationStagiaire.setEmployeur(employeur);
             evaluationStagiaireRepository.save(evaluationStagiaire);
-            etudiant.get().setEvaluationStagiaire(evaluationStagiaire);
-            etudiantService.saveEtudiant(etudiant.get());
+            etudiant.setEvaluationStagiaire(evaluationStagiaire);
+            etudiantService.saveEtudiant(etudiant);
 
-            System.out.println(etudiant.get().getId() + " id " + evaluationStagiaire.getId() + " id evaluation inside if");
         }
 
         for (Question q: receptorDonnesEvaluation.getQuestions()) {
@@ -57,13 +63,9 @@ public class EvaluationStagiaireService {
             questionRepository.save(q);
             System.out.println(q);
         }
-
         commentaire.setEvaluation(evaluationStagiaire);
         commentaireService.saveCommentaire(receptorDonnesEvaluation.getCommentaires());
 
-
-//seter commentaires
-        //reformater optional
         return evaluationStagiaire;
 
     }

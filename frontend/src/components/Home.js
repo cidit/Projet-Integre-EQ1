@@ -5,6 +5,7 @@ import EvaluationStagiaire from '../components/evaluations/EvaluationStagiaire'
 import EvaluationMilieuStage from './evaluations/evaluationMilieuStage/EvaluationMilieuStage'
 import EvaluationMilieuHome from './enseignant/EvaluationMilieuHome'
 import ApreciationGlobaleStagiaire from '../components/evaluations/evaluationStagiaire/ApreciationGlobaleStagiaire'
+import EvaluationsHome from './employeur/evaluations/EvaluationsHome'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -17,7 +18,7 @@ export default class Home extends Component {
     render(){
         return(
            <div>
-          <EvaluationStagiaire/> 
+          {/* <EvaluationStagiaire/>  */}
           {/* <CreateQuestions/> */}
           {/* <EvaluationStagiaire/> */}
 
@@ -32,6 +33,8 @@ export default class Home extends Component {
           {/* pending */}
 
           {/* <ApreciationGlobaleStagiaire/> */}
+
+          {/* <EvaluationsHome/> */}
 
 
 

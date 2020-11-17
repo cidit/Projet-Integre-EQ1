@@ -5,6 +5,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import React, { useEffect, useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import photo from '../../images/photo-avatar-profil.png';
+import CandidatureService from '../../service/CandidatureService';
 import EtudiantService from '../../service/EtudiantService';
 
 
@@ -38,7 +39,8 @@ export default function EvaluationStagiaire() {
     }
 
     const getEtudiant = async () => {
-        const response = await EtudiantService.getEtudiantById(2);
+        const candidature = await CandidatureService.getById(params.id)
+        const response = await EtudiantService.getEtudiantById(candidature.etudiant.id);
         console.log(response)
         setEtudiant(response.data);
     }
@@ -52,7 +54,7 @@ export default function EvaluationStagiaire() {
 
 
     if (redirect) {
-        return <Redirect to={`/questionProductivite/${etudiant.id}`} />
+        return <Redirect to={`/questionProductivite/${params.id}`} />
     }
     return (
         <div>

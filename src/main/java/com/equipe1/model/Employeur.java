@@ -28,6 +28,10 @@ public class Employeur extends User{
     @OneToMany(mappedBy = "employeur")
     protected List<EvaluationMilieuStage> evaluationMilieuStage;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "employeur")
+    protected List<EvaluationStagiaire> evaluationStagiaires;
+
 
     public Employeur(String nom, String telephone, String adresse) {
         this.nom = nom;

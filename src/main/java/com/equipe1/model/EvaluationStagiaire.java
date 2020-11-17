@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @EqualsAndHashCode(callSuper = true)
@@ -20,6 +22,11 @@ public class EvaluationStagiaire extends Evaluation{
     @JsonIgnore
     @OneToOne(mappedBy = "evaluationStagiaire")
     private Etudiant etudiant;
+
+    @ToString.Exclude
+    @ManyToOne
+    @JoinColumn(name = "employeur_id")
+    private Employeur employeur;
 
 
 }

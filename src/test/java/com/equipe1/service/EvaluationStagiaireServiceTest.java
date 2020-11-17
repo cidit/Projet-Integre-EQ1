@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
@@ -28,6 +27,8 @@ class EvaluationStagiaireServiceTest {
     @MockBean
     private EtudiantService etudiantService;
     @MockBean
+    private CandidatureService candidatureService;
+    @MockBean
     private QuestionRepository questionRepository;
     @MockBean
     private CommentaireService commentaireService;
@@ -42,6 +43,9 @@ class EvaluationStagiaireServiceTest {
     private Commentaire commentaire;
     private RecepteurDonneesEvaluation receptorDonnesEvaluation;
     private Etudiant etudiant;
+    private Candidature candidature;
+    private Stage stage;
+    private Employeur employeur;
 
     @BeforeEach
     public void setUp() {
@@ -61,6 +65,10 @@ class EvaluationStagiaireServiceTest {
         commentaire = new Commentaire();
         commentaire.setEnnonce("commentaire a la question");
         commentaire.setSection("Productivite");
+
+        employeur = new Employeur();
+        stage = new Stage();
+        candidature = new Candidature();
 
         receptorDonnesEvaluation = new RecepteurDonneesEvaluation(Arrays.asList(q1,q2),commentaire);
         etudiant = new Etudiant();
@@ -85,6 +93,10 @@ class EvaluationStagiaireServiceTest {
     @Test
     void saveEvaluation() {
         etudiant.setEvaluationStagiaire(e);
+        stage.setEmployeur(employeur);
+        candidature.setStage(stage);
+        candidature.setEtudiant(etudiant);
+        when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature));
         when(etudiantService.findEtudiantById(1L)).thenReturn(Optional.of(etudiant));
         EvaluationStagiaire evaluation = evaluationStagiaireService.saveEvaluation(receptorDonnesEvaluation,1L);
         assertEquals(evaluation, e);

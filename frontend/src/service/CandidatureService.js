@@ -75,6 +75,10 @@ class CandidatureService{
         return await axios.get(baseURL +"/getByPremierMoisStage");
     }
 
+    async getCandidaturesAEvaluerParEmployeur(id) {
+        return await axios.get(baseURL +"/getListAEvaluer/"+id);
+    }
+
     async convoqueEtudiantEntrevue(id){
         return axios.put(baseURL + "/convoqueEtudiantEntrevue/" + id);
     }

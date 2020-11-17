@@ -35,8 +35,9 @@ import QuestionRelations from './components/evaluations/evaluationStagiaire/Ques
 import QuestionsHabilites from './components/evaluations/evaluationStagiaire/QuestionsHabilites'
 import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
 import ObservationsMilieuStage from './components/evaluations/evaluationMilieuStage/ObservationsMilieuStage'
-
+import EvaluationStagiaire from './/components/evaluations/EvaluationStagiaire'
 import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
+import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 
 
 
@@ -81,7 +82,9 @@ function App() {
           <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
           <Route path="/evaluationMilieuStage/:id" component={EvaluationMilieuStage}/>
           <Route path="/observationsMilieuStage/:id" component={ObservationsMilieuStage}/>
-
+          <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
+          <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
+          
           <Route path="/createSession" component={CreateSessionComponent}/>
 
         </Switch>

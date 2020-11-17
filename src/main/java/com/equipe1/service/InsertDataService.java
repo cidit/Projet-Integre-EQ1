@@ -249,7 +249,7 @@ public class InsertDataService {
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
         stage1.setDateDebut(LocalDate.of(2019,12,12));
-        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateFin(LocalDate.of(2020,11,10));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
         stage1.setProgramme("Techniques de l’informatique");
@@ -272,7 +272,7 @@ public class InsertDataService {
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
         stage1.setDateDebut(LocalDate.of(2019,12,12));
-        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateFin(LocalDate.of(2020,10,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
         stage1.setProgramme("Techniques de l’informatique");
@@ -295,7 +295,7 @@ public class InsertDataService {
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
         stage1.setDateDebut(LocalDate.of(2019,12,12));
-        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateFin(LocalDate.of(2020,10,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
         stage1.setProgramme("Techniques de l’informatique");
@@ -318,7 +318,7 @@ public class InsertDataService {
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
         stage1.setDateDebut(LocalDate.of(2019,12,12));
-        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateFin(LocalDate.of(2020,10,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
         stage1.setProgramme("Techniques de l’informatique");
@@ -391,8 +391,6 @@ public class InsertDataService {
         Question q1 = new Question();
         e.setDateCreation(LocalDate.now());
         evaluationStagiaireService.save(e);
-
-
 
         q1.setQuestion("enonce 1");
         q1.setReponse("reposnse question 1");
