@@ -1,22 +1,20 @@
 package com.equipe1.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Set;
+import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "sessions", callSuper = true)
 public class Etudiant extends User {
 
     {
-        this.desc = "Etudiant";
+        this.role = "Etudiant";
     }
 
     @NotBlank
@@ -36,9 +34,8 @@ public class Etudiant extends User {
     @OneToOne
     private CV cv;
 
-    @ManyToMany
-    @JsonIgnore
-    private Set<Session> sessions;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Session> session;
 
-    private boolean enregistre;
+    private boolean isEnregistre;
 }

@@ -1,21 +1,20 @@
 import React from 'react';
 import './App.css';
 
-import EtudiantRegister from "./components/EtudiantRegister";
 import Login from "./components/Login";
 import { Route, Switch } from 'react-router-dom';
 import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
-import HomeEtudiant from "./components/HomeEtudiant";
+import HomeEtudiant from "./components/etudiant/HomeEtudiant";
 import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
 import CreateStageComponent from './components/stage/CreateStageComponent';
 import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions';
 import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
 import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
-import ApplicationStageComponent from "./components/ApplicationStageComponent";
-import ListeCandidaturesEtudiantComponent from './components/ListeCandidaturesEtudiantComponent';
+import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
+import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandidaturesEtudiantComponent';
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
 import StageVeto from "./components/StageVeto";
 
@@ -27,9 +26,9 @@ import CreationContrat from './components/contrat/CreationContrat'
 import TeleverserContrat from './components/utils/TeleverserContrat'
 import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire";
 
-
 import StageComponent from "./components/stage/StageComponent";
 import ListeStage from "./components/stage/ListeStage";
+import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
 
 
 
@@ -42,7 +41,6 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/stages" component={ListStagesEmployeur}/>
-          <Route path='/create' component={EtudiantRegister} />
           <Route path='/login' component={Login} />
           <Route path='/register' component={Register} />
           <Route path='/logout' component={Logout} />
@@ -68,6 +66,9 @@ function App() {
           <Route path="/stage/:id" component={StageComponent}/>
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
+          <Route path="/createSession" component={CreateSessionComponent}/>
+
+
         </Switch>
       </main>
     

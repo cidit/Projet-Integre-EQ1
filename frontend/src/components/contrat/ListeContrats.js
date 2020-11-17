@@ -1,11 +1,8 @@
 import React from 'react';
 import Telecharger from '../utils/telecharger'
 import { Alert } from '@material-ui/lab';
-import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineCheckSquare, AiOutlineCloseSquare } from 'react-icons/ai';
+import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import ContratService from "../../service/ContratService";
-
-
-const url = 'http://localhost:8080/contrats/getContratFile/';
 
 function isListeVideEmployeur(props){
   const map = props.contrats.filter(data => data.signatureEmployeur == 'PAS_SIGNE' &&

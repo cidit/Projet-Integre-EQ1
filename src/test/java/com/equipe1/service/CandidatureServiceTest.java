@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
+@ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class CandidatureServiceTest {
@@ -56,6 +58,7 @@ public class CandidatureServiceTest {
     public void testSetUpCandidatures() {
         e1 = new Etudiant();
         e1.setId(2L);
+        e1.setEmail("richard@email.com");
         etudiantRepository.save(e1);
         c1 = new Candidature(e1, new Stage());
         c2 = new Candidature(new Etudiant(), new Stage());
@@ -72,10 +75,9 @@ public class CandidatureServiceTest {
         s.setTitre("TP");
 
         session = Session.builder()
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusMonths(6))
-                .etudiants(new HashSet<>())
-                .candidatures(new HashSet<>())
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
                 .build();
         sessionRepository.save(session);
     }
@@ -161,8 +163,7 @@ public class CandidatureServiceTest {
         when(candidatureRepository.save(c1)).thenReturn(c1);
         candidatureRepository.save(c1);
         when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
-        when(candidatureRepository.save(c2)).thenReturn(c2);
-        Candidature c3 = candidatureService.updateCandidatureApprouve(c2.getId());
+        Candidature c3 = candidatureService.updateCandidatureApprouve(c1.getId());
         // Assert
         assertEquals(c3.getStatut(), Candidature.CandidatureStatut.APPROUVE);
     }
@@ -170,8 +171,6 @@ public class CandidatureServiceTest {
     @Test
     public void testUpdateCandidatureChoisi() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
         c1.setId(1L);
         when(candidatureRepository.save(c1)).thenReturn(c1);
         candidatureRepository.save(c1);
@@ -186,30 +185,30 @@ public class CandidatureServiceTest {
     @Test
     public void testGetCandidatureChoisiValid() {
         // Arrange
-        doReturn(s).when(stageRepository).save(any());
-        doReturn(e).when(etudiantRepository).save(any());
-        doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
-        doReturn(Optional.of(e)).when(etudiantRepository).findById(e.getId());
-        doReturn(Optional.of(c)).when(candidatureRepository).findById(c.getId());
-        doReturn(c).when(candidatureRepository).save(any());
+        c1.setId(1L);
+        when(candidatureRepository.save(c1)).thenReturn(c1);
+        candidatureRepository.save(c1);
+        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
+        when(candidatureRepository.save(c2)).thenReturn(c2);
+        doReturn(Arrays.asList(c1)).when(candidatureRepository).findAll();
 
-        c.setStatut(Candidature.CandidatureStatut.CHOISI);
-        c.setEtudiant(e);
-        candidatureRepository.save(c);
-        session.getEtudiants().add(e);
-        session.getCandidatures().add(c);
         when(sessionRepository.save(session)).thenReturn(session);
-        sessionRepository.save(session);
-        when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
 
-        Candidature candidature = candidatureService.createCandidature(e.getId(), s.getId());
-        Candidature candidatureUpdated = candidatureService.updateCandidatureChoisi(candidature.getId());
+        List<Session> list = new ArrayList<>();
+        list.add(session);
+
+        e1.setSession(list);
+        doReturn(e1).when(etudiantRepository).save(e1);
+        doReturn(Optional.of(e1)).when(etudiantRepository).findById(e1.getId());
+        doReturn(e1).when(etudiantRepository).save(any());
+        etudiantRepository.save(e1);
+
+        Candidature candidatureUpdated = candidatureService.updateCandidatureChoisi(c1.getId());
         // Act
-        Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(e.getId());
+        Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(e1.getId());
         // Assert
-        assertEquals(candidatureUpdated.getStatut(), Candidature.CandidatureStatut.CHOISI);
-        assertTrue(optionalCandidature.isPresent());
-        assertEquals(optionalCandidature.get().getStatut(), Candidature.CandidatureStatut.CHOISI);
+        Assertions.assertTrue(optionalCandidature.isPresent());
     }
 
     @Test

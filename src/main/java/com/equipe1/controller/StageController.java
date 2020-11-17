@@ -25,6 +25,11 @@ public class StageController {
         return stageService.getStages();
     }
 
+    @GetMapping(value = "/getStagesSession")
+    public List<Stage> getStagesSessionEnCours(){
+        return stageService.getStagesSessionEnCours();
+    }
+
     @GetMapping("getStage")
     public Optional<Stage> getStage(@RequestParam("idStage") Long idStage){
         return stageService.findStageById(idStage);

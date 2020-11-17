@@ -1,30 +1,28 @@
 package com.equipe1.model;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class Session {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    private LocalDate startDate, endDate;
-
-    @ManyToMany
-    private Set<Etudiant> etudiants;
-
-    @OneToMany
-    private Set<Candidature> candidatures;
-
     private String nom;
+    private LocalDate dateDebut;
+    private boolean isCurrent;
+    public Session() {
+        this.isCurrent = true;
+    }
 }

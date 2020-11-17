@@ -1,10 +1,13 @@
 import React, {Component, useState} from 'react';
-import CandidatureService from "../service/CandidatureService";
+import CandidatureService from "../../service/CandidatureService";
 
 import Button from 'react-bootstrap/Button'
 import {Col, Container, Modal, Row} from "react-bootstrap";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from '@material-ui/lab/Alert';
+
+import { Redirect } from 'react-router-dom';
+import EtudiantService from "../../service/EtudiantService";
 
 export default class ListeCandidaturesEtudiantComponent extends Component {
     constructor(props) {
@@ -14,19 +17,31 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             employeurId: "",
             showSnackbar: false,
             disabledAllButtons: false,
+            readyToRedirect: false,
         };
 
         ShowCandidature = ShowCandidature.bind(this);
     }
 
     async componentDidMount() {
+
         var id;
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
+        
+        const response = await EtudiantService.isRegistered(id);
+        if(!response.data){
+            this.setState({
+              readyToRedirect: true
+            });
+        }
+
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
         var candidature = await CandidatureService.getCandidatureChoisi(id);
-        console.log(candidature);
+        
+        //console.log(candidature);
+        
         if (candidature !== null) {
             this.setState({ disabledAllButtons: true });
         }
@@ -37,6 +52,17 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
     handleDisableAll = () => this.setState({disabledAllButtons: true});
 
     render() {
+        
+        if (this.state.readyToRedirect) return <Redirect to="/etudiant" />
+        if (this.state.candidatures.length === 0){
+            return <div className="container">
+                <div className="row justify-content-md-center">
+                    <div className="col">
+                        <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez pas encore postulé à une offre de stage cette session.</Alert>
+                    </div>
+                </div>
+            </div>;
+        }
         return (
             <div className="container">
                 <div className="col">
@@ -67,7 +93,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                             <Snackbar open={this.state.showSnackbar} autoHideDuration={6000}
                                       onClose={this.handleCloseSnackbar}>
                                 <Alert onClose={this.handleCloseSnackbar} severity="success">
-                                    Changements effectués avec succès
+                                    Vous venez de confirmer votre stage.
                                 </Alert>
                             </Snackbar>
                         </div>

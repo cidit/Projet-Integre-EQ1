@@ -3,7 +3,6 @@ package com.equipe1.service;
 import com.equipe1.model.Candidature;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.Session;
-import com.equipe1.model.Stage;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.SessionRepository;
 import org.junit.jupiter.api.Assertions;
@@ -13,24 +12,29 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
+@ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class EtudiantServiceTest {
 
     @Autowired
     private EtudiantService service;
+
     @MockBean
     private CandidatureService candidatureService;
 
@@ -65,11 +69,11 @@ public class EtudiantServiceTest {
         c1 = new Candidature();
         c1.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
         c1.setEtudiant(e1);
+
         session = Session.builder()
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusMonths(6))
-                .etudiants(new HashSet<>())
-                .candidatures(new HashSet<>())
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
                 .build();
         sessionRepository.save(session);
     }
@@ -108,6 +112,8 @@ public class EtudiantServiceTest {
     @Test
     void testSaveEtudiant() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
         doReturn(e1).when(repository).save(any());
         // Act
         Etudiant etudiant = service.saveEtudiant(e1);
@@ -191,36 +197,59 @@ public class EtudiantServiceTest {
     @Test
     void testFindEtudiantByProgrammeFound() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        List<Session> list = new ArrayList<>();
+        list.add(session);
+
+        e1.setSession(list);
+        doReturn(e1).when(repository).save(e1);
+        repository.save(e1);
+
+        e2.setSession(list);
+        doReturn(e2).when(repository).save(e2);
+        repository.save(e2);
+
         doReturn(Arrays.asList(e1, e2)).when(repository).findAllByProgramme("Techniques de l’informatique");
         // Act
         List<Etudiant> etudiants = service.getEtudiantsByProgramme("Techniques de l’informatique");
         // Assert
         Assertions.assertNotNull(etudiants);
-        Assertions.assertEquals(etudiants.size(), 2);
+        Assertions.assertEquals(2, etudiants.size());
     }
 
     @Test
     void testFindEtudiantByProgrammeNotFound() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
         doReturn(null).when(repository).findAllByProgramme("RIEN");
+
         // Act
         List<Etudiant> etudiants = service.getEtudiantsByProgramme("RIEN");
         // Assert
-        Assertions.assertNull(etudiants);
+        Assertions.assertNotNull(etudiants);
+        Assertions.assertEquals(0, etudiants.size());
     }
 
     @Test
     void testRegisterEtudiant() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        List<Session> list = new ArrayList<>();
+        list.add(session);
+
         e1.setId(1L);
+        e1.setSession(list);
         doReturn(e1).when(repository).save(e1);
         doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
         repository.save(e1);
 
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
         // Act
-        Optional<Etudiant> optionalEtudiant = service.registerEtudiant(e1.getId());
+        Optional<Etudiant> optionalEtudiant = service.registerEtudiantSession(e1.getId());
         // Assert
         Assertions.assertTrue(optionalEtudiant.isPresent());
     }
@@ -228,15 +257,18 @@ public class EtudiantServiceTest {
     @Test
     void testIsEtudiantRegistered() {
         // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        List<Session> list = new ArrayList<>();
+        list.add(session);
+
         e1.setId(1L);
+        e1.setSession(list);
         doReturn(e1).when(repository).save(e1);
         doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
         repository.save(e1);
 
-        session.getEtudiants().add(e1);
-        when(sessionRepository.save(session)).thenReturn(session);
-        sessionRepository.save(session);
-        when(sessionRepository.findCurrentAccordingTo(LocalDate.now())).thenReturn(Optional.of(session));
         // Act
         boolean flag = service.isEtudiantRegistered(e1.getId());
         // Assert
