@@ -17,7 +17,4 @@ public class CommentaireService {
         return commentaireRepository.save(commentaire);
     }
 
-    public List<Commentaire> findAllCommentaires(){
-        return commentaireRepository.findAll();
-    }
 }

@@ -23,8 +23,5 @@ public class QuestionService {
         return  questionRepository.saveAll(questions);
     }
 
-    public List<Question> findByEvaluation(Evaluation evaluation) {
-        return  questionRepository.findByEvaluation(evaluation);
-    }
 
 }
