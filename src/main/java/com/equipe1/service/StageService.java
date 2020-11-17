@@ -1,6 +1,7 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
+import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -17,6 +18,9 @@ import java.util.Set;
 public class StageService {
     @Autowired
     private StageRepository stageRepository;
+
+    @Autowired
+    private CandidatureRepository candidatureRepository;
 
     @Autowired
     private EmployeurService employeurService;
@@ -44,7 +48,7 @@ public class StageService {
         for (Stage stageTemp : stageRepository.findAll()) {
             System.out.println("getEmployeur : " + stageTemp);
             System.out.println("employeurById : " + employeur);
-            if (stageTemp.getEmployeur().getId().equals(employeur.getId())) {
+            if (stageTemp.getEmployeur().getId() == employeur.getId()) {
                 stages.add(stageTemp);
             }
         }
@@ -55,21 +59,21 @@ public class StageService {
         List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(idEtudiant);
         List<Stage> stages = stageRepository.findAll();
         List<Stage> stagesResul = new ArrayList<>();
-        boolean isStageStudentCanApply;
+        boolean isStageStudentCanApply = false;
         for (Stage resultStage : stages) {
             isStageStudentCanApply = false;
-            for (Etudiant etudiant : resultStage.getEtudiantsAdmits()){
-                if(etudiant.getId().equals(idEtudiant)) {
+            for (Etudiant etudiant : resultStage.getEtudiantsAdmits()) {
+                if (etudiant.getId().equals(idEtudiant)) {
                     isStageStudentCanApply = true;
                     break;
                 }
             }
             for (Candidature resultCandidature : candidatures) {
-                if (resultStage.getId().equals(resultCandidature.getStage().getId())) {
+                if (resultStage.getId().equals(resultCandidature.getStage().getId()))
                     isStageStudentCanApply = false;
-                    break;
-                }
+                break;
             }
+
             if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.getStatut() == Stage.StageStatus.APPROVED)
                 stagesResul.add(resultStage);
         }
@@ -111,7 +115,7 @@ public class StageService {
         newStage.setOuvert(true);
 
         courrielService.sendSimpleMessage(new Courriel(newStage.getEmployeur().getEmail(),
-                env.getProperty("my.subject.stage"), env.getProperty("my.message.stageApprouve")),
+                        env.getProperty("my.subject.stage"), env.getProperty("my.message.stageApprouve")),
                 newStage.getEmployeur().getNom());
         return updateStage(newStage, id);
     }
@@ -140,14 +144,34 @@ public class StageService {
         List<Stage> stages = stageRepository.findAll();
         List<Stage> stagesApprouves = new ArrayList<>();
         for (Stage resultStage : stages) {
-            if (resultStage.getStatut() == Stage.StageStatus.APPROVED){
+            if (resultStage.getStatut() == Stage.StageStatus.APPROVED) {
                 stagesApprouves.add(resultStage);
             }
         }
         return stagesApprouves;
     }
 
+    public List<Stage> getStagesAyantAucunStagiaire() {
+        List<Stage> stages = stageRepository.findAll();
+        List<Stage> resultStages = new ArrayList<>();
+        for (Stage stage : stages) {
+            if (!hasStagiare(stage))
+                resultStages.add(stage);
+        }
+        return resultStages;
+    }
+
+    private boolean hasStagiare(Stage stage) {
+        List<Candidature> candidatures = candidatureService.findCandidatureByStage(stage.getId());
+        for (Candidature candidature : candidatures) {
+            if (candidature.getStatut().equals(Candidature.CandidatureStatut.CHOISI))
+                return true;
+        }
+        return false;
+    }
+
     public List<Stage> getByStatutWaiting() {
         return stageRepository.getByStatut(Stage.StageStatus.WAITING);
     }
+
 }
