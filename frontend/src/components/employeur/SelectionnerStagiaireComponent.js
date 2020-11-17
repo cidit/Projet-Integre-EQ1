@@ -29,9 +29,8 @@ export default class SelectionnerStagiaireComponent extends Component {
 
     async componentDidMount() {
         // const { data: candidatures } = await CandidatureService.getByStage(this.props.match.params.id);
-        const { data: candidatures } = await CandidatureService.getByStage(this.props.id);
+        const { data: candidatures } = await CandidatureService.getByStage(this.props.match.params.id);
         this.setState({ candidatures });
-        console.log(this.state.candidatures)
     }
 
     accepteCandidature(candidature){
@@ -43,6 +42,7 @@ export default class SelectionnerStagiaireComponent extends Component {
     }
 
     convoqueEtudiantEntrevue(candidature) {
+        console.log(candidature.id)
         CandidatureService.convoqueEtudiantEntrevue(candidature.id);
         this.setState({});
     }
@@ -126,6 +126,14 @@ function CustomTable(props){
         setSelected(newSelected);
     };
 
+    function convoqueEtudiantEntrevue(candidature) {
+        console.log(candidature.id)
+        CandidatureService.convoqueEtudiantEntrevue(candidature.id);
+        setTimeout(function() {
+            window.location.reload();
+        }, 500);
+    }
+
     function handleConfirmation(event){
         event.preventDefault();
         if (selected.length === 0) {
@@ -157,7 +165,7 @@ function CustomTable(props){
             return <p>Entrevue passeé </p>
         return(
             <div>
-                <button className="btn btn-primary" onClick={() => this.convoqueEtudiantEntrevue(candidature)}>Convoquer</button>
+                <button className="btn btn-primary" onClick={() => convoqueEtudiantEntrevue(candidature)}>Convoquer</button>
             </div>
         )
 
@@ -183,6 +191,8 @@ function CustomTable(props){
                         <TableCell>Email</TableCell>
                         <TableCell>Adresse</TableCell>
                         <TableCell>Convoquer pour entrevue</TableCell>
+                        <TableCell>Accepter stagiaire</TableCell>
+
 
                     </TableRow>
                 </TableHead>

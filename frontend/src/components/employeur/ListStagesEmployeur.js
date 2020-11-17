@@ -74,7 +74,7 @@ export default class ListStagesEmployeur extends Component {
                                                 <td>{stage.nbHeuresParSemaine}</td>
                                                 <td>{stage.statut}</td>
                                                 <td>
-                                                    {stage.statut === 'APPROVED' ? <button className="btn btn-primary" onClick={() => this.handleClick(stage.id)} >
+                                                    {stage.statut === 'APPROUVÉ' ? <button className="btn btn-primary" onClick={() => this.handleClick(stage.id)} >
                                                         Choisir
                                                     </button> : <p>Stage non approuvé</p> }
 

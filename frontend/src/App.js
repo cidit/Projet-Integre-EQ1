@@ -34,6 +34,7 @@ import {ThemeProvider} from "@material-ui/core/styles";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 
 import RapportComponent from "./components/gestionnaire/RapportComponent";
+import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
 
 function App() {
   return (
@@ -72,6 +73,8 @@ function App() {
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
           <Route path="/createSession" component={CreateSessionComponent}/>
+          <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
+
 
           <Route path="/rapport" component={RapportComponent}/>
         </Switch>

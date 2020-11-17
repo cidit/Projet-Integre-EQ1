@@ -15,7 +15,7 @@ export default class ListEtudiantsComponent extends Component {
         CVService.updateCVStatus(isValid, id);
         window.location.reload();
     }
-    renderColonneApprobation(etudiant){
+    renderColonneApprobationCV(etudiant){
         if (etudiant.cv === null){
             return <p> Pas de CV</p>
         }
@@ -57,6 +57,10 @@ export default class ListEtudiantsComponent extends Component {
     async componentDidMount() {
             const { data: etudiants } = await EtudiantService.getEtudiants();
             this.setState({ etudiants });
+    }
+
+    voirCandidatures(id){
+        this.props.history.push('/candidaturesGestionnaire/' + id);
     }
 
     render() {
@@ -101,10 +105,11 @@ export default class ListEtudiantsComponent extends Component {
                                 <th> Programme </th>
                                 <th> Courriel </th>
                                 <th> Téléphone </th>
-                                <th> Enregistré a la session en cours</th>
+                                <th> Enregistré à la session en cours</th>
                                 <th> Statut </th>
                                 <th> Télécharger son CV</th>
                                 <th> État du CV</th>
+                                <th> Voir candidatures</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -130,11 +135,11 @@ export default class ListEtudiantsComponent extends Component {
                                                 : <p>Pas de CV</p>}<br/>
                                         </td>
                                         <td>
-                                            {this.renderColonneApprobation(etudiant)}
-
-
+                                            {this.renderColonneApprobationCV(etudiant)}
 
                                         </td>
+                                        <td><button onClick={() => this.voirCandidatures(etudiant.id)} className="btn btn-primary">Voir candidatures</button></td>
+
 
                                     </tr>
                             )}
