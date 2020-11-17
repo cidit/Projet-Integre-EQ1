@@ -108,16 +108,14 @@ function Row(props) {
     const [isCandidatureValide, setIsCandidatureValide] = useState(false);
     const classes = useRowStyles();
     const [redirect, setRedirect] = useState(false);
+
+
     const handleSelectCandidature = (_row) => {
         setCandidature(_row);
         setRedirect(true);
     }
 
-
-
     if (redirect) {
-        //CreationContrat(candidature)
-
         return <Redirect to={`/evaluationMilieuStage/${candidature.id}`} />
     }
     return (

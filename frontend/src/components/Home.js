@@ -16,7 +16,7 @@ export default class Home extends Component {
     render(){
         return(
            <div>
-          {/* <EvaluationStagiaire/> */}
+          <EvaluationStagiaire/> 
           {/* <CreateQuestions/> */}
           {/* <EvaluationStagiaire/> */}
 
@@ -24,7 +24,7 @@ export default class Home extends Component {
 
           {/* <EvaluationMilieuStage/> */}
 
-          <EvaluationMilieuHome/>
+          {/* <EvaluationMilieuHome/> */}
 
 
 

@@ -58,6 +58,12 @@ const evaluationMilieuStage = [
     { id: "9", question: 'Le volume de travail est acceptable.' },
 ];
 
+const observationsGenerales = [
+    { id: "10", question: 'Ce milieu est à privilégier pour quel stage' },
+    { id: "11", question: 'Ce milieu est ouvert à accueillir combien d’etudiants'},
+    { id: "12", question: 'Ce milieu désire accueillir le même stagiaire pour un prochain stage'},
+    { id: "13", question: 'Ce milieu offre des quarts de travail variables'},
+]
 
 
 export default function useSetQuestions(id) {
@@ -68,6 +74,7 @@ export default function useSetQuestions(id) {
     const [relationsQuestions, setRelationsQuestions] = useState(relationsQuestionsList);
     const [habilitesQuestions, setHabilitesQuestions] = useState(habilitesPersoQuestionsList);
     const [evaluationMilieuStageQuestions, setEvaluationMilieuStageQuestions] = useState(evaluationMilieuStage)
+    const [observationsGeneralesQuestions, setObservationsGeneralesQuestions] = useState(observationsGenerales)
 
 
     console.log("render")
@@ -79,6 +86,7 @@ export default function useSetQuestions(id) {
         relationsQuestions,
         habilitesQuestions,
         optionsReponse,
-        evaluationMilieuStageQuestions
+        evaluationMilieuStageQuestions,
+        observationsGeneralesQuestions
     }
 }

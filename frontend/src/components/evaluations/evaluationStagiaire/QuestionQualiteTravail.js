@@ -15,6 +15,10 @@ export default function QuestionQualiteTravail(props) {
     return <Redirect to={"/questionRelations"} />
   }
     return (
-        <CreateQuestions questions= {qualiteTravailQuestions}  field={"Qualité du travail"} continuer={goToRelations}/>
+        <CreateQuestions questions= {qualiteTravailQuestions}  
+        field={"Qualité du travail"} 
+        continuer={goToRelations} 
+        titre ={"2. QUALITÉ DU TRAVAIL"} 
+        sousTitre={"Capacité de s’acquitter des tâches sous sa responsabilité en s’imposant personnellement des normes de qualité"}/>
       )
 }

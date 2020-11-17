@@ -15,6 +15,7 @@ export default function QuestionProductivite(props) {
     return <Redirect to={"/questionQualiteTravail"} />
   }
   return (
-    <CreateQuestions questions={productiviteQuestions} field={"Productivité"} continuer={goToQualiteTravail} />
+    <CreateQuestions questions={productiviteQuestions} field={"Productivité"} continuer={goToQualiteTravail} 
+    titre ={"1. PRODUCTIVITÉ"} sousTitre={"Capacité d’optimiser son rendement au travail"}/>
   )
 }

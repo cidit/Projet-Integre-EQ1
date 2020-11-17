@@ -24,7 +24,7 @@ export default function AlertDialog(props) {
 
     };
 
-
+console.log("desde modal")
 if(redirect) {
     //CreationContrat(candidature)
  

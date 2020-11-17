@@ -30,10 +30,10 @@ export default function EvaluationStagiaire() {
     const [etudiant, setEtudiant] = useState('')
 
     //defini origin du id
-    
 
 
-    const goToEvaluation=()=>{
+
+    const goToEvaluation = () => {
         setRedirect(true);
     }
 
@@ -50,16 +50,19 @@ export default function EvaluationStagiaire() {
     }, [])
 
 
-    if(redirect) {
+    if (redirect) {
         return <Redirect to={`/questionProductivite/${etudiant.id}`} />
-    } 
+    }
     return (
         <div>
             <Paper className={classes.paper} width="75%">
                 <Typography className={classes.heading} align='center'>
                     FICHE D’ÉVALUATION DU STAGIAIRE
               </Typography>
-                <Avatar alt={etudiant.nom} src={photo} className={classes.large} />
+              <div className='row justify-content-md-center p-4'>
+              <Avatar alt={etudiant.nom} src={photo} className={classes.large} />
+              </div>
+               
                 <Typography variant="h4" align='center'>{etudiant.prenom} {etudiant.nom}</Typography>
                 <Typography variant="subtitle2" align='center'>{etudiant.programme} </Typography>
                 <br></br>
@@ -69,23 +72,45 @@ export default function EvaluationStagiaire() {
                  </Typography>
                 <br></br>
 
-                <Grid container spacing={3}>
-                    <Grid item xs={3}>
-                        <Paper className={classes.paper}>Téléphone</Paper>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Paper className={classes.paper}>{etudiant.telephone}</Paper>
-                    </Grid>
-                </Grid>
+
+                <div className='row '>
+                    <div className='col '>
+                        <Typography variant="subtitle2" align='right'>Téléphone :</Typography>
+                    </div>
+                    <div className='col'>
+                        <Typography variant="subtitle2" align='left'>{etudiant.telephone}</Typography>
+                    </div>
+                </div>
+                
+                <div className='row'>
+                    <div className='col'>
+                        <Typography variant="subtitle2" align='right'>Adresse :</Typography>
+                    </div>
+                    <div className='col'>
+                        <Typography variant="subtitle2" align='left'>{etudiant.adresse}</Typography>
+                    </div>
+                </div>
+
+                <div className='row'>
+                    <div className='col'>
+                        <Typography variant="subtitle2" align='right'>Email :</Typography>
+                    </div>
+                    <div className='col'>
+                        <Typography variant="subtitle2" align='left'>{etudiant.email}</Typography>
+                    </div>
+                </div>
+               
+
+
                 <Grid container justify="center" >
-                <Button variant="contained" color="primary" className='m-3' onClick={goToEvaluation}>
-                    Commmencer l'évaluation
+                    <Button variant="contained" color="primary" className='m-3' onClick={goToEvaluation}>
+                        Commmencer l'évaluation
                 </Button>
-            </Grid>
+                </Grid>
             </Paper>
 
 
-           
+
         </div>
 
 
