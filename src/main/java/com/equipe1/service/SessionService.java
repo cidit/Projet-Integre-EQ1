@@ -1,30 +1,43 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Etudiant;
 import com.equipe1.model.Session;
+import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SessionService {
 
     @Autowired
     private SessionRepository sessionRepository;
-
-    public Session getCurrent() {
-        return sessionRepository.findCurrentAccordingTo(LocalDate.now()).get();
-    }
+    @Autowired
+    private EtudiantRepository etudiantRepository;
 
     public List<Session> getAll() {
         return sessionRepository.findAll();
     }
 
-    public void update(Session session) { sessionRepository.save(session); }
+    public Session create(Session session) {
+        session.setDateDebut(LocalDate.now());
+        Optional<Session> lastSession = sessionRepository.findCurrentSession();
+        List<Etudiant> etudiants =  etudiantRepository.findAll();
+        if (!lastSession.isEmpty()){
+            lastSession.get().setCurrent(false);
+            sessionRepository.save(lastSession.get());
+        }
 
-    public void delete(long id) {
-        sessionRepository.deleteById(id);
+        for(Etudiant etudiant : etudiants){
+            etudiant.setEnregistre(false);
+            etudiantRepository.save(etudiant);
+        }
+        return sessionRepository.save(session);
     }
+
+    public Optional<Session> findCurrentSession() { return sessionRepository.findCurrentSession(); };
 }

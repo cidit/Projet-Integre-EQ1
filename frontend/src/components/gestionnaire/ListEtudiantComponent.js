@@ -53,7 +53,7 @@ export default class ListEtudiantsComponent extends Component {
         console.log(event.target.value)
         this.setState({ statut: event.target.value });
     };
-    
+
     async componentDidMount() {
             const { data: etudiants } = await EtudiantService.getEtudiants();
             this.setState({ etudiants });
@@ -101,6 +101,7 @@ export default class ListEtudiantsComponent extends Component {
                                 <th> Programme </th>
                                 <th> Courriel </th>
                                 <th> Téléphone </th>
+                                <th> Enregistré a la session en cours</th>
                                 <th> Statut </th>
                                 <th> Télécharger son CV</th>
                                 <th> État du CV</th>
@@ -119,6 +120,10 @@ export default class ListEtudiantsComponent extends Component {
                                         <td>{etudiant.programme}</td>
                                         <td>{etudiant.email}</td>
                                         <td>{etudiant.telephone}</td>
+                                        <td>
+                                            {etudiant.enregistre ?<p>Oui</p>
+                                                : <p>Non</p>}
+                                        </td>
                                         <td>{etudiant.statutStage}</td>
                                         <td>
                                             {etudiant.cv != null ?<button onClick={() => this.downloadCV(etudiant)} className="btn btn-primary">Télécharger</button>

@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import '../../App.css';
-import '../../css/Register.css';
-import EmployeurService from "../../service/EmployeurService";
+import EmployeurService from "../service/EmployeurService";
 import {Formik, Field, Form, ErrorMessage} from "formik";
 import * as Yup from 'yup';
-import UserService from "../../service/UserService";
+import UserService from "../service/UserService";
 
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{2,4}?[ \\-]*[0-9]{2,4}?$/;

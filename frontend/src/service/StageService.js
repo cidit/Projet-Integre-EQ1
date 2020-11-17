@@ -11,6 +11,10 @@ class StageService{
         return axios.get(STAGES_URL + "/findAll");
     }
 
+    getStagesSession(){
+        return axios.get(STAGES_URL + "/getStagesSession");
+    }
+
     getStagesApprouves(){
         return axios.get(STAGES_URL + "/approuves");
     }
