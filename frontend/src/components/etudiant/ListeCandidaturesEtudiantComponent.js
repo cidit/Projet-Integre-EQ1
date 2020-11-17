@@ -78,6 +78,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                     <th> Statut </th>
                                     <th> Programme </th>
                                     <th> Ville </th>
+                                    <th> Confirmer entrevue </th>
                                     <th> Confirmer choix </th>
                                 </tr>
                                 </thead>
@@ -120,6 +121,29 @@ function ShowCandidature(props) {
         document.getElementsByName(approuved)[0].disabled = isApprouved
     }
 
+    function entrevuePasseeConfirmation(candidature){
+        console.log(candidature.id)
+        CandidatureService.entrevuePasseeConfirmation(candidature.id);
+        setTimeout(function() {
+            window.location.reload();
+        }, 500);
+    }
+
+
+    function renderColonneEntrevue(candidature){
+        if (candidature.entrevueStatut === 'PAS_CONVOQUE')
+            return <p>Pas convoqué</p>
+        if (candidature.entrevueStatut === 'PASSEE')
+            return <p>Entrevue passeé </p>
+        return(
+            <div>
+                <button className="btn btn-primary" onClick={(event) =>  entrevuePasseeConfirmation(candidature)}>Confirmer entrevue
+                </button>
+            </div>
+        )
+
+    }
+
     async function handleClick(event) {
         event.preventDefault();
 
@@ -145,6 +169,10 @@ function ShowCandidature(props) {
             </td>
             <td>{props.candidature.stage.programme}</td>
             <td>{props.candidature.stage.ville}</td>
+            <td>
+                {renderColonneEntrevue(props.candidature)}
+            </td>
+
             <td>
                 <Button onClick={handleShowModal}
                         disabled={props.candidature.statut === "REFUSE" 

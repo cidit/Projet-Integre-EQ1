@@ -221,4 +221,33 @@ public class CandidatureServiceTest {
         // Assert
         assertFalse(optionalCandidature.isPresent());
     }
+
+    @Test
+    public void testConvoqueEtudiantEntrevue() {
+        // Arrange
+        c1.setId(1L);
+        when(candidatureRepository.save(c1)).thenReturn(c1);
+        candidatureRepository.save(c1);
+        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
+        when(candidatureRepository.save(c2)).thenReturn(c2);
+        // Act
+        Candidature candidature = candidatureService.convoqueEtudiantEntrevue(1L);
+        // Assert
+        assertEquals(candidature.getEntrevueStatut(), Candidature.CandidatureEntrevueStatut.CONVOQUE);
+    }
+
+    @Test
+    public void testEntrevuePasseeConfirmation() {
+        // Arrange
+        c1.setId(1L);
+        when(candidatureRepository.save(c1)).thenReturn(c1);
+        candidatureRepository.save(c1);
+        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
+        when(candidatureRepository.save(c2)).thenReturn(c2);
+        // Act
+        Candidature candidature = candidatureService.entrevuePasseeConfirmation(1L);
+        // Assert
+        assertEquals(candidature.getEntrevueStatut(), Candidature.CandidatureEntrevueStatut.PASSEE);
+    }
+
 }

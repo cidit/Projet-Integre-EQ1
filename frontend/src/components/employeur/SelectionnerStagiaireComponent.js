@@ -1,13 +1,27 @@
 import React, {Component} from "react";
 import CandidatureService from "../../service/CandidatureService";
-import axios from "axios";
 import CVService from "../../service/CVService";
 
 export default class SelectionnerStagiaireComponent extends Component {
     constructor(props) {
         super(props);
         this.state = { candidatures: [] };
-        this.handleClick = this.handleClick.bind(this);
+        this.accepteCandidature = this.accepteCandidature.bind(this);
+        this.convoqueEtudiantEntrevue = this.convoqueEtudiantEntrevue.bind(this);
+
+
+    }
+
+    renderColonneEntrevue(candidature){
+        if (candidature.entrevueStatut === 'CONVOQUE')
+            return <p>Convoqué</p>
+        if (candidature.entrevueStatut === 'PASSEE')
+            return <p>Entrevue passeé </p>
+        return(
+            <div>
+                <button className="btn btn-primary" onClick={() => this.convoqueEtudiantEntrevue(candidature)}>Convoquer</button>
+            </div>
+        )
 
     }
 
@@ -17,8 +31,16 @@ export default class SelectionnerStagiaireComponent extends Component {
 
     }
 
-    handleClick(candidature){
+    accepteCandidature(candidature){
         CandidatureService.putCandidatureApprouve(candidature.id);
+        this.setState({});
+        setTimeout(function() {
+            window.location.reload();
+        }, 500);
+    }
+
+    convoqueEtudiantEntrevue(candidature){
+        CandidatureService.convoqueEtudiantEntrevue(candidature.id);
         this.setState({});
         setTimeout(function() {
             window.location.reload();
@@ -55,6 +77,9 @@ export default class SelectionnerStagiaireComponent extends Component {
                                 <th> Telephone </th>
                                 <th> Email </th>
                                 <th> Adresse </th>
+                                <th> </th>
+                                <th> </th>
+
 
                             </tr>
                             </thead>
@@ -71,11 +96,11 @@ export default class SelectionnerStagiaireComponent extends Component {
                                             <td>{candidature.etudiant.telephone}</td>
                                             <td>{candidature.etudiant.email}</td>
                                             <td>{candidature.etudiant.adresse}</td>
-
                                             <td>
-                                                <button className="btn btn-primary" onClick={() => this.handleClick(candidature)}>
-                                                    Accepter
-                                                </button>
+                                                {this.renderColonneEntrevue(candidature)}
+                                            </td>
+                                            <td>
+                                                <button className="btn btn-primary" onClick={() => this.accepteCandidature(candidature)}>Accepter</button>
                                             </td>
                                         </tr>
                                 )}

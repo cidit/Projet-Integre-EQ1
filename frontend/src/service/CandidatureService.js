@@ -69,6 +69,15 @@ class CandidatureService{
     async getCandidaturesChoisis() {
         return await axios.get(baseURL +"/getAllChoisis");
     }
+
+    async convoqueEtudiantEntrevue(id){
+        return axios.put(baseURL + "/convoqueEtudiantEntrevue/" + id);
+    }
+
+    async entrevuePasseeConfirmation(id){
+        console.log(id)
+        return axios.put(baseURL + "/entrevuePasseeConfirmation/" + id);
+    }
 }
 
 export default new CandidatureService()
