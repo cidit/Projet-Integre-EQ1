@@ -34,6 +34,7 @@ import QuestionProductivite from './components/evaluations/evaluationStagiaire/Q
 import QuestionQualiteTravail from './components/evaluations/evaluationStagiaire/QuestionQualiteTravail'
 import QuestionRelations from './components/evaluations/evaluationStagiaire/QuestionRelations'
 import QuestionsHabilites from './components/evaluations/evaluationStagiaire/QuestionsHabilites'
+import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
 
 
 function App() {
@@ -75,6 +76,7 @@ function App() {
           <Route path="/questionQualiteTravail" component={QuestionQualiteTravail}/>
           <Route path="/questionRelations" component={QuestionRelations}/>
           <Route path="/questionsHabilites" component={QuestionsHabilites}/>
+          <Route path="/evaluationMilieuStage/:id" component={EvaluationMilieuStage}/>
         </Switch>
       </main>
     

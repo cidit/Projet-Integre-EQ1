@@ -7,8 +7,6 @@ export default function QuestionProductivite(props) {
   const { productiviteQuestions } = useSetQuestions();
   const [redirect, setRedirect] = useState(false)
 
-  console.log(productiviteQuestions)
-
   const goToQualiteTravail = () => {
     setRedirect(true);
   }
@@ -17,6 +15,6 @@ export default function QuestionProductivite(props) {
     return <Redirect to={"/questionQualiteTravail"} />
   }
   return (
-    <CreateQuestions questions={productiviteQuestions} fied={"Productivité"} continuer={goToQualiteTravail} />
+    <CreateQuestions questions={productiviteQuestions} field={"Productivité"} continuer={goToQualiteTravail} />
   )
 }

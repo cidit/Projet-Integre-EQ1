@@ -7,8 +7,7 @@ export default function QuestionRelations() {
     const { relationsQuestions } = useSetQuestions();
     const [redirect, setRedirect] = useState(false)
   
-   
-  
+
     const goToHabilites = () => {
       setRedirect(true);
     }
@@ -17,6 +16,6 @@ export default function QuestionRelations() {
       return <Redirect to={"/questionsHabilites"} />
     }
       return (
-          <CreateQuestions questions= {relationsQuestions}  fied={"Qualité des relations interpersonnelles"} continuer={goToHabilites} isAvantDerniere = {true}/>
+          <CreateQuestions questions= {relationsQuestions}  field={"Qualité des relations interpersonnelles"} continuer={goToHabilites} isAvantDerniere = {true}/>
         )
 }

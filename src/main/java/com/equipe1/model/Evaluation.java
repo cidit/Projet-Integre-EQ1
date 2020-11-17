@@ -23,6 +23,10 @@ public class Evaluation {
     @OneToMany(mappedBy = "evaluation")
     protected List<Question> questions;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "evaluation")
+    protected List<Commentaire> commentaires;
+
     protected LocalDate dateCreation;
 
     //@ManyToOne

@@ -15,6 +15,6 @@ export default function QuestionQualiteTravail(props) {
     return <Redirect to={"/questionRelations"} />
   }
     return (
-        <CreateQuestions questions= {qualiteTravailQuestions}  fied={"Qualité du travail"} continuer={goToRelations}/>
+        <CreateQuestions questions= {qualiteTravailQuestions}  field={"Qualité du travail"} continuer={goToRelations}/>
       )
 }

@@ -1,22 +1,31 @@
-import { Container } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
+import React from "react";
+import { Container, makeStyles, Paper } from '@material-ui/core';
+
+
+import {Typography,TableRow,TableHead ,TableContainer,Table,
+        TableCell,TableBody,IconButton, Collapse, Box} from '@material-ui/core';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { Alert } from '@material-ui/lab';
-import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import ContratService from '../../service/ContratService';
+import { useEffect, useState } from "react";
+import { Redirect, useRouteMatch } from "react-router-dom";
+import CandidatureService from '../../service/CandidatureService';
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '100%',
+    },
+    paper: {
+        padding: theme.spacing(2),
+        margin: 'auto',
+        maxWidth: '70%',
+    },
+    heading: {
+        fontSize: theme.typography.pxToRem(18),
+        fontWeight: theme.typography.fontWeightRegular,
+    },
+}));
 
 const useRowStyles = makeStyles({
     root: {
@@ -26,30 +35,42 @@ const useRowStyles = makeStyles({
         },
     },
 });
+export default function EvaluationMilieuHome() {
+    const classes = useStyles();
+    const { params } = useRouteMatch();
+    const [redirect, setRedirect] = useState(false)
+    const [candidatures, setCandidatures] = useState([])
 
-export default function ListCandidatureChoisi() {
-    const [candidaturesChoisis, setCandidaturesChoisis] = useState([]);
+    //defini origin du id
 
-    const getCandidaturesChoisis = async () => {
-        const response = await ContratService.getCandidaturesSansContrat();
-        setCandidaturesChoisis(response.data);
+
+
+    const goToEvaluation = () => {
+        setRedirect(true);
+    }
+
+    const getEtudiant = async () => {
+        const response = await CandidatureService.getCandidaturesByPremierMoisStage();
+        setCandidatures(response.data);
+        console.log(response.data)
     }
 
     useEffect(() => {
-        getCandidaturesChoisis();
+        getEtudiant()
         return () => {
-            setCandidaturesChoisis([]);
+            setCandidatures([])
         }
-    }, []);
+    }, [])
 
-    if (candidaturesChoisis.length === 0) {
+
+    if (candidatures.length === 0) {
         return (
             AlertAucunContrat(true)
         )
     } else {
         return (
             <Container>
-                {candidaturesChoisis &&
+                {candidatures &&
                     <TableContainer component={Paper}>
                         <Table aria-label="collapsible table">
                             <TableHead>
@@ -60,12 +81,13 @@ export default function ListCandidatureChoisi() {
                                     <TableCell >Étudiant nom</TableCell>
                                     <TableCell >Stage</TableCell>
                                     <TableCell >
-                                        Générer un contrat
+                                        Évaluer
+
                                 </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {candidaturesChoisis.map((row) => (
+                                {candidatures.map((row) => (
                                     <Row key={row.id} row={row} />
                                 ))}
                             </TableBody>
@@ -86,8 +108,6 @@ function Row(props) {
     const [isCandidatureValide, setIsCandidatureValide] = useState(false);
     const classes = useRowStyles();
     const [redirect, setRedirect] = useState(false);
-
-
     const handleSelectCandidature = (_row) => {
         setCandidature(_row);
         setRedirect(true);
@@ -98,7 +118,7 @@ function Row(props) {
     if (redirect) {
         //CreationContrat(candidature)
 
-        return <Redirect to={`/CreationContrat/${candidature.id}`} />
+        return <Redirect to={`/evaluationMilieuStage/${candidature.id}`} />
     }
     return (
 
@@ -113,7 +133,7 @@ function Row(props) {
                 <TableCell >{row.etudiant.prenom}</TableCell>
                 <TableCell>{row.etudiant.nom}</TableCell>
                 <TableCell >{row.stage.titre}</TableCell>
-                <TableCell ><button className="btn btn-primary" onClick={() => handleSelectCandidature(row)}>Générer contrat</button></TableCell>
+                <TableCell ><button className="btn btn-primary" onClick={() => handleSelectCandidature(row)}>Commencer l'évaluation</button></TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -210,7 +230,7 @@ function AlertAucunContrat(isGestionnaire) {
     return <div className="container">
       <div className="row justify-content-md-center">
         <div className="col">
-         <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun contrat à signer pour le moment</Alert>
+         <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation à remplir pour le moment</Alert>
         </div>
       </div>
     </div>;

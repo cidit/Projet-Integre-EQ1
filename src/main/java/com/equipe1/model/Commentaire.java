@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class Question {
+public class Commentaire {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,8 +15,7 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "evaluation_id")
     private Evaluation evaluation;
-    private String question;
-    private String reponse;
+    private String ennonce;
     private String section;
 
 }

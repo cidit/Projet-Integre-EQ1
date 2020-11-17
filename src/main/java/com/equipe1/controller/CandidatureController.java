@@ -68,4 +68,10 @@ public class CandidatureController {
     public List<Candidature> getAllCandidatureChoisi() {
         return candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI);
     }
+
+    @GetMapping("getByPremierMoisStage")
+    public List<Candidature> getAllForEvaluationMilieuStage() {
+        //return toutes les candidatures ayant un stage rendue a la 4 semaine
+        return candidatureService.getListByDateStage();
+    }
 }

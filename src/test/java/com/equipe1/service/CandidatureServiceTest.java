@@ -222,4 +222,15 @@ public class CandidatureServiceTest {
         // Assert
         assertFalse(optionalCandidature.isPresent());
     }
+
+    @Test
+    public void getListByDateStage() {
+        s.setDateDebut(LocalDate.of(2019,12,1));
+        c1.setStage(s);
+        when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1));
+
+        List<Candidature> candidatures = candidatureService.getListByDateStage();
+        Assertions.assertNotNull(candidatures);
+        Assertions.assertEquals(candidatures.size(), 1);
+    }
 }

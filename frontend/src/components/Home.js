@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import CreateQuestions from './evaluations/createQuestions'
 import EvaluationStagiaire from '../components/evaluations/EvaluationStagiaire'
+import EvaluationMilieuStage from './evaluations/evaluationMilieuStage/EvaluationMilieuStage'
+import EvaluationMilieuHome from './enseignant/EvaluationMilieuHome'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -18,7 +20,11 @@ export default class Home extends Component {
           {/* <CreateQuestions/> */}
           {/* <EvaluationStagiaire/> */}
 
-          <EvaluationStagiaire/>
+          {/* <EvaluationStagiaire/> */}
+
+          {/* <EvaluationMilieuStage/> */}
+
+          <EvaluationMilieuHome/>
 
 
 

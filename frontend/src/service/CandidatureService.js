@@ -69,6 +69,10 @@ class CandidatureService{
     async getCandidaturesChoisis() {
         return await axios.get(baseURL +"/getAllChoisis");
     }
+
+    async getCandidaturesByPremierMoisStage() {
+        return await axios.get(baseURL +"/getByPremierMoisStage");
+    }
 }
 
 export default new CandidatureService()

@@ -6,6 +6,6 @@ export default function QuestionsHabilites() {
     const { habilitesQuestions } = useSetQuestions();
 
       return (
-          <CreateQuestions questions= {habilitesQuestions}  fied={"Habilités personnelles"} isFinalStep={true}/>
+          <CreateQuestions questions= {habilitesQuestions}  field={"Habilités personnelles"} isFinalStep={true}/>
         )
 }

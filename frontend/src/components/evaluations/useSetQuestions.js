@@ -44,6 +44,21 @@ const habilitesPersoQuestionsList = [
 
 const _choixResponses = ['Totalement en accord', 'Plutôt en accord', 'Plutôt en désaccord', 'Totalement en désaccord', 'Non Applicable']
 
+//milieu de stage 
+const evaluationMilieuStage = [
+    { id: "0", question: 'Les tâches confiées au stagiaire sont conformes aux tâches annoncées dans l’entente de stage.' },
+    { id: "1", question: 'Des mesures d’accueil facilitent l’intégration du nouveau stagiaire.' },
+    { id: "2", question: 'Le temps réel consacré à l’encadrement du stagiaire est suffisant' },
+    { id: "3", question: 'L’environnement de travail respecte les normes d’hygiène et de sécurité au travail.' },
+    { id: "4", question: 'Le climat de travail est agréable.' },
+    { id: "5", question: 'Le milieu de stage est accessible par transport en commun.' },
+    { id: "6", question: 'Le salaire offert est intéressant pour le stagiaire' },
+    { id: "7", question: 'La communication avec le superviseur de stage facilite le déroulement du stage.' },
+    { id: "8", question: 'L’équipement fourni est adéquat pour réaliser les tâches confiées.' },
+    { id: "9", question: 'Le volume de travail est acceptable.' },
+];
+
+
 
 export default function useSetQuestions(id) {
     const [etudiant, setEtudiant] = useState('');
@@ -52,6 +67,7 @@ export default function useSetQuestions(id) {
     const [qualiteTravailQuestions, setQualiteTravailQuestions] = useState(qualiteTravailQuestionsList);
     const [relationsQuestions, setRelationsQuestions] = useState(relationsQuestionsList);
     const [habilitesQuestions, setHabilitesQuestions] = useState(habilitesPersoQuestionsList);
+    const [evaluationMilieuStageQuestions, setEvaluationMilieuStageQuestions] = useState(evaluationMilieuStage)
 
 
     console.log("render")
@@ -63,6 +79,6 @@ export default function useSetQuestions(id) {
         relationsQuestions,
         habilitesQuestions,
         optionsReponse,
-    
+        evaluationMilieuStageQuestions
     }
 }

@@ -1,22 +1,22 @@
-import React from 'react';
-import Telecharger from '../utils/telecharger'
 import { Alert } from '@material-ui/lab';
-import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineCheckSquare, AiOutlineCloseSquare } from 'react-icons/ai';
+import React from 'react';
+import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import ContratService from "../../service/ContratService";
+import Telecharger from '../utils/telecharger';
 
 
 const url = 'http://localhost:8080/contrats/getContratFile/';
 
 function isListeVideEmployeur(props){
-  const map = props.contrats.filter(data => data.signatureEmployeur == 'PAS_SIGNE' &&
-      data.signatureEtudiant == 'PAS_SIGNE')
-  return map.length == 0;
+  const map = props.contrats.filter(data => data.signatureEmployeur === 'PAS_SIGNE' &&
+      data.signatureEtudiant === 'PAS_SIGNE')
+  return map.length === 0;
 }
 
 function isListeVideEtudiant(props){
-  const map = props.contrats.filter(data => data.signatureEmployeur == 'SIGNE' &&
-      data.signatureEtudiant == 'PAS_SIGNE')
-  return map.length == 0;
+  const map = props.contrats.filter(data => data.signatureEmployeur === 'SIGNE' &&
+      data.signatureEtudiant === 'PAS_SIGNE')
+  return map.length === 0;
 }
 
 function approuveSignature (id, desc) {
@@ -70,7 +70,7 @@ export function ListeContratsGestionnaire(props) {
                             <td>{data.dateGeneration}</td>
                             <Telecharger path={data.id} />
                             <td>
-                              {data.signatureEmployeur == "EN_ATTENTE"?
+                              {data.signatureEmployeur === "EN_ATTENTE"?
                                   <div>
                                     <button className="btn btn-primary-outline" onClick={() => approuveSignature(data.id, "Employeur")}>
                                       <h3> <AiFillCheckCircle style={{color: "green"}}/> </h3>
@@ -81,7 +81,7 @@ export function ListeContratsGestionnaire(props) {
                                   </div> : data.signatureEmployeur}
                             </td>
                             <td>
-                              {data.signatureEtudiant == "EN_ATTENTE"?
+                              {data.signatureEtudiant === "EN_ATTENTE"?
                                   <div>
                                     <button className="btn btn-primary-outline" onClick={() => approuveSignature(data.id, "Etudiant")}>
                                       <h3> <AiFillCheckCircle style={{color: "green"}}/> </h3>
@@ -136,8 +136,8 @@ export function ListeContratsEmployeur(props) {
                   </thead>
                   <tbody>
                   {props.contrats
-                      .filter(data => data.signatureEmployeur == 'PAS_SIGNE' &&
-                          data.signatureEtudiant == 'PAS_SIGNE')
+                      .filter(data => data.signatureEmployeur === 'PAS_SIGNE' &&
+                          data.signatureEtudiant === 'PAS_SIGNE')
                       .map(
                       data =>
                           <tr key={data.id}>
@@ -188,8 +188,8 @@ export function ListeContratsEtudiant(props) {
                   </thead>
                   <tbody>
                   {props.contrats
-                      .filter(data => data.signatureEmployeur == 'SIGNE' &&
-                          data.signatureEtudiant == 'PAS_SIGNE')
+                      .filter(data => data.signatureEmployeur === 'SIGNE' &&
+                          data.signatureEtudiant === 'PAS_SIGNE')
                       .map(
                           data =>
                               <tr key={data.id}>

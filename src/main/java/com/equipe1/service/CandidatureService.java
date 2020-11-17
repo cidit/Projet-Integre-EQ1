@@ -137,4 +137,14 @@ public class CandidatureService {
     public List<Candidature> getListCandidaturesChoisis(Candidature.CandidatureStatut status){
         return candidatureRepository.findByStatut(status);
     }
+
+    public List<Candidature> getListByDateStage(){
+        List<Candidature> candidatureBydateStage= new ArrayList<>();
+        for (Candidature c: candidatureRepository.findAll()) {
+            if(LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L))){
+                candidatureBydateStage.add(c);
+            };
+        }
+        return candidatureBydateStage;
+    }
 }

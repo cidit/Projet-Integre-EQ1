@@ -5,25 +5,26 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@AllArgsConstructor
 public class EvaluationMilieuStage extends Evaluation {
 
     {
         this.type = "EvaluationMilieuStage";
     }
 
-   // @OneToOne
-    //private Etudiant etudiant;
+    @ManyToOne
+    @JoinColumn(name = "enseignant_id")
+    private Enseignant enseignant;
 
-   // @OneToOne
-   // private Employeur employeur;
+    @ManyToOne
+    @JoinColumn(name = "employeur_id")
+    private Employeur employeur;
+
+
 
 
 }

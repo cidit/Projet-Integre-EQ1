@@ -40,7 +40,6 @@ export default function EvaluationStagiaire() {
     const getEtudiant = async () => {
         const response = await EtudiantService.getEtudiantById(1);
         setEtudiant(response.data);
-        console.log(response.data)
     }
 
     useEffect(() => {
@@ -80,7 +79,7 @@ export default function EvaluationStagiaire() {
                 </Grid>
                 <Grid container justify="center" >
                 <Button variant="contained" color="primary" className='m-3' onClick={goToEvaluation}>
-                    Commmencer l'evaluation
+                    Commmencer l'évaluation
                 </Button>
             </Grid>
             </Paper>

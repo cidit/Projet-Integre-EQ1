@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -24,6 +25,10 @@ public class Employeur extends User{
     private String adresse;
 
     private String nom;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "employeur")
+    protected List<EvaluationMilieuStage> evaluationMilieuStage;
 
     public Employeur(String nom, String telephone, String adresse) {
         this.nom = nom;

@@ -208,7 +208,7 @@ public class InsertDataService {
         stage1.setTitre("stage_dummy1");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateDebut(LocalDate.of(2019,12,12));
         stage1.setDateFin(LocalDate.of(2020,12,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
@@ -230,7 +230,7 @@ public class InsertDataService {
         stage1.setTitre("stage_dummy2");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateDebut(LocalDate.of(2019,12,12));
         stage1.setDateFin(LocalDate.of(2020,12,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
@@ -252,7 +252,7 @@ public class InsertDataService {
         stage1.setTitre("stage_dummy3");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateDebut(LocalDate.of(2019,12,12));
         stage1.setDateFin(LocalDate.of(2020,12,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
@@ -274,7 +274,7 @@ public class InsertDataService {
         stage1.setTitre("stage_dummy4");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
+        stage1.setDateDebut(LocalDate.of(2019,12,12));
         stage1.setDateFin(LocalDate.of(2020,12,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
