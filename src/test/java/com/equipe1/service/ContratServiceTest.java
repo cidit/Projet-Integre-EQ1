@@ -336,6 +336,7 @@ public class ContratServiceTest {
         contrat1.setCandidature(candidature1);
         contrat1.getCandidature().setStage(stage);
         contrat1.getCandidature().getStage().setSession(session);
+        contrat1.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
         doReturn(contrat1).when(contratRepository).save(contrat1);
         doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
         contratRepository.save(contrat1);
@@ -355,7 +356,6 @@ public class ContratServiceTest {
         contrat1.setCandidature(candidature1);
         contrat1.getCandidature().setStage(stage);
         contrat1.getCandidature().getStage().setSession(session);
-        contrat1.setSignatureEtudiant(Contrat.SignatureEtat.SIGNE);
         doReturn(contrat1).when(contratRepository).save(contrat1);
         doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
         contratRepository.save(contrat1);

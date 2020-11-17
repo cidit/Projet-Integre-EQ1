@@ -30,9 +30,14 @@ class EtudiantService{
         return axios.get(baseURL + "/get/aucunStage");
     }
 
+    getAllAyantEntrevue(){
+        return axios.get(baseURL + "/getAllAyantEntrevue");
+    }
+
     getEtudiantsByProgramme(programme){
         return axios.get(ETUDIANT_GET + "/" + programme);
     }
+
 
     async getByEmail(email){
         let data;

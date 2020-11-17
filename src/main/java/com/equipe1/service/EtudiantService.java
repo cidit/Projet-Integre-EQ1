@@ -153,4 +153,23 @@ public class EtudiantService {
                 .collect(Collectors.toList());
         return etudiantsInscrits;
     }
+
+    public List<Etudiant> getEtudiantsAyantEntrevue() {
+        Session sessionEnCours = sessionRepository.findCurrentSession().get();
+        List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
+                .filter(etudiant -> etudiant.getSession().contains(sessionEnCours) && hasEntrevueSession(etudiant.getId()))
+                .collect(Collectors.toList());
+        return etudiantsInscrits;
+    }
+
+    public boolean hasEntrevueSession(Long id){
+        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(id);
+        for(Candidature candidature : candidatures){
+            if(!candidature.getEntrevueStatut().equals(Candidature.CandidatureEntrevueStatut.PAS_CONVOQUE))
+                return true;
+        }
+        return false;
+    }
 }
+
+

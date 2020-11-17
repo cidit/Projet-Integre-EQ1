@@ -191,7 +191,7 @@ function CustomTable(props){
                         <TableCell>Email</TableCell>
                         <TableCell>Adresse</TableCell>
                         <TableCell>Convoquer pour entrevue</TableCell>
-                        <TableCell>Accepter stagiaire</TableCell>
+                        <TableCell>Statut</TableCell>
 
 
                     </TableRow>
@@ -228,6 +228,8 @@ function CustomTable(props){
                                         <TableCell>{candidature.etudiant.email}</TableCell>
                                         <TableCell>{candidature.etudiant.adresse}</TableCell>
                                         <TableCell>{renderColonneEntrevue(candidature)}</TableCell>
+                                        <TableCell>{candidature.statut}</TableCell>
+
 
                                     </TableRow>
 

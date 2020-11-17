@@ -192,7 +192,7 @@ public class ContratService {
 
         for (Contrat contrat : contrats) {
             if (contrat.getSignatureEtudiant() != Contrat.SignatureEtat.SIGNE &&
-                    contrat.getSignatureEmployeur() != Contrat.SignatureEtat.SIGNE &&
+                    contrat.getSignatureEmployeur() == Contrat.SignatureEtat.SIGNE &&
                     contrat.getCandidature().getStage().getSession().equals(sessionEnCours)){
                 contratsNonSignes.add(contrat);
             }
@@ -206,7 +206,7 @@ public class ContratService {
         List<Contrat> contratsNonSignes = new ArrayList<>();
 
         for (Contrat contrat : contrats) {
-            if (contrat.getSignatureEtudiant() == Contrat.SignatureEtat.SIGNE &&
+            if (contrat.getSignatureEtudiant() != Contrat.SignatureEtat.SIGNE &&
                     contrat.getSignatureEmployeur() != Contrat.SignatureEtat.SIGNE &&
                     contrat.getCandidature().getStage().getSession().equals(sessionEnCours)){
                 contratsNonSignes.add(contrat);

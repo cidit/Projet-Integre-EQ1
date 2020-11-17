@@ -139,7 +139,7 @@ function ShowCandidature(props) {
         if (candidature.entrevueStatut === 'PAS_CONVOQUE')
             return <p>Pas convoqué</p>
         if (candidature.entrevueStatut === 'PASSEE')
-            return <p>Entrevue passeé </p>
+            return <p>Entrevue passée </p>
         return(
             <div>
                 <button className="btn btn-primary" onClick={(event) =>  entrevuePasseeConfirmation(candidature)}>Confirmer entrevue

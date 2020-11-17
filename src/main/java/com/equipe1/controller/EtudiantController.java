@@ -87,4 +87,11 @@ public class EtudiantController {
     public List<Etudiant> getEtudiantsInscrits(){
         return etudiantService.getEtudiantsInscrits();
     }
+
+    @GetMapping("/getAllAyantEntrevue")
+    public List<Etudiant> getEtudiantsAyantEntrevue(){
+        return etudiantService.getEtudiantsAyantEntrevue();
+    }
+
+
 }
