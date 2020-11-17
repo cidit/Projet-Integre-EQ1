@@ -152,7 +152,7 @@ function CreationContrat() {
   )
 
 
-};
+}
 export default CreationContrat;
 
 function createTableauEntreprise(candidatureFinal) {
@@ -204,7 +204,7 @@ function createTableauEntreprise(candidatureFinal) {
     </Paper>
 
   )
-};
+}
 
 function createTableauEtudiant(candidatureFinal) {
 

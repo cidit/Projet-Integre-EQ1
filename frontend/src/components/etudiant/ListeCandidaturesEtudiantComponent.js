@@ -25,7 +25,8 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 
     async componentDidMount() {
 
-        var id;
+        //var id;
+        let id;
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
         
@@ -38,10 +39,14 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
-        var candidature = await CandidatureService.getCandidatureChoisi(id);
+        //var candidature = await CandidatureService.getCandidatureChoisi(id);
         
         //console.log(candidature);
         
+        let candidature;
+        candidature = await CandidatureService.getCandidatureChoisi(id);
+
+        console.log(candidature);
         if (candidature !== null) {
             this.setState({ disabledAllButtons: true });
         }

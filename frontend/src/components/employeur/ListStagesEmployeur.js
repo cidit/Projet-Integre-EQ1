@@ -16,7 +16,7 @@ export default class ListStagesEmployeur extends Component {
         this.props.history.push('/stageSelectStagiaire/' + id);
     }
     componentDidMount() {
-        var id;
+        let id;
         if (localStorage.getItem("desc") === "Employeur"){
             id = localStorage.getItem("id");
             StageService.getStagesByEmployeurId(id).then((res) => { this.setState({ stages: res.data }) })
@@ -74,7 +74,7 @@ export default class ListStagesEmployeur extends Component {
                                                 <td>{stage.nbHeuresParSemaine}</td>
                                                 <td>{stage.statut}</td>
                                                 <td>
-                                                    {stage.statut == 'APPROVED' ? <button className="btn btn-primary" onClick={() => this.handleClick(stage.id)} >
+                                                    {stage.statut === 'APPROVED' ? <button className="btn btn-primary" onClick={() => this.handleClick(stage.id)} >
                                                         Choisir
                                                     </button> : <p>Stage non approuvé</p> }
 

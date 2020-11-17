@@ -18,6 +18,14 @@ class StageService{
     getStagesApprouves(){
         return axios.get(STAGES_URL + "/approuves");
     }
+
+    getStagesNonApprouves(){
+        return axios.get(STAGES_URL + "/nonApprouves");
+    }
+
+    getStagesAyantAucunStagiaires(){
+        return axios.get(STAGES_URL + "/ayantStagiaire");
+    }
     
     getStageById(id){
         return axios.get(STAGES_URL + "/getStage?idStage=" + id);
@@ -43,7 +51,7 @@ class StageService{
         return data;
     }
 
-    async updateStage(stage, id){
+    async updateStageStatus(stage, id){
         fetch( STAGES_URL + "/updateStatusStage/"+ id,
             {method: "PUT",
                 headers: {
@@ -54,6 +62,20 @@ class StageService{
             .catch(error => console.error('Error:', error))
             .then(response => console.log('Success:', response));
     }
+
+    async updateStage(stage, id){
+        fetch( STAGES_URL + "/updateStage/"+ id,
+            {method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(stage)} )
+            .then(r => r.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => console.log('Success:', response));
+    }
+
+
 
     createStage(stage){
         return axios.post(STAGES_URL_POST, stage)

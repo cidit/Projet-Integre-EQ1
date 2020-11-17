@@ -1,5 +1,6 @@
 package com.equipe1.service;
 
+import com.equipe1.model.CV;
 import com.equipe1.model.Candidature;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.Session;
@@ -289,6 +290,66 @@ public class EtudiantServiceTest {
         assertEquals(etudiants.size(), 2);
         assertEquals(etudiants.get(0), e1);
         assertEquals(etudiants.get(1), e2);
+    }
 
+    @Test
+    void testGetEtudiantsInscrits() {
+        // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        List<Session> list = new ArrayList<>();
+        list.add(session);
+
+        e1.setId(1L);
+        e1.setSession(list);
+        doReturn(e1).when(repository).save(e1);
+        doReturn(Arrays.asList(e1)).when(repository).findAll();
+        repository.save(e1);
+        // Act
+        List<Etudiant> etudiants = service.getEtudiantsInscrits();
+        // Assert
+        Assertions.assertEquals(1, etudiants.size());
+    }
+
+    @Test
+    void testGetEtudiantsAucunCV() {
+        // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        List<Session> list = new ArrayList<>();
+        list.add(session);
+
+        e1.setId(1L);
+        e1.setSession(list);
+        doReturn(e1).when(repository).save(e1);
+        doReturn(Arrays.asList(e1)).when(repository).findAll();
+        repository.save(e1);
+        // Act
+        List<Etudiant> etudiants = service.getEtudiantsAucunCV();
+        // Assert
+        Assertions.assertEquals(1, etudiants.size());
+    }
+
+    @Test
+    void testGetEtudiantsCVNonApprouve() {
+        // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        List<Session> list = new ArrayList<>();
+        list.add(session);
+
+        e1.setId(1L);
+        e1.setSession(list);
+        e1.setCv(new CV());
+        doReturn(e1).when(repository).save(e1);
+        doReturn(Arrays.asList(e1)).when(repository).findAll();
+        repository.save(e1);
+        // Act
+        List<Etudiant> etudiants = service.getEtudiantsCVNonApprouve();
+        // Assert
+        Assertions.assertEquals(1, etudiants.size());
     }
 }

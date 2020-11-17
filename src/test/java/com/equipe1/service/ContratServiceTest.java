@@ -2,6 +2,7 @@ package com.equipe1.service;
 
 import com.equipe1.model.*;
 import com.equipe1.repository.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,11 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
@@ -55,6 +58,10 @@ public class ContratServiceTest {
     @MockBean
     private CourrielService courrielService;
 
+    @MockBean
+    private SessionRepository sessionRepository;
+
+    private Session session;
     private Candidature c1;
     private Candidature c2;
     private Etudiant e1;
@@ -141,6 +148,12 @@ public class ContratServiceTest {
         etudiant.setNom("Colomb");
         etudiant.setPrenom("Christophe");
 
+        session = Session.builder()
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
+                .build();
+        sessionRepository.save(session);
     }
 
     @Test
@@ -311,6 +324,66 @@ public class ContratServiceTest {
         List<Candidature> all = contratService.listCandidatureSansContrat();
         assertEquals(2, all.size());
         assertEquals(all.get(0),candidature2);
+    }
+
+    @Test
+    void testGetContratsNonSignesEtudiant() {
+        // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        contrat1.setId(1L);
+        contrat1.setCandidature(candidature1);
+        contrat1.getCandidature().setStage(stage);
+        contrat1.getCandidature().getStage().setSession(session);
+        doReturn(contrat1).when(contratRepository).save(contrat1);
+        doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
+        contratRepository.save(contrat1);
+        // Act
+        List<Contrat> contrats = contratService.getContratsNonSignesEtudiant();
+        // Assert
+        Assertions.assertEquals(1, contrats.size());
+    }
+
+    @Test
+    void testGetContratsNonSignesEmployeur() {
+        // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        contrat1.setId(1L);
+        contrat1.setCandidature(candidature1);
+        contrat1.getCandidature().setStage(stage);
+        contrat1.getCandidature().getStage().setSession(session);
+        contrat1.setSignatureEtudiant(Contrat.SignatureEtat.SIGNE);
+        doReturn(contrat1).when(contratRepository).save(contrat1);
+        doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
+        contratRepository.save(contrat1);
+        // Act
+        List<Contrat> contrats = contratService.getContratsNonSignesEmployeur();
+        // Assert
+        Assertions.assertEquals(1, contrats.size());
+    }
+
+    @Test
+    void testGetContratsNonSignesAdministrateur() {
+        // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+
+        contrat1.setId(1L);
+        contrat1.setCandidature(candidature1);
+        contrat1.getCandidature().setStage(stage);
+        contrat1.getCandidature().getStage().setSession(session);
+        contrat1.setSignatureEtudiant(Contrat.SignatureEtat.SIGNE);
+        contrat1.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
+        doReturn(contrat1).when(contratRepository).save(contrat1);
+        doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
+        contratRepository.save(contrat1);
+        // Act
+        List<Contrat> contrats = contratService.getContratsNonSignesAdministration();
+        // Assert
+        Assertions.assertEquals(1, contrats.size());
     }
 }
 
