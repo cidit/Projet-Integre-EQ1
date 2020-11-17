@@ -1,10 +1,12 @@
 package com.equipe1.service;
 
+import com.equipe1.model.Candidature;
 import com.equipe1.model.Etudiant;
 import com.equipe1.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,8 @@ public class EtudiantService {
 
     @Autowired
     private SessionService sessionService;
+    @Autowired
+    private CandidatureService candidatureService;
 
     public EtudiantService(EtudiantRepository etudiantRepository){
         this.etudiantRepository = etudiantRepository;
@@ -75,5 +79,29 @@ public class EtudiantService {
             return session.getEtudiants().stream().anyMatch(etudiant -> etudiant.getId() == id);
         }
         return false;
+    }
+
+    public List<Etudiant> getEtudiantsAucunStage(){
+        List<Etudiant> etudiants = etudiantRepository.findAll();
+        List<Etudiant> resultListEtudiants = new ArrayList<>();
+        for (Etudiant etudiant : etudiants){
+            if (!hasStage(etudiant))
+                resultListEtudiants.add(etudiant);
+        }
+        return resultListEtudiants;
+    }
+
+    private boolean hasStage(Etudiant etudiant) {
+        if(candidatureService.findCandidatureByEtudiant(etudiant.getId()).isEmpty()){
+            return false;
+        }
+        else {
+            List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(etudiant.getId());
+            for(Candidature candidature : candidatures){
+                if(candidature.getStatut().equals(Candidature.CandidatureStatut.CHOISI))
+                    return true;
+            }
+           return false;
+        }
     }
 }

@@ -7,20 +7,14 @@ import GestionnaireService from "../../service/GestionnaireService";
 
 const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/;
 
-const regexMaj = /^(?=.*[A-Z]).*$/;
-const regexMin = /^(?=.*[a-z]).*$/;
-const regexDigit = /^(?=.*[0-9]).*$/;
-
 const formSchema = Yup.object().shape({
     password: Yup.string()
         .required("Veuillez saisir un mot de passe valide")
-        .min(6, "doivent comprendre au moins 6 caractères."),
+        .min(6, "doit comprendre au moins 6 caractères"),
     newPassword: Yup.string()
         .required("Veuillez saisir un mot de passe valide")
-        .min(6, "doivent comprendre au moins 6 caractères.")
-        .matches(regexMaj, 'Veuillez saisir au moins 1 majuscule' )
-        .matches(regexMin, 'Veuillez saisir au moins 1 minuscule' )
-        .matches(regexDigit, 'Veuillez saisir au moins 1 chiffre' ),
+        .min(6, "Doit comprendre au moins 6 caractères")
+        .matches(passwordRequirements, 'Doit comprendre 1 majuscule, 1 minuscule et 1 chiffre' ),
     confirmPassword: Yup.string()
         .oneOf([Yup.ref('newPassword')], "Le mot de passe ne correspond pas")
         .required('Veuillez confirmer votre mot de passe'),    
@@ -55,7 +49,7 @@ export default class GestionnaireUpdate extends Component {
                                         resolve(GestionnaireService.getByPassword(values.password)
                                             .then((val) => {
 
-                                                if (val.password !== values.password) {
+                                                if (!val) {
                                                     actions.setFieldError('password', "Mot de passe invalid")
                                                 } else {
                                                     values.password = values.newPassword;
@@ -91,7 +85,7 @@ export default class GestionnaireUpdate extends Component {
                                         <div className="row">
                                             <div className="col-sm-6 offset-sm-3 text-center">
                                                 <div className="form-group">
-                                                    <label className="control-label"> Old Password </label>
+                                                    <label className="control-label"> Entrer le mot de passe actuel </label>
                                                     <Field type="password"
                                                            name="password"
                                                            className="form-control"
@@ -106,7 +100,7 @@ export default class GestionnaireUpdate extends Component {
                                         <div className="row">
                                             <div className="col-sm-6 offset-sm-3 text-center">
                                                 <div className="form-group">
-                                                    <label className="control-label"> New Password </label>
+                                                    <label className="control-label"> Entrer le nouveau mot de passe </label>
                                                     <Field type="password"
                                                            name="newPassword"
                                                            className="form-control"
@@ -121,7 +115,7 @@ export default class GestionnaireUpdate extends Component {
                                         <div className="row">
                                             <div className="col-sm-6 offset-sm-3 text-center">
                                                 <div className="form-group">
-                                                    <label className="control-label"> Confirm Password </label>
+                                                    <label className="control-label"> Confirmer le mot de passe </label>
                                                     <Field type="password"
                                                            name="confirmPassword"
                                                            className="form-control"
