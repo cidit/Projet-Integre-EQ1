@@ -205,7 +205,7 @@ function Row(props) {
         </React.Fragment>
     );
 
-};
+}
 function AlertAucunContrat(isGestionnaire) {
     return <div className="container">
       <div className="row justify-content-md-center">

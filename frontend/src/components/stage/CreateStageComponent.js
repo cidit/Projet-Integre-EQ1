@@ -166,10 +166,10 @@ export default withFormik({
   },
 
   validate(values) {
-    var today = new Date();
-    var startDate = new Date(values.dateDebut);
-    var finalDate = new Date(values.dateFin);
-    var limitApplicationDate = new Date(values.dateLimiteCandidature);
+    const today = new Date();
+    let startDate = new Date(values.dateDebut);
+    let finalDate = new Date(values.dateFin);
+    let limitApplicationDate = new Date(values.dateLimiteCandidature);
     const errors = {}
 
     if (startDate < today) {
@@ -201,7 +201,7 @@ export default withFormik({
     if (localStorage.getItem("desc") === "Employeur")
       id = localStorage.getItem("id");
 
-    let employee = new Employeur;
+    let employee = new Employeur();
     employee = EmployeurService.getById(id)
     employee.Stage = values;
     EmployeurService.put(employee, id)
