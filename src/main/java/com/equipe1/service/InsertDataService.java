@@ -3,6 +3,7 @@ package com.equipe1.service;
 import com.equipe1.model.*;
 import com.equipe1.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -28,31 +29,25 @@ public class InsertDataService {
     private  GestionnaireService gestionnaireService;
 
     @Autowired
-    private CandidatureRepository candidatureRepository;
-    @Autowired
     private SessionRepository sessionRepository;
-
-    @Autowired
-    private CandidatureService candidatureService;
-
-    @Autowired
-    private ContratService contratService;
 
     @Autowired
     GenerateurPdfService generateurPdfService;
 
     @Autowired
-    private EtudiantService etudiantService;
+    private RoleRepository roleRepository;
 
     private Session sessionActuelle;
 
     private List<Session> sessionList;
 
+    @Autowired
+    PasswordEncoder encoder;
+
     @Transactional
     public void insertSession() {
         Session session = new Session();
         session.setNom("AUT-2020");
-        //session.setDateDebut(LocalDate.now());
         session.setDateDebut(LocalDate.of(2017, 7, 24));
         sessionRepository.save(session);
 
@@ -71,7 +66,7 @@ public class InsertDataService {
         e1.setAdresse("123456");
         e1.setEmail("richard@email.com");
         e1.setMatricule("1772397");
-        e1.setPassword("123456");
+        e1.setPassword(encoder.encode("123456"));
         e1.setPrenom("richard");
         e1.setNom("truong");
         e1.setStatutStage("possede stage");
@@ -80,13 +75,21 @@ public class InsertDataService {
         e1.setSession(sessions);
         e1.setEnregistre(true);
         e1.setSession(sessionList);
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e1.setRoles(roles);
+
         etudiantRepository.save(e1);
 
         Etudiant e2 = new Etudiant();
         e2.setAdresse("123456");
         e2.setEmail("alex@email.com");
         e2.setMatricule("1501279");
-        e2.setPassword("123456");
+        e2.setPassword(encoder.encode("123456"));
         e2.setPrenom("alex");
         e2.setNom("truong");
         e2.setStatutStage("aucun stage");
@@ -94,13 +97,21 @@ public class InsertDataService {
         e2.setProgramme("Techniques de l’informatique");
         e2.setEnregistre(true);
         e2.setSession(sessionList);
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e2.setRoles(roles);
+
         etudiantRepository.save(e2);
 
         Etudiant e3 = new Etudiant();
         e3.setAdresse("123456");
         e3.setEmail("olingamedjoloic@gmail.com");
         e3.setMatricule("1998277");
-        e3.setPassword("123456");
+        e3.setPassword(encoder.encode("123456"));
         e3.setPrenom("Loic");
         e3.setNom("Olinga");
         e3.setStatutStage("aucun stage");
@@ -108,6 +119,14 @@ public class InsertDataService {
         e3.setProgramme("Techniques de l’informatique");
         e3.setSession(sessionList);
         e3.setEnregistre(true);
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e3.setRoles(roles);
+
         etudiantRepository.save(e3);
 
     }
@@ -116,18 +135,34 @@ public class InsertDataService {
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
         e1.setEmail("carlos.test@gmail.com");
-        e1.setPassword("12345");
+        e1.setPassword(encoder.encode("123456"));
         e1.setAdresse("12345");
         e1.setNom("Banque1");
         e1.setTelephone("888-888-8888");
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(Role.ERole.ROLE_EMPLOYEUR)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e1.setRoles(roles);
+
         employeurRepository.save(e1);
 
         e1 = new Employeur();
         e1.setEmail("employeur@email.com");
-        e1.setPassword("12345");
+        e1.setPassword(encoder.encode("123456"));
         e1.setAdresse("12345");
         e1.setNom("Hopital Général");
         e1.setTelephone("888-888-8888");
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_EMPLOYEUR)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e1.setRoles(roles);
+
         employeurRepository.save(e1);
     }
 
@@ -150,7 +185,6 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setSalaire(15);
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
@@ -170,7 +204,6 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(sessionActuelle);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
@@ -223,155 +256,16 @@ public class InsertDataService {
         g1.setNom("toto");
         g1.setPrenom("toto");
         g1.setEmail("gestionnaire01@email.com");
-        g1.setPassword("123456");
+        g1.setPassword(encoder.encode("123456"));
         g1.setTelephone("555-555-5555");
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(Role.ERole.ROLE_GESTIONNAIRE)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        g1.setRoles(roles);
+
         gestionnaireService.saveGestionnaire(g1);
-    }
-
-    @Transactional
-    public void insertCandidature(){
-        Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
-        Stage stage1 = new Stage();
-        stage1.setTitre("stage_dummy1");
-        stage1.setDescription("stage informatique ");
-        stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
-        stage1.setDateFin(LocalDate.of(2020,12,12));
-        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
-        stage1.setExigences("aucune exigence");
-        stage1.setProgramme("Techniques de l’informatique");
-        stage1.setNbHeuresParSemaine(37);
-        stage1.setVille("Montreal");
-        stage1.setEmployeur(e2);
-        stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
-        stage1.setSession(sessionActuelle);
-        stage1.setStatut(Stage.StageStatus.APPROUVÉ);
-
-        Etudiant etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
-        Set<Etudiant> set = new HashSet<>();
-        set.add(etudiant);
-        stage1.setEtudiantsAdmits(set);
-
-        stageService.saveStage(stage1);
-
-        stage1 = new Stage();
-        stage1.setTitre("stage_dummy2");
-        stage1.setDescription("stage informatique ");
-        stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
-        stage1.setDateFin(LocalDate.of(2020,12,12));
-        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
-        stage1.setExigences("aucune exigence");
-        stage1.setProgramme("Techniques de l’informatique");
-        stage1.setNbHeuresParSemaine(37);
-        stage1.setVille("Montreal");
-        stage1.setEmployeur(e2);
-        stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
-        stage1.setSession(sessionActuelle);
-        stage1.setStatut(Stage.StageStatus.APPROUVÉ);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        set = new HashSet<>();
-        set.add(etudiant);
-        stage1.setEtudiantsAdmits(set);
-
-        stageService.saveStage(stage1);
-
-        stage1 = new Stage();
-        stage1.setTitre("stage_dummy3");
-        stage1.setDescription("stage informatique ");
-        stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
-        stage1.setDateFin(LocalDate.of(2020,12,12));
-        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
-        stage1.setExigences("aucune exigence");
-        stage1.setProgramme("Techniques de l’informatique");
-        stage1.setNbHeuresParSemaine(37);
-        stage1.setVille("Montreal");
-        stage1.setEmployeur(e2);
-        stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
-        stage1.setSession(sessionActuelle);
-        stage1.setStatut(Stage.StageStatus.REFUSÉ);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        set = new HashSet<>();
-        set.add(etudiant);
-        stage1.setEtudiantsAdmits(set);
-
-        stageService.saveStage(stage1);
-
-        stage1 = new Stage();
-        stage1.setTitre("stage_dummy4");
-        stage1.setDescription("stage informatique ");
-        stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
-        stage1.setDateFin(LocalDate.of(2020,12,12));
-        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
-        stage1.setExigences("aucune exigence");
-        stage1.setProgramme("Techniques de l’informatique");
-        stage1.setNbHeuresParSemaine(37);
-        stage1.setVille("Montreal");
-        stage1.setEmployeur(e2);
-        stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
-        stage1.setSession(sessionActuelle);
-        //stage1.setStatut(Stage.StageStatus.REFUSÉ);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        set = new HashSet<>();
-        set.add(etudiant);
-        stage1.setEtudiantsAdmits(set);
-
-        stageService.saveStage(stage1);
-
-        etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
-        Candidature candidature = candidatureService.createCandidature(etudiant.getId(), (long) 11);
-        candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
-        candidatureRepository.save(candidature);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 12);
-        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
-        candidatureRepository.save(candidature);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 13);
-        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
-        candidatureRepository.save(candidature);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 14);
-        candidature.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
-        candidatureRepository.save(candidature);
-    }
-
-    @Transactional
-    public void insertContrat() throws Exception {
-        Employeur employeurTest= employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
-        Optional<Stage> stageTest = stageRepository.findById(6L);
-        Optional <Candidature> candidature = candidatureRepository.findById(15L);
-        Optional <Candidature> candidature2 = candidatureRepository.findById(16L);
-
-        Contrat contrat = new Contrat();
-        contrat.setEmployeur(employeurTest);
-        contrat.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
-        contrat.setCandidature(candidature2.get());
-        contrat.setDocumentContrat(generateurPdfService.createPdf(candidature2.get().getStage(),
-                employeurTest,candidature2.get().getEtudiant()).toByteArray());
-
-        contratService.saveContrat(contrat);
-
-        //deuxieme pour test
-        Contrat contrat2 = new Contrat();
-        contrat2.setEmployeur(employeurTest);
-        contrat2.setCandidature(candidature.get());
-
-        contrat2.setDocumentContrat(generateurPdfService.createPdf(candidature.get().getStage(),
-                employeurTest,candidature.get().getEtudiant()).toByteArray());
-
-        contratService.saveContrat(contrat2);
     }
 }
