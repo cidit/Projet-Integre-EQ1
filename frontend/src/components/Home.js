@@ -6,6 +6,7 @@ import EvaluationMilieuStage from './evaluations/evaluationMilieuStage/Evaluatio
 import EvaluationMilieuHome from './enseignant/EvaluationMilieuHome'
 import ApreciationGlobaleStagiaire from '../components/evaluations/evaluationStagiaire/ApreciationGlobaleStagiaire'
 import EvaluationsHome from './employeur/evaluations/EvaluationsHome'
+import SimpleTabs from './gestionnaire/RapportComponent'
 
 export default class Home extends Component {
     componentDidMount() {
@@ -34,7 +35,9 @@ export default class Home extends Component {
 
           {/* <ApreciationGlobaleStagiaire/> */}
 
-          {/* <EvaluationsHome/> */}
+       {/* <EvaluationsHome/>  */}
+
+           <SimpleTabs/> 
 
 
 

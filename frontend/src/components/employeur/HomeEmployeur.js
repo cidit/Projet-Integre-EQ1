@@ -11,7 +11,7 @@ class HomeEmployeur extends Component {
 
     async componentDidMount() {
         let id;
-        if (localStorage.getItem("desc") == "Etudiant")
+        if (localStorage.getItem("role") == "Employeur")
             id = localStorage.getItem("id");
 
         EmployeurService.getById(id).then((res) => this.setState({ employeur: res }))
@@ -30,7 +30,7 @@ class HomeEmployeur extends Component {
         return (
             <div className="container-fluid">
                
-
+        <h5>Bienvenue employeur {employeur.id}</h5>
 
             </div>
         );

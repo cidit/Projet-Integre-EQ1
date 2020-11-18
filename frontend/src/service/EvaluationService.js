@@ -30,6 +30,10 @@ class EvaluationService{
                } )
             
     }
+
+    async getEvaluatinsStagiaireByEmployeur(idEmployeur){
+        return await axios.get(baseURLStagiaire + "/getByEmployeur/" + idEmployeur);
+    }
 }
 
 export default new EvaluationService()

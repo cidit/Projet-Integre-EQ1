@@ -389,9 +389,11 @@ public class InsertDataService {
     @Transactional
     public void insertEvaluationStagieire() throws Exception {
 
+        Optional<Employeur> employeur = employeurRepository.findById(5L);
         EvaluationStagiaire e = new EvaluationStagiaire();
         Question q1 = new Question();
         e.setDateCreation(LocalDate.now());
+        e.setEmployeur(employeur.orElse(new Employeur()));
         evaluationStagiaireService.save(e);
 
         q1.setQuestion("enonce 1");

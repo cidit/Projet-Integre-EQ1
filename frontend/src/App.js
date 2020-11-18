@@ -37,14 +37,10 @@ import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStag
 import ObservationsMilieuStage from './components/evaluations/evaluationMilieuStage/ObservationsMilieuStage'
 import EvaluationStagiaire from './/components/evaluations/EvaluationStagiaire'
 import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
-<<<<<<< HEAD
 import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
-=======
 import {createMuiTheme} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/core/styles";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
->>>>>>> develop
-
 import RapportComponent from "./components/gestionnaire/RapportComponent";
 import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
 

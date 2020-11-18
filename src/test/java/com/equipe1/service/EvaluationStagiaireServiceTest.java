@@ -1,8 +1,10 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
+import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EvaluationStagiaireRepository;
 import com.equipe1.repository.QuestionRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,6 +31,8 @@ class EvaluationStagiaireServiceTest {
     private EtudiantService etudiantService;
     @MockBean
     private CandidatureService candidatureService;
+    @MockBean
+    private EmployeurRepository employeurRepository;
     @MockBean
     private QuestionRepository questionRepository;
     @MockBean
@@ -96,10 +101,23 @@ class EvaluationStagiaireServiceTest {
         stage.setEmployeur(employeur);
         candidature.setStage(stage);
         candidature.setEtudiant(etudiant);
+        when(evaluationStagiaireRepository.findByEtudiant(etudiant)).thenReturn(e);
         when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature));
         when(etudiantService.findEtudiantById(1L)).thenReturn(Optional.of(etudiant));
         EvaluationStagiaire evaluation = evaluationStagiaireService.saveEvaluation(receptorDonnesEvaluation,1L);
         assertEquals(evaluation, e);
         assertNotNull(evaluation);
+    }
+
+    @Test
+    void getByEmployeur() {
+        when(employeurRepository.findById(1L)).thenReturn(Optional.of(employeur));
+        when(evaluationStagiaireRepository.findByEmployeur(employeur)).thenReturn(Arrays.asList(e));
+
+        List<EvaluationStagiaire> evaluations = evaluationStagiaireService.getByEmployeurId(1l);
+
+        Assertions.assertNotNull(evaluations);
+        Assertions.assertEquals(evaluations.size(), 1);
+
     }
 }

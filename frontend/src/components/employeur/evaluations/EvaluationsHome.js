@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import EvaluationsAFaire from '../evaluations/EvaluationsAFaire'
 import { useEffect } from 'react';
+import ListHistoriqueEvaluationsStagiaires from './ListHistoriqueEvaluationsStagiaires'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -21,7 +22,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <p>{children}</p>
         </Box>
       )}
     </div>
@@ -59,8 +60,7 @@ export default function EvaluationsHome() {
   const [value, setValue] = React.useState(0);
   const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
 
- console.log("id desde home")
- console.log(id)
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -77,17 +77,20 @@ export default function EvaluationsHome() {
       >
         <Tab label="Évaluations en attente" {...a11yProps(0)} />
         <Tab label="Historique d'évaluation" {...a11yProps(1)} />
-        <Tab label="Rapports" {...a11yProps(2)} />
+
       </Tabs>
-      <TabPanel value={value} index={0}>
-        <EvaluationsAFaire id={id}/>
+      <TabPanel value={value} index={0} component={'span'} variant={'body2'}>
+        <div>
+          <EvaluationsAFaire id={id} />
+        </div>
+
+
+
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <ListHistoriqueEvaluationsStagiaires />
       </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
+
     </div>
   );
 }

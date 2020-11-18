@@ -1,6 +1,7 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
+import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EvaluationStagiaireRepository;
 import com.equipe1.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +26,8 @@ public class EvaluationStagiaireService {
     private CommentaireService commentaireService;
     @Autowired
     private CandidatureService candidatureService;
+    @Autowired
+    private EmployeurRepository employeurRepository;
 
 
 
@@ -36,6 +40,11 @@ public class EvaluationStagiaireService {
         return evaluationStagiaireRepository.save(e);
     }
 
+    public List<EvaluationStagiaire> getByEmployeurId(Long idEmployeur){
+        Optional<Employeur> employeur = employeurRepository.findById(idEmployeur);
+        return evaluationStagiaireRepository.findByEmployeur(employeur.get());
+    }
+
 
     public EvaluationStagiaire saveEvaluation(RecepteurDonneesEvaluation receptorDonnesEvaluation, Long idCandidature) {
         Etudiant etudiant = new Etudiant();
@@ -45,23 +54,24 @@ public class EvaluationStagiaireService {
         if(candidature.isPresent()){
             etudiant = candidature.get().getEtudiant();
             employeur = candidature.get().getStage().getEmployeur();
+
+            candidature.get().setEvaluee(true);
         }
-        EvaluationStagiaire evaluationStagiaire = etudiant.getEvaluationStagiaire();
+        EvaluationStagiaire evaluationStagiaire = evaluationStagiaireRepository.findByEtudiant(etudiant);
         Commentaire commentaire =receptorDonnesEvaluation.getCommentaires();
 
-        if(evaluationStagiaire  == null){
+        if(evaluationStagiaire == null){
+            System.out.println(etudiant);
             evaluationStagiaire = new EvaluationStagiaire();
             evaluationStagiaire.setEmployeur(employeur);
+            evaluationStagiaire.setEtudiant(etudiant);
             evaluationStagiaireRepository.save(evaluationStagiaire);
-            etudiant.setEvaluationStagiaire(evaluationStagiaire);
-            etudiantService.saveEtudiant(etudiant);
 
         }
 
         for (Question q: receptorDonnesEvaluation.getQuestions()) {
             q.setEvaluation(evaluationStagiaire);
             questionRepository.save(q);
-            System.out.println(q);
         }
         commentaire.setEvaluation(evaluationStagiaire);
         commentaireService.saveCommentaire(receptorDonnesEvaluation.getCommentaires());

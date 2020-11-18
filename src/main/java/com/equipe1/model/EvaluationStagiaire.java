@@ -18,9 +18,8 @@ public class EvaluationStagiaire extends Evaluation{
         this.type = "EvaluationStagiaire";
     }
 
-    @ToString.Exclude
-    @JsonIgnore
-    @OneToOne(mappedBy = "evaluationStagiaire")
+
+    @OneToOne
     private Etudiant etudiant;
 
     @ToString.Exclude

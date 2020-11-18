@@ -43,6 +43,8 @@ export default function CreateQuestions(props) {
     const { params } = useRouteMatch();
     const [isSubmit, setIsSubmit] = useState(false);
     const [showConditions, setshowConditions] = useState(false)
+    const [isEvaluationCompletee, setIsEvaluationCompletee] = useState(false)
+
 
 
     useEffect(() => {
@@ -92,7 +94,8 @@ export default function CreateQuestions(props) {
             commentaires: {
                 ennonce: commentValue,
                 section: props.field
-            }
+            },
+            isEvaluee : isEvaluationCompletee
         })
 
         if (!props.isMilieuStage) {
@@ -107,7 +110,6 @@ export default function CreateQuestions(props) {
             )
             
         } else {
-            console.log("evaluation miluei stage")
             var response = await EvaluationService.putEvaluationMilieuStage(result, params.id)
             setEvaluation([])
             setIsCopletedQuestions(true)
