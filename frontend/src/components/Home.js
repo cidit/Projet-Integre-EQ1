@@ -37,7 +37,7 @@ export default class Home extends Component {
 
        {/* <EvaluationsHome/>  */}
 
-           <SimpleTabs/> 
+           {/* <SimpleTabs/>  */}
 
 
 

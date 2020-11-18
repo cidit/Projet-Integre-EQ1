@@ -11,7 +11,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: theme.palette.success.light,
       color: theme.palette.common.white,
     },
     body: {
@@ -22,7 +22,7 @@ const StyledTableCell = withStyles((theme) => ({
   const StyledTableRow = withStyles((theme) => ({
     root: {
       '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
+       
       },
     },
   }))(TableRow);
@@ -56,7 +56,7 @@ export default function ListHistoriqueEvaluationsStagiaires() {
 
     return (
         <div>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} fullfill>
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>
                         <TableRow>

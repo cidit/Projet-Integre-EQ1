@@ -48,7 +48,7 @@ function App() {
   return (
     
       <main>
-        <ThemeProvider theme={theme}>
+        {/* <ThemeProvider theme={theme}> */}
         <HeaderComponent />
 
         <Switch>
@@ -93,7 +93,7 @@ function App() {
           <Route path="/createSession" component={CreateSessionComponent}/>
           <Route path="/rapport" component={RapportComponent}/>
         </Switch>
-          </ThemeProvider>
+          {/* </ThemeProvider> */}
       </main>
     
   );
@@ -108,7 +108,7 @@ const theme = createMuiTheme({
     secondary:{
       main:"#ff8d0b",
       light: "#ffbe49",
-      dark: "#c55e00",
+     // dark: "#c55e00",
     },
     // type: "dark",
     action:{

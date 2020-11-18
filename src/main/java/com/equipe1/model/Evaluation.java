@@ -34,8 +34,6 @@ public class Evaluation {
 
     protected String type;
 
-    //@OneToOne
-    //private Etudiant etudiant;
 
     public Evaluation() {
         this.dateCreation = LocalDate.now();

@@ -17,5 +17,4 @@ public class Commentaire {
     private Evaluation evaluation;
     private String ennonce;
     private String section;
-
 }

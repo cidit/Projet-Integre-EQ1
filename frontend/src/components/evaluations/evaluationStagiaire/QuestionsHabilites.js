@@ -14,14 +14,6 @@ export default function QuestionsHabilites() {
       setRedirect(true);
     }
 
-
-   /*if (redirect) {
-     return <ModalMessage
-      message={"Votre évaluation a été soumise avec succès. Merci pour votre soutien!"}
-      redirect="/"
-      title="nouvelle évaluation" />
-    }*/
-
       return (
           <CreateQuestions questions= {habilitesQuestions}  
           field={"Habilités personnelles"} 
@@ -29,7 +21,6 @@ export default function QuestionsHabilites() {
           titre ={"4. HABILETÉS PERSONNELLES"} 
           sousTitre={"Capacité de faire preuve d’attitudes ou de comportements matures et responsables"}
           redirect ="/evaluationsEmployeur"
-         // continuer={finish} 
           />
         )
 }

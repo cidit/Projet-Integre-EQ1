@@ -61,12 +61,10 @@ public class EvaluationStagiaireService {
         Commentaire commentaire =receptorDonnesEvaluation.getCommentaires();
 
         if(evaluationStagiaire == null){
-            System.out.println(etudiant);
             evaluationStagiaire = new EvaluationStagiaire();
             evaluationStagiaire.setEmployeur(employeur);
             evaluationStagiaire.setEtudiant(etudiant);
             evaluationStagiaireRepository.save(evaluationStagiaire);
-
         }
 
         for (Question q: receptorDonnesEvaluation.getQuestions()) {
