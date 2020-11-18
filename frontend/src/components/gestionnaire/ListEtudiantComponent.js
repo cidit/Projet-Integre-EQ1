@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import EtudiantService from '../../service/EtudiantService';
 import CVService from "../../service/CVService";
-import {Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 
 export default class ListEtudiantsComponent extends Component {
     constructor(props) {
@@ -17,7 +16,7 @@ export default class ListEtudiantsComponent extends Component {
         window.location.reload();
     }
 
-    renderColonneApprobation(etudiant) {
+    renderColonneApprobationCV(etudiant) {
         if (etudiant.cv === null) {
             return <p> Pas de CV</p>
         }
@@ -65,6 +64,10 @@ export default class ListEtudiantsComponent extends Component {
         this.setState({etudiants});
     }
 
+    voirCandidatures(id) {
+        this.props.history.push('/candidaturesGestionnaire/' + id);
+    }
+
     render() {
 
         return (
@@ -107,10 +110,11 @@ export default class ListEtudiantsComponent extends Component {
                                 <th> Programme</th>
                                 <th> Courriel</th>
                                 <th> Téléphone</th>
-                                <th> Enregistré a la session en cours</th>
+                                <th> Enregistré à la session en cours</th>
                                 <th> Statut</th>
                                 <th> Télécharger son CV</th>
                                 <th> État du CV</th>
+                                <th> Voir candidatures</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -137,10 +141,15 @@ export default class ListEtudiantsComponent extends Component {
                                                     : <p>Pas de CV</p>}<br/>
                                             </td>
                                             <td>
-                                                {this.renderColonneApprobation(etudiant)}
-
+                                                {this.renderColonneApprobationCV(etudiant)}
 
                                             </td>
+                                            <td>
+                                                <button onClick={() => this.voirCandidatures(etudiant.id)}
+                                                        className="btn btn-primary">Voir candidatures
+                                                </button>
+                                            </td>
+
 
                                         </tr>
                                 )}
@@ -151,4 +160,5 @@ export default class ListEtudiantsComponent extends Component {
             </form>
         );
     }
+
 }

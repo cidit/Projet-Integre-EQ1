@@ -27,7 +27,6 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     async componentDidMount() {
-        // stage = await StageService.getStageById(this.props.match.params.id);
         let stage = this.props.stage;
         // const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.data.programme);
         const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.programme);
@@ -128,7 +127,7 @@ export default class SelectionnerEtudiantComponent extends Component {
             return <div className="container">
                 <div className="row justify-content-md-center">
                     <div className="col">
-                            <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun contrat à signer pour le moment.</Alert>
+                            <Alert severity="info" variant="filled" className="m-3 text-center">Aucun étudiant n'est dans un programme auquel le stage est relié.</Alert>
                     </div>
                 </div>
             </div>;

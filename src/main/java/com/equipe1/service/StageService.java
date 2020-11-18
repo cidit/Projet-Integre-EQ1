@@ -158,6 +158,19 @@ public class StageService {
         return stagesApprouves;
     }
 
+    public List<Stage> getStagesNonApprouves() {
+        Session sessionEnCours = sessionService.findCurrentSession().get();
+        List<Stage> stages = stageRepository.findAll();
+        List<Stage> stagesNonApprouves = new ArrayList<>();
+
+        for (Stage stage : stages) {
+            if (stage.getStatut() != Stage.StageStatus.APPROUVÉ && stage.getSession().equals(sessionEnCours)){
+                stagesNonApprouves.add(stage);
+            }
+        }
+        return stagesNonApprouves;
+    }
+
     public List<Stage> getStagesAyantAucunStagiaire() {
         List<Stage> stages = stageRepository.findAll();
         List<Stage> resultStages = new ArrayList<>();

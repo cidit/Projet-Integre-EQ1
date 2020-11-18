@@ -9,24 +9,50 @@ import {makeStyles} from "@material-ui/core/styles";
 export default class SelectionnerStagiaireComponent extends Component {
     constructor(props) {
         super(props);
+
         this.state = {candidatures: []};
-        this.handleClick = this.handleClick.bind(this);
+        this.accepteCandidature = this.accepteCandidature.bind(this);
+        this.convoqueEtudiantEntrevue = this.convoqueEtudiantEntrevue.bind(this);
+
+
     }
+
 
     async componentDidMount() {
         // const { data: candidatures } = await CandidatureService.getByStage(this.props.match.params.id);
-        const {data: candidatures} = await CandidatureService.getByStage(this.props.id);
+
+        // const {data: candidatures} = await CandidatureService.getByStage(this.props.id);
+
+        const {data: candidatures} = await CandidatureService.getByStage(this.props.match.params.id);
         this.setState({candidatures});
-        // console.log(this.state.candidatures)
     }
 
-    handleClick(candidature) {
+    accepteCandidature(candidature) {
         CandidatureService.putCandidatureApprouve(candidature.id);
         this.setState({});
         setTimeout(function () {
             window.location.reload();
         }, 500);
     }
+
+
+    convoqueEtudiantEntrevue(candidature) {
+        console.log(candidature.id)
+        CandidatureService.convoqueEtudiantEntrevue(candidature.id);
+        this.setState({});
+    }
+
+
+    // downloadCV (etudiant) {
+    //     CVService.getCVByEtudiant(etudiant).then((data) => {
+    //         const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+    //         const link = document.createElement('a');
+    //         link.href = downloadUrl;
+    //         link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
+    //         document.body.appendChild(link);
+    //         link.click();
+    //     });
+    // }
 
 
     render() {
@@ -98,6 +124,15 @@ function CustomTable(props) {
         setSelected(newSelected);
     };
 
+
+    function convoqueEtudiantEntrevue(candidature) {
+        console.log(candidature.id)
+        CandidatureService.convoqueEtudiantEntrevue(candidature.id);
+        setTimeout(function () {
+            window.location.reload();
+        }, 500);
+    }
+
     function handleConfirmation(event) {
         event.preventDefault();
         if (selected.length === 0) {
@@ -105,12 +140,12 @@ function CustomTable(props) {
         }
         for (let i = 0; i < selected.length; i++) {
             CandidatureService.putCandidatureApprouve(selected[i]);
-
         }
         setTimeout(function () {
             window.location.reload();
         }, 500);
     }
+
 
     function downloadCV(etudiant) {
         CVService.getCVByEtudiant(etudiant).then((response) => {
@@ -122,6 +157,20 @@ function CustomTable(props) {
             document.body.appendChild(link);
             link.click();
         });
+    }
+
+    function renderColonneEntrevue(candidature) {
+        if (candidature.entrevueStatut === 'CONVOQUE')
+            return <p>Convoqué</p>
+        if (candidature.entrevueStatut === 'PASSEE')
+            return <p>Entrevue passeé </p>
+        return (
+            <div>
+                <button className="btn btn-primary" onClick={() => convoqueEtudiantEntrevue(candidature)}>Convoquer
+                </button>
+            </div>
+        )
+
     }
 
     return (
@@ -143,6 +192,10 @@ function CustomTable(props) {
                             <TableCell>Téléphone</TableCell>
                             <TableCell>Email</TableCell>
                             <TableCell>Adresse</TableCell>
+                            <TableCell>Convoquer pour entrevue</TableCell>
+                            <TableCell>Statut</TableCell>
+
+
                         </TableRow>
                     </TableHead>
 
@@ -150,8 +203,7 @@ function CustomTable(props) {
                         {props.candidatures
                             .map(
                                 candidature => {
-
-                                    const isItemSelected = isSelected(candidature.id);
+                                    const isItemSelected = isSelected(candidature.id)
                                     return (
 
                                         <TableRow
@@ -178,6 +230,10 @@ function CustomTable(props) {
                                             <TableCell>{candidature.etudiant.telephone}</TableCell>
                                             <TableCell>{candidature.etudiant.email}</TableCell>
                                             <TableCell>{candidature.etudiant.adresse}</TableCell>
+                                            <TableCell>{renderColonneEntrevue(candidature)}</TableCell>
+                                            <TableCell>{candidature.statut}</TableCell>
+
+
                                         </TableRow>
 
                                     );
@@ -191,5 +247,6 @@ function CustomTable(props) {
 
         </>
     );
+
 
 }

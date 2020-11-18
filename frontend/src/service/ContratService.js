@@ -91,5 +91,17 @@ class ContratService {
         return axios.put(baseURL + "createAuto/" + idCandidature)
     }
 
+    getContratsNonSignesEtudiant() {
+        return axios.get(baseURL + '/getContratsNonSignesEtudiant');
+    }
+
+    getContratsNonSignesEmployeur() {
+        return axios.get(baseURL + '/getContratsNonSignesEmployeur');
+    }
+
+    getContratsNonSignesAdministration() {
+        return axios.get(baseURL + '/getContratsNonSignesAdministration');
+    }
+
 }
 export default new ContratService()

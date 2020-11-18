@@ -18,6 +18,14 @@ class StageService{
     getStagesApprouves(){
         return axios.get(STAGES_URL + "/approuves");
     }
+
+    getStagesNonApprouves(){
+        return axios.get(STAGES_URL + "/nonApprouves");
+    }
+
+    getStagesAyantAucunStagiaires(){
+        return axios.get(STAGES_URL + "/ayantStagiaire");
+    }
     
     getStageById(id){
         return axios.get(STAGES_URL + "/getStage?idStage=" + id);

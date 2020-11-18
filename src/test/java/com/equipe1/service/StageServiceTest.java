@@ -74,13 +74,15 @@ public class StageServiceTest {
         s1 = new Stage();
         s1.setId(30L);
         s1.setTitre("java");
-        s1.setStatut(Stage.StageStatus.APPROUVÉ);
+        //s1.setStatut(Stage.StageStatus.APPROVED);
         s1.setSession(session);
+        s1.setStatut(Stage.StageStatus.APPROUVÉ);
         s2 = new Stage();
         s2.setId(35L);
         s2.setTitre("c++");
-        s2.setStatut(Stage.StageStatus.REFUSÉ);
+        //s2.setStatut(Stage.StageStatus.DENIED);
         s2.setSession(session);
+        s2.setStatut(Stage.StageStatus.REFUSÉ);
         employeur = new Employeur();
         employeur.setNom("test");
         employeur.setEmail("test@email.com");
@@ -347,6 +349,24 @@ public class StageServiceTest {
         stageRepository.save(s1);
         // Act
         List<Stage> stageList = stageService.getStagesApprouves();
+        // Assert
+        Assertions.assertNotNull(stageList);
+        Assertions.assertEquals(1, stageList.size());
+    }
+
+    @Test
+    public void testGetAllStagesNonApprouves(){
+        // Arrange
+        when(sessionRepository.save(session)).thenReturn(session);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        doReturn(Arrays.asList(s1)).when(stageRepository).findAll();
+
+        s1.setSession(session);
+        s1.setStatut(Stage.StageStatus.REFUSÉ);
+        doReturn(s1).when(stageRepository).save(s1);
+        stageRepository.save(s1);
+        // Act
+        List<Stage> stageList = stageService.getStagesNonApprouves();
         // Assert
         Assertions.assertNotNull(stageList);
         Assertions.assertEquals(1, stageList.size());

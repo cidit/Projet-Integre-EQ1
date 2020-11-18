@@ -139,4 +139,16 @@ public class CandidatureService {
     public List<Candidature> getListCandidaturesChoisis(Candidature.CandidatureStatut status){
         return candidatureRepository.findByStatut(status);
     }
+
+    public Candidature convoqueEtudiantEntrevue(Long id){
+        Candidature updatedCandidature = candidatureRepository.findById(id).get();
+        updatedCandidature.setEntrevueStatut(Candidature.CandidatureEntrevueStatut.CONVOQUE);
+        return candidatureRepository.save(updatedCandidature);
+    }
+
+    public Candidature entrevuePasseeConfirmation(Long id){
+        Candidature updatedCandidature = candidatureRepository.findById(id).get();
+        updatedCandidature.setEntrevueStatut(Candidature.CandidatureEntrevueStatut.PASSEE);
+        return candidatureRepository.save(updatedCandidature);
+    }
 }
