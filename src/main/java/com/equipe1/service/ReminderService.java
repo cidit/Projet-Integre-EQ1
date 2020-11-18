@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReminderService {
@@ -25,7 +26,7 @@ public class ReminderService {
     @Autowired
     private SessionService sessionService;
 
-    public List<? extends Reminder> getRemindersFor(long userId) {
+    public List<? extends Reminder> getRemindersFor(long userId) throws Exception {
         var optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             var user = optionalUser.get();
@@ -36,7 +37,11 @@ public class ReminderService {
         return new ArrayList<>();
     }
 
-    private List<Reminder.GestionaireReminder> remindersForGestionaire(Gestionnaire user) {
+    private List<Reminder.GestionaireReminder> remindersForGestionaire(Gestionnaire user) throws Exception {
+        Session currentSession;
+        var sessionOptional = sessionService.findCurrentSession();
+        if (sessionOptional.isEmpty()) throw new Exception("no current session!");
+        else currentSession = sessionOptional.get();
 
         // cherche si il y a des cvs sans veto
         var messages = new ArrayList<Reminder.GestionaireReminder>();
@@ -47,13 +52,20 @@ public class ReminderService {
 
         // cherche si il y a des stages sans veto
         var stages = stageService.getByStatutWaiting();
-        if (!stages.isEmpty()) {
+        var stageCetteSession = stages
+                .stream()
+                .filter(stage -> stage.getSession().equals(currentSession));
+        if (stageCetteSession.findAny().isPresent()) {
             messages.add(Reminder.GestionaireReminder.UNREVIEWED_STAGES);
         }
 
         // cherche si un contrat est pret a etre généré
-        for (var stage : stages)
-            if (candidatureService.findAllByStage(stage.getId()).stream().anyMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.CHOISI)) {
+        for (var stage : stageCetteSession.collect(Collectors.toList()))
+            if (candidatureService.findAllByStage(stage.getId())
+                    .stream()
+                    .anyMatch(candidature -> candidature
+                            .getStatut()
+                            .equals(Candidature.CandidatureStatut.CHOISI))) {
                 messages.add(Reminder.GestionaireReminder.CONTRAT_READY_TO_BE_GENERATED);
                 break;
             }
@@ -63,17 +75,24 @@ public class ReminderService {
         return messages;
     }
 
-    private List<Reminder.EmployeurReminder> remindersForEmployeur(Employeur user) {
+    private List<Reminder.EmployeurReminder> remindersForEmployeur(Employeur user) throws Exception {
+        Session currentSession;
+        var sessionOptional = sessionService.findCurrentSession();
+        if (sessionOptional.isEmpty()) throw new Exception("no current session!");
+        else currentSession = sessionOptional.get();
         var messages = new ArrayList<Reminder.EmployeurReminder>();
 
         // cherche si l'employeur a au moins un stage
-        var stages = stageService.getStagesByEmployeur(user.getId());
-        if (stages.isEmpty()) {
+        var stageCetteSession = stageService.getStagesByEmployeur(user.getId())
+                .stream()
+                .filter(stage -> stage.getSession()
+                        .equals(currentSession));
+        if (stageCetteSession.findAny().isEmpty()) {
             messages.add(Reminder.EmployeurReminder.NO_OPEN_STAGE_THIS_SESSION);
         } else {
 
             // cherche si un stage encore ouvert a des candidatures
-            for (var stage : stages) {
+            for (var stage : stageCetteSession.collect(Collectors.toList())) {
                 var candidatures = candidatureService.findAllByStage(stage.getId());
                 if (!candidatures.isEmpty() && stage.isOuvert()) {
                     messages.add(Reminder.EmployeurReminder.OPEN_STAGE_HAS_CANDIDATURES);
@@ -83,8 +102,13 @@ public class ReminderService {
         }
 
         // cherche si il manque une signature de la part de l'employeur sur un de ses contrats
-        var contrats = contratService.getContratsByEmployeur(user);
-        for (var contrat : contrats)
+        var contratCetteSession = contratService.getContratsByEmployeur(user)
+                .stream()
+                .filter(contrat -> contrat.getCandidature()
+                        .getStage()
+                        .getSession()
+                        .equals(currentSession));
+        for (var contrat : contratCetteSession.collect(Collectors.toList()))
             if (contrat.getSignatureEmployeur() == Contrat.SignatureEtat.EN_ATTENTE) {
                 messages.add(Reminder.EmployeurReminder.SIGNATURE_MISSING_ON_CONTRAT);
                 break;
@@ -93,7 +117,11 @@ public class ReminderService {
         return messages;
     }
 
-    private List<Reminder.EtudiantReminder> remindersForEtudiant(Etudiant user) {
+    private List<Reminder.EtudiantReminder> remindersForEtudiant(Etudiant user) throws Exception {
+        Session currentSession;
+        var sessionOptional = sessionService.findCurrentSession();
+        if (sessionOptional.isEmpty()) throw new Exception("no current session!");
+        else currentSession = sessionOptional.get();
         var messages = new ArrayList<Reminder.EtudiantReminder>();
 
 
@@ -105,24 +133,38 @@ public class ReminderService {
 
 
         // cherche si l'etudiant n'a pas encore soumis sa candidature
-        if (candidatureService.findCandidatureByEtudiant(user.getId()).isEmpty() &&
-                !stageService.getStages().isEmpty()) {
+        if (candidatureService.findCandidatureByEtudiant(user.getId())
+                .stream()
+                .noneMatch(candidature -> candidature.getStage()
+                        .getSession()
+                        .equals(currentSession))
+                && stageService.getStages()
+                .stream()
+                .noneMatch(stage -> stage
+                        .getSession()
+                        .equals(currentSession))) {
             messages.add(Reminder.EtudiantReminder.NO_CANDIDATURE_ON_STAGE);
         }
 
         // cherche si il manque sa signature sur le contrat
-        if (contratService.getContratsByEtudiantChoisi(user).stream()
-                .anyMatch(contrat -> contrat.getSignatureEtudiant() == Contrat.SignatureEtat.EN_ATTENTE))
+        if (contratService.getContratsByEtudiantChoisi(user)
+                .stream()
+                .anyMatch(contrat -> contrat.getSignatureEtudiant()
+                        .equals(Contrat.SignatureEtat.EN_ATTENTE)))
             messages.add(Reminder.EtudiantReminder.SIGNATURE_MISSING_ON_CONTRAT);
 
         // cherche si l'etudiant est enregistré dans la session actuelle
-        if (!sessionService.getCurrent().getEtudiants().contains(user))
+        if (!user.getSession().contains(currentSession))
             messages.add(Reminder.EtudiantReminder.NOT_REGISTERED_THIS_SESSION);
 
         // cherche si l'etudiant n'a pas encore confirmé sa présence à un stage
-        var candidatures = candidatureService.findCandidatureByEtudiant(user.getId());
-        if (candidatures.stream().anyMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.APPROUVE) &&
-                candidatures.stream().noneMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.CHOISI)
+        var candidaturesCetteSession = candidatureService.findCandidatureByEtudiant(user.getId())
+                .stream()
+                .filter(candidature -> candidature.getStage()
+                        .getSession()
+                        .equals(currentSession));
+        if (candidaturesCetteSession.anyMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.APPROUVE) &&
+                candidaturesCetteSession.noneMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.CHOISI)
         )
             messages.add(Reminder.EtudiantReminder.STAGE_FREQUENTATION_NOT_CONFIRMED);
 

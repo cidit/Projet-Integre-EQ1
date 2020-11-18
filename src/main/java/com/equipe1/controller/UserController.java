@@ -7,6 +7,8 @@ import com.equipe1.service.ReminderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -44,7 +46,11 @@ public class UserController {
     }
 
     @GetMapping("/reminders/{userId}")
-    public List<? extends Reminder> getMessagesFor(@PathVariable long userId){
-        return reminderService.getRemindersFor(userId);
+    public List<? extends Reminder> getMessagesFor(@PathVariable long userId) {
+        try {
+            return reminderService.getRemindersFor(userId);
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 }
