@@ -19,7 +19,6 @@ function GestionnaireNav() {
             <Nav.Link href="/gestionnaire">Votre profil</Nav.Link>
             <Nav.Link href="/gestionnaireStage">Liste des stages</Nav.Link>
             <Nav.Link href="/etudiants">Liste d'étudiants</Nav.Link>
-            <Nav.Link href="/stageVeto">Veto des stages</Nav.Link>
             <Nav.Link href="/contratsGestionnaire">Gérer contrats</Nav.Link>
             <Nav.Link href="/listCandidatureChoisi">Contrats à générer</Nav.Link>
 

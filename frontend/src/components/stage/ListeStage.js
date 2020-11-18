@@ -8,6 +8,7 @@ import TableCell from "@material-ui/core/TableCell";
 import StageService from "../../service/StageService";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import {makeStyles} from "@material-ui/core/styles";
+import MuiAlert from '@material-ui/lab/Alert';
 
 export default class ListStagesComponent extends Component {
     constructor(props) {
@@ -40,15 +41,22 @@ export default class ListStagesComponent extends Component {
 
     render() {
 
+        if (this.state.stage.length === 0) {
+            return <div className="container">
+                <div className="row justify-content-md-center">
+                    <div className="col">
+                        <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a aucun stage à approuver pour cette session.</Alert>
+                    </div>
+                </div>
+            </div>;
+        } else {
+            return (
+                <div>
+                    <Test stages={this.state.stage}/>
+                </div>
+            );
+        }
 
-        return (
-
-            <div>
-                <Test stages={this.state.stage}/>
-
-            </div>
-
-        );
     }
 
 
@@ -140,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         // maxWidth: 360,
-        backgroundColor: theme.palette.background.table,
+        // backgroundColor: theme.palette.background.table,
     },
     header:{
         fontWeight: "bold",
@@ -151,6 +159,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-// function Alert(props) {
-//     return <MuiAlert elevation={6} variant="filled" {...props} />;
-// }
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}

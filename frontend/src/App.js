@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 import Login from "./components/Login";
-import { Route, Switch } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
@@ -16,7 +16,6 @@ import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandidaturesEtudiantComponent';
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
-import StageVeto from "./components/StageVeto";
 
 import SelectionnerStagiaireComponent from "./components/employeur/SelectionnerStagiaireComponent";
 import ContratsEmployeur from './components/employeur/ContratEmployeur'
@@ -34,71 +33,68 @@ import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
 
 
-
 function App() {
   return (
-    
+
       <main>
         <ThemeProvider theme={theme}>
-        <HeaderComponent />
+          <HeaderComponent/>
 
-        <Switch>
-          <Route path="/" exact component={Home}/>
-          <Route path="/stages" component={ListStagesEmployeur}/>
-          <Route path='/login' component={Login} />
-          <Route path='/register' component={Register} />
-          <Route path='/logout' component={Logout} />
-          <Route path="/etudiants" component={ListEtudiantsComponent}/>
-          {/*<Route path='/stageVeto' component={StageVeto} />*/}
-          <Route path='/etudiant' component={HomeEtudiant} />
-          <Route path='/offrestage' component={ApplicationStageComponent} />
-          <Route path="/etudiants" component={ListEtudiantsComponent} />
-          <Route path='/etudiant' component={HomeEtudiant} />
-          <Route path='/createStage' component={CreateStageComponent} />
-          <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
-          <Route path='/gestionnaire' component={GestionnaireOptions} />
-          <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
-          <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
-          <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent} />
-          <Route path='/contratsEmployeur' component={ContratsEmployeur} />
-          <Route path='/contratsGestionnaire' component={ContratsGestionnaire} />
-          <Route path='/contratEtudiant' component={ContratEtudiant} />
-          <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi} />
-          <Route path='/CreationContrat/:id' component={CreationContrat} />
-          <Route path='/televerserContrats/:id' component={TeleverserContrat} />
-          <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi} />
-          <Route path="/stage/:id" component={StageComponent}/>
-          <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
-          {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
-          <Route path="/listestages" component={ListeStage}/>
-          <Route path="/createSession" component={CreateSessionComponent}/>
+          <Switch>
+            <Route path="/" exact component={Home}/>
+            <Route path="/stages" component={ListStagesEmployeur}/>
+            <Route path='/login' component={Login}/>
+            <Route path='/register' component={Register}/>
+            <Route path='/logout' component={Logout}/>
+            <Route path="/etudiants" component={ListEtudiantsComponent}/>
+            <Route path='/etudiant' component={HomeEtudiant}/>
+            <Route path='/offrestage' component={ApplicationStageComponent}/>
+            <Route path="/etudiants" component={ListEtudiantsComponent}/>
+            <Route path='/etudiant' component={HomeEtudiant}/>
+            <Route path='/createStage' component={CreateStageComponent}/>
+            <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent}/>
+            <Route path='/gestionnaire' component={GestionnaireOptions}/>
+            <Route path='/gestionnaireStage' component={GestionnaireListStageComponent}/>
+            <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent}/>
+            <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent}/>
+            <Route path='/contratsEmployeur' component={ContratsEmployeur}/>
+            <Route path='/contratsGestionnaire' component={ContratsGestionnaire}/>
+            <Route path='/contratEtudiant' component={ContratEtudiant}/>
+            <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi}/>
+            <Route path='/CreationContrat/:id' component={CreationContrat}/>
+            <Route path='/televerserContrats/:id' component={TeleverserContrat}/>
+            <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi}/>
+            <Route path="/stage/:id" component={StageComponent}/>
+            <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
+            <Route path="/listestages" component={ListeStage}/>
+            <Route path="/createSession" component={CreateSessionComponent}/>
 
 
-        </Switch>
-          </ThemeProvider>
+          </Switch>
+        </ThemeProvider>
       </main>
-    
+
   );
 }
+
 const theme = createMuiTheme({
-  palette:{
-    primary:{
+  palette: {
+    primary: {
       main: "#616161",
       light: "#8e8e8e",
       dark: "#373737",
     },
-    secondary:{
-      main:"#ff8d0b",
+    secondary: {
+      main: "#ff8d0b",
       light: "#ffbe49",
       dark: "#c55e00",
     },
-    // type: "dark",
-    action:{
-        hover: "#ff8d0b",
-        disabled: "#ac0505",
-        selected :"#ffbe49"
+    action: {
+      hover: "#ff8d0b",
+      disabled: "#ac0505",
+      selected: "#ffbe49"
     },
-    background:{
+    background: {
       table: "#8e8e8e"
     }
   }

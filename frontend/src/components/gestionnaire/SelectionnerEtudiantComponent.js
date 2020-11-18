@@ -5,6 +5,16 @@ import Etudiant from '../../model/Etudiant';
 
 import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineCheckSquare, AiOutlineCloseSquare } from 'react-icons/ai';
 import {Alert} from "@material-ui/lab";
+import {
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableBody,
+    Paper,
+    Table,
+    TableRow,
+    Checkbox
+} from "@material-ui/core";
 
 export default class SelectionnerEtudiantComponent extends Component {    
     constructor(props) {
@@ -112,6 +122,8 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     render() {
+
+
         if (this.state.etudiants.length === 0) {
             return <div className="container">
                 <div className="row justify-content-md-center">
@@ -126,54 +138,54 @@ export default class SelectionnerEtudiantComponent extends Component {
                     <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des étudiants</h5>
 
                     <div className="row">
-                        <table className="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th>
-                                    <button className="btn btn-primary-outline" onClick={this.addAllEtudiants}>
-                                        <h3> <AiOutlineCheckSquare /> </h3>
-                                    </button>
-                                    <button className="btn btn-primary-outline" onClick={this.removeAllEtudiants}>
-                                        <h3> <AiOutlineCloseSquare /> </h3>
-                                    </button>
-                                </th>
-                                <th> Matricule </th>
-                                <th> Nom </th>
-                                <th> Prénom </th>
-                                <th> Programme </th>
-                                <th> Courriel </th>
-                                <th> Téléphone </th>
-                                <th> Statut </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {this.state.etudiants
-                                .map(
-                                    etudiant =>
-                                        <tr key={etudiant.id}>
-                                            <td>
-                                                <button className="btn btn-primary-outline" onClick={() => this.AddToList(etudiant.id)}
-                                                        disabled={this.state.disabledButtons[etudiant.id]}>
-                                                    {!this.state.disabledButtons[etudiant.id] ?
-                                                        <h3> <AiFillCheckCircle style={{color: "green"}}/> </h3> : <h3> <AiOutlineCheckCircle /> </h3>}
-                                                </button>
-                                                <button className="btn btn-primary-outline" onClick={() => this.RemoveFromList(etudiant.id)}
-                                                        disabled={!this.state.disabledButtons[etudiant.id]}>
-                                                    {this.state.disabledButtons[etudiant.id] ?
-                                                        <h3> <AiFillCloseCircle style={{color: "red"}}/> </h3> : <h3> <AiOutlineCloseCircle /> </h3>}
-                                                </button>
-                                            </td>
-                                            <td>{etudiant.matricule}</td>
-                                            <td>{etudiant.nom}</td>
-                                            <td>{etudiant.prenom}</td>
-                                            <td>{etudiant.programme}</td>
-                                            <td>{etudiant.email}</td>
-                                            <td>{etudiant.telephone}</td>
-                                            <td>{etudiant.statutStage}</td>
-                                        </tr>
-                                )}
-                            </tbody>
-                        </table>
+                        <Table className="table table-striped table-bordered">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>
+                                        <button className="btn btn-primary-outline" onClick={this.addAllEtudiants}>
+                                            <h3> <AiOutlineCheckSquare /> </h3>
+                                        </button>
+                                        <button className="btn btn-primary-outline" onClick={this.removeAllEtudiants}>
+                                            <h3> <AiOutlineCloseSquare /> </h3>
+                                        </button>
+                                    </TableCell>
+                                    <TableCell> Matricule </TableCell>
+                                    <TableCell> Nom </TableCell>
+                                    <TableCell> Prénom </TableCell>
+                                    <TableCell> Programme </TableCell>
+                                    <TableCell> Courriel </TableCell>
+                                    <TableCell> Téléphone </TableCell>
+                                    <TableCell> Statut </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.etudiants
+                                    .map(
+                                        etudiant =>
+                                            <TableRow key={etudiant.id}>
+                                                <TableCell>
+                                                    <button className="btn btn-primary-outline" onClick={() => this.AddToList(etudiant.id)}
+                                                            disabled={this.state.disabledButtons[etudiant.id]}>
+                                                        {!this.state.disabledButtons[etudiant.id] ?
+                                                            <h3> <AiFillCheckCircle style={{color: "green"}}/> </h3> : <h3> <AiOutlineCheckCircle /> </h3>}
+                                                    </button>
+                                                    <button className="btn btn-primary-outline" onClick={() => this.RemoveFromList(etudiant.id)}
+                                                            disabled={!this.state.disabledButtons[etudiant.id]}>
+                                                        {this.state.disabledButtons[etudiant.id] ?
+                                                            <h3> <AiFillCloseCircle style={{color: "red"}}/> </h3> : <h3> <AiOutlineCloseCircle /> </h3>}
+                                                    </button>
+                                                </TableCell>
+                                                <TableCell>{etudiant.matricule}</TableCell>
+                                                <TableCell>{etudiant.nom}</TableCell>
+                                                <TableCell>{etudiant.prenom}</TableCell>
+                                                <TableCell>{etudiant.programme}</TableCell>
+                                                <TableCell>{etudiant.email}</TableCell>
+                                                <TableCell>{etudiant.telephone}</TableCell>
+                                                <TableCell>{etudiant.statutStage}</TableCell>
+                                            </TableRow>
+                                    )}
+                            </TableBody>
+                        </Table>
                     </div>
 
                     <div className="form-group">
@@ -189,4 +201,72 @@ export default class SelectionnerEtudiantComponent extends Component {
 
 
     }
+}
+
+
+function og(){
+    return (
+        <div className="pt-3 mt-3">
+            <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des étudiants</h5>
+
+            <div className="row">
+                <Table className="table table-striped table-bordered">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>
+                                <button className="btn btn-primary-outline" onClick={this.addAllEtudiants}>
+                                    <h3> <AiOutlineCheckSquare /> </h3>
+                                </button>
+                                <button className="btn btn-primary-outline" onClick={this.removeAllEtudiants}>
+                                    <h3> <AiOutlineCloseSquare /> </h3>
+                                </button>
+                            </TableCell>
+                            <TableCell> Matricule </TableCell>
+                            <TableCell> Nom </TableCell>
+                            <TableCell> Prénom </TableCell>
+                            <TableCell> Programme </TableCell>
+                            <TableCell> Courriel </TableCell>
+                            <TableCell> Téléphone </TableCell>
+                            <TableCell> Statut </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {this.state.etudiants
+                            .map(
+                                etudiant =>
+                                    <TableRow key={etudiant.id}>
+                                        <TableCell>
+                                            <button className="btn btn-primary-outline" onClick={() => this.AddToList(etudiant.id)}
+                                                    disabled={this.state.disabledButtons[etudiant.id]}>
+                                                {!this.state.disabledButtons[etudiant.id] ?
+                                                    <h3> <AiFillCheckCircle style={{color: "green"}}/> </h3> : <h3> <AiOutlineCheckCircle /> </h3>}
+                                            </button>
+                                            <button className="btn btn-primary-outline" onClick={() => this.RemoveFromList(etudiant.id)}
+                                                    disabled={!this.state.disabledButtons[etudiant.id]}>
+                                                {this.state.disabledButtons[etudiant.id] ?
+                                                    <h3> <AiFillCloseCircle style={{color: "red"}}/> </h3> : <h3> <AiOutlineCloseCircle /> </h3>}
+                                            </button>
+                                        </TableCell>
+                                        <TableCell>{etudiant.matricule}</TableCell>
+                                        <TableCell>{etudiant.nom}</TableCell>
+                                        <TableCell>{etudiant.prenom}</TableCell>
+                                        <TableCell>{etudiant.programme}</TableCell>
+                                        <TableCell>{etudiant.email}</TableCell>
+                                        <TableCell>{etudiant.telephone}</TableCell>
+                                        <TableCell>{etudiant.statutStage}</TableCell>
+                                    </TableRow>
+                            )}
+                    </TableBody>
+                </Table>
+            </div>
+
+            <div className="form-group">
+                <div className="row">
+                    <button className="btn btn-success" onClick={this.confirmerChoix}>Confirmer</button>
+                    <button className="btn btn-danger" onClick={this.annulerChoix}>Annuler</button>
+                </div>
+            </div>
+
+        </div>
+    );
 }

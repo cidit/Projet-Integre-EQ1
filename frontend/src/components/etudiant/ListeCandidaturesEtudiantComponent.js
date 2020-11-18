@@ -41,7 +41,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
         let candidature = await CandidatureService.getCandidatureChoisi(id);
 
         // console.log(candidature);
-        
+
         
         if (candidature !== null) {
             this.setState({ disabledAllButtons: true });

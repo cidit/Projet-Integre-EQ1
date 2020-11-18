@@ -214,9 +214,9 @@ public class InsertDataService {
 
 
         Candidature c = new Candidature();
-        candidatureService.createCandidature((long) 1, (long) 6);
-        candidatureService.createCandidature((long) 2, (long) 6);
-        candidatureService.createCandidature((long) 3, (long) 6);
+        candidatureService.createCandidature((long) 4, (long) 7);
+        candidatureService.createCandidature((long) 2, (long) 7);
+        candidatureService.createCandidature((long) 3, (long) 7);
 
     }
 
@@ -329,22 +329,22 @@ public class InsertDataService {
         stageService.saveStage(stage1);
 
         etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
-        Candidature candidature = candidatureService.createCandidature(etudiant.getId(), (long) 11);
+        Candidature candidature = candidatureService.createCandidature(etudiant.getId(), (long) 7);
         candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 12);
+        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 7);
         candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 13);
+        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 8);
         candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 14);
+        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 9);
         candidature.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
         candidatureRepository.save(candidature);
     }
@@ -376,3 +376,4 @@ public class InsertDataService {
         contratService.saveContrat(contrat2);
     }
 }
+

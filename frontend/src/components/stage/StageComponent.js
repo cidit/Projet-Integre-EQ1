@@ -32,7 +32,6 @@ export default class StageComponent extends Component {
                 this.setState({stage: res.data})
                 this.setState({employeur: res.data.employeur})
             })
-            // .then((res) => console.log(this.state.stage))
 
         axios.get("http://localhost:8080/candidatures/getByStage?stage=" + this.props.match.params.id).then(res => {
                 this.setState({candidatures: res.data})
