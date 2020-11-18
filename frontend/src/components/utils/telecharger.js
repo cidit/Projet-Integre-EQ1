@@ -12,9 +12,15 @@ export default function Telecharger(props) {
        ContratService.telechargerDocument(props.path).then((response) => {
             sauvegarderEtMontrerDoc(response)
         });
-       if (window.localStorage.getItem("desc") != "Gestionnaire")
+       if (window.localStorage.getItem("desc") !== "Gestionnaire")
         setRedirect(true);
     }
+<<<<<<< HEAD
+=======
+
+    console.log("path");
+    console.log(props)
+>>>>>>> develop
     
     if(redirect) {
         return <Redirect to={`/televerserContrats/${props.path}`} />

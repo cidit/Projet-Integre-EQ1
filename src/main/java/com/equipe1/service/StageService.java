@@ -78,7 +78,7 @@ public class StageService {
                 if (resultStage.getId().equals(resultCandidature.getStage().getId()))
                     isStageStudentCanApply = false;
             }
-            if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.getStatut() == Stage.StageStatus.APPROVED)
+            if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.getStatut() == Stage.StageStatus.APPROUVÉ)
                 stagesResul.add(resultStage);
         }
         return stagesResul;
@@ -115,7 +115,7 @@ public class StageService {
 
     public Stage updateStatus(Stage newStage, long id) throws Exception {
         Stage stage = newStage;
-        stage.setStatut(Stage.StageStatus.APPROVED);
+        stage.setStatut(Stage.StageStatus.APPROUVÉ);
         stage.setOuvert(true);
 
         courrielService.sendSimpleMessage(new Courriel(stage.getEmployeur().getEmail(),
@@ -149,12 +149,26 @@ public class StageService {
         Session sessionEnCours = sessionService.findCurrentSession().get();
         List<Stage> stages = stageRepository.findAll();
         List<Stage> stagesApprouves = new ArrayList<>();
+
         for (Stage stage : stages) {
-            if (stage.getStatut() == Stage.StageStatus.APPROVED && stage.getSession().equals(sessionEnCours)){
+            if (stage.getStatut() == Stage.StageStatus.APPROUVÉ && stage.getSession().equals(sessionEnCours)){
                 stagesApprouves.add(stage);
             }
         }
         return stagesApprouves;
+    }
+
+    public List<Stage> getStagesNonApprouves() {
+        Session sessionEnCours = sessionService.findCurrentSession().get();
+        List<Stage> stages = stageRepository.findAll();
+        List<Stage> stagesNonApprouves = new ArrayList<>();
+
+        for (Stage stage : stages) {
+            if (stage.getStatut() != Stage.StageStatus.APPROUVÉ && stage.getSession().equals(sessionEnCours)){
+                stagesNonApprouves.add(stage);
+            }
+        }
+        return stagesNonApprouves;
     }
 
     public List<Stage> getStagesAyantAucunStagiaire() {

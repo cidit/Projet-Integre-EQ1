@@ -18,7 +18,7 @@ export default function ListeGenericContrat(props) {
                     .map(
                         contrat =>
                         <tr key={contrat.id}>
-                            <td>{contrat.etudiant.prenom} {contrat.etudiant.nom}</td>
+                            <td>{contrat.candidature.etudiant.prenom} {contrat.candidature.etudiant.nom}</td>
                             <td>{contrat.signatureEtudiant}</td>
                             <td>{contrat.employeur.nom}</td>
                             <td>{contrat.signatureEmployeur}</td>

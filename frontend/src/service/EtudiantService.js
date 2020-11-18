@@ -10,14 +10,34 @@ class EtudiantService{
         return axios.get(ETUDIANTS_URL);
     }
 
+    getEtudiantsInscrits(){
+        return axios.get(baseURL + "/getAllInscrits");
+    }
+
     getEtudiantById(id){
         return axios.get(ETUDIANT_GET + "?idEtudiant=" + id);
     }
 
+    getEtudiantsAucunCV(){
+        return axios.get(baseURL + "/getAllSansCV");
+    }
+
+    getEtudiantsCVNonApprouve(){
+        return axios.get(baseURL + "/getAllCVNonApprouve");
+    }
+
+    getEtudiantsSansStage(){
+        return axios.get(baseURL + "/get/aucunStage");
+    }
+
+    getAllAyantEntrevue(){
+        return axios.get(baseURL + "/getAllAyantEntrevue");
+    }
 
     getEtudiantsByProgramme(programme){
         return axios.get(ETUDIANT_GET + "/" + programme);
     }
+
 
     async getByEmail(email){
         let data;

@@ -43,7 +43,7 @@ export default class ListStagesComponent extends Component {
                                         stage =>
                                             <tr key={stage.id}>
 
-                                                <td>{stage.approuve
+                                                <td>{stage.statut
                                                     ? <span className="text-success"> Approuvé </span>
                                                     : <span className="text-danger">En attente d'approbation</span>}</td>
                                                 <td>{stage.ouvert ? 'Oui' : 'Non'}</td>

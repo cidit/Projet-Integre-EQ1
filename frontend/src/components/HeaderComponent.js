@@ -25,6 +25,8 @@ function GestionnaireNav() {
             <Nav.Link href="/stages">Choix stagiaires</Nav.Link>
             <Nav.Link href="/createSession">Demarrer une nouvelle session</Nav.Link>
             {/*<Nav.Link href="/listestages">Liste de isa</Nav.Link>*/}
+            {/*<Nav.Link href="/stages">Choix stagiaires</Nav.Link>*/}
+            <Nav.Link href="/listestages">Liste de isa</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );

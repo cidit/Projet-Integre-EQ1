@@ -32,12 +32,12 @@ export default class TeleverserContrat extends Component {
         let files = event.target.files
         let err = ''
         const types = ['application/pdf']
-        for (var x = 0; x < files.length; x++) {
+        for (let x = 0; x < files.length; x++) {
             if (types.every(type => files[x].type !== type)) {
                 err += files[x].type + ' is not a supported format\n'
             }
         }
-        ;
+
         if (err !== '') {
             event.target.value = null
             return false;
@@ -56,14 +56,14 @@ export default class TeleverserContrat extends Component {
 
     handleClick(event) {
         event.preventDefault();
-        var desc = window.localStorage.getItem("desc");
+        const desc = window.localStorage.getItem("desc");
         console.log(desc)
-        var id = this.props.match.params.id;
+        const id = this.props.match.params.id;
         const formData = new FormData();
         formData.append('file', this.state.file)
         formData.append('desc', desc);
         ContratService.updateContrat(id, formData);
-        if(this.state.file != undefined){
+        if(this.state.file !== undefined){
             this.handleShowSnackbarValid()
         }
         else {

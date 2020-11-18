@@ -98,7 +98,7 @@ export function ListeContratsGestionnaire(props) {
         </div>
     )
   }
-};
+}
 
 
 
@@ -155,7 +155,7 @@ export function ListeContratsEmployeur(props) {
         </div>
     )
   }
-};
+}
 
 export function ListeContratsEtudiant(props) {
   if (isListeVideEtudiant(props)) {
@@ -207,7 +207,7 @@ export function ListeContratsEtudiant(props) {
         </div>
     )
   }
-};
+}
 function AlertAucunContrat(isGestionnaire) {
   return <div className="container">
     <div className="row justify-content-md-center">

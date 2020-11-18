@@ -96,20 +96,20 @@ function TabPanel(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="Contrats non signé par étudiant" {...a11yProps(0)} />
-            <Tab label="Contrats non signé par employeur" {...a11yProps(1)} />
+            <Tab label="Contrats non signé par employeur" {...a11yProps(0)} />
+            <Tab label="Contrats non signé par étudiant" {...a11yProps(1)} />
             <Tab label="Contrats non signé par administration" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <div>{contratsNonSigneEtudiant != null &&
-              <ListeGenericContrat contrats={contratsNonSigneEtudiant} />
+          <div>{contratsNonSigneEmployeur != null &&
+              <ListeGenericContrat contrats={contratsNonSigneEmployeur} />
           }
           </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div>{contratsNonSigneEmployeur != null &&
-              <ListeGenericContrat contrats={contratsNonSigneEmployeur} />
+          <div>{contratsNonSigneEtudiant != null &&
+              <ListeGenericContrat contrats={contratsNonSigneEtudiant} />
           }
           </div>
         </TabPanel>

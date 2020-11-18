@@ -129,5 +129,20 @@ public class ContratController {
         message = " Contrat créé avec succès";
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
+    @GetMapping(value = "getContratsNonSignesEtudiant")
+    public List<Contrat> getContratsNonSignesEtudiant() {
+        return contratService.getContratsNonSignesEtudiant();
+    }
+
+    @GetMapping(value = "getContratsNonSignesEmployeur")
+    public List<Contrat> getContratsNonSignesEmployeur() {
+        return contratService.getContratsNonSignesEmployeur();
+    }
+
+    @GetMapping(value = "getContratsNonSignesAdministration")
+    public List<Contrat> getContratsNonSignesAdministration() {
+        return contratService.getContratsNonSignesAdministration();
+    }
 }
 

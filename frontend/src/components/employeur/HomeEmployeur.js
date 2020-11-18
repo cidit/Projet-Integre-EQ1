@@ -10,7 +10,7 @@ class HomeEmployeur extends Component {
     }
 
     async componentDidMount() {
-        var id;
+        let id;
         if (localStorage.getItem("desc") == "Etudiant")
             id = localStorage.getItem("id");
 
