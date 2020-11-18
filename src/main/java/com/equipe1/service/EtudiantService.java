@@ -1,5 +1,6 @@
 package com.equipe1.service;
 
+import com.equipe1.model.CV;
 import com.equipe1.model.Candidature;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.Session;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EtudiantService {
@@ -126,4 +129,47 @@ public class EtudiantService {
         }
     }
 
+    public List<Etudiant> getEtudiantsInscrits() {
+        Session sessionEnCours = sessionRepository.findCurrentSession().get();
+        List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
+                .filter(etudiant -> etudiant.getSession().contains(sessionEnCours))
+                .collect(Collectors.toList());
+        return etudiantsInscrits;
+    }
+
+    public List<Etudiant> getEtudiantsAucunCV() {
+        Session sessionEnCours = sessionRepository.findCurrentSession().get();
+        List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
+                .filter(etudiant -> etudiant.getSession().contains(sessionEnCours) && etudiant.getCv() == null)
+                .collect(Collectors.toList());
+        return etudiantsInscrits;
+    }
+
+    public List<Etudiant> getEtudiantsCVNonApprouve() {
+        Session sessionEnCours = sessionRepository.findCurrentSession().get();
+        List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
+                .filter(etudiant -> etudiant.getSession().contains(sessionEnCours) &&
+                        etudiant.getCv() != null && etudiant.getCv().getStatus() != CV.CVStatus.APPROVED)
+                .collect(Collectors.toList());
+        return etudiantsInscrits;
+    }
+
+    public List<Etudiant> getEtudiantsAyantEntrevue() {
+        Session sessionEnCours = sessionRepository.findCurrentSession().get();
+        List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
+                .filter(etudiant -> etudiant.getSession().contains(sessionEnCours) && hasEntrevueSession(etudiant.getId()))
+                .collect(Collectors.toList());
+        return etudiantsInscrits;
+    }
+
+    public boolean hasEntrevueSession(Long id){
+        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(id);
+        for(Candidature candidature : candidatures){
+            if(!candidature.getEntrevueStatut().equals(Candidature.CandidatureEntrevueStatut.PAS_CONVOQUE))
+                return true;
+        }
+        return false;
+    }
 }
+
+

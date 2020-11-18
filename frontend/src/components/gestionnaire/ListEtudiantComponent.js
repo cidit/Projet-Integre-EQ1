@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import EtudiantService from '../../service/EtudiantService';
-import axios from 'axios'
 import CVService from "../../service/CVService";
 
 export default class ListEtudiantsComponent extends Component {
@@ -16,14 +15,14 @@ export default class ListEtudiantsComponent extends Component {
         CVService.updateCVStatus(isValid, id);
         window.location.reload();
     }
-    renderColonneApprobation(etudiant){
+    renderColonneApprobationCV(etudiant){
         if (etudiant.cv === null){
             return <p> Pas de CV</p>
         }
         if (etudiant.cv.status === 'APPROVED'){
             return <p>Approuvé</p>
         }
-        if (etudiant.cv.status = 'UNREVIEWED') {
+        if (etudiant.cv.status === 'UNREVIEWED') {
             return(
             <div>
                 <button className="btn btn-primary" onClick={(event) =>  this.handleSubmit(event, true, etudiant.cv.id)}>Approuver
@@ -35,7 +34,9 @@ export default class ListEtudiantsComponent extends Component {
     }
      downloadCV = (etudiant) => {
          CVService.getCVByEtudiant(etudiant).then((response) => {
-                    const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+             console.log(etudiant)
+
+             const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');
                     link.href = downloadUrl;
                     link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
@@ -56,6 +57,10 @@ export default class ListEtudiantsComponent extends Component {
     async componentDidMount() {
             const { data: etudiants } = await EtudiantService.getEtudiants();
             this.setState({ etudiants });
+    }
+
+    voirCandidatures(id){
+        this.props.history.push('/candidaturesGestionnaire/' + id);
     }
 
     render() {
@@ -100,10 +105,11 @@ export default class ListEtudiantsComponent extends Component {
                                 <th> Programme </th>
                                 <th> Courriel </th>
                                 <th> Téléphone </th>
-                                <th> Enregistré a la session en cours</th>
+                                <th> Enregistré à la session en cours</th>
                                 <th> Statut </th>
                                 <th> Télécharger son CV</th>
-                                <th> Etat du CV</th>
+                                <th> État du CV</th>
+                                <th> Voir candidatures</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,15 +131,15 @@ export default class ListEtudiantsComponent extends Component {
                                         </td>
                                         <td>{etudiant.statutStage}</td>
                                         <td>
-                                            {etudiant.cv != null ?<button onClick={() => this.downloadCV(etudiant)} className="btn btn-primary">Telecharger</button>
+                                            {etudiant.cv != null ?<button onClick={() => this.downloadCV(etudiant)} className="btn btn-primary">Télécharger</button>
                                                 : <p>Pas de CV</p>}<br/>
                                         </td>
                                         <td>
-                                            {this.renderColonneApprobation(etudiant)}
-
-
+                                            {this.renderColonneApprobationCV(etudiant)}
 
                                         </td>
+                                        <td><button onClick={() => this.voirCandidatures(etudiant.id)} className="btn btn-primary">Voir candidatures</button></td>
+
 
                                     </tr>
                             )}

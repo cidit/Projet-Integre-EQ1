@@ -79,4 +79,9 @@ public class StageController {
     public List<Stage> getAllStagesAyantAucunStagiare(){
         return stageService.getStagesAyantAucunStagiaire();
     }
+
+    @GetMapping("nonApprouves")
+    public List<Stage> getAllStagesNonApprouves(){
+        return stageService.getStagesNonApprouves();
+    }
 }

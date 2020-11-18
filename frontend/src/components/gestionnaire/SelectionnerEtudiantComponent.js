@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import EtudiantService from '../../service/EtudiantService';
 import StageService from '../../service/StageService';
-import Stage from '../../model/Stage';
 import Etudiant from '../../model/Etudiant';
 
 import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineCheckSquare, AiOutlineCloseSquare } from 'react-icons/ai';
@@ -18,16 +17,26 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     async componentDidMount() {
+        /*
         var stage;
         stage = await StageService.getStageById(this.props.match.params.id);
         const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.data.programme);
+        */
+
+        let stage;
+        // stage = await StageService.getStageById(this.props.match.params.id);
+        stage = this.props.stage;
+        // const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.data.programme);
+        const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.programme);
+        
         this.setState({ etudiants });
         this.setState({ disabledButtons: new Array(this.state.etudiants.length).fill(false)});
 
-        const { data: etudiantsPermis } = await StageService.getEtudiantsByStageId(this.props.match.params.id);
+        // const { data: etudiantsPermis } = await StageService.getEtudiantsByStageId(this.props.match.params.id);
+        const { data: etudiantsPermis } = await StageService.getEtudiantsByStageId(stage.id);
         this.setState({ etudiantsPermis });
- 
-        var bouttons = new Array(this.state.etudiants.length).fill(false);
+
+        let bouttons = new Array(this.state.etudiants.length).fill(false);
         for(let etudiant of this.state.etudiantsPermis){
             bouttons[etudiant.id] = true;
         }
@@ -48,7 +57,7 @@ export default class SelectionnerEtudiantComponent extends Component {
             etudiants.push(etudiant);
         }
 
-        var bouttons = new Array(this.state.etudiants.length).fill(false);
+        let bouttons = new Array(this.state.etudiants.length).fill(false);
         for(let etudiant of this.state.etudiants){
             bouttons[etudiant.id] = true;
         }
@@ -58,7 +67,7 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     removeAllEtudiants(){
-        var bouttons = new Array(this.state.etudiants.length).fill(false);
+        let bouttons = new Array(this.state.etudiants.length).fill(false);
         for(let etudiant of this.state.etudiants){
             bouttons[etudiant.id] = false;
         }
@@ -68,8 +77,8 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     async AddToList(index, param, e) {
-        var etudiant = new Etudiant();
-            etudiant = await EtudiantService.getEtudiantById(index);
+        let etudiant = new Etudiant();
+        etudiant = await EtudiantService.getEtudiantById(index);
 
         this.setState(oldState => {
             const newEtudiantsPermis = [...oldState.etudiantsPermis];
@@ -84,7 +93,7 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     async RemoveFromList(index, param, e) {
-        var newList = this.state.etudiantsPermis.filter((value) => (value === undefined) ? "" : value);
+        let newList = this.state.etudiantsPermis.filter((value) => (value === undefined) ? "" : value);
         const updatedList = newList.filter((etudiant) => etudiant.id !== index);
         this.setState(oldState => {
             const newDisabledButtons = [...oldState.disabledButtons];
@@ -97,13 +106,15 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     confirmerChoix(){
-        StageService.addEtudiants(this.props.match.params.id, this.state.etudiantsPermis);
-        this.props.history.push('/gestionnaireStage');
+        // StageService.addEtudiants(this.props.match.params.id, this.state.etudiantsPermis);
+        StageService.addEtudiants(this.props.stage.id, this.state.etudiantsPermis);
+        // this.props.history.push('/gestionnaireStage');
         
         window.location.reload();
     }
 
     annulerChoix(){
+        //TODO : FIX
         this.props.history.push('/gestionnaireStage');
     }
 
@@ -112,7 +123,7 @@ export default class SelectionnerEtudiantComponent extends Component {
             return <div className="container">
                 <div className="row justify-content-md-center">
                     <div className="col">
-                            <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun contrat à signer pour le moment.</Alert>
+                            <Alert severity="info" variant="filled" className="m-3 text-center">Aucun étudiant n'est dans un programme auquel le stage est relié.</Alert>
                     </div>
                 </div>
             </div>;
