@@ -24,4 +24,11 @@ public class SessionController {
         return sessionService.create(session);
     }
 
+    @PostMapping("isSessionSelectionneeEnCours/{id}")
+    public boolean isSessionSelectionneeEnCours(@PathVariable Long id){
+        return sessionService.isSessionSelectionneeEnCours(id);
+    }
+
+
+
 }

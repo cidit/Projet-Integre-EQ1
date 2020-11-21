@@ -39,5 +39,10 @@ public class SessionService {
         return sessionRepository.save(session);
     }
 
+    public boolean isSessionSelectionneeEnCours (Long id){
+        Session session = sessionRepository.findById(id).get();
+        return session.equals(sessionRepository.findCurrentSession());
+    }
+
     public Optional<Session> findCurrentSession() { return sessionRepository.findCurrentSession(); };
 }
