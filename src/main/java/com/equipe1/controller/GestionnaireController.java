@@ -33,13 +33,8 @@ public class GestionnaireController {
         return gestionnaireService.saveGestionnaire(gestionnaire);
     }
 
-    @PutMapping("update/{id}")
-    public Gestionnaire updateGestionnaire(@RequestBody Gestionnaire gestionnaire, @PathVariable Long id){
-        return gestionnaireService.updateGestionnaire(gestionnaire, id);
-    }
-
-    @GetMapping("password")
-    public boolean getGestionnaireByPassword(@RequestParam("password") String password){
-        return gestionnaireService.getGestionnaireByPassword(password);
+    @PutMapping("updatePassword/{id}")
+    public Gestionnaire updateGestionnairePassword(@RequestBody Gestionnaire gestionnaire, @PathVariable Long id){
+        return gestionnaireService.updateGestionnairePassword(gestionnaire, id);
     }
 }

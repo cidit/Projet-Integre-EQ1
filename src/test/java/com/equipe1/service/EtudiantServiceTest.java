@@ -1,9 +1,6 @@
 package com.equipe1.service;
 
-import com.equipe1.model.CV;
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Session;
+import com.equipe1.model.*;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.SessionRepository;
 import org.junit.jupiter.api.Assertions;
@@ -351,5 +348,26 @@ public class EtudiantServiceTest {
         List<Etudiant> etudiants = service.getEtudiantsCVNonApprouve();
         // Assert
         Assertions.assertEquals(1, etudiants.size());
+    }
+
+    @Test
+    void testUpdateEtudiantPassword() {
+        // Arrange + Act
+        e1.setId(1l);
+        e1.setPassword("12345");
+        doReturn(e1).when(repository).save(any());
+        Etudiant etudiant = repository.save(e1);
+
+        Etudiant putContent = new Etudiant();
+        putContent = e1;
+        putContent.setPassword("totototo");
+        doReturn(putContent).when(repository).save(any());
+        doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
+        Etudiant updateEtudiant = service.updateEtudiantPassword(putContent, etudiant.getId());
+        // Assert
+        Assertions.assertNotNull(updateEtudiant);
+        Assertions.assertEquals(1l, updateEtudiant.getId());
+        Assertions.assertEquals(e1.getNom(), updateEtudiant.getNom());
+        Assertions.assertEquals("totototo", updateEtudiant.getPassword());
     }
 }

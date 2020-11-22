@@ -10,7 +10,6 @@ import HomeEtudiant from "./components/etudiant/HomeEtudiant";
 import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
 import CreateStageComponent from './components/stage/CreateStageComponent';
-import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions';
 import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
 import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
@@ -43,6 +42,9 @@ import {ThemeProvider} from "@material-ui/core/styles";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import RapportComponent from "./components/gestionnaire/RapportComponent";
 import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
+import ProfileEmployeur from './components/employeur/ProfileEmployeur';
+import ProfileGestionnaire from './components/gestionnaire/ProfileGestionnaire';
+import ProfileEtudiant from './components/etudiant/ProfileEtudiant';
 
 function App() {
   return (
@@ -65,7 +67,6 @@ function App() {
           <Route path='/etudiant' component={HomeEtudiant} />
           <Route path='/createStage' component={CreateStageComponent} />
           <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
-          <Route path='/gestionnaire' component={GestionnaireOptions} />
           <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
           <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
           <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent} />
@@ -92,6 +93,10 @@ function App() {
           <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
           <Route path="/createSession" component={CreateSessionComponent}/>
           <Route path="/rapport" component={RapportComponent}/>
+
+          <Route path="/profileEmployeur" component={ProfileEmployeur}/>
+          <Route path="/profileGestionnaire" component={ProfileGestionnaire}/>
+          <Route path="/ProfileEtudiant" component={ProfileEtudiant}/>
         </Switch>
           {/* </ThemeProvider> */}
       </main>

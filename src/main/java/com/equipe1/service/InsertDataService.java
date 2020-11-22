@@ -127,7 +127,7 @@ public class InsertDataService {
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
         e1.setEmail("carlos.test@gmail.com");
-        e1.setPassword("12345");
+        e1.setPassword("123456");
         e1.setAdresse("12345");
         e1.setNom("Banque1");
         e1.setTelephone("888-888-8888");
@@ -135,7 +135,7 @@ public class InsertDataService {
 
         e1 = new Employeur();
         e1.setEmail("employeur@email.com");
-        e1.setPassword("12345");
+        e1.setPassword("123456");
         e1.setAdresse("12345");
         e1.setNom("Hopital Général");
         e1.setTelephone("888-888-8888");
@@ -231,8 +231,8 @@ public class InsertDataService {
     @Transactional
     public void insertGestionnaire(){
         Gestionnaire g1 = new Gestionnaire();
-        g1.setNom("toto");
-        g1.setPrenom("toto");
+        g1.setNom("admin01");
+        g1.setPrenom("admin01");
         g1.setEmail("gestionnaire01@email.com");
         g1.setPassword("123456");
         g1.setTelephone("555-555-5555");

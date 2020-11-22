@@ -16,7 +16,7 @@ function GestionnaireNav() {
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/gestionnaire">Votre profil</Nav.Link>
+            <Nav.Link href="/profileGestionnaire">Votre profil</Nav.Link>
             <Nav.Link href="/etudiants">Approbation de CV</Nav.Link>
             <Nav.Link href="/listestages">Liste des stages</Nav.Link>
             <Nav.Link href="/contratsGestionnaire">Gérer contrats</Nav.Link>
@@ -37,6 +37,7 @@ function EmployeurNav() {
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/profileEmployeur">Votre profil</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
             <Nav.Link href="/stages">Voir toutes les offres de stage</Nav.Link>
             <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
@@ -52,6 +53,7 @@ function EtudiantNav() {
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/profileEtudiant">Votre profil v2</Nav.Link>
             <Nav.Link href="/etudiant">Votre profil</Nav.Link>
             <Nav.Link href="/offrestage">Offres de stage</Nav.Link>
             <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
