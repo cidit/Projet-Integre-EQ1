@@ -72,4 +72,26 @@ public class EtudiantController {
     public List<Etudiant> getAllEtudiantsAucunStage(){
         return etudiantService.getEtudiantsAucunStage();
     }
+
+    @GetMapping("/getAllSansCV")
+    public List<Etudiant> getEtudiantsAucunCV(){
+        return etudiantService.getEtudiantsAucunCV();
+    }
+
+    @GetMapping("/getAllCVNonApprouve")
+    public List<Etudiant> getEtudiantsCVNonApprouve(){
+        return etudiantService.getEtudiantsCVNonApprouve();
+    }
+
+    @GetMapping("/getAllInscrits")
+    public List<Etudiant> getEtudiantsInscrits(){
+        return etudiantService.getEtudiantsInscrits();
+    }
+
+    @GetMapping("/getAllAyantEntrevue")
+    public List<Etudiant> getEtudiantsAyantEntrevue(){
+        return etudiantService.getEtudiantsAyantEntrevue();
+    }
+
+
 }

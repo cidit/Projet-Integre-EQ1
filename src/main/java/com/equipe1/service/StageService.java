@@ -23,9 +23,9 @@ public class StageService {
     @Autowired
     private CandidatureRepository candidatureRepository;
 
-
     @Autowired
     private EmployeurService employeurService;
+
     @Autowired
     private CandidatureService candidatureService;
 
@@ -88,7 +88,6 @@ public class StageService {
                     break;
                 }
             }
-
             if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.getStatut() == Stage.StageStatus.APPROVED)
                 stagesResul.add(resultStage);
         }
@@ -161,12 +160,26 @@ public class StageService {
         Session sessionEnCours = sessionService.findCurrentSession().get();
         List<Stage> stages = stageRepository.findAll();
         List<Stage> stagesApprouves = new ArrayList<>();
+
         for (Stage stage : stages) {
             if (stage.getStatut() == Stage.StageStatus.APPROVED && stage.getSession().equals(sessionEnCours)){
                 stagesApprouves.add(stage);
             }
         }
         return stagesApprouves;
+    }
+
+    public List<Stage> getStagesNonApprouves() {
+        Session sessionEnCours = sessionService.findCurrentSession().get();
+        List<Stage> stages = stageRepository.findAll();
+        List<Stage> stagesNonApprouves = new ArrayList<>();
+
+        for (Stage stage : stages) {
+            if (stage.getStatut() != Stage.StageStatus.APPROVED && stage.getSession().equals(sessionEnCours)){
+                stagesNonApprouves.add(stage);
+            }
+        }
+        return stagesNonApprouves;
     }
 
     public List<Stage> getStagesAyantAucunStagiaire() {

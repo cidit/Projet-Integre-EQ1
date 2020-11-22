@@ -35,8 +35,8 @@ public class Contrat {
     }
 
     public Contrat() {
-        this.signatureEmployeur= SignatureEtat.PAS_SIGNE;
-        this.signatureEtudiant= SignatureEtat.PAS_SIGNE;
+        this.signatureEmployeur = SignatureEtat.PAS_SIGNE;
+        this.signatureEtudiant = SignatureEtat.PAS_SIGNE;
         this.dateGeneration = LocalDate.now();
     }
 

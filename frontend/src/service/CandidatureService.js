@@ -69,6 +69,25 @@ class CandidatureService{
     async getCandidaturesChoisis() {
         return await axios.get(baseURL +"/getAllChoisis");
     }
+
+
+    async getCandidaturesByPremierMoisStage() {
+        return await axios.get(baseURL +"/getByPremierMoisStage");
+    }
+
+    async getCandidaturesAEvaluerParEmployeur(id) {
+        return await axios.get(baseURL +"/getListAEvaluer/"+id);
+    }
+
+    async convoqueEtudiantEntrevue(id){
+        return axios.put(baseURL + "/convoqueEtudiantEntrevue/" + id);
+    }
+
+    async entrevuePasseeConfirmation(id){
+        console.log(id)
+        return axios.put(baseURL + "/entrevuePasseeConfirmation/" + id);
+
+    }
 }
 
 export default new CandidatureService()

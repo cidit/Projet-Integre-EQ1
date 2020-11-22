@@ -1,12 +1,6 @@
 package com.equipe1.service;
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Session;
-import com.equipe1.model.Stage;
-import com.equipe1.repository.CandidatureRepository;
-import com.equipe1.repository.EtudiantRepository;
-import com.equipe1.repository.SessionRepository;
-import com.equipe1.repository.StageRepository;
+import com.equipe1.model.*;
+import com.equipe1.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +39,8 @@ public class CandidatureServiceTest {
 
     @MockBean
     private SessionRepository sessionRepository;
+    @MockBean
+    private EmployeurRepository employeurRepository;
 
     private Candidature c1;
     private Candidature c2;
@@ -53,6 +49,7 @@ public class CandidatureServiceTest {
     private Stage s;
     private Candidature c;
     private Session session;
+    private Employeur employeur;
 
     @BeforeEach
     public void testSetUpCandidatures() {
@@ -80,6 +77,8 @@ public class CandidatureServiceTest {
                 .dateDebut(LocalDate.now())
                 .build();
         sessionRepository.save(session);
+
+        employeur= new Employeur();
     }
 
     @Test
@@ -220,5 +219,65 @@ public class CandidatureServiceTest {
         Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(etudiant.getId());
         // Assert
         assertFalse(optionalCandidature.isPresent());
+    }
+
+    @Test
+    public void getListByDateStage() {
+        s.setDateDebut(LocalDate.of(2019,12,1));
+        c1.setStage(s);
+        when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1));
+
+        List<Candidature> candidatures = candidatureService.getListByDateStage();
+        Assertions.assertNotNull(candidatures);
+        Assertions.assertEquals(candidatures.size(), 1);
+    }
+
+    public void testConvoqueEtudiantEntrevue() {
+        // Arrange
+        c1.setId(1L);
+        when(candidatureRepository.save(c1)).thenReturn(c1);
+        candidatureRepository.save(c1);
+        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
+        when(candidatureRepository.save(c2)).thenReturn(c2);
+        // Act
+        Candidature candidature = candidatureService.convoqueEtudiantEntrevue(1L);
+        // Assert
+        assertEquals(candidature.getEntrevueStatut(), Candidature.CandidatureEntrevueStatut.CONVOQUE);
+    }
+
+    @Test
+    public void testEntrevuePasseeConfirmation() {
+        // Arrange
+        c1.setId(1L);
+        when(candidatureRepository.save(c1)).thenReturn(c1);
+        candidatureRepository.save(c1);
+        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
+        when(candidatureRepository.save(c2)).thenReturn(c2);
+        // Act
+        Candidature candidature = candidatureService.entrevuePasseeConfirmation(1L);
+        // Assert
+        assertEquals(candidature.getEntrevueStatut(), Candidature.CandidatureEntrevueStatut.PASSEE);
+    }
+
+
+    @Test
+    void getListCandidatureByEmployeurToEvaluer() {
+        employeur.setId(1L);
+        c1.setStatut(Candidature.CandidatureStatut.CHOISI);
+        s.setDateFin(LocalDate.of(2020,11,01));
+        s.setEmployeur(employeur);
+        c1.setStage(s);
+
+        when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1));
+        when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)).thenReturn(Arrays.asList(c1));
+
+        List<Candidature> candidatures = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId());
+        Assertions.assertNotNull(candidatures);
+        Assertions.assertEquals(candidatures.size(), 1);
+
+        c1.setEvaluee(true);
+        List<Candidature> candidatures2 = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId());
+        Assertions.assertEquals(candidatures2.size(), 0);
+
     }
 }

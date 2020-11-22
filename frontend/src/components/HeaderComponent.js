@@ -17,14 +17,15 @@ function GestionnaireNav() {
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/gestionnaire">Votre profil</Nav.Link>
-            <Nav.Link href="/gestionnaireStage">Liste des stages</Nav.Link>
-            <Nav.Link href="/etudiants">Liste d'étudiants</Nav.Link>
-            <Nav.Link href="/stageVeto">Veto des stages</Nav.Link>
+            <Nav.Link href="/etudiants">Approbation de CV</Nav.Link>
+            <Nav.Link href="/listestages">Liste des stages</Nav.Link>
             <Nav.Link href="/contratsGestionnaire">Gérer contrats</Nav.Link>
             <Nav.Link href="/listCandidatureChoisi">Contrats à générer</Nav.Link>
             <Nav.Link href="/stages">Choix stagiaires</Nav.Link>
-            <Nav.Link href="/createSession">Demarrer une nouvelle session</Nav.Link>
             {/*<Nav.Link href="/listestages">Liste de isa</Nav.Link>*/}
+            {/*<Nav.Link href="/stages">Choix stagiaires</Nav.Link>*/}
+            <Nav.Link href="/rapport">Rapports</Nav.Link>
+            <Nav.Link href="/createSession">Demarrer une nouvelle session</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );
@@ -39,6 +40,7 @@ function EmployeurNav() {
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
             <Nav.Link href="/stages">Voir toutes les offres de stage</Nav.Link>
             <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
+            <Nav.Link href="/evaluationsEmployeur">Évaluations</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );

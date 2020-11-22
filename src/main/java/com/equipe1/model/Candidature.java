@@ -23,19 +23,22 @@ public class Candidature {
     @OneToOne
     private Stage stage;
     private CandidatureStatut statut;
-
+    private CandidatureEntrevueStatut entrevueStatut;
     @JsonIgnore
     @OneToOne(mappedBy = "candidature")
     private Contrat contrat;
+    private boolean isEvaluee;
 
     public Candidature() {
         this.statut = CandidatureStatut.EN_ATTENTE;
+        this.entrevueStatut = CandidatureEntrevueStatut.PAS_CONVOQUE;
     }
 
     public Candidature(Etudiant etudiant, Stage stage) {
         this.etudiant = etudiant;
         this.stage = stage;
         this.statut = CandidatureStatut.EN_ATTENTE;
+        this.entrevueStatut = CandidatureEntrevueStatut.PAS_CONVOQUE;
     }
 
     public Long getId() {
@@ -73,5 +76,9 @@ public class Candidature {
 
     public enum CandidatureStatut {
         EN_ATTENTE, REFUSE, CHOISI, APPROUVE
+    }
+
+    public enum CandidatureEntrevueStatut {
+        PASSEE, CONVOQUE, PAS_CONVOQUE
     }
 }

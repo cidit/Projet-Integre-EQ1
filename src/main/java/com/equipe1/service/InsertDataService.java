@@ -7,7 +7,12 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Optional;
 import java.util.*;
+
 
 @Component
 public class InsertDataService {
@@ -44,6 +49,11 @@ public class InsertDataService {
     @Autowired
     private EtudiantService etudiantService;
 
+    @Autowired
+    private EvaluationStagiaireService evaluationStagiaireService;
+    @Autowired
+    private QuestionService questionService;
+
     private Session sessionActuelle;
 
     private List<Session> sessionList;
@@ -61,6 +71,7 @@ public class InsertDataService {
         sessionList = new ArrayList<>();
         sessionList.add(sessionActuelle);
     }
+
     @Transactional
     public void insertEtudiant(){
         Session session = sessionRepository.findCurrentSession().get();
@@ -149,8 +160,11 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setSalaire(15);
-        stage1.setStatut(Stage.StageStatus.APPROVED);
+        stage1.setOuvert(true);
+        //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(session);
+        stage1.setStatut(Stage.StageStatus.APPROUVÉ);
+
         stageService.saveStage(stage1);
         stage1.setSession(sessionActuelle);
 
@@ -167,8 +181,9 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        stage1.setStatut(Stage.StageStatus.APPROVED);
+        //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(sessionActuelle);
+        stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
         Etudiant etudiant = etudiantRepository.findByEmail("richard@email.com");
         Set<Etudiant> set = new HashSet<>();
@@ -211,12 +226,6 @@ public class InsertDataService {
         stage2.setSession(sessionActuelle);
         stageService.saveStage(stage2);
 
-
-//        Candidature c = new Candidature();
-//        candidatureService.createCandidature((long) 1, (long) 6);
-//        candidatureService.createCandidature((long) 2, (long) 6);
-//        candidatureService.createCandidature((long) 3, (long) 6);
-
     }
 
     @Transactional
@@ -237,8 +246,8 @@ public class InsertDataService {
         stage1.setTitre("stage_dummy1");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
-        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateDebut(LocalDate.of(2019,12,12));
+        stage1.setDateFin(LocalDate.of(2020,11,10));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
         stage1.setProgramme("Techniques de l’informatique");
@@ -246,8 +255,9 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        stage1.setStatut(Stage.StageStatus.APPROVED);
+        //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(sessionActuelle);
+        stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
         Etudiant etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
         Set<Etudiant> set = new HashSet<>();
@@ -260,8 +270,8 @@ public class InsertDataService {
         stage1.setTitre("stage_dummy2");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
-        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateDebut(LocalDate.of(2019,12,12));
+        stage1.setDateFin(LocalDate.of(2020,10,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
         stage1.setProgramme("Techniques de l’informatique");
@@ -269,8 +279,9 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        stage1.setStatut(Stage.StageStatus.APPROVED);
+        //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(sessionActuelle);
+        stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         set = new HashSet<>();
@@ -283,8 +294,8 @@ public class InsertDataService {
         stage1.setTitre("stage_dummy3");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
-        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateDebut(LocalDate.of(2019,12,12));
+        stage1.setDateFin(LocalDate.of(2020,10,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
         stage1.setProgramme("Techniques de l’informatique");
@@ -292,8 +303,9 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        stage1.setStatut(Stage.StageStatus.APPROVED);
+        //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(sessionActuelle);
+        stage1.setStatut(Stage.StageStatus.REFUSÉ);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         set = new HashSet<>();
@@ -306,8 +318,8 @@ public class InsertDataService {
         stage1.setTitre("stage_dummy4");
         stage1.setDescription("stage informatique ");
         stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.now());
-        stage1.setDateFin(LocalDate.of(2020,12,12));
+        stage1.setDateDebut(LocalDate.of(2019,12,12));
+        stage1.setDateFin(LocalDate.of(2020,10,12));
         stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
         stage1.setExigences("aucune exigence");
         stage1.setProgramme("Techniques de l’informatique");
@@ -315,8 +327,9 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        stage1.setStatut(Stage.StageStatus.APPROVED);
+        //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(sessionActuelle);
+        //stage1.setStatut(Stage.StageStatus.REFUSÉ);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         set = new HashSet<>();
@@ -372,4 +385,29 @@ public class InsertDataService {
 
         contratService.saveContrat(contrat2);
     }
+
+    @Transactional
+    public void insertEvaluationStagieire() throws Exception {
+
+        Optional<Employeur> employeur = employeurRepository.findById(5L);
+        EvaluationStagiaire e = new EvaluationStagiaire();
+        Question q1 = new Question();
+        e.setDateCreation(LocalDate.now());
+        e.setEmployeur(employeur.orElse(new Employeur()));
+        evaluationStagiaireService.save(e);
+
+        q1.setQuestion("enonce 1");
+        q1.setReponse("reposnse question 1");
+        q1.setEvaluation(e);
+
+        Question q2 = new Question();
+        q2.setQuestion("enonce 2");
+        q2.setReponse("reposnse question 2");
+        q2.setEvaluation(e);
+        questionService.saveAllQuestions(Arrays.asList(q1,q2));
+
+
+    }
+
+
 }

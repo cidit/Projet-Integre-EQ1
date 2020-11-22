@@ -25,7 +25,8 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 
     async componentDidMount() {
 
-        var id;
+        //var id;
+        let id;
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
         
@@ -38,10 +39,14 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 
         const { data: candidatures } = await CandidatureService.getByEtudiant(id);
         this.setState({ candidatures });
-        var candidature = await CandidatureService.getCandidatureChoisi(id);
+        //var candidature = await CandidatureService.getCandidatureChoisi(id);
         
         //console.log(candidature);
         
+        let candidature;
+        candidature = await CandidatureService.getCandidatureChoisi(id);
+
+        console.log(candidature);
         if (candidature !== null) {
             this.setState({ disabledAllButtons: true });
         }
@@ -78,6 +83,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
                                     <th> Statut </th>
                                     <th> Programme </th>
                                     <th> Ville </th>
+                                    <th> Confirmer entrevue </th>
                                     <th> Confirmer choix </th>
                                 </tr>
                                 </thead>
@@ -120,6 +126,29 @@ function ShowCandidature(props) {
         document.getElementsByName(approuved)[0].disabled = isApprouved
     }
 
+    function entrevuePasseeConfirmation(candidature){
+        console.log(candidature.id)
+        CandidatureService.entrevuePasseeConfirmation(candidature.id);
+        setTimeout(function() {
+            window.location.reload();
+        }, 500);
+    }
+
+
+    function renderColonneEntrevue(candidature){
+        if (candidature.entrevueStatut === 'PAS_CONVOQUE')
+            return <p>Pas convoqué</p>
+        if (candidature.entrevueStatut === 'PASSEE')
+            return <p>Entrevue passée </p>
+        return(
+            <div>
+                <button className="btn btn-primary" onClick={(event) =>  entrevuePasseeConfirmation(candidature)}>Confirmer entrevue
+                </button>
+            </div>
+        )
+
+    }
+
     async function handleClick(event) {
         event.preventDefault();
 
@@ -145,6 +174,10 @@ function ShowCandidature(props) {
             </td>
             <td>{props.candidature.stage.programme}</td>
             <td>{props.candidature.stage.ville}</td>
+            <td>
+                {renderColonneEntrevue(props.candidature)}
+            </td>
+
             <td>
                 <Button onClick={handleShowModal}
                         disabled={props.candidature.statut === "REFUSE" 

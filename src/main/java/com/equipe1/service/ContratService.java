@@ -1,9 +1,6 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Contrat;
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Etudiant;
+import com.equipe1.model.*;
 import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.ContratRepository;
 import org.slf4j.Logger;
@@ -34,6 +31,8 @@ public class ContratService {
     CourrielService courrielService;
     @Autowired
     GenerateurPdfService generateurPdfService;
+    @Autowired
+    private SessionService sessionService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ContratService.class);
 
@@ -61,7 +60,7 @@ public class ContratService {
 
     public List<Contrat> getContratsByEtudiantChoisi(Etudiant etudiant) {
         List<Contrat> contratSignatureEmployeurOk = new ArrayList<>();
-
+        System.out.println(candidatureRepository.findAll());
         for (Candidature candidatureTmp : candidatureRepository.findAll()) {
             if (isSigneParEmployeur(etudiant, candidatureTmp)) {
                 contratSignatureEmployeurOk.add(candidatureTmp.getContrat());
@@ -184,5 +183,50 @@ public class ContratService {
         }
 
         return contrat;
+    }
+
+    public List<Contrat> getContratsNonSignesEtudiant() {
+        Session sessionEnCours = sessionService.findCurrentSession().get();
+        List<Contrat> contrats = contratRepository.findAll();
+        List<Contrat> contratsNonSignes = new ArrayList<>();
+
+        for (Contrat contrat : contrats) {
+            if (contrat.getSignatureEtudiant() != Contrat.SignatureEtat.SIGNE &&
+                    contrat.getSignatureEmployeur() == Contrat.SignatureEtat.SIGNE &&
+                    contrat.getCandidature().getStage().getSession().equals(sessionEnCours)){
+                contratsNonSignes.add(contrat);
+            }
+        }
+        return contratsNonSignes;
+    }
+
+    public List<Contrat> getContratsNonSignesEmployeur() {
+        Session sessionEnCours = sessionService.findCurrentSession().get();
+        List<Contrat> contrats = contratRepository.findAll();
+        List<Contrat> contratsNonSignes = new ArrayList<>();
+
+        for (Contrat contrat : contrats) {
+            if (contrat.getSignatureEtudiant() != Contrat.SignatureEtat.SIGNE &&
+                    contrat.getSignatureEmployeur() != Contrat.SignatureEtat.SIGNE &&
+                    contrat.getCandidature().getStage().getSession().equals(sessionEnCours)){
+                contratsNonSignes.add(contrat);
+            }
+        }
+        return contratsNonSignes;
+    }
+
+    public List<Contrat> getContratsNonSignesAdministration() {
+        Session sessionEnCours = sessionService.findCurrentSession().get();
+        List<Contrat> contrats = contratRepository.findAll();
+        List<Contrat> contratsNonSignes = new ArrayList<>();
+
+        for (Contrat contrat : contrats) {
+            if (contrat.getSignatureEtudiant() == Contrat.SignatureEtat.SIGNE &&
+                    contrat.getSignatureEmployeur() == Contrat.SignatureEtat.SIGNE &&
+                    contrat.getCandidature().getStage().getSession().equals(sessionEnCours)){
+                contratsNonSignes.add(contrat);
+            }
+        }
+        return contratsNonSignes;
     }
 }

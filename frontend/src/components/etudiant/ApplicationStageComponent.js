@@ -26,7 +26,7 @@ export default class ApplicationStageComponent extends Component {
 
     async componentDidMount() {
 
-        var id;
+        let id;
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
 
@@ -40,6 +40,7 @@ export default class ApplicationStageComponent extends Component {
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);
         this.setState({etudiant: etudiant});
         StageService.getStagesEtudiant(id).then((res) => { this.setState({ stages: res.data }) })
+        console.log(this.state.stages);
         if (this.state.etudiant.cv === undefined || this.state.etudiant.cv === null){
             this.setState({ hasValidCV: false});
         }
@@ -58,10 +59,10 @@ export default class ApplicationStageComponent extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        var idEtudiant;
+        let idEtudiant;
         if (localStorage.getItem("desc") === "Etudiant")
             idEtudiant = localStorage.getItem("id");
-        var idStage = event.target.value
+        const idStage = event.target.value;
         this.componentDidMount();
         this.setState({hasApplied: true});
         CandidatureService.post(idEtudiant, idStage)

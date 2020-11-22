@@ -1,5 +1,6 @@
 package com.equipe1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,8 +35,14 @@ public class Etudiant extends User {
     @OneToOne
     private CV cv;
 
+    @ToString.Exclude
+    @JsonIgnore
+    @OneToOne(mappedBy = "etudiant")
+    private EvaluationStagiaire evaluationStagiaire;
+
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Session> session;
 
     private boolean isEnregistre;
+
 }

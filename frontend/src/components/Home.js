@@ -2,6 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Container, List, Button, Typography} from "@material-ui/core";
 import UserService from "../service/UserService";
 
+import CreateQuestions from './evaluations/createQuestions'
+import EvaluationStagiaire from '../components/evaluations/EvaluationStagiaire'
+import EvaluationMilieuStage from './evaluations/evaluationMilieuStage/EvaluationMilieuStage'
+import EvaluationMilieuHome from './enseignant/EvaluationMilieuHome'
+import ApreciationGlobaleStagiaire from '../components/evaluations/evaluationStagiaire/ApreciationGlobaleStagiaire'
+import EvaluationsHome from './employeur/evaluations/EvaluationsHome'
+import SimpleTabs from './gestionnaire/RapportComponent'
+
 export default function Home(props) {
     if (props.location.search === "?refresh") {
         props.history.replace("/")
@@ -56,6 +64,3 @@ export default function Home(props) {
         </Container>
     )
 }
-
-
-
