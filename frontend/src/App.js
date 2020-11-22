@@ -85,13 +85,13 @@ function App() {
 
 const theme = createMuiTheme({
     palette: {
+        // primary: {
+        //     main: "#616161",
+        //     light: "#8e8e8e",
+        //     dark: "#373737",
+        // },
         primary: {
-            main: "#616161",
-            light: "#8e8e8e",
-            dark: "#373737",
-        },
-        secondary: {
-            main: "#ff8d0b",
+            main: "#612675",
             light: "#ffbe49",
             dark: "#c55e00",
         },
@@ -102,6 +102,9 @@ const theme = createMuiTheme({
         },
         background: {
             table: "#8e8e8e"
+        },
+        button: {
+            textTransform: "capitalize"
         }
     }
 });

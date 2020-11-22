@@ -82,7 +82,7 @@ function Test(props){
             <TableContainer  >
                 <Table
                     // stickyHeader
-                    size="small"
+                    // size="small"
                     className={classes.root}
                 >
                     <TableHead >
