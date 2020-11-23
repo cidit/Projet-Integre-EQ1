@@ -29,27 +29,27 @@ export default function Home(props) {
     function define(reminderType) {
         switch (reminderType) {
             case "NO_CV":
-                return <p>Vous n'avez pas de CV a votre nom</p>
+                return ["Pas de CV", "Vous n'avez pas de CV a votre nom", ""]
             case "NO_CANDIDATURE_ON_STAGE":
-                return <p>Vous n'avez pas posé de candidature sur aucun stage</p>
+                return ["Pas de candidature", "Vous n'avez pas posé de candidature sur aucun stage", ""]
             case "SIGNATURE_MISSING_ON_CONTRAT":
-                return <p>Votre signature est manquante sur un contrat</p>
+                return ["Pas de signature", "Votre signature est manquante sur un contrat", ""]
             case "NOT_REGISTERED_THIS_SESSION":
-                return <p>Vous n'etes pas enregistré cette session</p>
+                return ["Pas enregistr/e", "Vous n'etes pas enregistré cette session", ""]
             case "STAGE_FREQUENTATION_NOT_CONFIRMED":
-                return <p>vous n'avez confirmé votre fréquentation à aucun stage</p>
+                return ["Confirmer votre frequenatation", "Vous n'avez confirmé votre fréquentation à aucun stage", ""]
             case "OPEN_STAGE_HAS_CANDIDATURES":
-                return <p>un stage encore ouvert a des candidatures</p>
+                return ["Candidatures sur un stage ouvert", "Un stage encore ouvert a des candidatures", ""]
             case "NO_OPEN_STAGE_THIS_SESSION":
-                return <p>vous n'avez pas soumis de stage ouvert cette session</p>
+                return ["Pas de stage cette session", "Vous n'avez pas soumis de stage ouvert cette session", ""]
             case "UNREVIEWED_CVS":
-                return <p>votre veto n'a pas été appliqué sur un ou plusieurs CV</p>
+                return ["CVs sans veto", "Votre veto n'a pas été appliqué sur un ou plusieurs CV", ""]
             case "UNREVIEWED_STAGES":
-                return <p>votre veto n'a pas été appliqué sur un ou plusieurs stage</p>
+                return ["Stages sans veto", "votre veto n'a pas été appliqué sur un ou plusieurs stage", ""]
             case "CONTRAT_READY_TO_BE_GENERATED":
-                return <p>Un contrat est prêt à être généré</p>
+                return ["Contrats a generer", "Un contrat est prêt à être généré", ""]
             case "NEW_SESSION_SOON":
-                return <p>Une nouvelle session arrive bientot!</p>
+                return ["Nouvelle Session", "Une nouvelle session arrive bientot!", ""]
             default:
                 return <></>
         }
@@ -60,7 +60,10 @@ export default function Home(props) {
         <Container>
             {/*<Button onClick={() => setReminders(UserService.getReminders(userId))}>Refresh</Button>*/}
             <List>
-                {reminders.map(reminder => define(reminder))}
+                {reminders.map(reminder => {
+                    let [title, message, redirect] = define(reminder)
+                    return <AlertDialog titre={title} message={message} redirect={redirect}/>
+                })}
             </List>
         </Container>
     )
