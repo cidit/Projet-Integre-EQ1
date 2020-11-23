@@ -28,30 +28,30 @@ export default function Home(props) {
 
     function define(reminderType) {
         switch (reminderType) {
-            case "NO_CV":
+            case "PAS_DE_CV":
                 return ["Pas de CV", "Vous n'avez pas de CV a votre nom", ""]
-            case "NO_CANDIDATURE_ON_STAGE":
+            case "PAS_DE_CANDIDATURE_SUR_UN_STAGE":
                 return ["Pas de candidature", "Vous n'avez pas posé de candidature sur aucun stage", ""]
-            case "SIGNATURE_MISSING_ON_CONTRAT":
+            case "SIGNATURE_MANQUANTE_SUR_UN_CONTRAT":
                 return ["Pas de signature", "Votre signature est manquante sur un contrat", ""]
-            case "NOT_REGISTERED_THIS_SESSION":
+            case "PAS_ENREGISTRE_CETTE_SESSION":
                 return ["Pas enregistr/e", "Vous n'etes pas enregistré cette session", ""]
-            case "STAGE_FREQUENTATION_NOT_CONFIRMED":
+            case "FREQUENTATION_DE_STAGE_PAS_CONFIRMEE":
                 return ["Confirmer votre frequenatation", "Vous n'avez confirmé votre fréquentation à aucun stage", ""]
-            case "OPEN_STAGE_HAS_CANDIDATURES":
+            case "UN_STAGE_ENCORS_OUVERT_A_DES_CANDIDATURES":
                 return ["Candidatures sur un stage ouvert", "Un stage encore ouvert a des candidatures", ""]
-            case "NO_OPEN_STAGE_THIS_SESSION":
+            case "PAS_DE_STAGE_OUVERT_CETTE_SESSION":
                 return ["Pas de stage cette session", "Vous n'avez pas soumis de stage ouvert cette session", ""]
-            case "UNREVIEWED_CVS":
+            case "CV_SANS_VETO":
                 return ["CVs sans veto", "Votre veto n'a pas été appliqué sur un ou plusieurs CV", ""]
-            case "UNREVIEWED_STAGES":
+            case "STAGE_SANS_VETO":
                 return ["Stages sans veto", "votre veto n'a pas été appliqué sur un ou plusieurs stage", ""]
-            case "CONTRAT_READY_TO_BE_GENERATED":
+            case "CONTRAT_PRET_A_ETRE_GENERE":
                 return ["Contrats a generer", "Un contrat est prêt à être généré", ""]
-            case "NEW_SESSION_SOON":
+            case "NOUVELLE_SESSION_IMINENTE":
                 return ["Nouvelle Session", "Une nouvelle session arrive bientot!", ""]
             default:
-                return <></>
+                return ["", "", ""]
         }
     }
 

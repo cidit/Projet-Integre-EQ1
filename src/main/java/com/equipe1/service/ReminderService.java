@@ -47,7 +47,7 @@ public class ReminderService {
         var messages = new ArrayList<Reminder.GestionaireReminder>();
         var cvs = cvService.getByDataIsNotNullAndStatusNotReviewed();
         if (!cvs.isEmpty()) {
-            messages.add(Reminder.GestionaireReminder.UNREVIEWED_CVS);
+            messages.add(Reminder.GestionaireReminder.CV_SANS_VETO);
         }
 
         // cherche si il y a des stages sans veto
@@ -56,7 +56,7 @@ public class ReminderService {
                 .stream()
                 .filter(stage -> stage.getSession().equals(currentSession));
         if (stageCetteSession.findAny().isPresent()) {
-            messages.add(Reminder.GestionaireReminder.UNREVIEWED_STAGES);
+            messages.add(Reminder.GestionaireReminder.STAGE_SANS_VETO);
         }
 
         // cherche si un contrat est pret a etre généré
@@ -66,7 +66,7 @@ public class ReminderService {
                     .anyMatch(candidature -> candidature
                             .getStatut()
                             .equals(Candidature.CandidatureStatut.CHOISI))) {
-                messages.add(Reminder.GestionaireReminder.CONTRAT_READY_TO_BE_GENERATED);
+                messages.add(Reminder.GestionaireReminder.CONTRAT_PRET_A_ETRE_GENERE);
                 break;
             }
 
@@ -88,14 +88,14 @@ public class ReminderService {
                 .filter(stage -> stage.getSession()
                         .equals(currentSession));
         if (stageCetteSession.findAny().isEmpty()) {
-            messages.add(Reminder.EmployeurReminder.NO_OPEN_STAGE_THIS_SESSION);
+            messages.add(Reminder.EmployeurReminder.PAS_DE_STAGE_OUVERT_CETTE_SESSION);
         } else {
 
             // cherche si un stage encore ouvert a des candidatures
             for (var stage : stageCetteSession.collect(Collectors.toList())) {
                 var candidatures = candidatureService.findAllByStage(stage.getId());
                 if (!candidatures.isEmpty() && stage.isOuvert()) {
-                    messages.add(Reminder.EmployeurReminder.OPEN_STAGE_HAS_CANDIDATURES);
+                    messages.add(Reminder.EmployeurReminder.UN_STAGE_ENCORS_OUVERT_A_DES_CANDIDATURES);
                     break;
                 }
             }
@@ -110,7 +110,7 @@ public class ReminderService {
                         .equals(currentSession));
         for (var contrat : contratCetteSession.collect(Collectors.toList()))
             if (contrat.getSignatureEmployeur() == Contrat.SignatureEtat.EN_ATTENTE) {
-                messages.add(Reminder.EmployeurReminder.SIGNATURE_MISSING_ON_CONTRAT);
+                messages.add(Reminder.EmployeurReminder.SIGNATURE_MANQUANTE_SUR_UN_CONTRAT);
                 break;
             }
 
@@ -129,7 +129,7 @@ public class ReminderService {
         if (user.getCv() == null ||
                 user.getCv().getData() == null ||
                 user.getCv().getData().length == 0)
-            messages.add(Reminder.EtudiantReminder.NO_CV);
+            messages.add(Reminder.EtudiantReminder.PAS_DE_CV);
 
 
         // cherche si l'etudiant n'a pas encore soumis sa candidature
@@ -143,7 +143,7 @@ public class ReminderService {
                 .noneMatch(stage -> stage
                         .getSession()
                         .equals(currentSession))) {
-            messages.add(Reminder.EtudiantReminder.NO_CANDIDATURE_ON_STAGE);
+            messages.add(Reminder.EtudiantReminder.PAS_DE_CANDIDATURE_SUR_UN_STAGE);
         }
 
         // cherche si il manque sa signature sur le contrat
@@ -151,11 +151,11 @@ public class ReminderService {
                 .stream()
                 .anyMatch(contrat -> contrat.getSignatureEtudiant()
                         .equals(Contrat.SignatureEtat.EN_ATTENTE)))
-            messages.add(Reminder.EtudiantReminder.SIGNATURE_MISSING_ON_CONTRAT);
+            messages.add(Reminder.EtudiantReminder.SIGNATURE_MANQUANTE_SUR_UN_CONTRAT);
 
         // cherche si l'etudiant est enregistré dans la session actuelle
         if (!user.getSession().contains(currentSession))
-            messages.add(Reminder.EtudiantReminder.NOT_REGISTERED_THIS_SESSION);
+            messages.add(Reminder.EtudiantReminder.PAS_ENREGISTRE_CETTE_SESSION);
 
         // cherche si l'etudiant n'a pas encore confirmé sa présence à un stage
         var candidaturesCetteSession = candidatureService.findCandidatureByEtudiant(user.getId())
@@ -166,7 +166,7 @@ public class ReminderService {
         if (candidaturesCetteSession.anyMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.APPROUVE) &&
                 candidaturesCetteSession.noneMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.CHOISI)
         )
-            messages.add(Reminder.EtudiantReminder.STAGE_FREQUENTATION_NOT_CONFIRMED);
+            messages.add(Reminder.EtudiantReminder.FREQUENTATION_DE_STAGE_PAS_CONFIRMEE);
 
         return messages;
     }
