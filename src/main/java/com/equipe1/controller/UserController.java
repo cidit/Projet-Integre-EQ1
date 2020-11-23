@@ -5,6 +5,7 @@ import com.equipe1.model.User;
 import com.equipe1.repository.UserRepository;
 import com.equipe1.service.RappelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.equipe1.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -15,33 +16,32 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
     @Autowired
     private RappelService rappelService;
 
     @GetMapping("findAll")
     public List<User> getAllUsers(){
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/get/{email}/{password}")
     public User getUser(@PathVariable String email, @PathVariable String password){
-        var optionalUser = userRepository.findByEmail(email);
-        if (optionalUser.isEmpty())
-            return null;
-        var user = optionalUser.get();
-        return user.getPassword().equals(password) ? user: null;
+        return userService.getUser(email, password);
     }
 
     @GetMapping("/get/{email}")
     public User getUserByEmail(@PathVariable String email){
-        var optionalUser = userRepository.findByEmail(email);
-        if (optionalUser.isEmpty())
-            return null;
-        var user = optionalUser.get();
-        return user.getEmail().equals(email) ? user: null;
+        return userService.getUserByEmail(email);
+    }
+
+    @GetMapping("/validate/{id}/{password}")
+    public boolean validateUserCredentials(@PathVariable Long id, @PathVariable String password){
+        return userService.validateUserCredentials(id, password);
     }
 
     @GetMapping("/reminders/{userId}")

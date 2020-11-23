@@ -14,40 +14,45 @@ import java.util.Optional;
 public class EmployeurService {
 
     @Autowired
-    private EmployeurRepository employeurRepo;
+    private EmployeurRepository employeurRepository;
 
     public EmployeurService (EmployeurRepository employeurRepository){
-        this.employeurRepo= employeurRepository;
+        this.employeurRepository = employeurRepository;
     }
 
     public List<Employeur> getEmployeurs(){
-        return employeurRepo.findAll();
+        return employeurRepository.findAll();
     }
 
     public Employeur getEmployeurById(Long idEmployeur){
-        return employeurRepo.findById(idEmployeur)
+        return employeurRepository.findById(idEmployeur)
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Invalid Employeur id %s",idEmployeur)));
     }
 
     public Employeur getEmployeurByEmail(String email){
-        return employeurRepo.findEmployeurByEmail(email);
+        return employeurRepository.findEmployeurByEmail(email);
     }
 
     public Employeur saveEmployeur(Employeur employeur){
-        employeurRepo.save(employeur);
+        employeurRepository.save(employeur);
         return employeur;
     }
 
     public Employeur updateEmployeur(Employeur newEmployeur, long id){
-        Optional<Employeur> optionalEmployeur = employeurRepo.findById(id);
+        Optional<Employeur> optionalEmployeur = employeurRepository.findById(id);
         if(optionalEmployeur.isPresent()){
             optionalEmployeur.get().setNom(newEmployeur.getNom());
             optionalEmployeur.get().setTelephone(newEmployeur.getTelephone());
             optionalEmployeur.get().setAdresse(newEmployeur.getAdresse());
-            return employeurRepo.save(optionalEmployeur.get());
+            return employeurRepository.save(optionalEmployeur.get());
         }else
             newEmployeur.setId(id);
-            return employeurRepo.save(newEmployeur);
+            return employeurRepository.save(newEmployeur);
     }
 
+    public Employeur updateEmployeurPassword(Employeur newEmployeur, Long id) {
+        Optional<Employeur> optionalEmployeur = employeurRepository.findById(id);
+        optionalEmployeur.get().setPassword(newEmployeur.getPassword());
+        return employeurRepository.save(optionalEmployeur.get());
+    }
 }
