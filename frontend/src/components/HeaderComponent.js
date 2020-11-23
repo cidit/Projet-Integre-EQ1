@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
@@ -64,13 +64,13 @@ function EtudiantNav() {
 
 function NavType(props) {
     if (props.desc.toUpperCase() === "ETUDIANT")
-        return <EtudiantNav />
+        return <EtudiantNav/>
     else if (props.desc.toUpperCase() === "EMPLOYEUR")
-        return <EmployeurNav />
+        return <EmployeurNav/>
     else if (props.desc.toUpperCase() === "GESTIONNAIRE")
-        return <GestionnaireNav />
+        return <GestionnaireNav/>
     else
-        return <NotLoggedInNav />
+        return <NotLoggedInNav/>
 }
 
 class HeaderComponent extends Component {

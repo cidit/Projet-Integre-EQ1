@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Etudiant from "../model/Etudiant";
 import * as Yup from 'yup';
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import UserService from "../service/UserService";
 import EtudiantService from "../service/EtudiantService";
 
@@ -38,7 +38,7 @@ export default class EtudiantRegister extends Component {
     }
 
     handleChange(event) {
-        this.setState({ [event.target.name]: event.target.value })
+        this.setState({[event.target.name]: event.target.value})
     }
 
     render() {
@@ -47,7 +47,7 @@ export default class EtudiantRegister extends Component {
             <div className="container">
                 <div className="col">
                     <div className="card p-3 m-3">
-                        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Nouvel Étudiant</h5>
+                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Nouvel Étudiant</h5>
                         <Formik
                             initialValues={{
                                 email: "",
@@ -70,9 +70,9 @@ export default class EtudiantRegister extends Component {
                                                 } else {
                                                     EtudiantService.post(values);
                                                     actions.resetForm();
-                                                    actions.setStatus({ message: "Utilisateur crée avec succès" });
+                                                    actions.setStatus({message: "Utilisateur crée avec succès"});
                                                     setTimeout(() => {
-                                                        actions.setStatus({ message: '' });
+                                                        actions.setStatus({message: ''});
                                                     }, 3000);
 
                                                     actions.setSubmitting(false);
@@ -88,7 +88,7 @@ export default class EtudiantRegister extends Component {
 
                                 })
                             }}>
-                            {({ status, isSubmitting, isValid, isValidating }) => (
+                            {({status, isSubmitting, isValid, isValidating}) => (
                                 <Form>
                                     <div className="container text-left justify-content-center">
 
@@ -97,9 +97,9 @@ export default class EtudiantRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label">Nom</label>
                                                     <Field type="text"
-                                                        name="nom"
-                                                        className="form-control"
-                                                        placeholder=""
+                                                           name="nom"
+                                                           className="form-control"
+                                                           placeholder=""
                                                            maxLength="255"
                                                     />
                                                     <ErrorMessage name="nom">{msg => <div
@@ -112,9 +112,9 @@ export default class EtudiantRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label">Prenom</label>
                                                     <Field type="text"
-                                                        name="prenom"
-                                                        className="form-control"
-                                                        placeholder=""
+                                                           name="prenom"
+                                                           className="form-control"
+                                                           placeholder=""
                                                            maxLength="255"
                                                     />
                                                     <ErrorMessage name="prenom">{msg => <div
@@ -127,9 +127,9 @@ export default class EtudiantRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label">Email</label>
                                                     <Field type="email"
-                                                        name="email"
-                                                        className="form-control"
-                                                        placeholder="example@email.com"
+                                                           name="email"
+                                                           className="form-control"
+                                                           placeholder="example@email.com"
                                                            maxLength="255"
                                                     />
                                                     <ErrorMessage name="email">{msg => <div
@@ -142,9 +142,9 @@ export default class EtudiantRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label">Password</label>
                                                     <Field type="password"
-                                                        name="password"
-                                                        className="form-control"
-                                                        placeholder=""
+                                                           name="password"
+                                                           className="form-control"
+                                                           placeholder=""
                                                            maxLength="255"
                                                     />
                                                     <ErrorMessage name="password">{msg => <div
@@ -157,9 +157,9 @@ export default class EtudiantRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label">Matricule</label>
                                                     <Field type="text"
-                                                        name="matricule"
-                                                        className="form-control"
-                                                        placeholder=""
+                                                           name="matricule"
+                                                           className="form-control"
+                                                           placeholder=""
                                                            maxLength="255"
                                                     />
                                                     <ErrorMessage name="matricule">{msg => <div
@@ -172,9 +172,9 @@ export default class EtudiantRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label"> Téléphone </label>
                                                     <Field type="text"
-                                                        name="telephone"
-                                                        className="form-control"
-                                                        placeholder=""
+                                                           name="telephone"
+                                                           className="form-control"
+                                                           placeholder=""
                                                            maxLength="255"
                                                     />
                                                     <ErrorMessage name="telephone">{msg => <div
@@ -187,9 +187,9 @@ export default class EtudiantRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label"> adresse </label>
                                                     <Field type="text"
-                                                        name="adresse"
-                                                        className="form-control"
-                                                        placeholder=""
+                                                           name="adresse"
+                                                           className="form-control"
+                                                           placeholder=""
                                                            maxLength="255"
                                                     />
                                                     <ErrorMessage name="adresse">{msg => <div
@@ -202,27 +202,57 @@ export default class EtudiantRegister extends Component {
                                                 <div className="form-group">
                                                     <label className="control-label">Programme</label>
                                                     <Field as="select"
-                                                        name="programme"
-                                                        className="form-control"
-                                                        >
-                                                            <option value="">Choisir un programme</option>
-                                                            <option value="Gestion de commerces">Gestion de commerces</option>
-                                                            <option value="Soins infirmiers">Soins infirmiers</option>
-                                                            <option value="Soins infirmiers pour auxiliaires">Soins infirmiers pour auxiliaires</option>
-                                                            <option value="Techniques d’éducation à l’enfance">Techniques d’éducation à l’enfance</option>
-                                                            <option value="Techniques de bureautique">Techniques de bureautique</option>
-                                                            <option value="Techniques de comptabilité et de gestion">Techniques de comptabilité et de gestion</option>
-                                                            <option value="Techniques de l’informatique">Techniques de l’informatique</option>
-                                                            <option value="Techniques de la logistique du transport">Techniques de la logistique du transport</option>
-                                                            <option value="Technologie de l’architecture">Technologie de l’architecture</option>
-                                                            <option value="Technologie de l’électronique industrielle">Technologie de l’électronique industrielle</option>
-                                                            <option value="Technologie de l’estimation et de l’évaluation en bâtiment">Technologie de l’estimation et de l’évaluation en bâtiment</option>
-                                                            <option value="Technologie du génie civil">Technologie du génie civil</option>
-                                                            <option value="Techniques de la logistique du transport">Techniques de la logistique du transport</option>
-                                                            <option value="Technologie du génie physique">Technologie du génie physique</option>
-                                                        </Field >
-                                                       
-                                                  
+                                                           name="programme"
+                                                           className="form-control"
+                                                    >
+                                                        <option value="">Choisir un programme</option>
+                                                        <option value="Gestion de commerces">Gestion de commerces
+                                                        </option>
+                                                        <option value="Soins infirmiers">Soins infirmiers</option>
+                                                        <option value="Soins infirmiers pour auxiliaires">Soins
+                                                            infirmiers pour auxiliaires
+                                                        </option>
+                                                        <option value="Techniques d’éducation à l’enfance">Techniques
+                                                            d’éducation à l’enfance
+                                                        </option>
+                                                        <option value="Techniques de bureautique">Techniques de
+                                                            bureautique
+                                                        </option>
+                                                        <option
+                                                            value="Techniques de comptabilité et de gestion">Techniques
+                                                            de comptabilité et de gestion
+                                                        </option>
+                                                        <option value="Techniques de l’informatique">Techniques de
+                                                            l’informatique
+                                                        </option>
+                                                        <option
+                                                            value="Techniques de la logistique du transport">Techniques
+                                                            de la logistique du transport
+                                                        </option>
+                                                        <option value="Technologie de l’architecture">Technologie de
+                                                            l’architecture
+                                                        </option>
+                                                        <option
+                                                            value="Technologie de l’électronique industrielle">Technologie
+                                                            de l’électronique industrielle
+                                                        </option>
+                                                        <option
+                                                            value="Technologie de l’estimation et de l’évaluation en bâtiment">Technologie
+                                                            de l’estimation et de l’évaluation en bâtiment
+                                                        </option>
+                                                        <option value="Technologie du génie civil">Technologie du génie
+                                                            civil
+                                                        </option>
+                                                        <option
+                                                            value="Techniques de la logistique du transport">Techniques
+                                                            de la logistique du transport
+                                                        </option>
+                                                        <option value="Technologie du génie physique">Technologie du
+                                                            génie physique
+                                                        </option>
+                                                    </Field>
+
+
                                                     <ErrorMessage name="programme">{msg => <div
                                                         className="badge alert-danger">{msg}</div>}</ErrorMessage>
                                                 </div>
@@ -233,15 +263,15 @@ export default class EtudiantRegister extends Component {
                                             <div className="col-sm-4 offset-sm-4 text-center">
                                                 <div className="form-group">
                                                     <button type="submit"
-                                                        className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
-                                                        className="btn btn-primary"
-                                                        disabled={isValidating || isSubmitting || !isValid}>Enregistrer
-                                            </button>
+                                                            className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
+                                                            className="btn btn-primary"
+                                                            disabled={isValidating || isSubmitting || !isValid}>Enregistrer
+                                                    </button>
 
                                                     {status && status.message &&
-                                                        <div className="alert alert-success mt-3" role="alert">
-                                                            {status.message}
-                                                        </div>
+                                                    <div className="alert alert-success mt-3" role="alert">
+                                                        {status.message}
+                                                    </div>
                                                     }
                                                 </div>
                                             </div>

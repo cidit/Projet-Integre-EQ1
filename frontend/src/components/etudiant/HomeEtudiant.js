@@ -73,13 +73,11 @@ export default class HomeEtudiant extends Component {
                 err += files[x].type + ' is not a supported format\n'
                 this.setState({displayInvalidFileMessage: true});
                 this.setState({displaySubmitCVButton: false});
-            } 
-            else if(!this.state.isRegistered){
+            } else if (!this.state.isRegistered) {
                 err += files[x].type + ' you must register to current session\n'
                 this.setState({displayNoSessionMessage: true});
                 this.setState({displaySubmitCVButton: false});
-            }
-            else {
+            } else {
                 this.setState({displayInvalidFileMessage: false});
                 this.setState({displaySubmitCVButton: true});
             }
@@ -115,7 +113,7 @@ export default class HomeEtudiant extends Component {
             <div className="container">
                 <div className="col">
                     <div className="card p-3 m-3">
-                        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Votre profil</h5>
+                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Votre profil</h5>
                         <form onSubmit={this.handleSubmit} className="d-flex flex-column">
                             <div className="container">
                                 <label>Nom complet : {this.state.etudiant.prenom} {this.state.etudiant.nom}</label><br/>
@@ -136,23 +134,29 @@ export default class HomeEtudiant extends Component {
                                 {this.displayCVMessage()}
                                 <br/>
                                 {this.state.displayInvalidFileMessage ?
-                                    <label style={{color: "red"}}>Ce format de fichier n'est pas autorisé. Seuls les fichiers au
+                                    <label style={{color: "red"}}>Ce format de fichier n'est pas autorisé. Seuls les
+                                        fichiers au
                                         format PDF sont autorisés.</label> : null}
                                 {this.state.displayNoSessionMessage ?
-                                    <label style={{color: "red"}}>Vous devez vous enregistrer à la session.</label> : null}
+                                    <label style={{color: "red"}}>Vous devez vous enregistrer à la
+                                        session.</label> : null}
                                 {this.state.displaySubmitCVButton ?
-                                    <button type="submit" className="btn btn-primary">Enregistrer mon CV</button> : null}<br/>
+                                    <button type="submit" className="btn btn-primary">Enregistrer mon
+                                        CV</button> : null}<br/>
                                 {this.state.hasUploadedCV ?
-                                    <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant être
+                                    <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant
+                                        être
                                         approuvé pour que vous puissiez appliquer aux offres de stage.</label> : null}
                                 <br/>
 
                                 {this.state.isRegistered ?
                                     <p style={{color: "green"}}>*Vous etes enregistré pour cette session.</p> :
-                                    <p style={{color: "red"}}>*Vous n'etes pas encore enregistré pour cette session.</p>}
+                                    <p style={{color: "red"}}>*Vous n'etes pas encore enregistré pour cette
+                                        session.</p>}
                             </div>
                         </form>
-                        {this.state.isRegistered ? "" : <button onClick={this.register}>Confirmer ma présence pour la session.</button>}
+                        {this.state.isRegistered ? "" :
+                            <button onClick={this.register}>Confirmer ma présence pour la session.</button>}
                     </div>
                 </div>
             </div>

@@ -1,12 +1,12 @@
 import React from 'react';
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Redirect } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import ModalMessage from '../../components/utils/ModalMessage';
 
 export default function AlertDialog(props) {
@@ -15,7 +15,7 @@ export default function AlertDialog(props) {
 
     const handleClickOpen = () => {
         setOpen(true);
-        
+
     };
 
     const handleClose = () => {
@@ -24,12 +24,12 @@ export default function AlertDialog(props) {
 
     };
 
-console.log("desde modal")
-if(redirect) {
-    //CreationContrat(candidature)
- 
-    return <Redirect to={props.redirect} />
-   } 
+    console.log("desde modal")
+    if (redirect) {
+        //CreationContrat(candidature)
+
+        return <Redirect to={props.redirect}/>
+    }
     return (
         <div>
             <Dialog

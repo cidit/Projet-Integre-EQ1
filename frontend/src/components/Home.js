@@ -9,6 +9,7 @@ import EvaluationMilieuHome from './enseignant/EvaluationMilieuHome'
 import ApreciationGlobaleStagiaire from '../components/evaluations/evaluationStagiaire/ApreciationGlobaleStagiaire'
 import EvaluationsHome from './employeur/evaluations/EvaluationsHome'
 import SimpleTabs from './gestionnaire/RapportComponent'
+import AlertDialog from "./utils/ModalMessage";
 
 export default function Home(props) {
     if (props.location.search === "?refresh") {
