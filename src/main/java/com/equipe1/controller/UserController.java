@@ -1,14 +1,13 @@
 package com.equipe1.controller;
 
-import com.equipe1.model.Reminder;
+import com.equipe1.model.Rappel;
 import com.equipe1.model.User;
 import com.equipe1.repository.UserRepository;
-import com.equipe1.service.ReminderService;
+import com.equipe1.service.RappelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -20,7 +19,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private ReminderService reminderService;
+    private RappelService rappelService;
 
     @GetMapping("findAll")
     public List<User> getAllUsers(){
@@ -46,9 +45,9 @@ public class UserController {
     }
 
     @GetMapping("/reminders/{userId}")
-    public List<? extends Reminder> getMessagesFor(@PathVariable long userId) {
+    public List<? extends Rappel> getRappelsPour(@PathVariable long userId) {
         try {
-            return reminderService.getRemindersFor(userId);
+            return rappelService.getRappelsPour(userId);
         } catch (Exception e) {
             return new ArrayList<>();
         }
