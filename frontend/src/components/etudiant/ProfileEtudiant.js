@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
 import photo from '../../images/photo-avatar-profil.png';
 
+import ProfileEtudiantCV from './ProfileEtudiantCV';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -78,13 +80,20 @@ export default function ProfileHome() {
       setEtudiant(response.data);
   }
 
-  const [redirect, setRegisteredSession] = useState(false)
+  const [isRegistered, setRegisteredSession] = useState(false)
+  const getRegistered = async () => {
+    const response = await EtudiantService.isRegistered(id);
+    console.log(response.data)
+    setRegisteredSession(response.data);
+  }
   const enregisterSession = () => {
-    //setRegisteredSession(true);
+    EtudiantService.register(id)
+    setRegisteredSession(true);
     console.log("TESTING SESSION");
   }
 
   useEffect(() => {
+      getRegistered()
       getEtudiant()
       return () => {
         setEtudiant('')
@@ -107,18 +116,19 @@ export default function ProfileHome() {
       >
         <Tab label="Votre profile" {...a11yProps(0)} />
         <Tab label="Changer votre mot de passe" {...a11yProps(1)} />
+        <Tab label="Curriculum vitae" {...a11yProps(2)} disabled={!isRegistered} />
 
       </Tabs>
       <TabPanel value={value} index={0} component={'span'} variant={'body2'}>
             <Paper className={classes.paper} >
-              <Typography className={classes.heading} align='center'>
-                VOTRE PROFILE
+              <Typography variant="h4" align='center'>
+                Votre profile
               </Typography>
               <div className='row justify-content-md-center p-4'>
               <Avatar alt={etudiant.nom} src={photo} className={classes.large} />
               </div>
                
-                <Typography variant="h4" align='center'>{etudiant.prenom} {etudiant.nom}</Typography>
+                <Typography variant="h5" align='center'>{etudiant.prenom} {etudiant.nom}</Typography>
                 <br></br>
 
                 <Typography variant="subtitle2" align='center'>
@@ -154,9 +164,9 @@ export default function ProfileHome() {
                 </div>
 
                 <Grid container justify="center" >
-                    <Button variant="contained" color="primary" className='m-3' onClick={enregisterSession}>
-                        S'enregister pour la session
-                </Button>
+                    <Button variant="contained" color="primary" className='m-3' disabled={isRegistered} onClick={enregisterSession}>
+                        {isRegistered ? "Vous etes enregistrer à la session" : "S'enregistrer pour la session"}
+                    </Button>
                 </Grid>
             </Paper>
       </TabPanel>
@@ -169,7 +179,12 @@ export default function ProfileHome() {
               </Typography>
             </Paper>
       </TabPanel>
-
+      <TabPanel value={value} index={2}>
+            <Paper className={classes.paper} >
+              <Typography variant="h4" align='center'>Curriculum vitae</Typography>
+              <ProfileEtudiantCV/>
+            </Paper>
+      </TabPanel>
     </div>
   );
 }

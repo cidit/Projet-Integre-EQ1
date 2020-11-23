@@ -105,14 +105,14 @@ export default function ProfileHome() {
       </Tabs>
       <TabPanel value={value} index={0} component={'span'} variant={'body2'}>
             <Paper className={classes.paper} >
-              <Typography className={classes.heading} align='center'>
-                VOTRE PROFILE
+              <Typography variant="h4" align='center'>
+                Votre profile
               </Typography>
               <div className='row justify-content-md-center p-4'>
               <Avatar alt={gestionnaire.nom} src={photo} className={classes.large} />
               </div>
                
-                <Typography variant="h4" align='center'>{gestionnaire.nom}</Typography>
+                <Typography variant="h5" align='center'>{gestionnaire.nom}</Typography>
                 <br></br>
 
                 <Typography variant="subtitle2" align='center'>

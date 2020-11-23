@@ -40,6 +40,10 @@ export default class ProfileEtudiantMotsDePasse extends Component {
                             password: "",
                             newPassword: "",
                             confirmPassword: "",
+                            matricule: "notblank",
+                            programme: "notblank",
+                            adresse: "notblank",
+                            prenom: "notblank",
                         }}
                         validationSchema={formSchema}
 
@@ -54,10 +58,6 @@ export default class ProfileEtudiantMotsDePasse extends Component {
                                                 actions.setFieldError('password', "Mot de passe invalid")
                                             } else {
                                                 values.password = values.newPassword;
-                                                values.matricule = "test";
-                                                values.programme = "test";
-                                                values.adresse = "test";
-                                                values.prenom = "test";
                                                 EtudiantService.updatePassword(values, localStorage.getItem("id"));
                                                 actions.resetForm();
                                                 actions.setStatus({message: "Mot de passe mise à jour avec succès"});

@@ -53,8 +53,7 @@ function EtudiantNav() {
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/profileEtudiant">Votre profil v2</Nav.Link>
-            <Nav.Link href="/etudiant">Votre profil</Nav.Link>
+            <Nav.Link href="/profileEtudiant">Votre profil</Nav.Link>
             <Nav.Link href="/offrestage">Offres de stage</Nav.Link>
             <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
             <Nav.Link href="/contratEtudiant">Contrats</Nav.Link>
