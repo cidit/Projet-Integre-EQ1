@@ -27,9 +27,10 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 
         //var id;
         let id;
+        let idSession;
+        idSession = localStorage.getItem("session");
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
-        
         const response = await EtudiantService.isRegistered(id);
         if(!response.data){
             this.setState({
@@ -37,7 +38,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             });
         }
 
-        const { data: candidatures } = await CandidatureService.getByEtudiant(id);
+        const { data: candidatures } = await CandidatureService.getByEtudiant(id, idSession);
         this.setState({ candidatures });
         //var candidature = await CandidatureService.getCandidatureChoisi(id);
         

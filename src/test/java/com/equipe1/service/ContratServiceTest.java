@@ -228,8 +228,9 @@ public class ContratServiceTest {
 
     @Test
     public void findAll() {
+        Session session = sessionRepository.findCurrentSession().get();
         when(contratRepository.findAll()).thenReturn(Arrays.asList(contrat1, contrat2));
-        List<Contrat> all = contratService.findAll();
+        List<Contrat> all = contratService.getContrats(session.getId());
         assertEquals(2, all.size());
     }
 
@@ -318,10 +319,11 @@ public class ContratServiceTest {
 
     @Test
     public void listCandidatureSansContrat() {
+        Session session = sessionRepository.findCurrentSession().get();
         when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI))
                 .thenReturn(Arrays.asList(candidature2,candidature1));
 
-        List<Candidature> all = contratService.listCandidatureSansContrat();
+        List<Candidature> all = contratService.listCandidatureSansContrat(session.getId());
         assertEquals(2, all.size());
         assertEquals(all.get(0),candidature2);
     }
@@ -329,8 +331,7 @@ public class ContratServiceTest {
     @Test
     void testGetContratsNonSignesEtudiant() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        Session session = sessionRepository.findCurrentSession().get();
 
         contrat1.setId(1L);
         contrat1.setCandidature(candidature1);
@@ -341,7 +342,7 @@ public class ContratServiceTest {
         doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
         contratRepository.save(contrat1);
         // Act
-        List<Contrat> contrats = contratService.getContratsNonSignesEtudiant();
+        List<Contrat> contrats = contratService.getContratsNonSignesEtudiant(session.getId());
         // Assert
         Assertions.assertEquals(1, contrats.size());
     }
@@ -349,8 +350,7 @@ public class ContratServiceTest {
     @Test
     void testGetContratsNonSignesEmployeur() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        Session session = sessionRepository.findCurrentSession().get();
 
         contrat1.setId(1L);
         contrat1.setCandidature(candidature1);
@@ -360,7 +360,7 @@ public class ContratServiceTest {
         doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
         contratRepository.save(contrat1);
         // Act
-        List<Contrat> contrats = contratService.getContratsNonSignesEmployeur();
+        List<Contrat> contrats = contratService.getContratsNonSignesEmployeur(session.getId());
         // Assert
         Assertions.assertEquals(1, contrats.size());
     }
@@ -368,8 +368,7 @@ public class ContratServiceTest {
     @Test
     void testGetContratsNonSignesAdministrateur() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        Session session = sessionRepository.findCurrentSession().get();
 
         contrat1.setId(1L);
         contrat1.setCandidature(candidature1);
@@ -381,7 +380,7 @@ public class ContratServiceTest {
         doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
         contratRepository.save(contrat1);
         // Act
-        List<Contrat> contrats = contratService.getContratsNonSignesAdministration();
+        List<Contrat> contrats = contratService.getContratsNonSignesAdministration(session.getId());
         // Assert
         Assertions.assertEquals(1, contrats.size());
     }

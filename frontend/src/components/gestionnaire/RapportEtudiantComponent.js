@@ -55,31 +55,36 @@ function TabPanel(props) {
 
     const [etudiantsInscrits, setEtudiantsInscrits] = useState(null);
     const getEtudiantsInscrits = async () => {
-        const response = await EtudiantService.getEtudiantsInscrits();
+        var idSession = localStorage.getItem("session");
+        const response = await EtudiantService.getEtudiants(idSession);
         setEtudiantsInscrits(response.data);
     }
 
     const [etudiantsSansCV, setEtudiantsSansCV] = useState(null);
     const getEtudiantsSansCV = async () => {
-        const response = await EtudiantService.getEtudiantsAucunCV();
+        var idSession = localStorage.getItem("session");
+        const response = await EtudiantService.getEtudiantsAucunCV(idSession);
         setEtudiantsSansCV(response.data);
     }
 
     const [etudiantsCVNonApprouve, setEtudiantsCVNonApprouve] = useState(null);
     const getEtudiantsCVNonApprouve = async () => {
-        const response = await EtudiantService.getEtudiantsCVNonApprouve();
+        var idSession = localStorage.getItem("session");
+        const response = await EtudiantService.getEtudiantsCVNonApprouve(idSession);
         setEtudiantsCVNonApprouve(response.data);
     }
 
     const [etudiantsSansStage, setEtudiantsSansStage] = useState(null);
     const getEtudiantsSansStage = async () => {
-        const response = await EtudiantService.getEtudiantsSansStage();
+        var idSession = localStorage.getItem("session");
+        const response = await EtudiantService.getEtudiantsSansStage(idSession);
         setEtudiantsSansStage(response.data);
     }
 
       const [etudiantsAyantEntrevue, setEtudiantsAyantEntrevue] = useState(null);
       const getEtudiantsAyantEntrevue = async () => {
-          const response = await EtudiantService.getAllAyantEntrevue();
+          var idSession = localStorage.getItem("session");
+          const response = await EtudiantService.getAllAyantEntrevue(idSession);
           setEtudiantsAyantEntrevue(response.data);
       }
 

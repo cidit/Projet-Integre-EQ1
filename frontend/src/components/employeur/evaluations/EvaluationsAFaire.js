@@ -50,7 +50,8 @@ export default function EvaluationsAFaire(props) {
     console.log(props.id)
 
     const getCandidature = async () => {
-        const response = await CandidatureService.getCandidaturesAEvaluerParEmployeur(props.id);
+        var idSession = window.localStorage.getItem("session");
+        const response = await CandidatureService.getCandidaturesAEvaluerParEmployeur(props.id, idSession);
         setCandidatures(response.data);
         console.log(response.data)
     }

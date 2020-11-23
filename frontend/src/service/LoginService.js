@@ -1,3 +1,4 @@
+import SessionService from "./SessionService";
 
 const baseURL = "http://localhost:8080/users";
 
@@ -19,6 +20,7 @@ class LoginService{
     async logout() {
         await window.localStorage.removeItem("id");
         await window.localStorage.removeItem("desc");
+        await window.localStorage.removeItem("session");
     }
 }
 

@@ -21,8 +21,8 @@ public class StageController {
     }
 
     @GetMapping(value = "/findAll")
-    public List<Stage> getAllStages(){
-        return stageService.getStages();
+    public List<Stage> getAllStages(@RequestParam("idSession") Long idSession){
+        return stageService.getStages(idSession);
     }
 
     @GetMapping(value = "/getStagesSession")
@@ -35,14 +35,14 @@ public class StageController {
         return stageService.findStageById(idStage);
     }
 
-    @GetMapping("/stageByEmployeurId")
-    public List<Stage> getStageByEmployeurId(@RequestParam("idEmployeur") Long idEmployeur){
-        return stageService.getStagesByEmployeur(idEmployeur);
+    @GetMapping("/stageByEmployeurId/{idEmployeur}")
+    public List<Stage> getStageByEmployeurId(@PathVariable("idEmployeur") Long idEmployeur, @RequestParam("idSession") Long idSession){
+        return stageService.getStagesByEmployeur(idEmployeur, idSession);
     }
 
-    @GetMapping("/stagesEtudiant")
-    public List<Stage> getStagesEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
-        return stageService.getStagesEtudiant(idEtudiant);
+    @GetMapping("/stagesEtudiant/{idEtudiant}")
+    public List<Stage> getStagesEtudiant(@PathVariable("idEtudiant") Long idEtudiant, @RequestParam("idSession") Long idSession){
+        return stageService.getStagesEtudiant(idEtudiant, idSession);
     }
 
     @PostMapping("createStage")
@@ -71,17 +71,17 @@ public class StageController {
     }
 
     @GetMapping("approuves")
-    public List<Stage> getAllStagesApprouves(){
-        return stageService.getStagesApprouves();
+    public List<Stage> getAllStagesApprouves(@RequestParam("idSession") Long idSession){
+        return stageService.getStagesApprouves(idSession);
     }
 
     @GetMapping("ayantStagiaire")
-    public List<Stage> getAllStagesAyantAucunStagiare(){
-        return stageService.getStagesAyantAucunStagiaire();
+    public List<Stage> getAllStagesAyantAucunStagiare(@RequestParam("idSession") Long idSession){
+        return stageService.getStagesAyantAucunStagiaire(idSession);
     }
 
     @GetMapping("nonApprouves")
-    public List<Stage> getAllStagesNonApprouves(){
-        return stageService.getStagesNonApprouves();
+    public List<Stage> getAllStagesNonApprouves(@RequestParam("idSession") Long idSession){
+        return stageService.getStagesNonApprouves(idSession);
     }
 }

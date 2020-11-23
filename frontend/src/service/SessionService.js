@@ -12,9 +12,17 @@ class SessionService {
     getAllSessions(){
         return axios.get(BASE_URL + "findAll")
     }
+    async storeSessionParDefaut(){
+        var session = "";
+        axios.get(BASE_URL + "getSessionEnCours").then(res => window.localStorage.setItem("session", res.data.id));
+        console.log(session)
 
+
+    }
     async changeSession(id){
-        console.log(id)
+        var data;
+        //await axios.get(BASE_URL + "getSessionEnCours").then(r => console.log(r.data.id))
+        console.log(data)
         await window.localStorage.removeItem("session");
         await window.localStorage.setItem("session", id);
     }

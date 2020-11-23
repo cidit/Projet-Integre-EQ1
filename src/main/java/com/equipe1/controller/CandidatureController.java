@@ -26,9 +26,9 @@ public class CandidatureController {
     public Candidature getCandidatureById(@RequestParam("idCandidature") Long idCandidature){
         return candidatureService.findCandidatureById(idCandidature).get();
     }
-    @GetMapping("getByEtudiant")
-    public List<Candidature> getCandidatureByEtudiant(@RequestParam("idEtudiant") Long idEtudiant){
-        return candidatureService.findCandidatureByEtudiant(idEtudiant);
+    @GetMapping("getByEtudiant/{idEtudiant}")
+    public List<Candidature> getCandidatureByEtudiant(@PathVariable("idEtudiant") Long idEtudiant, @RequestParam("idSession") Long idSession){
+        return candidatureService.findCandidatureByEtudiant(idEtudiant, idSession);
     }
 
     @GetMapping("/getByStage")
@@ -72,14 +72,14 @@ public class CandidatureController {
     }
 
     @GetMapping("getByPremierMoisStage")
-    public List<Candidature> getAllForEvaluationMilieuStage() {
+    public List<Candidature> getCandidaturesByPremierMoisStage() {
         //return toutes les candidatures ayant un stage rendue a la 4 semaine
         return candidatureService.getListByDateStage();
     }
 
     @GetMapping("getListAEvaluer/{idEmployeur}")
-    public List<Candidature> getListAEvaluerParEmployeur(@PathVariable Long idEmployeur) {
-        return candidatureService.getListCandidatureByEmployeurToEvaluer(idEmployeur);
+    public List<Candidature> getListAEvaluerParEmployeur(@PathVariable("idEmployeur") Long idEmployeur, @RequestParam("idSession") Long idSession) {
+        return candidatureService.getListCandidatureByEmployeurToEvaluer(idEmployeur, idSession);
     }
 
 }

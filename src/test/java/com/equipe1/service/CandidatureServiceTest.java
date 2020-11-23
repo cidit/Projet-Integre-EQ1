@@ -117,6 +117,7 @@ public class CandidatureServiceTest {
     @Test
     public void testFindCandidatureByEtudiant(){
         // Arrange
+        Session session = sessionRepository.findCurrentSession().get();
         List<Candidature> candidatureList = new ArrayList<>();
         doReturn(s).when(stageRepository).save(any());
         doReturn(e).when(etudiantRepository).save(any());
@@ -129,7 +130,7 @@ public class CandidatureServiceTest {
         Etudiant etudiant = etudiantRepository.save(e);
         doReturn(candidatureList).when(candidatureRepository).findAll();
         // Act
-        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(etudiant.getId());
+        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(etudiant.getId(), session.getId());
         // Assert
         Assertions.assertNotNull(candidatures);
         Assertions.assertEquals(candidatures.size(), 1);
@@ -262,6 +263,7 @@ public class CandidatureServiceTest {
 
     @Test
     void getListCandidatureByEmployeurToEvaluer() {
+        Session session = sessionRepository.findCurrentSession().get();
         employeur.setId(1L);
         c1.setStatut(Candidature.CandidatureStatut.CHOISI);
         s.setDateFin(LocalDate.of(2020,11,01));
@@ -271,12 +273,12 @@ public class CandidatureServiceTest {
         when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1));
         when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)).thenReturn(Arrays.asList(c1));
 
-        List<Candidature> candidatures = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId());
+        List<Candidature> candidatures = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId(), session.getId());
         Assertions.assertNotNull(candidatures);
         Assertions.assertEquals(candidatures.size(), 1);
 
         c1.setEvaluee(true);
-        List<Candidature> candidatures2 = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId());
+        List<Candidature> candidatures2 = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId(), session.getId());
         Assertions.assertEquals(candidatures2.size(), 0);
 
     }

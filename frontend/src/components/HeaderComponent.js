@@ -80,6 +80,9 @@ function ChangeSessionNavDropdown(props) {
 
 async function changeSession(id) {
     await SessionService.changeSession(id);
+    setTimeout(function() {
+        window.location.reload();
+    }, 200);
 }
 
 function NavType(props) {

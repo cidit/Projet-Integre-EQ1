@@ -4,6 +4,7 @@ import com.equipe1.model.*;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EvaluationStagiaireRepository;
 import com.equipe1.repository.QuestionRepository;
+import com.equipe1.repository.SessionRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,8 @@ class EvaluationStagiaireServiceTest {
     @MockBean
     private EmployeurRepository employeurRepository;
     @MockBean
+    private SessionRepository sessionRepository;
+    @MockBean
     private QuestionRepository questionRepository;
     @MockBean
     private CommentaireService commentaireService;
@@ -52,6 +55,7 @@ class EvaluationStagiaireServiceTest {
     private Candidature candidature;
     private Stage stage;
     private Employeur employeur;
+    private Session session;
 
     @BeforeEach
     public void setUp() {
@@ -78,6 +82,12 @@ class EvaluationStagiaireServiceTest {
 
         receptorDonnesEvaluation = new RecepteurDonneesEvaluation(Arrays.asList(q1,q2),commentaire);
         etudiant = new Etudiant();
+        session = Session.builder()
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
+                .build();
+        sessionRepository.save(session);
     }
 
     @Test
@@ -112,10 +122,10 @@ class EvaluationStagiaireServiceTest {
 
     @Test
     void getByEmployeur() {
+        Session session = sessionRepository.findCurrentSession().get();
         when(employeurRepository.findById(1L)).thenReturn(Optional.of(employeur));
         when(evaluationStagiaireRepository.findByEmployeur(employeur)).thenReturn(Arrays.asList(e));
-
-        List<EvaluationStagiaire> evaluations = evaluationStagiaireService.getByEmployeurId(1l);
+        List<EvaluationStagiaire> evaluations = evaluationStagiaireService.getByEmployeurId(1l, session.getId());
 
         Assertions.assertNotNull(evaluations);
         Assertions.assertEquals(evaluations.size(), 1);

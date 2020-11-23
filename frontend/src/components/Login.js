@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './../App.css';
 import './../css/Register.css';
 import LoginService from "../service/LoginService";
+import SessionService from "../service/SessionService";
 
 export default class Login extends Component {
     constructor(props) {
@@ -18,8 +19,9 @@ export default class Login extends Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-
+        await SessionService.storeSessionParDefaut();
         let user = await LoginService.login(this.state["email"], this.state["password"])
+
         if (user.id !== undefined){
             this.props.history.push('/?refresh');
         }else{

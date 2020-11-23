@@ -19,8 +19,8 @@ public class EtudiantController {
     }
 
     @GetMapping("/findAll")
-    public List<Etudiant> getAllEtudiant(){
-        return etudiantService.getEtudiants();
+    public List<Etudiant> getAllEtudiant(@RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiants(idSession);
     }
 
     @GetMapping("/get")
@@ -64,23 +64,23 @@ public class EtudiantController {
     }
 
     @GetMapping("/get/{programme}")
-    public List<Etudiant> getAllEtudiantByProgramme(@PathVariable String programme){
-        return etudiantService.getEtudiantsByProgramme(programme);
+    public List<Etudiant> getAllEtudiantByProgramme(@PathVariable String programme, @RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiantsByProgramme(programme, idSession);
     }
 
     @GetMapping("/get/aucunStage")
-    public List<Etudiant> getAllEtudiantsAucunStage(){
-        return etudiantService.getEtudiantsAucunStage();
+    public List<Etudiant> getAllEtudiantsAucunStage(@RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiantsAucunStage(idSession);
     }
 
     @GetMapping("/getAllSansCV")
-    public List<Etudiant> getEtudiantsAucunCV(){
-        return etudiantService.getEtudiantsAucunCV();
+    public List<Etudiant> getEtudiantsAucunCV(@RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiantsAucunCV(idSession);
     }
 
     @GetMapping("/getAllCVNonApprouve")
-    public List<Etudiant> getEtudiantsCVNonApprouve(){
-        return etudiantService.getEtudiantsCVNonApprouve();
+    public List<Etudiant> getEtudiantsCVNonApprouve(@RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiantsCVNonApprouve(idSession);
     }
 
     @GetMapping("/getAllInscrits")
@@ -89,8 +89,8 @@ public class EtudiantController {
     }
 
     @GetMapping("/getAllAyantEntrevue")
-    public List<Etudiant> getEtudiantsAyantEntrevue(){
-        return etudiantService.getEtudiantsAyantEntrevue();
+    public List<Etudiant> getEtudiantsAyantEntrevue(@RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiantsAyantEntrevue(idSession);
     }
 
 

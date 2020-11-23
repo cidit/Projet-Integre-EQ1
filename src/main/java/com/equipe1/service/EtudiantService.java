@@ -31,8 +31,17 @@ public class EtudiantService {
         this.etudiantRepository = etudiantRepository;
     }
 
-    public List<Etudiant> getEtudiants(){
-        return etudiantRepository.findAll();
+    public List<Etudiant> getEtudiants(Long idSession){
+        Session session = sessionRepository.findById(idSession).get();
+        List<Etudiant> etudiants = etudiantRepository.findAll();
+        List<Etudiant> etudiantsSessionEnCours = new ArrayList<>();
+        if(!etudiants.isEmpty()){
+            etudiantsSessionEnCours = etudiants.stream()
+                    .filter(etudiant -> etudiant.getSession().contains(session))
+                    .collect(Collectors.toList());
+        }
+
+        return etudiantsSessionEnCours;
     }
 
     public Optional<Etudiant> findEtudiantById(Long idEtudiant){
@@ -68,13 +77,13 @@ public class EtudiantService {
         return etudiantRepository.findByEmail(email);
     }
 
-    public List<Etudiant> getEtudiantsByProgramme(String programme) {
-        Session sessionEnCours = sessionRepository.findCurrentSession().get();
+    public List<Etudiant> getEtudiantsByProgramme(String programme, Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Etudiant> etudiants = etudiantRepository.findAllByProgramme(programme);
         List<Etudiant> etudiantsFiltresAvecSession = new ArrayList<>();
         if (etudiants != null){
             for(Etudiant etudiant : etudiants){
-                if(etudiant.getSession().contains(sessionEnCours))
+                if(etudiant.getSession().contains(session))
                     etudiantsFiltresAvecSession.add(etudiant);
             }
         }
@@ -105,22 +114,22 @@ public class EtudiantService {
         return false;
     }
 
-    public List<Etudiant> getEtudiantsAucunStage(){
+    public List<Etudiant> getEtudiantsAucunStage(Long idSession){
         List<Etudiant> etudiants = etudiantRepository.findAll();
         List<Etudiant> resultListEtudiants = new ArrayList<>();
         for (Etudiant etudiant : etudiants){
-            if (!hasStage(etudiant))
+            if (!hasStage(etudiant, idSession))
                 resultListEtudiants.add(etudiant);
         }
         return resultListEtudiants;
     }
 
-    private boolean hasStage(Etudiant etudiant) {
-        if(candidatureService.findCandidatureByEtudiant(etudiant.getId()).isEmpty()){
+    private boolean hasStage(Etudiant etudiant, Long idSession) {
+        if(candidatureService.findCandidatureByEtudiant(etudiant.getId(), idSession).isEmpty()){
             return false;
         }
         else {
-            List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(etudiant.getId());
+            List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(etudiant.getId(), idSession);
             for(Candidature candidature : candidatures){
                 if(candidature.getStatut().equals(Candidature.CandidatureStatut.CHOISI))
                     return true;
@@ -137,33 +146,33 @@ public class EtudiantService {
         return etudiantsInscrits;
     }
 
-    public List<Etudiant> getEtudiantsAucunCV() {
-        Session sessionEnCours = sessionRepository.findCurrentSession().get();
+    public List<Etudiant> getEtudiantsAucunCV(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
-                .filter(etudiant -> etudiant.getSession().contains(sessionEnCours) && etudiant.getCv() == null)
+                .filter(etudiant -> etudiant.getSession().contains(session) && etudiant.getCv() == null)
                 .collect(Collectors.toList());
         return etudiantsInscrits;
     }
 
-    public List<Etudiant> getEtudiantsCVNonApprouve() {
-        Session sessionEnCours = sessionRepository.findCurrentSession().get();
+    public List<Etudiant> getEtudiantsCVNonApprouve(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
-                .filter(etudiant -> etudiant.getSession().contains(sessionEnCours) &&
+                .filter(etudiant -> etudiant.getSession().contains(session) &&
                         etudiant.getCv() != null && etudiant.getCv().getStatus() != CV.CVStatus.APPROVED)
                 .collect(Collectors.toList());
         return etudiantsInscrits;
     }
 
-    public List<Etudiant> getEtudiantsAyantEntrevue() {
-        Session sessionEnCours = sessionRepository.findCurrentSession().get();
+    public List<Etudiant> getEtudiantsAyantEntrevue(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
-                .filter(etudiant -> etudiant.getSession().contains(sessionEnCours) && hasEntrevueSession(etudiant.getId()))
+                .filter(etudiant -> etudiant.getSession().contains(session) && hasEntrevueSession(etudiant.getId(), idSession))
                 .collect(Collectors.toList());
         return etudiantsInscrits;
     }
 
-    public boolean hasEntrevueSession(Long id){
-        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(id);
+    public boolean hasEntrevueSession(Long idEtudiant, Long idSession){
+        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(idEtudiant, idSession);
         for(Candidature candidature : candidatures){
             if(!candidature.getEntrevueStatut().equals(Candidature.CandidatureEntrevueStatut.PAS_CONVOQUE))
                 return true;

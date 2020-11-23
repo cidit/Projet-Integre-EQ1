@@ -18,7 +18,10 @@ public class SessionController {
     public List<Session> getAllSessions(){
         return sessionService.getAll();
     }
-
+    @GetMapping("getSessionEnCours")
+    public Session getSessionEnCours(){
+        return sessionService.findCurrentSession().get();
+    }
     @PostMapping("createSession")
     public Session createSession(@RequestBody Session session){
         return sessionService.create(session);

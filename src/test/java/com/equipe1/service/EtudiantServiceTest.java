@@ -82,9 +82,10 @@ public class EtudiantServiceTest {
     @Test
     void testGetEtudiants() {
         // Arrange
+        Session session = sessionRepository.findCurrentSession().get();
         doReturn(Arrays.asList(e1, e2)).when(repository).findAll();
         // Act
-        List<Etudiant> etudiants = service.getEtudiants();
+        List<Etudiant> etudiants = service.getEtudiants(session.getId());
         // Assert
         Assertions.assertEquals(2, etudiants.size());
     }
@@ -198,8 +199,7 @@ public class EtudiantServiceTest {
     @Test
     void testFindEtudiantByProgrammeFound() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        Session session = sessionRepository.findCurrentSession().get();
 
         List<Session> list = new ArrayList<>();
         list.add(session);
@@ -214,7 +214,7 @@ public class EtudiantServiceTest {
 
         doReturn(Arrays.asList(e1, e2)).when(repository).findAllByProgramme("Techniques de l’informatique");
         // Act
-        List<Etudiant> etudiants = service.getEtudiantsByProgramme("Techniques de l’informatique");
+        List<Etudiant> etudiants = service.getEtudiantsByProgramme("Techniques de l’informatique", session.getId());
         // Assert
         Assertions.assertNotNull(etudiants);
         Assertions.assertEquals(2, etudiants.size());
@@ -223,12 +223,11 @@ public class EtudiantServiceTest {
     @Test
     void testFindEtudiantByProgrammeNotFound() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        Session session = sessionRepository.findCurrentSession().get();
         doReturn(null).when(repository).findAllByProgramme("RIEN");
 
         // Act
-        List<Etudiant> etudiants = service.getEtudiantsByProgramme("RIEN");
+        List<Etudiant> etudiants = service.getEtudiantsByProgramme("RIEN", session.getId());
         // Assert
         Assertions.assertNotNull(etudiants);
         Assertions.assertEquals(0, etudiants.size());
@@ -279,11 +278,12 @@ public class EtudiantServiceTest {
     @Test
     void testGetEtudiantsAucunStage(){
         //Arrange
+        Session session = sessionRepository.findCurrentSession().get();
         doReturn(Arrays.asList(e1, e2)).when(repository).findAll();
-        doReturn(Arrays.asList(c1)).when(candidatureService).findCandidatureByEtudiant(e1.getId());
+        doReturn(Arrays.asList(c1)).when(candidatureService).findCandidatureByEtudiant(e1.getId(), session.getId());
 
         //Act
-        List<Etudiant> etudiants = service.getEtudiantsAucunStage();
+        List<Etudiant> etudiants = service.getEtudiantsAucunStage(session.getId());
 
         //Assert
         assertNotNull(etudiants);
@@ -327,7 +327,7 @@ public class EtudiantServiceTest {
         doReturn(Arrays.asList(e1)).when(repository).findAll();
         repository.save(e1);
         // Act
-        List<Etudiant> etudiants = service.getEtudiantsAucunCV();
+        List<Etudiant> etudiants = service.getEtudiantsAucunCV(session.getId());
         // Assert
         Assertions.assertEquals(1, etudiants.size());
     }
@@ -335,8 +335,7 @@ public class EtudiantServiceTest {
     @Test
     void testGetEtudiantsCVNonApprouve() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        Session session = sessionRepository.findCurrentSession().get();
 
         List<Session> list = new ArrayList<>();
         list.add(session);
@@ -348,7 +347,7 @@ public class EtudiantServiceTest {
         doReturn(Arrays.asList(e1)).when(repository).findAll();
         repository.save(e1);
         // Act
-        List<Etudiant> etudiants = service.getEtudiantsCVNonApprouve();
+        List<Etudiant> etudiants = service.getEtudiantsCVNonApprouve(session.getId());
         // Assert
         Assertions.assertEquals(1, etudiants.size());
     }
