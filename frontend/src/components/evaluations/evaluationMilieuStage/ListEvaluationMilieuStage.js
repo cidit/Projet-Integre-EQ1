@@ -1,15 +1,18 @@
 import React from "react";
-import { Container, makeStyles, Paper } from '@material-ui/core';
+import { Button, Container, Dialog, DialogContent, DialogTitle, makeStyles, Paper } from '@material-ui/core';
 
 
-import {Typography,TableRow,TableHead ,TableContainer,Table,
-        TableCell,TableBody,IconButton, Collapse, Box} from '@material-ui/core';
+import {
+    Typography, TableRow, TableHead, TableContainer, Table,
+    TableCell, TableBody, IconButton, Collapse, Box, Grid
+} from '@material-ui/core';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { Alert } from '@material-ui/lab';
 import { useEffect, useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import CandidatureService from '../../../service/CandidatureService';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,23 +39,11 @@ const useRowStyles = makeStyles({
     },
 });
 export default function EvaluationMilieuHome() {
-    const classes = useStyles();
-    const { params } = useRouteMatch();
-    const [redirect, setRedirect] = useState(false)
     const [candidatures, setCandidatures] = useState([])
-
-    //defini origin du id
-
-
-
-    const goToEvaluation = () => {
-        setRedirect(true);
-    }
 
     const getEtudiant = async () => {
         const response = await CandidatureService.getCandidaturesByPremierMoisStage();
         setCandidatures(response.data);
-        console.log(response.data)
     }
 
     useEffect(() => {
@@ -71,8 +62,8 @@ export default function EvaluationMilieuHome() {
         return (
             <Container>
                 {candidatures &&
-                    <TableContainer component={Paper}>
-                        <Table aria-label="collapsible table">
+                    <TableContainer >
+                        <Table >
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="left">Détails</TableCell>
@@ -114,6 +105,10 @@ function Row(props) {
         setRedirect(true);
     }
 
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     if (redirect) {
         return <Redirect to={`/evaluationMilieuStage/${candidature.id}`} />
     }
@@ -132,15 +127,18 @@ function Row(props) {
                 <TableCell >{row.stage.titre}</TableCell>
                 <TableCell ><button className="btn btn-primary" onClick={() => handleSelectCandidature(row)}>Commencer l'évaluation</button></TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow >
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box margin={1} >
+                    <Dialog open={open} fullWidth={true} maxWidth={"md"}>
+                        <Button variant="outlined" onClick={handleClose} className='m-1' >
+                            <CloseIcon color='action' align="right" fontSize='small' /> Fermer
+                        </Button>
+                        <DialogContent margin={4} >
 
                             {/* Employeur */}
                             <Typography variant="h6" gutterBottom component="div" className="pt-3 text-info">
                                 Employeur
-                </Typography>
+                             </Typography>
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
@@ -164,7 +162,7 @@ function Row(props) {
 
                             <Typography variant="h6" gutterBottom component="div" className="pt-3 text-info">
                                 Étudiant(e)
-                </Typography>
+                             </Typography>
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow className="border-bottom-0">
@@ -192,7 +190,7 @@ function Row(props) {
 
                             <Typography variant="h6" gutterBottom component="div" className="pt-3 text-info">
                                 Stage
-                </Typography>
+                             </Typography>
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
@@ -215,8 +213,8 @@ function Row(props) {
                                     </TableRow>
                                 </TableBody>
                             </Table>
-                        </Box>
-                    </Collapse>
+                        </DialogContent>
+                    </Dialog>
                 </TableCell>
             </TableRow>
         </React.Fragment>
@@ -225,10 +223,10 @@ function Row(props) {
 };
 function AlertAucunContrat(isGestionnaire) {
     return <div className="container">
-      <div className="row justify-content-md-center">
-        <div className="col">
-         <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation à remplir pour le moment</Alert>
+        <div className="row justify-content-md-center">
+            <div className="col">
+                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation à remplir pour le moment</Alert>
+            </div>
         </div>
-      </div>
     </div>;
-  }
+}

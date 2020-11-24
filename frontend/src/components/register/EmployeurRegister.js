@@ -42,6 +42,7 @@ export default class EmployeurRegister extends Component {
                         nomEntreprise: "",
                         email: "",
                         password: "",
+                        confimerPassword: "",
                         telephone: "",
                         adresse: "",
                         rol: "Employeur"
@@ -182,7 +183,7 @@ export default class EmployeurRegister extends Component {
                                     <div className="col-sm-4 offset-sm-4 text-center">
                                         <div className="form-group">
                                             <Button variant="contained" color="primary" className='m-3' type="submit"
-                                                className={`btn btn-primary submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
+                                                className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
                                                 disabled={isValidating || isSubmitting || !isValid}>Enregistrer
                                                     </Button>
 

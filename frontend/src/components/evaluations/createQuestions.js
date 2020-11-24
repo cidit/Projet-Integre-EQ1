@@ -126,7 +126,7 @@ export default function CreateQuestions(props) {
     return (
 
         <div>
-             <h5 align='center' className='m-2'><strong>{props.titre}</strong></h5>
+             <h5 align='center' className='m-2' ><strong>{props.titre} </strong></h5>
             <h6 align='center'>{props.sousTitre}</h6>
             <Paper className='container mt-2'>
            
@@ -140,9 +140,7 @@ export default function CreateQuestions(props) {
                                 {ChoixResponses.map((choix, i) =>
                                     <th key={i} align="center" className='col'>{choix}</th>
                                 )}
-
                             </tr>
-
                         </thead>
                         <tbody>
                             {questions.map(data =>

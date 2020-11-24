@@ -93,7 +93,7 @@ export default function CreationContratApercue() {
   }
 
   useEffect(() => {
-    candidatureHasContratFunction()
+    candidatureHasContratFunction();
     return () => {
       URL.revokeObjectURL(imageContrat)
     }
