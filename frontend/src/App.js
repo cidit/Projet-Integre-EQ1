@@ -44,6 +44,8 @@ import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGest
 import ProfileEmployeur from './components/employeur/ProfileEmployeur';
 import ProfileGestionnaire from './components/gestionnaire/ProfileGestionnaire';
 import ProfileEtudiant from './components/etudiant/ProfileEtudiant';
+import ProfilEnseignant from './components/enseignant/ProfilEnseignant'
+import EnseignantTabs from './components/enseignant/EnseignantTabs'
 
 function App() {
   return (
@@ -94,6 +96,7 @@ function App() {
           <Route path="/profileEmployeur" component={ProfileEmployeur}/>
           <Route path="/profileGestionnaire" component={ProfileGestionnaire}/>
           <Route path="/ProfileEtudiant" component={ProfileEtudiant}/>
+          <Route path="/profileEnseignant" component={EnseignantTabs}/>
         </Switch>
           {/* </ThemeProvider> */}
       </main>

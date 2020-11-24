@@ -62,6 +62,19 @@ function EtudiantNav() {
     );
 }
 
+function EnseignantNav() {
+
+    return (
+        <Nav className="mr-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/profileEnseignant">Votre profil</Nav.Link>
+            <Nav.Link href="/étudiantsEnCharge">Étudiants en charge</Nav.Link>
+            <Nav.Link href="/evaluations">Évaluations a faire</Nav.Link>
+            <Nav.Link href="/logout">Logout</Nav.Link>
+        </Nav>
+    );
+}
+
 
 function NavType(props) {
     if (props.desc.toUpperCase() === "ETUDIANT")
@@ -70,6 +83,8 @@ function NavType(props) {
         return <EmployeurNav />
     else if (props.desc.toUpperCase() === "GESTIONNAIRE")
         return <GestionnaireNav />
+    else if (props.desc.toUpperCase() === "ENSEIGNANT")
+        return <EnseignantNav />
     else
         return <NotLoggedInNav />
 }
@@ -77,7 +92,7 @@ function NavType(props) {
 class HeaderComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {desc: localStorage.getItem("desc") === null ? "" : localStorage.getItem("desc")}
+        this.state = { desc: localStorage.getItem("desc") === null ? "" : localStorage.getItem("desc") }
     }
 
     render() {
@@ -87,9 +102,9 @@ class HeaderComponent extends Component {
                 <Navbar.Brand href="/">
                     Projet intégré équipe 1
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <NavType desc={this.state.desc}/>
+                    <NavType desc={this.state.desc} />
                 </Navbar.Collapse>
             </Navbar>
 

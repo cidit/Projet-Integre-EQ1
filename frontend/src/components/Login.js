@@ -44,12 +44,13 @@ export default class Login extends Component {
                      
                     </label>
                     <input type="submit" value="Login"/>
-                    {this.state.isNotlogin &&
+                    
+                </form>
+                {this.state.isNotlogin &&
                          <div className="alert alert-danger mt-3" role="alert">
                          Email ou password invalide
                        </div>
                     }
-                </form>
 
                
 

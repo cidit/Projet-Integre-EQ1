@@ -25,4 +25,7 @@ public class Enseignant extends User {
     @JsonIgnore
     @OneToMany(mappedBy = "enseignant")
     protected List<EvaluationMilieuStage> evaluationMilieuStage;
+
+    private String prenom;
+    private String programme;
 }

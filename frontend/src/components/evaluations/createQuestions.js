@@ -1,13 +1,14 @@
 import {
-    Button, FormControlLabel, Radio, RadioGroup, Paper,TextField, 
-    Table, TableCell, TableContainer, TableHead, TableRow, Checkbox, Link, InputAdornment, FormControl, FilledInput
+    Button,
+    Checkbox, FormControl, FormControlLabel,
+    Link, Paper, Radio, RadioGroup,
+    Table, TableCell, TableRow, TextField
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from "react";
-import ModalMessage from '../../components/utils/ModalMessage';
-import EvaluationService from '../../service/EvaluationService'
 import { useRouteMatch } from "react-router-dom";
-import Typography from 'material-ui/styles/typography';
+import ModalMessage from '../../components/utils/ModalMessage';
+import EvaluationService from '../../service/EvaluationService';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 const ChoixResponses = ['Totalement en accord', 'Plutôt en accord', 'Plutôt en désaccord', 'Totalement en désaccord', 'Non Applicable']
 
 export default function CreateQuestions(props) {
-    const classes = useStyles();
     const [questions, setQuestions] = useState(props.questions)
     const [evaluation, setEvaluation] = useState([])
     const [isCopletedQuestions, setIsCopletedQuestions] = useState(true)

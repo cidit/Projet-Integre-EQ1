@@ -83,7 +83,6 @@ function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
     const [candidature, setCandidature] = useState(null);
-    const [isCandidatureValide, setIsCandidatureValide] = useState(false);
     const classes = useRowStyles();
     const [redirect, setRedirect] = useState(false);
 
