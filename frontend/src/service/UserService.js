@@ -1,24 +1,19 @@
+const BASE_URL = "http://localhost:8080/users/get/"
 
 class UserService {
     async getByEmail(email) {
         let data
-        await fetch("http://localhost:8080/users/get/" + email, {method: "GET"})
+        await fetch(BASE_URL + email, {method: "GET"})
             .then(r => data = r.json())
             .catch(error => data = {})
         return data
     }
-        let data;
-        await fetch(baseURL + "/get/" + email, {method: "GET"})
-        .then(r => data = r.json())
-        .catch(error => data = {});
-        return data;
-    }
 
     async validateCredentials(id, password) {
         let data;
-        await fetch(baseURL + "/validate/" + id + "/" + password, {method: "GET"})
-        .then(r => data = r.json())
-        .catch(error => data = {});
+        await fetch(BASE_URL + "/validate/" + id + "/" + password, {method: "GET"})
+            .then(r => data = r.json())
+            .catch(error => data = {});
         return data;
     }
 

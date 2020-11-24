@@ -16,15 +16,18 @@ export default function Home(props) {
         props.history.replace("/")
         window.location.reload(false);
     }
+
     const [userId, userDesc] = [localStorage.getItem("id"), localStorage.getItem("desc")];
     const [reminders, setReminders] = useState([])
 
-    if (userId != undefined)
-        UserService.getReminders(userId)
-            .then(value => {
-                setReminders(value)
-            })
-            .catch(reason => console.log(reason))
+    useEffect(() => {
+        if (userId != null || userId != undefined)
+            UserService.getReminders(userId)
+                .then(value => {
+                    setReminders(value)
+                })
+                .catch(reason => console.log(reason))
+    }, [])
 
     function define(reminderType) {
         switch (reminderType) {

@@ -42,7 +42,6 @@ public class UserService {
         User user = optionalUser.get();
         return user.getPassword().equals(password);
     }
-}
 
     public List<Rappel> getRemindersFor(long userId){
         var optionalUser = userRepository.findById(userId);
