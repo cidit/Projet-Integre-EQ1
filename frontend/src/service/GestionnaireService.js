@@ -8,16 +8,8 @@ class GestionnaireService{
         return axios.get(baseURL + "/get?idGestionnaire=" + id);
     }
 
-    async getByPassword(password){
-        let data;
-        await fetch(baseURL +"/password?password=" + password, {method: "GET"} )
-            .then(r => data = r.json())
-            .catch(error => data = {});
-        return data;
-    }
-
-    async put(gestionnaire, id){
-        fetch(baseURL + "/update/" + id,
+    async updatePassword(gestionnaire, id){
+        fetch(baseURL + "/updatePassword/" + id,
             {method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'

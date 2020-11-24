@@ -71,7 +71,15 @@ public class CandidatureController {
         return candidatureService.entrevuePasseeConfirmation(id);
     }
 
+    @GetMapping("getByPremierMoisStage")
+    public List<Candidature> getAllForEvaluationMilieuStage() {
+        //return toutes les candidatures ayant un stage rendue a la 4 semaine
+        return candidatureService.getListByDateStage();
+    }
 
-
+    @GetMapping("getListAEvaluer/{idEmployeur}")
+    public List<Candidature> getListAEvaluerParEmployeur(@PathVariable Long idEmployeur) {
+        return candidatureService.getListCandidatureByEmployeurToEvaluer(idEmployeur);
+    }
 
 }

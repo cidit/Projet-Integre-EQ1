@@ -1,9 +1,6 @@
 package com.equipe1.service;
 
-import com.equipe1.model.CV;
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Session;
+import com.equipe1.model.*;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,6 +166,12 @@ public class EtudiantService {
                 return true;
         }
         return false;
+    }
+
+    public Etudiant updateEtudiantPassword(Etudiant newEtudiant, Long id) {
+        Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
+        optionalEtudiant.get().setPassword(newEtudiant.getPassword());
+        return etudiantRepository.save(optionalEtudiant.get());
     }
 }
 

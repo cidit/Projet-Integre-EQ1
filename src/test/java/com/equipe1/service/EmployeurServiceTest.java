@@ -1,6 +1,7 @@
 package com.equipe1.service;
 
 import com.equipe1.model.Employeur;
+import com.equipe1.model.Etudiant;
 import com.equipe1.repository.EmployeurRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
@@ -90,5 +93,26 @@ public class EmployeurServiceTest {
         when(employeurRepository.findEmployeurByEmail("e1@email.com")).thenReturn(employeur1);
         Employeur employeur = employeurService.getEmployeurByEmail("e1@email.com");
         assertEquals(employeur, employeur1);
+    }
+
+    @Test
+    void testUpdateEtudiantPassword() {
+        // Arrange + Act
+        employeur1.setId(1l);
+        employeur1.setPassword("12345");
+        doReturn(employeur1).when(employeurRepository).save(any());
+        Employeur employeur = employeurRepository.save(employeur1);
+
+        Employeur putContent = new Employeur();
+        putContent = employeur1;
+        putContent.setPassword("totototo");
+        doReturn(putContent).when(employeurRepository).save(any());
+        doReturn(Optional.of(employeur1)).when(employeurRepository).findById(employeur1.getId());
+        Employeur updateEtudiant = employeurService.updateEmployeurPassword(putContent, employeur1.getId());
+        // Assert
+        Assertions.assertNotNull(updateEtudiant);
+        Assertions.assertEquals(1l, updateEtudiant.getId());
+        Assertions.assertEquals(employeur1.getNom(), updateEtudiant.getNom());
+        Assertions.assertEquals("totototo", updateEtudiant.getPassword());
     }
 }

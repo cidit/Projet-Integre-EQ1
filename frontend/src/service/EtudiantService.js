@@ -64,6 +64,17 @@ class EtudiantService{
     register(id) {
         return axios.put(baseURL + "/registration/register/" + id)
     }
+
+    async updatePassword(etudiant, id){
+        console.log(etudiant);
+        fetch(baseURL + "/updatePassword/" + id,
+            {method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(etudiant)} )
+            .then(r => r.json());
+    }
 }
 
 export default new EtudiantService()

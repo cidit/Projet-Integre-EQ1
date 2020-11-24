@@ -85,7 +85,7 @@ class GestionnaireServiceTest {
     }
 
     @Test
-    void testUpdateGestionnaire() {
+    void testUpdateGestionnairePassword() {
         // Arrange + Act
         g1.setId(1l);
         g1.setPassword("12345");
@@ -97,31 +97,11 @@ class GestionnaireServiceTest {
         putContent.setPassword("totototo");
         doReturn(putContent).when(repository).save(any());
         doReturn(Optional.of(g1)).when(repository).findById(g1.getId());
-        Gestionnaire updatedGestionnaire = service.updateGestionnaire(putContent, gestionnaire.getId());
+        Gestionnaire updatedGestionnaire = service.updateGestionnairePassword(putContent, gestionnaire.getId());
         // Assert
         Assertions.assertNotNull(updatedGestionnaire);
         Assertions.assertEquals(1l, updatedGestionnaire.getId());
         Assertions.assertEquals(g1.getNom(), updatedGestionnaire.getNom());
         Assertions.assertEquals("totototo", updatedGestionnaire.getPassword());
-    }
-
-    @Test
-    void testFindGestionnaireByPassword() {
-        // Arrange
-        doReturn(Optional.of(g1)).when(repository).findByPassword("123456");
-        // Act
-        boolean flag = service.getGestionnaireByPassword("123456");
-        // Assert
-        Assertions.assertTrue(flag);
-    }
-
-    @Test
-    void testFindGestionnaireByPasswordNotFound() {
-        // Arrange
-        doReturn(Optional.empty()).when(repository).findByPassword("none");
-        // Act
-        boolean flag = service.getGestionnaireByPassword("none");
-        // Assert
-        Assertions.assertFalse(flag);
     }
 }

@@ -42,4 +42,9 @@ public class EmployeurController {
     public Employeur updateEmployeur(@Valid @RequestBody Employeur employeur, @PathVariable Long id){
         return employeurService.updateEmployeur(employeur, id);
     }
+
+    @PutMapping("updatePassword/{id}")
+    public Employeur updateEmployeurPassword(@Valid @RequestBody Employeur employeur, @PathVariable Long id){
+        return employeurService.updateEmployeurPassword(employeur, id);
+    }
 }

@@ -1,8 +1,8 @@
-import React from 'react';
-import Telecharger from '../utils/telecharger'
 import { Alert } from '@material-ui/lab';
+import React from 'react';
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import ContratService from "../../service/ContratService";
+import Telecharger from '../utils/telecharger';
 
 function isListeVideEmployeur(props){
   const map = props.contrats.filter(data => data.signatureEmployeur === 'PAS_SIGNE' &&
@@ -158,7 +158,6 @@ export function ListeContratsEmployeur(props) {
 }
 
 export function ListeContratsEtudiant(props) {
-  console.log(props.contrats)
   if (isListeVideEtudiant(props)) {
     return (
         AlertAucunContrat(false)

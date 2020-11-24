@@ -15,9 +15,6 @@ export default function Telecharger(props) {
        if (window.localStorage.getItem("desc") !== "Gestionnaire")
         setRedirect(true);
     }
-
-    console.log("path");
-    console.log(props)
     
     if(redirect) {
         return <Redirect to={`/televerserContrats/${props.path}`} />

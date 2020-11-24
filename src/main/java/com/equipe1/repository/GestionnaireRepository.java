@@ -9,6 +9,4 @@ import java.util.Optional;
 @Repository
 public interface GestionnaireRepository extends JpaRepository<Gestionnaire, Long> {
 
-    Optional<Gestionnaire> findByPassword(String password);
-
 }

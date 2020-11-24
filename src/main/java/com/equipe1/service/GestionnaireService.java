@@ -31,14 +31,9 @@ public class GestionnaireService {
         return gestionnaire;
     }
 
-    public Gestionnaire updateGestionnaire(Gestionnaire newGestionnaire, long id){
+    public Gestionnaire updateGestionnairePassword(Gestionnaire newGestionnaire, long id){
         Optional<Gestionnaire> optionalGestionnaire = gestionnaireRepository.findById(id);
         optionalGestionnaire.get().setPassword(newGestionnaire.getPassword());
         return gestionnaireRepository.save(optionalGestionnaire.get());
-    }
-
-    public boolean getGestionnaireByPassword(String password) {
-        Optional<Gestionnaire> optionalGestionnaire = gestionnaireRepository.findByPassword(password);
-        return optionalGestionnaire.isPresent();
     }
 }

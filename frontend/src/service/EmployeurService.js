@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const baseURL = "http://localhost:8080/employeurs";
 
 class EmployeurService{
@@ -18,11 +20,14 @@ class EmployeurService{
     }
 
     async getById(id) {
+        /*
         let data;
         await fetch(baseURL + "/get?idEmployeur=" + id, {method: "GET"})
             .then(r => data = r.json())
             .catch(error => data = {});
         return data;
+        */
+       return await axios.get(baseURL + "/get?idEmployeur=" + id);
     }
 
     async post(employeur){
@@ -35,8 +40,19 @@ class EmployeurService{
             .then(r => r.json());
     }
 
-    async put(employeur,id){
-        fetch(baseURL + "/update/"+id,
+    async put(employeur, id){
+        console.log(employeur);
+        fetch(baseURL + "/update/" + id,
+            {method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(employeur)} )
+            .then(r => r.json());
+    }
+
+    async updatePassword(employeur, id){
+        fetch(baseURL + "/updatePassword/" + id,
             {method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
