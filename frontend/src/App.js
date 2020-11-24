@@ -32,8 +32,8 @@ import QuestionQualiteTravail from './components/evaluations/evaluationStagiaire
 import QuestionRelations from './components/evaluations/evaluationStagiaire/QuestionRelations'
 import QuestionsHabilites from './components/evaluations/evaluationStagiaire/QuestionsHabilites'
 import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
-import ObservationsMilieuStage from './components/evaluations/evaluationMilieuStage/ObservationsMilieuStage'
-import EvaluationStagiaire from './/components/evaluations/EvaluationStagiaire'
+import ObservationsMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
+import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire'
 import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
 import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";

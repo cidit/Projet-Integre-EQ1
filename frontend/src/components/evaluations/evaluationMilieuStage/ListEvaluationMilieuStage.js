@@ -9,7 +9,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { Alert } from '@material-ui/lab';
 import { useEffect, useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
-import CandidatureService from '../../service/CandidatureService';
+import CandidatureService from '../../../service/CandidatureService';
 
 
 const useStyles = makeStyles((theme) => ({
