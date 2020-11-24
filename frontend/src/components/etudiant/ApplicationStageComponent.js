@@ -73,7 +73,7 @@ export default class ApplicationStageComponent extends Component {
 
     render() {
         
-        if (this.state.readyToRedirect) return <Redirect to="/etudiant" />
+        if (this.state.readyToRedirect) return <Redirect to="/profileEtudiant" />
 
         if(this.state.stages.length !== 0){
             if (this.state.etudiant.cv === null){

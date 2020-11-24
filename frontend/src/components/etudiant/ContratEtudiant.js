@@ -30,7 +30,7 @@ export default function ContratEtudiant() {
     },[])
 
     
-    if (readyToRedirect) return <Redirect to="/etudiant" />
+    if (readyToRedirect) return <Redirect to="/profileEtudiant" />
 
     return (
         <div>{contratEtudiant != null &&

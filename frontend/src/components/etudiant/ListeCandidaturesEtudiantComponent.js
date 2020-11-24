@@ -58,7 +58,8 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 
     render() {
         
-        if (this.state.readyToRedirect) return <Redirect to="/etudiant" />
+        if (this.state.readyToRedirect) return <Redirect to="/profileEtudiant" />
+        
         if (this.state.candidatures.length === 0){
             return <div className="container">
                 <div className="row justify-content-md-center">
