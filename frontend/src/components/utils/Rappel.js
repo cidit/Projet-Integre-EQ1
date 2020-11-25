@@ -1,6 +1,6 @@
-import {Card, CardActions, CardHeader, IconButton} from "material-ui";
 import React, {useState} from "react";
-import {CardContent, Typography} from "@material-ui/core";
+import { Card, CardContent, Typography, CardActions, IconButton } from "@material-ui/core";
+import {ArrowForward} from "@material-ui/icons";
 
 // import {ArrowForward} from "@material-ui/icons/ArrowForward";
 // import {Redirect} from "react-router-dom";
@@ -27,10 +27,11 @@ export default function Rappel(props) {
             </CardContent>
             <CardActions>
                 <IconButton onClick={handleClick}>
-                    {/*<ArrowForward/>*/}
+                    <ArrowForward/>
                 </IconButton>
             </CardActions>
         </Card>
+        // <p>fuck you</p>
     )
 
 }
