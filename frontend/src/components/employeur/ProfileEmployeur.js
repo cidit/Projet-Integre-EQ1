@@ -78,7 +78,6 @@ export default function ProfileHome() {
   const [employeur, setEmployeur] = useState('')
   const getEmployeur = async () => {
       const response = await EmployeurService.getById(id);
-      console.log(response)
       setEmployeur(response.data);
   }
 

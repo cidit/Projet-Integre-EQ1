@@ -80,20 +80,17 @@ export default function ProfileHome() {
   const [etudiant, setEtudiant] = useState('')
   const getEtudiant = async () => {
       const response = await EtudiantService.getEtudiantById(id);
-      console.log(response)
       setEtudiant(response.data);
   }
 
   const [isRegistered, setRegisteredSession] = useState(false)
   const getRegistered = async () => {
     const response = await EtudiantService.isRegistered(id);
-    console.log(response.data)
     setRegisteredSession(response.data);
   }
   const enregisterSession = () => {
     EtudiantService.register(id)
     setRegisteredSession(true);
-    console.log("TESTING SESSION");
   }
 
   useEffect(() => {

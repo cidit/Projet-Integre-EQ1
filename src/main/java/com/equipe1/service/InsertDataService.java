@@ -90,7 +90,8 @@ public class InsertDataService {
         e1.setAdresse("123456");
         e1.setEmail("richard@email.com");
         e1.setMatricule("1772397");
-        e1.setPassword(encoder.encode("123456"));
+        e1.setPassword("123456");
+        //e1.setPassword(encoder.encode("123456"));
         e1.setPrenom("richard");
         e1.setNom("truong");
         e1.setStatutStage("possede stage");
@@ -113,7 +114,8 @@ public class InsertDataService {
         e2.setAdresse("123456");
         e2.setEmail("alex@email.com");
         e2.setMatricule("1501279");
-        e2.setPassword(encoder.encode("123456"));
+        e2.setPassword("123456");
+        //e2.setPassword(encoder.encode("123456"));
         e2.setPrenom("alex");
         e2.setNom("truong");
         e2.setStatutStage("aucun stage");
@@ -135,7 +137,8 @@ public class InsertDataService {
         e3.setAdresse("123456");
         e3.setEmail("olingamedjoloic@gmail.com");
         e3.setMatricule("1998277");
-        e3.setPassword(encoder.encode("123456"));
+        e3.setPassword("123456");
+        //e3.setPassword(encoder.encode("123456"));
         e3.setPrenom("Loic");
         e3.setNom("Olinga");
         e3.setStatutStage("aucun stage");
@@ -158,7 +161,8 @@ public class InsertDataService {
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
         e1.setEmail("carlos.test@gmail.com");
-        e1.setPassword(encoder.encode("123456"));
+        e1.setPassword("123456");
+        //e1.setPassword(encoder.encode("123456"));
         e1.setAdresse("12345");
         e1.setNom("Banque1");
         e1.setTelephone("888-888-8888");
@@ -174,7 +178,8 @@ public class InsertDataService {
 
         e1 = new Employeur();
         e1.setEmail("employeur@email.com");
-        e1.setPassword(encoder.encode("123456"));
+        e1.setPassword("123456");
+        //e1.setPassword(encoder.encode("123456"));
         e1.setAdresse("12345");
         e1.setNom("Hopital Général");
         e1.setTelephone("888-888-8888");
@@ -281,7 +286,8 @@ public class InsertDataService {
         g1.setNom("admin01");
         g1.setPrenom("admin01");
         g1.setEmail("gestionnaire01@email.com");
-        g1.setPassword(encoder.encode("123456"));
+        g1.setPassword("123456");
+        //g1.setPassword(encoder.encode("123456"));
         g1.setTelephone("555-555-5555");
 
         Set<Role> roles = new HashSet<>();

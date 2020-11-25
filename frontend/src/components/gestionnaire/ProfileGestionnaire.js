@@ -78,7 +78,6 @@ export default function ProfileHome() {
   const [gestionnaire, setGestionnaire] = useState('')
   const getGestionnaire = async () => {
       const response = await GestionnaireService.getGestionnaireById(id);
-      console.log(response)
       setGestionnaire(response.data);
   }
 
