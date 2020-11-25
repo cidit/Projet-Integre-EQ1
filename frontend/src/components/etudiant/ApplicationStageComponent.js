@@ -3,7 +3,6 @@ import StageService from '../../service/StageService';
 import EtudiantService from "../../service/EtudiantService";
 import CandidatureService from "../../service/CandidatureService";
 
-import { Redirect } from 'react-router-dom';
 import {Alert} from "@material-ui/lab";
 
 export default class ApplicationStageComponent extends Component {
@@ -32,9 +31,7 @@ export default class ApplicationStageComponent extends Component {
 
         const response = await EtudiantService.isRegistered(id);
         if(!response.data){
-            this.setState({
-                readyToRedirect: true
-            });
+            this.props.history.push("/profileEtudiant");
         }
 
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);
@@ -73,8 +70,6 @@ export default class ApplicationStageComponent extends Component {
 
     render() {
         
-        if (this.state.readyToRedirect) return <Redirect to="/profileEtudiant" />
-
         if(this.state.stages.length !== 0){
             if (this.state.etudiant.cv === null){
                 return <div className="container">

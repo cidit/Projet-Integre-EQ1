@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import ContratService from '../../service/ContratService';
 
 import EtudiantService from "../../service/EtudiantService";
-import { Redirect } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 export default function ContratEtudiant() {
+    
+    const history = useHistory();
+    
     const id = localStorage.getItem("desc") === "Etudiant" ? localStorage.getItem("id") : '';
     const [contratEtudiant, setContratEtudiant] = useState(null);
-
-    const [readyToRedirect, setIsRegsiteredSessionEtudiant] = useState(false);
 
     const getByContratEtudiantId = async () => {
         const response = await ContratService.getContratByEtudiantId(id);
@@ -18,7 +19,9 @@ export default function ContratEtudiant() {
 
     const IsRegsiteredSessionEtudiant = async () => {
         const response = await EtudiantService.isRegistered(id);
-        setIsRegsiteredSessionEtudiant(!response.data);
+        if(!response.data){
+            history.push("/profileEtudiant");
+        }
     }
 
     useEffect(() => {
@@ -28,9 +31,6 @@ export default function ContratEtudiant() {
             setContratEtudiant([])
         }
     },[])
-
-    
-    if (readyToRedirect) return <Redirect to="/profileEtudiant" />
 
     return (
         <div>{contratEtudiant != null &&

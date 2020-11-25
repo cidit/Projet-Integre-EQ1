@@ -89,11 +89,8 @@ class Login extends Component {
                     margin="normal"
                     required
                     fullWidth
-                    id="email"
-                    label="Adresse courriel"
+                    placeholder="Adresse courriel"
                     name="email"
-                    autoComplete="email"
-                    autoFocus
                     onChange={this.handleChange}
                 />
                 <TextField
@@ -101,11 +98,9 @@ class Login extends Component {
                     margin="normal"
                     required
                     fullWidth
+                    placeholder="Mot de passe"
                     name="password"
-                    label="Mot de passe"
                     type="password"
-                    id="password"
-                    autoComplete="current-password"
                     onChange={this.handleChange}
                 />
                 {this.state.isNotlogin &&
