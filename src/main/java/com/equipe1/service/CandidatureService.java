@@ -59,7 +59,6 @@ public class CandidatureService {
         return candidatureList;
     }
     public List<Candidature> findCandidatureByEtudiant(Long idEtudiant){
-
         Etudiant etudiant = etudiantRepository.findById(idEtudiant).get();
         List<Candidature> candidatures = candidatureRepository.findAll();
         List<Candidature> candidatureList = new ArrayList<>();
@@ -164,10 +163,6 @@ public class CandidatureService {
         return candidatureBydateStage;
     }
 
-    private boolean isStageRendueAQuatriemeSemaine(Candidature c) {
-        return LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L)) && !c.isEvaluee() && c.getStatut().equals(Candidature.CandidatureStatut.CHOISI);
-    }
-
     public List<Candidature> getListCandidatureByEmployeurToEvaluer(Long idEmployeur){
         List<Candidature> candidatureByemployeur = new ArrayList<>();
         for (Candidature c: getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)) {
@@ -178,6 +173,17 @@ public class CandidatureService {
         return candidatureByemployeur;
     }
 
+    public List<Candidature> getCandidatureEtudaintByEnseignant(Long idEnseignant){
+        
+        List<Candidature> candidatures = new ArrayList<>();
+        for (Candidature c : candidatureRepository.findAll()) {
+          if(c.getEtudiant().getEnseignant() != null && c.getEtudiant().getEnseignant().getId()==idEnseignant){
+              candidatures.add(c);
+          }
+        }
+        return candidatures;
+    }
+
     private boolean isUneSemaineAvantLaFin(Candidature c) {
         var semaineAvantLafinStage = c.getStage().getDateFin().minusWeeks(2);
         return LocalDate.now().isAfter(semaineAvantLafinStage);
@@ -185,5 +191,8 @@ public class CandidatureService {
 
     private boolean employeurExiste(Long idEmployeur, Candidature c) {
         return c.getStage().getEmployeur().getId() == idEmployeur;
+    }
+    private boolean isStageRendueAQuatriemeSemaine(Candidature c) {
+        return LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L)) && !c.isEvaluee() && c.getStatut().equals(Candidature.CandidatureStatut.CHOISI);
     }
 }

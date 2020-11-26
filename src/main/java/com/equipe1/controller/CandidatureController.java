@@ -82,4 +82,9 @@ public class CandidatureController {
         return candidatureService.getListCandidatureByEmployeurToEvaluer(idEmployeur);
     }
 
+    @GetMapping("getListByEnseignant/{idEnseignant}")
+    public List<Candidature> getListByEnseignant(@PathVariable Long idEnseignant) {
+        return candidatureService.getCandidatureEtudaintByEnseignant(idEnseignant);
+    }
+
 }

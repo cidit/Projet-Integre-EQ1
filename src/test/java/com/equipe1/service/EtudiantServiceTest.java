@@ -387,4 +387,16 @@ public class EtudiantServiceTest {
         Etudiant etudiant = service.setEnseignant(1L,1L);
         Assertions.assertEquals(etudiant.getEnseignant(), enseignant);
     }
+
+    @Test
+    void getEtudaintsByEnseignant() {
+        e1.setEnseignant(enseignant);
+        e2.setEnseignant(enseignant);
+        when(repository.findByEnseignant(enseignant)).thenReturn(Arrays.asList(e1,e2));
+        when(enseignantService.getEnseignantById(1L)).thenReturn(enseignant);
+
+        List<Etudiant> etudiants = service.getEtudaintsByEnseignant(1L);
+        Assertions.assertEquals(etudiants.size(),2);
+        Assertions.assertEquals(etudiants.get(0).getEnseignant(),enseignant );
+    }
 }

@@ -67,8 +67,8 @@ function EnseignantNav() {
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/profileEnseignant">Votre profil</Nav.Link>
-            <Nav.Link href="/étudiantsEnCharge">Étudiants en charge</Nav.Link>
+            <Nav.Link href="/profilEnseignant">Votre profil</Nav.Link>
+            <Nav.Link href="/etudiantsEnCharge">Étudiants en charge</Nav.Link>
             <Nav.Link href="/evaluationMilieuStageHome">Évaluations</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>

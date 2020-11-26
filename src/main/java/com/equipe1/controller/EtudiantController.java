@@ -95,6 +95,12 @@ public class EtudiantController {
         return etudiantService.getEtudiantsAyantEntrevue();
     }
 
+    @GetMapping("/getAllbyEnseignant/{idEnseignant}")
+    public List<Etudiant> getEtudiantsbyEnseignant(@PathVariable Long idEnseignant){
+        return etudiantService.getEtudiantsAyantEntrevue();
+    }
+
+
     @PutMapping("updatePassword/{id}")
     public Etudiant updateEtudiantPassword(@Valid @RequestBody Etudiant etudiant, @PathVariable Long id){
         return etudiantService.updateEtudiantPassword(etudiant, id);

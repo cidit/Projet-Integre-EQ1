@@ -48,6 +48,7 @@ import ProfilEnseignant from './components/enseignant/ProfilEnseignant'
 import EnseignantTabs from './components/enseignant/EnseignantTabs'
 import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieuStage/EvaluationMiliauStageTabs'
 import AssignerEtudiantsAuEnseignant from './components/gestionnaire/AssignerEtudiantsAuEnseignant'
+import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge'
 
 function App() {
   return (
@@ -98,7 +99,10 @@ function App() {
           <Route path="/rapport" component={RapportComponent}/>
           <Route path="/profileEmployeur" component={ProfileEmployeur}/>
           <Route path="/profileGestionnaire" component={ProfileGestionnaire}/>
-          <Route path="/ProfileEtudiant" component={ProfileEtudiant}/>
+
+          <Route path="/profilEnseignant" component={EnseignantTabs}/>
+          <Route path="/profilEnseignant" component={EnseignantTabs}/>
+          <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
           <Route path="/etudiantsAuEnseignant/:id/:programme" component={AssignerEtudiantsAuEnseignant}/>
         </Switch>
           </ThemeProvider>  

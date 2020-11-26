@@ -184,7 +184,11 @@ public class EtudiantService {
             etudiant.get().setEnseignant(enseignant);
             etudiantRepository.save(etudiant.get());
         }
-        return etudiant.get();
+        return etudiant.orElse(new Etudiant());
+    }
+    public List<Etudiant> getEtudaintsByEnseignant(Long idEnseignant){
+        Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
+        return etudiantRepository.findByEnseignant(enseignant);
     }
 }
 

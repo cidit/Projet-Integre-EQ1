@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import RapportEtudiantComponent from './RapportEtudiantComponent';
 import RapportStageComponent from './RapportStageComponent';
 import RapportContratComponent from './RapportContratComponent';
+import RapportEnseignantComponent from './RapportEnseignantComponent'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,6 +69,7 @@ export default function SimpleTabs() {
           <Tab label="Rapports étudiants" {...a11yProps(0)} />
           <Tab label="Rapports stages" {...a11yProps(1)} />
           <Tab label="Rapports contrats" {...a11yProps(2)} />
+          <Tab label="Rapports enseignants" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -78,6 +80,9 @@ export default function SimpleTabs() {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <RapportContratComponent/>
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <RapportEnseignantComponent/>
       </TabPanel>
     </div>
   );

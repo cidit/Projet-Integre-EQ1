@@ -1,15 +1,10 @@
 import {
-    Container, makeStyles, Table,
-    TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
+    makeStyles, Table,
+    TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
 import { Alert } from '@material-ui/lab';
-import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
-import CandidatureService from '../../../service/CandidatureService';
-import { useHistory } from 'react-router-dom';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-
+import React,{  useEffect, useState } from 'react';
+import CandidatureService from '../../service/CandidatureService';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,13 +26,6 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         textAlign: 'left',
         fontSize: 15
-    },
-    paper: {
-        padding: theme.spacing(4),
-        marginTop: theme.spacing(-15),
-        margin: 'auto',
-        maxWidth: '50%',
-        marginLeft: theme.spacing(1, 'auto'),
     }
 }));
 
@@ -50,13 +38,14 @@ const useRowStyles = makeStyles((theme) => ({
         },
     },
 }));
-export default function EvaluationMilieuHome() {
+export default function ListEtudiantsEnCharge() {
     const [candidatures, setCandidatures] = useState([])
     const classes = useStyles();
     const id = localStorage.getItem("desc") === "Enseignant" ? localStorage.getItem("id") : '';
 
     const getEtudiant = async () => {
         const response = await CandidatureService.getCandidatureEtudiantByEnseignant(id);
+        console.log(response.data)
         setCandidatures(response.data);
     }
 
@@ -77,17 +66,16 @@ export default function EvaluationMilieuHome() {
             <div className='container-fluid'>
                 {candidatures &&
                     <>
-                   
-                        <TableContainer >
+                        <TableContainer className='mt-3'>
                             <Table className="table table-striped">
                                 <TableHead className={classes.root}>
                                     <TableRow >
-                                        <TableCell className={classes.textTitle} >Nom de l'Entreprise</TableCell>
+                                        <TableCell className={classes.textTitle} >Nom </TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
                                         <TableCell className={classes.textTitle}>Adresse</TableCell>
                                         <TableCell className={classes.textTitle}>Stage en cours</TableCell>
-                                        <TableCell className={classes.textTitle}>Étudiant</TableCell>
+                                        <TableCell className={classes.textTitle}>Entreprise de stage</TableCell>
                                         
                                     </TableRow>
                                 </TableHead>
@@ -109,38 +97,18 @@ export default function EvaluationMilieuHome() {
 function Row(props) {
     const { row } = props;
     const classes = useRowStyles();
-    const [arrow, setArrow] = useState(false);
-    const history = useHistory();
-
-    const handleClickRow = (_row) => {
-        console.log(_row)
-        history.push("/evaluationMilieuStage/" + _row.id);
-    }
-
-    const showArrow = () => {
-        setArrow(true)
-    }
-
-    const hideArrow = () => {
-        setArrow(false)
-    }
 
     return (
         <React.Fragment>
-            <Tooltip open={arrow} placement="right" onClose={hideArrow} onOpen={showArrow} title="evaluer">
-                <TableRow className={classes.root} onClick={() => handleClickRow(row)} style={{ cursor: 'pointer' }} hover>
-                    <TableCell >{row.stage.employeur.nom}</TableCell>
-                    <TableCell >{row.stage.employeur.email}</TableCell>
-                    <TableCell>{row.stage.employeur.telephone}</TableCell>
-                    <TableCell>{row.stage.employeur.adresse}</TableCell>
+                <TableRow className={classes.root}>
+                     <TableCell >{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
+                    <TableCell >{row.etudiant.email}</TableCell>
+                    <TableCell>{row.etudiant.telephone}</TableCell>
+                    <TableCell>{row.etudiant.adresse}</TableCell>
                     <TableCell >{row.stage.titre}</TableCell>
-                    <TableCell >{row.etudiant.prenom} {row.etudiant.nom}
-                    </TableCell>
-                   {/* {arrow &&
-                         <ArrowForwardIcon color='disabled' fontSize='large'/>
-                    }  */}
+                    <TableCell >{row.stage.employeur.nom}</TableCell>
                 </TableRow>
-            </Tooltip>
+    
         </React.Fragment>
     );
 
@@ -149,10 +117,11 @@ function AlertAucunContrat(isGestionnaire) {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation à remplir pour le moment</Alert>
+                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune étudaint en charge pour le moment</Alert>
             </div>
         </div>
     </div>;
 }
+
 
 

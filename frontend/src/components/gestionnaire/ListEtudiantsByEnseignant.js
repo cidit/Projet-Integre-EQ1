@@ -9,6 +9,8 @@ import { Redirect } from "react-router-dom";
 import CandidatureService from '../../../service/CandidatureService';
 import { useHistory } from 'react-router-dom';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import EtudiantService from '../../service/EtudiantService';
+import { useParams } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,13 +33,6 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         textAlign: 'left',
         fontSize: 15
-    },
-    paper: {
-        padding: theme.spacing(4),
-        marginTop: theme.spacing(-15),
-        margin: 'auto',
-        maxWidth: '50%',
-        marginLeft: theme.spacing(1, 'auto'),
     }
 }));
 
@@ -50,32 +45,32 @@ const useRowStyles = makeStyles((theme) => ({
         },
     },
 }));
-export default function EvaluationMilieuHome() {
-    const [candidatures, setCandidatures] = useState([])
+export default function ListEtudiantsByEnseignant(props) {
+    const [etudiants, setEtudiants] = useState([])
     const classes = useStyles();
-    const id = localStorage.getItem("desc") === "Enseignant" ? localStorage.getItem("id") : '';
+    const params = useParams();
 
-    const getEtudiant = async () => {
-        const response = await CandidatureService.getCandidatureEtudiantByEnseignant(id);
-        setCandidatures(response.data);
+    const getEtudiants = async () => {
+        const response = await EtudiantService.getEtudiantsbyEnseignat(params.id)
+        setEtudiants(response.data);
     }
 
     useEffect(() => {
-        getEtudiant()
+        getEtudiants()
         return () => {
-            setCandidatures([])
+            setEtudiants([])
         }
     }, [])
 
 
-    if (candidatures.length === 0) {
+    if (etudiants.length === 0) {
         return (
-            AlertAucunContrat(true)
+            Alert()
         )
     } else {
         return (
             <div className='container-fluid'>
-                {candidatures &&
+                {etudiants &&
                     <>
                    
                         <TableContainer >
@@ -92,7 +87,7 @@ export default function EvaluationMilieuHome() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {candidatures.map((row) => (
+                                    {etudiants.map((row) => (
                                         <Row key={row.id} row={row} />
                                     ))}
                                 </TableBody>
@@ -127,7 +122,7 @@ function Row(props) {
 
     return (
         <React.Fragment>
-            <Tooltip open={arrow} placement="right" onClose={hideArrow} onOpen={showArrow} title="evaluer">
+            <Tooltip open={arrow} placement="left" onClose={hideArrow} onOpen={showArrow} title="evaluer">
                 <TableRow className={classes.root} onClick={() => handleClickRow(row)} style={{ cursor: 'pointer' }} hover>
                     <TableCell >{row.stage.employeur.nom}</TableCell>
                     <TableCell >{row.stage.employeur.email}</TableCell>
@@ -145,14 +140,15 @@ function Row(props) {
     );
 
 };
-function AlertAucunContrat(isGestionnaire) {
+function Alert() {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation à remplir pour le moment</Alert>
+                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun étudiant assigné pour le moment</Alert>
             </div>
         </div>
     </div>;
 }
+
 
 
