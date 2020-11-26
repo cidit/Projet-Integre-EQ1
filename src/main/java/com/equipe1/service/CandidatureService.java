@@ -1,9 +1,6 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Candidature;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Session;
-import com.equipe1.model.Stage;
+import com.equipe1.model.*;
 import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.EtudiantRepository;
 import com.equipe1.repository.SessionRepository;
@@ -33,6 +30,9 @@ public class CandidatureService {
     private CourrielService courrielService;
     @Autowired
     private SessionRepository sessionRepository;
+
+    @Autowired
+    private EvaluationMilieuStageService evaluationMilieuStageService;
 
     private SessionService sessionService;
 
@@ -156,7 +156,7 @@ public class CandidatureService {
     public List<Candidature> getListByDateStage() {
         List<Candidature> candidatureBydateStage = new ArrayList<>();
         for (Candidature c : candidatureRepository.findAll()) {
-            if (isStageRendueAQuatriemeSemaine(c)) {
+            if (isStageApresQuatriemeSemaine(c)) {
                 candidatureBydateStage.add(c);
             }
         }
@@ -174,12 +174,23 @@ public class CandidatureService {
     }
 
     public List<Candidature> getCandidatureEtudaintByEnseignant(Long idEnseignant){
-        
         List<Candidature> candidatures = new ArrayList<>();
-        for (Candidature c : candidatureRepository.findAll()) {
+        for (Candidature c : candidatureRepository.findByStatut(Candidature.CandidatureStatut.CHOISI)) {
           if(c.getEtudiant().getEnseignant() != null && c.getEtudiant().getEnseignant().getId()==idEnseignant){
               candidatures.add(c);
           }
+        }
+        return candidatures;
+    }
+
+    public List<Candidature> getCandidaturesEmployeurNonEvalues(Long idEnseignant){
+        List<Candidature> candidatures = new ArrayList<>();
+        Optional<EvaluationMilieuStage> evaluationMilieuStage;
+        for (Candidature c : getCandidatureEtudaintByEnseignant(idEnseignant)) {
+            evaluationMilieuStage = evaluationMilieuStageService.getByEtudaint(c.getEtudiant());
+            if(!evaluationMilieuStage.isPresent()){
+                candidatures.add(c);
+            }
         }
         return candidatures;
     }
@@ -192,7 +203,7 @@ public class CandidatureService {
     private boolean employeurExiste(Long idEmployeur, Candidature c) {
         return c.getStage().getEmployeur().getId() == idEmployeur;
     }
-    private boolean isStageRendueAQuatriemeSemaine(Candidature c) {
+    private boolean isStageApresQuatriemeSemaine(Candidature c) {
         return LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L)) && !c.isEvaluee() && c.getStatut().equals(Candidature.CandidatureStatut.CHOISI);
     }
 }

@@ -18,10 +18,10 @@ class EvaluationService{
                } )
             
     }
-    async putEvaluationMilieuStage(result, idCandidature){
-        console.log("idcandidature")
-        console.log(idCandidature)
-        fetch(baseURLMilieuStage + "/newEvaluation/" + idCandidature,
+    async putEvaluationMilieuStage(result, idCandidature,idEnseignant){
+        console.log("idEnseignant")
+        console.log(idEnseignant)
+        fetch(baseURLMilieuStage + "/newEvaluation/" + idCandidature +"/" + idEnseignant,
             {method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'

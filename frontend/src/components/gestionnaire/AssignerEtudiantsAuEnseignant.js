@@ -37,13 +37,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function AssignerEtudiantsAuEnseignant() {
+export default function AssignerEtudiantsAuEnseignant(props) {
     const [listCandidaturesChoisis, setListCandidaturesChoisis] = useState([])
    
 
     const getCandidatures = async () => {
         const response = await CandidatureService.getCandidaturesChoisis();
-        console.log(response.data)
         setListCandidaturesChoisis(response.data)
     }
 
@@ -56,9 +55,7 @@ export default function AssignerEtudiantsAuEnseignant() {
 
     return (
         <div>
-            <h5 className="card-title text-center" >Liste d'Etudiants inscrits a la session currante</h5>
             <CustomTable candidatures={listCandidaturesChoisis} />
-
         </div>
     );
 }
@@ -67,7 +64,6 @@ export default function AssignerEtudiantsAuEnseignant() {
 function CustomTable(props) {
     const classes = useStyles();
     const params = useParams();
-    const programme = params.programme;
     const [selected, setSelected] = React.useState([]);
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
@@ -75,7 +71,7 @@ function CustomTable(props) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = props.candidatures.map((c) => c.id);
+            const newSelecteds = props.candidatures.map((c) => c.etudiant.id);
             setSelected(newSelecteds);
             return;
         }
@@ -145,7 +141,9 @@ function CustomTable(props) {
  
     return (
         <>
+        <h5 align='left' className='m-2 pt-3 pb-3' >Étudiants avec stage pour le programme {params.programme}</h5>
             <TableContainer component={Paper} >
+            
                 <Table >
                     <TableHead className={classes.textTitle}>
                         <TableRow>

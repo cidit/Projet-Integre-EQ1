@@ -97,7 +97,7 @@ public class EtudiantController {
 
     @GetMapping("/getAllbyEnseignant/{idEnseignant}")
     public List<Etudiant> getEtudiantsbyEnseignant(@PathVariable Long idEnseignant){
-        return etudiantService.getEtudiantsAyantEntrevue();
+        return etudiantService.getEtudaintsByEnseignant(idEnseignant);
     }
 
 

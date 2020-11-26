@@ -5,6 +5,7 @@ import com.equipe1.repository.EvaluationMilieuStageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,34 +23,58 @@ public class EvaluationMilieuStageService {
     @Autowired
     private CommentaireService commentaireService;
 
+    @Autowired
+    private EnseignantService enseignantService;
+
+    @Autowired
+    private EtudiantService etudiantService;
+
 
 
     public EvaluationMilieuStage save(EvaluationMilieuStage evaluation) {
         return evaluationMilieuStageRepository.save(evaluation);
     }
 
-    public EvaluationMilieuStage saveEvaluation(RecepteurDonneesEvaluation receptorDonnesEvaluation, Long idCandidature) {
+    public EvaluationMilieuStage saveEvaluation(RecepteurDonneesEvaluation receptorDonnesEvaluation, Long idCandidature, Long idEnseignant) {
         Optional<Candidature> candidature = candidatureService.findCandidatureById(idCandidature);
+        Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
+
         Employeur employeur;
+        Etudiant etudiant;
         EvaluationMilieuStage evaluationMilieuStage = new EvaluationMilieuStage();
         Commentaire commentaire =receptorDonnesEvaluation.getCommentaires();
 
         if (candidature.isPresent()) {
             employeur = candidature.get().getStage().getEmployeur();
+            etudiant = candidature.get().getEtudiant();
             evaluationMilieuStage.setEmployeur(employeur);
-            candidature.get().setEvaluee(true);
+            evaluationMilieuStage.setEnseignant(enseignant);
+            evaluationMilieuStage.setEtudiant(etudiant);
+
+           // etudiant.setEvaluationMilieuStage(evaluationMilieuStage);
+           // etudiantService.saveEtudiant(etudiant);
         }
         evaluationMilieuStageRepository.save(evaluationMilieuStage);
+        setQuestions(receptorDonnesEvaluation, evaluationMilieuStage);
 
-        for (Question q : receptorDonnesEvaluation.getQuestions()) {
-            q.setEvaluation(evaluationMilieuStage);
-            questionService.saveQuestion(q);
-        }
         commentaire.setEvaluation(evaluationMilieuStage);
         commentaireService.saveCommentaire(receptorDonnesEvaluation.getCommentaires());
-
 
         return evaluationMilieuStage;
     }
 
+    private void setQuestions(RecepteurDonneesEvaluation receptorDonnesEvaluation, EvaluationMilieuStage evaluationMilieuStage) {
+        for (Question q : receptorDonnesEvaluation.getQuestions()) {
+            q.setEvaluation(evaluationMilieuStage);
+            questionService.saveQuestion(q);
+        }
+    }
+
+    public List<EvaluationMilieuStage> getAll() {
+        return evaluationMilieuStageRepository.findAll();
+    }
+
+    public Optional<EvaluationMilieuStage> getByEtudaint(Etudiant etudiant){
+        return evaluationMilieuStageRepository.findByEtudiant(etudiant);
+    }
 }

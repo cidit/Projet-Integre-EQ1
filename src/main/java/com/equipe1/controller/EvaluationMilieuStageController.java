@@ -14,10 +14,10 @@ public class EvaluationMilieuStageController {
     @Autowired
     EvaluationMilieuStageService evaluationMilieuStageService;
 
-    @PutMapping("/newEvaluation/{idCandidature}")
+    @PutMapping("/newEvaluation/{idCandidature}/{idEnseignant}")
     public EvaluationMilieuStage putEvaluation(@RequestBody RecepteurDonneesEvaluation evaluation,
-                                               @PathVariable Long idCandidature){
-        return evaluationMilieuStageService.saveEvaluation(evaluation,idCandidature);
+                                               @PathVariable Long idCandidature, @PathVariable Long idEnseignant){
+        return evaluationMilieuStageService.saveEvaluation(evaluation,idCandidature, idEnseignant);
 
     }
 

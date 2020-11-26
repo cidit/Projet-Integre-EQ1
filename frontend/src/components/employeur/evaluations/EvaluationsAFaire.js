@@ -46,9 +46,6 @@ export default function EvaluationsAFaire(props) {
         setRedirect(true);
     }
 
-    console.log("id desde a faire")
-    console.log(props.id)
-
     const getCandidature = async () => {
         const response = await CandidatureService.getCandidaturesAEvaluerParEmployeur(props.id);
         setCandidatures(response.data);

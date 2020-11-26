@@ -20,6 +20,7 @@ public class Candidature {
     @ManyToOne
     private Etudiant etudiant;
 
+
     @OneToOne
     private Stage stage;
     private CandidatureStatut statut;

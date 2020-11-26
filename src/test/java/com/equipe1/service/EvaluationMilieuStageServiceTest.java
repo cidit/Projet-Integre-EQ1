@@ -2,6 +2,7 @@ package com.equipe1.service;
 
 import com.equipe1.model.*;
 import com.equipe1.repository.CandidatureRepository;
+import com.equipe1.repository.EnseignantRepository;
 import com.equipe1.repository.EvaluationMilieuStageRepository;
 import com.equipe1.repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,15 +34,18 @@ public class EvaluationMilieuStageServiceTest {
     private QuestionRepository questionRepository;
     @MockBean
     private CommentaireService commentaireService;
-    @MockBean
-    private QuestionService questionService;
+
     @MockBean
     private CandidatureService candidatureService;
-    @MockBean
-    private CandidatureRepository candidatureRepository;
+
 
     @Autowired
     private EvaluationMilieuStageService evaluationMilieuStageService;
+
+    @MockBean
+    private EnseignantService enseignantService;
+
+
 
     private EvaluationMilieuStage e;
     private Question q1;
@@ -51,6 +55,8 @@ public class EvaluationMilieuStageServiceTest {
     private Candidature candidature;
     private Stage stage;
     private Employeur employeur;
+    private Enseignant enseignant;
+    private Etudiant etudiant;
 
     @BeforeEach
     public void setUp() {
@@ -75,6 +81,8 @@ public class EvaluationMilieuStageServiceTest {
         employeur = new Employeur();
         stage = new Stage();
         candidature = new Candidature();
+        enseignant = new Enseignant();
+        etudiant = new Etudiant();
 
     }
 
@@ -90,8 +98,11 @@ public class EvaluationMilieuStageServiceTest {
     void saveEvaluation() {
         stage.setEmployeur(employeur);
         candidature.setStage(stage);
+        candidature.setEtudiant(etudiant);
+        when(enseignantService.getEnseignantById(2l)).thenReturn(enseignant);
         when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature));
-        EvaluationMilieuStage evaluation = evaluationMilieuStageService.saveEvaluation(receptorDonnesEvaluation,1L);
+
+        EvaluationMilieuStage evaluation = evaluationMilieuStageService.saveEvaluation(receptorDonnesEvaluation,1L,2l);
 
         assertEquals(evaluation.getEmployeur(), employeur);
         assertNotNull(evaluation);

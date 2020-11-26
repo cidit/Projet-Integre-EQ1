@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
         width: '70%',
-        backgroundColor: 'white',
+        backgroundColor: '',
         fontWeight: 'bold'
     },
     paper: {
@@ -68,10 +68,12 @@ export default function ListEnseignants() {
                 {enseignants &&
                     <>
                         <TableContainer >
+                        <h4 align='center' className='m-2 sticky-top' ><strong>List enseignants </strong></h4>
+                       
                             <Table className="table table-striped">
                                 <TableHead className={classes.root}>
                                     <TableRow >
-                                        <TableCell className={classes.textTitle} >Nom </TableCell>
+                                        <TableCell className={classes.textTitle} >Nom de l'enseignant</TableCell>
                                         <TableCell className={classes.textTitle}>Programme</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
@@ -100,7 +102,7 @@ function Row(props) {
     const history = useHistory();
 
     const handleClickRow = (_row) => {
-        history.push("/etudiantsAuEnseignant/" + _row.id+ "/" +_row.programme );
+        history.push("etudiantsAuEnseignant/" +_row.nom + "/" +_row.prenom + "/" + _row.id+ "/" +_row.programme );
     }
 
     const showArrow = () => {

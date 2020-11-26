@@ -111,7 +111,7 @@ export default function CreateQuestions(props) {
             )
             
         } else {
-            await EvaluationService.putEvaluationMilieuStage(result, params.id)
+            await EvaluationService.putEvaluationMilieuStage(result, props.idCandidature, props.idEnseignant)
             setEvaluation([])
             setIsCopletedQuestions(true)
             console.log("send");

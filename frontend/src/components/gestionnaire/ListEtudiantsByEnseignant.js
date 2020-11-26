@@ -51,8 +51,8 @@ export default function ListEtudiantsByEnseignant(props) {
     const params = useParams();
 
     const getEtudiants = async () => {
-        const response = await EtudiantService.getEtudiantsbyEnseignat(params.id)
-        setEtudiants(response.data);
+        const response = await CandidatureService.ListEtudiantsByEnseignant(params.id)
+                setEtudiants(response.data);
     }
 
     useEffect(() => {
@@ -77,7 +77,7 @@ export default function ListEtudiantsByEnseignant(props) {
                             <Table className="table table-striped">
                                 <TableHead className={classes.root}>
                                     <TableRow >
-                                        <TableCell className={classes.textTitle} >Nom de l'Entreprise</TableCell>
+                                        <TableCell className={classes.textTitle} >Nom </TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
                                         <TableCell className={classes.textTitle}>Adresse</TableCell>

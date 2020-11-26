@@ -5,6 +5,7 @@ import {
 import { Alert } from '@material-ui/lab';
 import React,{  useEffect, useState } from 'react';
 import CandidatureService from '../../service/CandidatureService';
+import EtudiantService from '../../service/EtudiantService';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,7 +45,7 @@ export default function ListEtudiantsEnCharge() {
     const id = localStorage.getItem("desc") === "Enseignant" ? localStorage.getItem("id") : '';
 
     const getEtudiant = async () => {
-        const response = await CandidatureService.getCandidatureEtudiantByEnseignant(id);
+        const response = await EtudiantService.getEtudiantsbyEnseignat(id);
         console.log(response.data)
         setCandidatures(response.data);
     }
@@ -73,9 +74,13 @@ export default function ListEtudiantsEnCharge() {
                                         <TableCell className={classes.textTitle} >Nom </TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
+                                        <TableCell className={classes.textTitle}>Programme</TableCell>
+                                        <TableCell className={classes.textTitle}>Status stage</TableCell>
                                         <TableCell className={classes.textTitle}>Adresse</TableCell>
-                                        <TableCell className={classes.textTitle}>Stage en cours</TableCell>
-                                        <TableCell className={classes.textTitle}>Entreprise de stage</TableCell>
+                                        <TableCell className={classes.textTitle}>Matricule</TableCell>
+                                        <TableCell className={classes.textTitle}>Session courante</TableCell>
+                                        
+                                  
                                         
                                     </TableRow>
                                 </TableHead>
@@ -101,12 +106,15 @@ function Row(props) {
     return (
         <React.Fragment>
                 <TableRow className={classes.root}>
-                     <TableCell >{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
-                    <TableCell >{row.etudiant.email}</TableCell>
-                    <TableCell>{row.etudiant.telephone}</TableCell>
-                    <TableCell>{row.etudiant.adresse}</TableCell>
-                    <TableCell >{row.stage.titre}</TableCell>
-                    <TableCell >{row.stage.employeur.nom}</TableCell>
+                    <TableCell >{row.prenom} {row.nom}</TableCell>
+                    <TableCell >{row.email}</TableCell>
+                    <TableCell>{row.telephone}</TableCell>
+                    <TableCell>{row.programme}</TableCell>
+                    <TableCell>{row.statutStage}</TableCell>
+                    <TableCell>{row.adresse}</TableCell>
+                    <TableCell>{row.matricule}</TableCell>
+                    <TableCell>{row.session.nom}</TableCell>
+                    
                 </TableRow>
     
         </React.Fragment>

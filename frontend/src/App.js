@@ -49,19 +49,21 @@ import EnseignantTabs from './components/enseignant/EnseignantTabs'
 import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieuStage/EvaluationMiliauStageTabs'
 import AssignerEtudiantsAuEnseignant from './components/gestionnaire/AssignerEtudiantsAuEnseignant'
 import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge'
+import RegisterTabs from './components/register/RegisterTabs'
+import EnseignantsTabs from './components/gestionnaire/EnseignantsTabs'
 
 function App() {
   return (
     
       <main>
-      <ThemeProvider theme={theme}> 
+     <ThemeProvider theme={theme}> 
         <HeaderComponent />
 
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/stages" component={ListStagesEmployeur}/>
           <Route path='/login' component={Login} />
-          <Route path='/register' component={Register} />
+          <Route path='/register' component={RegisterTabs} />
           <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent}/>
           {/*<Route path='/stageVeto' component={StageVeto} />*/}
@@ -89,7 +91,7 @@ function App() {
           <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
           <Route path="/questionRelations/:id" component={QuestionRelations}/>
           <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
-          <Route path="/evaluationMilieuStage/:id" component={EvaluationMilieuStage}/>
+          <Route path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature" component={EvaluationMilieuStage}/>
           <Route path="/observationsMilieuStage/:id" component={ObservationsMilieuStage}/>
           <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
           <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
@@ -100,12 +102,13 @@ function App() {
           <Route path="/profileEmployeur" component={ProfileEmployeur}/>
           <Route path="/profileGestionnaire" component={ProfileGestionnaire}/>
 
+          {/* Enseignant */}
           <Route path="/profilEnseignant" component={EnseignantTabs}/>
           <Route path="/profilEnseignant" component={EnseignantTabs}/>
           <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
-          <Route path="/etudiantsAuEnseignant/:id/:programme" component={AssignerEtudiantsAuEnseignant}/>
+          <Route path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs}/>
         </Switch>
-          </ThemeProvider>  
+           </ThemeProvider>   
       </main>
     
   );
@@ -113,12 +116,12 @@ function App() {
 const theme = createMuiTheme({
   palette:{
     primary:{
-      main: "#616161",
+      main: "#1666DB",
       light: "#8e8e8e",
-      dark: "#373737",
+      //dark: "#373737",
     },
     secondary:{
-      main:"#ff8d0b",
+      main:"#1666DB",
       light: "#ffbe49",
      // dark: "#c55e00",
     },

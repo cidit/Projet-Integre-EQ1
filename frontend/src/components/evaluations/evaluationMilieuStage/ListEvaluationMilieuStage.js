@@ -56,7 +56,8 @@ export default function EvaluationMilieuHome() {
     const id = localStorage.getItem("desc") === "Enseignant" ? localStorage.getItem("id") : '';
 
     const getEtudiant = async () => {
-        const response = await CandidatureService.getCandidatureEtudiantByEnseignant(id);
+        const response = await CandidatureService.getCandidaturesEmployeurNonEvalues(id);
+        console.log(response)
         setCandidatures(response.data);
     }
 
@@ -80,7 +81,7 @@ export default function EvaluationMilieuHome() {
                    
                         <TableContainer >
                             <Table className="table table-striped">
-                                <TableHead className={classes.root}>
+                                <TableHead>
                                     <TableRow >
                                         <TableCell className={classes.textTitle} >Nom de l'Entreprise</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
@@ -93,7 +94,7 @@ export default function EvaluationMilieuHome() {
                                 </TableHead>
                                 <TableBody>
                                     {candidatures.map((row) => (
-                                        <Row key={row.id} row={row} />
+                                        <Row key={row.id} row={row} id={id}/>
                                     ))}
                                 </TableBody>
                             </Table>
@@ -112,9 +113,14 @@ function Row(props) {
     const [arrow, setArrow] = useState(false);
     const history = useHistory();
 
-    const handleClickRow = (_row) => {
-        console.log(_row)
-        history.push("/evaluationMilieuStage/" + _row.id);
+    const handleClickRow = (_candidature) => {
+        console.log(_candidature)
+        history.push("/evaluationMilieuStage/" 
+                        + _candidature.stage.employeur.nom
+                        + "/" + _candidature.etudiant.prenom
+                        + "/" + _candidature.etudiant.nom
+                        + "/" + props.id
+                        + "/" + _candidature.id);
     }
 
     const showArrow = () => {
@@ -127,7 +133,7 @@ function Row(props) {
 
     return (
         <React.Fragment>
-            <Tooltip open={arrow} placement="right" onClose={hideArrow} onOpen={showArrow} title="evaluer">
+            <Tooltip open={arrow} placement="right" onClose={hideArrow} onOpen={showArrow} title="Évaluer">
                 <TableRow className={classes.root} onClick={() => handleClickRow(row)} style={{ cursor: 'pointer' }} hover>
                     <TableCell >{row.stage.employeur.nom}</TableCell>
                     <TableCell >{row.stage.employeur.email}</TableCell>

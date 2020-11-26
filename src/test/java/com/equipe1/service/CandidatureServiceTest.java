@@ -227,6 +227,7 @@ public class CandidatureServiceTest {
     @Test
     public void getListByDateStage() {
         s.setDateDebut(LocalDate.of(2019,12,1));
+        c1.setStatut(Candidature.CandidatureStatut.CHOISI);
         c1.setStage(s);
         when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1));
 

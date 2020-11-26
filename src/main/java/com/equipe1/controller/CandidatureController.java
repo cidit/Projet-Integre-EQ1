@@ -87,4 +87,9 @@ public class CandidatureController {
         return candidatureService.getCandidatureEtudaintByEnseignant(idEnseignant);
     }
 
+    @GetMapping("getListByEmployeurNonEvalues/{idEnseignant}")
+    public List<Candidature> getCandidaturesEmployeurNonEvalues(@PathVariable Long idEnseignant) {
+        return candidatureService.getCandidaturesEmployeurNonEvalues(idEnseignant);
+    }
+
 }

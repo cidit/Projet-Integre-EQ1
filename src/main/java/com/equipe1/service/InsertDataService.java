@@ -117,7 +117,7 @@ public class InsertDataService {
         e3.setPassword("123456");
         e3.setPrenom("Loic");
         e3.setNom("Olinga");
-        e3.setStatutStage("aucun stage");
+        e3.setStatutStage("possede stage");
         e3.setTelephone("555-444-4444");
         e3.setProgramme("Techniques de l’informatique");
         e3.setSession(sessionList);
