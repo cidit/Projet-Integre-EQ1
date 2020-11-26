@@ -33,7 +33,7 @@ public class CandidatureController {
 
     @GetMapping("/getByStage")
     public List<Candidature> findAllByStage(@RequestParam("stage") Long stage){
-        return candidatureService.findAllByStage(stage);
+        return candidatureService.findCandidatureByStage(stage);
     }
 
     @PostMapping("createCandidature")
@@ -57,8 +57,8 @@ public class CandidatureController {
     }
 
     @GetMapping("getAllChoisis")
-    public List<Candidature> getAllCandidatureChoisi() {
-        return candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI);
+    public List<Candidature> getAllCandidatureChoisi(@RequestParam("idSession") Long idSession) {
+        return candidatureService.getListCandidaturesChoisis(idSession);
     }
 
     @PutMapping("convoqueEtudiantEntrevue/{id}")
