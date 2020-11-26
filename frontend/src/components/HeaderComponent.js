@@ -27,8 +27,7 @@ function GestionnaireNav(props) {
             {/*<Nav.Link href="/listestages">Liste de isa</Nav.Link>*/}
             {/*<Nav.Link href="/stages">Choix stagiaires</Nav.Link>*/}
             <Nav.Link href="/rapport">Rapports</Nav.Link>
-            <Nav.Link href="/createSession">Demarrer une nouvelle session</Nav.Link>
-            <ChangeSessionNavDropdown sessions={props.sessions}/>
+             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );

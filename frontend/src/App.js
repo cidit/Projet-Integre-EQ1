@@ -34,7 +34,6 @@ import QuestionsHabilites from './components/evaluations/evaluationStagiaire/Que
 import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
 import ObservationsMilieuStage from './components/evaluations/evaluationMilieuStage/ObservationsMilieuStage'
 import EvaluationStagiaire from './/components/evaluations/EvaluationStagiaire'
-import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
 import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/core/styles";
@@ -79,7 +78,6 @@ function App() {
           <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
-          <Route path="/createSession" component={CreateSessionComponent}/>
           <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
           <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
           <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
@@ -89,7 +87,6 @@ function App() {
           <Route path="/observationsMilieuStage/:id" component={ObservationsMilieuStage}/>
           <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
           <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
-          <Route path="/createSession" component={CreateSessionComponent}/>
           <Route path="/rapport" component={RapportComponent}/>
 
           <Route path="/profileEmployeur" component={ProfileEmployeur}/>
