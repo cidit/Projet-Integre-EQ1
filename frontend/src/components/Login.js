@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import LoginService from "../service/LoginService";
+import SessionService from "../service/SessionService";
 
 function Copyright() {
     return (
@@ -60,8 +61,9 @@ class Login extends Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-
+        await SessionService.storeSessionParDefaut();
         let user = await LoginService.login(this.state["email"], this.state["password"])
+
         if (user.id !== undefined){
             this.props.history.push('/?refresh');
         }else{

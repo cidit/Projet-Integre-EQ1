@@ -24,15 +24,16 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
     async componentDidMount() {
 
         let id;
+        let idSession;
+        idSession = localStorage.getItem("session");
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
-        
         const response = await EtudiantService.isRegistered(id);
         if(!response.data){
             this.props.history.push("/profileEtudiant");
         }
 
-        const { data: candidatures } = await CandidatureService.getByEtudiant(id);
+        const { data: candidatures } = await CandidatureService.getByEtudiant(id, idSession);
         this.setState({ candidatures });
         
         let candidature;

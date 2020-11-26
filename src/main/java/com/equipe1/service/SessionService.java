@@ -24,7 +24,7 @@ public class SessionService {
     }
 
     public Session create(Session session) {
-        session.setDateDebut(LocalDate.now());
+        System.out.println(session);
         Optional<Session> lastSession = sessionRepository.findCurrentSession();
         List<Etudiant> etudiants =  etudiantRepository.findAll();
         if (!lastSession.isEmpty()){
@@ -37,6 +37,11 @@ public class SessionService {
             etudiantRepository.save(etudiant);
         }
         return sessionRepository.save(session);
+    }
+
+    public boolean isSessionSelectionneeEnCours (Long id){
+        Session session = sessionRepository.findById(id).get();
+        return session.equals(sessionRepository.findCurrentSession());
     }
 
     public Optional<Session> findCurrentSession() { return sessionRepository.findCurrentSession(); };

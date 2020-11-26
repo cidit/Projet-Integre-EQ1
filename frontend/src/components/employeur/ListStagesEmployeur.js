@@ -17,12 +17,13 @@ export default class ListStagesEmployeur extends Component {
     }
     componentDidMount() {
         let id;
+        var idSession = localStorage.getItem("session");
         if (localStorage.getItem("desc") === "Employeur"){
             id = localStorage.getItem("id");
-            StageService.getStagesByEmployeurId(id).then((res) => { this.setState({ stages: res.data }) })
+            StageService.getStagesByEmployeurId(id, idSession).then((res) => { this.setState({ stages: res.data }) })
         }
         else{
-            StageService.getStagesSession().then((res) => { this.setState({ stages: res.data }) })
+            StageService.getStages(idSession).then((res) => { this.setState({ stages: res.data }) })
         }
 
 

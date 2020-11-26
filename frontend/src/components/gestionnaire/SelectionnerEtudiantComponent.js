@@ -24,7 +24,9 @@ export default class SelectionnerEtudiantComponent extends Component {
     async componentDidMount() {
         let stage;
         stage = this.props.stage;
-        const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.programme);
+        var idSession = localStorage.getItem("session");
+        const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.programme, idSession);
+        
         this.setState({ etudiants });
 
         const { data: etudiantsPermis } = await StageService.getEtudiantsByStageId(stage.id);

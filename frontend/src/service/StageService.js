@@ -7,36 +7,36 @@ const STAGES_URL_ACCEPTER = "http://localhost:8080/stageAccepter/create";
 
 class StageService{
 
-    getStages(){
-        return axios.get(STAGES_URL + "/findAll");
+    getStages(idSession){
+        return axios.get(STAGES_URL + "/findAll", { params: { idSession: idSession} });
     }
 
     getStagesSession(){
         return axios.get(STAGES_URL + "/getStagesSession");
     }
 
-    getStagesApprouves(){
-        return axios.get(STAGES_URL + "/approuves");
+    getStagesApprouves(idSession){
+        return axios.get(STAGES_URL + "/approuves", { params: { idSession: idSession} });
     }
 
-    getStagesNonApprouves(){
-        return axios.get(STAGES_URL + "/nonApprouves");
+    getStagesNonApprouves(idSession){
+        return axios.get(STAGES_URL + "/nonApprouves", { params: { idSession: idSession} });
     }
 
-    getStagesAyantAucunStagiaires(){
-        return axios.get(STAGES_URL + "/ayantStagiaire");
+    getStagesAyantAucunStagiaires(idSession){
+        return axios.get(STAGES_URL + "/ayantStagiaire", { params: { idSession: idSession} });
     }
     
     getStageById(id){
         return axios.get(STAGES_URL + "/getStage?idStage=" + id);
     }
 
-    getStagesByEmployeurId(idEmployeur){
-        return axios.get(STAGES_URL + "/stageByEmployeurId?idEmployeur="+ idEmployeur);
+    getStagesByEmployeurId(idEmployeur, idSession){
+        return axios.get(STAGES_URL + "/stageByEmployeurId/" + idEmployeur, { params: { idSession: idSession} });
     }
 
-    getStagesEtudiant(idEtudiant){
-        return axios.get(STAGES_URL + "/stagesEtudiant?idEtudiant="+ idEtudiant);
+    getStagesEtudiant(idEtudiant, idSession){
+        return axios.get(STAGES_URL + "/stagesEtudiant/"+ idEtudiant, { params: { idSession: idSession} });
     }
     
     getEtudiantsByStageId(idStage) {

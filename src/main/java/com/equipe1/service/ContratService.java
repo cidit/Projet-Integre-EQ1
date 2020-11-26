@@ -3,6 +3,7 @@ package com.equipe1.service;
 import com.equipe1.model.*;
 import com.equipe1.repository.CandidatureRepository;
 import com.equipe1.repository.ContratRepository;
+import com.equipe1.repository.SessionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ContratService {
@@ -25,6 +28,8 @@ public class ContratService {
     private ContratRepository contratRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    private SessionRepository sessionRepository;
     @Autowired
     CandidatureService candidatureService;
     @Autowired
@@ -37,8 +42,17 @@ public class ContratService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ContratService.class);
 
 
-    public List<Contrat> getContrats() {
-        return contratRepository.findAll();
+    public List<Contrat> getContrats(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
+        List<Contrat> contrats = contratRepository.findAll();
+        List<Contrat> contratsSessionSelectionnee = new ArrayList<>();
+        if (!contrats.isEmpty()){
+            contratsSessionSelectionnee = contrats.stream()
+                    .filter(contrat -> contrat.getCandidature().getStage().getSession().equals(session))
+                    .collect(Collectors.toList());
+        }
+        
+        return contratsSessionSelectionnee;
     }
 
     public Contrat getContratById(long id) {
@@ -48,10 +62,6 @@ public class ContratService {
 
     public Contrat saveContrat(Contrat contrat) {
         return contratRepository.save(contrat);
-    }
-
-    public List<Contrat> findAll() {
-        return contratRepository.findAll();
     }
 
     public List<Contrat> getContratsByEmployeur(Employeur employeur) {
@@ -150,12 +160,12 @@ public class ContratService {
             return newContrat;
     }
 
-    public List<Candidature> listCandidatureSansContrat(){
+    public List<Candidature> listCandidatureSansContrat(Long idSession){
+        Session session = sessionRepository.findById(idSession).get();
         List<Candidature> canditaturesSansContrat = new ArrayList<>();
         List<Candidature> canditaturesTemp = candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI);
-
         for (Candidature candTemp: canditaturesTemp) {
-            if(!contratRepository.findByCandidature(candTemp).isPresent()){
+            if(!contratRepository.findByCandidature(candTemp).isPresent() && candTemp.getStage().getSession().equals(session)){
                 canditaturesSansContrat.add(candTemp);
             }
         }
@@ -185,45 +195,45 @@ public class ContratService {
         return contrat;
     }
 
-    public List<Contrat> getContratsNonSignesEtudiant() {
-        Session sessionEnCours = sessionService.findCurrentSession().get();
+    public List<Contrat> getContratsNonSignesEtudiant(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Contrat> contrats = contratRepository.findAll();
         List<Contrat> contratsNonSignes = new ArrayList<>();
 
         for (Contrat contrat : contrats) {
             if (contrat.getSignatureEtudiant() != Contrat.SignatureEtat.SIGNE &&
                     contrat.getSignatureEmployeur() == Contrat.SignatureEtat.SIGNE &&
-                    contrat.getCandidature().getStage().getSession().equals(sessionEnCours)){
+                    contrat.getCandidature().getStage().getSession().equals(session)){
                 contratsNonSignes.add(contrat);
             }
         }
         return contratsNonSignes;
     }
 
-    public List<Contrat> getContratsNonSignesEmployeur() {
-        Session sessionEnCours = sessionService.findCurrentSession().get();
+    public List<Contrat> getContratsNonSignesEmployeur(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Contrat> contrats = contratRepository.findAll();
         List<Contrat> contratsNonSignes = new ArrayList<>();
 
         for (Contrat contrat : contrats) {
             if (contrat.getSignatureEtudiant() != Contrat.SignatureEtat.SIGNE &&
                     contrat.getSignatureEmployeur() != Contrat.SignatureEtat.SIGNE &&
-                    contrat.getCandidature().getStage().getSession().equals(sessionEnCours)){
+                    contrat.getCandidature().getStage().getSession().equals(session)){
                 contratsNonSignes.add(contrat);
             }
         }
         return contratsNonSignes;
     }
 
-    public List<Contrat> getContratsNonSignesAdministration() {
-        Session sessionEnCours = sessionService.findCurrentSession().get();
+    public List<Contrat> getContratsNonSignesAdministration(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Contrat> contrats = contratRepository.findAll();
         List<Contrat> contratsNonSignes = new ArrayList<>();
 
         for (Contrat contrat : contrats) {
             if (contrat.getSignatureEtudiant() == Contrat.SignatureEtat.SIGNE &&
                     contrat.getSignatureEmployeur() == Contrat.SignatureEtat.SIGNE &&
-                    contrat.getCandidature().getStage().getSession().equals(sessionEnCours)){
+                    contrat.getCandidature().getStage().getSession().equals(session)){
                 contratsNonSignes.add(contrat);
             }
         }

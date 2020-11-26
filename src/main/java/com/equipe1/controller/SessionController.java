@@ -18,10 +18,20 @@ public class SessionController {
     public List<Session> getAllSessions(){
         return sessionService.getAll();
     }
-
+    @GetMapping("getSessionEnCours")
+    public Session getSessionEnCours(){
+        return sessionService.findCurrentSession().get();
+    }
     @PostMapping("createSession")
     public Session createSession(@RequestBody Session session){
         return sessionService.create(session);
     }
+
+    @PostMapping("isSessionSelectionneeEnCours/{id}")
+    public boolean isSessionSelectionneeEnCours(@PathVariable Long id){
+        return sessionService.isSessionSelectionneeEnCours(id);
+    }
+
+
 
 }
