@@ -37,6 +37,7 @@ public class EvaluationMilieuStageService {
         if (candidature.isPresent()) {
             employeur = candidature.get().getStage().getEmployeur();
             evaluationMilieuStage.setEmployeur(employeur);
+            candidature.get().setEvaluee(true);
         }
         evaluationMilieuStageRepository.save(evaluationMilieuStage);
 
@@ -46,6 +47,7 @@ public class EvaluationMilieuStageService {
         }
         commentaire.setEvaluation(evaluationMilieuStage);
         commentaireService.saveCommentaire(receptorDonnesEvaluation.getCommentaires());
+
 
         return evaluationMilieuStage;
     }

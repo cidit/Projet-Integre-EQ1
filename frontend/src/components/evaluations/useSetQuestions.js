@@ -82,7 +82,7 @@ export default function useSetQuestions(id) {
     const [qualiteTravailQuestions, setQualiteTravailQuestions] = useState(qualiteTravailQuestionsList);
     const [relationsQuestions, setRelationsQuestions] = useState(relationsQuestionsList);
     const [habilitesQuestions, setHabilitesQuestions] = useState(habilitesPersoQuestionsList);
-    const [evaluationMilieuStageQuestions, setEvaluationMilieuStageQuestions] = useState(evaluationMilieuStage)
+    const [evaluationMilieuStageQuestions] = useState(evaluationMilieuStage)
     const [observationsGeneralesQuestions, setObservationsGeneralesQuestions] = useState(observationsGenerales)
     const [apretiationGlobaleStagiaireQuestions, setapretiationGlobaleStagiaireQuestions] = useState(apretiationGlobaleStagiaire)
 

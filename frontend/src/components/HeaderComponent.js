@@ -69,7 +69,7 @@ function EnseignantNav() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profileEnseignant">Votre profil</Nav.Link>
             <Nav.Link href="/étudiantsEnCharge">Étudiants en charge</Nav.Link>
-            <Nav.Link href="/evaluations">Évaluations a faire</Nav.Link>
+            <Nav.Link href="/evaluationMilieuStageHome">Évaluations</Nav.Link>
             <Nav.Link href="/logout">Logout</Nav.Link>
         </Nav>
     );

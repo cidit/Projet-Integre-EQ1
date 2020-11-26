@@ -46,12 +46,14 @@ import ProfileGestionnaire from './components/gestionnaire/ProfileGestionnaire';
 import ProfileEtudiant from './components/etudiant/ProfileEtudiant';
 import ProfilEnseignant from './components/enseignant/ProfilEnseignant'
 import EnseignantTabs from './components/enseignant/EnseignantTabs'
+import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieuStage/EvaluationMiliauStageTabs'
+import AssignerEtudiantsAuEnseignant from './components/gestionnaire/AssignerEtudiantsAuEnseignant'
 
 function App() {
   return (
     
       <main>
-        {/* <ThemeProvider theme={theme}> */}
+      <ThemeProvider theme={theme}> 
         <HeaderComponent />
 
         <Switch>
@@ -90,15 +92,16 @@ function App() {
           <Route path="/observationsMilieuStage/:id" component={ObservationsMilieuStage}/>
           <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
           <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
+          <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
           <Route path="/createSession" component={CreateSessionComponent}/>
           <Route path="/rapport" component={RapportComponent}/>
-
+          <Route path="/rapport" component={RapportComponent}/>
           <Route path="/profileEmployeur" component={ProfileEmployeur}/>
           <Route path="/profileGestionnaire" component={ProfileGestionnaire}/>
           <Route path="/ProfileEtudiant" component={ProfileEtudiant}/>
-          <Route path="/profileEnseignant" component={EnseignantTabs}/>
+          <Route path="/etudiantsAuEnseignant/:id/:programme" component={AssignerEtudiantsAuEnseignant}/>
         </Switch>
-          {/* </ThemeProvider> */}
+          </ThemeProvider>  
       </main>
     
   );

@@ -1,21 +1,19 @@
 import {
-    Container, makeStyles, Table,
+    makeStyles, Table,
     TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
 } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
-import CandidatureService from '../../../service/CandidatureService';
 import { useHistory } from 'react-router-dom';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import EnseignantService from '../../service/EnseignantService';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
         width: '70%',
-        backgroundColor: '#E9E9E9',
+        backgroundColor: 'white',
         fontWeight: 'bold'
     },
     paper: {
@@ -43,48 +41,45 @@ const useRowStyles = makeStyles((theme) => ({
         },
     },
 }));
-export default function EvaluationMilieuHome() {
-    const [candidatures, setCandidatures] = useState([])
+export default function ListEnseignants() {
+    const [enseignants, setEnseignants] = useState([])
     const classes = useStyles();
 
-    const getEtudiant = async () => {
-        const response = await CandidatureService.getCandidaturesByPremierMoisStage();
-        setCandidatures(response.data);
+    const getEnseignants = async () => {
+        const response = await EnseignantService.getEnseignantsInscrits();
+        setEnseignants(response.data);
     }
 
     useEffect(() => {
-        getEtudiant()
+        getEnseignants()
         return () => {
-            setCandidatures([])
+            setEnseignants([])
         }
     }, [])
 
 
-    if (candidatures.length === 0) {
+    if (enseignants.length === 0) {
         return (
             AlertAucunContrat(true)
         )
     } else {
         return (
             <div className='container-fluid'>
-                {candidatures &&
+                {enseignants &&
                     <>
-                   
                         <TableContainer >
                             <Table className="table table-striped">
                                 <TableHead className={classes.root}>
                                     <TableRow >
-                                        <TableCell className={classes.textTitle} >Nom de l'Entreprise</TableCell>
+                                        <TableCell className={classes.textTitle} >Nom </TableCell>
+                                        <TableCell className={classes.textTitle}>Programme</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
-                                        <TableCell className={classes.textTitle}>Adresse</TableCell>
-                                        <TableCell className={classes.textTitle}>Stage en cours</TableCell>
-                                        <TableCell className={classes.textTitle}>Étudiant</TableCell>
-                                        
+                                       
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {candidatures.map((row) => (
+                                    {enseignants.map((row) => (
                                         <Row key={row.id} row={row} />
                                     ))}
                                 </TableBody>
@@ -105,8 +100,7 @@ function Row(props) {
     const history = useHistory();
 
     const handleClickRow = (_row) => {
-        console.log(_row)
-        history.push("/evaluationMilieuStage/" + _row.id);
+        history.push("/etudiantsAuEnseignant/" + _row.id+ "/" +_row.programme );
     }
 
     const showArrow = () => {
@@ -119,18 +113,19 @@ function Row(props) {
 
     return (
         <React.Fragment>
-            <Tooltip open={arrow} placement="left" onClose={hideArrow} onOpen={showArrow} title="evaluer">
+            <Tooltip open={arrow} placement="left" onClose={hideArrow} onOpen={showArrow} title="Assigner">
                 <TableRow className={classes.root} onClick={() => handleClickRow(row)} style={{ cursor: 'pointer' }} hover>
-                    <TableCell >{row.stage.employeur.nom}</TableCell>
-                    <TableCell >{row.stage.employeur.email}</TableCell>
-                    <TableCell>{row.stage.employeur.telephone}</TableCell>
-                    <TableCell>{row.stage.employeur.adresse}</TableCell>
-                    <TableCell >{row.stage.titre}</TableCell>
-                    <TableCell >{row.etudiant.prenom} {row.etudiant.nom}
-                    </TableCell>
-                   {/* {arrow &&
-                         <ArrowForwardIcon color='disabled' fontSize='large'/>
-                    }  */}
+                    <TableCell >{row.prenom} {row.nom}</TableCell>
+                    <TableCell >{row.programme}</TableCell>
+                    <TableCell >{row.email}</TableCell>
+                    <TableCell>{row.telephone}</TableCell>
+                    {/* {arrow &&
+
+                        <TableCell style={{ backgroundColor: "#E9E9E9 " }} >
+                            <ArrowForwardIcon color='disabled' fontSize='small' />
+                        </TableCell>
+
+                    } */}
                 </TableRow>
             </Tooltip>
         </React.Fragment>
@@ -141,17 +136,10 @@ function AlertAucunContrat(isGestionnaire) {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation à remplir pour le moment</Alert>
+                <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a pas d'enseignant inscrit</Alert>
             </div>
         </div>
     </div>;
 }
 
-function RedirectTo(url) {
-    console.log("clic to redirect")
-    return (
-        <div>
-            <Redirect to={url} />
-        </div>
-    )
-}
+

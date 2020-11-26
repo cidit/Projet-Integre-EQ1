@@ -4,8 +4,7 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import PropTypes from 'prop-types';
 import React from 'react';
-import EvaluationsAFaire from '../evaluations/EvaluationsAFaire';
-import ListHistoriqueEvaluationsStagiaires from './ListHistoriqueEvaluationsStagiaires';
+import ListEvaluationMilieuStage from './ListEvaluationMilieuStage'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,19 +44,28 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
+    
+    
     //height: 224,
     margin: theme.spacing(3),
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
+    display: 'inline-flex',
+ 
   },
+  tabPanel: {
+    padding: theme.spacing(4),
+    marginTop: theme.spacing(-10),
+    margin: 'auto',
+    width: '80%',
+    marginLeft: theme.spacing(1, 'inherit'),
+}
 }));
 
-export default function EvaluationsHome() {
+export default function EvaluationMiliauStageTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
-
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -77,19 +85,16 @@ export default function EvaluationsHome() {
         <Tab label="Historique d'évaluation" {...a11yProps(1)} />
 
       </Tabs>
-      <TabPanel value={value} index={0} component={'span'} variant={'body2'}>
+      <TabPanel value={value} index={0}  className={classes.tabPanel} >
         <div>
-          <EvaluationsAFaire id={id} />
+          <ListEvaluationMilieuStage/>
         </div>
-
-
-
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ListHistoriqueEvaluationsStagiaires />
       </TabPanel>
 
     </div>
   );
 }
+
 

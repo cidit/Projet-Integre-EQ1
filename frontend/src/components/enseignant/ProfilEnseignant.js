@@ -57,18 +57,18 @@ export default function ProfilEnseignant() {
             <div className='container text-left justify-content-center'>
                 <div className='row justify-content-center '>
                     <div className='col-sm-2  '>
-                        <Typography variant="subtitle2" align='left'><strong>Téléphone :</strong></Typography>
+                        <Typography variant="subtitle2" align='left'><strong>Téléphone: </strong></Typography>
                     </div>
-                    <div className='col-sm-2 '>
+                    <div className='col-sm-3 '>
                         <Typography variant="subtitle2" align='left'>{enseignant.telephone}</Typography>
                     </div>
                 </div>
 
                 <div className='row justify-content-center'>
                     <div className='col-sm-2 '>
-                        <Typography variant="subtitle2" align='left'><strong>Email :</strong></Typography>
+                        <Typography variant="subtitle2" align='left'><strong>Email:</strong></Typography>
                     </div>
-                    <div className='col-sm-2 '>
+                    <div className='col-sm-3 '>
                         <Typography variant="subtitle2" align='left'>{enseignant.email}</Typography>
                     </div>
                 </div>

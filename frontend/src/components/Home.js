@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import RegisterTabs from './register/RegisterTabs';
 import EvaluationMilieuHome from './evaluations/evaluationMilieuStage/ListEvaluationMilieuStage'
+import SelectionnerStagiaireComponent from './employeur/SelectionnerStagiaireComponent'
+import ListEnseignants from './gestionnaire/ListEnseignants'
 
 
 export default class Home extends Component {
@@ -16,8 +18,12 @@ export default class Home extends Component {
            <div>
 
 
-           {/* <RegisterTabs/> */}
-           <EvaluationMilieuHome/>
+         {/* <RegisterTabs/>   */}
+  {/* <EvaluationMilieuHome/>    */}
+
+     {/* <SelectionnerStagiaireComponent/>  */}
+
+   <ListEnseignants/> 
 
 
 

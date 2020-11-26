@@ -54,6 +54,9 @@ public class InsertDataService {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private EnseignantRepository enseignantRepository;
+
     private Session sessionActuelle;
 
     private List<Session> sessionList;
@@ -350,7 +353,7 @@ public class InsertDataService {
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
         candidature = candidatureService.createCandidature(etudiant.getId(), (long) 13);
-        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
+        candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
@@ -408,6 +411,56 @@ public class InsertDataService {
 
 
     }
+
+    @Transactional
+    public void insertEnseinants() {
+        Enseignant enseignant1 = new Enseignant();
+        enseignant1.setNom("Laure");
+        enseignant1.setPrenom("Gaudreault ");
+        enseignant1.setPassword("123456");
+        enseignant1.setProgramme("Gestion de commerces");
+        enseignant1.setEmail("laure@email.com");
+        enseignant1.setTelephone("438956254");
+        enseignantRepository.save(enseignant1);
+
+        Enseignant enseignant2 = new Enseignant();
+        enseignant2.setNom("Leonie");
+        enseignant2.setPrenom("Aguilar ");
+        enseignant2.setPassword("123456");
+        enseignant2.setProgramme("Gestion de commerces");
+        enseignant2.setEmail("Leonie@email.com");
+        enseignant2.setTelephone("438950000");
+        enseignantRepository.save(enseignant2);
+
+        Enseignant enseignant3 = new Enseignant();
+        enseignant3.setNom("Jia ");
+        enseignant3.setPrenom("Haworth ");
+        enseignant3.setPassword("123456");
+        enseignant3.setProgramme("Gestion de commerces");
+        enseignant3.setEmail("Jia@email.com");
+        enseignant3.setTelephone("43895111111");
+        enseignantRepository.save(enseignant3);
+
+        Enseignant enseignant4 = new Enseignant();
+        enseignant4.setNom("Freja ");
+        enseignant4.setPrenom("Vickers ");
+        enseignant4.setPassword("123456");
+        enseignant4.setProgramme("Techniques de l’informatique");
+        enseignant4.setEmail("Freja@email.com");
+        enseignant4.setTelephone("4389522222");
+        enseignantRepository.save(enseignant4);
+
+        Enseignant enseignant5 = new Enseignant();
+        enseignant5.setNom("Kristian ");
+        enseignant5.setPrenom("Redman ");
+        enseignant5.setPassword("123456");
+        enseignant5.setProgramme("Techniques de l’informatique");
+        enseignant5.setEmail("Kristian@email.com");
+        enseignant5.setTelephone("4389522222");
+        enseignantRepository.save(enseignant5);
+
+    }
+
 
 
 }

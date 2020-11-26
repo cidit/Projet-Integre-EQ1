@@ -32,6 +32,7 @@ public class Application {
             insertDataService.insertStage();
             insertDataService.insertGestionnaire();
             insertDataService.insertCandidature();
+            insertDataService.insertEnseinants();
             //insertDataService.insertEvaluationStagieire();
 
         };

@@ -157,11 +157,15 @@ public class CandidatureService {
     public List<Candidature> getListByDateStage() {
         List<Candidature> candidatureBydateStage = new ArrayList<>();
         for (Candidature c : candidatureRepository.findAll()) {
-            if (LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L)) && !c.isEvaluee()) {
+            if (isStageRendueAQuatriemeSemaine(c)) {
                 candidatureBydateStage.add(c);
             }
         }
         return candidatureBydateStage;
+    }
+
+    private boolean isStageRendueAQuatriemeSemaine(Candidature c) {
+        return LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L)) && !c.isEvaluee() && c.getStatut().equals(Candidature.CandidatureStatut.CHOISI);
     }
 
     public List<Candidature> getListCandidatureByEmployeurToEvaluer(Long idEmployeur){
@@ -169,7 +173,6 @@ public class CandidatureService {
         for (Candidature c: getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)) {
             if(employeurExiste(idEmployeur, c) && !c.isEvaluee() && isUneSemaineAvantLaFin(c)){
                 candidatureByemployeur.add(c);
-                System.out.println(c);
             }
         }
         return candidatureByemployeur;

@@ -99,4 +99,9 @@ public class EtudiantController {
     public Etudiant updateEtudiantPassword(@Valid @RequestBody Etudiant etudiant, @PathVariable Long id){
         return etudiantService.updateEtudiantPassword(etudiant, id);
     }
+
+    @PutMapping("setEnseignant/{idEtudiant}/{idEnseigant}")
+    public Etudiant setEnseignant( @PathVariable Long idEtudiant, @PathVariable Long idEnseigant){
+        return etudiantService.setEnseignant(idEtudiant,idEnseigant);
+    }
 }
