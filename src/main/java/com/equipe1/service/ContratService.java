@@ -161,11 +161,10 @@ public class ContratService {
     }
 
     public List<Candidature> listCandidatureSansContrat(Long idSession){
-        Session session = sessionRepository.findById(idSession).get();
         List<Candidature> canditaturesSansContrat = new ArrayList<>();
-        List<Candidature> canditaturesTemp = candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI);
+        List<Candidature> canditaturesTemp = candidatureService.getListCandidaturesChoisis(idSession);
         for (Candidature candTemp: canditaturesTemp) {
-            if(!contratRepository.findByCandidature(candTemp).isPresent() && candTemp.getStage().getSession().equals(session)){
+            if(!contratRepository.findByCandidature(candTemp).isPresent()){
                 canditaturesSansContrat.add(candTemp);
             }
         }

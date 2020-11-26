@@ -340,7 +340,7 @@ public class ContratServiceTest {
     @Test
     public void listCandidatureSansContrat() {
         when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
-        when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI))
+        when(candidatureService.getListCandidaturesChoisis(session.getId()))
                 .thenReturn(Arrays.asList(candidature2,candidature1));
 
         List<Candidature> all = contratService.listCandidatureSansContrat(session.getId());

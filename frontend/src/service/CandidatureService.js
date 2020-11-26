@@ -58,8 +58,8 @@ class CandidatureService{
         return data;
     }
 
-    async getCandidaturesChoisis() {
-        return await axios.get(baseURL +"/getAllChoisis");
+    async getCandidaturesChoisis(idSession) {
+        return await axios.get(baseURL +"/getAllChoisis", { params: { idSession: idSession} });
     }
 
 
