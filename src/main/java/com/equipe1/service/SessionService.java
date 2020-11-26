@@ -24,7 +24,7 @@ public class SessionService {
     }
 
     public Session create(Session session) {
-        session.setDateDebut(LocalDate.now());
+        System.out.println(session);
         Optional<Session> lastSession = sessionRepository.findCurrentSession();
         List<Etudiant> etudiants =  etudiantRepository.findAll();
         if (!lastSession.isEmpty()){

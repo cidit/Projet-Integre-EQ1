@@ -13,18 +13,15 @@ class SessionService {
         return axios.get(BASE_URL + "findAll")
     }
     async storeSessionParDefaut(){
-        var session = "";
         axios.get(BASE_URL + "getSessionEnCours").then(res => window.localStorage.setItem("session", res.data.id));
-        console.log(session)
-
-
+        axios.get(BASE_URL + "getSessionEnCours").then(res => window.localStorage.setItem("nomSession", res.data.nom));
     }
-    async changeSession(id){
-        var data;
-        //await axios.get(BASE_URL + "getSessionEnCours").then(r => console.log(r.data.id))
-        console.log(data)
+    async changeSession(id, nom){
         await window.localStorage.removeItem("session");
+        await window.localStorage.removeItem("nomSession");
         await window.localStorage.setItem("session", id);
+        await window.localStorage.setItem("nomSession", nom);
+
     }
 
 

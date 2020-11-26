@@ -21,6 +21,7 @@ class LoginService{
         await window.localStorage.removeItem("id");
         await window.localStorage.removeItem("desc");
         await window.localStorage.removeItem("session");
+        await window.localStorage.removeItem("nomSession");
     }
 }
 

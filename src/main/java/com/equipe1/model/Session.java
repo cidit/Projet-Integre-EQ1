@@ -1,10 +1,7 @@
 package com.equipe1.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,6 +11,7 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 public class Session {
 
     @Id
@@ -22,7 +20,5 @@ public class Session {
     private String nom;
     private LocalDate dateDebut;
     private boolean isCurrent;
-    public Session() {
-        this.isCurrent = true;
-    }
+
 }

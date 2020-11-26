@@ -54,22 +54,27 @@ public class InsertDataService {
     @Autowired
     private QuestionService questionService;
 
-    private Session sessionActuelle;
-
     private List<Session> sessionList;
 
     @Transactional
     public void insertSession() {
-        Session session = new Session();
-        session.setNom("AUT-2020");
-        //session.setDateDebut(LocalDate.now());
-        session.setDateDebut(LocalDate.of(2017, 7, 24));
-        sessionRepository.save(session);
-
-        sessionActuelle = sessionRepository.findCurrentSession().get();
-
         sessionList = new ArrayList<>();
-        sessionList.add(sessionActuelle);
+        Session session;
+
+        session = Session.builder().nom("ETE-2020").isCurrent(false)
+                .dateDebut(LocalDate.of(2020, 6, 1)).build();
+        sessionRepository.save(session);
+        sessionList.add(session);
+
+        session = Session.builder().nom("AUT-2020").isCurrent(false)
+                .dateDebut(LocalDate.of(2020, 9, 1)).build();
+        sessionRepository.save(session);
+        sessionList.add(session);
+
+        session = Session.builder().nom("HIV-2020").isCurrent(true)
+                .dateDebut(LocalDate.of(2020, 1, 1)).build();
+        sessionRepository.save(session);
+        sessionList.add(session);
     }
 
     @Transactional
@@ -166,7 +171,6 @@ public class InsertDataService {
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
         stageService.saveStage(stage1);
-        stage1.setSession(sessionActuelle);
 
         stage1 = new Stage();
         stage1.setTitre("stage_2");
@@ -181,10 +185,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
-        stage1.setSession(sessionActuelle);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
-
         Etudiant etudiant = etudiantRepository.findByEmail("richard@email.com");
         Set<Etudiant> set = new HashSet<>();
         set.add(etudiant);
@@ -206,7 +207,7 @@ public class InsertDataService {
         stage2.setVille("Laval");
         stage2.setEmployeur(e2);
         stage2.setSalaire(18);
-        stage2.setSession(sessionActuelle);
+        stage2.setSession(session);
 
         e2 = employeurRepository.findEmployeurByEmail("employeur@email.com");
 
@@ -223,7 +224,7 @@ public class InsertDataService {
         stage2.setVille("Lasalle");
         stage2.setEmployeur(e2);
         stage2.setSalaire(20);
-        stage2.setSession(sessionActuelle);
+        stage2.setSession(session);
         stageService.saveStage(stage2);
 
     }
@@ -241,6 +242,7 @@ public class InsertDataService {
 
     @Transactional
     public void insertCandidature(){
+        Session session = sessionRepository.findCurrentSession().get();
         Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
         Stage stage1 = new Stage();
         stage1.setTitre("stage_dummy1");
@@ -256,7 +258,7 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         //stage1.setStatut(Stage.StageStatus.APPROVED);
-        stage1.setSession(sessionActuelle);
+        stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
         Etudiant etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
@@ -280,7 +282,7 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         //stage1.setStatut(Stage.StageStatus.APPROVED);
-        stage1.setSession(sessionActuelle);
+        stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
@@ -304,7 +306,7 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         //stage1.setStatut(Stage.StageStatus.APPROVED);
-        stage1.setSession(sessionActuelle);
+        stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.REFUSÉ);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
@@ -328,7 +330,7 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
         //stage1.setStatut(Stage.StageStatus.APPROVED);
-        stage1.setSession(sessionActuelle);
+        stage1.setSession(session);
         //stage1.setStatut(Stage.StageStatus.REFUSÉ);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
@@ -344,7 +346,7 @@ public class InsertDataService {
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 12);
+        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 11);
         candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
         candidatureRepository.save(candidature);
 

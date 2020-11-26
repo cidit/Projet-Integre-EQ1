@@ -67,19 +67,19 @@ function EtudiantNav(props) {
     );
 }
 function ChangeSessionNavDropdown(props) {
-
+    var nomSession = window.localStorage.getItem("nomSession");
     return (
-        <NavDropdown title="Changer session" id="nav-dropdown">
+        <NavDropdown title={nomSession} id="nav-dropdown">
             {props.sessions.map(
                 data =>
-                    <NavDropdown.Item key={data.id} eventKey="4.1" onClick={() => changeSession(data.id)}>{data.nom}</NavDropdown.Item>
+                    <NavDropdown.Item key={data.id} eventKey="4.1" onClick={() => changeSession(data.id, data.nom)}>{data.nom}</NavDropdown.Item>
             )}
         </NavDropdown>
     );
 }
 
-async function changeSession(id) {
-    await SessionService.changeSession(id);
+async function changeSession(id, nom) {
+    await SessionService.changeSession(id, nom);
     setTimeout(function() {
         window.location.reload();
     }, 200);
