@@ -77,4 +77,9 @@ public class EvaluationMilieuStageService {
     public Optional<EvaluationMilieuStage> getByEtudaint(Etudiant etudiant){
         return evaluationMilieuStageRepository.findByEtudiant(etudiant);
     }
+
+    public List<EvaluationMilieuStage> getAllByEnseignant(Long idEnseignant) {
+        Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
+        return evaluationMilieuStageRepository.findByEnseignant(enseignant);
+    }
 }

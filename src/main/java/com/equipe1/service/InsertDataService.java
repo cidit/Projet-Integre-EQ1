@@ -393,10 +393,17 @@ public class InsertDataService {
     public void insertEvaluationStagieire() throws Exception {
 
         Optional<Employeur> employeur = employeurRepository.findById(5L);
+       Etudiant etudiant = new Etudiant();
+       etudiant.setPrenom("Zoy");
+       etudiant.setNom("laComadreja");
+       etudiant.setEmail("zoyLaComadreja@email.com");
+       etudiant.setProgramme("Technique de l'informatique");
+       etudiantRepository.save(etudiant);
         EvaluationStagiaire e = new EvaluationStagiaire();
         Question q1 = new Question();
         e.setDateCreation(LocalDate.now());
         e.setEmployeur(employeur.orElse(new Employeur()));
+        e.setEtudiant(etudiant);
         evaluationStagiaireService.save(e);
 
         q1.setQuestion("enonce 1");
@@ -460,7 +467,4 @@ public class InsertDataService {
         enseignantRepository.save(enseignant5);
 
     }
-
-
-
 }

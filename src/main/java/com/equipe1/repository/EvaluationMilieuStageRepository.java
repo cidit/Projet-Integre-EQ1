@@ -1,5 +1,6 @@
 package com.equipe1.repository;
 
+import com.equipe1.model.Enseignant;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.EvaluationMilieuStage;
 import com.equipe1.model.Question;
@@ -12,4 +13,5 @@ import java.util.Optional;
 
 public interface EvaluationMilieuStageRepository extends JpaRepository<EvaluationMilieuStage, Long> {
  Optional<EvaluationMilieuStage> findByEtudiant(Etudiant etudiant);
+ List<EvaluationMilieuStage> findByEnseignant(Enseignant enseignant);
 }

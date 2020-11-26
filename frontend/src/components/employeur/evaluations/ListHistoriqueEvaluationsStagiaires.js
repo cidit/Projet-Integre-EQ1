@@ -34,14 +34,14 @@ const StyledTableCell = withStyles((theme) => ({
   });
 
 export default function ListHistoriqueEvaluationsStagiaires() {
-    const [listEvaluationsEployeur, setListEvaluationsEmployeur] = useState([])
+    const [listEvaluationsEmployeur, setListEvaluationsEmployeur] = useState([])
     const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
     const classes = useStyles();
 
 
 
     const getListEvaluations = async () => {
-        const response = await EvaluationService.getEvaluatinsStagiaireByEmployeur(id);
+        const response = await EvaluationService.getEvaluationsStagiaireByEmployeur(id);
         setListEvaluationsEmployeur(response.data);
         console.log("response")
         console.log(response.data)
@@ -55,8 +55,8 @@ export default function ListHistoriqueEvaluationsStagiaires() {
     }, [])
 
     return (
-        <div>
-            <TableContainer component={Paper} fullfill>
+      <Paper className={classes.root}>
+            <TableContainer component={Paper} >
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -67,7 +67,7 @@ export default function ListHistoriqueEvaluationsStagiaires() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {listEvaluationsEployeur.map((data) => (
+                    {listEvaluationsEmployeur.map((data) => (
                             <StyledTableRow key={data.id}>
                                 <StyledTableCell component="th" scope="row">
                                 {data.dateCreation}
@@ -80,8 +80,6 @@ export default function ListHistoriqueEvaluationsStagiaires() {
                     </TableBody>
                 </Table>
             </TableContainer>
-
-
-        </div>
+        </Paper>
     )
 }

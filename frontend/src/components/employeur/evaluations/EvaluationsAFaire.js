@@ -49,7 +49,6 @@ export default function EvaluationsAFaire(props) {
     const getCandidature = async () => {
         const response = await CandidatureService.getCandidaturesAEvaluerParEmployeur(props.id);
         setCandidatures(response.data);
-        console.log(response.data)
     }
 
     useEffect(() => {
@@ -110,8 +109,6 @@ function Row(props) {
     }
 
     if (redirect) {
-        console.log("idetudiant")
-        console.log(candidature.etudiant.id)
         return <Redirect to={`/evaluationStagiaire/${candidature.id}`} />
     }
     return (

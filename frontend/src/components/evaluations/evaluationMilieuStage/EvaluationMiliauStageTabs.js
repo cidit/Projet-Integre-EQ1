@@ -5,6 +5,7 @@ import Tabs from '@material-ui/core/Tabs';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ListEvaluationMilieuStage from './ListEvaluationMilieuStage'
+import HistoriqueEvaluationsMilieuStage from './HistoriqueEvaluationsMilieuStage'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,15 +45,15 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    
-    
+
+
     //height: 224,
     margin: theme.spacing(3),
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
     display: 'inline-flex',
- 
+
   },
   tabPanel: {
     padding: theme.spacing(4),
@@ -60,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     width: '80%',
     marginLeft: theme.spacing(1, 'inherit'),
-}
+  }
 }));
 
 export default function EvaluationMiliauStageTabs() {
@@ -85,12 +86,16 @@ export default function EvaluationMiliauStageTabs() {
         <Tab label="Historique d'évaluation" {...a11yProps(1)} />
 
       </Tabs>
-      <TabPanel value={value} index={0}  className={classes.tabPanel} >
+      <TabPanel value={value} index={0} className={classes.tabPanel} >
         <div className='mt-4'>
-          <ListEvaluationMilieuStage/>
+          <ListEvaluationMilieuStage />
         </div>
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={1} className={classes.tabPanel} >
+        <div className='mt-4'>
+          <HistoriqueEvaluationsMilieuStage />
+        </div>
+
       </TabPanel>
 
     </div>

@@ -49,4 +49,6 @@ public class EnseignantController {
         return enseignantService.updateEnseignantPassword(enseignant, id);
 
     }
+
+
 }

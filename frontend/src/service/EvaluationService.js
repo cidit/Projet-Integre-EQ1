@@ -31,8 +31,12 @@ class EvaluationService{
             
     }
 
-    async getEvaluatinsStagiaireByEmployeur(idEmployeur){
+    async getEvaluationsStagiaireByEmployeur(idEmployeur){
         return await axios.get(baseURLStagiaire + "/getByEmployeur/" + idEmployeur);
+    }
+
+    async getEvaluationsMilieuStageByEnseignant(idEnseignant){
+        return await axios.get(baseURLMilieuStage + "/getByEnseignant/" + idEnseignant);
     }
 }
 
