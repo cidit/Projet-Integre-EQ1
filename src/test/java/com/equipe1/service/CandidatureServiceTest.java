@@ -53,9 +53,18 @@ public class CandidatureServiceTest {
 
     @BeforeEach
     public void testSetUpCandidatures() {
+        session = Session.builder()
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
+                .build();
+        sessionRepository.save(session);
+        List<Session> sessions = new ArrayList<>();
+        sessions.add(session);
         e1 = new Etudiant();
         e1.setId(2L);
         e1.setEmail("richard@email.com");
+        e1.setSession(sessions);
         etudiantRepository.save(e1);
         c1 = new Candidature(e1, new Stage());
         c2 = new Candidature(new Etudiant(), new Stage());
@@ -70,13 +79,8 @@ public class CandidatureServiceTest {
         e.setAdresse("123 Rue Bidon");
         s.setId(4L);
         s.setTitre("TP");
+        s.setSession(session);
 
-        session = Session.builder()
-                .id(1L)
-                .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
-                .build();
-        sessionRepository.save(session);
 
         employeur= new Employeur();
     }
@@ -117,8 +121,8 @@ public class CandidatureServiceTest {
     @Test
     public void testFindCandidatureByEtudiant(){
         // Arrange
-        Session session = sessionRepository.findCurrentSession().get();
         List<Candidature> candidatureList = new ArrayList<>();
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(s).when(stageRepository).save(any());
         doReturn(e).when(etudiantRepository).save(any());
         doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
@@ -263,13 +267,13 @@ public class CandidatureServiceTest {
 
     @Test
     void getListCandidatureByEmployeurToEvaluer() {
-        Session session = sessionRepository.findCurrentSession().get();
         employeur.setId(1L);
         c1.setStatut(Candidature.CandidatureStatut.CHOISI);
         s.setDateFin(LocalDate.of(2020,11,01));
         s.setEmployeur(employeur);
         c1.setStage(s);
 
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1));
         when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)).thenReturn(Arrays.asList(c1));
 

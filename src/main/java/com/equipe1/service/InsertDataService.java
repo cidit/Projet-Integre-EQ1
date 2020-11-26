@@ -3,6 +3,7 @@ package com.equipe1.service;
 import com.equipe1.model.*;
 import com.equipe1.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -51,10 +52,17 @@ public class InsertDataService {
 
     @Autowired
     private EvaluationStagiaireService evaluationStagiaireService;
+
     @Autowired
     private QuestionService questionService;
 
     private List<Session> sessionList;
+
+    @Autowired
+    PasswordEncoder encoder;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Transactional
     public void insertSession() {
@@ -88,6 +96,7 @@ public class InsertDataService {
         e1.setEmail("richard@email.com");
         e1.setMatricule("1772397");
         e1.setPassword("123456");
+        //e1.setPassword(encoder.encode("123456"));
         e1.setPrenom("richard");
         e1.setNom("truong");
         e1.setStatutStage("possede stage");
@@ -96,6 +105,14 @@ public class InsertDataService {
         e1.setSession(sessions);
         e1.setEnregistre(true);
         e1.setSession(sessionList);
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e1.setRoles(roles);
+
         etudiantRepository.save(e1);
 
         Etudiant e2 = new Etudiant();
@@ -103,6 +120,7 @@ public class InsertDataService {
         e2.setEmail("alex@email.com");
         e2.setMatricule("1501279");
         e2.setPassword("123456");
+        //e2.setPassword(encoder.encode("123456"));
         e2.setPrenom("alex");
         e2.setNom("truong");
         e2.setStatutStage("aucun stage");
@@ -110,6 +128,14 @@ public class InsertDataService {
         e2.setProgramme("Techniques de l’informatique");
         e2.setEnregistre(true);
         e2.setSession(sessionList);
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e2.setRoles(roles);
+
         etudiantRepository.save(e2);
 
         Etudiant e3 = new Etudiant();
@@ -117,6 +143,7 @@ public class InsertDataService {
         e3.setEmail("olingamedjoloic@gmail.com");
         e3.setMatricule("1998277");
         e3.setPassword("123456");
+        //e3.setPassword(encoder.encode("123456"));
         e3.setPrenom("Loic");
         e3.setNom("Olinga");
         e3.setStatutStage("aucun stage");
@@ -124,26 +151,51 @@ public class InsertDataService {
         e3.setProgramme("Techniques de l’informatique");
         e3.setSession(sessionList);
         e3.setEnregistre(true);
-        etudiantRepository.save(e3);
 
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e3.setRoles(roles);
+
+        etudiantRepository.save(e3);
     }
 
     @Transactional
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
         e1.setEmail("carlos.test@gmail.com");
-        e1.setPassword("12345");
+        e1.setPassword("123456");
+        //e1.setPassword(encoder.encode("123456"));
         e1.setAdresse("12345");
         e1.setNom("Banque1");
         e1.setTelephone("888-888-8888");
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(Role.ERole.ROLE_EMPLOYEUR)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e1.setRoles(roles);
+
         employeurRepository.save(e1);
 
         e1 = new Employeur();
         e1.setEmail("employeur@email.com");
-        e1.setPassword("12345");
+        e1.setPassword("123456");
+        //e1.setPassword(encoder.encode("123456"));
         e1.setAdresse("12345");
         e1.setNom("Hopital Général");
         e1.setTelephone("888-888-8888");
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_EMPLOYEUR)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e1.setRoles(roles);
+        
         employeurRepository.save(e1);
     }
 
@@ -232,11 +284,20 @@ public class InsertDataService {
     @Transactional
     public void insertGestionnaire(){
         Gestionnaire g1 = new Gestionnaire();
-        g1.setNom("toto");
-        g1.setPrenom("toto");
+        g1.setNom("admin01");
+        g1.setPrenom("admin01");
         g1.setEmail("gestionnaire01@email.com");
         g1.setPassword("123456");
+        //g1.setPassword(encoder.encode("123456"));
         g1.setTelephone("555-555-5555");
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(Role.ERole.ROLE_GESTIONNAIRE)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        g1.setRoles(roles);
+
         gestionnaireService.saveGestionnaire(g1);
     }
 
@@ -389,7 +450,7 @@ public class InsertDataService {
     }
 
     @Transactional
-    public void insertEvaluationStagieire() throws Exception {
+    public void insertEvaluationStagiaire() throws Exception {
 
         Optional<Employeur> employeur = employeurRepository.findById(5L);
         EvaluationStagiaire e = new EvaluationStagiaire();
@@ -410,6 +471,5 @@ public class InsertDataService {
 
 
     }
-
 
 }

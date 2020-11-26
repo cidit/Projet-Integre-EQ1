@@ -1,0 +1,41 @@
+import axios from "axios";
+
+const API_URL = "http://localhost:8080/api/auth/";
+
+class AuthService {
+
+  verifyTokenExpired() {
+    let token = JSON.parse(localStorage.getItem('user')).accessToken
+    let exp = JSON.parse(atob(token.split('.')[1])).exp * 1000
+    return Date.now() > exp;
+  }
+
+  getTokenId(){
+    return JSON.parse(localStorage.getItem('user')).id;
+  }
+
+  login(username, password) {
+    return axios
+      .post(API_URL + "signin", {
+        username,
+        password
+      })
+      .then(response => {
+        if (response.data.accessToken) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+        }
+
+        return response.data;
+      });
+  }
+
+  logout() {
+    localStorage.removeItem("user");
+  }
+
+  getCurrentUser() {
+    return JSON.parse(localStorage.getItem('user'));;
+  }
+}
+
+export default new AuthService();

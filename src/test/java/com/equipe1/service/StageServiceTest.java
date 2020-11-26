@@ -103,6 +103,7 @@ public class StageServiceTest {
     @Test
     void testGetStages() {
         // Arrange
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
         // Act
         List<Stage> stages = stageService.getStages(session.getId());
@@ -218,7 +219,7 @@ public class StageServiceTest {
     void getStagesByEmployeur() {
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         s1.setEmployeur(employeur);
         s2.setEmployeur(employeur);
 
@@ -241,7 +242,7 @@ public class StageServiceTest {
 
     @Test
     public void testGetStagesEtudiantValide(){
-        Session session = sessionRepository.findCurrentSession().get();
+
         s1.setId(2L);
         s1.setStatut(Stage.StageStatus.APPROUVÉ);
         s1.setOuvert(true);
@@ -256,6 +257,8 @@ public class StageServiceTest {
         c.setEtudiant(e1);
         List<Candidature> candidatures = new ArrayList<>();
         candidatures.add(c);
+
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(candidatures).when(candidatureService).findCandidatureByEtudiant(e1.getId(), session.getId());
         Mockito.when(stageRepository.findAll()).thenReturn(Arrays.asList(s1));
         List<Stage> stageList = stageService.getStagesEtudiant(e1.getId(), session.getId());
@@ -267,7 +270,6 @@ public class StageServiceTest {
 
     @Test
     public void testGetStagesEtudiantInvalide(){
-        Session session = sessionRepository.findCurrentSession().get();
         s1.setId(2L);
         s1.setStatut(Stage.StageStatus.APPROUVÉ);
         s1.setOuvert(true);
@@ -276,6 +278,8 @@ public class StageServiceTest {
         Set <Etudiant> etudiantsAdmis = new HashSet<>();
         etudiantsAdmis.add(e1);
         s1.setEtudiantsAdmits(etudiantsAdmis);
+
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(s1).when(stageRepository).save(s1);
         Candidature c = new Candidature();
         c.setStage(s1);
@@ -343,7 +347,7 @@ public class StageServiceTest {
     public void testGetAllStagesApprouves(){
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(s1)).when(stageRepository).findAll();
 
         s1.setSession(session);
@@ -360,7 +364,7 @@ public class StageServiceTest {
     public void testGetAllStagesNonApprouves(){
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(s1)).when(stageRepository).findAll();
 
         s1.setSession(session);
@@ -377,6 +381,7 @@ public class StageServiceTest {
     @Test
     public void testGetAllStagesAyantAucunStagiaire(){
         // Arrange
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(c1)).when(candidatureService).findCandidatureByStage(30L);
         doReturn(Arrays.asList(c2, c3)).when(candidatureService).findCandidatureByStage(35L);
         doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();

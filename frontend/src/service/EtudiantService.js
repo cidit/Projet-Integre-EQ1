@@ -10,10 +10,6 @@ class EtudiantService{
         return axios.get(ETUDIANTS_URL, { params: { idSession: idSession} });
     }
 
-    getEtudiantsInscrits(){
-        return axios.get(baseURL + "/getAllInscrits");
-    }
-
     getEtudiantById(id){
         return axios.get(ETUDIANT_GET + "?idEtudiant=" + id);
     }
@@ -64,6 +60,17 @@ class EtudiantService{
 
     register(id) {
         return axios.put(baseURL + "/registration/register/" + id)
+    }
+
+    async updatePassword(etudiant, id){
+        console.log(etudiant);
+        fetch(baseURL + "/updatePassword/" + id,
+            {method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(etudiant)} )
+            .then(r => r.json());
     }
 }
 

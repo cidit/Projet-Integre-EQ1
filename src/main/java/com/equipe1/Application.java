@@ -30,8 +30,6 @@ public class Application {
             insertDataService.insertStage();
             insertDataService.insertGestionnaire();
             insertDataService.insertCandidature();
-            //insertDataService.insertEvaluationStagieire();
-            //quartzSchedulerService.triggerExecuteCode();
 
         };
     }

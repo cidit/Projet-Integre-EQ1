@@ -1,9 +1,11 @@
 package com.equipe1.controller;
 
+import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.service.EtudiantService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,15 +85,13 @@ public class EtudiantController {
         return etudiantService.getEtudiantsCVNonApprouve(idSession);
     }
 
-    @GetMapping("/getAllInscrits")
-    public List<Etudiant> getEtudiantsInscrits(){
-        return etudiantService.getEtudiantsInscrits();
-    }
-
     @GetMapping("/getAllAyantEntrevue")
     public List<Etudiant> getEtudiantsAyantEntrevue(@RequestParam("idSession") Long idSession){
         return etudiantService.getEtudiantsAyantEntrevue(idSession);
     }
 
-
+    @PutMapping("updatePassword/{id}")
+    public Etudiant updateEtudiantPassword(@Valid @RequestBody Etudiant etudiant, @PathVariable Long id){
+        return etudiantService.updateEtudiantPassword(etudiant, id);
+    }
 }
