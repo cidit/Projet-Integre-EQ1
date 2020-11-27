@@ -77,7 +77,7 @@ export default function ListEnseignants() {
                                         <TableCell className={classes.textTitle}>Programme</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
-                                       
+                                       <TableCell style={{width: '2%'}}></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -115,19 +115,19 @@ function Row(props) {
 
     return (
         <React.Fragment>
-            <Tooltip open={arrow} placement="left" onClose={hideArrow} onOpen={showArrow} title="Assigner">
+            <Tooltip open={arrow} placement="left" onClose={hideArrow} onOpen={showArrow} title="">
                 <TableRow className={classes.root} onClick={() => handleClickRow(row)} style={{ cursor: 'pointer' }} hover>
                     <TableCell >{row.prenom} {row.nom}</TableCell>
                     <TableCell >{row.programme}</TableCell>
                     <TableCell >{row.email}</TableCell>
                     <TableCell>{row.telephone}</TableCell>
-                    {/* {arrow &&
+                    {arrow &&
 
-                        <TableCell style={{ backgroundColor: "#E9E9E9 " }} >
+                        <TableCell style={{ backgroundColor: "#E9E9E9 " }, {width: '2%'}}  >
                             <ArrowForwardIcon color='disabled' fontSize='small' />
                         </TableCell>
 
-                    } */}
+                    } 
                 </TableRow>
             </Tooltip>
         </React.Fragment>
