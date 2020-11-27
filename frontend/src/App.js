@@ -24,24 +24,12 @@ import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire
 
 import StageComponent from "./components/stage/StageComponent";
 import ListeStage from "./components/stage/ListeStage";
-
-
-import QuestionProductivite from './components/evaluations/evaluationStagiaire/QuestionProductivite'
-import QuestionQualiteTravail from './components/evaluations/evaluationStagiaire/QuestionQualiteTravail'
-import QuestionRelations from './components/evaluations/evaluationStagiaire/QuestionRelations'
-import QuestionsHabilites from './components/evaluations/evaluationStagiaire/QuestionsHabilites'
-import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
-import ObservationsMilieuStage from './components/evaluations/evaluationMilieuStage/ObservationsMilieuStage'
-import EvaluationStagiaire from './/components/evaluations/EvaluationStagiaire'
-import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/core/styles";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import RapportComponent from "./components/gestionnaire/RapportComponent";
 import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
-import ProfileEmployeur from './components/employeur/ProfileEmployeur';
-import ProfileGestionnaire from './components/gestionnaire/ProfileGestionnaire';
-import ProfileEtudiant from './components/etudiant/ProfileEtudiant';
+import HomeEtudiant from "./components/HomeEtudiant";
 
 
 function App() {
@@ -60,10 +48,8 @@ function App() {
                     <Route path='/etudiant' component={HomeEtudiant}/>
                     <Route path='/offrestage' component={ApplicationStageComponent}/>
                     <Route path="/etudiants" component={ListEtudiantsComponent}/>
-                    <Route path='/etudiant' component={HomeEtudiant}/>
                     <Route path='/createStage' component={CreateStageComponent}/>
                     <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent}/>
-                    <Route path='/gestionnaire' component={GestionnaireOptions}/>
                     <Route path='/gestionnaireStage' component={GestionnaireListStageComponent}/>
                     <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent}/>
                     <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent}/>
@@ -77,7 +63,6 @@ function App() {
                     <Route path="/stage/:id/" component={StageComponent}/>
                     <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
                     <Route path="/listestages" component={ListeStage}/>
-                    <Route path="/createSession" component={CreateSessionComponent}/>
                     <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
 
 
