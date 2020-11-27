@@ -3,7 +3,7 @@ import {Card, CardContent, Typography, CardActions, IconButton} from "@material-
 import {ArrowForward} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
 
-import {Redirect} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 const useStyle = makeStyles({
     root: {
@@ -18,7 +18,6 @@ const useStyle = makeStyles({
         float: "left"
     },
     actions: {
-        // margin: "auto",
         float: "right"
     },
     icon: {
@@ -28,15 +27,13 @@ const useStyle = makeStyles({
 
 
 export default function Rappel(props) {
-    const [redirect, setRedirect] = useState(false)
     const classes = useStyle()
+    const history = useHistory()
 
     function handleClick() {
-        setRedirect(false)
+        console.log("redirecting to [" + props.redirect + "]...")
+        history.push(props.redirect)
     }
-
-    if (redirect)
-        return <Redirect to={props.redirect}/>
 
     return (
         <Card className={classes.root} variant={"outlined"} onClick={handleClick}>
