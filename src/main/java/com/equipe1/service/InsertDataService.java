@@ -69,18 +69,15 @@ public class InsertDataService {
         sessionList = new ArrayList<>();
         Session session;
 
-        session = Session.builder().nom("ETE-2020").isCurrent(false)
-                .dateDebut(LocalDate.of(2020, 6, 1)).build();
+        session = Session.builder().nom("ETE-2020").isCurrent(false).build();
         sessionRepository.save(session);
         sessionList.add(session);
 
-        session = Session.builder().nom("AUT-2020").isCurrent(false)
-                .dateDebut(LocalDate.of(2020, 9, 1)).build();
+        session = Session.builder().nom("AUT-2020").isCurrent(false).build();
         sessionRepository.save(session);
         sessionList.add(session);
 
-        session = Session.builder().nom("HIV-2020").isCurrent(true)
-                .dateDebut(LocalDate.of(2020, 1, 1)).build();
+        session = Session.builder().nom("HIV-2020").isCurrent(true).build();
         sessionRepository.save(session);
         sessionList.add(session);
     }

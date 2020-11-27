@@ -55,7 +55,6 @@ public class EtudiantServiceTest {
         session = Session.builder()
                 .id(1L)
                 .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
                 .build();
         sessionRepository.save(session);
         List<Session> sessions = new ArrayList<>();

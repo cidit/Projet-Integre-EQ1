@@ -44,7 +44,6 @@ public class SessionServiceTest {
         session = Session.builder()
                 .id(1L)
                 .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
                 .isCurrent(true)
                 .build();
         doReturn(session).when(sessionRepository).save(session);
@@ -67,7 +66,7 @@ public class SessionServiceTest {
         Etudiant e1 = new Etudiant();
         e1.setEnregistre(true);
         etudiantRepository.save(e1);
-        Session newSession = Session.builder().dateDebut(LocalDate.now()).nom("HIV-2021").isCurrent(true).build();
+        Session newSession = Session.builder().nom("HIV-2021").isCurrent(true).build();
 
         when(etudiantRepository.save(e1)).thenReturn(e1);
         when(etudiantRepository.findAll()).thenReturn(Arrays.asList(e1));
