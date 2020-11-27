@@ -7,7 +7,6 @@ import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
 import Register from './components/RegisterComponent';
-import Logout from './components/Logout';
 import CreateStageComponent from './components/stage/CreateStageComponent';
 import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
@@ -43,7 +42,6 @@ function App() {
                     <Route path="/" exact component={Home}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/register' component={Register}/>
-                    <Route path='/logout' component={Logout}/>
                     <Route path="/etudiants" component={ListEtudiantsComponent}/>
                     <Route path='/etudiant' component={HomeEtudiant}/>
                     <Route path='/offrestage' component={ApplicationStageComponent}/>

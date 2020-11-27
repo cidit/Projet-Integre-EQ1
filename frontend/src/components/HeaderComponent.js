@@ -9,10 +9,10 @@ import LoginService from "../service/LoginService";
 function Logout(){
     function handleSelect(){
         LoginService.logout();
-        this.props.history.push('/?refresh');
+        // this.props.history.push('/?refresh');
     }
     return (
-        <Nav.Link href="/logout" onSelect={handleSelect}>Logout</Nav.Link>
+        <Nav.Link href="/?refresh" onSelect={handleSelect}>Logout</Nav.Link>
 
     );
 }
