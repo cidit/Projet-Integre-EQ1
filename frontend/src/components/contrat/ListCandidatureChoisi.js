@@ -13,10 +13,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import ContratService from '../../service/ContratService';
-import { Alert } from '@material-ui/lab';
 
 const useRowStyles = makeStyles({
     root: {

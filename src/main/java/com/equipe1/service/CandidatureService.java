@@ -11,6 +11,7 @@ import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -150,5 +151,36 @@ public class CandidatureService {
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
         updatedCandidature.setEntrevueStatut(Candidature.CandidatureEntrevueStatut.PASSEE);
         return candidatureRepository.save(updatedCandidature);
+
+    }
+
+    public List<Candidature> getListByDateStage() {
+        List<Candidature> candidatureBydateStage = new ArrayList<>();
+        for (Candidature c : candidatureRepository.findAll()) {
+            if (LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L)) && !c.isEvaluee()) {
+                candidatureBydateStage.add(c);
+            }
+        }
+        return candidatureBydateStage;
+    }
+
+    public List<Candidature> getListCandidatureByEmployeurToEvaluer(Long idEmployeur){
+        List<Candidature> candidatureByemployeur = new ArrayList<>();
+        for (Candidature c: getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)) {
+            if(employeurExiste(idEmployeur, c) && !c.isEvaluee() && isUneSemaineAvantLaFin(c)){
+                candidatureByemployeur.add(c);
+                System.out.println(c);
+            }
+        }
+        return candidatureByemployeur;
+    }
+
+    private boolean isUneSemaineAvantLaFin(Candidature c) {
+        var semaineAvantLafinStage = c.getStage().getDateFin().minusWeeks(2);
+        return LocalDate.now().isAfter(semaineAvantLafinStage);
+    }
+
+    private boolean employeurExiste(Long idEmployeur, Candidature c) {
+        return c.getStage().getEmployeur().getId() == idEmployeur;
     }
 }

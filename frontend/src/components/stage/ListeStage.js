@@ -17,15 +17,18 @@ export default class ListStagesComponent extends Component {
             stage: [],
             showSnackbar: false
         };
-
         handleClick = handleClick.bind(this);
     }
 
 
     componentDidMount() {
-        StageService.getStages().then((res) => {
-            this.setState({stage: res.data})
-        });
+        if (localStorage.getItem("desc") === "Employeur"){
+            StageService.getStagesByEmployeurId(localStorage.getItem("id")).then((res) => { this.setState({ stage: res.data }) })
+        } else {
+            StageService.getStagesSession().then((res) => {
+                this.setState({stage: res.data})
+            })
+        }
     }
 
     findStage(id) {
@@ -52,22 +55,18 @@ export default class ListStagesComponent extends Component {
         } else {
             return (
                 <div>
-                    <Test stages={this.state.stage}/>
+                    <CustomTable stages={this.state.stage}/>
                 </div>
             );
         }
-
     }
-
-
 }
 
 function handleClick (event, id)  {
     this.props.history.push('/stage/' +id);
-    console.log("OK")
 }
 
-function Test(props){
+function CustomTable(props){
     const classes= useStyles();
     const headCells = [
         { id: 'titre', numeric: false, disablePadding: true, label: 'Titre', align: 'left' },

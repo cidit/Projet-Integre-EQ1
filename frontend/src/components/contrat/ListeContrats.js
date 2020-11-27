@@ -1,8 +1,13 @@
-import React from 'react';
-import Telecharger from '../utils/telecharger'
 import { Alert } from '@material-ui/lab';
+import React from 'react';
 import { AiFillCheckCircle, AiFillCloseCircle } from 'react-icons/ai';
 import ContratService from "../../service/ContratService";
+import Telecharger from '../utils/telecharger';
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+import TableBody from "@material-ui/core/TableBody";
+import TableHead from "@material-ui/core/TableHead";
+import Table from "@material-ui/core/Table";
 
 function isListeVideEmployeur(props){
   const map = props.contrats.filter(data => data.signatureEmployeur === 'PAS_SIGNE' &&
@@ -42,31 +47,31 @@ export function ListeContratsGestionnaire(props) {
             <div className="pt-3 mt-3">
               <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Contrats</h5>
               <div className="row">
-                <table className="table table-striped table-bordered">
-                  <thead>
-                  <tr>
-                    <th> Numéro de contrat</th>
-                    <th> Employeur </th>
-                    <th> Étudiant(e) </th>
-                    <th> Programme </th>
-                    <th> Date de creation</th>
-                    <th> Télécharger contrat</th>
-                    <th> Signature de l'employeur</th>
-                    <th> Signature de l'étudiant(e)</th>
-                  </tr>
-                  </thead>
-                  <tbody>
+                <Table className="table table-striped table-bordered">
+                  <TableHead>
+                  <TableRow>
+                    <TableCell> Numéro de contrat</TableCell>
+                    <TableCell> Employeur </TableCell>
+                    <TableCell> Étudiant(e) </TableCell>
+                    <TableCell> Programme </TableCell>
+                    <TableCell> Date de creation</TableCell>
+                    <TableCell> Télécharger contrat</TableCell>
+                    <TableCell> Signature de l'employeur</TableCell>
+                    <TableCell> Signature de l'étudiant(e)</TableCell>
+                  </TableRow>
+                  </TableHead>
+                  <TableBody>
                   {props.contrats
                       .map(
                       data =>
-                          <tr key={data.id}>
-                            <td>{data.id}</td>
-                            <td>{data.employeur.nom}</td>
-                            <td>{data.candidature.etudiant.prenom} {data.candidature.etudiant.nom}</td>
-                            <td>{data.candidature.etudiant.programme}</td>
-                            <td>{data.dateGeneration}</td>
+                          <TableRow key={data.id}>
+                            <TableCell>{data.id}</TableCell>
+                            <TableCell>{data.employeur.nom}</TableCell>
+                            <TableCell>{data.candidature.etudiant.prenom} {data.candidature.etudiant.nom}</TableCell>
+                            <TableCell>{data.candidature.etudiant.programme}</TableCell>
+                            <TableCell>{data.dateGeneration}</TableCell>
                             <Telecharger path={data.id} />
-                            <td>
+                            <TableCell>
                               {data.signatureEmployeur === "EN_ATTENTE"?
                                   <div>
                                     <button className="btn btn-primary-outline" onClick={() => approuveSignature(data.id, "Employeur")}>
@@ -76,8 +81,8 @@ export function ListeContratsGestionnaire(props) {
                                       <h3> <AiFillCloseCircle style={{color: "red"}}/> </h3>
                                     </button>
                                   </div> : data.signatureEmployeur}
-                            </td>
-                            <td>
+                            </TableCell>
+                            <TableCell>
                               {data.signatureEtudiant === "EN_ATTENTE"?
                                   <div>
                                     <button className="btn btn-primary-outline" onClick={() => approuveSignature(data.id, "Etudiant")}>
@@ -87,11 +92,11 @@ export function ListeContratsGestionnaire(props) {
                                       <h3> <AiFillCloseCircle style={{color: "red"}}/> </h3>
                                     </button>
                                   </div> : data.signatureEtudiant}
-                            </td>
-                          </tr>
+                            </TableCell>
+                          </TableRow>
                   )}
-                  </tbody>
-                </table>
+                  </TableBody>
+                </Table>
               </div>
             </div>
           </div>
@@ -158,7 +163,6 @@ export function ListeContratsEmployeur(props) {
 }
 
 export function ListeContratsEtudiant(props) {
-  console.log(props.contrats)
   if (isListeVideEtudiant(props)) {
     return (
         AlertAucunContrat(false)

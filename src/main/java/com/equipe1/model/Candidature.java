@@ -27,6 +27,7 @@ public class Candidature {
     @JsonIgnore
     @OneToOne(mappedBy = "candidature")
     private Contrat contrat;
+    private boolean isEvaluee;
 
     public Candidature() {
         this.statut = CandidatureStatut.EN_ATTENTE;

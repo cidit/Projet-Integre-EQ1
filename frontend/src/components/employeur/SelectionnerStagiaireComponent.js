@@ -13,17 +13,15 @@ export default class SelectionnerStagiaireComponent extends Component {
         this.state = {candidatures: []};
         this.accepteCandidature = this.accepteCandidature.bind(this);
         this.convoqueEtudiantEntrevue = this.convoqueEtudiantEntrevue.bind(this);
-
-
     }
 
 
     async componentDidMount() {
         // const { data: candidatures } = await CandidatureService.getByStage(this.props.match.params.id);
 
-        // const {data: candidatures} = await CandidatureService.getByStage(this.props.id);
+        const {data: candidatures} = await CandidatureService.getByStage(this.props.id);
 
-        const {data: candidatures} = await CandidatureService.getByStage(this.props.match.params.id);
+        // const {data: candidatures} = await CandidatureService.getByStage(this.props.match.params.id);
         this.setState({candidatures});
     }
 
@@ -68,10 +66,7 @@ export default class SelectionnerStagiaireComponent extends Component {
             </div>
         );
     }
-
-
 }
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -87,13 +82,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CustomTable(props) {
+    // TODO: Ne pas afficher les etudiants deja choisis
     const classes = useStyles();
     const [selected, setSelected] = React.useState([]);
 
-
     // const [selected, setSelected] = React.useState(props.candidatures.filter(c => c.statut.includes("APPROUVE")).map((c) => c.id));
     const isSelected = (id) => selected.indexOf(id) !== -1;
-
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
@@ -120,7 +114,6 @@ function CustomTable(props) {
                 selected.slice(selectedIndex + 1),
             );
         }
-
         setSelected(newSelected);
     };
 
@@ -170,7 +163,6 @@ function CustomTable(props) {
                 </button>
             </div>
         )
-
     }
 
     return (
@@ -192,10 +184,8 @@ function CustomTable(props) {
                             <TableCell>Téléphone</TableCell>
                             <TableCell>Email</TableCell>
                             <TableCell>Adresse</TableCell>
-                            <TableCell>Convoquer pour entrevue</TableCell>
+                            {/*<TableCell>Convoquer pour entrevue</TableCell>*/}
                             <TableCell>Statut</TableCell>
-
-
                         </TableRow>
                     </TableHead>
 
@@ -230,23 +220,16 @@ function CustomTable(props) {
                                             <TableCell>{candidature.etudiant.telephone}</TableCell>
                                             <TableCell>{candidature.etudiant.email}</TableCell>
                                             <TableCell>{candidature.etudiant.adresse}</TableCell>
-                                            <TableCell>{renderColonneEntrevue(candidature)}</TableCell>
+                                            {/*<TableCell>{renderColonneEntrevue(candidature)}</TableCell>*/}
                                             <TableCell>{candidature.statut}</TableCell>
-
-
                                         </TableRow>
-
                                     );
                                 }
                             )}
                     </TableBody>
-
                 </Table>
             </TableContainer>
             <button onClick={handleConfirmation}>Confirmer</button>
-
         </>
     );
-
-
 }

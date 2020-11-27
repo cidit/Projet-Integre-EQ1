@@ -12,7 +12,6 @@ import Logout from './components/Logout';
 import CreateStageComponent from './components/stage/CreateStageComponent';
 import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions';
 import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
-import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandidaturesEtudiantComponent';
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
@@ -28,11 +27,19 @@ import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire
 import StageComponent from "./components/stage/StageComponent";
 import ListeStage from "./components/stage/ListeStage";
 
+
+import QuestionProductivite from './components/evaluations/evaluationStagiaire/QuestionProductivite'
+import QuestionQualiteTravail from './components/evaluations/evaluationStagiaire/QuestionQualiteTravail'
+import QuestionRelations from './components/evaluations/evaluationStagiaire/QuestionRelations'
+import QuestionsHabilites from './components/evaluations/evaluationStagiaire/QuestionsHabilites'
+import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
+import ObservationsMilieuStage from './components/evaluations/evaluationMilieuStage/ObservationsMilieuStage'
+import EvaluationStagiaire from './/components/evaluations/EvaluationStagiaire'
 import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
+import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/core/styles";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
-
 import RapportComponent from "./components/gestionnaire/RapportComponent";
 import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
 
@@ -45,7 +52,6 @@ function App() {
 
                 <Switch>
                     <Route path="/" exact component={Home}/>
-                    <Route path="/stages" component={ListStagesEmployeur}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/register' component={Register}/>
                     <Route path='/logout' component={Logout}/>
@@ -67,9 +73,8 @@ function App() {
                     <Route path='/CreationContrat/:id' component={CreationContrat}/>
                     <Route path='/televerserContrats/:id' component={TeleverserContrat}/>
                     <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi}/>
-                    <Route path="/stage/:id" component={StageComponent}/>
+                    <Route path="/stage/:id/" component={StageComponent}/>
                     <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
-                    {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
                     <Route path="/listestages" component={ListeStage}/>
                     <Route path="/createSession" component={CreateSessionComponent}/>
                     <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
@@ -81,6 +86,7 @@ function App() {
         </main>
 
     );
+
 }
 
 const theme = createMuiTheme({
