@@ -1,6 +1,6 @@
 import {
     makeStyles, Table,
-    TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
+    TableBody, TableCell, TableContainer, TableHead, TableRow, Button
 } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { Alert } from '@material-ui/lab';
@@ -28,19 +28,14 @@ const useStyles = makeStyles((theme) => ({
     textTitle: {
         fontWeight: 'bold',
         textAlign: 'left',
-        fontSize: 15
+        fontSize: 15,
+        width: '20%'
+    },
+    row:{
+        width:'2%'
     }
 }));
 
-const useRowStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            padding: theme.spacing(1),
-            borderBottom: 'unset',
-            //backgroundColor: '#E9E9E9  ',
-        },
-    },
-}));
 export default function ListEnseignants() {
     const [enseignants, setEnseignants] = useState([])
     const classes = useStyles();
@@ -68,16 +63,16 @@ export default function ListEnseignants() {
                 {enseignants &&
                     <>
                         <TableContainer >
-                        <h4 align='center' className='m-2 sticky-top' ><strong>List enseignants </strong></h4>
-                       
+                            <h4 align='center' className='m-2 sticky-top' ><strong>List enseignants </strong></h4>
+
                             <Table className="table table-striped">
                                 <TableHead className={classes.root}>
-                                    <TableRow >
-                                        <TableCell className={classes.textTitle} >Nom de l'enseignant</TableCell>
+                                    <TableRow className={classes.row}>
+                                        <TableCell className={classes.textTitle}>Nom de l'enseignant</TableCell>
                                         <TableCell className={classes.textTitle}>Programme</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
-                                       <TableCell style={{width: '2%'}}></TableCell>
+                                        <TableCell style={{ width: '20%' }}></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -97,39 +92,33 @@ export default function ListEnseignants() {
 
 function Row(props) {
     const { row } = props;
-    const classes = useRowStyles();
-    const [arrow, setArrow] = useState(false);
     const history = useHistory();
+    const classes = useStyles();
 
     const handleClickRow = (_row) => {
-        history.push("etudiantsAuEnseignant/" +_row.nom + "/" +_row.prenom + "/" + _row.id+ "/" +_row.programme );
-    }
-
-    const showArrow = () => {
-        setArrow(true)
-    }
-
-    const hideArrow = () => {
-        setArrow(false)
+        history.push("etudiantsAuEnseignant/" + _row.nom + "/" + _row.prenom + "/" + _row.id + "/" + _row.programme);
     }
 
     return (
         <React.Fragment>
-            <Tooltip open={arrow} placement="left" onClose={hideArrow} onOpen={showArrow} title="">
-                <TableRow className={classes.root} onClick={() => handleClickRow(row)} style={{ cursor: 'pointer' }} hover>
-                    <TableCell >{row.prenom} {row.nom}</TableCell>
-                    <TableCell >{row.programme}</TableCell>
-                    <TableCell >{row.email}</TableCell>
-                    <TableCell>{row.telephone}</TableCell>
-                    {arrow &&
 
-                        <TableCell style={{ backgroundColor: "#E9E9E9 " }, {width: '2%'}}  >
-                            <ArrowForwardIcon color='disabled' fontSize='small' />
-                        </TableCell>
+            <TableRow  className={classes.row}>
+                <TableCell >{row.prenom} {row.nom}</TableCell>
+                <TableCell  >{row.programme}</TableCell>
+                <TableCell >{row.email}</TableCell>
+                <TableCell >{row.telephone}</TableCell>
 
-                    } 
-                </TableRow>
-            </Tooltip>
+                <TableCell style={{ width: '20%' }}>
+                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{ textTransform: 'none' }}>
+                        Assigner étudiants
+                    </Button>
+                    <Button variant="outlined" size="small" color="primary" style={{ textTransform: 'none' }} >
+                        Voir étudiants assigneés
+                    </Button>
+
+                </TableCell>
+            </TableRow>
+
         </React.Fragment>
     );
 

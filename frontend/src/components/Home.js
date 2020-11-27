@@ -23,7 +23,7 @@ export default class Home extends Component {
 
      {/* <SelectionnerStagiaireComponent/>  */}
 
-   {/* <ListEnseignants/>  */}
+    <ListEnseignants/>  
 
 
 
