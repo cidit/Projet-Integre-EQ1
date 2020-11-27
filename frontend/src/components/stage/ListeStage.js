@@ -29,6 +29,7 @@ export default class ListStagesComponent extends Component {
                 this.setState({stage: res.data})
             })
         }
+
     }
 
     findStage(id) {

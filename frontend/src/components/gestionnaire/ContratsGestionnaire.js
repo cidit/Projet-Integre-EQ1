@@ -8,7 +8,8 @@ import {ListeContratsGestionnaire} from "../contrat/ListeContrats";
 export default function ContratsGestionnaire() {
     const [contratsGestionnaire, setContratsGestionnaire] = useState(null);
     const getContrats = async () => {
-        const response = await ContratService.getContrats();
+        var idSession = localStorage.getItem("session");
+        const response = await ContratService.getContrats(idSession);
         setContratsGestionnaire(response.data);
     }
 

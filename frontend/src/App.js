@@ -6,11 +6,9 @@ import {Route, Switch} from 'react-router-dom';
 import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
-import HomeEtudiant from "./components/etudiant/HomeEtudiant";
 import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
 import CreateStageComponent from './components/stage/CreateStageComponent';
-import GestionnaireOptions from './components/gestionnaire/GestionnaireOptions';
 import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandidaturesEtudiantComponent';
@@ -35,13 +33,16 @@ import QuestionsHabilites from './components/evaluations/evaluationStagiaire/Que
 import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
 import ObservationsMilieuStage from './components/evaluations/evaluationMilieuStage/ObservationsMilieuStage'
 import EvaluationStagiaire from './/components/evaluations/EvaluationStagiaire'
-import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
 import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/core/styles";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import RapportComponent from "./components/gestionnaire/RapportComponent";
 import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
+import ProfileEmployeur from './components/employeur/ProfileEmployeur';
+import ProfileGestionnaire from './components/gestionnaire/ProfileGestionnaire';
+import ProfileEtudiant from './components/etudiant/ProfileEtudiant';
+
 
 function App() {
     return (
@@ -86,6 +87,7 @@ function App() {
         </main>
 
     );
+
 
 }
 

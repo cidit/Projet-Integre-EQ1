@@ -31,7 +31,8 @@ export default function ListCandidatureChoisi() {
     const [candidaturesChoisis, setCandidaturesChoisis] = useState([]);
 
     const getCandidaturesChoisis = async () => {
-        const response = await ContratService.getCandidaturesSansContrat();
+        var idSession = localStorage.getItem("session");
+        const response = await ContratService.getCandidaturesSansContrat(idSession);
         setCandidaturesChoisis(response.data);
     }
 

@@ -48,24 +48,17 @@ public class CandidatureService {
         return candidatureRepository.findById(idCandidature);
     }
 
-    public List<Candidature> findCandidatureByStage(Long idStage){
-        Stage stage = stageRepository.findById(idStage).get();
-        List<Candidature> candidatures = candidatureRepository.findAll();
-        List<Candidature> candidatureList = new ArrayList<>();
-        for (Candidature result: candidatures) {
-            if(result.getStage().equals(stage))
-                candidatureList.add(result);
-        }
-        return candidatureList;
-    }
-    public List<Candidature> findCandidatureByEtudiant(Long idEtudiant){
+
+    public List<Candidature> findCandidatureByEtudiant(Long idEtudiant, Long idSession){
 
         Etudiant etudiant = etudiantRepository.findById(idEtudiant).get();
         List<Candidature> candidatures = candidatureRepository.findAll();
         List<Candidature> candidatureList = new ArrayList<>();
-        for (Candidature result: candidatures) {
-            if(result.getEtudiant().equals(etudiant))
-                candidatureList.add(result);
+        Session session = sessionRepository.findById(idSession).get();
+
+        for (Candidature candidature: candidatures) {
+            if(candidature.getEtudiant().equals(etudiant) && candidature.getStage().getSession().equals(session))
+                candidatureList.add(candidature);
         }
         return candidatureList;
     }
@@ -89,21 +82,15 @@ public class CandidatureService {
         return updatedCandidature;
     }
 
-    public Candidature save(Candidature candidature){
-        return candidatureRepository.save(candidature);
-    }
-
-    public List<Candidature> findAllByStage(Long stage){
-        List<Candidature> all = getCandidatures();
-        List<Candidature> candidatures = new ArrayList<>();
-        for (Candidature result: all) {
-            if(result.getStage().getId().equals(stage))
-                candidatures.add(result);
+    public List<Candidature> findCandidatureByStage(Long idStage){
+        List<Candidature> candidatures = candidatureRepository.findAll();
+        List<Candidature> candidatureList = new ArrayList<>();
+        for (Candidature candidature: candidatures) {
+            if(candidature.getStage().getId().equals(idStage))
+                candidatureList.add(candidature);
         }
-
-        return candidatures;
+        return candidatureList;
     }
-
 
     public Candidature updateCandidatureChoisi(Long id) {
         Candidature updatedCandidature = candidatureRepository.findById(id).get();
@@ -137,8 +124,16 @@ public class CandidatureService {
         return optionalCandidature;
     }
 
-    public List<Candidature> getListCandidaturesChoisis(Candidature.CandidatureStatut status){
-        return candidatureRepository.findByStatut(status);
+    public List<Candidature> getListCandidaturesChoisis(Long idSession){
+        Session session = sessionRepository.findById(idSession).get();
+        List<Candidature> candidatures =  candidatureRepository.findByStatut(Candidature.CandidatureStatut.CHOISI);
+        List<Candidature> candidaturesChoisiesSession = new ArrayList<>();
+        if(!candidatures.isEmpty()){
+            candidaturesChoisiesSession = candidatures.stream()
+                    .filter(candidature -> candidature.getStage().getSession().equals(session))
+                    .collect(Collectors.toList());
+        }
+        return candidaturesChoisiesSession;
     }
 
     public Candidature convoqueEtudiantEntrevue(Long id){
@@ -164,12 +159,11 @@ public class CandidatureService {
         return candidatureBydateStage;
     }
 
-    public List<Candidature> getListCandidatureByEmployeurToEvaluer(Long idEmployeur){
+    public List<Candidature> getListCandidatureByEmployeurToEvaluer(Long idEmployeur, Long idSession){
         List<Candidature> candidatureByemployeur = new ArrayList<>();
-        for (Candidature c: getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)) {
+        for (Candidature c: getListCandidaturesChoisis(idSession)) {
             if(employeurExiste(idEmployeur, c) && !c.isEvaluee() && isUneSemaineAvantLaFin(c)){
                 candidatureByemployeur.add(c);
-                System.out.println(c);
             }
         }
         return candidatureByemployeur;

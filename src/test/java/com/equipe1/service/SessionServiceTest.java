@@ -67,8 +67,7 @@ public class SessionServiceTest {
         Etudiant e1 = new Etudiant();
         e1.setEnregistre(true);
         etudiantRepository.save(e1);
-        Session newSession = new Session();
-        newSession.setNom("HIV-2021");
+        Session newSession = Session.builder().dateDebut(LocalDate.now()).nom("HIV-2021").isCurrent(true).build();
 
         when(etudiantRepository.save(e1)).thenReturn(e1);
         when(etudiantRepository.findAll()).thenReturn(Arrays.asList(e1));

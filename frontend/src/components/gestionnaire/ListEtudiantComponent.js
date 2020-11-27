@@ -60,8 +60,14 @@ export default class ListEtudiantsComponent extends Component {
     };
 
     async componentDidMount() {
+<<<<<<< HEAD
         const {data: etudiants} = await EtudiantService.getEtudiants();
         this.setState({etudiants});
+=======
+        var idSession = localStorage.getItem("session");
+        const { data: etudiants } = await EtudiantService.getEtudiants(idSession);
+        this.setState({ etudiants });
+>>>>>>> 4bd57222391e2ca6769b9861f5ed3c52050bba9f
     }
 
     voirCandidatures(id) {

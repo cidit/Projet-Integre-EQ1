@@ -13,8 +13,8 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     async componentDidMount() {
-        console.log(this.props.match.params.id)
-        const { data: candidatures } = await CandidatureService.getByEtudiant(this.props.match.params.id);
+        var idSession = localStorage.getItem("session");
+        const { data: candidatures } = await CandidatureService.getByEtudiant(this.props.match.params.id, idSession);
 
         this.setState({ candidatures });
     }

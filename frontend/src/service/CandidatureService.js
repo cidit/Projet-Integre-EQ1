@@ -3,13 +3,6 @@ import axios from "axios";
 const baseURL = "http://localhost:8080/candidatures";
 
 class CandidatureService{
-    async getAll(){
-        let data;
-        await fetch(baseURL +"/findAll", {method: "GET"} )
-            .then(r => data = r.json())
-            .catch(error => data = {});
-        return data;
-    }
 
     async getById(id) {
         let data;
@@ -19,9 +12,8 @@ class CandidatureService{
         return data;
     }
 
-    getByEtudiant(idEtudiant) {
-        return axios.get(baseURL + "/getByEtudiant?idEtudiant=" + idEtudiant);
-
+    getByEtudiant(idEtudiant, idSession) {
+        return axios.get(baseURL + "/getByEtudiant/" + idEtudiant, { params: { idSession: idSession} });
     }
 
     async getByStage(idStage) {
@@ -66,8 +58,8 @@ class CandidatureService{
         return data;
     }
 
-    async getCandidaturesChoisis() {
-        return await axios.get(baseURL +"/getAllChoisis");
+    async getCandidaturesChoisis(idSession) {
+        return await axios.get(baseURL +"/getAllChoisis", { params: { idSession: idSession} });
     }
 
 
@@ -75,8 +67,8 @@ class CandidatureService{
         return await axios.get(baseURL +"/getByPremierMoisStage");
     }
 
-    async getCandidaturesAEvaluerParEmployeur(id) {
-        return await axios.get(baseURL +"/getListAEvaluer/"+id);
+    async getCandidaturesAEvaluerParEmployeur(idEmployeur, idSession) {
+        return axios.get(baseURL + "/getListAEvaluer/" + idEmployeur, { params: { idSession: idSession} });
     }
 
     async convoqueEtudiantEntrevue(id){
