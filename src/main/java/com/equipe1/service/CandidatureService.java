@@ -163,17 +163,17 @@ public class CandidatureService {
         return candidatureBydateStage;
     }
 
-    public List<Candidature> getListCandidatureByEmployeurToEvaluer(Long idEmployeur){
+    public List<Candidature> getListCandidatureByEmployeurSansEvaluationStagiaire(Long idEmployeur){
         List<Candidature> candidatureByemployeur = new ArrayList<>();
         for (Candidature c: getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)) {
-            if(employeurExiste(idEmployeur, c) && !c.isEvaluee() && isUneSemaineAvantLaFin(c)){
+            if(employeurExiste(idEmployeur, c) && !c.isEvaluee() && isStageUneSemaineAvantLaFin(c)){
                 candidatureByemployeur.add(c);
             }
         }
         return candidatureByemployeur;
     }
 
-    public List<Candidature> getCandidatureEtudaintByEnseignant(Long idEnseignant){
+    public List<Candidature> getCandidatureDesEtudaintsByEnseignantId(Long idEnseignant){
         List<Candidature> candidatures = new ArrayList<>();
         for (Candidature c : candidatureRepository.findByStatut(Candidature.CandidatureStatut.CHOISI)) {
           if(c.getEtudiant().getEnseignant() != null && c.getEtudiant().getEnseignant().getId()==idEnseignant){
@@ -183,10 +183,10 @@ public class CandidatureService {
         return candidatures;
     }
 
-    public List<Candidature> getCandidaturesEmployeurNonEvalues(Long idEnseignant){
+    public List<Candidature> getCandidaturesByEmployeurSansEvalutionMilieuStage(Long idEnseignant){
         List<Candidature> candidatures = new ArrayList<>();
         Optional<EvaluationMilieuStage> evaluationMilieuStage;
-        for (Candidature c : getCandidatureEtudaintByEnseignant(idEnseignant)) {
+        for (Candidature c : getCandidatureDesEtudaintsByEnseignantId(idEnseignant)) {
             evaluationMilieuStage = evaluationMilieuStageService.getByEtudaint(c.getEtudiant());
             if(!evaluationMilieuStage.isPresent()){
                 candidatures.add(c);
@@ -195,7 +195,7 @@ public class CandidatureService {
         return candidatures;
     }
 
-    private boolean isUneSemaineAvantLaFin(Candidature c) {
+    private boolean isStageUneSemaineAvantLaFin(Candidature c) {
         var semaineAvantLafinStage = c.getStage().getDateFin().minusWeeks(2);
         return LocalDate.now().isAfter(semaineAvantLafinStage);
     }

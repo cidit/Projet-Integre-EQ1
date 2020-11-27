@@ -1,6 +1,6 @@
 import {
     makeStyles, Table,
-    TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
+    TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Button
 } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { Alert } from '@material-ui/lab';
@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         textAlign: 'left',
         fontSize: 15
-    }
+    },
+    margin: {
+        margin: theme.spacing(1),
+      },
 }));
 
 const useRowStyles = makeStyles((theme) => ({
@@ -68,8 +71,8 @@ export default function ListEnseignants() {
                 {enseignants &&
                     <>
                         <TableContainer >
-                        <h4 align='center' className='m-2 sticky-top' ><strong>List enseignants </strong></h4>
-                       
+                            <h4 align='center' className='m-2 sticky-top' ><strong>List enseignants </strong></h4>
+
                             <Table className="table table-striped">
                                 <TableHead className={classes.root}>
                                     <TableRow >
@@ -77,7 +80,7 @@ export default function ListEnseignants() {
                                         <TableCell className={classes.textTitle}>Programme</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
-                                       
+                                        <TableCell className={classes.textTitle}  style={{width: '20%'}}>Actions</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -102,7 +105,7 @@ function Row(props) {
     const history = useHistory();
 
     const handleClickRow = (_row) => {
-        history.push("etudiantsAuEnseignant/" +_row.nom + "/" +_row.prenom + "/" + _row.id+ "/" +_row.programme );
+        history.push("etudiantsAuEnseignant/" + _row.nom + "/" + _row.prenom + "/" + _row.id + "/" + _row.programme);
     }
 
     const showArrow = () => {
@@ -115,8 +118,8 @@ function Row(props) {
 
     return (
         <React.Fragment>
-            <Tooltip open={arrow} placement="left" onClose={hideArrow} onOpen={showArrow} title="Assigner">
-                <TableRow className={classes.root} onClick={() => handleClickRow(row)} style={{ cursor: 'pointer' }} hover>
+          
+                <TableRow className={classes.root}   hover>
                     <TableCell >{row.prenom} {row.nom}</TableCell>
                     <TableCell >{row.programme}</TableCell>
                     <TableCell >{row.email}</TableCell>
@@ -128,8 +131,18 @@ function Row(props) {
                         </TableCell>
 
                     } */}
+                    <TableCell style={{width: '20%'}}>
+                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{textTransform: 'none'}}>
+                        Assigner étudiants
+                    </Button>
+                    <Button variant="outlined" size="small" color="primary" style={{textTransform: 'none'}} >
+                        Voir étudiants assigneés
+                    </Button>
+
+                    </TableCell>
+                    
                 </TableRow>
-            </Tooltip>
+     
         </React.Fragment>
     );
 

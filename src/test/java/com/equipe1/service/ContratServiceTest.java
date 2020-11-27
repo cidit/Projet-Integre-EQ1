@@ -211,7 +211,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    public void getContratById() {
+    public void testGetContratById() {
         when(contratRepository.findById(1L)).thenReturn(Optional.of(contrat1));
         Contrat contrat = contratService.getContratById(1L);
         System.out.println("inside");
@@ -219,7 +219,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    public void saveContrat() {
+    public void testSaveContrat() {
         when(contratRepository.save(contrat1)).thenReturn(contrat1);
         Contrat contrat = contratService.saveContrat(contrat1);
         assertNotNull(contrat1);
@@ -227,14 +227,14 @@ public class ContratServiceTest {
     }
 
     @Test
-    public void findAll() {
+    public void testFindAll() {
         when(contratRepository.findAll()).thenReturn(Arrays.asList(contrat1, contrat2));
         List<Contrat> all = contratService.findAll();
         assertEquals(2, all.size());
     }
 
     @Test
-    void getContratsByEmployeur() {
+    public void testGetContratsByEmployeur() {
         when(contratRepository.findByEmployeur(employeur)).thenReturn(Arrays.asList(contrat1,contrat2));
         List<Contrat> all = contratService.getContratsByEmployeur(employeur);
         assertEquals(2, all.size());
@@ -242,7 +242,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void getContratsByEtudiantChoisi() {
+    public void testGetContratsByEtudiantChoisi() {
 
         contrat1.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
         contrat2.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
@@ -259,7 +259,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void createContratAvecFile() throws Exception {
+    public void testCreateContratAvecFile() throws Exception {
         MultipartFile result = new MockMultipartFile("test",file);
         when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature1));
         when(contratRepository.findByCandidature(candidature1)).thenReturn(Optional.of(contrat1));
@@ -271,7 +271,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void createContratEtDocument() throws Exception {
+    public void testCreateContratEtDocument() throws Exception {
         contrat1.setCandidature(candidature1);
         stage.setEmployeur(user);
         candidature1.setStage(s);
@@ -292,7 +292,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void createApercueContrat() throws Exception {
+    public void testCreateApercueContrat() throws Exception {
         stage.setEmployeur(employeur);
         candidature1.setEtudiant(etudiant);
         candidature1.setContrat(contrat1);
@@ -306,7 +306,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void candidatureHasContrat() {
+    public void testcandidatureHasContrat() {
        contrat1.setCandidature(candidature1);
        contrat2.setCandidature(candidature2);
         when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature1));
@@ -317,7 +317,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    public void listCandidatureSansContrat() {
+    public void testListCandidatureSansContrat() {
         when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI))
                 .thenReturn(Arrays.asList(candidature2,candidature1));
 
@@ -327,7 +327,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void testGetContratsNonSignesEtudiant() {
+    public void testGetContratsNonSignesEtudiant() {
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
         when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
@@ -347,7 +347,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void testGetContratsNonSignesEmployeur() {
+    public void testGetContratsNonSignesEmployeur() {
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
         when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
@@ -366,7 +366,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void testGetContratsNonSignesAdministrateur() {
+    public void testGetContratsNonSignesAdministrateur() {
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
         when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
@@ -384,6 +384,13 @@ public class ContratServiceTest {
         List<Contrat> contrats = contratService.getContratsNonSignesAdministration();
         // Assert
         Assertions.assertEquals(1, contrats.size());
+    }
+
+    @Test
+    public void testGetContrats() {
+        when(contratRepository.findAll()).thenReturn(Arrays.asList(contrat1, contrat2));
+        List<Contrat> all = contratService.getContrats();
+        assertEquals(2, all.size());
     }
 }
 

@@ -32,6 +32,9 @@ public class CandidatureServiceTest {
     private CandidatureRepository candidatureRepository;
 
     @MockBean
+    private EvaluationMilieuStageService evaluationMilieuStageService;
+
+    @MockBean
     private EtudiantRepository etudiantRepository;
 
     @MockBean
@@ -51,6 +54,7 @@ public class CandidatureServiceTest {
     private Session session;
     private Employeur employeur;
     private Enseignant enseignant;
+    private EvaluationMilieuStage evaluationMilieuStage;
 
 
     @BeforeEach
@@ -82,6 +86,7 @@ public class CandidatureServiceTest {
 
         employeur= new Employeur();
         enseignant= new Enseignant();
+        evaluationMilieuStage= new EvaluationMilieuStage();
     }
 
     @Test
@@ -264,7 +269,7 @@ public class CandidatureServiceTest {
     }
 
     @Test
-    void getListCandidatureByEmployeurToEvaluer() {
+    public void testGetListCandidatureByEmployeurSansEvaluationStagiaire() {
         employeur.setId(1L);
         c1.setStatut(Candidature.CandidatureStatut.CHOISI);
         s.setDateFin(LocalDate.of(2020,11,01));
@@ -274,28 +279,53 @@ public class CandidatureServiceTest {
         when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1));
         when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)).thenReturn(Arrays.asList(c1));
 
-        List<Candidature> candidatures = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId());
+        List<Candidature> candidatures = candidatureService.getListCandidatureByEmployeurSansEvaluationStagiaire(employeur.getId());
         Assertions.assertNotNull(candidatures);
         Assertions.assertEquals(candidatures.size(), 1);
 
         c1.setEvaluee(true);
-        List<Candidature> candidatures2 = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId());
+        List<Candidature> candidatures2 = candidatureService.getListCandidatureByEmployeurSansEvaluationStagiaire(employeur.getId());
         Assertions.assertEquals(candidatures2.size(), 0);
 
     }
 
     @Test
-    void getCandidatureEtudaintByEnseignant() {
+    public void testGetCandidatureDesEtudaintsByEnseignantId() {
         enseignant.setId(1L);
-        etudiant.setEnseignant(enseignant);
-        etudiant1.setEnseignant(enseignant);
         c1.setEtudiant(etudiant);
         c2.setEtudiant(etudiant1);
-        when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1,c2));
+        when(candidatureRepository.findByStatut(Candidature.CandidatureStatut.CHOISI)).thenReturn(Arrays.asList(c1,c2));
 
-        List<Candidature> candidatures = candidatureService.getCandidatureEtudaintByEnseignant(1l);
+        //enseignant == null
+        List<Candidature> candidaturesEnseignantNull = candidatureService.getCandidatureDesEtudaintsByEnseignantId(1l);
+        Assertions.assertNotNull(candidaturesEnseignantNull);
+        Assertions.assertEquals(candidaturesEnseignantNull.size(), 0);
+
+        etudiant.setEnseignant(enseignant);
+        etudiant1.setEnseignant(enseignant);
+
+        //enseignant != null
+        List<Candidature> candidatures = candidatureService.getCandidatureDesEtudaintsByEnseignantId(1l);
         Assertions.assertNotNull(candidatures);
         Assertions.assertEquals(candidatures.size(), 2);
-
     }
+
+    @Test
+    public void testGetCandidaturesByEmployeurSansEvalutionMilieuStage() {
+        enseignant.setId(1L);
+        c1.setEtudiant(etudiant);
+        c2.setEtudiant(etudiant1);
+        when(candidatureRepository.findByStatut(Candidature.CandidatureStatut.CHOISI)).thenReturn(Arrays.asList(c1,c2));
+
+        etudiant.setEnseignant(enseignant);
+        etudiant1.setEnseignant(enseignant);
+        when(candidatureService.getCandidatureDesEtudaintsByEnseignantId(1L)).thenReturn(Arrays.asList(c1,c2));
+        when(evaluationMilieuStageService.getByEtudaint(etudiant1)).thenReturn(Optional.of(evaluationMilieuStage));
+
+        List<Candidature> candidatures = candidatureService.getCandidaturesByEmployeurSansEvalutionMilieuStage(1l);
+        Assertions.assertNotNull(candidatures);
+        Assertions.assertEquals(candidatures.size(), 1);
+    }
+
+
 }

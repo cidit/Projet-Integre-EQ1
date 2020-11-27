@@ -6,26 +6,24 @@ import EnseignantService from "../../service/EnseignantService";
 import UserService from "../../service/UserService";
 import AlertDialog from '../utils/ModalMessage'
 
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{2,4}?[ \\-]*[0-9]{2,4}?$/;
 
 const formSchema = Yup.object().shape({
 
     email: Yup.string()
         .required('Veuillez saisir un email valide')
         .email("Courriel invalide"),
-
     password: Yup.string()
         .required("Veuillez saisir un password valide")
         .min(6, "Doit comprendre au moins 6 caractères."),
     confimerPassword: Yup.string()
         .required("Veuillez confirmer votre mot de passe ")
         .min(6, "Doit comprendre au moins 6 caractères."),
-
     nom: Yup.string().required('Veuillez saisir un nom valide'),
-
     prenom: Yup.string().required('Veuillez saisir un prenom valide'),
-
+    telephone: Yup.string().required('Veuillez saisir un telephone valide').min(10, "doit comprendre au moins 10 caractères.")
+    .matches(phoneRegExp, 'Numéro de téléphone invalide'),
     //numeroEmploye: Yup.string().required('Veuillez saisir votre numero d\'employe'),
-
     programme: Yup.string().required('Veuillez saisir un programme valide'),
 
 })
@@ -79,7 +77,7 @@ export default class EnseignantRegister extends Component {
                                             console.log(values)
                                             EnseignantService.post(values);
                                             actions.resetForm();
-                                            actions.setStatus({ message: "Utilisateur crée avec succès" });
+                                            actions.setStatus({ message: "Votre compte a été créé avec succès" });
                                             // setTimeout(() => {
                                             //     actions.setStatus({ message: '' });
                                             // }, 3000);

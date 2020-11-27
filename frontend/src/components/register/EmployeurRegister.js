@@ -62,7 +62,7 @@ export default class EmployeurRegister extends Component {
                                         } else {
                                             EmployeurService.post(values);
                                             actions.resetForm();
-                                            actions.setStatus({ message: "Utilisateur crée avec succès" });
+                                            actions.setStatus({ message: "Votre compte a été créé avec succès" });
 
                                             // setTimeout(() => {
                                             //     actions.setStatus({ message: '' });

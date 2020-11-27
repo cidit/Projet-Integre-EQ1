@@ -56,7 +56,7 @@ function App() {
   return (
     
       <main>
-     <ThemeProvider theme={theme}> 
+     {/* <ThemeProvider theme={theme}>  */}
         <HeaderComponent />
 
         <Switch>
@@ -108,7 +108,7 @@ function App() {
           <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
           <Route path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs}/>
         </Switch>
-           </ThemeProvider>   
+           {/* </ThemeProvider>    */}
       </main>
     
   );
