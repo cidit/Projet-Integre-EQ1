@@ -4,6 +4,19 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import CandidatureService from "../service/CandidatureService";
 import SessionService from "../service/SessionService";
+import LoginService from "../service/LoginService";
+
+function Logout(){
+    function handleSelect(){
+        LoginService.logout();
+        this.props.history.push('/?refresh');
+    }
+    return (
+        <Nav.Link href="/logout" onSelect={handleSelect}>Logout</Nav.Link>
+
+    );
+}
+
 
 function NotLoggedInNav() {
     return (
@@ -27,10 +40,13 @@ function GestionnaireNav(props) {
 
             <Nav.Link href="/rapport">Rapports</Nav.Link>
              <ChangeSessionNavDropdown sessions={props.sessions}/>
-            <Nav.Link href="/logout">Logout</Nav.Link>
+            {/*<Nav.Link href="/logout">Logout</Nav.Link>*/}
+            <Logout/>
         </Nav>
     );
 }
+
+
 
 
 function EmployeurNav(props) {
@@ -45,7 +61,9 @@ function EmployeurNav(props) {
             <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
             <Nav.Link href="/evaluationsEmployeur">Évaluations</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
-            <Nav.Link href="/logout">Logout</Nav.Link>
+            {/*<Nav.Link href="/logout" onSelect={}>Logout</Nav.Link>*/}
+            <Logout/>
+
         </Nav>
     );
 }
@@ -61,7 +79,9 @@ function EtudiantNav(props) {
             <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
             <Nav.Link href="/contratEtudiant">Contrats</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
-            <Nav.Link href="/logout">Logout</Nav.Link>
+            {/*<Nav.Link href="/logout">Logout</Nav.Link>*/}
+            <Logout/>
+
         </Nav>
     );
 }

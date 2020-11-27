@@ -35,13 +35,7 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 
         const { data: candidatures } = await CandidatureService.getByEtudiant(id, idSession);
         this.setState({ candidatures });
-<<<<<<< HEAD
 
-        //var candidature = await CandidatureService.getCandidatureChoisi(id);
-        
-        //console.log(candidature);
-=======
->>>>>>> 4bd57222391e2ca6769b9861f5ed3c52050bba9f
         
         let candidature;
         candidature = await CandidatureService.getCandidatureChoisi(id);
