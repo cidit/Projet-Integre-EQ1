@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import RegisterTabs from './register/RegisterTabs';
-import EvaluationMilieuHome from './evaluations/evaluationMilieuStage/ListEvaluationMilieuStage'
-import SelectionnerStagiaireComponent from './employeur/SelectionnerStagiaireComponent'
-import ListEnseignants from './gestionnaire/ListEnseignants'
+import ListEnseignants from './gestionnaire/ListEnseignants';
 
 
 export default class Home extends Component {
     componentDidMount() {
-        if (localStorage.getItem("desc") === null){
+        if (localStorage.getItem("desc") === null) {
             this.props.history.push('/login');
         }
         if (this.props.location.search === "?refresh") {
@@ -16,21 +13,13 @@ export default class Home extends Component {
         }
     }
 
-    render(){
-        return(
-           <div>
+    render() {
+        return (
+            <div>
 
+                {/* <ListEnseignants/>  */}
 
-         {/* <RegisterTabs/>   */}
-  {/* <EvaluationMilieuHome/>    */}
-
-     {/* <SelectionnerStagiaireComponent/>  */}
-
-    <ListEnseignants/>  
-
-
-
-           </div>
+            </div>
         );
     }
 }
