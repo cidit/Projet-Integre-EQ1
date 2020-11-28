@@ -39,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AssignerEtudiantsAuEnseignant(props) {
     const [listCandidaturesChoisis, setListCandidaturesChoisis] = useState([])
-   
+    var idSession = localStorage.getItem("session");
 
     const getCandidatures = async () => {
-        const response = await CandidatureService.getCandidaturesChoisis();
+        const response = await CandidatureService.getCandidaturesChoisis(idSession);
         setListCandidaturesChoisis(response.data)
     }
 

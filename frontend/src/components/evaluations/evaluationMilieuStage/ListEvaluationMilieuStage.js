@@ -141,9 +141,7 @@ function Row(props) {
                     <TableCell >{row.stage.titre}</TableCell>
                     <TableCell >{row.etudiant.prenom} {row.etudiant.nom}
                     </TableCell>
-                   {arrow &&
-                         <ArrowForwardIcon color='disabled' fontSize='large'/>
-                    }  
+                
                 </TableRow>
             </Tooltip>
         </React.Fragment>

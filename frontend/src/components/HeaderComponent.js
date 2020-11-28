@@ -67,9 +67,11 @@ function EtudiantNav(props) {
 }
 function ChangeSessionNavDropdown(props) {
     var nomSession = window.localStorage.getItem("nomSession");
+
+    console.log(props)
     return (
         <NavDropdown title={nomSession} id="nav-dropdown">
-            {props.sessions.map(
+         {props.sessions.map(
                 data =>
                     <NavDropdown.Item key={data.id} eventKey="4.1" onClick={() => changeSession(data.id, data.nom)}>{data.nom}</NavDropdown.Item>
             )}
@@ -106,9 +108,9 @@ function NavType(props) {
     else if (props.desc.toUpperCase() === "EMPLOYEUR")
         return <EmployeurNav sessions={props.sessions}/>
     else if (props.desc.toUpperCase() === "GESTIONNAIRE")
-        return <GestionnaireNav />
+        return <GestionnaireNav sessions={props.sessions}/>
     else if (props.desc.toUpperCase() === "ENSEIGNANT")
-        return <EnseignantNav />
+        return <EnseignantNav sessions={props.sessions} />
     else
         return <NotLoggedInNav />
 }
@@ -133,9 +135,12 @@ class HeaderComponent extends Component {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                <NavType desc={this.state.desc} sessions={this.state.sessions}/>
+
+                    <NavType desc={this.state.desc} sessions={this.state.sessions}/>
+
                 </Navbar.Collapse>
             </Navbar>
+
         );
     }
 }
