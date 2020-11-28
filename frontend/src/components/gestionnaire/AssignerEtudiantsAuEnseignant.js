@@ -111,36 +111,14 @@ function CustomTable(props) {
         for (let i = 0; i < selected.length; i++) {
             setAssignerEtudiant(selected[i],params.id)
         }
-
         setTimeout(function() {
             window.location.reload();
         }, 500);
-    
-       
     }
-
-    const downloadCV = async (etudiant) => {
-        await CVService.getCVByEtudiant(etudiant).then((response) => {
-            const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
-            document.body.appendChild(link);
-            link.click();
-        });
-    }
-
-    useEffect(() => {
-      
-        return () => {
-           
-        }
-    }, [])
-
  
     return (
-        <>
-        <h5 align='left' className='m-2 pt-3 pb-3' >Étudiants avec stage pour le programme {params.programme}</h5>
+        <div className='container'>
+        <h5 align='left' className='m-2 pt-3 pb-3' >Assigner étudiants à {params.nom} {params.prenom}</h5>
             <TableContainer component={Paper} >
             
                 <Table >
@@ -152,14 +130,12 @@ function CustomTable(props) {
                                     onChange={handleSelectAllClick}
                                 />
                             </TableCell>
-                            <TableCell>Prénom</TableCell>
-                            <TableCell>Nom</TableCell>
+                            <TableCell>Nom étudiant</TableCell>
                             <TableCell>Programme</TableCell>
                             <TableCell>Téléphone</TableCell>
                             <TableCell>Courriel</TableCell>
                             <TableCell>Adresse</TableCell>
                             <TableCell>Stage en cours</TableCell>
-                            <TableCell>CV</TableCell>
                      </TableRow>
                     </TableHead>
 
@@ -186,18 +162,12 @@ function CustomTable(props) {
                                                     checked={isItemSelected}
                                                 />
                                             </TableCell>
-                                            <TableCell>{candidature.etudiant.prenom}</TableCell>
-                                            <TableCell>{candidature.etudiant.nom}</TableCell>
+                                            <TableCell>{candidature.etudiant.prenom} {candidature.etudiant.nom}</TableCell>
                                             <TableCell>{candidature.etudiant.programme}</TableCell>
                                             <TableCell>{candidature.etudiant.telephone}</TableCell>
                                             <TableCell>{candidature.etudiant.email}</TableCell>
                                             <TableCell>{candidature.etudiant.adresse}</TableCell>
                                             <TableCell>{candidature.stage.titre}</TableCell>
-                                            <TableCell >
-                                                <button onClick={() => downloadCV(candidature.etudiant)} className="btn "><GetAppIcon /></button>
-                                            </TableCell>
-
-
                                         </TableRow>
 
                                     );
@@ -209,7 +179,7 @@ function CustomTable(props) {
             </TableContainer>
             <Button variant="contained" className=' m-2' color="primary" onClick={handleConfirmation}>Confirmer</Button>
 
-        </>
+        </div>
     );
                    
 

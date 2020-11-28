@@ -49,8 +49,6 @@ public class CandidatureService {
     }
 
     public List<Candidature> findCandidatureByEtudiant(Long idEtudiant, Long idSession){
-
-
         Etudiant etudiant = etudiantRepository.findById(idEtudiant).get();
         List<Candidature> candidatures = candidatureRepository.findAll();
         List<Candidature> candidatureList = new ArrayList<>();
