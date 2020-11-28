@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseURL = "http://localhost:8080/enseignants/";
+const baseURL = "http://localhost:8080/enseignants";
 
 class EnseignantService{
 
