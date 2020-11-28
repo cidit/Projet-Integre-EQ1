@@ -466,5 +466,17 @@ public class InsertDataService {
         enseignant5.setTelephone("4389522222");
         enseignantRepository.save(enseignant5);
 
+        for (int i = 0; i <30 ; i++) {
+            enseignant5 = new Enseignant();
+            enseignant5.setNom("Kristian "+ i);
+            enseignant5.setPrenom("Redman " + i);
+            enseignant5.setPassword("123456" + i);
+            enseignant5.setProgramme("Techniques de l’informatique");
+            enseignant5.setEmail("Kristian@email.com" +i);
+            enseignant5.setTelephone("4389522222");
+            enseignantRepository.save(enseignant5);
+        }
+
+
     }
 }

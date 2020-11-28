@@ -12,28 +12,29 @@ import EnseignantService from '../../service/EnseignantService';
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
-        width: '70%',
-        backgroundColor: '',
-        fontWeight: 'bold'
-    },
-    paper: {
-        padding: theme.spacing(0),
-        margin: 'auto',
-        maxWidth: '50%',
+        width: '100%',
+        fontWeight: 'bold',
+        margin:'auto',
+        fontSize: theme.typography.pxToRem(14),
+        fontWeight: theme.typography.fontWeightRegular,
+        textAlign: 'center',
+
     },
     heading: {
-        fontSize: theme.typography.pxToRem(10),
+        margin:'auto',
+        fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
     },
     textTitle: {
         fontWeight: 'bold',
         textAlign: 'left',
         fontSize: 15,
-        width: '20%'
+        margin:'auto',
     },
     row:{
-        width:'2%'
+        textAlign: 'center',
     }
+ 
 }));
 
 export default function ListEnseignants() {
@@ -59,20 +60,21 @@ export default function ListEnseignants() {
         )
     } else {
         return (
-            <div className='container-fluid'>
+            <div className='container' >
                 {enseignants &&
                     <>
-                        <TableContainer >
+                        <TableContainer  className={classes.root}>
                             <h4 align='center' className='m-2 sticky-top' ><strong>List enseignants </strong></h4>
 
-                            <Table className="table table-striped">
-                                <TableHead className={classes.root}>
-                                    <TableRow className={classes.row}>
-                                        <TableCell className={classes.textTitle}>Nom de l'enseignant</TableCell>
-                                        <TableCell className={classes.textTitle}>Programme</TableCell>
-                                        <TableCell className={classes.textTitle}>Courriel</TableCell>
-                                        <TableCell className={classes.textTitle}>Téléphone</TableCell>
-                                        <TableCell style={{ width: '20%' }}></TableCell>
+                            <Table className="table  table-bordered"  >
+                                <TableHead className={classes.heading} >
+                                    <TableRow >
+                                        <TableCell className={classes.textTitle} >Nom de l'enseignant</TableCell>
+                                        <TableCell className={classes.textTitle} >Programme</TableCell>
+                                        <TableCell className={classes.textTitle} >Courriel</TableCell>
+                                        <TableCell className={classes.textTitle} >Téléphone</TableCell>
+                                        <TableCell className={classes.textTitle}>Assignation étudiants</TableCell>
+                                       
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -101,29 +103,27 @@ function Row(props) {
 
     return (
         <React.Fragment>
-
-            <TableRow  className={classes.row}>
+            <TableRow hover  className={classes.row}>
                 <TableCell >{row.prenom} {row.nom}</TableCell>
                 <TableCell  >{row.programme}</TableCell>
                 <TableCell >{row.email}</TableCell>
                 <TableCell >{row.telephone}</TableCell>
 
-                <TableCell style={{ width: '20%' }}>
+                <TableCell>
                     <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{ textTransform: 'none' }}>
                         Assigner étudiants
                     </Button>
+             
                     <Button variant="outlined" size="small" color="primary" style={{ textTransform: 'none' }} >
                         Voir étudiants assigneés
                     </Button>
-
                 </TableCell>
             </TableRow>
-
         </React.Fragment>
     );
 
 };
-function AlertAucunContrat(isGestionnaire) {
+function AlertAucunContrat() {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">
