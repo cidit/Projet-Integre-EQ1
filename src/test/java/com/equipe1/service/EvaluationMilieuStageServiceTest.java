@@ -1,8 +1,6 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
-import com.equipe1.repository.CandidatureRepository;
-import com.equipe1.repository.EnseignantRepository;
 import com.equipe1.repository.EvaluationMilieuStageRepository;
 import com.equipe1.repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.when;
 public class EvaluationMilieuStageServiceTest {
 
     @MockBean
-    private EvaluationMilieuStageRepository milieuStageRepository;
+    private EvaluationMilieuStageRepository evaluationMilieuStageRepository;
     @MockBean
     private EtudiantService etudiantService;
     @MockBean
@@ -36,20 +35,24 @@ public class EvaluationMilieuStageServiceTest {
     private CommentaireService commentaireService;
 
     @MockBean
+    private EnseignantService enseignantService;
+
+    @MockBean
     private CandidatureService candidatureService;
+
 
 
     @Autowired
     private EvaluationMilieuStageService evaluationMilieuStageService;
 
-    @MockBean
-    private EnseignantService enseignantService;
 
 
 
-    private EvaluationMilieuStage e;
-    private Question q1;
-    private Question q2;
+
+    private EvaluationMilieuStage evaluationMilieuStage;
+    private EvaluationMilieuStage evaluationMilieuStage2;
+    private Question question;
+    private Question question1;
     private Commentaire commentaire;
     private RecepteurDonneesEvaluation receptorDonnesEvaluation;
     private Candidature candidature;
@@ -60,24 +63,28 @@ public class EvaluationMilieuStageServiceTest {
 
     @BeforeEach
     public void setUp() {
-        e = new EvaluationMilieuStage();
-        q1 = new Question();
-        e.setDateCreation(LocalDate.now());
+        evaluationMilieuStage = new EvaluationMilieuStage();
+        question = new Question();
+        evaluationMilieuStage.setDateCreation(LocalDate.now());
 
-        q1.setQuestion("enonce 1");
-        q1.setReponse("reponse question 1");
-        q1.setEvaluation(e);
+        evaluationMilieuStage2 = new EvaluationMilieuStage();
+        question = new Question();
+        evaluationMilieuStage2.setDateCreation(LocalDate.now());
 
-        q2 = new Question();
-        q2.setQuestion("enonce 2");
-        q2.setReponse("reponse question 2");
-        q2.setEvaluation(e);
+        question.setQuestion("enonce 1");
+        question.setReponse("reponse question 1");
+        question.setEvaluation(evaluationMilieuStage);
+
+        question1 = new Question();
+        question1.setQuestion("enonce 2");
+        question1.setReponse("reponse question 2");
+        question1.setEvaluation(evaluationMilieuStage);
 
         commentaire = new Commentaire();
         commentaire.setEnnonce("commentaire a la question");
         commentaire.setSection("Productivite");
 
-        receptorDonnesEvaluation = new RecepteurDonneesEvaluation(Arrays.asList(q1,q2),commentaire);
+        receptorDonnesEvaluation = new RecepteurDonneesEvaluation(Arrays.asList(question, question1),commentaire);
         employeur = new Employeur();
         stage = new Stage();
         candidature = new Candidature();
@@ -87,15 +94,15 @@ public class EvaluationMilieuStageServiceTest {
     }
 
     @Test
-    void save() {
-        when(milieuStageRepository.save(e)).thenReturn(e);
-        EvaluationMilieuStage evaluation = evaluationMilieuStageService.save(e);
-        assertEquals(evaluation, e);
+    public void save() {
+        when(evaluationMilieuStageRepository.save(evaluationMilieuStage)).thenReturn(evaluationMilieuStage);
+        EvaluationMilieuStage evaluation = evaluationMilieuStageService.save(evaluationMilieuStage);
+        assertEquals(evaluation, evaluationMilieuStage);
         assertNotNull(evaluation);
     }
 
     @Test
-    void saveEvaluation() {
+    public void saveEvaluation() {
         stage.setEmployeur(employeur);
         candidature.setStage(stage);
         candidature.setEtudiant(etudiant);
@@ -106,5 +113,42 @@ public class EvaluationMilieuStageServiceTest {
 
         assertEquals(evaluation.getEmployeur(), employeur);
         assertNotNull(evaluation);
+    }
+
+    @Test
+    public void getAll() {
+        when(evaluationMilieuStageRepository.findAll()).thenReturn(Arrays.asList(evaluationMilieuStage, evaluationMilieuStage2));
+        List<EvaluationMilieuStage> milieuStageList = evaluationMilieuStageService.getAll();
+
+        assertEquals(milieuStageList.size(), 2);
+        assertNotNull(milieuStageList);
+    }
+
+    @Test
+    public void getByEtudaint() {
+        evaluationMilieuStage.setEtudiant(etudiant);
+        evaluationMilieuStage2.setEtudiant(etudiant);
+        when(evaluationMilieuStageRepository.findByEtudiant(etudiant)).thenReturn(Optional.of(evaluationMilieuStage));
+
+        Optional<EvaluationMilieuStage> milieuStageList = evaluationMilieuStageService.getByEtudaint(etudiant);
+        System.out.println(milieuStageList);
+
+        assertEquals(milieuStageList.get().getEtudiant(), etudiant);
+        assertNotNull(milieuStageList);
+    }
+
+    @Test
+    public void getAllByEnseignant() {
+
+        evaluationMilieuStage.setEnseignant(enseignant);
+        evaluationMilieuStage2.setEnseignant(enseignant);
+        when(enseignantService.getEnseignantById(1L)).thenReturn(enseignant);
+        when(evaluationMilieuStageRepository.findByEnseignant(enseignant)).thenReturn(Arrays.asList(evaluationMilieuStage2, evaluationMilieuStage));
+
+        List<EvaluationMilieuStage> milieuStageList = evaluationMilieuStageService.getAllByEnseignant(1L);
+        System.out.println(milieuStageList);
+        assertEquals(milieuStageList.size(), 2);
+        assertEquals(milieuStageList.get(0).getEnseignant(), enseignant);
+        assertNotNull(milieuStageList);
     }
 }

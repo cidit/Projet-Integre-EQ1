@@ -34,8 +34,7 @@ public class EmployeurService {
     }
 
     public Employeur saveEmployeur(Employeur employeur){
-        employeurRepository.save(employeur);
-        return employeur;
+        return employeurRepository.save(employeur);
     }
 
     public Employeur updateEmployeur(Employeur newEmployeur, long id){

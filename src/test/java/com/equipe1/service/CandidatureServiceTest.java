@@ -32,6 +32,9 @@ public class CandidatureServiceTest {
     private CandidatureRepository candidatureRepository;
 
     @MockBean
+    private EvaluationMilieuStageService evaluationMilieuStageService;
+
+    @MockBean
     private EtudiantRepository etudiantRepository;
 
     @MockBean
@@ -41,8 +44,6 @@ public class CandidatureServiceTest {
     private SessionRepository sessionRepository;
     @MockBean
     private EmployeurRepository employeurRepository;
-    @MockBean
-    private EvaluationMilieuStageService evaluationMilieuStageService;
 
     private Candidature c1;
     private Candidature c2;

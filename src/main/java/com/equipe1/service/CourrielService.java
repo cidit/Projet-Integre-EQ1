@@ -77,18 +77,6 @@ public class CourrielService {
 
 
 
-    private void configMail2(String mailTo, String subject, String mailBody, ByteArrayOutputStream b) throws Exception {
-        final InputStreamSource attachment = new ByteArrayResource(b.toByteArray());
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setTo(mailTo);
-        helper.setSubject(subject);
-        helper.setText(mailBody, true);
-        helper.addAttachment("Qr Code", attachment);
-        mailSender.send(message);
-        LOGGER.info("Mail sent to ==> " + mailTo);
-    }
-
     public void sendContratScolarite(Contrat contrat, String desc) throws Exception {
         String mailTo = "";
         String subject = "";

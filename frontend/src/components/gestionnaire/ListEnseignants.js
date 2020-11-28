@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     row:{
         textAlign: 'center',
     }
- 
 }));
 
 export default function ListEnseignants() {
@@ -75,6 +74,7 @@ export default function ListEnseignants() {
                                         <TableCell className={classes.textTitle} >Téléphone</TableCell>
                                         <TableCell className={classes.textTitle}>Assignation étudiants</TableCell>
                                        
+
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -119,6 +119,7 @@ function Row(props) {
                     </Button>
                 </TableCell>
             </TableRow>
+
         </React.Fragment>
     );
 

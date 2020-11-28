@@ -23,11 +23,8 @@ const formSchema = Yup.object().shape({
     prenom: Yup.string().required('Veuillez saisir un prenom valide'),
     matricule: Yup.string().required('Veuillez saisir votre matricule'),
     programme: Yup.string().required('Veuillez saisir un programme valide'),
-    telephone: Yup.string().required('Veuillez saisir un telephone valide')
-    .min(8, "doivent comprendre au moins 8 caractères.")
-    .max(14, 'Numéro de téléphone invalide')
-    .matches(phoneRegExp, 'Numéro de téléphone invalide'),
-
+    telephone: Yup.string().required('Veuillez saisir un telephone valide').min(10, "doit comprendre au moins 10 caractères.")
+                .matches(phoneRegExp, 'Numéro de téléphone invalide'),
     adresse: Yup.string().required('Veuillez saisir un adresse valide')
 })
 
@@ -76,7 +73,7 @@ export default class EtudiantRegister extends Component {
                                             console.log(values)
                                             EtudiantService.post(values);
                                             actions.resetForm();
-                                            actions.setStatus({ message: "Utilisateur crée avec succès" });
+                                            actions.setStatus({ message: " Votre compte a été créé avec succès " });
                                             // setTimeout(() => {
                                             //     actions.setStatus({ message: '' });
                                             // }, 3000);

@@ -78,7 +78,6 @@ export default function EvaluationMilieuHome() {
             <div className='container-fluid'>
                 {candidatures &&
                     <>
-                   
                         <TableContainer >
                             <Table className="table table-striped">
                                 <TableHead>
@@ -89,7 +88,7 @@ export default function EvaluationMilieuHome() {
                                         <TableCell className={classes.textTitle}>Adresse</TableCell>
                                         <TableCell className={classes.textTitle}>Stage en cours</TableCell>
                                         <TableCell className={classes.textTitle}>Étudiant</TableCell>
-                                        
+                                        <TableCell></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -142,9 +141,9 @@ function Row(props) {
                     <TableCell >{row.stage.titre}</TableCell>
                     <TableCell >{row.etudiant.prenom} {row.etudiant.nom}
                     </TableCell>
-                   {/* {arrow &&
+                   {arrow &&
                          <ArrowForwardIcon color='disabled' fontSize='large'/>
-                    }  */}
+                    }  
                 </TableRow>
             </Tooltip>
         </React.Fragment>

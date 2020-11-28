@@ -80,6 +80,7 @@ public class CandidatureController {
     @GetMapping("getListAEvaluer/{idEmployeur}")
     public List<Candidature> getListAEvaluerParEmployeur(@PathVariable("idEmployeur") Long idEmployeur, @RequestParam("idSession") Long idSession) {
         return candidatureService.getListCandidatureByEmployeurSansEvaluationStagiaire(idEmployeur, idSession);
+
     }
 
     @GetMapping("getListByEnseignant/{idEnseignant}")

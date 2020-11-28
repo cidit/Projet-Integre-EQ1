@@ -159,10 +159,11 @@ public class CandidatureService {
         return candidatureBydateStage;
     }
 
+
     public List<Candidature> getListCandidatureByEmployeurSansEvaluationStagiaire(Long idEmployeur, Long idSession){
         List<Candidature> candidatureByemployeur = new ArrayList<>();
         for (Candidature c: getListCandidaturesChoisis(idSession)) {
-            if(employeurExiste(idEmployeur, c) && !c.isEvaluee() && isUneSemaineAvantLaFin(c)){
+            if(employeurExiste(idEmployeur, c) && !c.isEvaluee() && isStageUneSemaineAvantLaFin(c)){
                 candidatureByemployeur.add(c);
             }
         }
@@ -191,7 +192,7 @@ public class CandidatureService {
         return candidatures;
     }
 
-    private boolean isUneSemaineAvantLaFin(Candidature c) {
+    private boolean isStageUneSemaineAvantLaFin(Candidature c) {
         var semaineAvantLafinStage = c.getStage().getDateFin().minusWeeks(2);
         return LocalDate.now().isAfter(semaineAvantLafinStage);
     }
@@ -200,6 +201,7 @@ public class CandidatureService {
         return c.getStage().getEmployeur().getId() == idEmployeur;
     }
     private boolean isStageApresQuatriemeSemaine(Candidature c) {
-        return LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L)) && !c.isEvaluee() && c.getStatut().equals(Candidature.CandidatureStatut.CHOISI);
+        return LocalDate.now().isAfter(c.getStage().getDateDebut().plusMonths(1L)) && !c.isEvaluee() &&
+                c.getStatut().equals(Candidature.CandidatureStatut.CHOISI);
     }
 }
