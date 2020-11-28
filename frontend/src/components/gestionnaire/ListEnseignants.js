@@ -66,7 +66,7 @@ export default function ListEnseignants() {
                         <TableContainer  className={classes.root}>
                             <h4 align='center' className='m-2 sticky-top' ><strong>List enseignants </strong></h4>
 
-                            <Table className="table  table-bordered"  >
+                            <Table className="table "  >
                                 <TableHead className={classes.heading} >
                                     <TableRow >
                                         <TableCell className={classes.textTitle} >Nom de l'enseignant</TableCell>
