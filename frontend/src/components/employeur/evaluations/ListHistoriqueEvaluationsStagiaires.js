@@ -42,7 +42,7 @@ export default function ListHistoriqueEvaluationsStagiaires() {
 
     const getListEvaluations = async () => {
         var idSession = localStorage.getItem("session");
-        const response = await EvaluationService.getEvaluatinsStagiaireByEmployeur(id, idSession);
+        const response = await EvaluationService.getEvaluationsStagiaireByEmployeur(id, idSession);
         setListEvaluationsEmployeur(response.data);
         console.log("response")
         console.log(response.data)

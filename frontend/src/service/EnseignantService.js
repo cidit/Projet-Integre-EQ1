@@ -10,7 +10,7 @@ class EnseignantService{
     }
 
     getEnseignantById(id){
-        return axios.get(baseURL + "get?idEnseignant=" + id);
+        return axios.get(baseURL + "/get?idEnseignant=" + id);
     }
 
     async getByEmail(email){
