@@ -32,9 +32,7 @@ import QuestionQualiteTravail from './components/evaluations/evaluationStagiaire
 import QuestionRelations from './components/evaluations/evaluationStagiaire/QuestionRelations'
 import QuestionsHabilites from './components/evaluations/evaluationStagiaire/QuestionsHabilites'
 import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
-import ObservationsMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
 import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire'
-import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
 import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/core/styles";
@@ -51,6 +49,7 @@ import AssignerEtudiantsAuEnseignant from './components/gestionnaire/AssignerEtu
 import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge'
 import RegisterTabs from './components/register/RegisterTabs'
 import EnseignantsTabs from './components/gestionnaire/EnseignantsTabs'
+
 
 function App() {
   return (
@@ -85,18 +84,15 @@ function App() {
           <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
-          <Route path="/createSession" component={CreateSessionComponent}/>
           <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
           <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
           <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
           <Route path="/questionRelations/:id" component={QuestionRelations}/>
           <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
           <Route path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature" component={EvaluationMilieuStage}/>
-          <Route path="/observationsMilieuStage/:id" component={ObservationsMilieuStage}/>
           <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
           <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
           <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
-          <Route path="/createSession" component={CreateSessionComponent}/>
           <Route path="/rapport" component={RapportComponent}/>
           <Route path="/rapport" component={RapportComponent}/>
           <Route path="/profileEmployeur" component={ProfileEmployeur}/>

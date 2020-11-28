@@ -103,9 +103,10 @@ public class StageServiceTest {
     @Test
     void testGetStages() {
         // Arrange
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
         // Act
-        List<Stage> stages = stageService.getStages();
+        List<Stage> stages = stageService.getStages(session.getId());
         // Assert
         Assertions.assertEquals(2, stages.size());
     }
@@ -218,7 +219,7 @@ public class StageServiceTest {
     void getStagesByEmployeur() {
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         s1.setEmployeur(employeur);
         s2.setEmployeur(employeur);
 
@@ -233,7 +234,7 @@ public class StageServiceTest {
         stageRepository.save(s2);
 
         // Act
-        List<Stage> stages = stageService.getStagesByEmployeur(employeur.getId());
+        List<Stage> stages = stageService.getStagesByEmployeur(employeur.getId(), session.getId());
         // Assert
         Assertions.assertNotNull(stages);
         Assertions.assertEquals(2, stages.size());
@@ -241,6 +242,7 @@ public class StageServiceTest {
 
     @Test
     public void testGetStagesEtudiantValide(){
+
         s1.setId(2L);
         s1.setStatut(Stage.StageStatus.APPROUVÉ);
         s1.setOuvert(true);
@@ -255,9 +257,11 @@ public class StageServiceTest {
         c.setEtudiant(e1);
         List<Candidature> candidatures = new ArrayList<>();
         candidatures.add(c);
-        doReturn(candidatures).when(candidatureService).findCandidatureByEtudiant(e1.getId());
+
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
+        doReturn(candidatures).when(candidatureService).findCandidatureByEtudiant(e1.getId(), session.getId());
         Mockito.when(stageRepository.findAll()).thenReturn(Arrays.asList(s1));
-        List<Stage> stageList = stageService.getStagesEtudiant(e1.getId());
+        List<Stage> stageList = stageService.getStagesEtudiant(e1.getId(), session.getId());
         // Assert
         Assertions.assertNotNull(stageList);
         Assertions.assertEquals(stageList.size(), 1);
@@ -274,15 +278,17 @@ public class StageServiceTest {
         Set <Etudiant> etudiantsAdmis = new HashSet<>();
         etudiantsAdmis.add(e1);
         s1.setEtudiantsAdmits(etudiantsAdmis);
+
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(s1).when(stageRepository).save(s1);
         Candidature c = new Candidature();
         c.setStage(s1);
         c.setEtudiant(e1);
         List<Candidature> candidatures = new ArrayList<>();
         candidatures.add(c);
-        doReturn(candidatures).when(candidatureService).findCandidatureByEtudiant(e1.getId());
+        doReturn(candidatures).when(candidatureService).findCandidatureByEtudiant(e1.getId(), session.getId());
         Mockito.when(stageRepository.findAll()).thenReturn(Arrays.asList(s1));
-        List<Stage> stageList = stageService.getStagesEtudiant(e1.getId());
+        List<Stage> stageList = stageService.getStagesEtudiant(e1.getId(), session.getId());
         // Assert
         Assertions.assertEquals(stageList.size(), 0);
     }
@@ -341,14 +347,14 @@ public class StageServiceTest {
     public void testGetAllStagesApprouves(){
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(s1)).when(stageRepository).findAll();
 
         s1.setSession(session);
         doReturn(s1).when(stageRepository).save(s1);
         stageRepository.save(s1);
         // Act
-        List<Stage> stageList = stageService.getStagesApprouves();
+        List<Stage> stageList = stageService.getStagesApprouves(session.getId());
         // Assert
         Assertions.assertNotNull(stageList);
         Assertions.assertEquals(1, stageList.size());
@@ -358,7 +364,7 @@ public class StageServiceTest {
     public void testGetAllStagesNonApprouves(){
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(s1)).when(stageRepository).findAll();
 
         s1.setSession(session);
@@ -366,7 +372,7 @@ public class StageServiceTest {
         doReturn(s1).when(stageRepository).save(s1);
         stageRepository.save(s1);
         // Act
-        List<Stage> stageList = stageService.getStagesNonApprouves();
+        List<Stage> stageList = stageService.getStagesNonApprouves(session.getId());
         // Assert
         Assertions.assertNotNull(stageList);
         Assertions.assertEquals(1, stageList.size());
@@ -375,12 +381,13 @@ public class StageServiceTest {
     @Test
     public void testGetAllStagesAyantAucunStagiaire(){
         // Arrange
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(c1)).when(candidatureService).findCandidatureByStage(30L);
         doReturn(Arrays.asList(c2, c3)).when(candidatureService).findCandidatureByStage(35L);
         doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
 
         // Act
-        List<Stage> stageList = stageService.getStagesAyantAucunStagiaire();
+        List<Stage> stageList = stageService.getStagesAyantAucunStagiaire(session.getId());
         // Assert
         Assertions.assertNotNull(stageList);
         Assertions.assertEquals(stageList.size(), 1);

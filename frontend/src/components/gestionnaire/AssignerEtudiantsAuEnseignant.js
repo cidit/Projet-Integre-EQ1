@@ -75,7 +75,6 @@ function CustomTable(props) {
             setSelected(newSelecteds);
             return;
         }
-        console.log(classes)
         setSelected([]);
     };
 

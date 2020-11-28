@@ -56,38 +56,41 @@ public class EtudiantServiceTest {
 
     @BeforeEach
     public void setUp() {
-        e1 = new Etudiant();
-        e1.setNom("toto");
-        e1.setMatricule("12345");
-        e1.setEmail("e1@email.com");
-        e1.setProgramme("Techniques de l’informatique");
-
-        e2 = new Etudiant();
-        e2.setNom("tata");
-        e2.setMatricule("67890");
-        e1.setEmail("e2@email.com");
-        e1.setProgramme("Techniques de l’informatique");
-
-        enseignant = new Enseignant();
-
-        c1 = new Candidature();
-        c1.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
-        c1.setEtudiant(e1);
-
         session = Session.builder()
                 .id(1L)
                 .nom("AUT-2020")
                 .dateDebut(LocalDate.now())
                 .build();
         sessionRepository.save(session);
+        List<Session> sessions = new ArrayList<>();
+        sessions.add(session);
+        e1 = new Etudiant();
+        e1.setNom("toto");
+        e1.setMatricule("12345");
+        e1.setEmail("e1@email.com");
+        e1.setProgramme("Techniques de l’informatique");
+        e1.setSession(sessions);
+        e2 = new Etudiant();
+        e2.setNom("tata");
+        e2.setMatricule("67890");
+        e1.setEmail("e2@email.com");
+        e1.setProgramme("Techniques de l’informatique");
+        e2.setSession(sessions);
+
+        enseignant = new Enseignant();
+
+        c1 = new Candidature();
+        c1.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
+        c1.setEtudiant(e1);
     }
 
     @Test
     void testGetEtudiants() {
         // Arrange
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(e1, e2)).when(repository).findAll();
         // Act
-        List<Etudiant> etudiants = service.getEtudiants();
+        List<Etudiant> etudiants = service.getEtudiants(session.getId());
         // Assert
         Assertions.assertEquals(2, etudiants.size());
     }
@@ -201,8 +204,6 @@ public class EtudiantServiceTest {
     @Test
     void testFindEtudiantByProgrammeFound() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
 
         List<Session> list = new ArrayList<>();
         list.add(session);
@@ -214,10 +215,10 @@ public class EtudiantServiceTest {
         e2.setSession(list);
         doReturn(e2).when(repository).save(e2);
         repository.save(e2);
-
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(e1, e2)).when(repository).findAllByProgramme("Techniques de l’informatique");
         // Act
-        List<Etudiant> etudiants = service.getEtudiantsByProgramme("Techniques de l’informatique");
+        List<Etudiant> etudiants = service.getEtudiantsByProgramme("Techniques de l’informatique", session.getId());
         // Assert
         Assertions.assertNotNull(etudiants);
         Assertions.assertEquals(2, etudiants.size());
@@ -226,12 +227,11 @@ public class EtudiantServiceTest {
     @Test
     void testFindEtudiantByProgrammeNotFound() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
         doReturn(null).when(repository).findAllByProgramme("RIEN");
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
 
         // Act
-        List<Etudiant> etudiants = service.getEtudiantsByProgramme("RIEN");
+        List<Etudiant> etudiants = service.getEtudiantsByProgramme("RIEN", session.getId());
         // Assert
         Assertions.assertNotNull(etudiants);
         Assertions.assertEquals(0, etudiants.size());
@@ -282,11 +282,12 @@ public class EtudiantServiceTest {
     @Test
     void testGetEtudiantsAucunStage(){
         //Arrange
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(e1, e2)).when(repository).findAll();
-        doReturn(Arrays.asList(c1)).when(candidatureService).findCandidatureByEtudiant(e1.getId());
+        doReturn(Arrays.asList(c1)).when(candidatureService).findCandidatureByEtudiant(e1.getId(), session.getId());
 
         //Act
-        List<Etudiant> etudiants = service.getEtudiantsAucunStage();
+        List<Etudiant> etudiants = service.getEtudiantsAucunStage(session.getId());
 
         //Assert
         assertNotNull(etudiants);
@@ -296,30 +297,10 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    void testGetEtudiantsInscrits() {
-        // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
-
-        List<Session> list = new ArrayList<>();
-        list.add(session);
-
-        e1.setId(1L);
-        e1.setSession(list);
-        doReturn(e1).when(repository).save(e1);
-        doReturn(Arrays.asList(e1)).when(repository).findAll();
-        repository.save(e1);
-        // Act
-        List<Etudiant> etudiants = service.getEtudiantsInscrits();
-        // Assert
-        Assertions.assertEquals(1, etudiants.size());
-    }
-
-    @Test
     void testGetEtudiantsAucunCV() {
         // Arrange
         when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
 
         List<Session> list = new ArrayList<>();
         list.add(session);
@@ -330,7 +311,7 @@ public class EtudiantServiceTest {
         doReturn(Arrays.asList(e1)).when(repository).findAll();
         repository.save(e1);
         // Act
-        List<Etudiant> etudiants = service.getEtudiantsAucunCV();
+        List<Etudiant> etudiants = service.getEtudiantsAucunCV(session.getId());
         // Assert
         Assertions.assertEquals(1, etudiants.size());
     }
@@ -338,20 +319,18 @@ public class EtudiantServiceTest {
     @Test
     void testGetEtudiantsCVNonApprouve() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
-
         List<Session> list = new ArrayList<>();
         list.add(session);
 
         e1.setId(1L);
         e1.setSession(list);
         e1.setCv(new CV());
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(e1).when(repository).save(e1);
         doReturn(Arrays.asList(e1)).when(repository).findAll();
         repository.save(e1);
         // Act
-        List<Etudiant> etudiants = service.getEtudiantsCVNonApprouve();
+        List<Etudiant> etudiants = service.getEtudiantsCVNonApprouve(session.getId());
         // Assert
         Assertions.assertEquals(1, etudiants.size());
     }

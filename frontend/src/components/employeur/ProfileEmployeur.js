@@ -55,13 +55,17 @@ const useStyles = makeStyles((theme) => ({
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
     display: 'inline-flex',
+    "& .MuiTab-wrapper": {
+      flexDirection: "row",
+      justifyContent: "flex-start"
+    },
   },
   paper: {
     padding: theme.spacing(4),
-    marginTop: theme.spacing(-15),
+    marginTop: theme.spacing(-10),
     margin: 'auto',
     maxWidth: '75%',
-    marginLeft: theme.spacing(40),
+    marginLeft: theme.spacing(35),
   }
 }));
 
@@ -74,7 +78,6 @@ export default function ProfileHome() {
   const [employeur, setEmployeur] = useState('')
   const getEmployeur = async () => {
       const response = await EmployeurService.getById(id);
-      console.log(response)
       setEmployeur(response.data);
   }
 
@@ -100,7 +103,7 @@ export default function ProfileHome() {
         className={classes.tabs}
       >
         <Tab label="Votre profile" {...a11yProps(0)} />
-        <Tab label="Changer votre mot de passe" {...a11yProps(1)} />
+        <Tab label="Changer mot de passe" {...a11yProps(1)} />
 
       </Tabs>
       <TabPanel value={value} index={0} component={'span'} variant={'body2'}>

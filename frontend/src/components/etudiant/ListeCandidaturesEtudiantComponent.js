@@ -6,7 +6,6 @@ import {Col, Container, Modal, Row} from "react-bootstrap";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from '@material-ui/lab/Alert';
 
-import { Redirect } from 'react-router-dom';
 import EtudiantService from "../../service/EtudiantService";
 
 export default class ListeCandidaturesEtudiantComponent extends Component {
@@ -17,7 +16,6 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             employeurId: "",
             showSnackbar: false,
             disabledAllButtons: false,
-            readyToRedirect: false,
         };
 
         ShowCandidature = ShowCandidature.bind(this);
@@ -25,23 +23,18 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 
     async componentDidMount() {
 
-        //var id;
         let id;
+        let idSession;
+        idSession = localStorage.getItem("session");
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
-        
         const response = await EtudiantService.isRegistered(id);
         if(!response.data){
-            this.setState({
-              readyToRedirect: true
-            });
+            this.props.history.push("/profileEtudiant");
         }
 
-        const { data: candidatures } = await CandidatureService.getByEtudiant(id);
+        const { data: candidatures } = await CandidatureService.getByEtudiant(id, idSession);
         this.setState({ candidatures });
-        //var candidature = await CandidatureService.getCandidatureChoisi(id);
-        
-        //console.log(candidature);
         
         let candidature;
         candidature = await CandidatureService.getCandidatureChoisi(id);
@@ -58,7 +51,6 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
 
     render() {
         
-        if (this.state.readyToRedirect) return <Redirect to="/etudiant" />
         if (this.state.candidatures.length === 0){
             return <div className="container">
                 <div className="row justify-content-md-center">

@@ -47,7 +47,8 @@ export default function EvaluationsAFaire(props) {
     }
 
     const getCandidature = async () => {
-        const response = await CandidatureService.getCandidaturesAEvaluerParEmployeur(props.id);
+        var idSession = window.localStorage.getItem("session");
+        const response = await CandidatureService.getCandidaturesAEvaluerParEmployeur(props.id, idSession);
         setCandidatures(response.data);
     }
 

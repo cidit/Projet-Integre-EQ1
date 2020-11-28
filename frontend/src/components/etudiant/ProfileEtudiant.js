@@ -57,13 +57,17 @@ const useStyles = makeStyles((theme) => ({
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
     display: 'inline-flex',
+    "& .MuiTab-wrapper": {
+      flexDirection: "row",
+      justifyContent: "flex-start"
+    },
   },
   paper: {
     padding: theme.spacing(4),
     marginTop: theme.spacing(-15),
     margin: 'auto',
     maxWidth: '75%',
-    marginLeft: theme.spacing(40),
+    marginLeft: theme.spacing(35),
   }
 }));
 
@@ -76,20 +80,17 @@ export default function ProfileHome() {
   const [etudiant, setEtudiant] = useState('')
   const getEtudiant = async () => {
       const response = await EtudiantService.getEtudiantById(id);
-      console.log(response)
       setEtudiant(response.data);
   }
 
   const [isRegistered, setRegisteredSession] = useState(false)
   const getRegistered = async () => {
     const response = await EtudiantService.isRegistered(id);
-    console.log(response.data)
     setRegisteredSession(response.data);
   }
   const enregisterSession = () => {
     EtudiantService.register(id)
     setRegisteredSession(true);
-    console.log("TESTING SESSION");
   }
 
   useEffect(() => {
@@ -115,7 +116,7 @@ export default function ProfileHome() {
         className={classes.tabs}
       >
         <Tab label="Votre profile" {...a11yProps(0)} />
-        <Tab label="Changer votre mot de passe" {...a11yProps(1)} />
+        <Tab label="Changer mot de passe" {...a11yProps(1)} />
         <Tab label="Curriculum vitae" {...a11yProps(2)} disabled={!isRegistered} />
 
       </Tabs>
@@ -168,6 +169,7 @@ export default function ProfileHome() {
                         {isRegistered ? "Vous etes enregistrer à la session" : "S'enregistrer pour la session"}
                     </Button>
                 </Grid>
+                <p hidden={isRegistered} className="text-center alert alert-warning mt-3" role="alert"> Vous n'etes pas enregister pour la session actuelle. Veuillez vous enregistrer afin de continuer.</p>
             </Paper>
       </TabPanel>
       <TabPanel value={value} index={1}>

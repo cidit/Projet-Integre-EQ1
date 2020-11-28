@@ -6,7 +6,7 @@ import EnseignantService from "../../service/EnseignantService";
 import UserService from "../../service/UserService";
 import AlertDialog from '../utils/ModalMessage'
 
-
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{2,4}?[ \\-]*[0-9]{2,4}?$/;
 const formSchema = Yup.object().shape({
 
     email: Yup.string()
@@ -23,6 +23,11 @@ const formSchema = Yup.object().shape({
     nom: Yup.string().required('Veuillez saisir un nom valide'),
 
     prenom: Yup.string().required('Veuillez saisir un prenom valide'),
+
+    telephone: Yup.string().required('Veuillez saisir un telephone valide')
+    .min(8, "doivent comprendre au moins 8 caractères.")
+    .max(14, 'Numéro de téléphone invalide')
+    .matches(phoneRegExp, 'Numéro de téléphone invalide'),
 
     //numeroEmploye: Yup.string().required('Veuillez saisir votre numero d\'employe'),
 

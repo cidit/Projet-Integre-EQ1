@@ -44,8 +44,8 @@ public class CandidatureServiceTest {
 
     private Candidature c1;
     private Candidature c2;
-    private Etudiant etudiant1;
-    private Etudiant etudiant;
+    private Etudiant e1;
+    private Etudiant e;
     private Stage s;
     private Candidature c;
     private Session session;
@@ -55,30 +55,33 @@ public class CandidatureServiceTest {
 
     @BeforeEach
     public void testSetUpCandidatures() {
-        etudiant1 = new Etudiant();
-        etudiant1.setId(2L);
-        etudiant1.setEmail("richard@email.com");
-        etudiantRepository.save(etudiant1);
-        c1 = new Candidature(etudiant1, new Stage());
-        c2 = new Candidature(new Etudiant(), new Stage());
-        s = new Stage();
-        etudiant = new Etudiant();
-        c = new Candidature();
-        etudiant.setId(3L);
-        etudiant.setPrenom("toto");
-        etudiant.setNom("toto");
-        etudiant.setMatricule("12345");
-        etudiant.setProgramme("Programme1");
-        etudiant.setAdresse("123 Rue Bidon");
-        s.setId(4L);
-        s.setTitre("TP");
-
         session = Session.builder()
                 .id(1L)
                 .nom("AUT-2020")
                 .dateDebut(LocalDate.now())
                 .build();
         sessionRepository.save(session);
+        List<Session> sessions = new ArrayList<>();
+        sessions.add(session);
+        e1 = new Etudiant();
+        e1.setId(2L);
+        e1.setEmail("richard@email.com");
+        e1.setSession(sessions);
+        etudiantRepository.save(e1);
+        c1 = new Candidature(e1, new Stage());
+        c2 = new Candidature(new Etudiant(), new Stage());
+        s = new Stage();
+        e = new Etudiant();
+        c = new Candidature();
+        e.setId(3L);
+        e.setPrenom("toto");
+        e.setNom("toto");
+        e.setMatricule("12345");
+        e.setProgramme("Programme1");
+        e.setAdresse("123 Rue Bidon");
+        s.setId(4L);
+        s.setTitre("TP");
+
 
         employeur= new Employeur();
         enseignant= new Enseignant();
@@ -102,14 +105,14 @@ public class CandidatureServiceTest {
     public void testSaveCandidature() {
         // Arrange
         doReturn(s).when(stageRepository).save(any());
-        doReturn(etudiant).when(etudiantRepository).save(any());
+        doReturn(e).when(etudiantRepository).save(any());
         Stage stage = stageRepository.save(s);
-        Etudiant etudiant = etudiantRepository.save(this.etudiant);
+        Etudiant etudiant = etudiantRepository.save(e);
         doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
-        doReturn(Optional.of(this.etudiant)).when(etudiantRepository).findById(this.etudiant.getId());
+        doReturn(Optional.of(e)).when(etudiantRepository).findById(e.getId());
         doReturn(c).when(candidatureRepository).save(any());
         // Act
-        Candidature candidature = candidatureService.createCandidature(this.etudiant.getId(), s.getId());
+        Candidature candidature = candidatureService.createCandidature(e.getId(), s.getId());
         // Assert
         Assertions.assertNotNull(candidature);
         Assertions.assertEquals(candidature.getEtudiant(), etudiant);
@@ -121,18 +124,19 @@ public class CandidatureServiceTest {
     public void testFindCandidatureByEtudiant(){
         // Arrange
         List<Candidature> candidatureList = new ArrayList<>();
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(s).when(stageRepository).save(any());
-        doReturn(etudiant).when(etudiantRepository).save(any());
+        doReturn(e).when(etudiantRepository).save(any());
         doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
-        doReturn(Optional.of(etudiant)).when(etudiantRepository).findById(etudiant.getId());
-        c = candidatureService.createCandidature(etudiant.getId(), s.getId());
+        doReturn(Optional.of(e)).when(etudiantRepository).findById(e.getId());
+        c = candidatureService.createCandidature(e.getId(), s.getId());
         doReturn(c).when(candidatureRepository).save(any());
         candidatureList.add(c);
         Stage stage = stageRepository.save(s);
-        Etudiant etudiant = etudiantRepository.save(this.etudiant);
+        Etudiant etudiant = etudiantRepository.save(e);
         doReturn(candidatureList).when(candidatureRepository).findAll();
         // Act
-        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(etudiant.getId());
+        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(etudiant.getId(), session.getId());
         // Assert
         Assertions.assertNotNull(candidatures);
         Assertions.assertEquals(candidatures.size(), 1);
@@ -143,10 +147,10 @@ public class CandidatureServiceTest {
         // Arrange
         List<Candidature> candidatureList = new ArrayList<>();
         doReturn(s).when(stageRepository).save(any());
-        doReturn(etudiant).when(etudiantRepository).save(any());
+        doReturn(e).when(etudiantRepository).save(any());
         doReturn(Optional.of(s)).when(stageRepository).findById(s.getId());
-        doReturn(Optional.of(etudiant)).when(etudiantRepository).findById(etudiant.getId());
-        c = candidatureService.createCandidature(etudiant.getId(), s.getId());
+        doReturn(Optional.of(e)).when(etudiantRepository).findById(e.getId());
+        c = candidatureService.createCandidature(e.getId(), s.getId());
         doReturn(c).when(candidatureRepository).save(any());
         candidatureList.add(c);
         Stage stage = stageRepository.save(s);
@@ -200,15 +204,15 @@ public class CandidatureServiceTest {
         List<Session> list = new ArrayList<>();
         list.add(session);
 
-        etudiant1.setSession(list);
-        doReturn(etudiant1).when(etudiantRepository).save(etudiant1);
-        doReturn(Optional.of(etudiant1)).when(etudiantRepository).findById(etudiant1.getId());
-        doReturn(etudiant1).when(etudiantRepository).save(any());
-        etudiantRepository.save(etudiant1);
+        e1.setSession(list);
+        doReturn(e1).when(etudiantRepository).save(e1);
+        doReturn(Optional.of(e1)).when(etudiantRepository).findById(e1.getId());
+        doReturn(e1).when(etudiantRepository).save(any());
+        etudiantRepository.save(e1);
 
         Candidature candidatureUpdated = candidatureService.updateCandidatureChoisi(c1.getId());
         // Act
-        Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(etudiant1.getId());
+        Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(e1.getId());
         // Assert
         Assertions.assertTrue(optionalCandidature.isPresent());
     }
@@ -216,8 +220,8 @@ public class CandidatureServiceTest {
     @Test
     public void testGetCandidatureChoisiInvalid() {
         // Arrange
-        doReturn(etudiant).when(etudiantRepository).save(any());
-        Etudiant etudiant = etudiantRepository.save(this.etudiant);
+        doReturn(e).when(etudiantRepository).save(any());
+        Etudiant etudiant = etudiantRepository.save(e);
         // Act
         Optional<Candidature> optionalCandidature = candidatureService.getCandidatureChoisi(etudiant.getId());
         // Assert
@@ -236,6 +240,7 @@ public class CandidatureServiceTest {
         Assertions.assertEquals(candidatures.size(), 1);
     }
 
+    @Test
     public void testConvoqueEtudiantEntrevue() {
         // Arrange
         c1.setId(1L);
@@ -271,15 +276,16 @@ public class CandidatureServiceTest {
         s.setEmployeur(employeur);
         c1.setStage(s);
 
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1));
-        when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)).thenReturn(Arrays.asList(c1));
+        when(candidatureService.getListCandidaturesChoisis(session.getId())).thenReturn(Arrays.asList(c1));
 
-        List<Candidature> candidatures = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId());
+        List<Candidature> candidatures = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId(), session.getId());
         Assertions.assertNotNull(candidatures);
         Assertions.assertEquals(candidatures.size(), 1);
 
         c1.setEvaluee(true);
-        List<Candidature> candidatures2 = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId());
+        List<Candidature> candidatures2 = candidatureService.getListCandidatureByEmployeurToEvaluer(employeur.getId(), session.getId());
         Assertions.assertEquals(candidatures2.size(), 0);
 
     }
@@ -287,10 +293,10 @@ public class CandidatureServiceTest {
     @Test
     void getCandidatureEtudaintByEnseignant() {
         enseignant.setId(1L);
-        etudiant.setEnseignant(enseignant);
-        etudiant1.setEnseignant(enseignant);
-        c1.setEtudiant(etudiant);
-        c2.setEtudiant(etudiant1);
+        e.setEnseignant(enseignant);
+        e1.setEnseignant(enseignant);
+        c1.setEtudiant(e);
+        c2.setEtudiant(e1);
         when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1,c2));
 
         List<Candidature> candidatures = candidatureService.getCandidatureEtudaintByEnseignant(1l);

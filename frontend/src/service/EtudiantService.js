@@ -6,36 +6,33 @@ const ETUDIANT_GET = "http://localhost:8080/etudiants/get";
 
 class EtudiantService{
 
-    getEtudiants(){
-        return axios.get(ETUDIANTS_URL);
-    }
-
-    getEtudiantsInscrits(){
-        return axios.get(baseURL + "/getAllInscrits");
+    getEtudiants(idSession){
+        return axios.get(ETUDIANTS_URL, { params: { idSession: idSession} });
     }
 
     getEtudiantById(id){
         return axios.get(ETUDIANT_GET + "?idEtudiant=" + id);
     }
 
-    getEtudiantsAucunCV(){
-        return axios.get(baseURL + "/getAllSansCV");
+    getEtudiantsAucunCV(idSession){
+        return axios.get(baseURL + "/getAllSansCV", { params: { idSession: idSession} });
     }
 
-    getEtudiantsCVNonApprouve(){
-        return axios.get(baseURL + "/getAllCVNonApprouve");
+    getEtudiantsCVNonApprouve(idSession){
+        return axios.get(baseURL + "/getAllCVNonApprouve",
+            { params: { idSession: idSession} });
     }
 
-    getEtudiantsSansStage(){
-        return axios.get(baseURL + "/get/aucunStage");
+    getEtudiantsSansStage(idSession){
+        return axios.get(baseURL + "/get/aucunStage", { params: { idSession: idSession} });
     }
 
-    getAllAyantEntrevue(){
-        return axios.get(baseURL + "/getAllAyantEntrevue");
+    getAllAyantEntrevue(idSession){
+        return axios.get(baseURL + "/getAllAyantEntrevue",  { params: { idSession: idSession} });
     }
 
-    getEtudiantsByProgramme(programme){
-        return axios.get(ETUDIANT_GET + "/" + programme);
+    getEtudiantsByProgramme(programme, idSession){
+        return axios.get(ETUDIANT_GET + "/" + programme, { params: { idSession: idSession} });
     }
 
 

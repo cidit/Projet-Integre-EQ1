@@ -14,8 +14,9 @@ export default class GestionnaireListStageComponent extends Component {
     }
     
     async componentDidMount() {
-            const { data: stages } = await StageService.getStagesApprouves();
-            this.setState({ stages });
+        var idSession = localStorage.getItem("session");
+        const { data: stages } = await StageService.getStagesApprouves(idSession);
+        this.setState({ stages });
     }
 
     render() {

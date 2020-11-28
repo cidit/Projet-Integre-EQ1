@@ -4,12 +4,12 @@ const baseURL = "http://localhost:8080/contrats/";
 
 class ContratService {
 
-    async getContrats() {
-        return await axios.get('http://localhost:8080/contrats/findAll');
+    async getContrats(idSession) {
+        return await axios.get('http://localhost:8080/contrats/findAll', { params: { idSession: idSession} });
     }
 
-    async getCandidaturesSansContrat() {
-        return await axios.get(baseURL +'getCandidaturesSansContrat');
+    async getCandidaturesSansContrat(idSession) {
+        return await axios.get(baseURL +'getCandidaturesSansContrat', { params: { idSession: idSession} });
     }
 
     async telechargerDocument(id) {
@@ -91,16 +91,16 @@ class ContratService {
         return axios.put(baseURL + "createAuto/" + idCandidature)
     }
 
-    getContratsNonSignesEtudiant() {
-        return axios.get(baseURL + '/getContratsNonSignesEtudiant');
+    getContratsNonSignesEtudiant(idSession) {
+        return axios.get(baseURL + 'getContratsNonSignesEtudiant', { params: { idSession: idSession} });
     }
 
-    getContratsNonSignesEmployeur() {
-        return axios.get(baseURL + '/getContratsNonSignesEmployeur');
+    getContratsNonSignesEmployeur(idSession) {
+        return axios.get(baseURL + 'getContratsNonSignesEmployeur', { params: { idSession: idSession} });
     }
 
-    getContratsNonSignesAdministration() {
-        return axios.get(baseURL + '/getContratsNonSignesAdministration');
+    getContratsNonSignesAdministration(idSession) {
+        return axios.get(baseURL + 'getContratsNonSignesAdministration', { params: { idSession: idSession} });
     }
 
 }
