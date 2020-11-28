@@ -42,9 +42,13 @@ public class EtudiantServiceTest {
     @MockBean
     private SessionRepository sessionRepository;
 
+    @MockBean
+    private EnseignantService enseignantService;
+
     private Session session;
     private Etudiant e1;
     private Etudiant e2;
+    private Enseignant enseignant;
 
     private Candidature c1;
     private Candidature c2;
@@ -72,6 +76,8 @@ public class EtudiantServiceTest {
         e1.setEmail("e2@email.com");
         e1.setProgramme("Techniques de l’informatique");
         e2.setSession(sessions);
+
+        enseignant = new Enseignant();
 
         c1 = new Candidature();
         c1.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
@@ -348,5 +354,28 @@ public class EtudiantServiceTest {
         Assertions.assertEquals(1l, updateEtudiant.getId());
         Assertions.assertEquals(e1.getNom(), updateEtudiant.getNom());
         Assertions.assertEquals("totototo", updateEtudiant.getPassword());
+    }
+
+    @Test
+    void setEnseignant() {
+        when(repository.findById(1L)).thenReturn(Optional.of(e1));
+        when(enseignantService.getEnseignantById(1L)).thenReturn(enseignant);
+
+        Assertions.assertNull(e1.getEnseignant());
+
+        Etudiant etudiant = service.setEnseignant(1L,1L);
+        Assertions.assertEquals(etudiant.getEnseignant(), enseignant);
+    }
+
+    @Test
+    void getEtudaintsByEnseignant() {
+        e1.setEnseignant(enseignant);
+        e2.setEnseignant(enseignant);
+        when(repository.findByEnseignant(enseignant)).thenReturn(Arrays.asList(e1,e2));
+        when(enseignantService.getEnseignantById(1L)).thenReturn(enseignant);
+
+        List<Etudiant> etudiants = service.getEtudaintsByEnseignant(1L);
+        Assertions.assertEquals(etudiants.size(),2);
+        Assertions.assertEquals(etudiants.get(0).getEnseignant(),enseignant );
     }
 }

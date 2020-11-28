@@ -18,7 +18,7 @@ function GestionnaireNav(props) {
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/profileGestionnaire">Votre profil</Nav.Link>
+            <Nav.Link href="/profilGestionnaire">Votre profil</Nav.Link>
             <Nav.Link href="/etudiants">Approbation de CV</Nav.Link>
             <Nav.Link href="/listestages">Liste des stages</Nav.Link>
             <Nav.Link href="/contratsGestionnaire">Gérer contrats</Nav.Link>
@@ -39,7 +39,7 @@ function EmployeurNav(props) {
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/profileEmployeur">Votre profil</Nav.Link>
+            <Nav.Link href="/profilEmployeur">Votre profil</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
             <Nav.Link href="/stages">Voir toutes les offres de stage</Nav.Link>
             <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
@@ -56,7 +56,7 @@ function EtudiantNav(props) {
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/profileEtudiant">Votre profil</Nav.Link>
+            <Nav.Link href="/profilEtudiant">Votre profil</Nav.Link>
             <Nav.Link href="/offrestage">Offres de stage</Nav.Link>
             <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
             <Nav.Link href="/contratEtudiant">Contrats</Nav.Link>
@@ -67,15 +67,32 @@ function EtudiantNav(props) {
 }
 function ChangeSessionNavDropdown(props) {
     var nomSession = window.localStorage.getItem("nomSession");
+
+    console.log(props)
     return (
         <NavDropdown title={nomSession} id="nav-dropdown">
-            {props.sessions.map(
+         {props.sessions.map(
                 data =>
                     <NavDropdown.Item key={data.id} eventKey="4.1" onClick={() => changeSession(data.id, data.nom)}>{data.nom}</NavDropdown.Item>
             )}
         </NavDropdown>
     );
 }
+
+
+function EnseignantNav() {
+
+    return (
+        <Nav className="mr-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/profilEnseignant">Votre profil</Nav.Link>
+            <Nav.Link href="/etudiantsEnCharge">Étudiants en charge</Nav.Link>
+            <Nav.Link href="/evaluationMilieuStageHome">Évaluations</Nav.Link>
+            <Nav.Link href="/logout">Logout</Nav.Link>
+        </Nav>
+    );
+}
+
 
 async function changeSession(id, nom) {
     await SessionService.changeSession(id, nom);
@@ -84,6 +101,7 @@ async function changeSession(id, nom) {
     }, 200);
 }
 
+
 function NavType(props) {
     if (props.desc.toUpperCase() === "ETUDIANT")
         return <EtudiantNav sessions={props.sessions}/>
@@ -91,6 +109,8 @@ function NavType(props) {
         return <EmployeurNav sessions={props.sessions}/>
     else if (props.desc.toUpperCase() === "GESTIONNAIRE")
         return <GestionnaireNav sessions={props.sessions}/>
+    else if (props.desc.toUpperCase() === "ENSEIGNANT")
+        return <EnseignantNav sessions={props.sessions} />
     else
         return <NotLoggedInNav />
 }
@@ -113,9 +133,11 @@ class HeaderComponent extends Component {
                 <Navbar.Brand href="/">
                     Projet intégré équipe 1
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
+
                     <NavType desc={this.state.desc} sessions={this.state.sessions}/>
+
                 </Navbar.Collapse>
             </Navbar>
 

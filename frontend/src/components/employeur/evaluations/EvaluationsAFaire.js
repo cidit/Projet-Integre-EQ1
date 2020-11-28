@@ -46,14 +46,10 @@ export default function EvaluationsAFaire(props) {
         setRedirect(true);
     }
 
-    console.log("id desde a faire")
-    console.log(props.id)
-
     const getCandidature = async () => {
         var idSession = window.localStorage.getItem("session");
         const response = await CandidatureService.getCandidaturesAEvaluerParEmployeur(props.id, idSession);
         setCandidatures(response.data);
-        console.log(response.data)
     }
 
     useEffect(() => {
@@ -114,8 +110,6 @@ function Row(props) {
     }
 
     if (redirect) {
-        console.log("idetudiant")
-        console.log(candidature.etudiant.id)
         return <Redirect to={`/evaluationStagiaire/${candidature.id}`} />
     }
     return (

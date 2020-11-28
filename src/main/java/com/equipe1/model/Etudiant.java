@@ -40,6 +40,15 @@ public class Etudiant extends User {
     @OneToOne(mappedBy = "etudiant")
     private EvaluationStagiaire evaluationStagiaire;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "etudiant")
+    private EvaluationMilieuStage evaluationMilieuStage;
+
+    @ToString.Exclude
+    @ManyToOne
+    @JoinColumn(name = "enseignant_id")
+    private Enseignant enseignant;
+
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Session> session;
 

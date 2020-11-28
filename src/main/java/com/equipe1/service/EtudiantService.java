@@ -24,6 +24,9 @@ public class EtudiantService {
     @Autowired
     private CandidatureService candidatureService;
 
+    @Autowired
+    private EnseignantService enseignantService;
+
     public EtudiantService(EtudiantRepository etudiantRepository){
         this.etudiantRepository = etudiantRepository;
     }
@@ -174,6 +177,20 @@ public class EtudiantService {
         Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
         optionalEtudiant.get().setPassword(newEtudiant.getPassword());
         return etudiantRepository.save(optionalEtudiant.get());
+    }
+
+    public Etudiant setEnseignant(Long idEtudaint, Long idEnseignant){
+        Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudaint);
+        Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
+        if(etudiant.isPresent()){
+            etudiant.get().setEnseignant(enseignant);
+            etudiantRepository.save(etudiant.get());
+        }
+        return etudiant.orElse(new Etudiant());
+    }
+    public List<Etudiant> getEtudaintsByEnseignant(Long idEnseignant){
+        Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
+        return etudiantRepository.findByEnseignant(enseignant);
     }
 }
 

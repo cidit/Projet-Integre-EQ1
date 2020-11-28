@@ -1,6 +1,7 @@
 package com.equipe1.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,6 +14,8 @@ public class Stage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String titre;
+
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     private Employeur employeur;
 
@@ -28,9 +31,12 @@ public class Stage {
     private String ville;
     private StageStatus statut;
     private int salaire;
+
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     private Session session;
 
+    @ToString.Exclude
     @ManyToMany
     private Set<Etudiant> etudiantsAdmits;
 
@@ -46,23 +52,5 @@ public class Stage {
         EN_ATTENTE, APPROUVÉ, REFUSÉ
     }
 
-    @Override
-    public String toString() {
-        return "Stage{" +
-                "id=" + id +
-                ", titre='" + titre + '\'' +
-                ", description='" + description + '\'' +
-                ", exigences='" + exigences + '\'' +
-                ", dateDebut=" + dateDebut +
-                ", dateFin=" + dateFin +
-                ", dateLimiteCandidature=" + dateLimiteCandidature +
-                ", nbHeuresParSemaine=" + nbHeuresParSemaine +
-                ", nbAdmis=" + nbAdmis +
-                ", isOuvert=" + isOuvert +
-                ", programme='" + programme + '\'' +
-                ", ville='" + ville + '\'' +
-                ", statut=" + statut +
-                ", salaire=" + salaire +
-                '}';
-    }
+
 }

@@ -80,6 +80,13 @@ class CandidatureService{
         return axios.put(baseURL + "/entrevuePasseeConfirmation/" + id);
 
     }
+    async getCandidatureEtudiantByEnseignant(id) {
+        return await axios.get(baseURL +"/getListByEnseignant/"+id);
+    }
+
+    async getCandidaturesEmployeurNonEvalues(id) {
+        return await axios.get(baseURL +"/getListByEmployeurNonEvalues/"+id);
+    }
 }
 
 export default new CandidatureService()

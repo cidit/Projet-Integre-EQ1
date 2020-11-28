@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
+import ListEnseignants from './gestionnaire/ListEnseignants';
 
-import CreateQuestions from './evaluations/createQuestions'
-import EvaluationStagiaire from '../components/evaluations/EvaluationStagiaire'
-import EvaluationMilieuStage from './evaluations/evaluationMilieuStage/EvaluationMilieuStage'
-import EvaluationMilieuHome from './enseignant/EvaluationMilieuHome'
-import ApreciationGlobaleStagiaire from '../components/evaluations/evaluationStagiaire/ApreciationGlobaleStagiaire'
-import EvaluationsHome from './employeur/evaluations/EvaluationsHome'
-import SimpleTabs from './gestionnaire/RapportComponent'
 
 export default class Home extends Component {
     componentDidMount() {
-        if (localStorage.getItem("desc") === null){
+        if (localStorage.getItem("desc") === null) {
             this.props.history.push('/login');
         }
         if (this.props.location.search === "?refresh") {
@@ -19,32 +13,13 @@ export default class Home extends Component {
         }
     }
 
-    render(){
-        return(
-           <div>
-          {/* <EvaluationStagiaire/>  */}
-          {/* <CreateQuestions/> */}
-          {/* <EvaluationStagiaire/> */}
+    render() {
+        return (
+            <div>
 
-          {/* <EvaluationStagiaire/> */}
+                {/* <ListEnseignants/>  */}
 
-          {/* <EvaluationMilieuStage/> */}
-
-          {/* <EvaluationMilieuHome/> */}
-
-         
-         
-          {/* pending */}
-
-          {/* <ApreciationGlobaleStagiaire/> */}
-
-       {/* <EvaluationsHome/>  */}
-
-           {/* <SimpleTabs/>  */}
-
-
-
-           </div>
+            </div>
         );
     }
 }

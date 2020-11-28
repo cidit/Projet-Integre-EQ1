@@ -15,6 +15,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import {makeStyles} from "@material-ui/core/styles";
 
 
+
 export default class SelectionnerStagiaireComponent extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +30,7 @@ export default class SelectionnerStagiaireComponent extends Component {
 
     async componentDidMount() {
         // const { data: candidatures } = await CandidatureService.getByStage(this.props.match.params.id);
-        const { data: candidatures } = await CandidatureService.getByStage(this.props.match.params.id);
+        const { data: candidatures } = await CandidatureService.getByStage(15);
         this.setState({ candidatures });
     }
 
@@ -192,8 +193,6 @@ function CustomTable(props){
                         <TableCell>Adresse</TableCell>
                         <TableCell>Convoquer pour entrevue</TableCell>
                         <TableCell>Statut</TableCell>
-
-
                     </TableRow>
                 </TableHead>
 

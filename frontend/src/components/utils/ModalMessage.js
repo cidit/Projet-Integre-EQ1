@@ -28,7 +28,7 @@ console.log("desde modal")
 if(redirect) {
     //CreationContrat(candidature)
  
-    return <Redirect to={props.redirect} />
+    return <Redirect to = {props.redirect} />
    } 
     return (
         <div>

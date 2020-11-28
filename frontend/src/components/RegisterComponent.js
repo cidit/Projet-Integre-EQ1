@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
-import EmployeurRegister from './EmployeurRegister';
-import EtudiantRegister from './EtudiantRegister';
+import EmployeurRegister from '../components/register/EmployeurRegister';
+import EtudiantRegister from '../components/register/EtudiantRegister';
 
 export default class Register extends Component {
 
