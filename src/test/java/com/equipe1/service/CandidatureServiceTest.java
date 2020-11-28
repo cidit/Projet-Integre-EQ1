@@ -41,6 +41,8 @@ public class CandidatureServiceTest {
     private SessionRepository sessionRepository;
     @MockBean
     private EmployeurRepository employeurRepository;
+    @MockBean
+    private EvaluationMilieuStageService evaluationMilieuStageService;
 
     private Candidature c1;
     private Candidature c2;
@@ -282,17 +284,19 @@ public class CandidatureServiceTest {
         c1.setStatut(Candidature.CandidatureStatut.CHOISI);
         s.setDateFin(LocalDate.of(2020,11,01));
         s.setEmployeur(employeur);
+        s.setSession(session);
         c1.setStage(s);
 
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         when(candidatureRepository.findAll()).thenReturn(Arrays.asList(c1));
-        when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI)).thenReturn(Arrays.asList(c1));
+        when(candidatureService.getListCandidaturesChoisis(session.getId())).thenReturn(Arrays.asList(c1));
 
-        List<Candidature> candidatures = candidatureService.getListCandidatureByEmployeurSansEvaluationStagiaire(employeur.getId());
+        List<Candidature> candidatures = candidatureService.getListCandidatureByEmployeurSansEvaluationStagiaire(employeur.getId(), session.getId());
         Assertions.assertNotNull(candidatures);
         Assertions.assertEquals(candidatures.size(), 1);
 
         c1.setEvaluee(true);
-        List<Candidature> candidatures2 = candidatureService.getListCandidatureByEmployeurSansEvaluationStagiaire(employeur.getId());
+        List<Candidature> candidatures2 = candidatureService.getListCandidatureByEmployeurSansEvaluationStagiaire(employeur.getId(), session.getId());
         Assertions.assertEquals(candidatures2.size(), 0);
 
     }
@@ -328,7 +332,7 @@ public class CandidatureServiceTest {
         e.setEnseignant(enseignant);
         e1.setEnseignant(enseignant);
         when(candidatureService.getCandidatureDesEtudaintsByEnseignantId(1L)).thenReturn(Arrays.asList(c1,c2));
-        when(evaluationMilieuStageService.getByEtudaint(etudiant1)).thenReturn(Optional.of(evaluationMilieuStage));
+        when(evaluationMilieuStageService.getByEtudaint(e1)).thenReturn(Optional.of(evaluationMilieuStage));
 
         List<Candidature> candidatures = candidatureService.getCandidaturesByEmployeurSansEvalutionMilieuStage(1l);
         Assertions.assertNotNull(candidatures);

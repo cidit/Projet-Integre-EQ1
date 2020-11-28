@@ -49,6 +49,8 @@ public class CandidatureService {
     }
 
     public List<Candidature> findCandidatureByEtudiant(Long idEtudiant, Long idSession){
+
+
         Etudiant etudiant = etudiantRepository.findById(idEtudiant).get();
         List<Candidature> candidatures = candidatureRepository.findAll();
         List<Candidature> candidatureList = new ArrayList<>();
@@ -157,7 +159,7 @@ public class CandidatureService {
         return candidatureBydateStage;
     }
 
-    public List<Candidature> getListCandidatureByEmployeurToEvaluer(Long idEmployeur, Long idSession){
+    public List<Candidature> getListCandidatureByEmployeurSansEvaluationStagiaire(Long idEmployeur, Long idSession){
         List<Candidature> candidatureByemployeur = new ArrayList<>();
         for (Candidature c: getListCandidaturesChoisis(idSession)) {
             if(employeurExiste(idEmployeur, c) && !c.isEvaluee() && isUneSemaineAvantLaFin(c)){
@@ -167,7 +169,7 @@ public class CandidatureService {
         return candidatureByemployeur;
     }
 
-    public List<Candidature> getCandidatureEtudaintByEnseignant(Long idEnseignant){
+    public List<Candidature> getCandidatureDesEtudaintsByEnseignantId(Long idEnseignant){
         List<Candidature> candidatures = new ArrayList<>();
         for (Candidature c : candidatureRepository.findByStatut(Candidature.CandidatureStatut.CHOISI)) {
           if(c.getEtudiant().getEnseignant() != null && c.getEtudiant().getEnseignant().getId()==idEnseignant){
@@ -177,10 +179,10 @@ public class CandidatureService {
         return candidatures;
     }
 
-    public List<Candidature> getCandidaturesEmployeurNonEvalues(Long idEnseignant){
+    public List<Candidature> getCandidaturesByEmployeurSansEvalutionMilieuStage(Long idEnseignant){
         List<Candidature> candidatures = new ArrayList<>();
         Optional<EvaluationMilieuStage> evaluationMilieuStage;
-        for (Candidature c : getCandidatureEtudaintByEnseignant(idEnseignant)) {
+        for (Candidature c : getCandidatureDesEtudaintsByEnseignantId(idEnseignant)) {
             evaluationMilieuStage = evaluationMilieuStageService.getByEtudaint(c.getEtudiant());
             if(!evaluationMilieuStage.isPresent()){
                 candidatures.add(c);
