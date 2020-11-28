@@ -1,8 +1,7 @@
 import {
-    makeStyles, Table,
-    TableBody, TableCell, TableContainer, TableHead, TableRow, Button
+    Button, makeStyles, Table,
+    TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
@@ -63,7 +62,7 @@ export default function ListEnseignants() {
                 {enseignants &&
                     <>
                         <TableContainer  className={classes.root}>
-                            <h4 align='center' className='m-2 sticky-top' ><strong>List enseignants </strong></h4>
+                            <h4  className='m-2 sticky-top' >List enseignants </h4>
 
                             <Table className="table "  >
                                 <TableHead className={classes.heading} >
@@ -104,10 +103,10 @@ function Row(props) {
     return (
         <React.Fragment>
             <TableRow hover  className={classes.row}>
-                <TableCell >{row.prenom} {row.nom}</TableCell>
-                <TableCell  >{row.programme}</TableCell>
-                <TableCell >{row.email}</TableCell>
-                <TableCell >{row.telephone}</TableCell>
+                <TableCell className='align-middle'>{row.prenom} {row.nom}</TableCell>
+                <TableCell  className='align-middle'>{row.programme}</TableCell>
+                <TableCell className='align-middle'>{row.email}</TableCell>
+                <TableCell className='align-middle'>{row.telephone}</TableCell>
 
                 <TableCell>
                     <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{ textTransform: 'none' }}>

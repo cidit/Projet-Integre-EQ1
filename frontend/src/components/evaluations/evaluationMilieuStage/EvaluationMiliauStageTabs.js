@@ -82,7 +82,7 @@ export default function EvaluationMiliauStageTabs() {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Évaluations en attente" {...a11yProps(0)} />
+        <Tab label="Évaluations milieu de stage en attente" {...a11yProps(0)} />
         <Tab label="Historique d'évaluation" {...a11yProps(1)} />
 
       </Tabs>

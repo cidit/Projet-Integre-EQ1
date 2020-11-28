@@ -17,7 +17,7 @@ export default class Home extends Component {
         return (
             <div>
 
-                {/* <ListEnseignants/>  */}
+             {/* <ListEnseignants/>   */}
 
             </div>
         );
