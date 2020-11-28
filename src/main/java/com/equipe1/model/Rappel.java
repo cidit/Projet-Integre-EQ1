@@ -7,7 +7,7 @@ public interface Rappel {
     }
 
     enum EmployeurRappel implements Rappel {
-        UN_STAGE_ENCORS_OUVERT_A_DES_CANDIDATURES, SIGNATURE_MANQUANTE_SUR_UN_CONTRAT, PAS_DE_STAGE_OUVERT_CETTE_SESSION
+        UN_STAGE_ENCORE_OUVERT_A_DES_CANDIDATURES, SIGNATURE_MANQUANTE_SUR_UN_CONTRAT, PAS_DE_STAGE_OUVERT_CETTE_SESSION
     }
 
     enum GestionaireRappel implements Rappel {

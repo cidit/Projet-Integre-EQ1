@@ -95,7 +95,7 @@ public class RappelService {
             for (var stage : stageCetteSession.collect(Collectors.toList())) {
                 var candidatures = candidatureService.findAllByStage(stage.getId());
                 if (!candidatures.isEmpty() && stage.isOuvert()) {
-                    messages.add(Rappel.EmployeurRappel.UN_STAGE_ENCORS_OUVERT_A_DES_CANDIDATURES);
+                    messages.add(Rappel.EmployeurRappel.UN_STAGE_ENCORE_OUVERT_A_DES_CANDIDATURES);
                     break;
                 }
             }

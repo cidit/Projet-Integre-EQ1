@@ -93,7 +93,7 @@ function App() {
 
           <Route path="/profileEmployeur" component={ProfileEmployeur}/>
           <Route path="/profileGestionnaire" component={ProfileGestionnaire}/>
-          <Route path="/ProfileEtudiant" component={ProfileEtudiant}/>
+          <Route path="/profileEtudiant" component={ProfileEtudiant}/>
         </Switch>
           {/* </ThemeProvider> */}
       </main>
