@@ -1,14 +1,42 @@
 import React, {Component, useState} from 'react';
 import CandidatureService from "../../service/CandidatureService";
 
-import Button from 'react-bootstrap/Button'
 import {Col, Container, Modal, Row} from "react-bootstrap";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from '@material-ui/lab/Alert';
 
 import EtudiantService from "../../service/EtudiantService";
 
-export default class ListeCandidaturesEtudiantComponent extends Component {
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button} from '@material-ui/core';
+import {withStyles} from '@material-ui/core/styles';
+
+const useStyles = theme => ({
+    root: {
+        marginTop: '3',
+        width: '100%',
+        fontWeight: 'bold',
+        margin:'auto',
+        fontSize: theme.typography.pxToRem(14),
+        fontWeight: theme.typography.fontWeightRegular,
+        textAlign: 'center',
+    },
+    heading: {
+        margin:'auto',
+        fontSize: theme.typography.pxToRem(14),
+        fontWeight: theme.typography.fontWeightRegular,
+    },
+    textTitle: {
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontSize: 15,
+        margin:'auto',
+    },
+    row:{
+        textAlign: 'center',
+    }
+});
+
+class ListeCandidaturesEtudiantComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -50,6 +78,9 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
     handleDisableAll = () => this.setState({disabledAllButtons: true});
 
     render() {
+        
+        const { classes } = this.props;
+
         if (this.state.candidatures.length === 0) {
             return <div className="container">
                 <div className="row justify-content-md-center">
@@ -62,46 +93,41 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
         }
         return (
             <div className="container">
-                <div className="col">
-                    <div className="pt-3 mt-3">
-                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0'}}>Vos candidatures</h5>
-
-                        <div className="row">
-
-                            <table className="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th> Titre</th>
-                                    <th> Statut</th>
-                                    <th> Programme</th>
-                                    <th> Ville</th>
-                                    <th> Confirmer entrevue</th>
-                                    <th> Confirmer choix</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                <TableContainer className={classes.root}>
+                    <Table className="table">
+                        <TableHead className={classes.heading}>
+                        <TableRow>
+                            <TableCell className={classes.textTitle}> Titre </TableCell>
+                            <TableCell className={classes.textTitle}> Statut </TableCell>
+                            <TableCell className={classes.textTitle}> Programme </TableCell>
+                            <TableCell className={classes.textTitle}> Ville </TableCell>
+                            <TableCell className={classes.textTitle}> Confirmer entrevue </TableCell>
+                            <TableCell className={classes.textTitle}> Confirmer choix </TableCell>
+                        </TableRow>
+                        </TableHead>
+                            <TableBody>
                                 {this.state.candidatures
                                     .map(candidature =>
-                                        <tr key={candidature.id}>
+                                        <TableRow key={candidature.id} hover className={classes.row}>
                                             <ShowCandidature candidature={candidature}
                                                              disabledAll={this.state.disabledAllButtons}/>
-                                        </tr>
+                                        </TableRow>
                                     )}
-                                </tbody>
-                            </table>
-                            <Snackbar open={this.state.showSnackbar} autoHideDuration={6000}
-                                      onClose={this.handleCloseSnackbar}>
-                                <Alert onClose={this.handleCloseSnackbar} severity="success">
-                                    Vous venez de confirmer votre stage.
-                                </Alert>
-                            </Snackbar>
-                        </div>
-                    </div>
-                </div>
+                            </TableBody>
+                    </Table>
+                </TableContainer>
+                <Snackbar open={this.state.showSnackbar} autoHideDuration={6000}
+                            onClose={this.handleCloseSnackbar}>
+                    <Alert onClose={this.handleCloseSnackbar} severity="success">
+                        Vous venez de confirmer votre stage.
+                    </Alert>
+                </Snackbar>
             </div>
         );
     }
 }
+
+export default withStyles(useStyles)(ListeCandidaturesEtudiantComponent);
 
 function ShowCandidature(props) {
 
@@ -120,7 +146,6 @@ function ShowCandidature(props) {
     }
 
     function entrevuePasseeConfirmation(candidature) {
-        console.log(candidature.id)
         CandidatureService.entrevuePasseeConfirmation(candidature.id);
         setTimeout(function () {
             window.location.reload();
@@ -148,7 +173,6 @@ function ShowCandidature(props) {
 
         toggleBtns(event.target.name === approuved);
 
-        console.log("VALUE : " + event.target.name);
         props.candidature.statut = event.target.name;
 
         await CandidatureService.putCandidatureChoisi(props.candidature.id);
@@ -160,26 +184,26 @@ function ShowCandidature(props) {
 
     return (
         <>
-            <td>{props.candidature.stage.titre}</td>
-            <td className={props.candidature.statut === "CHOISI" ? "APPROVED" : "WAITING"}>
+            <TableCell>{props.candidature.stage.titre}</TableCell>
+            <TableCell className={props.candidature.statut === "CHOISI" ? "APPROVED" : "WAITING"}>
                 {props.candidature.statut === "EN_ATTENTE" ? "EN ATTENTE" : "" ||
                 props.candidature.statut === "APPROUVE" ? "APPROUVÉE" : "" ||
                 props.candidature.statut === "CHOISI" ? "CHOISI" : ""}
-            </td>
-            <td>{props.candidature.stage.programme}</td>
-            <td>{props.candidature.stage.ville}</td>
-            <td>
+            </TableCell>
+            <TableCell>{props.candidature.stage.programme}</TableCell>
+            <TableCell>{props.candidature.stage.ville}</TableCell>
+            <TableCell>
                 {renderColonneEntrevue(props.candidature)}
-            </td>
+            </TableCell>
 
-            <td>
-                <Button onClick={handleShowModal}
+            <TableCell>
+                <Button type="submit" className='m-2' variant="contained" size="small" color="primary" onClick={handleShowModal}
                         disabled={props.candidature.statut === "REFUSE"
                         || props.candidature.statut === "EN_ATTENTE"
                         || props.disabledAll === true}>
                     Consulter
                 </Button>
-            </td>
+            </TableCell>
 
             <Modal
                 size="lg"
@@ -242,10 +266,9 @@ function ShowCandidature(props) {
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button type="button" className="btnVeto" name={approuved}
+                    <Button type="submit" className='m-2' variant="contained" size="small" color="primary" name={approuved}
                             disabled={props.candidature.statut === approuved}
-                            value={props.candidature.id} onClick={handleClick}
-                            variant="success">Confirmer ma présence</Button>
+                            value={props.candidature.id} onClick={handleClick}>Confirmer ma présence</Button>
                 </Modal.Footer>
             </Modal>
         </>
