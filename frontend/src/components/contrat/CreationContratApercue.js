@@ -76,7 +76,6 @@ export default function CreationContratApercue() {
   const [candidatureHasContrat, setCandidatureHasContrat] = useState(false)
   const classes = useStyles();
   const [messageResponse, setMessageResponse] = useState('');
-  const [isButtonDisable, setIsButtonDisable] = useState(false)
   const { params } = useRouteMatch();
 
 
@@ -88,8 +87,13 @@ export default function CreationContratApercue() {
     setIsLoading(false)
   };
 
+  const candidatureHasContratFunction = async () => {
+    const response = await ContratService.candidatureHasContrat(params.id);
+    setCandidatureHasContrat(response.data);
+  }
+
   useEffect(() => {
-    candidatureHasContratFunction()
+    candidatureHasContratFunction();
     return () => {
       URL.revokeObjectURL(imageContrat)
     }
@@ -108,15 +112,11 @@ export default function CreationContratApercue() {
     setIsLoading(true)
     const response = await ContratService.createContratAuto(params.id);
     setMessageResponse(response.data);
-    setIsButtonDisable(true)
     setIsSubmit(true)
     setIsLoading(false)
   }
 
-  const candidatureHasContratFunction = async () => {
-    const response = await ContratService.candidatureHasContrat(params.id);
-    setCandidatureHasContrat(response.data);
-  }
+ 
 
   if(isLoading){
     return <CircularProgress disableShrink />;
@@ -168,7 +168,7 @@ export default function CreationContratApercue() {
 
             {/* affichage du contrat */}
 
-            <iframe src={imageContrat} width={'100%'} height={'100%'} style={iframeStyle}></iframe>
+            <iframe title="apercue contrat" src={imageContrat} width={'100%'} height={'100%'} style={iframeStyle}></iframe>
 
           </Dialog>
           <DialogActions>

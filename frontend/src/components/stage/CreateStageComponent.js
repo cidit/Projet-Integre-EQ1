@@ -195,19 +195,6 @@ export default withFormik({
     return errors;
   },
 
-  saveCurrentEmployee(values) {
-
-    let id;
-    if (localStorage.getItem("desc") === "Employeur")
-      id = localStorage.getItem("id");
-
-    let employee = new Employeur();
-    employee = EmployeurService.getById(id)
-    employee.Stage = values;
-    EmployeurService.put(employee, id)
-
-    return employee;
-  },
 
   handleSubmit(values, formikBag) {
 
@@ -219,8 +206,8 @@ export default withFormik({
 
     EmployeurService.getById(id).then((res) => {
       stage = values;
-      stage.employeur = res;
-
+      stage.employeur = res.data;
+      
       StageService.createStage(stage).then(() => {
 
         formikBag.setStatus({ message: "Stage crée avec succès" });

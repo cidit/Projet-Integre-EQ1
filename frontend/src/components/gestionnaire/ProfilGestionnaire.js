@@ -6,7 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import GestionnaireService from '../../service/GestionnaireService';
 
-import ProfileGestionnaireMotsDePasse from './ProfileGestionnaireMotsDePasse';
+import ProfilGestionnaireMotsDePasse from './ProfilGestionnaireMotsDePasse';
 
 import { Avatar, Paper } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
@@ -112,49 +112,42 @@ export default function ProfileHome() {
                 Votre profile
               </Typography>
               <div className='row justify-content-md-center p-4'>
-              <Avatar alt={gestionnaire.nom} src={photo} className={classes.large} />
+                <Avatar alt={gestionnaire.nom} src={photo} className={classes.large} />
               </div>
                
-                <Typography variant="h5" align='center'>{gestionnaire.nom}</Typography>
+                <Typography variant="h4" align='center'>{gestionnaire.nom}</Typography>
                 <br></br>
 
                 <Typography variant="subtitle2" align='center'>
-                    <PersonIcon /> Information
+                    <PersonIcon /> <strong>Information</strong>
                  </Typography>
                 <br></br>
-
-                <div className='row '>
-                    <div className='col '>
-                        <Typography variant="subtitle2" align='right'>Téléphone :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{gestionnaire.telephone}</Typography>
-                    </div>
-                </div>
                 
-                <div className='row'>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='right'>Adresse :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>N/A</Typography>
-                    </div>
-                </div>
+                <div className='container text-left justify-content-center'>
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Téléphone :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{gestionnaire.telephone}</Typography>
+                      </div>
+                  </div>
 
-                <div className='row'>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='right'>Email :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{gestionnaire.email}</Typography>
-                    </div>
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Email :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{gestionnaire.email}</Typography>
+                      </div>
+                  </div>
                 </div>
             </Paper>
       </TabPanel>
       <TabPanel value={value} index={1}>
             <Paper className={classes.paper} >
               <Typography variant="h4" align='center'>Changer votre mot de passe</Typography>
-              <ProfileGestionnaireMotsDePasse/>
+              <ProfilGestionnaireMotsDePasse/>
               <Typography variant="subtitle2" align='center'>
                 *Votre nouveau mot de passe doit comprendre 1 majuscule, 1 minuscule et 1 chiffre
               </Typography>

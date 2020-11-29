@@ -58,7 +58,6 @@ function Televerser() {
         }
     };
 
-
     const deleteFile = () => {
         setFile([]);
         setIsButtonDisable(false);

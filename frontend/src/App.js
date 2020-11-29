@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
 import Register from './components/RegisterComponent';
+
 import CreateStageComponent from './components/stage/CreateStageComponent';
 import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
@@ -23,52 +24,81 @@ import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire
 
 import StageComponent from "./components/stage/StageComponent";
 import ListeStage from "./components/stage/ListeStage";
+
+import QuestionProductivite from './components/evaluations/evaluationStagiaire/QuestionProductivite'
+import QuestionQualiteTravail from './components/evaluations/evaluationStagiaire/QuestionQualiteTravail'
+import QuestionRelations from './components/evaluations/evaluationStagiaire/QuestionRelations'
+import QuestionsHabilites from './components/evaluations/evaluationStagiaire/QuestionsHabilites'
+import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
+import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire'
+import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";
-import {ThemeProvider} from "@material-ui/core/styles";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import RapportComponent from "./components/gestionnaire/RapportComponent";
 import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
-import HomeEtudiant from "./components/HomeEtudiant";
+
+import ProfilEmployeur from './components/employeur/ProfilEmployeur';
+import ProfilGestionnaire from './components/gestionnaire/ProfilGestionnaire';
+import ProfilEtudiant from './components/etudiant/ProfilEtudiant';
+import ProfilEnseignant from './components/enseignant/ProfilEnseignant'
+import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieuStage/EvaluationMiliauStageTabs'
+import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge'
+import RegisterTabs from './components/register/RegisterTabs'
+import EnseignantsTabs from './components/gestionnaire/EnseignantsTabs'
 
 
 function App() {
-    return (
-
-        <main>
-            <ThemeProvider theme={theme}>
-                <HeaderComponent/>
-
-                <Switch>
-                    <Route path="/" exact component={Home}/>
-                    <Route path='/login' component={Login}/>
-                    <Route path='/register' component={Register}/>
-                    <Route path="/etudiants" component={ListEtudiantsComponent}/>
-                    <Route path='/etudiant' component={HomeEtudiant}/>
-                    <Route path='/offrestage' component={ApplicationStageComponent}/>
-                    <Route path='/createStage' component={CreateStageComponent}/>
-                    <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent}/>
-                    <Route path='/gestionnaireStage' component={GestionnaireListStageComponent}/>
-                    <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent}/>
-                    <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent}/>
-                    <Route path='/contratsEmployeur' component={ContratsEmployeur}/>
-                    <Route path='/contratsGestionnaire' component={ContratsGestionnaire}/>
-                    <Route path='/contratEtudiant' component={ContratEtudiant}/>
-                    <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi}/>
-                    <Route path='/CreationContrat/:id' component={CreationContrat}/>
-                    <Route path='/televerserContrats/:id' component={TeleverserContrat}/>
-                    <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi}/>
-                    <Route path="/stage/:id/" component={StageComponent}/>
-                    <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
-                    <Route path="/listestages" component={ListeStage}/>
-                    <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
-                    <Route path="/rapport" component={RapportComponent}/>
-                </Switch>
-            </ThemeProvider>
-        </main>
-
-    );
-
-
+  return (
+    
+      <main>
+     {/* <ThemeProvider theme={theme}>  */}
+        <HeaderComponent />
+        <Switch>
+          <Route path="/" exact component={Home}/>
+          <Route path='/login' component={Login} />
+          <Route path='/register' component={RegisterTabs} />
+          <Route path="/etudiants" component={ListEtudiantsComponent}/>
+          {/*<Route path='/stageVeto' component={StageVeto} />*/}
+          <Route path='/offrestage' component={ApplicationStageComponent} />
+          <Route path="/etudiants" component={ListEtudiantsComponent} />
+          <Route path='/createStage' component={CreateStageComponent} />
+          <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
+          <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
+          <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
+          <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent} />
+          <Route path='/contratsEmployeur' component={ContratsEmployeur} />
+          <Route path='/contratsGestionnaire' component={ContratsGestionnaire} />
+          <Route path='/contratEtudiant' component={ContratEtudiant} />
+          <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi} />
+          <Route path='/CreationContrat/:id' component={CreationContrat} />
+          <Route path='/televerserContrats/:id' component={TeleverserContrat} />
+          <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi} />
+          <Route path="/stage/:id" component={StageComponent}/>
+          <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
+          {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
+          <Route path="/listestages" component={ListeStage}/>
+          <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
+          <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
+          <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
+          <Route path="/questionRelations/:id" component={QuestionRelations}/>
+          <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
+          <Route path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature" component={EvaluationMilieuStage}/>
+          <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
+          <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
+          <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
+          <Route path="/rapport" component={RapportComponent}/>
+          
+          <Route path="/profilEtudiant" component={ProfilEtudiant}/>
+          <Route path="/profilEmployeur" component={ProfilEmployeur}/>
+          <Route path="/profilGestionnaire" component={ProfilGestionnaire}/>
+          <Route path="/profilEnseignant" component={ProfilEnseignant}/>
+          <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
+          <Route path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs}/>
+        </Switch>
+           {/* </ThemeProvider>    */}
+      </main>
+    
+  );
 }
 
 const theme = createMuiTheme({
@@ -94,6 +124,7 @@ const theme = createMuiTheme({
         button: {
             textTransform: "capitalize"
         }
+
     }
 });
 

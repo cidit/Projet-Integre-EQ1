@@ -11,6 +11,7 @@ import {Box, Tab, Tabs} from "@material-ui/core";
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{2,4}?[ \\-]*[0-9]{2,4}?$/;
 
 
+
 export default class Register extends Component {
 
 	constructor(props) {

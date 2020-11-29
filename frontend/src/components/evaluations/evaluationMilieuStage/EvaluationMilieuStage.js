@@ -1,26 +1,52 @@
-import React, { useState } from "react";
-import { Redirect } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Redirect, useRouteMatch, useParams } from 'react-router-dom';
+import CandidatureService from "../../../service/CandidatureService";
 import CreateQuestions from '../createQuestions';
 import useSetQuestions from '../useSetQuestions';
-import { useRouteMatch } from "react-router-dom";
 
 export default function EvaluationMilieuStage() {
-const { evaluationMilieuStageQuestions } = useSetQuestions();
-const [redirect, setRedirect] = useState(false)
-const { params } = useRouteMatch();
+  const { evaluationMilieuStageQuestions } = useSetQuestions();
+  const [redirect, setRedirect] = useState(false)
+  const params = useParams();
+  const [nomEmployeur, setNomEmployeur] = useState('')
+  const [nomEtudiant, setNomEtudiant] = useState('')
+  const [prenomEtudiant, setprenomEtudiant] = useState('')
 
-const goToObservations = () => {
-  setRedirect(true);
-}
-if (redirect) {
-  return <Redirect to={`/observationsMilieuStage/${params.id}`} />
-}
-return (
-    <CreateQuestions questions= {evaluationMilieuStageQuestions}  
-                    field={"Evaluation milieu stage"} 
-                    continuer={goToObservations}
-                    isMilieuStage={true}
-                    titre ="ÉVALUATION DU MILIEU DE STAGE"
-                    />
+
+  if (redirect) {
+    return <Redirect to={`/observationsMilieuStage/${params.id}`} />
+  }
+  return (
+
+    <div className='container-fluid'>
+      <div className='row'>
+        <div className='col-sm-2 border-right '>
+          <div className="card mt-5 sticky-top">
+            <div className="card-body">
+              <h5 className="card-title">Employeur</h5>
+              <p className="card-text">{params.employeur}</p>
+              <h5 className="card-title">Étudiant</h5>
+              <p className="card-text">{params.nomEtudiant} {params.prenomEtudiant}</p>
+            </div>
+          </div>
+        </div>
+        <div className='col-sm-8'>
+          <CreateQuestions questions={evaluationMilieuStageQuestions}
+            field={"Evaluation milieu stage"}
+            isFinalStep={true}
+            isMilieuStage={true}
+            titre="ÉVALUATION DU MILIEU DE STAGE"
+            redirect ="/evaluationMilieuStageHome"
+            idEnseignant = {params.idEnseignant}
+            idCandidature = {params.idCandidature}
+          />
+        </div>
+
+      </div>
+
+
+
+    </div>
+
   )
 }

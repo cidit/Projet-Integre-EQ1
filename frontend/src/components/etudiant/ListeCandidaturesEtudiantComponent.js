@@ -28,35 +28,34 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
         idSession = localStorage.getItem("session");
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
+
         const response = await EtudiantService.isRegistered(id);
-        if(!response.data){
+        if (!response.data) {
             this.props.history.push("/profileEtudiant");
         }
 
-        const { data: candidatures } = await CandidatureService.getByEtudiant(id, idSession);
-        this.setState({ candidatures });
+        const {data: candidatures} = await CandidatureService.getByEtudiant(id, idSession);
+        this.setState({candidatures});
 
-        
-        let candidature;
-        candidature = await CandidatureService.getCandidatureChoisi(id);
+        let candidature = await CandidatureService.getCandidatureChoisi(id);
 
         console.log(candidature);
         if (candidature !== null) {
-            this.setState({ disabledAllButtons: true });
+            this.setState({disabledAllButtons: true});
         }
     }
-    
+
     handleCloseSnackbar = () => this.setState({showSnackbar: false});
     handleShowSnackbar = () => this.setState({showSnackbar: true});
     handleDisableAll = () => this.setState({disabledAllButtons: true});
 
     render() {
-        
-        if (this.state.candidatures.length === 0){
+        if (this.state.candidatures.length === 0) {
             return <div className="container">
                 <div className="row justify-content-md-center">
                     <div className="col">
-                        <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez pas encore postulé à une offre de stage cette session.</Alert>
+                        <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez pas encore
+                            postulé à une offre de stage cette session.</Alert>
                     </div>
                 </div>
             </div>;
@@ -65,28 +64,29 @@ export default class ListeCandidaturesEtudiantComponent extends Component {
             <div className="container">
                 <div className="col">
                     <div className="pt-3 mt-3">
-                        <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0' }}>Vos candidatures</h5>
+                        <h5 className="card-title text-center p-3" style={{background: '#E3F9F0'}}>Vos candidatures</h5>
 
                         <div className="row">
 
                             <table className="table table-striped table-bordered">
                                 <thead>
                                 <tr>
-                                    <th> Titre </th>
-                                    <th> Statut </th>
-                                    <th> Programme </th>
-                                    <th> Ville </th>
-                                    <th> Confirmer entrevue </th>
-                                    <th> Confirmer choix </th>
+                                    <th> Titre</th>
+                                    <th> Statut</th>
+                                    <th> Programme</th>
+                                    <th> Ville</th>
+                                    <th> Confirmer entrevue</th>
+                                    <th> Confirmer choix</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {this.state.candidatures
                                     .map(candidature =>
                                         <tr key={candidature.id}>
-                                            <ShowCandidature candidature={candidature} disabledAll={this.state.disabledAllButtons}/>
+                                            <ShowCandidature candidature={candidature}
+                                                             disabledAll={this.state.disabledAllButtons}/>
                                         </tr>
-                                )}
+                                    )}
                                 </tbody>
                             </table>
                             <Snackbar open={this.state.showSnackbar} autoHideDuration={6000}
@@ -119,23 +119,24 @@ function ShowCandidature(props) {
         document.getElementsByName(approuved)[0].disabled = isApprouved
     }
 
-    function entrevuePasseeConfirmation(candidature){
+    function entrevuePasseeConfirmation(candidature) {
         console.log(candidature.id)
         CandidatureService.entrevuePasseeConfirmation(candidature.id);
-        setTimeout(function() {
+        setTimeout(function () {
             window.location.reload();
         }, 500);
     }
 
 
-    function renderColonneEntrevue(candidature){
+    function renderColonneEntrevue(candidature) {
         if (candidature.entrevueStatut === 'PAS_CONVOQUE')
             return <p>Pas convoqué</p>
         if (candidature.entrevueStatut === 'PASSEE')
             return <p>Entrevue passée </p>
-        return(
+        return (
             <div>
-                <button className="btn btn-primary" onClick={(event) =>  entrevuePasseeConfirmation(candidature)}>Confirmer entrevue
+                <button className="btn btn-primary"
+                        onClick={(event) => entrevuePasseeConfirmation(candidature)}>Confirmer entrevue
                 </button>
             </div>
         )
@@ -162,8 +163,8 @@ function ShowCandidature(props) {
             <td>{props.candidature.stage.titre}</td>
             <td className={props.candidature.statut === "CHOISI" ? "APPROVED" : "WAITING"}>
                 {props.candidature.statut === "EN_ATTENTE" ? "EN ATTENTE" : "" ||
-                 props.candidature.statut === "APPROUVE" ? "APPROUVÉE" : "" ||
-                 props.candidature.statut === "CHOISI" ? "CHOISI" : ""}
+                props.candidature.statut === "APPROUVE" ? "APPROUVÉE" : "" ||
+                props.candidature.statut === "CHOISI" ? "CHOISI" : ""}
             </td>
             <td>{props.candidature.stage.programme}</td>
             <td>{props.candidature.stage.ville}</td>
@@ -173,9 +174,9 @@ function ShowCandidature(props) {
 
             <td>
                 <Button onClick={handleShowModal}
-                        disabled={props.candidature.statut === "REFUSE" 
-                                || props.candidature.statut === "EN_ATTENTE"
-                                || props.disabledAll === true}>
+                        disabled={props.candidature.statut === "REFUSE"
+                        || props.candidature.statut === "EN_ATTENTE"
+                        || props.disabledAll === true}>
                     Consulter
                 </Button>
             </td>
@@ -198,7 +199,8 @@ function ShowCandidature(props) {
                             <Col className="font-weight-bold" style={{color: "red"}}>***Attention***</Col>
                         </Row>
                         <Row>
-                            <Col style={{color: "red"}}>Assurez-vous d'avoir bien confirmer votre stage afin de pouvoir générer le contrat d'ici aux prochains jours!</Col>
+                            <Col style={{color: "red"}}>Assurez-vous d'avoir bien confirmer votre stage afin de pouvoir
+                                générer le contrat d'ici aux prochains jours!</Col>
                         </Row>
 
                         <Row>
@@ -241,7 +243,7 @@ function ShowCandidature(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button type="button" className="btnVeto" name={approuved}
-                            disabled={props.candidature.statut === approuved} 
+                            disabled={props.candidature.statut === approuved}
                             value={props.candidature.id} onClick={handleClick}
                             variant="success">Confirmer ma présence</Button>
                 </Modal.Footer>

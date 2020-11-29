@@ -6,7 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import EmployeurService from '../../service/EmployeurService';
 
-import ProfileEmployeurMotsDePasse from './ProfileEmployeurMotsDePasse';
+import ProfileEmployeurMotsDePasse from './ProfilEmployeurMotsDePasse';
 
 import { Avatar, Paper } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
@@ -112,42 +112,44 @@ export default function ProfileHome() {
                 Votre profile
               </Typography>
               <div className='row justify-content-md-center p-4'>
-              <Avatar alt={employeur.nom} src={photo} className={classes.large} />
+                <Avatar alt={employeur.nom} src={photo} className={classes.large} />
               </div>
                
-                <Typography variant="h5" align='center'>{employeur.nom}</Typography>
+                <Typography variant="h4" align='center'>{employeur.nom}</Typography>
                 <br></br>
 
                 <Typography variant="subtitle2" align='center'>
-                    <PersonIcon /> Information
+                    <PersonIcon /> <strong>Information</strong>
                  </Typography>
                 <br></br>
 
-                <div className='row '>
-                    <div className='col '>
-                        <Typography variant="subtitle2" align='right'>Téléphone :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{employeur.telephone}</Typography>
-                    </div>
-                </div>
-                
-                <div className='row'>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='right'>Adresse :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{employeur.adresse}</Typography>
-                    </div>
-                </div>
+                <div className='container text-left justify-content-center'>
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Téléphone :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{employeur.telephone}</Typography>
+                      </div>
+                  </div>
+                  
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Adresse :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{employeur.adresse}</Typography>
+                      </div>
+                  </div>
 
-                <div className='row'>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='right'>Email :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{employeur.email}</Typography>
-                    </div>
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Email :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{employeur.email}</Typography>
+                      </div>
+                  </div>
                 </div>
             </Paper>
       </TabPanel>

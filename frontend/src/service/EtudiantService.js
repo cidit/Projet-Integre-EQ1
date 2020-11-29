@@ -58,12 +58,11 @@ class EtudiantService{
         return axios.get( baseURL + "/registration/isRegistered/" + id)
     }
 
-    register(id) {
+    async register(id) {
         return axios.put(baseURL + "/registration/register/" + id)
     }
 
     async updatePassword(etudiant, id){
-        console.log(etudiant);
         fetch(baseURL + "/updatePassword/" + id,
             {method: "PUT",
                 headers: {
@@ -72,6 +71,17 @@ class EtudiantService{
                 body: JSON.stringify(etudiant)} )
             .then(r => r.json());
     }
+
+    async setEnseignant(idetudiant, idEnseignant) {
+        return await axios.put(baseURL + "/setEnseignant/"+idetudiant+"/"+ idEnseignant)
+    }
+
+    async  getEtudiantsbyEnseignat(idEnseignant){
+        return axios.get(baseURL + "/getAllbyEnseignant/"+idEnseignant);
+    }
+
+
+    
 }
 
 export default new EtudiantService()

@@ -127,7 +127,7 @@ class EvaluationStagiaireServiceTest {
     void getByEmployeur() {
         List<Session> sessions = new ArrayList<>();
         sessions.add(session);
-        etudiant.setSession(sessions);
+        etudiant.setSessions(sessions);
         e.setEtudiant(etudiant);
         when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         when(employeurRepository.findById(employeur.getId())).thenReturn(Optional.of(employeur));

@@ -1,13 +1,14 @@
 import {
-    Button, FormControlLabel, Radio, RadioGroup, Paper,TextField, 
-    Table, TableCell, TableContainer, TableHead, TableRow, Checkbox, Link, InputAdornment, FormControl, FilledInput
+    Button,
+    Checkbox, FormControl, FormControlLabel,
+    Link, Paper, Radio, RadioGroup,
+    Table, TableCell, TableRow, TextField
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from "react";
-import ModalMessage from '../../components/utils/ModalMessage';
-import EvaluationService from '../../service/EvaluationService'
 import { useRouteMatch } from "react-router-dom";
-import Typography from 'material-ui/styles/typography';
+import ModalMessage from '../../components/utils/ModalMessage';
+import EvaluationService from '../../service/EvaluationService';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 const ChoixResponses = ['Totalement en accord', 'Plutôt en accord', 'Plutôt en désaccord', 'Totalement en désaccord', 'Non Applicable']
 
 export default function CreateQuestions(props) {
-    const classes = useStyles();
     const [questions, setQuestions] = useState(props.questions)
     const [evaluation, setEvaluation] = useState([])
     const [isCopletedQuestions, setIsCopletedQuestions] = useState(true)
@@ -44,6 +44,7 @@ export default function CreateQuestions(props) {
     const [isSubmit, setIsSubmit] = useState(false);
     const [showConditions, setshowConditions] = useState(false)
     const [isEvaluationCompletee, setIsEvaluationCompletee] = useState(false)
+    const classes = useStyles();
 
 
 
@@ -99,7 +100,7 @@ export default function CreateQuestions(props) {
         })
 
         if (!props.isMilieuStage) {
-            var response = await EvaluationService.putEvaluationStagiaire(result, params.id)
+            await EvaluationService.putEvaluationStagiaire(result, params.id)
             setEvaluation([])
             setIsCopletedQuestions(true)
             console.log("send");
@@ -110,12 +111,11 @@ export default function CreateQuestions(props) {
             )
             
         } else {
-            var response = await EvaluationService.putEvaluationMilieuStage(result, params.id)
+            await EvaluationService.putEvaluationMilieuStage(result, props.idCandidature, props.idEnseignant)
             setEvaluation([])
             setIsCopletedQuestions(true)
             console.log("send");
-            continuer();
-            //setIsSubmit(true)
+            setIsSubmit(true)
         }
 
     }
@@ -126,23 +126,19 @@ export default function CreateQuestions(props) {
     return (
 
         <div>
-             <h5 align='center' className='m-2'><strong>{props.titre}</strong></h5>
+             <h5 align='center' className='m-2 sticky-top' ><strong>{props.titre} </strong></h5>
             <h6 align='center'>{props.sousTitre}</h6>
             <Paper className='container mt-2'>
-           
-
              {questions &&
                 <div >
-                    <Table className='"table table-striped sticky-header"'  >
-                        <thead >
-                            <tr className='row border-bottom m-2 p-3 font-weight-bold' >
+                    <Table  >
+                        <thead className="table table-striped " >
+                            <tr className='row border-bottom mt-2  font-weight-bold sticky-top bg-light' >
                                 <th className='col' align="left">Quéstion</th>
                                 {ChoixResponses.map((choix, i) =>
                                     <th key={i} align="center" className='col'>{choix}</th>
                                 )}
-
                             </tr>
-
                         </thead>
                         <tbody>
                             {questions.map(data =>
@@ -162,7 +158,6 @@ export default function CreateQuestions(props) {
                                                 <FormControlLabel
                                                     value={ChoixResponses[0]}
                                                     control={<Radio id={data.id} />}
-                                                // label={ChoixResponses[0]}
                                                 />
                                             </div>
 
@@ -170,7 +165,6 @@ export default function CreateQuestions(props) {
                                                 <FormControlLabel
                                                     value={ChoixResponses[1]}
                                                     control={<Radio id={data.id} />}
-                                                // label={ChoixResponses[1]}
                                                 />
                                             </div>
 
@@ -178,21 +172,18 @@ export default function CreateQuestions(props) {
                                                 <FormControlLabel
                                                     value={ChoixResponses[2]}
                                                     control={<Radio id={data.id} />}
-                                                //label={ChoixResponses[2]}
                                                 />
                                             </div>
                                             <div className='col' align="center">
                                                 <FormControlLabel
                                                     value={ChoixResponses[3]}
                                                     control={<Radio id={data.id} />}
-                                                //label={ChoixResponses[3]}
                                                 />
                                             </div>
                                             <div className='col' align="center">
                                                 <FormControlLabel
                                                     value={ChoixResponses[4]}
                                                     control={<Radio id={data.id} />}
-                                                //label={ChoixResponses[4]}
                                                 />
                                             </div>
                                         </RadioGroup>
@@ -203,7 +194,6 @@ export default function CreateQuestions(props) {
                     </Table>
 
                     <FormControl fullWidth variant="outlined" color='primary' className="mt-4 mb-4">
-
                         <TextField
                             label="Souhaitez-vous nous expliquer un peu plus"
                             style={{ margin: 8 }}
@@ -216,9 +206,9 @@ export default function CreateQuestions(props) {
                             onChange={setCommentaire}
                         />
                     </FormControl>
+                    <p className="card-text "><small className="text-danger">* Veuillez répondre à toutes les questions</small></p>
 
                     {props.isFinalStep ?
-
                         <div>
                             <div >
                                 <FormControlLabel
@@ -231,7 +221,6 @@ export default function CreateQuestions(props) {
                                             className='pr-0'
                                         />
                                     }
-
                                 />
                                 <span>Accepter </span>
                                 <Link onClick={showPolitiquesEtConditions}  >
@@ -243,8 +232,6 @@ export default function CreateQuestions(props) {
                                     }
                                 </Link>
                             </div>
-                            <p className="card-text "><small className="text-danger">* Veuillez répondre à toutes les questions</small></p>
-
 
                             <div >
                                 <Button variant="contained" className=' m-2' color="primary" disabled={isConditionsAccepted}

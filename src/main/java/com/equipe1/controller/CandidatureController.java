@@ -79,7 +79,18 @@ public class CandidatureController {
 
     @GetMapping("getListAEvaluer/{idEmployeur}")
     public List<Candidature> getListAEvaluerParEmployeur(@PathVariable("idEmployeur") Long idEmployeur, @RequestParam("idSession") Long idSession) {
-        return candidatureService.getListCandidatureByEmployeurToEvaluer(idEmployeur, idSession);
+        return candidatureService.getListCandidatureByEmployeurSansEvaluationStagiaire(idEmployeur, idSession);
+
+    }
+
+    @GetMapping("getListByEnseignant/{idEnseignant}")
+    public List<Candidature> getListByEnseignant(@PathVariable Long idEnseignant) {
+        return candidatureService.getCandidatureDesEtudaintsByEnseignantId(idEnseignant);
+    }
+
+    @GetMapping("getListByEmployeurNonEvalues/{idEnseignant}")
+    public List<Candidature> getCandidaturesEmployeurNonEvalues(@PathVariable Long idEnseignant) {
+        return candidatureService.getCandidaturesByEmployeurSansEvalutionMilieuStage(idEnseignant);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.equipe1.service;
 
 import com.equipe1.model.User;
+import com.equipe1.model.Rappel;
 import com.equipe1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,5 +42,13 @@ public class UserService {
         User user = optionalUser.get();
         return user.getPassword().equals(password);
     }
-}
 
+    public List<Rappel> getRemindersFor(long userId){
+        var optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            return null; // TODO
+        } else {
+            return null; // TODO
+        }
+    }
+}
