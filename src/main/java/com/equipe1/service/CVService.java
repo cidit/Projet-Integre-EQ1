@@ -69,7 +69,8 @@ public class CVService {
         return cvRepository.saveAndFlush(cv);
     }
 
-//    public void deleteCV(long id) {
-//        cvRepository.deleteById(id);
-//    }
+    // TODO TEST
+    public List<CV> getByDataIsNotNullAndStatusNotReviewed() {
+        return cvRepository.getByDataIsNotNullAndStatus(CV.CVStatus.UNREVIEWED);
+    }
 }

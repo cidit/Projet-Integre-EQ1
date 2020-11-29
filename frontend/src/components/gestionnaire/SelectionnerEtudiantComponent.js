@@ -1,6 +1,10 @@
 import React, {Component } from "react";
 import EtudiantService from '../../service/EtudiantService';
 import StageService from '../../service/StageService';
+
+import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineCheckSquare, AiOutlineCloseSquare } from 'react-icons/ai';
+import {Alert} from "@material-ui/lab";
+
 import {
     TableCell,
     TableContainer,
@@ -9,10 +13,11 @@ import {
     Paper,
     Table,
     TableRow,
+
     Checkbox,
     Button
 } from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 
 export default class SelectionnerEtudiantComponent extends Component {
@@ -22,10 +27,12 @@ export default class SelectionnerEtudiantComponent extends Component {
     }
 
     async componentDidMount() {
-        let stage;
-        stage = this.props.stage;
-        var idSession = localStorage.getItem("session");
-        const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.programme, idSession);
+        let stage = this.props.stage;
+    const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(this.props.stage.programme, localStorage.getItem("session"));
+
+        // stage = this.props.stage;
+        // var idSession = localStorage.getItem("session");
+        // const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.programme, idSession);
         
         this.setState({ etudiants });
 
@@ -81,6 +88,7 @@ function CustomTable(props){
         return selectedIndex !== -1;
     }
 
+
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
             const newSelecteds = props.etudiants.map((etudiant) => etudiant.id);
@@ -135,6 +143,7 @@ function CustomTable(props){
             window.location.reload();
         }, 500);
     }
+
 
     return(
         <>

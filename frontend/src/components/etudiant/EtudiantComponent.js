@@ -7,10 +7,10 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import {TabPanel} from "../stage/StageComponent";
 
-export default class EtudiantComponent extends Component{
-    constructor(props){
+export default class EtudiantComponent extends Component {
+    constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             etudiant: {},
             file: "",
             displayInvalidFileMessage: false,
@@ -21,7 +21,7 @@ export default class EtudiantComponent extends Component{
         };
     };
 
-    componentDidMount(){
+    componentDidMount() {
         EtudiantService.getEtudiantById(this.props.match.params.id)
             .then((res) => {
                 this.setState({etudiant: res.data});
@@ -62,17 +62,16 @@ export function MyTabs(props) {
         // {label: "Veto",  disabled: false},
         // {label: "Hello",  disabled: false}
     ];
-    const panels =[
+    const panels = [
         {
             component:
-            <div>
-                <InfoEtudiant
-                    etudiant={props.etudiant}
-                />
+                <div>
+                    <InfoEtudiant
+                        etudiant={props.etudiant}
+                    />
 
 
-
-            </div>
+                </div>
 
         },
         {component: <p>TODO</p>},
@@ -81,12 +80,12 @@ export function MyTabs(props) {
 
     ];
 
-    let usedTags=[];
-    let usedPanels=[];
+    let usedTags = [];
+    let usedPanels = [];
 
 
-    for (let i = 0; i < roles.length; i++){
-        if(roles[i][window.localStorage.getItem("desc").toLowerCase()]){
+    for (let i = 0; i < roles.length; i++) {
+        if (roles[i][window.localStorage.getItem("desc").toLowerCase()]) {
             tags[i].id = usedTags.length;
             panels[i].id = usedPanels.length;
             usedTags.push(tags[i]);
@@ -122,7 +121,6 @@ export function MyTabs(props) {
             )}
 
 
-
         </>
     );
 
@@ -139,12 +137,12 @@ function SessionInfo(props) {
 }
 
 
-function CV (props){
+function CV(props) {
 
 }
 
 
-export function Data(props){
+export function Data(props) {
     const classes = useStyles();
     return (
         <>
@@ -160,62 +158,59 @@ export function Data(props){
     );
 }
 
-export function InfoEtudiant(props){
+export function InfoEtudiant(props) {
 
 
-    return(
+    return (
 
-          <Container>
-              <Row>
-                  <Col><h4>{props.etudiant.prenom} {props.etudiant.nom}</h4></Col>
-              </Row>
-
-
-              <Row>
-                  <Data
-                      header={"Status"}
-                      info={props.etudiant.statutStage}
-                  />
-
-              </Row>
-
-              <Row>
-                  <Data
-                      header={"Programme"}
-                      info={props.etudiant.programme}
-                  />
-                  <Data
-                      header={"Adresse"}
-                      info={props.etudiant.adresse}
-                  />
-                  <Data
-                      header={"Matricule"}
-                      info={props.etudiant.matricule}
-                  />
-              </Row>
+        <Container>
+            <Row>
+                <Col><h4>{props.etudiant.prenom} {props.etudiant.nom}</h4></Col>
+            </Row>
 
 
+            <Row>
+                <Data
+                    header={"Status"}
+                    info={props.etudiant.statutStage}
+                />
+
+            </Row>
+
+            <Row>
+                <Data
+                    header={"Programme"}
+                    info={props.etudiant.programme}
+                />
+                <Data
+                    header={"Adresse"}
+                    info={props.etudiant.adresse}
+                />
+                <Data
+                    header={"Matricule"}
+                    info={props.etudiant.matricule}
+                />
+            </Row>
 
 
-              <Row>
-                  <Data
-                      header={"Telephone"}
-                      info={props.etudiant.telephone}
-                  />
-                  <Data
-                      header={"Email"}
-                      info={props.etudiant.email}
-                  />
-              </Row>
+            <Row>
+                <Data
+                    header={"Telephone"}
+                    info={props.etudiant.telephone}
+                />
+                <Data
+                    header={"Email"}
+                    info={props.etudiant.email}
+                />
+            </Row>
 
 
-              <Row>
-                  <button>CV</button>
-              </Row>
+            <Row>
+                <button>CV</button>
+            </Row>
 
 
-
-          </Container>
+        </Container>
 
 
     );
@@ -227,7 +222,7 @@ const useStyles = makeStyles((theme) => ({
         // maxWidth: 360,
         // backgroundColor: theme.palette.secondary.main,
     },
-    header:{
+    header: {
         fontWeight: "bold"
     }
 }));

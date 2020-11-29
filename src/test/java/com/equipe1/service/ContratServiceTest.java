@@ -95,7 +95,7 @@ public class ContratServiceTest {
         sessions.add(session);
         e1 = new Etudiant();
         e1.setId(2L);
-        e1.setSession(sessions);
+        e1.setSessions(sessions);
         etudiantRepository.save(e1);
 
         c1 = new Candidature(e1, new Stage());
@@ -109,7 +109,7 @@ public class ContratServiceTest {
         e.setProgramme("Programme1");
         e.setAdresse("123 Rue Bidon");
         e.setEmail("etudiant@gmail.com");
-        e.setSession(sessions);
+        e.setSessions(sessions);
 
         employeur = new Employeur();
         employeur.setId(20L);
@@ -172,7 +172,7 @@ public class ContratServiceTest {
         etudiant = new Etudiant();
         etudiant.setNom("Colomb");
         etudiant.setPrenom("Christophe");
-        etudiant.setSession(sessions);
+        etudiant.setSessions(sessions);
 
     }
 

@@ -32,7 +32,6 @@ export default class StageComponent extends Component {
                 this.setState({stage: res.data})
                 this.setState({employeur: res.data.employeur})
             })
-            // .then((res) => console.log(this.state.stage))
 
         axios.get("http://localhost:8080/candidatures/getByStage?stage=" + this.props.match.params.id).then(res => {
                 this.setState({candidatures: res.data})
@@ -41,12 +40,18 @@ export default class StageComponent extends Component {
     }
 
     render() {
+        let idTab = 0;
+        if (this.props.match.params.tab !== undefined){
+            idTab = this.props.match.params.tab;
+        }
+
         return (
             <div className="container">
                 <MyTabs
                     stage={this.state.stage}
                     employeur={this.state.employeur}
                     candidatures={this.state.candidatures}
+                    // tab = {idTab}
                 />
             </div>
         );
@@ -113,6 +118,7 @@ export function Veto(props){
 
 function MyTabs(props) {
     const [value, setValue] = React.useState(0);
+    // const [value, setValue] = React.useState(props.tab);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -120,24 +126,24 @@ function MyTabs(props) {
 
     const roles = [
         {gestionnaire: true, employeur: true},
+        {gestionnaire: true, employeur: false},
+        {gestionnaire: true, employeur: false},
         {gestionnaire: true, employeur: true},
-        {gestionnaire: true, employeur: false},
-        {gestionnaire: true, employeur: false},
         {gestionnaire: true, employeur: false},
     ];
 
     const tags = [
         {label: "Info", disabled: false},
-        {label: "Choix des stagiaires",  disabled: props.candidatures.length === 0},
         {label: "Veto",  disabled: false},
         {label: "Assigner étudiants",  disabled: false},
+        {label: "Choix des stagiaires",  disabled: props.candidatures.length === 0},
         {label: "Evaluation",  disabled: false},
     ];
     const panels =[
         {component: <StageInfo stage={props.stage} employeur={props.employeur} />},
-        {component: <SelectionnerStagiaireComponent id={props.stage.id}/>},
         {component: <Veto stage={props.stage}/>},
         {component: <SelectionnerEtudiantComponent stage={props.stage}/>},
+        {component: <SelectionnerStagiaireComponent id={props.stage.id}/>},
         {component: <p>TODO</p>},
     ];
 
@@ -188,7 +194,6 @@ export function TabPanel(props) {
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
             {...other}
         >
             {value === index && (
@@ -206,6 +211,3 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}

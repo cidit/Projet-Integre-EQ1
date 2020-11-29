@@ -1,9 +1,19 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import CandidatureService from "../service/CandidatureService";
 import SessionService from "../service/SessionService";
+import LoginService from "../service/LoginService";
+
+function Logout(){
+    function handleSelect(){
+        LoginService.logout();
+    }
+    return (
+        <Nav.Link href="/?refresh" onSelect={handleSelect}>Logout</Nav.Link>
+    );
+}
 
 function NotLoggedInNav() {
     return (
@@ -24,15 +34,12 @@ function GestionnaireNav(props) {
             <Nav.Link href="/contratsGestionnaire">Gérer contrats</Nav.Link>
             <Nav.Link href="/listCandidatureChoisi">Contrats à générer</Nav.Link>
             <Nav.Link href="/stages">Choix stagiaires</Nav.Link>
-            {/*<Nav.Link href="/listestages">Liste de isa</Nav.Link>*/}
-            {/*<Nav.Link href="/stages">Choix stagiaires</Nav.Link>*/}
             <Nav.Link href="/rapport">Rapports</Nav.Link>
-             <ChangeSessionNavDropdown sessions={props.sessions}/>
-            <Nav.Link href="/logout">Logout</Nav.Link>
+            <ChangeSessionNavDropdown sessions={props.sessions}/>
+            <Logout/>
         </Nav>
     );
 }
-
 
 function EmployeurNav(props) {
 
@@ -41,18 +48,17 @@ function EmployeurNav(props) {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profilEmployeur">Votre profil</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
-            <Nav.Link href="/stages">Voir toutes les offres de stage</Nav.Link>
+            {/*<Nav.Link href="/stages">Voir toutes les offres de stage</Nav.Link>*/}
+            <Nav.Link href="/listestages">Voir toutes les offres de stage</Nav.Link>
             <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
             <Nav.Link href="/evaluationsEmployeur">Évaluations</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
-            <Nav.Link href="/logout">Logout</Nav.Link>
+            <Logout/>
         </Nav>
     );
 }
 
-
 function EtudiantNav(props) {
-
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
@@ -61,14 +67,15 @@ function EtudiantNav(props) {
             <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
             <Nav.Link href="/contratEtudiant">Contrats</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
-            <Nav.Link href="/logout">Logout</Nav.Link>
+            <Logout/>
+
         </Nav>
     );
 }
-function ChangeSessionNavDropdown(props) {
-    var nomSession = window.localStorage.getItem("nomSession");
 
-    console.log(props)
+function ChangeSessionNavDropdown(props) {
+    let nomSession = window.localStorage.getItem("nomSession");
+
     return (
         <NavDropdown title={nomSession} id="nav-dropdown">
          {props.sessions.map(
@@ -112,7 +119,7 @@ function NavType(props) {
     else if (props.desc.toUpperCase() === "ENSEIGNANT")
         return <EnseignantNav sessions={props.sessions} />
     else
-        return <NotLoggedInNav />
+        return <NotLoggedInNav/>
 }
 
 class HeaderComponent extends Component {
@@ -128,19 +135,19 @@ class HeaderComponent extends Component {
 
     render() {
         return (
-
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Navbar.Brand href="/">
                     Projet intégré équipe 1
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-
-                    <NavType desc={this.state.desc} sessions={this.state.sessions}/>
+                    <NavType
+                        desc={this.state.desc}
+                        sessions={this.state.sessions}
+                    />
 
                 </Navbar.Collapse>
             </Navbar>
-
         );
     }
 }

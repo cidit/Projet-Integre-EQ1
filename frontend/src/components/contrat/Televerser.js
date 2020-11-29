@@ -35,7 +35,7 @@ function Televerser() {
 
     const saveContrat = async (e) => {
         setIsLoading(true)
-        var response = await ContratService.createContrat(params.id, file);
+        let response = await ContratService.createContrat(params.id, file);
         setMessageResponse(response.data);
         setIsButtonDisable(true)
         setIsSubmit(true)
@@ -45,7 +45,7 @@ function Televerser() {
     const selectFile = (e) => {
         let files = e.target.files;
         const types = "application/pdf"
-        for (var x = 0; x < files.length; x++) {
+        for (let x = 0; x < files.length; x++) {
             if (files[x].type !== types) {
                 setDisplayInvalidFileMessage(true);
                 setIsButtonDisable(false);
@@ -128,7 +128,7 @@ function Televerser() {
                                     onClick={saveContrat}
                                     disabled={isSubmit}
                             >
-                                Confirmer et envoyer au employeur
+                                Confirmer et envoyer à l'employeur
                             </Button>
                         </div>
                     </div>

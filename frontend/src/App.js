@@ -2,19 +2,17 @@ import React from 'react';
 import './App.css';
 
 import Login from "./components/Login";
-import { Route, Switch } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
 import Register from './components/RegisterComponent';
-import Logout from './components/Logout';
+
 import CreateStageComponent from './components/stage/CreateStageComponent';
 import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
-import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandidaturesEtudiantComponent';
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
-import StageVeto from "./components/StageVeto";
 
 import SelectionnerStagiaireComponent from "./components/employeur/SelectionnerStagiaireComponent";
 import ContratsEmployeur from './components/employeur/ContratEmployeur'
@@ -35,16 +33,15 @@ import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStag
 import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire'
 import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";
-import {ThemeProvider} from "@material-ui/core/styles";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import RapportComponent from "./components/gestionnaire/RapportComponent";
 import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
+
 import ProfilEmployeur from './components/employeur/ProfilEmployeur';
 import ProfilGestionnaire from './components/gestionnaire/ProfilGestionnaire';
 import ProfilEtudiant from './components/etudiant/ProfilEtudiant';
 import ProfilEnseignant from './components/enseignant/ProfilEnseignant'
 import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieuStage/EvaluationMiliauStageTabs'
-import AssignerEtudiantsAuEnseignant from './components/gestionnaire/AssignerEtudiantsAuEnseignant'
 import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge'
 import RegisterTabs from './components/register/RegisterTabs'
 import EnseignantsTabs from './components/gestionnaire/EnseignantsTabs'
@@ -56,13 +53,10 @@ function App() {
       <main>
      {/* <ThemeProvider theme={theme}>  */}
         <HeaderComponent />
-
         <Switch>
           <Route path="/" exact component={Home}/>
-          <Route path="/stages" component={ListStagesEmployeur}/>
           <Route path='/login' component={Login} />
           <Route path='/register' component={RegisterTabs} />
-          <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent}/>
           {/*<Route path='/stageVeto' component={StageVeto} />*/}
           <Route path='/offrestage' component={ApplicationStageComponent} />
@@ -97,8 +91,6 @@ function App() {
           <Route path="/profilEtudiant" component={ProfilEtudiant}/>
           <Route path="/profilEmployeur" component={ProfilEmployeur}/>
           <Route path="/profilGestionnaire" component={ProfilGestionnaire}/>
-
-          {/* Enseignant */}
           <Route path="/profilEnseignant" component={ProfilEnseignant}/>
           <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
           <Route path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs}/>
@@ -108,28 +100,32 @@ function App() {
     
   );
 }
+
 const theme = createMuiTheme({
-  palette:{
-    primary:{
-      main: "#1666DB",
-      light: "#8e8e8e",
-      //dark: "#373737",
-    },
-    secondary:{
-      main:"#1666DB",
-      light: "#ffbe49",
-     // dark: "#c55e00",
-    },
-    // type: "dark",
-    action:{
-        hover: "#ff8d0b",
-        disabled: "#ac0505",
-        selected :"#ffbe49"
-    },
-    background:{
-      table: "#8e8e8e"
+    palette: {
+        // primary: {
+        //     main: "#616161",
+        //     light: "#8e8e8e",
+        //     dark: "#373737",
+        // },
+        primary: {
+            main: "#612675",
+            light: "#ffbe49",
+            dark: "#c55e00",
+        },
+        action: {
+            hover: "#ff8d0b",
+            disabled: "#ac0505",
+            selected: "#ffbe49"
+        },
+        background: {
+            table: "#8e8e8e"
+        },
+        button: {
+            textTransform: "capitalize"
+        }
+
     }
-  }
 });
 
 export default App;

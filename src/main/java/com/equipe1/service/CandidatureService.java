@@ -49,20 +49,18 @@ public class CandidatureService {
     }
 
     public List<Candidature> findCandidatureByEtudiant(Long idEtudiant, Long idSession){
-
-
         Etudiant etudiant = etudiantRepository.findById(idEtudiant).get();
         List<Candidature> candidatures = candidatureRepository.findAll();
         List<Candidature> candidatureList = new ArrayList<>();
         Session session = sessionRepository.findById(idSession).get();
 
         for (Candidature candidature: candidatures) {
+
             if(candidature.getEtudiant().equals(etudiant) && candidature.getStage().getSession().equals(session))
                 candidatureList.add(candidature);
         }
         return candidatureList;
     }
-
 
     public Candidature createCandidature(Long idEtudiant, Long idStage){
         Candidature candidature = new Candidature();
@@ -107,7 +105,7 @@ public class CandidatureService {
 
             Optional<Session> sessionActuelle = sessionRepository.findCurrentSession();
             flag = optionalEtudiant.get()
-                    .getSession()
+                    .getSessions()
                     .stream()
                     .anyMatch(sessionEtudiant -> sessionEtudiant.getId() == sessionActuelle.get().getId());
 
@@ -158,7 +156,6 @@ public class CandidatureService {
         }
         return candidatureBydateStage;
     }
-
 
     public List<Candidature> getListCandidatureByEmployeurSansEvaluationStagiaire(Long idEmployeur, Long idSession){
         List<Candidature> candidatureByemployeur = new ArrayList<>();

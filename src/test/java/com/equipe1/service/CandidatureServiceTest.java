@@ -70,7 +70,7 @@ public class CandidatureServiceTest {
         e1 = new Etudiant();
         e1.setId(2L);
         e1.setEmail("richard@email.com");
-        e1.setSession(sessions);
+        e1.setSessions(sessions);
         etudiantRepository.save(e1);
         c1 = new Candidature(e1, new Stage());
         c2 = new Candidature(new Etudiant(), new Stage());
@@ -215,7 +215,7 @@ public class CandidatureServiceTest {
         List<Session> list = new ArrayList<>();
         list.add(session);
 
-        e1.setSession(list);
+        e1.setSessions(list);
         doReturn(e1).when(etudiantRepository).save(e1);
         doReturn(Optional.of(e1)).when(etudiantRepository).findById(e1.getId());
         doReturn(e1).when(etudiantRepository).save(any());

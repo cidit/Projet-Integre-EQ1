@@ -1,16 +1,7 @@
 import React, {Component} from "react";
 import CandidatureService from "../../service/CandidatureService";
 import CVService from "../../service/CVService";
-import {
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableBody,
-    Paper,
-    Table,
-    TableRow,
-    Checkbox
-} from "@material-ui/core";
+import {Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -19,28 +10,30 @@ import {makeStyles} from "@material-ui/core/styles";
 export default class SelectionnerStagiaireComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = { candidatures: [] };
+
+        this.state = {candidatures: []};
         this.accepteCandidature = this.accepteCandidature.bind(this);
         this.convoqueEtudiantEntrevue = this.convoqueEtudiantEntrevue.bind(this);
-
-
     }
-
 
 
     async componentDidMount() {
         // const { data: candidatures } = await CandidatureService.getByStage(this.props.match.params.id);
-        const { data: candidatures } = await CandidatureService.getByStage(15);
-        this.setState({ candidatures });
+        const {data: candidatures} = await CandidatureService.getByStage(this.props.id);
+
+        this.setState({candidatures});
+        // const { data: candidatures } = await CandidatureService.getByStage(15);
+        // this.setState({ candidatures });
     }
 
-    accepteCandidature(candidature){
+    accepteCandidature(candidature) {
         CandidatureService.putCandidatureApprouve(candidature.id);
         this.setState({});
-        setTimeout(function() {
+        setTimeout(function () {
             window.location.reload();
         }, 500);
     }
+
 
     convoqueEtudiantEntrevue(candidature) {
         console.log(candidature.id)
@@ -61,23 +54,20 @@ export default class SelectionnerStagiaireComponent extends Component {
     // }
 
 
-
-
     render() {
 
         return (
             <div>
-                    <h5 className="card-title text-center" >Liste des candidats</h5>
-                    <CustomTable candidatures={this.state.candidatures}/>
+                <h5 className="card-title text-center">Liste des candidats</h5>
+                <CustomTable
+                    candidatures={this.state.candidatures}
+                    alreadySelect={this.state.candidatures.filter(c => c.statut.includes("APPROUVE")).map((c) => c.id)}
+                />
 
             </div>
         );
     }
-
-
-
 }
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -86,15 +76,18 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         color: "#000000"
     },
-    table:{
-        color:"#ffffff",
+    table: {
+        color: "#ffffff",
         // backgroundColor: "#000000"
     }
 }));
 
-function CustomTable(props){
+function CustomTable(props) {
+    // TODO: Ne pas afficher les etudiants deja choisis
     const classes = useStyles();
     const [selected, setSelected] = React.useState([]);
+
+    // const [selected, setSelected] = React.useState(props.candidatures.filter(c => c.statut.includes("APPROUVE")).map((c) => c.id));
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
     const handleSelectAllClick = (event) => {
@@ -103,7 +96,6 @@ function CustomTable(props){
             setSelected(newSelecteds);
             return;
         }
-        console.log(classes)
         setSelected([]);
     };
 
@@ -123,19 +115,19 @@ function CustomTable(props){
                 selected.slice(selectedIndex + 1),
             );
         }
-
         setSelected(newSelected);
     };
+
 
     function convoqueEtudiantEntrevue(candidature) {
         console.log(candidature.id)
         CandidatureService.convoqueEtudiantEntrevue(candidature.id);
-        setTimeout(function() {
+        setTimeout(function () {
             window.location.reload();
         }, 500);
     }
 
-    function handleConfirmation(event){
+    function handleConfirmation(event) {
         event.preventDefault();
         if (selected.length === 0) {
             return;
@@ -143,12 +135,13 @@ function CustomTable(props){
         for (let i = 0; i < selected.length; i++) {
             CandidatureService.putCandidatureApprouve(selected[i]);
         }
-        setTimeout(function() {
+        setTimeout(function () {
             window.location.reload();
         }, 500);
     }
 
-    function downloadCV (etudiant) {
+
+    function downloadCV(etudiant) {
         CVService.getCVByEtudiant(etudiant).then((response) => {
             console.log(etudiant)
             const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
@@ -159,157 +152,86 @@ function CustomTable(props){
             link.click();
         });
     }
-    function renderColonneEntrevue(candidature){
+
+    function renderColonneEntrevue(candidature) {
         if (candidature.entrevueStatut === 'CONVOQUE')
             return <p>Convoqué</p>
         if (candidature.entrevueStatut === 'PASSEE')
             return <p>Entrevue passeé </p>
-        return(
+        return (
             <div>
-                <button className="btn btn-primary" onClick={() => convoqueEtudiantEntrevue(candidature)}>Convoquer</button>
+                <button className="btn btn-primary" onClick={() => convoqueEtudiantEntrevue(candidature)}>Convoquer
+                </button>
             </div>
         )
-
     }
 
-    return(
+    return (
         <>
-        <TableContainer component={Paper}>
-            <Table className={classes.table}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell padding="checkbox">
-                            <Checkbox
-                                checked={props.candidatures.length > 0 && selected.length === props.candidatures.length}
-                                onChange={handleSelectAllClick}
-                            />
-                        </TableCell>
-                        <TableCell>Prénom</TableCell>
-                        <TableCell>Nom</TableCell>
-                        <TableCell>Programme</TableCell>
-                        <TableCell>CV</TableCell>
-                        <TableCell>Téléphone</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Adresse</TableCell>
-                        <TableCell>Convoquer pour entrevue</TableCell>
-                        <TableCell>Statut</TableCell>
-                    </TableRow>
-                </TableHead>
+            <TableContainer component={Paper}>
+                <Table className={classes.table}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell padding="checkbox">
+                                <Checkbox
+                                    checked={props.candidatures.length > 0 && selected.length === props.candidatures.length}
+                                    onChange={handleSelectAllClick}
+                                />
+                            </TableCell>
+                            <TableCell>Prénom</TableCell>
+                            <TableCell>Nom</TableCell>
+                            <TableCell>Programme</TableCell>
+                            <TableCell>CV</TableCell>
+                            <TableCell>Téléphone</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>Adresse</TableCell>
+                            {/*<TableCell>Convoquer pour entrevue</TableCell>*/}
+                            <TableCell>Statut</TableCell>
+                        </TableRow>
+                    </TableHead>
 
-                <TableBody>
-                    {props.candidatures
-                        .map(
-                            candidature => {
-                                const isItemSelected = isSelected(candidature.id)
-                                return (
+                    <TableBody>
+                        {props.candidatures
+                            .map(
+                                candidature => {
+                                    const isItemSelected = isSelected(candidature.id)
+                                    return (
 
-                                    <TableRow
-                                        key={candidature.id}
-                                        hover
-                                        onClick={(event) => handleClickSelect(event, candidature.id)}
-                                        role="checkbox"
-                                        aria-checked={isItemSelected}
-                                        tabIndex={-1}
-                                        selected={isItemSelected}
-                                    >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                checked={isItemSelected}
-                                            />
-                                        </TableCell>
-                                        <TableCell>{candidature.etudiant.prenom}</TableCell>
-                                        <TableCell>{candidature.etudiant.nom}</TableCell>
-                                        <TableCell>{candidature.etudiant.programme}</TableCell>
-                                        <TableCell >
-                                            <button onClick={() => downloadCV(candidature.etudiant)} className="btn "><GetAppIcon/></button>
-                                        </TableCell>
-                                        <TableCell>{candidature.etudiant.telephone}</TableCell>
-                                        <TableCell>{candidature.etudiant.email}</TableCell>
-                                        <TableCell>{candidature.etudiant.adresse}</TableCell>
-                                        <TableCell>{renderColonneEntrevue(candidature)}</TableCell>
-                                        <TableCell>{candidature.statut}</TableCell>
+                                        <TableRow
+                                            key={candidature.id}
+                                            hover
+                                            onClick={(event) => handleClickSelect(event, candidature.id)}
+                                            role="checkbox"
+                                            aria-checked={isItemSelected}
+                                            tabIndex={-1}
+                                            selected={isItemSelected}
+                                        >
+                                            <TableCell padding="checkbox">
+                                                <Checkbox
+                                                    checked={isItemSelected}
+                                                />
+                                            </TableCell>
+                                            <TableCell>{candidature.etudiant.prenom}</TableCell>
+                                            <TableCell>{candidature.etudiant.nom}</TableCell>
+                                            <TableCell>{candidature.etudiant.programme}</TableCell>
+                                            <TableCell>
+                                                <button onClick={() => downloadCV(candidature.etudiant)}
+                                                        className="btn "><GetAppIcon/></button>
+                                            </TableCell>
+                                            <TableCell>{candidature.etudiant.telephone}</TableCell>
+                                            <TableCell>{candidature.etudiant.email}</TableCell>
+                                            <TableCell>{candidature.etudiant.adresse}</TableCell>
+                                            {/*<TableCell>{renderColonneEntrevue(candidature)}</TableCell>*/}
+                                            <TableCell>{candidature.statut}</TableCell>
+                                        </TableRow>
+                                    );
+                                }
+                            )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
 
-
-                                    </TableRow>
-
-                                );
-                            }
-                        )}
-                </TableBody>
-
-            </Table>
-        </TableContainer>
             <button onClick={handleConfirmation}>Confirmer</button>
-
         </>
     );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function OG(){
-//     return(
-//         <>
-//             <div>
-//                 <div className="pt-3 mt-3">
-//                     <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des candidats</h5>
-//
-//                     <div className="row">
-//                         <table className="table table-striped table-bordered">
-//                             <thead>
-//                             <tr>
-//                                 <th> Prénom </th>
-//                                 <th> Nom </th>
-//                                 <th> Programme </th>
-//                                 <th> Télécharger CV</th>
-//                                 <th> Telephone </th>
-//                                 <th> Email </th>
-//                                 <th> Adresse </th>
-//
-//                             </tr>
-//                             </thead>
-//                             <tbody>
-//                             {this.state.candidatures
-//                                 .filter(candidature => candidature.statut === "EN_ATTENTE")
-//                                 .map(
-//                                     candidature =>
-//                                         <tr key={candidature.id}>
-//                                             <td>{candidature.etudiant.prenom}</td>
-//                                             <td>{candidature.etudiant.nom}</td>
-//                                             <td>{candidature.etudiant.programme}</td>
-//                                             <td><button onClick={() => this.downloadCV(candidature.etudiant)} className="btn btn-primary">Telecharger</button></td>
-//                                             <td>{candidature.etudiant.telephone}</td>
-//                                             <td>{candidature.etudiant.email}</td>
-//                                             <td>{candidature.etudiant.adresse}</td>
-//
-//                                             <td>
-//                                                 <button className="btn btn-primary" onClick={() => this.handleClick(candidature)}>
-//                                                     Accepter
-//                                                 </button>
-//                                             </td>
-//                                         </tr>
-//                                 )}
-//                             </tbody>
-//                         </table>
-//                     </div>
-//                 </div>
-//             </div>
-//         </>
-//     );
-// }
 }

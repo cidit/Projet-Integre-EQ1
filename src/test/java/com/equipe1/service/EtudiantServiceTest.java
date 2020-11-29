@@ -69,13 +69,13 @@ public class EtudiantServiceTest {
         e1.setMatricule("12345");
         e1.setEmail("e1@email.com");
         e1.setProgramme("Techniques de l’informatique");
-        e1.setSession(sessions);
+        e1.setSessions(sessions);
         e2 = new Etudiant();
         e2.setNom("tata");
         e2.setMatricule("67890");
         e1.setEmail("e2@email.com");
         e1.setProgramme("Techniques de l’informatique");
-        e2.setSession(sessions);
+        e2.setSessions(sessions);
 
         enseignant = new Enseignant();
 
@@ -208,11 +208,11 @@ public class EtudiantServiceTest {
         List<Session> list = new ArrayList<>();
         list.add(session);
 
-        e1.setSession(list);
+        e1.setSessions(list);
         doReturn(e1).when(repository).save(e1);
         repository.save(e1);
 
-        e2.setSession(list);
+        e2.setSessions(list);
         doReturn(e2).when(repository).save(e2);
         repository.save(e2);
         when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
@@ -247,7 +247,7 @@ public class EtudiantServiceTest {
         list.add(session);
 
         e1.setId(1L);
-        e1.setSession(list);
+        e1.setSessions(list);
         doReturn(e1).when(repository).save(e1);
         doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
         repository.save(e1);
@@ -268,7 +268,7 @@ public class EtudiantServiceTest {
         list.add(session);
 
         e1.setId(1L);
-        e1.setSession(list);
+        e1.setSessions(list);
         doReturn(e1).when(repository).save(e1);
         doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
         repository.save(e1);
@@ -306,7 +306,7 @@ public class EtudiantServiceTest {
         list.add(session);
 
         e1.setId(1L);
-        e1.setSession(list);
+        e1.setSessions(list);
         doReturn(e1).when(repository).save(e1);
         doReturn(Arrays.asList(e1)).when(repository).findAll();
         repository.save(e1);
@@ -323,7 +323,7 @@ public class EtudiantServiceTest {
         list.add(session);
 
         e1.setId(1L);
-        e1.setSession(list);
+        e1.setSessions(list);
         e1.setCv(new CV());
         when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(e1).when(repository).save(e1);

@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,7 +52,7 @@ public class EvaluationStagiaireService {
         List<EvaluationStagiaire> evaluationSessionEnCours = new ArrayList<>();
         if (!evaluationStagiaires.isEmpty()){
             evaluationSessionEnCours = evaluationStagiaires.stream()
-                    .filter(evaluationStagiaire -> evaluationStagiaire.getEtudiant().getSession().contains(session))
+                    .filter(evaluationStagiaire -> evaluationStagiaire.getEtudiant().getSessions().contains(session))
                     .collect(Collectors.toList());
         }
         return evaluationSessionEnCours;

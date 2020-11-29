@@ -63,44 +63,42 @@ export default class TeleverserContrat extends Component {
         formData.append('file', this.state.file)
         formData.append('desc', desc);
         ContratService.updateContrat(id, formData);
-        if(this.state.file !== undefined){
+        if (this.state.file !== undefined) {
             this.handleShowSnackbarValid()
-        }
-        else {
+        } else {
             this.handleShowSnackbarInvalid();
         }
     }
 
 
-
     render() {
         return (
             <form>
-            <div>
-                <h3>Televerser votre contrat</h3>
-                <p>Veuillez televerser le contrat que vous venez de telecharger daté et signé </p>
-                <div >
-                    <input
-                        id="contained-button-file"
-                        type="file"
-                        display = "none"
-                    //onChange={function to update contrat}
-                        onChange={this.onChangeHandler}
-                    />
-                    <label htmlFor="contained-button-file">
-                        <Button onClick={this.handleClick} variant="contained" color="primary" component="span" >
-                            Téléverser
-                        </Button>
-                    </label>
-                    <label htmlFor="icon-button-file">
-                        <IconButton color="primary" aria-label="upload picture" component="span" >
-                            <PublishIcon />
-                        </IconButton>
-                    </label>
+                <div>
+                    <h3>Televerser votre contrat</h3>
+                    <p>Veuillez televerser le contrat que vous venez de telecharger daté et signé </p>
+                    <div>
+                        <input
+                            id="contained-button-file"
+                            type="file"
+                            display="none"
+                            //onChange={function to update contrat}
+                            onChange={this.onChangeHandler}
+                        />
+                        <label htmlFor="contained-button-file">
+                            <Button onClick={this.handleClick} variant="contained" color="primary" component="span">
+                                Téléverser
+                            </Button>
+                        </label>
+                        <label htmlFor="icon-button-file">
+                            <IconButton color="primary" aria-label="upload picture" component="span">
+                                <PublishIcon/>
+                            </IconButton>
+                        </label>
+                    </div>
+
+
                 </div>
-
-
-            </div>
                 <Snackbar open={this.state.showSnackbarValid} autoHideDuration={6000}
                           onClose={this.handleCloseSnackbarValid}>
                     <Alert onClose={this.handleCloseSnackbarValid} severity="success">
@@ -118,6 +116,7 @@ export default class TeleverserContrat extends Component {
         )
     }
 }
+
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }

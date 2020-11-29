@@ -109,9 +109,9 @@ public class InsertDataService {
         e1.setStatutStage("possede stage");
         e1.setTelephone("555-555-5555");
         e1.setProgramme("Techniques de l’informatique");
-        e1.setSession(sessions);
+        e1.setSessions(sessions);
         e1.setEnregistre(true);
-        e1.setSession(sessionList);
+        e1.setSessions(sessionList);
 
         Set<Role> roles = new HashSet<>();
         Role role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
@@ -134,7 +134,7 @@ public class InsertDataService {
         e2.setTelephone("555-444-4444");
         e2.setProgramme("Techniques de l’informatique");
         e2.setEnregistre(true);
-        e2.setSession(sessionList);
+        e2.setSessions(sessionList);
 
         roles = new HashSet<>();
         role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
@@ -156,7 +156,7 @@ public class InsertDataService {
         e3.setStatutStage("possede stage");
         e3.setTelephone("555-444-4444");
         e3.setProgramme("Techniques de l’informatique");
-        e3.setSession(sessionList);
+        e3.setSessions(sessionList);
         e3.setEnregistre(true);
 
         roles = new HashSet<>();
@@ -224,8 +224,8 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setSalaire(15);
+
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
@@ -244,6 +244,9 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
+
+        stage1.setSession(session);
+
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
         Etudiant etudiant = etudiantRepository.findByEmail("richard@email.com");
         Set<Etudiant> set = new HashSet<>();
@@ -325,7 +328,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
+
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
@@ -349,7 +352,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
+
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
@@ -373,7 +376,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
+
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.REFUSÉ);
 
@@ -397,6 +400,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
+
         //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(session);
         //stage1.setStatut(Stage.StageStatus.REFUSÉ);
@@ -414,17 +418,19 @@ public class InsertDataService {
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
+
         candidature = candidatureService.createCandidature(etudiant.getId(), (long) 11);
         candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
+
         candidature = candidatureService.createCandidature(etudiant.getId(), (long) 13);
         candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 14);
+        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 9);
         candidature.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
         candidatureRepository.save(candidature);
     }

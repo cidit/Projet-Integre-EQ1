@@ -195,9 +195,10 @@ export default withFormik({
     return errors;
   },
 
+
   handleSubmit(values, formikBag) {
 
-    var id;
+    let id;
     if (localStorage.getItem("desc") === "Employeur")
       id = localStorage.getItem("id");
 

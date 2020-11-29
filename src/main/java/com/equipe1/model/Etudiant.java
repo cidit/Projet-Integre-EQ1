@@ -50,7 +50,7 @@ public class Etudiant extends User {
     private Enseignant enseignant;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Session> session;
+    private List<Session> sessions;
 
     private boolean isEnregistre;
 

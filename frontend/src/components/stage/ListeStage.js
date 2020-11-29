@@ -8,6 +8,7 @@ import TableCell from "@material-ui/core/TableCell";
 import StageService from "../../service/StageService";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import {makeStyles} from "@material-ui/core/styles";
+import MuiAlert from '@material-ui/lab/Alert';
 
 export default class ListStagesComponent extends Component {
     constructor(props) {
@@ -16,16 +17,19 @@ export default class ListStagesComponent extends Component {
             stage: [],
             showSnackbar: false
         };
-
         handleClick = handleClick.bind(this);
     }
 
 
     componentDidMount() {
-        var idSession = localStorage.getItem("session");
-        StageService.getStages(idSession).then((res) => {
-            this.setState({stage: res.data})
-        });
+        if (localStorage.getItem("desc") === "Employeur"){
+            StageService.getStagesByEmployeurId(localStorage.getItem("id")).then((res) => { this.setState({ stage: res.data }) })
+        } else {
+            StageService.getStagesSession().then((res) => {
+                this.setState({stage: res.data})
+            })
+        }
+
     }
 
     findStage(id) {
@@ -41,26 +45,29 @@ export default class ListStagesComponent extends Component {
 
     render() {
 
-
-        return (
-
-            <div>
-                <Test stages={this.state.stage}/>
-
-            </div>
-
-        );
+        if (this.state.stage.length === 0) {
+            return <div className="container">
+                <div className="row justify-content-md-center">
+                    <div className="col">
+                        <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a aucun stage à approuver pour cette session.</Alert>
+                    </div>
+                </div>
+            </div>;
+        } else {
+            return (
+                <div>
+                    <CustomTable stages={this.state.stage}/>
+                </div>
+            );
+        }
     }
-
-
 }
 
 function handleClick (event, id)  {
     this.props.history.push('/stage/' +id);
-    console.log("OK")
 }
 
-function Test(props){
+function CustomTable(props){
     const classes= useStyles();
     const headCells = [
         { id: 'titre', numeric: false, disablePadding: true, label: 'Titre', align: 'left' },
@@ -75,7 +82,7 @@ function Test(props){
             <TableContainer  >
                 <Table
                     // stickyHeader
-                    size="small"
+                    // size="small"
                     className={classes.root}
                 >
                     <TableHead >
@@ -141,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         // maxWidth: 360,
-        backgroundColor: theme.palette.background.table,
+        // backgroundColor: theme.palette.background.table,
     },
     header:{
         fontWeight: "bold",
@@ -152,6 +159,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-// function Alert(props) {
-//     return <MuiAlert elevation={6} variant="filled" {...props} />;
-// }
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
