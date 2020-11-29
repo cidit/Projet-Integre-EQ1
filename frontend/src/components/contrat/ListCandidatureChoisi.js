@@ -31,7 +31,8 @@ export default function ListCandidatureChoisi() {
     const [candidaturesChoisis, setCandidaturesChoisis] = useState([]);
 
     const getCandidaturesChoisis = async () => {
-        const response = await ContratService.getCandidaturesSansContrat();
+        var idSession = localStorage.getItem("session");
+        const response = await ContratService.getCandidaturesSansContrat(idSession);
         setCandidaturesChoisis(response.data);
     }
 
@@ -83,7 +84,6 @@ function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
     const [candidature, setCandidature] = useState(null);
-    const [isCandidatureValide, setIsCandidatureValide] = useState(false);
     const classes = useRowStyles();
     const [redirect, setRedirect] = useState(false);
 

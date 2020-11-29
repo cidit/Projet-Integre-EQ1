@@ -55,8 +55,8 @@ public class ContratController {
     }
 
     @GetMapping(value = "findAll")
-    public List<Contrat> getContrats() {
-        return contratService.getContrats();
+    public List<Contrat> getContrats(@RequestParam("idSession") Long idSession) {
+        return contratService.getContrats(idSession);
     }
 
     @GetMapping(value = "getContratById/{id}")
@@ -72,8 +72,8 @@ public class ContratController {
     }
 
     @GetMapping(value = "getCandidaturesSansContrat")
-    public List<Candidature> getCandidaturesSansContrat() {
-        return contratService.listCandidatureSansContrat();
+    public List<Candidature> getCandidaturesSansContrat(@RequestParam("idSession") Long idSession) {
+        return contratService.listCandidatureSansContrat(idSession);
     }
 
     @GetMapping(value = "getByEtudiantId/{id}")
@@ -131,18 +131,18 @@ public class ContratController {
     }
 
     @GetMapping(value = "getContratsNonSignesEtudiant")
-    public List<Contrat> getContratsNonSignesEtudiant() {
-        return contratService.getContratsNonSignesEtudiant();
+    public List<Contrat> getContratsNonSignesEtudiant(@RequestParam("idSession") Long idSession) {
+        return contratService.getContratsNonSignesEtudiant(idSession);
     }
 
     @GetMapping(value = "getContratsNonSignesEmployeur")
-    public List<Contrat> getContratsNonSignesEmployeur() {
-        return contratService.getContratsNonSignesEmployeur();
+    public List<Contrat> getContratsNonSignesEmployeur(@RequestParam("idSession") Long idSession) {
+        return contratService.getContratsNonSignesEmployeur(idSession);
     }
 
     @GetMapping(value = "getContratsNonSignesAdministration")
-    public List<Contrat> getContratsNonSignesAdministration() {
-        return contratService.getContratsNonSignesAdministration();
+    public List<Contrat> getContratsNonSignesAdministration(@RequestParam("idSession") Long idSession) {
+        return contratService.getContratsNonSignesAdministration(idSession);
     }
 }
 

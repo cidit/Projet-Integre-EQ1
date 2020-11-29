@@ -1,7 +1,7 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
-import com.equipe1.repository.CandidatureRepository;
+import com.equipe1.repository.SessionRepository;
 import com.equipe1.repository.StageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -21,10 +21,7 @@ public class StageService {
     private StageRepository stageRepository;
 
     @Autowired
-    private CandidatureRepository candidatureRepository;
-
-    @Autowired
-    private EmployeurService employeurService;
+    private SessionRepository sessionRepository;
 
     @Autowired
     private CandidatureService candidatureService;
@@ -42,8 +39,15 @@ public class StageService {
         this.stageRepository = stageRepository;
     }
 
-    public List<Stage> getStages() {
-        return stageRepository.findAll();
+    public List<Stage> getStages(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
+        List<Stage> stages = stageRepository.findAll();
+        List<Stage> stagesFiltresAvecSession = new ArrayList<>();
+        for(Stage stage : stages){
+            if(stage.getSession().equals(session))
+                stagesFiltresAvecSession.add(stage);
+        }
+        return stagesFiltresAvecSession;
     }
 
     public List<Stage> getStagesSessionEnCours()
@@ -58,19 +62,20 @@ public class StageService {
         return stagesFiltresAvecSession;
     }
 
-    public List<Stage> getStagesByEmployeur(Long idEmployeur) {
-        Session sessionEnCours = sessionService.findCurrentSession().get();
+    public List<Stage> getStagesByEmployeur(Long idEmployeur, Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Stage> stages = new ArrayList<>();
 
         for (Stage stage : stageRepository.findAll()) {
-            if (stage.getEmployeur().getId() == idEmployeur && stage.getSession().equals(sessionEnCours))
+            if (stage.getEmployeur().getId() == idEmployeur && stage.getSession().equals(session))
                 stages.add(stage);
         }
         return stages;
     }
 
-    public List<Stage> getStagesEtudiant(Long idEtudiant) {
-        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(idEtudiant);
+    public List<Stage> getStagesEtudiant(Long idEtudiant, Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
+        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(idEtudiant, idSession);
         List<Stage> stages = stageRepository.findAll();
         List<Stage> stagesResul = new ArrayList<>();
         boolean isStageStudentCanApply;
@@ -88,7 +93,7 @@ public class StageService {
                     break;
                 }
             }
-            if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.getStatut() == Stage.StageStatus.APPROUVÉ)
+            if (isStageStudentCanApply && resultStage.isOuvert() && resultStage.getStatut() == Stage.StageStatus.APPROUVÉ && resultStage.getSession().equals(session))
                 stagesResul.add(resultStage);
         }
         return stagesResul;
@@ -148,7 +153,7 @@ public class StageService {
                     String.format("there are no stage with id %s", stageId));
     }
 
-    public Set<Etudiant> getEtudiantsAdmits(long stageId) {
+    public Set<Etudiant> getEtudiantsAdmits(Long stageId) {
         Optional<Stage> optionnalStage = stageRepository.findById(stageId);
         if (optionnalStage.isPresent()) {
             var stage = optionnalStage.get();
@@ -156,37 +161,38 @@ public class StageService {
         } else return null;
     }
 
-    public List<Stage> getStagesApprouves() {
-        Session sessionEnCours = sessionService.findCurrentSession().get();
+    public List<Stage> getStagesApprouves(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Stage> stages = stageRepository.findAll();
         List<Stage> stagesApprouves = new ArrayList<>();
 
         for (Stage stage : stages) {
-            if (stage.getStatut() == Stage.StageStatus.APPROUVÉ && stage.getSession().equals(sessionEnCours)){
+            if (stage.getStatut() == Stage.StageStatus.APPROUVÉ && stage.getSession().equals(session)){
                 stagesApprouves.add(stage);
             }
         }
         return stagesApprouves;
     }
 
-    public List<Stage> getStagesNonApprouves() {
-        Session sessionEnCours = sessionService.findCurrentSession().get();
+    public List<Stage> getStagesNonApprouves(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Stage> stages = stageRepository.findAll();
         List<Stage> stagesNonApprouves = new ArrayList<>();
 
         for (Stage stage : stages) {
-            if (stage.getStatut() != Stage.StageStatus.APPROUVÉ && stage.getSession().equals(sessionEnCours)){
+            if (stage.getStatut() != Stage.StageStatus.APPROUVÉ && stage.getSession().equals(session)){
                 stagesNonApprouves.add(stage);
             }
         }
         return stagesNonApprouves;
     }
 
-    public List<Stage> getStagesAyantAucunStagiaire() {
+    public List<Stage> getStagesAyantAucunStagiaire(Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
         List<Stage> stages = stageRepository.findAll();
         List<Stage> resultStages = new ArrayList<>();
         for (Stage stage : stages) {
-            if (!hasStagiare(stage))
+            if (!hasStagiare(stage) && stage.getSession().equals(session))
                 resultStages.add(stage);
         }
         return resultStages;

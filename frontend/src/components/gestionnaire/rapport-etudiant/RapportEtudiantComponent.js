@@ -7,8 +7,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import EtudiantService from '../../service/EtudiantService';
+import EtudiantService from '../../../service/EtudiantService';
 import ListeGenericEtudiant from './ListeGenericEtudiant';
+import ApprobationEtudiantsCV from './ApprobationEtudiantsCV';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -55,38 +56,35 @@ function TabPanel(props) {
 
     const [etudiantsInscrits, setEtudiantsInscrits] = useState(null);
     const getEtudiantsInscrits = async () => {
-        const response = await EtudiantService.getEtudiantsInscrits();
+        var idSession = localStorage.getItem("session");
+        const response = await EtudiantService.getEtudiants(idSession);
         setEtudiantsInscrits(response.data);
     }
 
     const [etudiantsSansCV, setEtudiantsSansCV] = useState(null);
     const getEtudiantsSansCV = async () => {
-        const response = await EtudiantService.getEtudiantsAucunCV();
+        var idSession = localStorage.getItem("session");
+        const response = await EtudiantService.getEtudiantsAucunCV(idSession);
         setEtudiantsSansCV(response.data);
-    }
-
-    const [etudiantsCVNonApprouve, setEtudiantsCVNonApprouve] = useState(null);
-    const getEtudiantsCVNonApprouve = async () => {
-        const response = await EtudiantService.getEtudiantsCVNonApprouve();
-        setEtudiantsCVNonApprouve(response.data);
     }
 
     const [etudiantsSansStage, setEtudiantsSansStage] = useState(null);
     const getEtudiantsSansStage = async () => {
-        const response = await EtudiantService.getEtudiantsSansStage();
+        var idSession = localStorage.getItem("session");
+        const response = await EtudiantService.getEtudiantsSansStage(idSession);
         setEtudiantsSansStage(response.data);
     }
 
       const [etudiantsAyantEntrevue, setEtudiantsAyantEntrevue] = useState(null);
       const getEtudiantsAyantEntrevue = async () => {
-          const response = await EtudiantService.getAllAyantEntrevue();
+          var idSession = localStorage.getItem("session");
+          const response = await EtudiantService.getAllAyantEntrevue(idSession);
           setEtudiantsAyantEntrevue(response.data);
       }
 
     useEffect(() => {
       getEtudiantsInscrits();
       getEtudiantsSansCV();
-      getEtudiantsCVNonApprouve();
       getEtudiantsSansStage();
       getEtudiantsAyantEntrevue();
     },[])
@@ -110,28 +108,25 @@ function TabPanel(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="Étudiants inscrits" {...a11yProps(0)} />
-            <Tab label="Étudiants sans CV" {...a11yProps(1)} />
-            <Tab label="Étudiants CV non approuvé" {...a11yProps(2)} />
+            <Tab label="Étudiants CV non approuvé" {...a11yProps(0)} />
+            <Tab label="Étudiants inscrits" {...a11yProps(1)} />
+            <Tab label="Étudiants sans CV" {...a11yProps(2)} />
             <Tab label="Étudiants sans stage" {...a11yProps(3)} />
             <Tab label="Étudiants avec un entrevue" {...a11yProps(4)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
+          <ApprobationEtudiantsCV/>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
           <div>{etudiantsInscrits != null &&
               <ListeGenericEtudiant etudiants={etudiantsInscrits} />
           }
           </div>
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={value} index={2}>
           <div>{etudiantsSansCV != null &&
               <ListeGenericEtudiant etudiants={etudiantsSansCV} />
-          }
-          </div>
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <div>{etudiantsCVNonApprouve != null &&
-              <ListeGenericEtudiant etudiants={etudiantsCVNonApprouve} />
           }
           </div>
         </TabPanel>

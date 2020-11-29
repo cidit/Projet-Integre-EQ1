@@ -1,9 +1,7 @@
 package com.equipe1.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -23,6 +21,9 @@ public class EvaluationMilieuStage extends Evaluation {
     @ManyToOne
     @JoinColumn(name = "employeur_id")
     private Employeur employeur;
+
+    @OneToOne
+    private Etudiant etudiant;
 
 
 

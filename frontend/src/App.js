@@ -2,11 +2,10 @@ import React from 'react';
 import './App.css';
 
 import Login from "./components/Login";
-import { Route, Switch } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
-import Register from './components/RegisterComponent';
 import Logout from './components/Logout';
 import CreateStageComponent from './components/stage/CreateStageComponent';
 import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
@@ -14,7 +13,6 @@ import ListStagesEmployeur from './components/employeur/ListStagesEmployeur';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandidaturesEtudiantComponent';
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
-import StageVeto from "./components/StageVeto";
 
 import SelectionnerStagiaireComponent from "./components/employeur/SelectionnerStagiaireComponent";
 import ContratsEmployeur from './components/employeur/ContratEmployeur'
@@ -32,31 +30,34 @@ import QuestionQualiteTravail from './components/evaluations/evaluationStagiaire
 import QuestionRelations from './components/evaluations/evaluationStagiaire/QuestionRelations'
 import QuestionsHabilites from './components/evaluations/evaluationStagiaire/QuestionsHabilites'
 import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
-import ObservationsMilieuStage from './components/evaluations/evaluationMilieuStage/ObservationsMilieuStage'
-import EvaluationStagiaire from './/components/evaluations/EvaluationStagiaire'
-import CreateSessionComponent from "./components/gestionnaire/CreateSessionComponent";
+import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire'
 import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";
-import {ThemeProvider} from "@material-ui/core/styles";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import RapportComponent from "./components/gestionnaire/RapportComponent";
 import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
-import ProfileEmployeur from './components/employeur/ProfileEmployeur';
-import ProfileGestionnaire from './components/gestionnaire/ProfileGestionnaire';
-import ProfileEtudiant from './components/etudiant/ProfileEtudiant';
+import ProfilEmployeur from './components/employeur/ProfilEmployeur';
+import ProfilGestionnaire from './components/gestionnaire/ProfilGestionnaire';
+import ProfilEtudiant from './components/etudiant/ProfilEtudiant';
+import ProfilEnseignant from './components/enseignant/ProfilEnseignant'
+import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieuStage/EvaluationMiliauStageTabs'
+import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge'
+import RegisterTabs from './components/register/RegisterTabs'
+import EnseignantsTabs from './components/gestionnaire/EnseignantsTabs'
+
 
 function App() {
   return (
     
       <main>
-        {/* <ThemeProvider theme={theme}> */}
+     {/* <ThemeProvider theme={theme}>  */}
         <HeaderComponent />
 
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/stages" component={ListStagesEmployeur}/>
           <Route path='/login' component={Login} />
-          <Route path='/register' component={Register} />
+          <Route path='/register' component={RegisterTabs} />
           <Route path='/logout' component={Logout} />
           <Route path="/etudiants" component={ListEtudiantsComponent}/>
           {/*<Route path='/stageVeto' component={StageVeto} />*/}
@@ -78,24 +79,25 @@ function App() {
           <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
-          <Route path="/createSession" component={CreateSessionComponent}/>
           <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
           <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
           <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
           <Route path="/questionRelations/:id" component={QuestionRelations}/>
           <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
-          <Route path="/evaluationMilieuStage/:id" component={EvaluationMilieuStage}/>
-          <Route path="/observationsMilieuStage/:id" component={ObservationsMilieuStage}/>
+          <Route path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature" component={EvaluationMilieuStage}/>
           <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
           <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
-          <Route path="/createSession" component={CreateSessionComponent}/>
+          <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
           <Route path="/rapport" component={RapportComponent}/>
-
-          <Route path="/profileEmployeur" component={ProfileEmployeur}/>
-          <Route path="/profileGestionnaire" component={ProfileGestionnaire}/>
-          <Route path="/profileEtudiant" component={ProfileEtudiant}/>
+          
+          <Route path="/profilEtudiant" component={ProfilEtudiant}/>
+          <Route path="/profilEmployeur" component={ProfilEmployeur}/>
+          <Route path="/profilGestionnaire" component={ProfilGestionnaire}/>
+          <Route path="/profilEnseignant" component={ProfilEnseignant}/>
+          <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
+          <Route path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs}/>
         </Switch>
-          {/* </ThemeProvider> */}
+           {/* </ThemeProvider>    */}
       </main>
     
   );
@@ -103,12 +105,12 @@ function App() {
 const theme = createMuiTheme({
   palette:{
     primary:{
-      main: "#616161",
+      main: "#1666DB",
       light: "#8e8e8e",
-      dark: "#373737",
+      //dark: "#373737",
     },
     secondary:{
-      main:"#ff8d0b",
+      main:"#1666DB",
       light: "#ffbe49",
      // dark: "#c55e00",
     },

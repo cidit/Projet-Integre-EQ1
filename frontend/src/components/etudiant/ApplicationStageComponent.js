@@ -3,7 +3,6 @@ import StageService from '../../service/StageService';
 import EtudiantService from "../../service/EtudiantService";
 import CandidatureService from "../../service/CandidatureService";
 
-import {Redirect} from 'react-router-dom';
 import {Alert} from "@material-ui/lab";
 
 export default class ApplicationStageComponent extends Component {
@@ -28,28 +27,28 @@ export default class ApplicationStageComponent extends Component {
     async componentDidMount() {
 
         let id;
+        var idSession = localStorage.getItem("session");
         if (localStorage.getItem("desc") === "Etudiant")
             id = localStorage.getItem("id");
 
         const response = await EtudiantService.isRegistered(id);
+
         if (!response.data) {
-            this.setState({
-                readyToRedirect: true
-            });
+            this.props.history.push("/profileEtudiant");
         }
 
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);
         this.setState({etudiant: etudiant});
-        StageService.getStagesEtudiant(id).then((res) => {
+
+        StageService.getStagesEtudiant(id, idSession).then((res) => {
             this.setState({stages: res.data})
         })
+
         console.log(this.state.stages);
         if (this.state.etudiant.cv === undefined || this.state.etudiant.cv === null) {
             this.setState({hasValidCV: false});
         } else {
-            if (this.state.etudiant.cv === null) {
-                this.setState({hasValidCV: false});
-            } else if (this.state.etudiant.cv.status === 'APPROVED') {
+            if (this.state.etudiant.cv.status === 'APPROVED') {
                 this.setState({hasValidCV: true});
             } else {
                 this.setState({hasValidCV: false});
@@ -72,9 +71,6 @@ export default class ApplicationStageComponent extends Component {
     }
 
     render() {
-
-        if (this.state.readyToRedirect) return <Redirect to="/etudiant"/>
-
         if (this.state.stages.length !== 0) {
             if (this.state.etudiant.cv === null) {
                 return <div className="container">

@@ -2,20 +2,26 @@ import React, {useEffect, useState} from 'react';
 import {Container, List, ListItem} from "@material-ui/core";
 import UserService from "../service/UserService";
 import Rappel from "./utils/Rappel";
+import {useHistory} from "react-router-dom";
 
 export default function Home(props) {
+    const [userId, userDesc] = [localStorage.getItem("id"), localStorage.getItem("desc")]
+    const [reminders, setReminders] = useState([])
+    const history = useHistory()
+
+    if (userDesc === null) {
+        history.push('/login');
+    }
     if (props.location.search === "?refresh") {
         props.history.replace("/")
         window.location.reload(false);
     }
 
-    const [userId, userDesc] = [localStorage.getItem("id"), localStorage.getItem("desc")];
-    const [reminders, setReminders] = useState([])
-
     useEffect(() => {
         if (userId != null || userId != undefined)
             UserService.getReminders(userId)
                 .then(value => {
+                    console.log(value)
                     setReminders(value)
                 })
                 .catch(reason => console.log(reason))
@@ -27,7 +33,8 @@ export default function Home(props) {
                 return "/contratsEtudiant"
             case "employeur":
                 return "/contratsEmployeur"
-            default: return "/none"
+            default:
+                return "/none"
         }
     }
 
@@ -73,13 +80,15 @@ export default function Home(props) {
 
     let k = 0;
     return (
-        <Container>
+        <
+            Container>
             {/*<Button onClick={() => setReminders(UserService.getReminders(userId))}>Refresh</Button>*/}
-            {reminders.map(reminder => {
-                let [title, message, redirect] = define(reminder)
-                return <Rappel title={title} message={message} redirect={redirect} key={k++}/>
-            })}
+            {
+                reminders.map(reminder => {
+                    let [title, message, redirect] = define(reminder)
+                    return <Rappel title={title} message={message} redirect={redirect} key={k++}/>
+                })
+            }
         </Container>
     )
 }
-

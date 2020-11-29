@@ -5,7 +5,6 @@ import { ListeContratsEmployeur } from '../contrat/ListeContrats';
 export default function ContratsEmployeur() {
     const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
     const [contratsEmployeur, setContratsEmployeur] = useState(null);
-    const [employeur, setEmployeur] = useState(null);
 
     //get contrats by employeur
     const getContratsByEmployeurId = async () => {

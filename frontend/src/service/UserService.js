@@ -4,7 +4,7 @@ class UserService {
     async getByEmail(email) {
         let data
         await fetch(BASE_URL + email, {method: "GET"})
-            .then(r => data = r.json())
+            .then(response => data = response.json())
             .catch(error => data = {})
         return data
     }

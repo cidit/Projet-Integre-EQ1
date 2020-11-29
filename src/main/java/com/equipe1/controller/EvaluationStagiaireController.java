@@ -28,8 +28,8 @@ public class EvaluationStagiaireController {
     }
 
     @GetMapping("getByEmployeur/{id}")
-    public List<EvaluationStagiaire> getEvaluationStagiaireByEmployeurid (@PathVariable Long id){
-        return evaluationStagiaireService.getByEmployeurId(id);
+    public List<EvaluationStagiaire> getEvaluationStagiaireByEmployeurId(@PathVariable Long id, @RequestParam("idSession") Long idSession){
+        return evaluationStagiaireService.getByEmployeurId(id, idSession);
     }
 
 }

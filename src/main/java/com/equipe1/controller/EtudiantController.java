@@ -21,8 +21,8 @@ public class EtudiantController {
     }
 
     @GetMapping("/findAll")
-    public List<Etudiant> getAllEtudiant(){
-        return etudiantService.getEtudiants();
+    public List<Etudiant> getAllEtudiant(@RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiants(idSession);
     }
 
     @GetMapping("/get")
@@ -66,37 +66,43 @@ public class EtudiantController {
     }
 
     @GetMapping("/get/{programme}")
-    public List<Etudiant> getAllEtudiantByProgramme(@PathVariable String programme){
-        return etudiantService.getEtudiantsByProgramme(programme);
+    public List<Etudiant> getAllEtudiantByProgramme(@PathVariable String programme, @RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiantsByProgramme(programme, idSession);
     }
 
     @GetMapping("/get/aucunStage")
-    public List<Etudiant> getAllEtudiantsAucunStage(){
-        return etudiantService.getEtudiantsAucunStage();
+    public List<Etudiant> getAllEtudiantsAucunStage(@RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiantsAucunStage(idSession);
     }
 
     @GetMapping("/getAllSansCV")
-    public List<Etudiant> getEtudiantsAucunCV(){
-        return etudiantService.getEtudiantsAucunCV();
+    public List<Etudiant> getEtudiantsAucunCV(@RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiantsAucunCV(idSession);
     }
 
     @GetMapping("/getAllCVNonApprouve")
-    public List<Etudiant> getEtudiantsCVNonApprouve(){
-        return etudiantService.getEtudiantsCVNonApprouve();
-    }
-
-    @GetMapping("/getAllInscrits")
-    public List<Etudiant> getEtudiantsInscrits(){
-        return etudiantService.getEtudiantsInscrits();
+    public List<Etudiant> getEtudiantsCVNonApprouve(@RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiantsCVNonApprouve(idSession);
     }
 
     @GetMapping("/getAllAyantEntrevue")
-    public List<Etudiant> getEtudiantsAyantEntrevue(){
-        return etudiantService.getEtudiantsAyantEntrevue();
+    public List<Etudiant> getEtudiantsAyantEntrevue(@RequestParam("idSession") Long idSession){
+        return etudiantService.getEtudiantsAyantEntrevue(idSession);
     }
+
+    @GetMapping("/getAllbyEnseignant/{idEnseignant}")
+    public List<Etudiant> getEtudiantsbyEnseignant(@PathVariable Long idEnseignant){
+        return etudiantService.getEtudaintsByEnseignant(idEnseignant);
+    }
+
 
     @PutMapping("updatePassword/{id}")
     public Etudiant updateEtudiantPassword(@Valid @RequestBody Etudiant etudiant, @PathVariable Long id){
         return etudiantService.updateEtudiantPassword(etudiant, id);
+    }
+
+    @PutMapping("setEnseignant/{idEtudiant}/{idEnseigant}")
+    public Etudiant setEnseignant( @PathVariable Long idEtudiant, @PathVariable Long idEnseigant){
+        return etudiantService.setEnseignant(idEtudiant,idEnseigant);
     }
 }

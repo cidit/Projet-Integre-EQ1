@@ -21,35 +21,34 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @Autowired
     private RappelService rappelService;
 
     @GetMapping("findAll")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/get/{email}/{password}")
-    public User getUser(@PathVariable String email, @PathVariable String password){
+    public User getUser(@PathVariable String email, @PathVariable String password) {
         return userService.getUser(email, password);
     }
 
     @GetMapping("/get/{email}")
-    public User getUserByEmail(@PathVariable String email){
+    public User getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
     }
 
     @GetMapping("/validate/{id}/{password}")
-    public boolean validateUserCredentials(@PathVariable Long id, @PathVariable String password){
+    public boolean validateUserCredentials(@PathVariable Long id, @PathVariable String password) {
         return userService.validateUserCredentials(id, password);
     }
 
     @GetMapping("/reminders/{userId}")
-    public List<? extends Rappel> getRappelsPour(@PathVariable long userId) {
-        try {
-            return rappelService.getRappelsPour(userId);
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
+    public List<? extends Rappel> getRappelsPour(@PathVariable long userId) throws Exception {
+
+        return rappelService.getRappelsPour(userId);
+
     }
 }

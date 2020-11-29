@@ -76,18 +76,15 @@ const observationsGenerales = [
 
 
 export default function useSetQuestions(id) {
-    const [etudiant, setEtudiant] = useState('');
-    const [optionsReponse, setOptionsReponse] = useState(optionsReponses)
-    const [productiviteQuestions, setProductiviteQuestions] = useState(productiviteQuestionsList);
-    const [qualiteTravailQuestions, setQualiteTravailQuestions] = useState(qualiteTravailQuestionsList);
-    const [relationsQuestions, setRelationsQuestions] = useState(relationsQuestionsList);
-    const [habilitesQuestions, setHabilitesQuestions] = useState(habilitesPersoQuestionsList);
-    const [evaluationMilieuStageQuestions, setEvaluationMilieuStageQuestions] = useState(evaluationMilieuStage)
-    const [observationsGeneralesQuestions, setObservationsGeneralesQuestions] = useState(observationsGenerales)
-    const [apretiationGlobaleStagiaireQuestions, setapretiationGlobaleStagiaireQuestions] = useState(apretiationGlobaleStagiaire)
-
-
-    console.log("render")
+    const [etudiant, ] = useState('');
+    const [optionsReponse, ] = useState(optionsReponses)
+    const [productiviteQuestions, ] = useState(productiviteQuestionsList);
+    const [qualiteTravailQuestions, ] = useState(qualiteTravailQuestionsList);
+    const [relationsQuestions, ] = useState(relationsQuestionsList);
+    const [habilitesQuestions, ] = useState(habilitesPersoQuestionsList);
+    const [evaluationMilieuStageQuestions] = useState(evaluationMilieuStage)
+    const [observationsGeneralesQuestions, ] = useState(observationsGenerales)
+    const [apretiationGlobaleStagiaireQuestions, ] = useState(apretiationGlobaleStagiaire)
     
     return {
         //stagiaire

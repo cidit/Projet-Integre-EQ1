@@ -4,13 +4,16 @@ import com.equipe1.model.*;
 import com.equipe1.repository.EmployeurRepository;
 import com.equipe1.repository.EvaluationStagiaireRepository;
 import com.equipe1.repository.QuestionRepository;
+import com.equipe1.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EvaluationStagiaireService {
@@ -28,6 +31,8 @@ public class EvaluationStagiaireService {
     private CandidatureService candidatureService;
     @Autowired
     private EmployeurRepository employeurRepository;
+    @Autowired
+    private SessionRepository sessionRepository;
 
 
 
@@ -40,9 +45,17 @@ public class EvaluationStagiaireService {
         return evaluationStagiaireRepository.save(e);
     }
 
-    public List<EvaluationStagiaire> getByEmployeurId(Long idEmployeur){
-        Optional<Employeur> employeur = employeurRepository.findById(idEmployeur);
-        return evaluationStagiaireRepository.findByEmployeur(employeur.get());
+    public List<EvaluationStagiaire> getByEmployeurId(Long idEmployeur, Long idSession){
+        Session session = sessionRepository.findById(idSession).get();
+        Employeur employeur = employeurRepository.findById(idEmployeur).get();
+        List<EvaluationStagiaire> evaluationStagiaires = evaluationStagiaireRepository.findByEmployeur(employeur);
+        List<EvaluationStagiaire> evaluationSessionEnCours = new ArrayList<>();
+        if (!evaluationStagiaires.isEmpty()){
+            evaluationSessionEnCours = evaluationStagiaires.stream()
+                    .filter(evaluationStagiaire -> evaluationStagiaire.getEtudiant().getSessions().contains(session))
+                    .collect(Collectors.toList());
+        }
+        return evaluationSessionEnCours;
     }
 
 

@@ -85,9 +85,19 @@ public class ContratServiceTest {
 
     @BeforeEach
     public void testSetContrats() {
+        session = Session.builder()
+                .id(1L)
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.now())
+                .build();
+        sessionRepository.save(session);
+        List<Session> sessions = new ArrayList<>();
+        sessions.add(session);
         e1 = new Etudiant();
         e1.setId(2L);
+        e1.setSessions(sessions);
         etudiantRepository.save(e1);
+
         c1 = new Candidature(e1, new Stage());
         c2 = new Candidature(new Etudiant(), new Stage());
 
@@ -99,7 +109,7 @@ public class ContratServiceTest {
         e.setProgramme("Programme1");
         e.setAdresse("123 Rue Bidon");
         e.setEmail("etudiant@gmail.com");
-
+        e.setSessions(sessions);
 
         employeur = new Employeur();
         employeur.setId(20L);
@@ -108,12 +118,23 @@ public class ContratServiceTest {
         s = new Stage();
         s.setId(4L);
         s.setTitre("TP");
+        s.setSession(session);
 
         stageRepository.save(s);
         c = new Candidature();
         c.setStage(s);
         c.setEtudiant(e);
         candidatureRepository.save(c);
+
+        c1 = new Candidature();
+        c1.setStage(s);
+        c1.setEtudiant(e);
+        candidatureRepository.save(c1);
+
+        c2 = new Candidature();
+        c2.setStage(s);
+        c2.setEtudiant(e);
+        candidatureRepository.save(c2);
 
         contrat = new Contrat();
         contrat.setId(1000L);
@@ -122,9 +143,13 @@ public class ContratServiceTest {
         contrat.setDocumentContrat(new byte[10]);
         contratRepository.save(contrat);
         candidature1 = new Candidature();
+        candidature1.setStage(s);
         candidature2 = new Candidature();
+        candidature2.setStage(s);
         contrat1 = new Contrat();
+        contrat1.setCandidature(c1);
         contrat2 = new Contrat();
+        contrat2.setCandidature(c2);
         employeur = new Employeur();
         file = new ByteArrayOutputStream().toByteArray();
         stage = new Stage();
@@ -147,13 +172,8 @@ public class ContratServiceTest {
         etudiant = new Etudiant();
         etudiant.setNom("Colomb");
         etudiant.setPrenom("Christophe");
+        etudiant.setSessions(sessions);
 
-        session = Session.builder()
-                .id(1L)
-                .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
-                .build();
-        sessionRepository.save(session);
     }
 
     @Test
@@ -211,7 +231,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    public void getContratById() {
+    public void testGetContratById() {
         when(contratRepository.findById(1L)).thenReturn(Optional.of(contrat1));
         Contrat contrat = contratService.getContratById(1L);
         System.out.println("inside");
@@ -219,7 +239,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    public void saveContrat() {
+    public void testSaveContrat() {
         when(contratRepository.save(contrat1)).thenReturn(contrat1);
         Contrat contrat = contratService.saveContrat(contrat1);
         assertNotNull(contrat1);
@@ -227,14 +247,16 @@ public class ContratServiceTest {
     }
 
     @Test
-    public void findAll() {
+
+    public void testFindAll() {
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         when(contratRepository.findAll()).thenReturn(Arrays.asList(contrat1, contrat2));
-        List<Contrat> all = contratService.findAll();
+        List<Contrat> all = contratService.getContrats(session.getId());
         assertEquals(2, all.size());
     }
 
     @Test
-    void getContratsByEmployeur() {
+    public void testGetContratsByEmployeur() {
         when(contratRepository.findByEmployeur(employeur)).thenReturn(Arrays.asList(contrat1,contrat2));
         List<Contrat> all = contratService.getContratsByEmployeur(employeur);
         assertEquals(2, all.size());
@@ -242,7 +264,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void getContratsByEtudiantChoisi() {
+    public void testGetContratsByEtudiantChoisi() {
 
         contrat1.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
         contrat2.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
@@ -259,7 +281,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void createContratAvecFile() throws Exception {
+    public void testCreateContratAvecFile() throws Exception {
         MultipartFile result = new MockMultipartFile("test",file);
         when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature1));
         when(contratRepository.findByCandidature(candidature1)).thenReturn(Optional.of(contrat1));
@@ -271,7 +293,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void createContratEtDocument() throws Exception {
+    public void testCreateContratEtDocument() throws Exception {
         contrat1.setCandidature(candidature1);
         stage.setEmployeur(user);
         candidature1.setStage(s);
@@ -292,7 +314,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void createApercueContrat() throws Exception {
+    public void testCreateApercueContrat() throws Exception {
         stage.setEmployeur(employeur);
         candidature1.setEtudiant(etudiant);
         candidature1.setContrat(contrat1);
@@ -306,7 +328,7 @@ public class ContratServiceTest {
     }
 
     @Test
-    void candidatureHasContrat() {
+    public void testcandidatureHasContrat() {
        contrat1.setCandidature(candidature1);
        contrat2.setCandidature(candidature2);
         when(candidatureService.findCandidatureById(1L)).thenReturn(Optional.of(candidature1));
@@ -317,73 +339,76 @@ public class ContratServiceTest {
     }
 
     @Test
-    public void listCandidatureSansContrat() {
-        when(candidatureService.getListCandidaturesChoisis(Candidature.CandidatureStatut.CHOISI))
+    public void testListCandidatureSansContrat() {
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
+        when(candidatureService.getListCandidaturesChoisis(session.getId()))
                 .thenReturn(Arrays.asList(candidature2,candidature1));
 
-        List<Candidature> all = contratService.listCandidatureSansContrat();
+        List<Candidature> all = contratService.listCandidatureSansContrat(session.getId());
         assertEquals(2, all.size());
         assertEquals(all.get(0),candidature2);
     }
 
     @Test
-    void testGetContratsNonSignesEtudiant() {
+    public void testGetContratsNonSignesEtudiant() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
-
         contrat1.setId(1L);
         contrat1.setCandidature(candidature1);
         contrat1.getCandidature().setStage(stage);
         contrat1.getCandidature().getStage().setSession(session);
         contrat1.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(contrat1).when(contratRepository).save(contrat1);
         doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
         contratRepository.save(contrat1);
         // Act
-        List<Contrat> contrats = contratService.getContratsNonSignesEtudiant();
+        List<Contrat> contrats = contratService.getContratsNonSignesEtudiant(session.getId());
         // Assert
         Assertions.assertEquals(1, contrats.size());
     }
 
     @Test
-    void testGetContratsNonSignesEmployeur() {
+    public void testGetContratsNonSignesEmployeur() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
-
         contrat1.setId(1L);
         contrat1.setCandidature(candidature1);
         contrat1.getCandidature().setStage(stage);
         contrat1.getCandidature().getStage().setSession(session);
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(contrat1).when(contratRepository).save(contrat1);
         doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
         contratRepository.save(contrat1);
         // Act
-        List<Contrat> contrats = contratService.getContratsNonSignesEmployeur();
+        List<Contrat> contrats = contratService.getContratsNonSignesEmployeur(session.getId());
         // Assert
         Assertions.assertEquals(1, contrats.size());
     }
 
     @Test
-    void testGetContratsNonSignesAdministrateur() {
+    public void testGetContratsNonSignesAdministrateur() {
         // Arrange
-        when(sessionRepository.save(session)).thenReturn(session);
-        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
-
         contrat1.setId(1L);
         contrat1.setCandidature(candidature1);
         contrat1.getCandidature().setStage(stage);
         contrat1.getCandidature().getStage().setSession(session);
         contrat1.setSignatureEtudiant(Contrat.SignatureEtat.SIGNE);
         contrat1.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(contrat1).when(contratRepository).save(contrat1);
         doReturn(Arrays.asList(contrat1)).when(contratRepository).findAll();
         contratRepository.save(contrat1);
         // Act
-        List<Contrat> contrats = contratService.getContratsNonSignesAdministration();
+        List<Contrat> contrats = contratService.getContratsNonSignesAdministration(session.getId());
         // Assert
         Assertions.assertEquals(1, contrats.size());
+    }
+
+    @Test
+    public void testGetContrats() {
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
+        when(contratRepository.findAll()).thenReturn(Arrays.asList(contrat1, contrat2));
+        List<Contrat> all = contratService.getContrats(session.getId());
+        assertEquals(2, all.size());
     }
 }
 

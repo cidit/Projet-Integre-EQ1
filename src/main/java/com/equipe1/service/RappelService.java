@@ -52,16 +52,16 @@ public class RappelService {
 
         // cherche si il y a des stages sans veto
         var stages = stageService.getByStatutWaiting();
-        var stageCetteSession = stages
-                .stream()
-                .filter(stage -> stage.getSession().equals(currentSession));
-        if (stageCetteSession.findAny().isPresent()) {
+        if (stages.stream()
+                .anyMatch(stage -> stage.getSession().equals(currentSession))) {
             messages.add(Rappel.GestionaireRappel.STAGE_SANS_VETO);
         }
 
         // cherche si un contrat est pret a etre généré
-        for (var stage : stageCetteSession.collect(Collectors.toList()))
-            if (candidatureService.findAllByStage(stage.getId())
+        for (var stage : stages.stream()
+                .filter(stage -> stage.getSession().equals(currentSession))
+                .collect(Collectors.toList()))
+            if (candidatureService.findCandidatureByStage(stage.getId())
                     .stream()
                     .anyMatch(candidature -> candidature
                             .getStatut()
@@ -83,18 +83,15 @@ public class RappelService {
         var messages = new ArrayList<Rappel.EmployeurRappel>();
 
         // cherche si l'employeur a au moins un stage
-        var stageCetteSession = stageService.getStagesByEmployeur(user.getId())
-                .stream()
-                .filter(stage -> stage.getSession()
-                        .equals(currentSession));
-        if (stageCetteSession.findAny().isEmpty()) {
+        var stageCetteSession = stageService.getStagesByEmployeur(user.getId(), currentSession.getId());
+        if (stageCetteSession.stream().findAny().isEmpty()) {
             messages.add(Rappel.EmployeurRappel.PAS_DE_STAGE_OUVERT_CETTE_SESSION);
         } else {
-
             // cherche si un stage encore ouvert a des candidatures
-            for (var stage : stageCetteSession.collect(Collectors.toList())) {
-                var candidatures = candidatureService.findAllByStage(stage.getId());
-                if (!candidatures.isEmpty() && stage.isOuvert()) {
+            for (var stage : stageCetteSession) {
+                var candidatures = candidatureService.findCandidatureByStage(stage.getId());
+                var isOuvert = stage.getNbAdmis() == stage.getEtudiantsAdmits().size();
+                if (isOuvert && candidatures.size() > stage.getEtudiantsAdmits().size()) {
                     messages.add(Rappel.EmployeurRappel.UN_STAGE_ENCORE_OUVERT_A_DES_CANDIDATURES);
                     break;
                 }
@@ -102,13 +99,14 @@ public class RappelService {
         }
 
         // cherche si il manque une signature de la part de l'employeur sur un de ses contrats
-        var contratCetteSession = contratService.getContratsByEmployeur(user)
-                .stream()
+        var contratsParEmployeurs = contratService.getContratsByEmployeur(user);
+
+        for (var contrat : contratsParEmployeurs.stream()
                 .filter(contrat -> contrat.getCandidature()
                         .getStage()
                         .getSession()
-                        .equals(currentSession));
-        for (var contrat : contratCetteSession.collect(Collectors.toList()))
+                        .equals(currentSession))
+                .collect(Collectors.toList()))
             if (contrat.getSignatureEmployeur() == Contrat.SignatureEtat.EN_ATTENTE) {
                 messages.add(Rappel.EmployeurRappel.SIGNATURE_MANQUANTE_SUR_UN_CONTRAT);
                 break;
@@ -133,16 +131,14 @@ public class RappelService {
 
 
         // cherche si l'etudiant n'a pas encore soumis sa candidature
-        if (candidatureService.findCandidatureByEtudiant(user.getId())
+        if (candidatureService.findCandidatureByEtudiant(user.getId(), currentSession.getId())
                 .stream()
-                .noneMatch(candidature -> candidature.getStage()
-                        .getSession()
-                        .equals(currentSession))
-                && stageService.getStages()
+                .findAny()
+                .isEmpty()
+                && stageService.getStages(currentSession.getId())
                 .stream()
-                .noneMatch(stage -> stage
-                        .getSession()
-                        .equals(currentSession))) {
+                .findAny()
+                .isEmpty()) {
             messages.add(Rappel.EtudiantRappel.PAS_DE_CANDIDATURE_SUR_UN_STAGE);
         }
 
@@ -154,17 +150,15 @@ public class RappelService {
             messages.add(Rappel.EtudiantRappel.SIGNATURE_MANQUANTE_SUR_UN_CONTRAT);
 
         // cherche si l'etudiant est enregistré dans la session actuelle
-        if (!user.getSession().contains(currentSession))
+        if (!user.getSessions().contains(currentSession))
             messages.add(Rappel.EtudiantRappel.PAS_ENREGISTRE_CETTE_SESSION);
 
         // cherche si l'etudiant n'a pas encore confirmé sa présence à un stage
-        var candidaturesCetteSession = candidatureService.findCandidatureByEtudiant(user.getId())
+        var candidaturesCetteSession = candidatureService.findCandidatureByEtudiant(user.getId(), currentSession.getId());
+        if (candidaturesCetteSession
                 .stream()
-                .filter(candidature -> candidature.getStage()
-                        .getSession()
-                        .equals(currentSession));
-        if (candidaturesCetteSession.anyMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.APPROUVE) &&
-                candidaturesCetteSession.noneMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.CHOISI)
+                .anyMatch(candidature -> candidature.getStatut() == Candidature.CandidatureStatut.APPROUVE &&
+                        candidature.getStatut() != Candidature.CandidatureStatut.CHOISI)
         )
             messages.add(Rappel.EtudiantRappel.FREQUENTATION_DE_STAGE_PAS_CONFIRMEE);
 
