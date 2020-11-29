@@ -55,21 +55,21 @@ function TabPanel(props) {
 
     const [offreStages, setOffreStages] = useState(null);
     const getOffreStages = async () => {
-        var idSession = localStorage.getItem("session");
+        let idSession = localStorage.getItem("session");
         const response = await StageService.getStages(idSession);
         setOffreStages(response.data);
     }
 
     const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState(null);
     const getOffreStagesNonApprouve = async () => {
-        var idSession = localStorage.getItem("session");
+        let idSession = localStorage.getItem("session");
         const response = await StageService.getStagesNonApprouves(idSession);
         setOffreStagesNonApprouve(response.data);
     }
 
     const [offreStagesAucunStagiaires, setOffreStagesAucunStagiaires] = useState(null);
     const getOffreStagesAucunStagiaires = async () => {
-        var idSession = localStorage.getItem("session");
+        let idSession = localStorage.getItem("session");
         const response = await StageService.getStagesAyantAucunStagiaires(idSession);
         setOffreStagesAucunStagiaires(response.data);
     }

@@ -51,7 +51,7 @@ export default function Home(props) {
                     getRouteSignature()] // TODO
             case "PAS_ENREGISTRE_CETTE_SESSION":
                 return ["Pas enregistré", "Vous n'êtes pas enregistré cette session.",
-                    "/profileEtudiant"]
+                    "/profilEtudiant"]
             case "FREQUENTATION_DE_STAGE_PAS_CONFIRMEE":
                 return ["Confirmer votre fréquentation", "Vous n'avez pas confirmé votre fréquentation à un stage.",
                     "/listecandidatures"]

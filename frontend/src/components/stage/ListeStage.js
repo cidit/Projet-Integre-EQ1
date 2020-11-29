@@ -64,7 +64,7 @@ export default class ListStagesComponent extends Component {
 }
 
 function handleClick (event, id)  {
-    this.props.history.push('/stage/' +id);
+    this.props.history.push('/stage/' +id + "/0");
 }
 
 function CustomTable(props){

@@ -11,6 +11,7 @@ import * as PropTypes from "prop-types";
 import StageInfo from "./StageInfoComponent";
 import SelectionnerStagiaireComponent from "../employeur/SelectionnerStagiaireComponent";
 import SelectionnerEtudiantComponent from "../gestionnaire/SelectionnerEtudiantComponent";
+import {useHistory, useParams} from 'react-router-dom';
 
 export default class StageComponent extends Component {
     constructor(props) {
@@ -117,11 +118,13 @@ export function Veto(props){
 
 
 function MyTabs(props) {
-    const [value, setValue] = React.useState(0);
-    // const [value, setValue] = React.useState(props.tab);
+    const history = useHistory();
+    const params = useParams();
+    const [value, setValue] = React.useState(parseInt(params.tab));
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        history.push("/stage/" + props.stage.id + "/" + newValue)
     };
 
     const roles = [

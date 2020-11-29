@@ -6,7 +6,6 @@ import {Route, Switch} from 'react-router-dom';
 import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
 import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
-import Register from './components/RegisterComponent';
 
 import CreateStageComponent from './components/stage/CreateStageComponent';
 import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
@@ -45,71 +44,65 @@ import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieu
 import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge'
 import RegisterTabs from './components/register/RegisterTabs'
 import EnseignantsTabs from './components/gestionnaire/EnseignantsTabs'
-
+import ThemeProvider from "@material-ui/styles/ThemeProvider";
 
 function App() {
-  return (
-    
-      <main>
-     {/* <ThemeProvider theme={theme}>  */}
-        <HeaderComponent />
-        <Switch>
-          <Route path="/" exact component={Home}/>
-          <Route path='/login' component={Login} />
-          <Route path='/register' component={RegisterTabs} />
-          <Route path="/etudiants" component={ListEtudiantsComponent}/>
-          {/*<Route path='/stageVeto' component={StageVeto} />*/}
-          <Route path='/offrestage' component={ApplicationStageComponent} />
-          <Route path="/etudiants" component={ListEtudiantsComponent} />
-          <Route path='/createStage' component={CreateStageComponent} />
-          <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
-          <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
-          <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
-          <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent} />
-          <Route path='/contratsEmployeur' component={ContratsEmployeur} />
-          <Route path='/contratsGestionnaire' component={ContratsGestionnaire} />
-          <Route path='/contratEtudiant' component={ContratEtudiant} />
-          <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi} />
-          <Route path='/CreationContrat/:id' component={CreationContrat} />
-          <Route path='/televerserContrats/:id' component={TeleverserContrat} />
-          <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi} />
-          <Route path="/stage/:id" component={StageComponent}/>
-          <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
-          {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
-          <Route path="/listestages" component={ListeStage}/>
-          <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
-          <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
-          <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
-          <Route path="/questionRelations/:id" component={QuestionRelations}/>
-          <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
-          <Route path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature" component={EvaluationMilieuStage}/>
-          <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
-          <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
-          <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
-          <Route path="/rapport" component={RapportComponent}/>
-          
-          <Route path="/profilEtudiant" component={ProfilEtudiant}/>
-          <Route path="/profilEmployeur" component={ProfilEmployeur}/>
-          <Route path="/profilGestionnaire" component={ProfilGestionnaire}/>
-          <Route path="/profilEnseignant" component={ProfilEnseignant}/>
-          <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
-          <Route path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs}/>
-        </Switch>
-           {/* </ThemeProvider>    */}
-      </main>
-    
-  );
+    return (
+
+        <main>
+            <ThemeProvider theme={theme}>
+                <HeaderComponent/>
+                <Switch>
+                    <Route path="/" exact component={Home}/>
+                    <Route path='/login' component={Login}/>
+                    <Route path='/register' component={RegisterTabs}/>
+                    <Route path="/etudiants" component={ListEtudiantsComponent}/>
+                    <Route path='/offrestage' component={ApplicationStageComponent}/>
+                    <Route path="/etudiants" component={ListEtudiantsComponent}/>
+                    <Route path='/createStage' component={CreateStageComponent}/>
+                    <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent}/>
+                    <Route path='/gestionnaireStage' component={GestionnaireListStageComponent}/>
+                    <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent}/>
+                    <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent}/>
+                    <Route path='/contratsEmployeur' component={ContratsEmployeur}/>
+                    <Route path='/contratsGestionnaire' component={ContratsGestionnaire}/>
+                    <Route path='/contratEtudiant' component={ContratEtudiant}/>
+                    <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi}/>
+                    <Route path='/CreationContrat/:id' component={CreationContrat}/>
+                    <Route path='/televerserContrats/:id' component={TeleverserContrat}/>
+                    <Route path='/listCandidatureChoisi' component={ListCandidatureChoisi}/>
+                    <Route path="/stage/:id/:tab" component={StageComponent}/>
+                    <Route path="/listestages" component={ListeStage}/>
+                    <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
+                    <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
+                    <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
+                    <Route path="/questionRelations/:id" component={QuestionRelations}/>
+                    <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
+                    <Route
+                        path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature"
+                        component={EvaluationMilieuStage}/>
+                    <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
+                    <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
+                    <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
+                    <Route path="/rapport" component={RapportComponent}/>
+
+                    <Route path="/profilEtudiant" component={ProfilEtudiant}/>
+                    <Route path="/profilEmployeur" component={ProfilEmployeur}/>
+                    <Route path="/profilGestionnaire" component={ProfilGestionnaire}/>
+                    <Route path="/profilEnseignant" component={ProfilEnseignant}/>
+                    <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
+                    <Route path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs}/>
+                </Switch>
+            </ThemeProvider>
+        </main>
+
+    );
 }
 
 const theme = createMuiTheme({
     palette: {
-        // primary: {
-        //     main: "#616161",
-        //     light: "#8e8e8e",
-        //     dark: "#373737",
-        // },
         primary: {
-            main: "#612675",
+            main: "#26616b",
             light: "#ffbe49",
             dark: "#c55e00",
         },
