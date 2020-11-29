@@ -406,7 +406,7 @@ public class InsertDataService {
         stageService.saveStage(stage1);
 
         etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
-        Candidature candidature = candidatureService.createCandidature(etudiant.getId(), (long) 7);
+        Candidature candidature = candidatureService.createCandidature(etudiant.getId(), (long) 11);
         candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
         candidatureRepository.save(candidature);
 
@@ -417,7 +417,7 @@ public class InsertDataService {
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 8);
+        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 10);
         candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
         candidatureRepository.save(candidature);
 

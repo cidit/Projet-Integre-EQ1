@@ -45,7 +45,6 @@ function App() {
                     <Route path="/etudiants" component={ListEtudiantsComponent}/>
                     <Route path='/etudiant' component={HomeEtudiant}/>
                     <Route path='/offrestage' component={ApplicationStageComponent}/>
-                    <Route path="/etudiants" component={ListEtudiantsComponent}/>
                     <Route path='/createStage' component={CreateStageComponent}/>
                     <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent}/>
                     <Route path='/gestionnaireStage' component={GestionnaireListStageComponent}/>
@@ -62,8 +61,6 @@ function App() {
                     <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
                     <Route path="/listestages" component={ListeStage}/>
                     <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
-
-
                     <Route path="/rapport" component={RapportComponent}/>
                 </Switch>
             </ThemeProvider>

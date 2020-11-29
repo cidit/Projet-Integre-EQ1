@@ -9,7 +9,6 @@ import LoginService from "../service/LoginService";
 function Logout(){
     function handleSelect(){
         LoginService.logout();
-        // this.props.history.push('/?refresh');
     }
     return (
         <Nav.Link href="/?refresh" onSelect={handleSelect}>Logout</Nav.Link>
@@ -37,17 +36,12 @@ function GestionnaireNav(props) {
             <Nav.Link href="/contratsGestionnaire">Gérer contrats</Nav.Link>
             <Nav.Link href="/listCandidatureChoisi">Contrats à générer</Nav.Link>
             <Nav.Link href="/stages">Choix stagiaires</Nav.Link>
-
             <Nav.Link href="/rapport">Rapports</Nav.Link>
-             <ChangeSessionNavDropdown sessions={props.sessions}/>
-            {/*<Nav.Link href="/logout">Logout</Nav.Link>*/}
+            <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
         </Nav>
     );
 }
-
-
-
 
 function EmployeurNav(props) {
 
@@ -61,16 +55,12 @@ function EmployeurNav(props) {
             <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
             <Nav.Link href="/evaluationsEmployeur">Évaluations</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
-            {/*<Nav.Link href="/logout" onSelect={}>Logout</Nav.Link>*/}
             <Logout/>
-
         </Nav>
     );
 }
 
-
 function EtudiantNav(props) {
-
     return (
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
@@ -79,14 +69,14 @@ function EtudiantNav(props) {
             <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
             <Nav.Link href="/contratEtudiant">Contrats</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
-            {/*<Nav.Link href="/logout">Logout</Nav.Link>*/}
             <Logout/>
 
         </Nav>
     );
 }
+
 function ChangeSessionNavDropdown(props) {
-    var nomSession = window.localStorage.getItem("nomSession");
+    let nomSession = window.localStorage.getItem("nomSession");
     return (
         <NavDropdown title={nomSession} id="nav-dropdown">
             {props.sessions.map(
@@ -128,17 +118,18 @@ class HeaderComponent extends Component {
 
     render() {
         return (
-
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Navbar.Brand href="/">
                     Projet intégré équipe 1
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <NavType desc={this.state.desc} sessions={this.state.sessions}/>
+                    <NavType
+                        desc={this.state.desc}
+                        sessions={this.state.sessions}
+                    />
                 </Navbar.Collapse>
             </Navbar>
-
         );
     }
 }
