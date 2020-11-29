@@ -55,6 +55,7 @@ public class CandidatureService {
         Session session = sessionRepository.findById(idSession).get();
 
         for (Candidature candidature: candidatures) {
+
             if(candidature.getEtudiant().equals(etudiant) && candidature.getStage().getSession().equals(session))
                 candidatureList.add(candidature);
         }
