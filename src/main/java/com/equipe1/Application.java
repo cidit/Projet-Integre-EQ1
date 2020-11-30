@@ -30,9 +30,9 @@ public class Application {
             insertDataService.insertEmployeur();
             insertDataService.insertStage();
             insertDataService.insertGestionnaire();
-            //insertDataService.insertCandidature();
-            insertDataService.insertEnseinants();
-            //insertDataService.insertEvaluationStagieire();
+            insertDataService.insertCandidature();
+            insertDataService.insertEnseignants();
+            insertDataService.insertEvaluationStagiaire();
         };
     }
 }

@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(exclude="etudiant")
 @Entity
 @Data
 public class EvaluationStagiaire extends Evaluation{
