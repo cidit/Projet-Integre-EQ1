@@ -15,7 +15,6 @@ const useStyles = theme => ({
     root: {
         marginTop: '3',
         width: '100%',
-        fontWeight: 'bold',
         margin:'auto',
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
@@ -61,11 +60,14 @@ class ListeCandidaturesEtudiantComponent extends Component {
 
         const response = await EtudiantService.isRegistered(id);
         if (!response.data) {
-            this.props.history.push("/profileEtudiant");
+            this.props.history.push("/profilEtudiant");
         }
 
         const {data: candidatures} = await CandidatureService.getByEtudiant(id, idSession);
+        const {data: isSessionSelectionneeEnCours} = await SessionService.isSessionSelectionneeEnCours(idSession);
+
         this.setState({candidatures});
+        this.setState({isSessionSelectionneeEnCours});
 
         let candidature = await CandidatureService.getCandidatureChoisi(id);
 
@@ -111,6 +113,7 @@ class ListeCandidaturesEtudiantComponent extends Component {
                                     .map(candidature =>
                                         <TableRow key={candidature.id} hover className={classes.row}>
                                             <ShowCandidature candidature={candidature}
+                                                             isSessionSelectionneeEnCours={this.state.isSessionSelectionneeEnCours}
                                                              disabledAll={this.state.disabledAllButtons}/>
                                         </TableRow>
                                     )}
@@ -135,9 +138,6 @@ function ShowCandidature(props) {
     const approuved = "CHOISI";
 
     const [showModal, setShowModal] = useState(false);
-    const [sessionSelectionneeEnCours, setSessionSelectionneeEnCours] = useState(true);
-
-    var idSession = localStorage.getItem("session");
 
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
@@ -145,14 +145,7 @@ function ShowCandidature(props) {
     const handleShowSnackbar = () => this.handleShowSnackbar();
     const handleDisableAll = () => this.handleDisableAll();
 
-    const isSessionSelectionneeEnCours = async () => {
-        const response = await SessionService.isSessionSelectionneeEnCours(idSession);
-        setSessionSelectionneeEnCours(response.data);
-    }
 
-    useEffect(() => {
-        isSessionSelectionneeEnCours()
-    }, [])
 
 
     function toggleBtns(isApprouved) {
@@ -184,7 +177,7 @@ function ShowCandidature(props) {
             <TableCell>{props.candidature.stage.programme}</TableCell>
             <TableCell>{props.candidature.stage.ville}</TableCell>
 
-            <TableCell hidden={!sessionSelectionneeEnCours}>
+            <TableCell hidden={!props.isSessionSelectionneeEnCours}>
                 <Button type="submit" className='m-2' variant="contained" size="small" color="primary" onClick={handleShowModal}
                         disabled={props.candidature.statut === "REFUSE"
                         || props.candidature.statut === "EN_ATTENTE"

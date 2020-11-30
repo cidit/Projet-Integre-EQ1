@@ -59,8 +59,6 @@ class StageService{
                 },
                 body: JSON.stringify(stage)} )
             .then(r => r.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => console.log('Success:', response));
     }
 
     async updateStage(stage, id){
@@ -71,8 +69,6 @@ class StageService{
                 },
                 body: JSON.stringify(stage)} )
             .then(r => r.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => console.log('Success:', response));
     }
 
 

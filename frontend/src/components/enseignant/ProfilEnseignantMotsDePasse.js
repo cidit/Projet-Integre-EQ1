@@ -64,10 +64,6 @@ export default class ProfileEnseignantMotsDePasse extends Component {
 
                                             }
 
-                                        })
-                                        .then((val) => console.log(val))
-                                        .catch(function (reason) {
-                                            console.log(reason + " reason")
                                         }));
 
                                     actions.setSubmitting(false);

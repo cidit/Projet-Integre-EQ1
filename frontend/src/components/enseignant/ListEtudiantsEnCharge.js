@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
         width: '100%',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         margin: 'auto',
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
@@ -45,7 +45,6 @@ export default function ListEtudiantsEnCharge(props) {
 
     const getEtudiant = async (id) => {
         const response = await EtudiantService.getEtudiantsbyEnseignat(id);
-        console.log(response.data)
         setCandidatures(response.data);
     }
 
@@ -109,9 +108,6 @@ function Row(props) {
     const { row } = props;
     const classes = useStyles();
 
-    const handleClickRow = () => {
-        console.log("etudiant")
-    }
 
     return (
         <React.Fragment>
@@ -124,7 +120,7 @@ function Row(props) {
                 <TableCell className='align-middle'>{row.matricule}</TableCell>
                 {!props.isEnseignant &&
                     <TableCell>
-                        <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{ textTransform: 'none' }}>
+                        <Button className='m-2' variant="contained" size="small" color="primary" style={{ textTransform: 'none' }}>
                             Assigner étudiants
                         </Button>
                     </TableCell>

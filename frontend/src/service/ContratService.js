@@ -41,21 +41,11 @@ class ContratService {
     }
 
     async createContrat(idCandidature, formData){
-        return axios.put(baseURL + "update/" + idCandidature, formData).then((result) => {
-            console.log(result.data);
-        })
-            .catch((error) => {
-                console.log(error);
-            })
+        return axios.put(baseURL + "update/" + idCandidature, formData)
     }
 
     async updateContrat(idCandidature, formData){
-        return axios.put(baseURL + "update/" + idCandidature, formData).then((result) => {
-            console.log(result.data);
-        })
-            .catch((error) => {
-                console.log(error);
-            })
+        return axios.put(baseURL + "update/" + idCandidature, formData)
     }
 
 

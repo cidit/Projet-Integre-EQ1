@@ -41,7 +41,6 @@ class EmployeurService{
     }
 
     async put(employeur, id){
-        console.log(employeur);
         fetch(baseURL + "/update/" + id,
             {method: "PUT",
                 headers: {

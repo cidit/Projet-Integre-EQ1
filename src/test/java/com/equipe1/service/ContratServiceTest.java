@@ -233,7 +233,6 @@ public class ContratServiceTest {
     public void testGetContratById() {
         when(contratRepository.findById(1L)).thenReturn(Optional.of(contrat1));
         Contrat contrat = contratService.getContratById(1L);
-        System.out.println("inside");
         assertEquals(contrat, contrat1);
     }
 

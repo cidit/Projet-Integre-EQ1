@@ -26,7 +26,6 @@ public class Stage {
     private LocalDate dateLimiteCandidature;
     private float nbHeuresParSemaine;
     private int nbAdmis;
-    private boolean isOuvert;
     private String programme;
     private String ville;
     private StageStatus statut;
@@ -44,12 +43,15 @@ public class Stage {
     //private Set<Etudiant> etudiant;
 
     public Stage() {
-        this.isOuvert = false;
         this.statut = StageStatus.EN_ATTENTE;
     }
 
     public enum StageStatus {
         EN_ATTENTE, APPROUVÉ, REFUSÉ
+    }
+
+    public boolean isOuvert() {
+        return dateLimiteCandidature.isAfter(LocalDate.now());
     }
 
 

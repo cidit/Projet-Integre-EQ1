@@ -74,7 +74,6 @@ export default class EnseignantRegister extends Component {
                                         } else if (values.password !== values.confimerPassword) {
                                             actions.setFieldError('confimerPassword', "Les mots de passe ne sont pas les mêmes")
                                         } else {
-                                            console.log(values)
                                             EnseignantService.post(values);
                                             actions.resetForm();
                                             actions.setStatus({ message: "Votre compte a été créé avec succès" });
@@ -84,10 +83,6 @@ export default class EnseignantRegister extends Component {
 
                                             actions.setSubmitting(false);
                                         }
-                                    })
-                                    .then((val) => console.log(val))
-                                    .catch(function (reason) {
-                                        console.log(reason + " reason")
                                     }));
 
                                 actions.setSubmitting(false);

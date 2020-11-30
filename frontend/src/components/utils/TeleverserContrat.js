@@ -57,7 +57,6 @@ export default class TeleverserContrat extends Component {
     handleClick(event) {
         event.preventDefault();
         const desc = window.localStorage.getItem("desc");
-        console.log(desc)
         const id = this.props.match.params.id;
         const formData = new FormData();
         formData.append('file', this.state.file)

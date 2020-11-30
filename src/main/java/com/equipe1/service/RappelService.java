@@ -86,17 +86,8 @@ public class RappelService {
         var stageCetteSession = stageService.getStagesByEmployeur(user.getId(), currentSession.getId());
         if (stageCetteSession.stream().findAny().isEmpty()) {
             messages.add(Rappel.EmployeurRappel.PAS_DE_STAGE_OUVERT_CETTE_SESSION);
-        } else {
-            // cherche si un stage encore ouvert a des candidatures
-            for (var stage : stageCetteSession) {
-                var candidatures = candidatureService.findCandidatureByStage(stage.getId());
-                var isOuvert = stage.getNbAdmis() == stage.getEtudiantsAdmits().size();
-                if (isOuvert && candidatures.size() > stage.getEtudiantsAdmits().size()) {
-                    messages.add(Rappel.EmployeurRappel.UN_STAGE_ENCORE_OUVERT_A_DES_CANDIDATURES);
-                    break;
-                }
-            }
         }
+        
 
         // cherche si il manque une signature de la part de l'employeur sur un de ses contrats
         var contratsParEmployeurs = contratService.getContratsByEmployeur(user);

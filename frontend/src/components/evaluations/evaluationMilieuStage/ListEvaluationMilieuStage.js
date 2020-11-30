@@ -18,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#E9E9E9',
         fontWeight: 'bold'
     },
-    paper: {
-        padding: theme.spacing(0),
-        margin: 'auto',
-        maxWidth: '50%',
-    },
+    // paper: {
+    //     padding: theme.spacing(0),
+    //     margin: 'auto',
+    //     maxWidth: '50%',
+    // },
     heading: {
         fontSize: theme.typography.pxToRem(10),
         fontWeight: theme.typography.fontWeightRegular,
@@ -57,7 +57,6 @@ export default function EvaluationMilieuHome() {
 
     const getEtudiant = async () => {
         const response = await CandidatureService.getCandidaturesEmployeurNonEvalues(id);
-        console.log(response)
         setCandidatures(response.data);
     }
 
@@ -113,8 +112,7 @@ function Row(props) {
     const history = useHistory();
 
     const handleClickRow = (_candidature) => {
-        console.log(_candidature)
-        history.push("/evaluationMilieuStage/" 
+        history.push("/evaluationMilieuStage/"
                         + _candidature.stage.employeur.nom
                         + "/" + _candidature.etudiant.prenom
                         + "/" + _candidature.etudiant.nom

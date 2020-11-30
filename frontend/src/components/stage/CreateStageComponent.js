@@ -188,10 +188,6 @@ export default withFormik({
       errors.dateLimiteCandidature = 'la date limit ne doit être inférieure ou égale à la date d\'aujourd\'hui'
     }
 
-    if (!values) {
-      console.log(this.state)
-    }
-
     return errors;
   },
 

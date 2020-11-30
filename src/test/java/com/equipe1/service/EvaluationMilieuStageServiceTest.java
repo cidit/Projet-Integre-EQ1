@@ -131,7 +131,6 @@ public class EvaluationMilieuStageServiceTest {
         when(evaluationMilieuStageRepository.findByEtudiant(etudiant)).thenReturn(Optional.of(evaluationMilieuStage));
 
         Optional<EvaluationMilieuStage> milieuStageList = evaluationMilieuStageService.getByEtudaint(etudiant);
-        System.out.println(milieuStageList);
 
         assertEquals(milieuStageList.get().getEtudiant(), etudiant);
         assertNotNull(milieuStageList);
@@ -146,7 +145,6 @@ public class EvaluationMilieuStageServiceTest {
         when(evaluationMilieuStageRepository.findByEnseignant(enseignant)).thenReturn(Arrays.asList(evaluationMilieuStage2, evaluationMilieuStage));
 
         List<EvaluationMilieuStage> milieuStageList = evaluationMilieuStageService.getAllByEnseignant(1L);
-        System.out.println(milieuStageList);
         assertEquals(milieuStageList.size(), 2);
         assertEquals(milieuStageList.get(0).getEnseignant(), enseignant);
         assertNotNull(milieuStageList);
