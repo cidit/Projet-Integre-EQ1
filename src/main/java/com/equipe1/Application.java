@@ -24,16 +24,15 @@ public class Application {
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
+
             insertDataService.insertSession();
             insertDataService.insertEtudiant();
             insertDataService.insertEmployeur();
             insertDataService.insertStage();
             insertDataService.insertGestionnaire();
-//            insertDataService.insertCandidature();
+            //insertDataService.insertCandidature();
             insertDataService.insertEnseinants();
             //insertDataService.insertEvaluationStagieire();
-
-
         };
     }
 }

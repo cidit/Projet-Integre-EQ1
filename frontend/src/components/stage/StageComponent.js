@@ -11,6 +11,7 @@ import * as PropTypes from "prop-types";
 import StageInfo from "./StageInfoComponent";
 import SelectionnerStagiaireComponent from "../employeur/SelectionnerStagiaireComponent";
 import SelectionnerEtudiantComponent from "../gestionnaire/SelectionnerEtudiantComponent";
+import CandidatureService from '../../service/CandidatureService';
 
 export default class StageComponent extends Component {
     constructor(props) {
@@ -33,7 +34,8 @@ export default class StageComponent extends Component {
                 this.setState({employeur: res.data.employeur})
             })
 
-        axios.get("http://localhost:8080/candidatures/getByStage?stage=" + this.props.match.params.id).then(res => {
+        CandidatureService.getByStage(this.props.match.params.id)
+            .then(res => {
                 this.setState({candidatures: res.data})
             }
         )
