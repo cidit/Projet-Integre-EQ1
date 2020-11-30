@@ -134,19 +134,6 @@ public class CandidatureService {
         return candidaturesChoisiesSession;
     }
 
-    public Candidature convoqueEtudiantEntrevue(Long id){
-        Candidature updatedCandidature = candidatureRepository.findById(id).get();
-        updatedCandidature.setEntrevueStatut(Candidature.CandidatureEntrevueStatut.CONVOQUE);
-        return candidatureRepository.save(updatedCandidature);
-    }
-
-    public Candidature entrevuePasseeConfirmation(Long id){
-        Candidature updatedCandidature = candidatureRepository.findById(id).get();
-        updatedCandidature.setEntrevueStatut(Candidature.CandidatureEntrevueStatut.PASSEE);
-        return candidatureRepository.save(updatedCandidature);
-
-    }
-
     public List<Candidature> getListByDateStage() {
         List<Candidature> candidatureBydateStage = new ArrayList<>();
         for (Candidature c : candidatureRepository.findAll()) {
