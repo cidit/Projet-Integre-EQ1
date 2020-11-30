@@ -14,7 +14,6 @@ const useStyles = theme => ({
     root: {
         marginTop: '3',
         width: '100%',
-        fontWeight: 'bold',
         margin:'auto',
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
