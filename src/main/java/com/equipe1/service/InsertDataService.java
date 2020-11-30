@@ -48,7 +48,7 @@ public class InsertDataService {
     GenerateurPdfService generateurPdfService;
 
     @Autowired
-    private EtudiantService etudiantService;
+    private SessionService sessionService;
 
     @Autowired
     private EvaluationStagiaireService evaluationStagiaireService;
@@ -76,18 +76,15 @@ public class InsertDataService {
         sessionList = new ArrayList<>();
         Session session;
 
-        session = Session.builder().nom("ETE-2020").isCurrent(false)
-                .dateDebut(LocalDate.of(2020, 6, 1)).build();
+        session = Session.builder().nom("ETE-2020").isCurrent(false).build();
         sessionRepository.save(session);
         sessionList.add(session);
 
-        session = Session.builder().nom("AUT-2020").isCurrent(false)
-                .dateDebut(LocalDate.of(2020, 9, 1)).build();
+        session = Session.builder().nom("AUT-2020").isCurrent(false).build();
         sessionRepository.save(session);
         sessionList.add(session);
 
-        session = Session.builder().nom("HIV-2020").isCurrent(true)
-                .dateDebut(LocalDate.of(2020, 1, 1)).build();
+        session = Session.builder().nom("HIV-2021").isCurrent(true).build();
         sessionRepository.save(session);
         sessionList.add(session);
     }
@@ -475,9 +472,6 @@ public class InsertDataService {
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         roles.add(role);
 
-
-
-
         List<Employeur> employeurs = employeurRepository.findAll();
         Employeur employeur = employeurs.get(0);
        Etudiant etudiant = new Etudiant();
@@ -570,7 +564,6 @@ public class InsertDataService {
             enseignant5.setTelephone("4389522222");
             enseignantRepository.save(enseignant5);
         }
-
 
     }
 }

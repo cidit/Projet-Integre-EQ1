@@ -6,6 +6,7 @@ import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
 import EtudiantService from '../../../service/EtudiantService';
 import CVService from '../../../service/CVService';
+import SessionService from "../../../service/SessionService";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,15 +38,25 @@ const useStyles = makeStyles((theme) => ({
 export default function ListEnseignants() {
     const classes = useStyles();
 
-    const [etudiantsCVNonApprouve, setEtudiantsCVNonApprouve] = useState([]);
+    const [etudiantsCVNonApprouve, setEtudiantsCVNonApprouve] = useState([])
+    const [sessionSelectionneeEnCours, setSessionSelectionneeEnCours] = useState(true);
+
+    var idSession = localStorage.getItem("session");
+
     const getEtudiantsCVNonApprouve = async () => {
-        var idSession = localStorage.getItem("session");
         const response = await EtudiantService.getEtudiantsCVNonApprouve(idSession);
         setEtudiantsCVNonApprouve(response.data);
     }
 
+    const isSessionSelectionneeEnCours = async () => {
+        const response = await SessionService.isSessionSelectionneeEnCours(idSession);
+        setSessionSelectionneeEnCours(response.data);
+    }
+
     useEffect(() => {
+
         getEtudiantsCVNonApprouve();
+        isSessionSelectionneeEnCours();
         return () => {
             setEtudiantsCVNonApprouve([]);
         }
@@ -71,12 +82,12 @@ export default function ListEnseignants() {
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
                                         <TableCell className={classes.textTitle}>Télécharger CV</TableCell>
-                                        <TableCell className={classes.textTitle}>Approbation CV</TableCell>
+                                        <TableCell className={classes.textTitle} hidden={!sessionSelectionneeEnCours}>Approbation CV</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {etudiantsCVNonApprouve.map((row) => (
-                                        <Row key={row.id} row={row}/>
+                                        <Row key={row.id} row={row} sessionSelectionneeEnCours={sessionSelectionneeEnCours}/>
                                     ))}
                                 </TableBody>
                             </Table>
@@ -147,7 +158,7 @@ function Row(props) {
                     <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => downloadCV(row)}>Télécharger</Button> : "Pas de CV"}<br/>
                 </TableCell>
 
-                <TableCell>
+                <TableCell hidden={!props.sessionSelectionneeEnCours}>
                     {renderColonneApprobationCV(row)}
                 </TableCell>
             </TableRow>
