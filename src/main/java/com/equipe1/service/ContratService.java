@@ -70,7 +70,6 @@ public class ContratService {
 
     public List<Contrat> getContratsByEtudiantChoisi(Etudiant etudiant) {
         List<Contrat> contratSignatureEmployeurOk = new ArrayList<>();
-        System.out.println(candidatureRepository.findAll());
         for (Candidature candidatureTmp : candidatureRepository.findAll()) {
             if (isSigneParEmployeur(etudiant, candidatureTmp)) {
                 contratSignatureEmployeurOk.add(candidatureTmp.getContrat());
