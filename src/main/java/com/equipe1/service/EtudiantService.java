@@ -155,22 +155,6 @@ public class EtudiantService {
         return etudiantsInscrits;
     }
 
-    public List<Etudiant> getEtudiantsAyantEntrevue(Long idSession) {
-        Session session = sessionRepository.findById(idSession).get();
-        List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
-                .filter(etudiant -> etudiant.getSessions().contains(session) && hasEntrevueSession(etudiant.getId(), idSession))
-                .collect(Collectors.toList());
-        return etudiantsInscrits;
-    }
-
-    public boolean hasEntrevueSession(Long idEtudiant, Long idSession){
-        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(idEtudiant, idSession);
-        for(Candidature candidature : candidatures){
-            if(!candidature.getEntrevueStatut().equals(Candidature.CandidatureEntrevueStatut.PAS_CONVOQUE))
-                return true;
-        }
-        return false;
-    }
 
     public Etudiant updateEtudiantPassword(Etudiant newEtudiant, Long id) {
         Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);

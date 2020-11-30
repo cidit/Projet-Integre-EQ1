@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         margin: 'auto',
         maxWidth: '70%',
+
     },
     heading: {
         fontSize: theme.typography.pxToRem(18),
@@ -29,10 +30,6 @@ export default function EvaluationStagiaire() {
     const { params } = useRouteMatch();
     const [redirect, setRedirect] = useState(false)
     const [etudiant, setEtudiant] = useState('')
-
-    //defini origin du id
-
-
 
     const goToEvaluation = () => {
         setRedirect(true);
@@ -56,8 +53,8 @@ export default function EvaluationStagiaire() {
         return <Redirect to={`/questionProductivite/${params.id}`} />
     }
     return (
-        <div>
-            <Paper className={classes.paper} width="75%">
+        <div className='mt-4'>
+            <Paper className={classes.paper}>
                 <Typography className={classes.heading} align='center'>
                     FICHE D’ÉVALUATION DU STAGIAIRE
               </Typography>

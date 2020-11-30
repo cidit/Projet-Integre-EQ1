@@ -23,8 +23,8 @@ class StageService{
         return axios.get(STAGES_URL + "/nonApprouves", { params: { idSession: idSession} });
     }
 
-    getStagesAyantAucunStagiaires(idSession){
-        return axios.get(STAGES_URL + "/ayantStagiaire", { params: { idSession: idSession} });
+    getStagesNonCombles(idSession){
+        return axios.get(STAGES_URL + "/nonComble", { params: { idSession: idSession} });
     }
     
     getStageById(id){

@@ -185,24 +185,25 @@ public class StageService {
         return stagesNonApprouves;
     }
 
-    public List<Stage> getStagesAyantAucunStagiaire(Long idSession) {
+    public List<Stage> getStagesNonComble(Long idSession) {
         Session session = sessionRepository.findById(idSession).get();
         List<Stage> stages = stageRepository.findAll();
         List<Stage> resultStages = new ArrayList<>();
         for (Stage stage : stages) {
-            if (!hasStagiare(stage) && stage.getSession().equals(session))
+            if (!isComble(stage) && stage.getSession().equals(session))
                 resultStages.add(stage);
         }
         return resultStages;
     }
 
-    private boolean hasStagiare(Stage stage) {
+    public boolean isComble(Stage stage) {
         List<Candidature> candidatures = candidatureService.findCandidatureByStage(stage.getId());
+        int nbEtudiantsAdmis = 0;
         for (Candidature candidature : candidatures) {
             if (candidature.getStatut().equals(Candidature.CandidatureStatut.CHOISI))
-                return true;
+                nbEtudiantsAdmis++;
         }
-        return false;
+        return !(nbEtudiantsAdmis < stage.getNbAdmis());
     }
 
     public List<Stage> getByStatutWaiting() {

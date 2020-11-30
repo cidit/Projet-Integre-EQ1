@@ -8,6 +8,11 @@ class SessionService {
         return axios.post(BASE_URL + "createSession", session)
     }
 
+    isSessionSelectionneeEnCours(idSession){
+        return axios.get(BASE_URL + "isSessionSelectionneeEnCours/" +  idSession)
+
+    }
+
     getAllSessions(){
         return axios.get(BASE_URL + "findAll")
     }

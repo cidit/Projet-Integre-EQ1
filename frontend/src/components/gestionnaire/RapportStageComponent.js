@@ -67,17 +67,17 @@ function TabPanel(props) {
         setOffreStagesNonApprouve(response.data);
     }
 
-    const [offreStagesAucunStagiaires, setOffreStagesAucunStagiaires] = useState(null);
-    const getOffreStagesAucunStagiaires = async () => {
+    const [offreStagesNonCombles, setOffreStagesNonCombles] = useState(null);
+    const getOffreStagesNonCombles = async () => {
         var idSession = localStorage.getItem("session");
-        const response = await StageService.getStagesAyantAucunStagiaires(idSession);
-        setOffreStagesAucunStagiaires(response.data);
+        const response = await StageService.getStagesNonCombles(idSession);
+        setOffreStagesNonCombles(response.data);
     }
 
     useEffect(() => {
       getOffreStages();
       getOffreStagesNonApprouve();
-      getOffreStagesAucunStagiaires();
+      getOffreStagesNonCombles();
     },[])
 
     const classes = useStyles();
@@ -117,8 +117,8 @@ function TabPanel(props) {
           </div>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <div>{offreStagesAucunStagiaires != null &&
-              <ListeGenericStage stages={offreStagesAucunStagiaires} />
+          <div>{offreStagesNonCombles != null &&
+              <ListeGenericStage stages={offreStagesNonCombles} />
           }
           </div>
         </TabPanel>

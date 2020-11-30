@@ -40,7 +40,7 @@ public class SessionService {
 
     public boolean isSessionSelectionneeEnCours (Long id){
         Session session = sessionRepository.findById(id).get();
-        return session.equals(sessionRepository.findCurrentSession());
+        return session.equals(sessionRepository.findCurrentSession().get());
     }
 
     public Optional<Session> findCurrentSession() { return sessionRepository.findCurrentSession(); };

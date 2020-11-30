@@ -62,7 +62,6 @@ public class CandidatureServiceTest {
         session = Session.builder()
                 .id(1L)
                 .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
                 .build();
         sessionRepository.save(session);
         List<Session> sessions = new ArrayList<>();
@@ -249,34 +248,6 @@ public class CandidatureServiceTest {
         List<Candidature> candidatures = candidatureService.getListByDateStage();
         Assertions.assertNotNull(candidatures);
         Assertions.assertEquals(candidatures.size(), 1);
-    }
-
-    @Test
-    public void testConvoqueEtudiantEntrevue() {
-        // Arrange
-        c1.setId(1L);
-        when(candidatureRepository.save(c1)).thenReturn(c1);
-        candidatureRepository.save(c1);
-        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
-        when(candidatureRepository.save(c2)).thenReturn(c2);
-        // Act
-        Candidature candidature = candidatureService.convoqueEtudiantEntrevue(1L);
-        // Assert
-        assertEquals(candidature.getEntrevueStatut(), Candidature.CandidatureEntrevueStatut.CONVOQUE);
-    }
-
-    @Test
-    public void testEntrevuePasseeConfirmation() {
-        // Arrange
-        c1.setId(1L);
-        when(candidatureRepository.save(c1)).thenReturn(c1);
-        candidatureRepository.save(c1);
-        when(candidatureRepository.findById(1L)).thenReturn(Optional.of(c1));
-        when(candidatureRepository.save(c2)).thenReturn(c2);
-        // Act
-        Candidature candidature = candidatureService.entrevuePasseeConfirmation(1L);
-        // Assert
-        assertEquals(candidature.getEntrevueStatut(), Candidature.CandidatureEntrevueStatut.PASSEE);
     }
 
     @Test

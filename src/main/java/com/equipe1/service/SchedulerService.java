@@ -15,7 +15,7 @@ public class SchedulerService {
     @Scheduled(cron = "0 0 0 1 JAN,JUN,SEP ?")
     public Session scheduleCreationSession() {
         String nomSession = configurationNomSession();
-        Session session = Session.builder().nom(nomSession).dateDebut(LocalDate.now()).isCurrent(true).build();
+        Session session = Session.builder().nom(nomSession).isCurrent(true).build();
         return sessionService.create(session);
 
     }

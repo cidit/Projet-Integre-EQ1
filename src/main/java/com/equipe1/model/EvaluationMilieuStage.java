@@ -5,7 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(exclude="etudiant")
 @Entity
 @Data
 public class EvaluationMilieuStage extends Evaluation {

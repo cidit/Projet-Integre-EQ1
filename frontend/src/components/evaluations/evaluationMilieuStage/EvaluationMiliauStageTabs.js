@@ -53,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
     display: 'inline-flex',
+    "& .MuiTab-wrapper": {
+      flexDirection: "row",
+      justifyContent: "flex-start"
+    },
 
   },
   tabPanel: {
