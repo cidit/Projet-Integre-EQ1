@@ -3,84 +3,122 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import {TableRow, TableCell} from '@material-ui/core';
+import { TableRow, TableCell } from '@material-ui/core';
 import React, { useEffect, useState } from "react";
 import EvaluationService from '../../../service/EvaluationService';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { Alert } from '@material-ui/lab';
 
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: theme.palette.success.light,
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-  }))(TableCell);
-  
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-       
-      },
-    },
-  }))(TableRow);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: '3',
+    width: '100%',
+    fontWeight: 'bold',
+    margin: 'auto',
+    fontSize: theme.typography.pxToRem(14),
+    fontWeight: theme.typography.fontWeightRegular,
+    textAlign: 'center',
 
-  const useStyles = makeStyles({
-    table: {
-      minWidth: 700,
-    },
-  });
+  },
+  heading: {
+    margin: 'auto',
+    fontSize: theme.typography.pxToRem(14),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+  textTitle: {
+    fontWeight: 'bold',
+    textAlign: 'left',
+    fontSize: 15,
+    margin: 'auto',
+  },
+  row: {
+    textAlign: 'center',
+  }
+}));
 
 export default function ListHistoriqueEvaluationsStagiaires() {
-    const [listEvaluationsEmployeur, setListEvaluationsEmployeur] = useState([])
-    const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
-    const classes = useStyles();
+  const [listEvaluationsEmployeur, setListEvaluationsEmployeur] = useState([])
+  const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
+  const classes = useStyles();
 
 
 
-    const getListEvaluations = async () => {
-        var idSession = localStorage.getItem("session");
-        const response = await EvaluationService.getEvaluationsStagiaireByEmployeur(id, idSession);
-        setListEvaluationsEmployeur(response.data);
-        console.log("response")
-        console.log(response.data)
+  const getListEvaluations = async () => {
+    var idSession = localStorage.getItem("session");
+    const response = await EvaluationService.getEvaluationsStagiaireByEmployeur(id, idSession);
+    console.log(response.data)
+    setListEvaluationsEmployeur(response.data);
+  }
+
+  useEffect(() => {
+    getListEvaluations()
+    return () => {
     }
+  }, [])
 
-    useEffect(() => {
-        getListEvaluations()
-        return () => {
-
-        }
-    }, [])
-
+  if (listEvaluationsEmployeur.length === 0) {
     return (
-      <Paper className={classes.root}>
-            <TableContainer component={Paper} >
-                <Table className={classes.table} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Date création</StyledTableCell>
-                            <StyledTableCell align="right">Étudiant</StyledTableCell>
-                            <StyledTableCell align="right">Email</StyledTableCell>
-                            <StyledTableCell align="right">Programme</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {listEvaluationsEmployeur.map((data) => (
-                            <StyledTableRow key={data.id}>
-                                <StyledTableCell component="th" scope="row">
-                                {data.dateCreation}
-                                </StyledTableCell>
-                                <StyledTableCell align="right">{data.etudiant.prenom} {data.etudiant.nom}</StyledTableCell>
-                                <StyledTableCell align="right">{data.etudiant.email}</StyledTableCell>
-                                <StyledTableCell align="right">{data.etudiant.programme}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Paper>
+      AlertAucunContrat(true)
     )
+  } else {
+    return (
+      <div className='container-fluid'>
+        {listEvaluationsEmployeur &&
+          <>
+            <TableContainer >
+              <Table className="table table-striped">
+                <TableHead>
+                  <TableRow >
+                    <TableCell className={classes.textTitle} >Date de creation </TableCell>
+                    <TableCell className={classes.textTitle}>Étudiant </TableCell>
+                    <TableCell className={classes.textTitle}>Programme </TableCell>
+                    <TableCell className={classes.textTitle}>Courriel </TableCell>
+                    <TableCell className={classes.textTitle}>Téléphone</TableCell>
+                    <TableCell className={classes.textTitle}>Remplie par</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {listEvaluationsEmployeur.map((row) => (
+                    <Row key={row.id} row={row} />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        }
+      </div>
+    )
+  }
+};
+
+function Row(props) {
+  const { row } = props;
+  const classes = useStyles();
+  var nomSession = localStorage.getItem("nomSession");
+
+  return (
+    <React.Fragment>
+      <TableRow className={classes.root}>
+        <TableCell >{row.dateCreation}</TableCell>
+        <TableCell >{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
+        <TableCell >{row.etudiant.programme}</TableCell>
+        <TableCell >{row.etudiant.email}</TableCell>
+        <TableCell >{row.etudiant.telephone}</TableCell>
+        <TableCell >{row.employeur.nom}</TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+
+};
+function AlertAucunContrat(isGestionnaire) {
+  return <div className="container">
+    <div className="row justify-content-md-center">
+      <div className="col">
+        <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez fait aucune évaluation</Alert>
+      </div>
+    </div>
+  </div>;
 }
+
+

@@ -460,17 +460,42 @@ public class InsertDataService {
     @Transactional
     public void insertEvaluationStagiaire() throws Exception {
 
-        Optional<Employeur> employeur = employeurRepository.findById(5L);
+        Enseignant enseignant2 = new Enseignant();
+        enseignant2.setNom("Leonie");
+        enseignant2.setPrenom("Aguilar ");
+        enseignant2.setPassword("123456");
+        enseignant2.setProgramme("Gestion de commerces");
+        enseignant2.setEmail("Leonierrr@email.com");
+        enseignant2.setTelephone("438950000");
+        enseignantRepository.save(enseignant2);
+
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+
+
+
+        List<Employeur> employeurs = employeurRepository.findAll();
+        Employeur employeur = employeurs.get(0);
        Etudiant etudiant = new Etudiant();
        etudiant.setPrenom("Zoy");
+        etudiant.setPassword("123456");
+       etudiant.setMatricule("123456");
+       etudiant.setAdresse("adresse1234");
        etudiant.setNom("laComadreja");
-       etudiant.setEmail("zoyLaComadreja@email.com");
+       etudiant.setEmail("zoyLaComadr@email.com");
        etudiant.setProgramme("Technique de l'informatique");
+       etudiant.setEnseignant(enseignant2);
+        etudiant.setRoles(roles);
+        etudiant.setTelephone("123654789654");
        etudiantRepository.save(etudiant);
         EvaluationStagiaire e = new EvaluationStagiaire();
         Question q1 = new Question();
         e.setDateCreation(LocalDate.now());
-        e.setEmployeur(employeur.orElse(new Employeur()));
+        e.setEmployeur(employeur);
         e.setEtudiant(etudiant);
         evaluationStagiaireService.save(e);
 
@@ -489,7 +514,7 @@ public class InsertDataService {
 
 
     @Transactional
-    public void insertEnseinants() {
+    public void insertEnseignants() {
         Enseignant enseignant1 = new Enseignant();
         enseignant1.setNom("Laure");
         enseignant1.setPrenom("Gaudreault ");
