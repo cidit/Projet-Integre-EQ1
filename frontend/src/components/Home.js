@@ -18,7 +18,7 @@ export default function Home(props) {
     }
 
     useEffect(() => {
-        if (userId != null || userId != undefined)
+        if (userId !== null)
             UserService.getReminders(userId)
                 .then(value => {
                     console.log(value)
@@ -38,11 +38,12 @@ export default function Home(props) {
         }
     }
 
+
     function define(reminderType) {
         switch (reminderType) {
             case "PAS_DE_CV":
                 return ["Pas de CV", "Vous n'avez pas de CV a votre nom.",
-                    "/profileEtudiant"]
+                    "/profilEtudiant"]
             case "PAS_DE_CANDIDATURE_SUR_UN_STAGE":
                 return ["Pas de candidature", "Vous n'avez pas posé de candidature sur un stage.",
                     "/offrestage"]
@@ -55,9 +56,6 @@ export default function Home(props) {
             case "FREQUENTATION_DE_STAGE_PAS_CONFIRMEE":
                 return ["Confirmer votre fréquentation", "Vous n'avez pas confirmé votre fréquentation à un stage.",
                     "/listecandidatures"]
-            case "UN_STAGE_ENCORE_OUVERT_A_DES_CANDIDATURES":
-                return ["Candidatures sur un stage ouvert", "Un stage encore ouvert a encore des candidatures.",
-                    "/"] // TODO remove
             case "PAS_DE_STAGE_OUVERT_CETTE_SESSION":
                 return ["Pas de stage cette session", "Vous n'avez pas soumis de stage ouvert cette session.",
                     "/createStage"]
@@ -70,9 +68,6 @@ export default function Home(props) {
             case "CONTRAT_PRET_A_ETRE_GENERE":
                 return ["Contrats a générer", "Un contrat est prêt à être générer.",
                     "/rapportContrats"] // TODO verify if its the right route when refactoring
-            case "NOUVELLE_SESSION_IMINENTE":
-                return ["Nouvelle Session", "Une nouvelle session arrive bientôt!",
-                    ""] // TODO to implement
             default:
                 return ["", "", ""]
         }
@@ -80,9 +75,7 @@ export default function Home(props) {
 
     let k = 0;
     return (
-        <
-            Container>
-            {/*<Button onClick={() => setReminders(UserService.getReminders(userId))}>Refresh</Button>*/}
+        <Container>
             {
                 reminders.map(reminder => {
                     let [title, message, redirect] = define(reminder)

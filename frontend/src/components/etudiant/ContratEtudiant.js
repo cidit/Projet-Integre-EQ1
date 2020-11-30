@@ -1,4 +1,4 @@
-import {ListeContratsEtudiant} from '../contrat/ListeContrats'
+import {ListeContrat, ListeContratsEtudiant} from '../contrat/ListeContrats'
 import React, {useEffect, useState} from 'react';
 import ContratService from '../../service/ContratService';
 
@@ -22,7 +22,7 @@ export default function ContratEtudiant() {
     const IsRegsiteredSessionEtudiant = async () => {
         const response = await EtudiantService.isRegistered(id);
         if(!response.data){
-            history.push("/profileEtudiant");
+            history.push("/profilEtudiant");
         }
     }
 
@@ -35,9 +35,12 @@ export default function ContratEtudiant() {
     }, [])
 
     return (
-        <div>{contratEtudiant != null &&
-        <ListeContratsEtudiant contrats={contratEtudiant}/>
-        }
+        <div>
+            {contratEtudiant !=
+                null &&
+                // <ListeContratsEtudiant contrats={contratEtudiant}/>
+            <ListeContrat  />
+            }
         </div>
     )
 

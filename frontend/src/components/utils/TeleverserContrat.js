@@ -5,6 +5,7 @@ import PublishIcon from '@material-ui/icons/Publish';
 import MuiAlert from '@material-ui/lab/Alert';
 import React, { Component } from 'react';
 import ContratService from "../../service/ContratService";
+import {ListeContrat} from "../contrat/ListeContrats";
 
 
 export default class TeleverserContrat extends Component {
@@ -17,6 +18,8 @@ export default class TeleverserContrat extends Component {
             showSnackbarInvalid: false
 
         }
+
+        this.telecharger = this.telecharger.bind(this)
 
         this.handleClick = this.handleClick.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
@@ -70,19 +73,28 @@ export default class TeleverserContrat extends Component {
         }
     }
 
+    telecharger(props){
+        let id = parseInt(this.props.match.params.id);
+        ContratService.telechargerDocument(id).then((response) => {
+            sauvegarderEtMontrerDoc(response)
+        });
+    }
+
 
     render() {
         return (
             <form>
                 <div>
-                    <h3>Televerser votre contrat</h3>
-                    <p>Veuillez televerser le contrat que vous venez de telecharger daté et signé </p>
+                    <h3>Signature du contrat</h3>
+                    <p>Veuillez télécharger le contrat, le lire attentivement, le signer et le dater, puis le téléverser</p>
+
+                    <Button onClick={this.telecharger}>Télécharger</Button>
+
                     <div>
                         <input
                             id="contained-button-file"
                             type="file"
                             display="none"
-                            //onChange={function to update contrat}
                             onChange={this.onChangeHandler}
                         />
                         <label htmlFor="contained-button-file">
@@ -99,22 +111,42 @@ export default class TeleverserContrat extends Component {
 
 
                 </div>
-                <Snackbar open={this.state.showSnackbarValid} autoHideDuration={6000}
-                          onClose={this.handleCloseSnackbarValid}>
-                    <Alert onClose={this.handleCloseSnackbarValid} severity="success">
+                <Snackbar
+                    open={this.state.showSnackbarValid} autoHideDuration={6000}
+                      onClose={this.handleCloseSnackbarValid}>
+                    <Alert
+                        onClose={this.handleCloseSnackbarValid}
+                        severity="success"
+                    >
                         Le contrat a été téléversé.
                     </Alert>
                 </Snackbar>
-                <Snackbar open={this.state.showSnackbarInvalid} autoHideDuration={6000}
-                          onClose={this.handleCloseSnackbarInvalid}>
-                    <Alert onClose={this.handleCloseSnackbarInvalid} severity="error">
+                <Snackbar
+                    open={this.state.showSnackbarInvalid}
+                    autoHideDuration={6000}
+                    onClose={this.handleCloseSnackbarInvalid}
+                >
+                    <Alert
+                        onClose={this.handleCloseSnackbarInvalid}
+                        severity="error"
+                    >
                         Il n'y a pas de contrat a téléverser.
                     </Alert>
                 </Snackbar>
+
             </form>
 
         )
     }
+}
+
+function sauvegarderEtMontrerDoc(response) {
+    const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/octet-stream'}));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'file.pdf'); //or any other extension
+    document.body.appendChild(link);
+    link.click();
 }
 
 function Alert(props) {

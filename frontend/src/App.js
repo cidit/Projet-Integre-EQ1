@@ -19,7 +19,6 @@ import ContratEtudiant from './components/etudiant/ContratEtudiant'
 import ListCandidatureChoisi from './components/contrat/ListCandidatureChoisi'
 import CreationContrat from './components/contrat/CreationContrat'
 import TeleverserContrat from './components/utils/TeleverserContrat'
-import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire";
 
 import StageComponent from "./components/stage/StageComponent";
 import ListeStage from "./components/stage/ListeStage";
@@ -32,7 +31,6 @@ import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStag
 import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire'
 import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";
-import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import RapportComponent from "./components/gestionnaire/RapportComponent";
 import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
 
@@ -65,7 +63,6 @@ function App() {
                     <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent}/>
                     <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent}/>
                     <Route path='/contratsEmployeur' component={ContratsEmployeur}/>
-                    <Route path='/contratsGestionnaire' component={ContratsGestionnaire}/>
                     <Route path='/contratEtudiant' component={ContratEtudiant}/>
                     <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi}/>
                     <Route path='/CreationContrat/:id' component={CreationContrat}/>
