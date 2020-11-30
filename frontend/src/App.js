@@ -5,11 +5,8 @@ import Login from "./components/Login";
 import {Route, Switch} from 'react-router-dom';
 import Home from "./components/Home";
 import HeaderComponent from "./components/HeaderComponent";
-import ListEtudiantsComponent from "./components/gestionnaire/ListEtudiantComponent";
-import Register from './components/RegisterComponent';
 
 import CreateStageComponent from './components/stage/CreateStageComponent';
-import GestionnaireListStageComponent from './components/gestionnaire/GestionnaireListeStageComponent';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandidaturesEtudiantComponent';
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
@@ -20,7 +17,6 @@ import ContratEtudiant from './components/etudiant/ContratEtudiant'
 import ListCandidatureChoisi from './components/contrat/ListCandidatureChoisi'
 import CreationContrat from './components/contrat/CreationContrat'
 import TeleverserContrat from './components/utils/TeleverserContrat'
-import ContratsGestionnaire from "./components/gestionnaire/ContratsGestionnaire";
 
 import StageComponent from "./components/stage/StageComponent";
 import ListeStage from "./components/stage/ListeStage";
@@ -35,7 +31,6 @@ import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
 import {createMuiTheme} from "@material-ui/core";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import RapportComponent from "./components/gestionnaire/RapportComponent";
-import CandidaturesGestionnaire from "./components/gestionnaire/CandidaturesGestionnaire";
 
 import ProfilEmployeur from './components/employeur/ProfilEmployeur';
 import ProfilGestionnaire from './components/gestionnaire/ProfilGestionnaire';
@@ -44,8 +39,13 @@ import ProfilEnseignant from './components/enseignant/ProfilEnseignant'
 import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieuStage/EvaluationMiliauStageTabs'
 import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge'
 import RegisterTabs from './components/register/RegisterTabs'
-import EnseignantsTabs from './components/gestionnaire/EnseignantsTabs'
 
+import EnseignantsTabs from './components/gestionnaire/rapport-enseignant/EnseignantsTabs'
+import RapportEnseignantComponent from './components/gestionnaire/rapport-enseignant/RapportEnseignantComponent';
+import RapportEtudiantComponent from './components/gestionnaire/rapport-etudiant/RapportEtudiantComponent';
+import RapportStageComponent from './components/gestionnaire/rapport-stage/RapportStageComponent';
+import RapportContratComponent from './components/gestionnaire/rapport-contrat/RapportContratComponent';
+import ApprobationStageInfo from './components/gestionnaire/rapport-stage/ApprobationStageInfo';
 
 function App() {
   return (
@@ -57,17 +57,13 @@ function App() {
           <Route path="/" exact component={Home}/>
           <Route path='/login' component={Login} />
           <Route path='/register' component={RegisterTabs} />
-          <Route path="/etudiants" component={ListEtudiantsComponent}/>
           {/*<Route path='/stageVeto' component={StageVeto} />*/}
           <Route path='/offrestage' component={ApplicationStageComponent} />
-          <Route path="/etudiants" component={ListEtudiantsComponent} />
           <Route path='/createStage' component={CreateStageComponent} />
           <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
-          <Route path='/gestionnaireStage' component={GestionnaireListStageComponent} />
           <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
           <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent} />
           <Route path='/contratsEmployeur' component={ContratsEmployeur} />
-          <Route path='/contratsGestionnaire' component={ContratsGestionnaire} />
           <Route path='/contratEtudiant' component={ContratEtudiant} />
           <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi} />
           <Route path='/CreationContrat/:id' component={CreationContrat} />
@@ -77,7 +73,6 @@ function App() {
           <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
-          <Route path="/candidaturesGestionnaire/:id" component={CandidaturesGestionnaire}/>
           <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
           <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
           <Route path="/questionRelations/:id" component={QuestionRelations}/>
@@ -86,7 +81,16 @@ function App() {
           <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
           <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
           <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
+
+            
+          {/* Rapports  */}
           <Route path="/rapport" component={RapportComponent}/>
+          <Route path="/rapportEnseignant" component={RapportEnseignantComponent}/>
+          <Route path="/rapportEtudiant" component={RapportEtudiantComponent}/>
+          <Route path="/rapportStage" component={RapportStageComponent}/>
+          <Route path="/rapportContrat" component={RapportContratComponent}/>
+          <Route path="/approbationStageInfo/:id" component={ApprobationStageInfo}/>
+
           
           <Route path="/profilEtudiant" component={ProfilEtudiant}/>
           <Route path="/profilEmployeur" component={ProfilEmployeur}/>

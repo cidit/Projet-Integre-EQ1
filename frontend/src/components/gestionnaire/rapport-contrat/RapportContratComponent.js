@@ -6,8 +6,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import ContratService from '../../service/ContratService';
+import ContratService from '../../../service/ContratService';
 import ListeGenericContrat from './ListeGenericContrat';
+import ListCandidatureChoisi from '../../contrat/ListCandidatureChoisi'
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -98,24 +99,28 @@ export default function ScrollableTabsButtonAuto() {
                     scrollButtons="auto"
                     aria-label="scrollable auto tabs example"
                 >
-                    <Tab label="Contrats non signé par employeur" {...a11yProps(0)} />
-                    <Tab label="Contrats non signé par étudiant" {...a11yProps(1)} />
-                    <Tab label="Contrats non signé par administration" {...a11yProps(2)} />
+                    <Tab label="Contrats à générer" {...a11yProps(0)} />
+                    <Tab label="Contrats non signé par employeur" {...a11yProps(1)} />
+                    <Tab label="Contrats non signé par étudiant" {...a11yProps(2)} />
+                    <Tab label="Contrats non signé par administration" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
+                <ListCandidatureChoisi/>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
                 <div>{contratsNonSigneEmployeur != null &&
                 <ListeGenericContrat contrats={contratsNonSigneEmployeur}/>
                 }
                 </div>
             </TabPanel>
-            <TabPanel value={value} index={1}>
+            <TabPanel value={value} index={2}>
                 <div>{contratsNonSigneEtudiant != null &&
                 <ListeGenericContrat contrats={contratsNonSigneEtudiant}/>
                 }
                 </div>
             </TabPanel>
-            <TabPanel value={value} index={2}>
+            <TabPanel value={value} index={3}>
                 <div>{contratsNonSigneAdministration != null &&
                 <ListeGenericContrat contrats={contratsNonSigneAdministration}/>
                 }

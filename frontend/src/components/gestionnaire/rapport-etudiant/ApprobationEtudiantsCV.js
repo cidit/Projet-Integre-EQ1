@@ -6,7 +6,7 @@ import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
 import EtudiantService from '../../../service/EtudiantService';
 import CVService from '../../../service/CVService';
-
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,7 +54,7 @@ export default function ListEnseignants() {
 
     if (etudiantsCVNonApprouve.length === 0) {
         return (
-            AlertAucunCV(true)
+            AlertAucunCV()
         )
     } else {
         return (
@@ -136,15 +136,15 @@ function Row(props) {
     return (
         <React.Fragment>
             <TableRow hover className={classes.row}>
-                <TableCell>{row.matricule}</TableCell>
-                <TableCell>{row.prenom} {row.nom}</TableCell>
-                <TableCell>{row.programme}</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{row.telephone}</TableCell>
+                <TableCell className='align-middle'>{row.matricule}</TableCell>
+                <TableCell className='align-middle'>{row.prenom} {row.nom}</TableCell>
+                <TableCell className='align-middle'>{row.programme}</TableCell>
+                <TableCell className='align-middle'>{row.email}</TableCell>
+                <TableCell className='align-middle'>{row.telephone}</TableCell>
                 
                 <TableCell>
                     {row.cv.status != "APPROVED" ? 
-                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => downloadCV(row)}>Télécharger</Button> : "Pas de CV"}<br/>
+                    <Button className='m-2' size="small"color="primary" onClick={() => downloadCV(row)}><GetAppIcon/></Button> : "Pas de CV"}<br/>
                 </TableCell>
 
                 <TableCell>

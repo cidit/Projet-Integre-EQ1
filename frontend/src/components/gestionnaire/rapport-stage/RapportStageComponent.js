@@ -7,8 +7,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import StageService from '../../service/StageService';
+import StageService from '../../../service/StageService';
 import ListeGenericStage from './ListeGenericStage';
+import ApprobationStage from './ApprobationStage';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -111,10 +112,13 @@ function TabPanel(props) {
           </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
+          {/*
           <div>{offreStagesNonApprouve != null &&
               <ListeGenericStage stages={offreStagesNonApprouve} />
           }
           </div>
+          */}
+          <ApprobationStage stages={offreStagesNonApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
           <div>{offreStagesAucunStagiaires != null &&

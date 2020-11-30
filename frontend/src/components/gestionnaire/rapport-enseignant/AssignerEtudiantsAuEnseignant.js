@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CandidatureService from "../../service/CandidatureService";
-import CVService from "../../service/CVService";
+import CandidatureService from "../../../service/CandidatureService";
 import {
     TableCell,
     TableContainer,
@@ -11,12 +10,9 @@ import {
     TableRow,
     Checkbox, Button
 } from "@material-ui/core";
-import { Alert } from '@material-ui/lab';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import { makeStyles } from "@material-ui/core/styles";
-import {useRouteMatch } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import EtudiantService from "../../service/EtudiantService";
+import EtudiantService from "../../../service/EtudiantService";
 
 const useStyles = makeStyles((theme) => ({
     root: {

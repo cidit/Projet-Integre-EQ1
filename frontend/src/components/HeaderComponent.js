@@ -29,12 +29,12 @@ function GestionnaireNav(props) {
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profilGestionnaire">Votre profil</Nav.Link>
-            <Nav.Link href="/etudiants">Approbation de CV</Nav.Link>
             <Nav.Link href="/listestages">Liste des stages</Nav.Link>
-            <Nav.Link href="/contratsGestionnaire">Gérer contrats</Nav.Link>
-            <Nav.Link href="/listCandidatureChoisi">Contrats à générer</Nav.Link>
-            <Nav.Link href="/stages">Choix stagiaires</Nav.Link>
             <Nav.Link href="/rapport">Rapports</Nav.Link>
+            <Nav.Link href="/rapportEnseignant">Rapports enseignants</Nav.Link>
+            <Nav.Link href="/rapportEtudiant">Rapports étudiants</Nav.Link>
+            <Nav.Link href="/rapportStage">Rapports stages</Nav.Link>
+            <Nav.Link href="/rapportContrat">Rapports contrats</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
         </Nav>

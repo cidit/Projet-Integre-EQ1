@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,9 +7,8 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { useParams } from 'react-router-dom';
 
-import ListEnseignants from './ListEnseignants'
 import AssignerEtudiantsAuEnseignant from './AssignerEtudiantsAuEnseignant'
-import ListEtudiantsEnCharge from '../enseignant/ListEtudiantsEnCharge'
+import ListEtudiantsEnCharge from '../../enseignant/ListEtudiantsEnCharge'
 
 
 

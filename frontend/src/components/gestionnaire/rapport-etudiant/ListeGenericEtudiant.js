@@ -37,7 +37,7 @@ export default function ListeGenericEtudiant(props) {
 
     if (props.etudiants.length === 0) {
         return (
-            AlertAucunEtudiant(true)
+            AlertAucunEtudiant()
         )
     } else {
         return (

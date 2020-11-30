@@ -7,9 +7,9 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
 import RapportEtudiantComponent from './rapport-etudiant/RapportEtudiantComponent';
-import RapportStageComponent from './RapportStageComponent';
-import RapportContratComponent from './RapportContratComponent';
-import RapportEnseignantComponent from './RapportEnseignantComponent'
+import RapportStageComponent from './rapport-stage/RapportStageComponent';
+import RapportContratComponent from './rapport-contrat/RapportContratComponent';
+import RapportEnseignantComponent from './rapport-enseignant/RapportEnseignantComponent'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

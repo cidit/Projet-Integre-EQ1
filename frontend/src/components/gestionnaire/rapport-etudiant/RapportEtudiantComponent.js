@@ -75,18 +75,10 @@ function TabPanel(props) {
         setEtudiantsSansStage(response.data);
     }
 
-      const [etudiantsAyantEntrevue, setEtudiantsAyantEntrevue] = useState(null);
-      const getEtudiantsAyantEntrevue = async () => {
-          var idSession = localStorage.getItem("session");
-          const response = await EtudiantService.getAllAyantEntrevue(idSession);
-          setEtudiantsAyantEntrevue(response.data);
-      }
-
     useEffect(() => {
       getEtudiantsInscrits();
       getEtudiantsSansCV();
       getEtudiantsSansStage();
-      getEtudiantsAyantEntrevue();
     },[])
 
     const classes = useStyles();
@@ -112,7 +104,6 @@ function TabPanel(props) {
             <Tab label="Étudiants inscrits" {...a11yProps(1)} />
             <Tab label="Étudiants sans CV" {...a11yProps(2)} />
             <Tab label="Étudiants sans stage" {...a11yProps(3)} />
-            <Tab label="Étudiants avec un entrevue" {...a11yProps(4)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
@@ -135,12 +126,6 @@ function TabPanel(props) {
               <ListeGenericEtudiant etudiants={etudiantsSansStage} />
           }
           </div>
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-            <div>{etudiantsAyantEntrevue != null &&
-            <ListeGenericEtudiant etudiants={etudiantsAyantEntrevue} />
-            }
-            </div>
         </TabPanel>
       </div>
     );

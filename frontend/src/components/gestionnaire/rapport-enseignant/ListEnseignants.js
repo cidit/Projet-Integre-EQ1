@@ -5,7 +5,7 @@ import {
 import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
-import EnseignantService from '../../service/EnseignantService';
+import EnseignantService from '../../../service/EnseignantService';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -104,7 +104,7 @@ function Row(props) {
         <React.Fragment>
             <TableRow hover  className={classes.row}>
                 <TableCell className='align-middle'>{row.prenom} {row.nom}</TableCell>
-                <TableCell  className='align-middle'>{row.programme}</TableCell>
+                <TableCell className='align-middle'>{row.programme}</TableCell>
                 <TableCell className='align-middle'>{row.email}</TableCell>
                 <TableCell className='align-middle'>{row.telephone}</TableCell>
 

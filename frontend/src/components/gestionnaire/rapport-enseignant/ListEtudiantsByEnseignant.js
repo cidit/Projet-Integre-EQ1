@@ -1,15 +1,11 @@
 import {
-    Container, makeStyles, Table,
+    makeStyles, Table,
     TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
 } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
 import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
 import CandidatureService from '../../../service/CandidatureService';
 import { useHistory } from 'react-router-dom';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import EtudiantService from '../../service/EtudiantService';
 import { useParams } from 'react-router-dom';
 
 
