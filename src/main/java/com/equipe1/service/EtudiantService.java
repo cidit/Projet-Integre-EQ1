@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +23,9 @@ public class EtudiantService {
     @Autowired
     private CandidatureService candidatureService;
 
+    @Autowired
+    private EnseignantService enseignantService;
+
     public EtudiantService(EtudiantRepository etudiantRepository){
         this.etudiantRepository = etudiantRepository;
     }
@@ -34,7 +36,7 @@ public class EtudiantService {
         List<Etudiant> etudiantsSessionEnCours = new ArrayList<>();
         if(!etudiants.isEmpty()){
             etudiantsSessionEnCours = etudiants.stream()
-                    .filter(etudiant -> etudiant.getSession().contains(session))
+                    .filter(etudiant -> etudiant.getSessions().contains(session))
                     .collect(Collectors.toList());
         }
 
@@ -50,7 +52,7 @@ public class EtudiantService {
         List<Session> sessions = new ArrayList<>();
         sessions.add(sessionEnCours);
         etudiant.setStatutStage("aucun stage");
-        etudiant.setSession(sessions);
+        etudiant.setSessions(sessions);
         etudiant.setEnregistre(true);
         etudiant = etudiantRepository.save(etudiant);
         return etudiant;
@@ -80,7 +82,7 @@ public class EtudiantService {
         List<Etudiant> etudiantsFiltresAvecSession = new ArrayList<>();
         if (etudiants != null){
             for(Etudiant etudiant : etudiants){
-                if(etudiant.getSession().contains(session))
+                if(etudiant.getSessions().contains(session))
                     etudiantsFiltresAvecSession.add(etudiant);
             }
         }
@@ -92,7 +94,7 @@ public class EtudiantService {
         var optionalEtudiant = findEtudiantById(id);
         if (optionalEtudiant.isPresent()) {
             Optional<Session> session = sessionRepository.findCurrentSession();
-            optionalEtudiant.get().getSession().add(session.get());
+            optionalEtudiant.get().getSessions().add(session.get());
             optionalEtudiant.get().setEnregistre(true);
             etudiantRepository.save(optionalEtudiant.get());
         }
@@ -104,7 +106,7 @@ public class EtudiantService {
         if (optionalEtudiant.isPresent()) {
             Optional<Session> sessionActuelle = sessionRepository.findCurrentSession();
             return optionalEtudiant.get()
-                                   .getSession()
+                                   .getSessions()
                                    .stream()
                                    .anyMatch(sessionEtudiant -> sessionEtudiant.getId() == sessionActuelle.get().getId());
         }
@@ -139,7 +141,7 @@ public class EtudiantService {
     public List<Etudiant> getEtudiantsAucunCV(Long idSession) {
         Session session = sessionRepository.findById(idSession).get();
         List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
-                .filter(etudiant -> etudiant.getSession().contains(session) && etudiant.getCv() == null)
+                .filter(etudiant -> etudiant.getSessions().contains(session) && etudiant.getCv() == null)
                 .collect(Collectors.toList());
         return etudiantsInscrits;
     }
@@ -147,7 +149,7 @@ public class EtudiantService {
     public List<Etudiant> getEtudiantsCVNonApprouve(Long idSession) {
         Session session = sessionRepository.findById(idSession).get();
         List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
-                .filter(etudiant -> etudiant.getSession().contains(session) &&
+                .filter(etudiant -> etudiant.getSessions().contains(session) &&
                         etudiant.getCv() != null && etudiant.getCv().getStatus() != CV.CVStatus.APPROVED)
                 .collect(Collectors.toList());
         return etudiantsInscrits;
@@ -156,7 +158,7 @@ public class EtudiantService {
     public List<Etudiant> getEtudiantsAyantEntrevue(Long idSession) {
         Session session = sessionRepository.findById(idSession).get();
         List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
-                .filter(etudiant -> etudiant.getSession().contains(session) && hasEntrevueSession(etudiant.getId(), idSession))
+                .filter(etudiant -> etudiant.getSessions().contains(session) && hasEntrevueSession(etudiant.getId(), idSession))
                 .collect(Collectors.toList());
         return etudiantsInscrits;
     }
@@ -174,6 +176,20 @@ public class EtudiantService {
         Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
         optionalEtudiant.get().setPassword(newEtudiant.getPassword());
         return etudiantRepository.save(optionalEtudiant.get());
+    }
+
+    public Etudiant setEnseignant(Long idEtudaint, Long idEnseignant){
+        Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudaint);
+        Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
+        if(etudiant.isPresent()){
+            etudiant.get().setEnseignant(enseignant);
+            etudiantRepository.save(etudiant.get());
+        }
+        return etudiant.orElse(new Etudiant());
+    }
+    public List<Etudiant> getEtudaintsByEnseignant(Long idEnseignant){
+        Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
+        return etudiantRepository.findByEnseignant(enseignant);
     }
 }
 

@@ -90,8 +90,19 @@ public class EtudiantController {
         return etudiantService.getEtudiantsAyantEntrevue(idSession);
     }
 
+    @GetMapping("/getAllbyEnseignant/{idEnseignant}")
+    public List<Etudiant> getEtudiantsbyEnseignant(@PathVariable Long idEnseignant){
+        return etudiantService.getEtudaintsByEnseignant(idEnseignant);
+    }
+
+
     @PutMapping("updatePassword/{id}")
     public Etudiant updateEtudiantPassword(@Valid @RequestBody Etudiant etudiant, @PathVariable Long id){
         return etudiantService.updateEtudiantPassword(etudiant, id);
+    }
+
+    @PutMapping("setEnseignant/{idEtudiant}/{idEnseigant}")
+    public Etudiant setEnseignant( @PathVariable Long idEtudiant, @PathVariable Long idEnseigant){
+        return etudiantService.setEnseignant(idEtudiant,idEnseigant);
     }
 }

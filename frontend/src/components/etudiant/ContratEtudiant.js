@@ -1,9 +1,11 @@
 import {ListeContratsEtudiant} from '../contrat/ListeContrats'
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ContratService from '../../service/ContratService';
 
 import EtudiantService from "../../service/EtudiantService";
+
 import { useHistory } from "react-router-dom";
+
 
 export default function ContratEtudiant() {
     
@@ -30,11 +32,11 @@ export default function ContratEtudiant() {
         return () => {
             setContratEtudiant([])
         }
-    },[])
+    }, [])
 
     return (
         <div>{contratEtudiant != null &&
-            <ListeContratsEtudiant contrats={contratEtudiant} />
+        <ListeContratsEtudiant contrats={contratEtudiant}/>
         }
         </div>
     )

@@ -1,9 +1,12 @@
 package com.equipe1.model;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
+@NoArgsConstructor
 public class Role {
 
     @Id
@@ -13,10 +16,6 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ERole name;
-
-    public Role() {
-
-    }
 
     public Role(ERole name) {
         this.name = name;

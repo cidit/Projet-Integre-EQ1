@@ -40,7 +40,7 @@ class ContratService {
         return await axios.get(baseURL + "contratExiste/"+ idcandidature);
     }
 
-    createContrat(idCandidature, formData){
+    async createContrat(idCandidature, formData){
         return axios.put(baseURL + "update/" + idCandidature, formData).then((result) => {
             console.log(result.data);
         })
@@ -49,7 +49,7 @@ class ContratService {
             })
     }
 
-    updateContrat(idCandidature, formData){
+    async updateContrat(idCandidature, formData){
         return axios.put(baseURL + "update/" + idCandidature, formData).then((result) => {
             console.log(result.data);
         })

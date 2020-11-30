@@ -4,9 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
 import React, { useEffect, useState } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
-import photo from '../../images/photo-avatar-profil.png';
-import CandidatureService from '../../service/CandidatureService';
-import EtudiantService from '../../service/EtudiantService';
+import photo from '../../../images/photo-avatar-profil.png';
+import CandidatureService from '../../../service/CandidatureService';
+import EtudiantService from '../../../service/EtudiantService';
 
 
 const useStyles = makeStyles((theme) => ({

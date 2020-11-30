@@ -56,6 +56,13 @@ public class InsertDataService {
     @Autowired
     private QuestionService questionService;
 
+
+    @Autowired
+    private EnseignantRepository enseignantRepository;
+
+    private Session sessionActuelle;
+
+
     private List<Session> sessionList;
 
     @Autowired
@@ -99,9 +106,9 @@ public class InsertDataService {
         e1.setStatutStage("possede stage");
         e1.setTelephone("555-555-5555");
         e1.setProgramme("Techniques de l’informatique");
-        e1.setSession(sessions);
+        e1.setSessions(sessions);
         e1.setEnregistre(true);
-        e1.setSession(sessionList);
+        e1.setSessions(sessionList);
 
         Set<Role> roles = new HashSet<>();
         Role role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
@@ -124,7 +131,7 @@ public class InsertDataService {
         e2.setTelephone("555-444-4444");
         e2.setProgramme("Techniques de l’informatique");
         e2.setEnregistre(true);
-        e2.setSession(sessionList);
+        e2.setSessions(sessionList);
 
         roles = new HashSet<>();
         role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
@@ -143,10 +150,10 @@ public class InsertDataService {
         //e3.setPassword(encoder.encode("123456"));
         e3.setPrenom("Loic");
         e3.setNom("Olinga");
-        e3.setStatutStage("aucun stage");
+        e3.setStatutStage("possede stage");
         e3.setTelephone("555-444-4444");
         e3.setProgramme("Techniques de l’informatique");
-        e3.setSession(sessionList);
+        e3.setSessions(sessionList);
         e3.setEnregistre(true);
 
         roles = new HashSet<>();
@@ -214,8 +221,8 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setSalaire(15);
+
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
@@ -234,6 +241,9 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
+
+        stage1.setSession(session);
+
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
         Etudiant etudiant = etudiantRepository.findByEmail("richard@email.com");
         Set<Etudiant> set = new HashSet<>();
@@ -315,7 +325,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
+
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
@@ -339,7 +349,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
+
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
@@ -363,7 +373,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
+
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.REFUSÉ);
 
@@ -387,6 +397,7 @@ public class InsertDataService {
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
         stage1.setOuvert(true);
+
         //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(session);
         //stage1.setStatut(Stage.StageStatus.REFUSÉ);
@@ -404,17 +415,19 @@ public class InsertDataService {
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
+
         candidature = candidatureService.createCandidature(etudiant.getId(), (long) 11);
         candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
+
         candidature = candidatureService.createCandidature(etudiant.getId(), (long) 13);
-        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
+        candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
         candidatureRepository.save(candidature);
 
         etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 14);
+        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 9);
         candidature.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
         candidatureRepository.save(candidature);
     }
@@ -450,10 +463,17 @@ public class InsertDataService {
     public void insertEvaluationStagiaire() throws Exception {
 
         Optional<Employeur> employeur = employeurRepository.findById(5L);
+       Etudiant etudiant = new Etudiant();
+       etudiant.setPrenom("Zoy");
+       etudiant.setNom("laComadreja");
+       etudiant.setEmail("zoyLaComadreja@email.com");
+       etudiant.setProgramme("Technique de l'informatique");
+       etudiantRepository.save(etudiant);
         EvaluationStagiaire e = new EvaluationStagiaire();
         Question q1 = new Question();
         e.setDateCreation(LocalDate.now());
         e.setEmployeur(employeur.orElse(new Employeur()));
+        e.setEtudiant(etudiant);
         evaluationStagiaireService.save(e);
 
         q1.setQuestion("enonce 1");
@@ -469,4 +489,68 @@ public class InsertDataService {
 
     }
 
+
+    @Transactional
+    public void insertEnseinants() {
+        Enseignant enseignant1 = new Enseignant();
+        enseignant1.setNom("Laure");
+        enseignant1.setPrenom("Gaudreault ");
+        enseignant1.setPassword("123456");
+        enseignant1.setProgramme("Gestion de commerces");
+        enseignant1.setEmail("laure@email.com");
+        enseignant1.setTelephone("438956254");
+        enseignantRepository.save(enseignant1);
+
+        Enseignant enseignant2 = new Enseignant();
+        enseignant2.setNom("Leonie");
+        enseignant2.setPrenom("Aguilar ");
+        enseignant2.setPassword("123456");
+        enseignant2.setProgramme("Gestion de commerces");
+        enseignant2.setEmail("Leonie@email.com");
+        enseignant2.setTelephone("438950000");
+        enseignantRepository.save(enseignant2);
+
+        Enseignant enseignant3 = new Enseignant();
+        enseignant3.setNom("Jia ");
+        enseignant3.setPrenom("Haworth ");
+        enseignant3.setPassword("123456");
+        enseignant3.setProgramme("Gestion de commerces");
+        enseignant3.setEmail("Jia@email.com");
+        enseignant3.setTelephone("43895111111");
+        enseignantRepository.save(enseignant3);
+
+        Enseignant enseignant4 = new Enseignant();
+        enseignant4.setNom("Freja ");
+        enseignant4.setPrenom("Vickers ");
+        enseignant4.setPassword("123456");
+        enseignant4.setProgramme("Techniques de l’informatique");
+        enseignant4.setEmail("Freja@email.com");
+        enseignant4.setTelephone("4389522222");
+        enseignantRepository.save(enseignant4);
+
+        Enseignant enseignant5 = new Enseignant();
+        enseignant5.setNom("Kristian ");
+        enseignant5.setPrenom("Redman ");
+        enseignant5.setPassword("123456");
+        enseignant5.setProgramme("Techniques de l’informatique");
+        enseignant5.setEmail("Kristian@email.com");
+        enseignant5.setTelephone("4389522222");
+        enseignantRepository.save(enseignant5);
+
+        for (int i = 0; i <30 ; i++) {
+            enseignant5 = new Enseignant();
+            enseignant5.setNom("Kristian "+ i);
+            enseignant5.setPrenom("Redman " + i);
+            enseignant5.setPassword("123456" + i);
+            enseignant5.setProgramme("Techniques de l’informatique");
+            enseignant5.setEmail("Kristian@email.com" +i);
+            enseignant5.setTelephone("4389522222");
+            enseignantRepository.save(enseignant5);
+        }
+
+
+    }
 }
+
+
+
