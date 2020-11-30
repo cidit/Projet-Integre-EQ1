@@ -16,11 +16,13 @@ class CandidatureService{
         return axios.get(baseURL + "/getByEtudiant/" + idEtudiant, { params: { idSession: idSession} });
     }
 
-    async getByStage(idStage) {
+    getByStage(idStage) {
         return axios.get(baseURL + "/getByStage?stage="+ idStage);
     }
 
+    /*
     async post(idEtudiant, idStage){
+        console.log();
         const formData = new FormData();
         formData.append('idEtudiant', idEtudiant);
         formData.append('idStage', idStage);
@@ -29,9 +31,12 @@ class CandidatureService{
             body: formData
         };
         fetch(baseURL + "/createCandidature", options);
-
     }
+    */
 
+    async post(idEtudiant, idStage){
+        return axios.post(baseURL + "/createCandidature?idEtudiant=" + idEtudiant + "&idStage=" + idStage);
+    }
 
     async putCandidatureChoisi(id){
         return axios.put(baseURL + "/updateChoisi/" + id);
