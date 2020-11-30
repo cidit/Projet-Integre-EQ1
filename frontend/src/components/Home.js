@@ -80,8 +80,7 @@ export default function Home(props) {
 
     let k = 0;
     return (
-        <
-            Container>
+        <Container>
             {/*<Button onClick={() => setReminders(UserService.getReminders(userId))}>Refresh</Button>*/}
             {
                 reminders.map(reminder => {

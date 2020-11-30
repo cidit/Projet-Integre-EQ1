@@ -75,9 +75,9 @@ public class StageController {
         return stageService.getStagesApprouves(idSession);
     }
 
-    @GetMapping("ayantStagiaire")
-    public List<Stage> getAllStagesAyantAucunStagiare(@RequestParam("idSession") Long idSession){
-        return stageService.getStagesAyantAucunStagiaire(idSession);
+    @GetMapping("nonComble")
+    public List<Stage> getAllStagesNonComble(@RequestParam("idSession") Long idSession){
+        return stageService.getStagesNonComble(idSession);
     }
 
     @GetMapping("nonApprouves")

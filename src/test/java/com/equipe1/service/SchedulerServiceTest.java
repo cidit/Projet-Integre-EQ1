@@ -48,7 +48,6 @@ public class SchedulerServiceTest {
         session = Session.builder()
                 .id(1L)
                 .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
                 .isCurrent(true)
                 .build();
         sessionRepository.save(session);
@@ -59,7 +58,6 @@ public class SchedulerServiceTest {
         // Arrange
         Session newSession = Session.builder()
                 .nom("HIV-2021")
-                .dateDebut(LocalDate.now())
                 .isCurrent(true)
                 .build();
 
@@ -72,7 +70,6 @@ public class SchedulerServiceTest {
         // Assert
         Assertions.assertNotNull(s1);
         Assertions.assertEquals("HIV-2021", s1.getNom());
-        Assertions.assertEquals(LocalDate.now(), s1.getDateDebut());
 
     }
 

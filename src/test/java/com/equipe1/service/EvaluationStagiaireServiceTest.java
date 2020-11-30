@@ -64,7 +64,6 @@ class EvaluationStagiaireServiceTest {
                 .id(1L)
                 .isCurrent(true)
                 .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
                 .build();
         sessionRepository.save(session);
         e = new EvaluationStagiaire();

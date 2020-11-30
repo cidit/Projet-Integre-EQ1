@@ -58,9 +58,7 @@ public class StageServiceTest {
     private Stage s1;
     private Stage s2;
     private Employeur employeur;
-    private Candidature c1;
-    private Candidature c2;
-    private Candidature c3;
+    private Candidature c1, c2, c3, c4;
 
 
     @BeforeEach
@@ -68,7 +66,6 @@ public class StageServiceTest {
         session = Session.builder()
                 .id(1L)
                 .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
                 .build();
         //sessionRepository.save(session);
         s1 = new Stage();
@@ -77,6 +74,7 @@ public class StageServiceTest {
         //s1.setStatut(Stage.StageStatus.APPROVED);
         s1.setSession(session);
         s1.setStatut(Stage.StageStatus.APPROUVÉ);
+        s1.setNbAdmis(2);
         s2 = new Stage();
         s2.setId(35L);
         s2.setTitre("c++");
@@ -95,7 +93,9 @@ public class StageServiceTest {
         c3 = new Candidature();
         c3.setStatut(Candidature.CandidatureStatut.CHOISI);
         c3.setStage(s2);
-
+        c4 = new Candidature();
+        c4.setStatut(Candidature.CandidatureStatut.CHOISI);
+        c4.setStage(s1);
 
 
     }
@@ -379,7 +379,7 @@ public class StageServiceTest {
     }
 
     @Test
-    public void testGetAllStagesAyantAucunStagiaire(){
+    public void testGetAllStagesNonComble(){
         // Arrange
         when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         doReturn(Arrays.asList(c1)).when(candidatureService).findCandidatureByStage(30L);
@@ -387,7 +387,7 @@ public class StageServiceTest {
         doReturn(Arrays.asList(s1, s2)).when(stageRepository).findAll();
 
         // Act
-        List<Stage> stageList = stageService.getStagesAyantAucunStagiaire(session.getId());
+        List<Stage> stageList = stageService.getStagesNonComble(session.getId());
         // Assert
         Assertions.assertNotNull(stageList);
         Assertions.assertEquals(stageList.size(), 1);

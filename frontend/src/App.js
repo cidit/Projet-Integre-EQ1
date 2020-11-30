@@ -27,7 +27,7 @@ import QuestionRelations from './components/evaluations/evaluationStagiaire/Ques
 import QuestionsHabilites from './components/evaluations/evaluationStagiaire/QuestionsHabilites'
 import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStage/EvaluationMilieuStage'
 import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire'
-import EvaluationsHome from './components/employeur/evaluations/EvaluationsHome'
+import EvaluationStagiaireTabs from './components/employeur/evaluations/EvaluationStagiaireTabs'
 import {createMuiTheme} from "@material-ui/core";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import RapportComponent from "./components/gestionnaire/RapportComponent";
@@ -78,7 +78,7 @@ function App() {
           <Route path="/questionRelations/:id" component={QuestionRelations}/>
           <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
           <Route path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature" component={EvaluationMilieuStage}/>
-          <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
+          <Route path="/evaluationsEmployeur" component={EvaluationStagiaireTabs}/>
           <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
           <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
 
