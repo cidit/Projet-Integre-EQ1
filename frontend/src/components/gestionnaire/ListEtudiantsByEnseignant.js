@@ -108,7 +108,6 @@ function Row(props) {
     const history = useHistory();
 
     const handleClickRow = (_row) => {
-        console.log(_row)
         history.push("/evaluationMilieuStage/" + _row.id);
     }
 
@@ -140,15 +139,7 @@ function Row(props) {
     );
 
 };
-function Alert() {
-    return <div className="container">
-        <div className="row justify-content-md-center">
-            <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun étudiant assigné pour le moment</Alert>
-            </div>
-        </div>
-    </div>;
-}
+
 
 
 

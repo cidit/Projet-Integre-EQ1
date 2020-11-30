@@ -39,7 +39,6 @@ export default class ListEtudiantsComponent extends Component {
 
     downloadCV = (etudiant) => {
         CVService.getCVByEtudiant(etudiant).then((response) => {
-            console.log(etudiant)
 
             const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
@@ -55,7 +54,6 @@ export default class ListEtudiantsComponent extends Component {
     };
 
     handleChangeRadio = event => {
-        console.log(event.target.value)
         this.setState({statut: event.target.value});
     };
 

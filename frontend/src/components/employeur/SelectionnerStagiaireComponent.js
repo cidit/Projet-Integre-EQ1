@@ -36,7 +36,6 @@ export default class SelectionnerStagiaireComponent extends Component {
 
 
     convoqueEtudiantEntrevue(candidature) {
-        console.log(candidature.id)
         CandidatureService.convoqueEtudiantEntrevue(candidature.id);
         this.setState({});
     }
@@ -120,7 +119,6 @@ function CustomTable(props) {
 
 
     function convoqueEtudiantEntrevue(candidature) {
-        console.log(candidature.id)
         CandidatureService.convoqueEtudiantEntrevue(candidature.id);
         setTimeout(function () {
             window.location.reload();
@@ -143,7 +141,6 @@ function CustomTable(props) {
 
     function downloadCV(etudiant) {
         CVService.getCVByEtudiant(etudiant).then((response) => {
-            console.log(etudiant)
             const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = downloadUrl;

@@ -32,7 +32,6 @@ class EnseignantService{
     }
 
     async updatePassword(Enseignant, id){
-        console.log(Enseignant);
         fetch(baseURL + "/updatePassword/" + id,
             {method: "PUT",
                 headers: {

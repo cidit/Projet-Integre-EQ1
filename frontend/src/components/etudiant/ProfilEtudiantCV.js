@@ -99,7 +99,6 @@ export default class HomeEtudiant extends Component {
 
     downloadCV = (etudiant) => {
         CVService.getCVByEtudiant(etudiant).then((response) => {
-        console.log(etudiant)
 
         const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');

@@ -110,7 +110,6 @@ export function ListeContratsGestionnaire(props) {
 
 
 export function ListeContratsEmployeur(props) {
-  console.log(props.contrats)
   if (isListeVideEmployeur(props)) {
     return (
         AlertAucunContrat(false)

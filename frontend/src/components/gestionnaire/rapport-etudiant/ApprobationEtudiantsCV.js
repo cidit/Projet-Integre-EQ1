@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
         width: '100%',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         margin:'auto',
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
@@ -99,7 +99,6 @@ function Row(props) {
 
     const downloadCV = (etudiant) => {
         CVService.getCVByEtudiant(etudiant).then((response) => {
-        console.log(etudiant)
 
         const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');

@@ -19,8 +19,6 @@ class EvaluationService{
             
     }
     async putEvaluationMilieuStage(result, idCandidature,idEnseignant){
-        console.log("idEnseignant")
-        console.log(idEnseignant)
         fetch(baseURLMilieuStage + "/newEvaluation/" + idCandidature +"/" + idEnseignant,
             {method: "PUT",
                 headers: {

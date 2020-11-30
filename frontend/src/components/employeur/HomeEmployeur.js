@@ -18,7 +18,6 @@ class HomeEmployeur extends Component {
     }
 
     handleCreateStage() {
-        console.log(this.state.createStage)
         this.setState({ createStage: !this.state.createStage })
     }
 
@@ -30,7 +29,7 @@ class HomeEmployeur extends Component {
         return (
             <div className="container-fluid">
                
-        <h5>Bienvenue employeur {employeur.id}</h5>
+        <h5>Bienvenue employeur {this.state.employeur.id}</h5>
 
             </div>
         );

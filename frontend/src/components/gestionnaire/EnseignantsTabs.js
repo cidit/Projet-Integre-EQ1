@@ -59,9 +59,6 @@ function TabPanel(props) {
     const [value, setValue] = React.useState(0);
     const params = useParams();
 
-    console.log("idenseignant")
-    console.log(params)
-  
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };

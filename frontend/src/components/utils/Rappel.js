@@ -31,7 +31,6 @@ export default function Rappel(props) {
     const history = useHistory()
 
     function handleClick() {
-        console.log("redirecting to [" + props.redirect + "]...")
         history.push(props.redirect)
     }
 

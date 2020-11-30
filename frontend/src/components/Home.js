@@ -22,10 +22,8 @@ export default function Home(props) {
         if (userId != null)
             UserService.getReminders(userId)
                 .then(value => {
-                    console.log(value)
                     setReminders(value)
                 })
-                .catch(reason => console.log(reason))
     }, [userId])
 
     function getRouteSignature() {

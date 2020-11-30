@@ -22,9 +22,6 @@ export default function ObservationsMilieuStage() {
 
 //posiblemente crear un stado paara cada variable
     const handleChange = (event) => {
-        console.log("evaluation")
-        console.log(evaluation)
-
 
         evaluation.push({
             section: "evaluation milieu stage",
