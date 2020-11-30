@@ -48,7 +48,7 @@ public class InsertDataService {
     GenerateurPdfService generateurPdfService;
 
     @Autowired
-    private EtudiantService etudiantService;
+    private SessionService sessionService;
 
     @Autowired
     private EvaluationStagiaireService evaluationStagiaireService;
@@ -84,7 +84,7 @@ public class InsertDataService {
         sessionRepository.save(session);
         sessionList.add(session);
 
-        session = Session.builder().nom("HIV-2020").isCurrent(true).build();
+        session = Session.builder().nom("HIV-2021").isCurrent(true).build();
         sessionRepository.save(session);
         sessionList.add(session);
     }
@@ -542,7 +542,6 @@ public class InsertDataService {
             enseignant5.setTelephone("4389522222");
             enseignantRepository.save(enseignant5);
         }
-
 
     }
 }

@@ -92,4 +92,16 @@ public class SessionServiceTest {
         Assertions.assertTrue(currentSession.isPresent());
         Assertions.assertSame(currentSession.get(), session);
     }
+
+    @Test
+    void testIsSessionSelectionneeEnCours() {
+        // Arrange
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(session));
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
+
+        // Act
+        boolean sessionSelectionnee = sessionService.isSessionSelectionneeEnCours(session.getId());
+        // Assert
+        Assertions.assertTrue(sessionSelectionnee);
+    }
 }
