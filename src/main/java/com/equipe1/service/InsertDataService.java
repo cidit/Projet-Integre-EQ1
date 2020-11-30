@@ -225,7 +225,6 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setSalaire(15);
 
-        stage1.setOuvert(true);
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
@@ -245,7 +244,6 @@ public class InsertDataService {
         stage1.setEmployeur(e2);
         stage1.setSalaire(15);
 
-        stage1.setOuvert(true);
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
 
@@ -322,7 +320,6 @@ public class InsertDataService {
         stage1.setNbHeuresParSemaine(37);
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
-        stage1.setOuvert(true);
 
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
@@ -346,7 +343,6 @@ public class InsertDataService {
         stage1.setNbHeuresParSemaine(37);
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
-        stage1.setOuvert(true);
 
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.APPROUVÉ);
@@ -370,7 +366,6 @@ public class InsertDataService {
         stage1.setNbHeuresParSemaine(37);
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
-        stage1.setOuvert(true);
 
         stage1.setSession(session);
         stage1.setStatut(Stage.StageStatus.REFUSÉ);
@@ -394,7 +389,6 @@ public class InsertDataService {
         stage1.setNbHeuresParSemaine(37);
         stage1.setVille("Montreal");
         stage1.setEmployeur(e2);
-        stage1.setOuvert(true);
 
         //stage1.setStatut(Stage.StageStatus.APPROVED);
         stage1.setSession(session);

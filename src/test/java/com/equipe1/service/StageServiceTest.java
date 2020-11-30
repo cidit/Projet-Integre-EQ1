@@ -176,7 +176,6 @@ public class StageServiceTest {
         s1.setId(1l);
         s1.setTitre("Stage en programmation");
         s1.setProgramme("None");
-        s1.setOuvert(false);
         s1.setNbAdmis(1);
         s1.setNbHeuresParSemaine(37.5f);
         s1.setDateLimiteCandidature(LocalDate.of(2021, 1, 1));
@@ -189,7 +188,6 @@ public class StageServiceTest {
         Stage stageUpdate;
         stageUpdate = s1;
         stageUpdate.setProgramme("Informatique");
-        stageUpdate.setOuvert(true);
         stageUpdate.setNbAdmis(2);
         stageUpdate.setNbHeuresParSemaine(35f);
         stageUpdate.setDateLimiteCandidature(LocalDate.of(2021, 1, 2));
@@ -245,7 +243,6 @@ public class StageServiceTest {
 
         s1.setId(2L);
         s1.setStatut(Stage.StageStatus.APPROUVÉ);
-        s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
         Set <Etudiant> etudiantsAdmis = new HashSet<>();
@@ -272,7 +269,6 @@ public class StageServiceTest {
     public void testGetStagesEtudiantInvalide(){
         s1.setId(2L);
         s1.setStatut(Stage.StageStatus.APPROUVÉ);
-        s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
         Set <Etudiant> etudiantsAdmis = new HashSet<>();
@@ -297,7 +293,6 @@ public class StageServiceTest {
     public void testUpdateEtudiantsAdmits(){
         s1.setId(1L);
         s1.setStatut(Stage.StageStatus.APPROUVÉ);
-        s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
         Etudiant e2 = new Etudiant();
@@ -318,7 +313,6 @@ public class StageServiceTest {
     public void testGetEtudiantsAdmitsByValideStageId(){
         s1.setId(1L);
         s1.setStatut(Stage.StageStatus.APPROUVÉ);
-        s1.setOuvert(true);
         Etudiant e1 = new Etudiant();
         e1.setId(6L);
         Etudiant e2 = new Etudiant();

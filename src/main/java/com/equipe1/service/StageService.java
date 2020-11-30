@@ -121,7 +121,6 @@ public class StageService {
             stage.setDateFin(newStage.getDateFin());
             stage.setNbHeuresParSemaine(newStage.getNbHeuresParSemaine());
             stage.setNbAdmis(newStage.getNbAdmis());
-            stage.setOuvert(newStage.isOuvert());
             stage.setStatut(newStage.getStatut());
             stage.setDateLimiteCandidature(newStage.getDateLimiteCandidature());
             stage.setProgramme(newStage.getProgramme());
@@ -133,7 +132,6 @@ public class StageService {
 
     public Stage updateStatus(Stage newStage, long id) throws Exception {
         newStage.setStatut(Stage.StageStatus.APPROUVÉ);
-        newStage.setOuvert(true);
 
         courrielService.sendSimpleMessage(new Courriel(newStage.getEmployeur().getEmail(),
                         env.getProperty("my.subject.stage"), env.getProperty("my.message.stageApprouve")),
