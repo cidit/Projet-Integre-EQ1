@@ -97,16 +97,16 @@ function Televerser() {
                 {!isButtonDisable &&
                     <div className="row">
                         <label htmlFor="contained-button-file">
-                            <Button variant="contained" color="primary" component="span" disabled={isButtonDisable}>
+                            <Button variant="contained" 
+                            color="primary" 
+                            component="span" 
+                            disabled={isButtonDisable}
+                            startIcon={<PublishIcon />}>
                                 Selectionner un fichier
                             </Button>
                         </label>
                         <input accept="image/*" className={classes.input} id="icon-button-file" type="file" disabled={isButtonDisable} />
-                        <label htmlFor="icon-button-file">
-                            <IconButton color="primary" aria-label="upload picture" component="span" disabled={isButtonDisable}>
-                                <PublishIcon />
-                            </IconButton>
-                        </label>
+                    
                     </div>
                 }
 

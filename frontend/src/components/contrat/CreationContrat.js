@@ -1,20 +1,15 @@
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
+import { Card, CardActions, CardContent } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import CandidatureService from '../../service/CandidatureService';
 import CreationContratApercue from './CreationContratApercue';
 import Televerser from './Televerser';
-import { Card, CardContent, CardActions, IconButton } from "@material-ui/core";
-import { ArrowForward } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
 
   },
   paper: {
-    width: '100%'
+    width: '80%',
+    margin:'auto'
   }
 }));
 
@@ -62,7 +58,7 @@ function CreationContrat() {
   }
 
   return (
-    <div className="container-fluid">
+    <Paper className="container">
 
       {/* info contrat */}
 
@@ -70,18 +66,19 @@ function CreationContrat() {
       {candidatureFinal &&
         <div className='container'>
           <h4 className='m-3 sticky-top' align='left' >Informations du contrat </h4>
-          <div >
-            <CreateTableauEtudiant candidatureFinal={candidatureFinal} />
-          </div>
-          <div  >
-            <CreateTableauEntreprise candidatureFinal={candidatureFinal} />
-          </div>
+          <div className='row justify-content-md-center'>
+            <div >
+              <CreateTableauEtudiant candidatureFinal={candidatureFinal} />
+            </div>
+            <div  >
+              <CreateTableauEntreprise candidatureFinal={candidatureFinal} />
+            </div>
 
-          <div  >
-            <CreateTableauStage candidatureFinal={candidatureFinal} />
-          </div>
-         
+            <div  >
+              <CreateTableauStage candidatureFinal={candidatureFinal} />
+            </div>
 
+          </div>
         </div>
       }
 
@@ -92,14 +89,14 @@ function CreationContrat() {
           <Button variant="contained" color="primary"
             component="span"
             fullWidth onClick={creationAutomatique}
-            >
+          >
             Créer un contrat automatiquement
            </Button>
         </div>
 
         <div className='m-3'>
-          <Button variant="contained" color="primary" component="span" 
-            fullWidth 
+          <Button variant="contained" color="primary" component="span"
+            fullWidth
             onClick={creationParTeleversement}>
             téléverser un fichier depuis mon ordinateur
             </Button>
@@ -144,7 +141,7 @@ function CreationContrat() {
           </Card>
         </div>
       }
-    </div >
+    </Paper >
   )
 
 
@@ -154,27 +151,22 @@ export default CreationContrat;
 const useStylesCards = makeStyles((theme) => ({
   root: {
     width: 'auto',
-    //padding: theme.spacing(1),
-    margin: theme.spacing(2),
+    padding: theme.spacing(2),
+    marginLeft: theme.spacing(5),
+    height:"90%"
   },
   subtitle: {
     fontSize: 18,
     fontWeight: "Bold",
+    borderBottom: '1'
   },
   title: {
     fontSize: 22,
     fontWeight: "Bold",
-
-    //padding: theme.spacing(0),
     marginBottom: theme.spacing(1),
-    marginLeft: theme.spacing(1),
-    //border: 1,
-    //margin: 'auto',
-    //width: '80%',
-    //marginLeft: theme.spacing(30),
   },
   pos: {
-    marginBottom: 2,
+    marginBottom: 12,
   },
 }));
 
@@ -187,34 +179,24 @@ function CreateTableauEntreprise(props) {
 
     <Card className={classes.root}>
       <CardContent>
-        <div className='row'>
-          <Typography variant="h5" component="h2"
-            className={classes.title}
-          >  Entreprise   </Typography>
-        </div>
 
-        <div className='row'>
+        <Typography variant="h5" component="h2" 
+          className={classes.title} 
+        >  Entreprise   </Typography>
 
-        <div className='col'>
-            <Typography className={classes.subtitle}> Nom </Typography>
-            <Typography className={classes.pos}> {props.candidatureFinal.stage.employeur.nom} </Typography>
-          </div>
+        <Typography className={classes.subtitle}> Nom </Typography>
+        <Typography className={classes.pos}> {props.candidatureFinal.stage.employeur.nom} </Typography>
 
-          <div className='col'>
-            <Typography className={classes.subtitle}> Email: </Typography>
-            <Typography className={classes.pos}> {props.candidatureFinal.stage.employeur.email} </Typography>
-          </div>
+        <Typography className={classes.subtitle}> Email </Typography>
+        <Typography className={classes.pos}> {props.candidatureFinal.stage.employeur.email} </Typography>
 
-          <div className='col'>
-            <Typography className={classes.subtitle}> Adresse :  </Typography>
-            <Typography className={classes.pos}> {props.candidatureFinal.stage.employeur.adresse} </Typography>
+        <Typography className={classes.subtitle}> Adresse   </Typography>
+        <Typography className={classes.pos}> {props.candidatureFinal.stage.employeur.adresse} </Typography>
 
-          </div>
-          <div className='col'>
-            <Typography className={classes.subtitle}>Téléphone : </Typography>
-            <Typography className={classes.pos}> {props.candidatureFinal.stage.employeur.telephone} </Typography>
-          </div>
-        </div>
+
+        <Typography className={classes.subtitle}>Téléphone  </Typography>
+        <Typography className={classes.pos}> {props.candidatureFinal.stage.employeur.telephone} </Typography>
+
       </CardContent>
     </Card>
   )
@@ -226,36 +208,26 @@ function CreateTableauEtudiant(props) {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <div className='row'>
-          <Typography variant="h5" component="h2" className={classes.title}> Étudiant</Typography>
-        </div>
 
-        <div className='row'>
-          <div className='col'>
-            <Typography className={classes.subtitle}> Nom :  </Typography>
-            <Typography className={classes.pos}>{props.candidatureFinal.etudiant.nom}   {props.candidatureFinal.etudiant.prenom}</Typography>
-          </div>
+        <Typography variant="h5" component="h2" className={classes.title}> Étudiant</Typography>
 
-          <div className='col '>
-            <Typography className={classes.subtitle}>Email: </Typography>
-            <Typography className={classes.pos}>{props.candidatureFinal.etudiant.email}</Typography>
-          </div>
 
-          <div className='col'>
-            <Typography className={classes.subtitle}>Adresse :</Typography>
-            <Typography className={classes.pos}>{props.candidatureFinal.etudiant.adresse} </Typography>
-          </div>
 
-          <div className='col'>
-            <Typography className={classes.subtitle}> Téléphone : </Typography>
-            <Typography className={classes.pos}>{props.candidatureFinal.etudiant.telephone}</Typography>
-          </div>
+        <Typography className={classes.subtitle}> Nom   </Typography>
+        <Typography className={classes.pos}>{props.candidatureFinal.etudiant.nom}   {props.candidatureFinal.etudiant.prenom}</Typography>
 
-          <div className='col'>
-            <Typography className={classes.subtitle}>Programme : </Typography>
-            <Typography className={classes.pos}>{props.candidatureFinal.etudiant.programme} </Typography>
-          </div>
-        </div>
+        <Typography className={classes.subtitle}>Email </Typography>
+        <Typography className={classes.pos}>{props.candidatureFinal.etudiant.email}</Typography>
+
+        <Typography className={classes.subtitle}>Adresse </Typography>
+        <Typography className={classes.pos}>{props.candidatureFinal.etudiant.adresse} </Typography>
+
+        <Typography className={classes.subtitle}> Téléphone  </Typography>
+        <Typography className={classes.pos}>{props.candidatureFinal.etudiant.telephone}</Typography>
+
+        <Typography className={classes.subtitle}>Programme  </Typography>
+        <Typography className={classes.pos}>{props.candidatureFinal.etudiant.programme} </Typography>
+
 
       </CardContent>
     </Card >
@@ -269,37 +241,27 @@ function CreateTableauStage(props) {
 
     <Card className={classes.root}>
       <CardContent>
-        <div className='row'>
-          <Typography variant="h5" component="h2" className={classes.title}> Stage</Typography>
-        </div>
+
+        <Typography variant="h5" component="h2" className={classes.title}> Stage</Typography>
 
 
-        <div className='row'>
-          <div className='col'>
-            <Typography className={classes.subtitle}> Titre :</Typography>
-            <Typography className={classes.pos}>{props.candidatureFinal.stage.titre}</Typography>
-          </div>
 
-          <div className='col'>
-            <Typography className={classes.subtitle}> Date début : </Typography>
-            <Typography className={classes.pos}>{props.candidatureFinal.stage.dateDebut} </Typography>
-          </div>
 
-          <div className='col'>
-            <Typography className={classes.subtitle}> Date Fin : </Typography>
-            <Typography className={classes.pos}> {props.candidatureFinal.stage.dateFin} </Typography>
-          </div>
+        <Typography className={classes.subtitle}> Titre </Typography>
+        <Typography className={classes.pos}>{props.candidatureFinal.stage.titre}</Typography>
 
-          <div className='col'>
-            <Typography className={classes.subtitle}> Heures par Semaine: </Typography>
-            <Typography className={classes.pos}>{props.candidatureFinal.stage.nbHeuresParSemaine} </Typography>
-          </div>
+        <Typography className={classes.subtitle}> Date début  </Typography>
+        <Typography className={classes.pos}>{props.candidatureFinal.stage.dateDebut} </Typography>
 
-          <div className='col'>
-            <Typography className={classes.subtitle}> Ville :   </Typography>
-            <Typography className={classes.pos}> {props.candidatureFinal.stage.ville}  </Typography>
-          </div>
-        </div>
+        <Typography className={classes.subtitle}> Date Fin  </Typography>
+        <Typography className={classes.pos}> {props.candidatureFinal.stage.dateFin} </Typography>
+
+        <Typography className={classes.subtitle}> Heures par Semaine </Typography>
+        <Typography className={classes.pos}>{props.candidatureFinal.stage.nbHeuresParSemaine} </Typography>
+
+        <Typography className={classes.subtitle}> Ville    </Typography>
+        <Typography className={classes.pos}> {props.candidatureFinal.stage.ville}  </Typography>
+
       </CardContent>
 
     </Card >
