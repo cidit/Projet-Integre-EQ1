@@ -18,6 +18,11 @@ public class SessionController {
     public List<Session> getAllSessions(){
         return sessionService.getAll();
     }
+
+    @GetMapping("findById/{id}")
+    public Session getSessionById(@PathVariable Long id){
+        return sessionService.getSessionById(id);
+    }
     @GetMapping("getSessionEnCours")
     public Session getSessionEnCours(){
         return sessionService.findCurrentSession().get();
