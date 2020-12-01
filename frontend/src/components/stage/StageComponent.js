@@ -10,6 +10,7 @@ import StageInfo from "./StageInfoComponent";
 import SelectionnerStagiaireComponent from "../employeur/SelectionnerStagiaireComponent";
 import SelectionnerEtudiantComponent from "../gestionnaire/SelectionnerEtudiantComponent";
 import CandidatureService from '../../service/CandidatureService';
+import {useHistory, useParams} from 'react-router-dom';
 
 export default class StageComponent extends Component {
     constructor(props) {
@@ -62,6 +63,8 @@ export function Veto(props){
     const approved = "APPROUVÉ";
     const denied = "REFUSÉ";
 
+    const history = useHistory();
+
     function toggleBtns(isApprouved) {
         document.getElementsByName(approved)[0].disabled = isApprouved
         document.getElementsByName(denied)[0].disabled = !isApprouved
@@ -74,7 +77,9 @@ export function Veto(props){
         props.stage.ouvert = event.currentTarget.name === approved;
         toggleBtns(event.currentTarget.name === approved);
         await StageService.updateStage(props.stage, parseInt(event.currentTarget.value));
-        window.location.reload()
+
+        history.push("/rapportStage/1");
+        window.location.reload();
     }
 
     return (
@@ -113,11 +118,20 @@ export function Veto(props){
 
 
 function MyTabs(props) {
+    /*
     const [value, setValue] = React.useState(0);
     // const [value, setValue] = React.useState(props.tab);
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+    */
+    const history = useHistory();
+    const params = useParams();
+    const [value, setValue] = React.useState(parseInt(params.tab));
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        history.push("/stage/" + props.stage.id + "/" + newValue)
     };
 
     const roles = [

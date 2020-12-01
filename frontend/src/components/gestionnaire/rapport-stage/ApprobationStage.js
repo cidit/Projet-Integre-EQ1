@@ -81,7 +81,7 @@ function Row(props) {
     const classes = useStyles();
 
     const handleClickRow = (_row) => {
-        history.push('/stage/' + _row.id);
+        history.push('/stage/' + _row.id + "/" + 0);
     }
 
     return (

@@ -10,6 +10,8 @@ import ContratService from '../../../service/ContratService';
 import ListeGenericContrat from './ListeGenericContrat';
 import ListCandidatureChoisi from '../../contrat/ListCandidatureChoisi'
 
+import {useHistory, useParams} from 'react-router-dom';
+
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
 
@@ -80,10 +82,13 @@ export default function ScrollableTabsButtonAuto() {
     }, [])
 
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-
+    const history = useHistory();
+    const params = useParams();
+    const [value, setValue] = React.useState(parseInt(params.tab));
+  
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+      setValue(newValue);
+      history.push("/rapportContrat/" + newValue)
     };
 
     return (

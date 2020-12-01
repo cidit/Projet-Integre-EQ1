@@ -66,7 +66,7 @@ function App() {
           <Route path='/contratEtudiant' component={ContratEtudiant} />
           <Route path='/CreationContrat/:id' component={CreationContrat} />
           <Route path='/televerserContrats/:id' component={TeleverserContrat} />
-          <Route path="/stage/:id" component={StageComponent}/>
+          <Route path="/stage/:id/:tab" component={StageComponent}/>
           <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
           {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
           <Route path="/listestages" component={ListeStage}/>
@@ -83,8 +83,8 @@ function App() {
           {/* Rapports  */}
           <Route path="/rapportEnseignant" component={RapportEnseignantComponent}/>
           <Route path="/rapportEtudiant" component={RapportEtudiantComponent}/>
-          <Route path="/rapportStage" component={RapportStageComponent}/>
-          <Route path="/rapportContrat" component={RapportContratComponent}/>
+          <Route path="/rapportStage/:tab" component={RapportStageComponent}/>
+          <Route path="/rapportContrat/:tab" component={RapportContratComponent}/>
 
           
           <Route path="/profilEtudiant" component={ProfilEtudiant}/>

@@ -76,12 +76,12 @@ export default function Home(props) {
         "STAGE_SANS_VETO": [
             "Stages sans veto",
             "Votre veto n'a pas été appliqué sur un ou plusieurs stages.",
-            "/rapportStage",
+            "/rapportStage/1",
         ], // TODO verify if its the right route when refactoring
         "CONTRAT_PRET_A_ETRE_GENERE": [
             "Contrats a générer",
             "Un contrat est prêt à être générer.",
-            "/rapportContrat"
+            "/rapportContrat/0"
         ], // TODO verify if its the right route when refactoring
     }
 
