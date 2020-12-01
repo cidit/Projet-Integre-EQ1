@@ -45,6 +45,7 @@ import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieu
 import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge'
 import RegisterTabs from './components/register/RegisterTabs'
 import EnseignantsTabs from './components/gestionnaire/EnseignantsTabs'
+import ModifierEtudiantsEnchargeEnseignant from './components/gestionnaire/ModifierEtudiantsEnchargeEnseignant'
 
 
 function App() {

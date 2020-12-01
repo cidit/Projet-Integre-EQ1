@@ -211,8 +211,6 @@ function CreateTableauEtudiant(props) {
 
         <Typography variant="h5" component="h2" className={classes.title}> Étudiant</Typography>
 
-
-
         <Typography className={classes.subtitle}> Nom   </Typography>
         <Typography className={classes.pos}>{props.candidatureFinal.etudiant.nom}   {props.candidatureFinal.etudiant.prenom}</Typography>
 

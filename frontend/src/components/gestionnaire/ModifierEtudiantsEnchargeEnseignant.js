@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from "react";
-import CandidatureService from "../../service/CandidatureService";
-import CVService from "../../service/CVService";
 import {
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableBody,
-    Paper,
-    Table,
-    TableRow,
-    Checkbox, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
+    Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper,
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from "@material-ui/core";
-import { Alert } from '@material-ui/lab';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import { makeStyles } from "@material-ui/core/styles";
-import { useRouteMatch } from 'react-router-dom';
+import { Alert } from '@material-ui/lab';
+import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import EtudiantService from "../../service/EtudiantService";
 
@@ -24,11 +14,9 @@ const useStyles = makeStyles((theme) => ({
         width: '98%',
         fontWeight: 'bold',
         margin: 'auto'
-        //maxWidth: 360,
     },
     table: {
         color: "#ffffff",
-        // backgroundColor: "#000000"
     },
     textTitle: {
         fontWeight: 'bold',
@@ -38,45 +26,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ModifierEtudiantsEnchargeEnseignant(props) {
-    const [listEtudiantsEnCharge, setListEtudiantsEnCharge] = useState([]);
-    const params = useParams();
     var idSession = localStorage.getItem("session");
-
-    const getEtudaints = async () => {
-        const response = await EtudiantService.getEtudiantsbyEnseignat(props.idEnseignant);
-        setListEtudiantsEnCharge(response.data)
-
-    }
-
-    useEffect(() => {
-        getEtudaints();
-        return () => {
-            setListEtudiantsEnCharge([])
-        }
-    }, [])
-
     return (
         <div>
-            { listEtudiantsEnCharge.length !== 0 ? 
-            <CustomTable etudiants={listEtudiantsEnCharge} /> 
-             :
-             <AlertMessage/>
+            { props.listEtudiantsEnCharge.length !== 0 ?
+                <CustomTable etudiants={props.listEtudiantsEnCharge} />
+                :
+                <AlertMessage />
             }
-
         </div>
     );
 }
-
 
 function CustomTable(props) {
     const classes = useStyles();
     const params = useParams();
     const [selected, setSelected] = React.useState([]);
     const isSelected = (id) => selected.indexOf(id) !== -1;
-    const [isDessasignationConfirmee, setIsDessasignationConfirmee] = useState(false)
     const [openModal, setopenModal] = useState(false)
-
-
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
@@ -111,26 +78,31 @@ function CustomTable(props) {
         await EtudiantService.enleverEnseignant(idEtudiant, idEnseignant)
     }
 
-    const confirmationDessasignementEtudiants = () => {
+    const desAssignationConfirmee = () => {
         if (selected.length === 0) {
             return;
         }
         for (let i = 0; i < selected.length; i++) {
-             enleverEtudiantAssigne(selected[i], params.id)
+            enleverEtudiantAssigne(selected[i], params.id)
         }
 
-          setTimeout(function () {
+        setTimeout(function () {
             window.location.reload();
         }, 500);
     }
 
+    const desAssignationNonConfirmee = () => {
+        if (selected.length === 0) {
+            return;
+        }
+        setopenModal(false);
+    }
 
     const handleConfirmation = (event) => {
-        setopenModal(!openModal);
-        
-        /*setTimeout(function () {
-            window.location.reload();
-        }, 500);*/
+        if (selected.length === 0) {
+            return;
+        }
+        setopenModal(true);
     }
 
     return (
@@ -194,26 +166,15 @@ function CustomTable(props) {
             </TableContainer>
             <Button variant="contained" className=' m-2' color="primary" onClick={handleConfirmation}>Enlever assignation</Button>
             {openModal &&
-                <AlertConfirmation confirmation={confirmationDessasignementEtudiants} 
-                                    numeroEtudiants ={selected.length}
-                                    openModal ={openModal} />
+                <AlertConfirmation confirmation={desAssignationConfirmee}
+                    nonConfirmation={desAssignationNonConfirmee}
+                    numeroEtudiants={selected.length}
+                    openModal={openModal} />
             }
-
-
         </div>
     );
-
-
-    function Alert() {
-        return <div className="container">
-            <div className="row justify-content-md-center">
-                <div className="col">
-                    <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez des étudiant assignés pour le moment</Alert>
-                </div>
-            </div>
-        </div>;
-    }
 }
+
 
 
 function AlertConfirmation(props) {
@@ -221,11 +182,11 @@ function AlertConfirmation(props) {
 
     const handleCloseNonchanges = () => {
         setOpen(false);
+        props.nonConfirmation();
     };
 
     const handleClose = () => {
         setOpen(false);
-        console.log(props)
         props.confirmation();
     };
 
@@ -240,8 +201,8 @@ function AlertConfirmation(props) {
                 <DialogTitle id="alert-dialog-title">{"Enlever étudant?"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        
-                Confirmez que vous souhaitez supprimer {props.numeroEtudiants} élèves de l'enseignant.
+
+                        Confirmez que vous souhaitez enlever {props.numeroEtudiants} élèves à l'enseignant.
             </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -258,11 +219,11 @@ function AlertConfirmation(props) {
 }
 
 function AlertMessage() {
-    return <div className="container">
-      <div className="row justify-content-md-center">
-        <div className="col">
-         <Alert severity="info" variant="filled" className="m-3 text-center">L'enseignant n'a pas d'élèves à sa charge</Alert>
+    return (<div className="container">
+        <div className="row justify-content-md-center">
+            <div className="col">
+                <Alert severity="info" variant="filled" className="m-3 text-center">L'enseignant n'a pas d'élèves à son charge</Alert>
+            </div>
         </div>
-      </div>
-    </div>;
-  }
+    </div>)
+}
