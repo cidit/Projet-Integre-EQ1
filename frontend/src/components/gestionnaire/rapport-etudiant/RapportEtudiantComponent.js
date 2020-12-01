@@ -54,28 +54,34 @@ function TabPanel(props) {
   
   export default function ScrollableTabsButtonAuto() {
 
+    var idSession = localStorage.getItem("session");
+
+    const [etudiantsCVNonApprouve, setEtudiantsCVNonApprouve] = useState([])
+    const getEtudiantsCVNonApprouve = async () => {
+        const response = await EtudiantService.getEtudiantsCVNonApprouve(idSession);
+        setEtudiantsCVNonApprouve(response.data);
+    }
+
     const [etudiantsInscrits, setEtudiantsInscrits] = useState([]);
     const getEtudiantsInscrits = async () => {
-        var idSession = localStorage.getItem("session");
         const response = await EtudiantService.getEtudiants(idSession);
         setEtudiantsInscrits(response.data);
     }
 
     const [etudiantsSansCV, setEtudiantsSansCV] = useState([]);
     const getEtudiantsSansCV = async () => {
-        var idSession = localStorage.getItem("session");
         const response = await EtudiantService.getEtudiantsAucunCV(idSession);
         setEtudiantsSansCV(response.data);
     }
 
     const [etudiantsSansStage, setEtudiantsSansStage] = useState([]);
     const getEtudiantsSansStage = async () => {
-        var idSession = localStorage.getItem("session");
         const response = await EtudiantService.getEtudiantsSansStage(idSession);
         setEtudiantsSansStage(response.data);
     }
 
     useEffect(() => {
+      getEtudiantsCVNonApprouve();
       getEtudiantsInscrits();
       getEtudiantsSansCV();
       getEtudiantsSansStage();
@@ -107,7 +113,7 @@ function TabPanel(props) {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <ApprobationEtudiantsCV/>
+          <ApprobationEtudiantsCV etudiants={etudiantsCVNonApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
           <ListeGenericEtudiant etudiants={etudiantsInscrits}/>
