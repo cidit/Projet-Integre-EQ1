@@ -75,7 +75,7 @@ public class SchedulerServiceTest {
         // Assert
         Assertions.assertEquals(newSession.getNom(), sessionActuelle.getNom());
         Assertions.assertEquals(newSession.getDateDebut(), sessionActuelle.getDateDebut());
-        Assertions.assertEquals(newSession.getDateFin(), sessionActuelle.getDateFin())
+        Assertions.assertEquals(newSession.getDateFin(), sessionActuelle.getDateFin());
 
 
     }
