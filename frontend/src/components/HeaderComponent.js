@@ -31,8 +31,8 @@ function GestionnaireNav(props) {
             <Nav.Link href="/profilGestionnaire">Votre profil</Nav.Link>
             <Nav.Link href="/rapportEnseignant">Rapports enseignants</Nav.Link>
             <Nav.Link href="/rapportEtudiant">Rapports étudiants</Nav.Link>
-            <Nav.Link href="/rapportStage">Rapports stages</Nav.Link>
-            <Nav.Link href="/rapportContrat">Rapports contrats</Nav.Link>
+            <Nav.Link href="/rapportStage/0">Rapports stages</Nav.Link>
+            <Nav.Link href="/rapportContrat/0">Rapports contrats</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
         </Nav>
