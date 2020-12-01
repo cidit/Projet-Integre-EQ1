@@ -1,13 +1,14 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import { makeStyles } from '@material-ui/core/styles';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
-
-import AssignerEtudiantsAuEnseignant from './AssignerEtudiantsAuEnseignant'
+import EtudiantService from '../../../service/EtudiantService';
+import ModifierEtudiantsEnchargeEnseignant from '../rapport-enseignant/ModifierEtudiantsEnchargeEnseignant';
+import AssignerEtudiantsAuEnseignant from './AssignerEtudiantsAuEnseignant';
 import ListEtudiantsEnCharge from '../../enseignant/ListEtudiantsEnCharge'
 
 function TabPanel(props) {
@@ -55,13 +56,27 @@ function TabPanel(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const params = useParams();
+    const [listEtudiantsEnCharge, setListEtudiantsEnCharge] = useState([]);
+    var idSession = localStorage.getItem("session");
+    const labelAssigner= "Assigner des étudiants  " ;
+    const labelModifier= "Modifier les étudiants assignés " ;
+
+    const getEtudaints = async () => {
+        const response = await EtudiantService.getEtudiantsbyEnseignat(params.id);
+        setListEtudiantsEnCharge(response.data)
+    }
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
-  
-    const labelAssigner= "Assigner des étudiants  " ;
-    const labelModifier= "Modifier les étudiants assignés " ;
+
+    useEffect(() => {
+        getEtudaints();
+        return () => {
+            setListEtudiantsEnCharge([])
+        }
+    }, [])
+
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
@@ -82,7 +97,7 @@ function TabPanel(props) {
           <AssignerEtudiantsAuEnseignant/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ListEtudiantsEnCharge idEnseignant={params.id}/>
+          <ModifierEtudiantsEnchargeEnseignant listEtudiantsEnCharge ={listEtudiantsEnCharge}/>        
         </TabPanel>
       </div>
     );

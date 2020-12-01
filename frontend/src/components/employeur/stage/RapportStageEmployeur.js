@@ -54,16 +54,16 @@ function TabPanel(props) {
   
   export default function ScrollableTabsButtonAuto() {
 
+    var idSession = localStorage.getItem("session");
+
     const [offreStagesApprouve, setOffreStagesApprouve] = useState([]);
     const getOffreStagesApprouve = async () => {
-        var idSession = localStorage.getItem("session");
         const response = await StageService.getStagesApprouvesByEmployeurId(window.localStorage.getItem("id"), idSession);
         setOffreStagesApprouve(response.data);
     }
 
     const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState([]);
     const getOffreStagesNonApprouve = async () => {
-        var idSession = localStorage.getItem("session");
         const response = await StageService.getStagesNonApprouvesByEmployeurId(window.localStorage.getItem("id"), idSession);
         setOffreStagesNonApprouve(response.data);
     }

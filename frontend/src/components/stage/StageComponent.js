@@ -70,10 +70,10 @@ export function Veto(props){
     async function handleClickStatut(event) {
         event.preventDefault();
 
-        props.stage.statut = event.target.name;
-        props.stage.ouvert = event.target.name === approved;
-        toggleBtns(event.target.name === approved);
-        await StageService.updateStage(props.stage, parseInt(event.target.value));
+        props.stage.statut = event.currentTarget.name;
+        props.stage.ouvert = event.currentTarget.name === approved;
+        toggleBtns(event.currentTarget.name === approved);
+        await StageService.updateStage(props.stage, parseInt(event.currentTarget.value));
         window.location.reload()
     }
 

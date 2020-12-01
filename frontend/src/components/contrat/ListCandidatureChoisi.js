@@ -70,7 +70,7 @@ export default function ListCandidatureChoisi() {
                                     <TableCell className={classes.textTitle}>Employeur</TableCell>
                                     <TableCell className={classes.textTitle}>Étudiant</TableCell>
                                     <TableCell className={classes.textTitle}>Programme</TableCell>
-                                    <TableCell className={classes.textTitle}>Détails</TableCell>
+                                    <TableCell className={classes.textTitle}>Générer contrat</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -106,8 +106,8 @@ function Row(props) {
                 <TableCell className='align-middle'>{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
                 <TableCell className='align-middle'>{row.etudiant.programme}</TableCell>
                 <TableCell className='align-middle'>
-                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleSelectCandidature(row)}>
-                        Consulter
+                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleSelectCandidature(row)} style={{ textTransform: 'none' }}>
+                        Générer
                     </Button>
                 </TableCell>
             </TableRow>

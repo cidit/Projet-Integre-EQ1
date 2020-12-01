@@ -53,23 +53,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ScrollableTabsButtonAuto() {
 
+    var idSession = localStorage.getItem("session");
+
     const [contratsNonSigneEtudiant, setContratsNonSigneEtudiant] = useState([]);
     const getContratsNonSigneEtudiant = async () => {
-        var idSession = localStorage.getItem("session");
         const response = await ContratService.getContratsNonSignesEtudiant(idSession);
         setContratsNonSigneEtudiant(response.data);
     }
 
     const [contratsNonSigneEmployeur, setContratsNonSigneEmployeur] = useState([]);
     const getContratsNonSigneEmployeur = async () => {
-        var idSession = localStorage.getItem("session");
         const response = await ContratService.getContratsNonSignesEmployeur(idSession);
         setContratsNonSigneEmployeur(response.data);
     }
 
     const [contratsNonSigneAdministration, setContratsNonSigneAdministration] = useState([]);
     const getContratsNonSigneAdministration = async () => {
-        var idSession = localStorage.getItem("session");
         const response = await ContratService.getContratsNonSignesAdministration(idSession);
         setContratsNonSigneAdministration(response.data);
     }

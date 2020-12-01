@@ -36,18 +36,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ListEtudiants() {
+export default function ListEtudiants(props) {
     const classes = useStyles();
 
-    const [etudiantsCVNonApprouve, setEtudiantsCVNonApprouve] = useState([])
     const [sessionSelectionneeEnCours, setSessionSelectionneeEnCours] = useState([]);
 
     var idSession = localStorage.getItem("session");
-
-    const getEtudiantsCVNonApprouve = async () => {
-        const response = await EtudiantService.getEtudiantsCVNonApprouve(idSession);
-        setEtudiantsCVNonApprouve(response.data);
-    }
 
     const isSessionSelectionneeEnCours = async () => {
         const response = await SessionService.isSessionSelectionneeEnCours(idSession);
@@ -55,22 +49,20 @@ export default function ListEtudiants() {
     }
 
     useEffect(() => {
-        getEtudiantsCVNonApprouve();
         isSessionSelectionneeEnCours();
         return () => {
-            setEtudiantsCVNonApprouve([]);
         }
     }, [])
 
 
-    if (etudiantsCVNonApprouve.length === 0) {
+    if (props.etudiants.length === 0) {
         return (
             AlertAucunCV()
         )
     } else {
         return (
             <div className='container' >
-                {etudiantsCVNonApprouve &&
+                {props.etudiants &&
                     <>
                         <TableContainer  className={classes.root}>
                             <Table className="table ">
@@ -86,7 +78,7 @@ export default function ListEtudiants() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {etudiantsCVNonApprouve.map((row) => (
+                                    {props.etudiants.map((row) => (
                                         <Row key={row.id} row={row} sessionSelectionneeEnCours={sessionSelectionneeEnCours}/>
                                     ))}
                                 </TableBody>

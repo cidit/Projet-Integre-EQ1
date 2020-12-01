@@ -72,6 +72,10 @@ class EtudiantService{
         return await axios.put(baseURL + "/setEnseignant/"+idetudiant+"/"+ idEnseignant)
     }
 
+    async enleverEnseignant(idetudiant, idEnseignant) {
+        return await axios.put(baseURL + "/enleverEnseignant/"+idetudiant+"/"+ idEnseignant)
+    }
+
     async  getEtudiantsbyEnseignat(idEnseignant){
         return axios.get(baseURL + "/getAllbyEnseignant/"+idEnseignant);
     }

@@ -1,6 +1,6 @@
 import {
     Container, makeStyles, Table,
-    TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
+    TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip,Button
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { Alert } from '@material-ui/lab';
@@ -14,42 +14,31 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
-        width: '70%',
-        backgroundColor: '#E9E9E9',
-        fontWeight: 'bold'
+        width: '100%',
+        fontWeight: 'bold',
+        margin:'auto',
+        fontSize: theme.typography.pxToRem(14),
+        fontWeight: theme.typography.fontWeightRegular,
+        textAlign: 'center',
+
     },
-    // paper: {
-    //     padding: theme.spacing(0),
-    //     margin: 'auto',
-    //     maxWidth: '50%',
-    // },
     heading: {
-        fontSize: theme.typography.pxToRem(10),
+        margin:'auto',
+        fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
     },
     textTitle: {
         fontWeight: 'bold',
         textAlign: 'left',
-        fontSize: 15
+        fontSize: 15,
+        margin:'auto',
     },
-    paper: {
-        padding: theme.spacing(4),
-        marginTop: theme.spacing(-15),
-        margin: 'auto',
-        maxWidth: '50%',
-        marginLeft: theme.spacing(1, 'auto'),
+    row:{
+        textAlign: 'center',
     }
 }));
 
-const useRowStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            padding: theme.spacing(1),
-            borderBottom: 'unset',
-            //backgroundColor: '#E9E9E9  ',
-        },
-    },
-}));
+
 export default function EvaluationMilieuHome() {
     const [candidatures, setCandidatures] = useState([])
     const classes = useStyles();
@@ -87,7 +76,7 @@ export default function EvaluationMilieuHome() {
                                         <TableCell className={classes.textTitle}>Adresse</TableCell>
                                         <TableCell className={classes.textTitle}>Stage en cours</TableCell>
                                         <TableCell className={classes.textTitle}>Étudiant</TableCell>
-                                        <TableCell></TableCell>
+                                        <TableCell className={classes.textTitle}>Évaluer</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -107,8 +96,7 @@ export default function EvaluationMilieuHome() {
 
 function Row(props) {
     const { row } = props;
-    const classes = useRowStyles();
-    const [arrow, setArrow] = useState(false);
+    const classes = useStyles();
     const history = useHistory();
 
     const handleClickRow = (_candidature) => {
@@ -120,33 +108,27 @@ function Row(props) {
                         + "/" + _candidature.id);
     }
 
-    const showArrow = () => {
-        setArrow(true)
-    }
-
-    const hideArrow = () => {
-        setArrow(false)
-    }
-
     return (
         <React.Fragment>
-            <Tooltip open={arrow} placement="right" onClose={hideArrow} onOpen={showArrow} title="Évaluer">
-                <TableRow className={classes.root} onClick={() => handleClickRow(row)} style={{ cursor: 'pointer' }} hover>
-                    <TableCell >{row.stage.employeur.nom}</TableCell>
-                    <TableCell >{row.stage.employeur.email}</TableCell>
-                    <TableCell>{row.stage.employeur.telephone}</TableCell>
-                    <TableCell>{row.stage.employeur.adresse}</TableCell>
-                    <TableCell >{row.stage.titre}</TableCell>
-                    <TableCell >{row.etudiant.prenom} {row.etudiant.nom}
-                    </TableCell>
+                <TableRow hover  className={classes.row} >
+                    <TableCell className='align-middle'>{row.stage.employeur.nom}</TableCell>
+                    <TableCell className='align-middle'>{row.stage.employeur.email}</TableCell>
+                    <TableCell className='align-middle'>{row.stage.employeur.telephone}</TableCell>
+                    <TableCell className='align-middle'>{row.stage.employeur.adresse}</TableCell>
+                    <TableCell className='align-middle'>{row.stage.titre}</TableCell>
+                    <TableCell className='align-middle'>{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
+                    <TableCell>
+                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{ textTransform: 'none' }}>
+                    Commencer l'évaluation
+                    </Button>
+                </TableCell>
                 
                 </TableRow>
-            </Tooltip>
         </React.Fragment>
     );
 
 };
-function AlertAucunContrat(isGestionnaire) {
+function AlertAucunContrat() {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">

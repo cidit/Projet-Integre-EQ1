@@ -128,7 +128,7 @@ function AlertAucunContrat(isGestionnaire) {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune étudaint en charge pour le moment</Alert>
+                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation pour le moment</Alert>
             </div>
         </div>
     </div>;

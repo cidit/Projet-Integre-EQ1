@@ -136,9 +136,8 @@ export default function CreationContratApercue() {
 
         <ModalMessage
           message={messageResponse + " Le contrat a été envoyé au employeur, vous pouvez passer au contrat suivant"}
-          redirect="/listCandidatureChoisi"
+          redirect="/rapportContrat"
           title="Le contrat existe déjà" />
-        // AlertFormatInvalide(messageResponse, "info")
       }
 
 

@@ -90,7 +90,10 @@ function Row(props) {
     const history = useHistory();
     const classes = useStyles();
 
-    const handleClickRow = (_row) => {
+    const handleClickAssingner = (_row) => {
+        history.push("etudiantsAuEnseignant/" + _row.nom + "/" + _row.prenom + "/" + _row.id + "/" + _row.programme);
+    }
+    const handleClickDesAssigner = (_row) => {
         history.push("etudiantsAuEnseignant/" + _row.nom + "/" + _row.prenom + "/" + _row.id + "/" + _row.programme);
     }
 
@@ -102,10 +105,10 @@ function Row(props) {
                 <TableCell className='align-middle'>{row.email}</TableCell>
                 <TableCell className='align-middle'>{row.telephone}</TableCell>
                 <TableCell>
-                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{ textTransform: 'none' }}>
+                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickAssingner(row)} style={{ textTransform: 'none' }}>
                         Assigner étudiants
                     </Button>
-                    <Button variant="outlined" size="small" color="primary" style={{ textTransform: 'none' }} >
+                    <Button variant="outlined" size="small" color="primary"  onClick={() => handleClickDesAssigner(row)} style={{ textTransform: 'none' }} >
                         Voir étudiants assigneés
                     </Button>
                 </TableCell>

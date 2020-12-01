@@ -29,7 +29,6 @@ function GestionnaireNav(props) {
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profilGestionnaire">Votre profil</Nav.Link>
-            <Nav.Link href="/listestages">Liste des stages</Nav.Link>
             <Nav.Link href="/rapportEnseignant">Rapports enseignants</Nav.Link>
             <Nav.Link href="/rapportEtudiant">Rapports étudiants</Nav.Link>
             <Nav.Link href="/rapportStage">Rapports stages</Nav.Link>
