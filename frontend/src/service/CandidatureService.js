@@ -61,14 +61,6 @@ class CandidatureService{
         return axios.get(baseURL + "/getListAEvaluer/" + idEmployeur, { params: { idSession: idSession} });
     }
 
-    async convoqueEtudiantEntrevue(id){
-        return axios.put(baseURL + "/convoqueEtudiantEntrevue/" + id);
-    }
-
-    async entrevuePasseeConfirmation(id){
-        return axios.put(baseURL + "/entrevuePasseeConfirmation/" + id);
-
-    }
     async getCandidatureEtudiantByEnseignant(id) {
         return await axios.get(baseURL +"/getListByEnseignant/"+id);
     }

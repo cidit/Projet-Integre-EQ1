@@ -54,21 +54,21 @@ function TabPanel(props) {
   
   export default function ScrollableTabsButtonAuto() {
 
-    const [etudiantsInscrits, setEtudiantsInscrits] = useState(null);
+    const [etudiantsInscrits, setEtudiantsInscrits] = useState([]);
     const getEtudiantsInscrits = async () => {
         var idSession = localStorage.getItem("session");
         const response = await EtudiantService.getEtudiants(idSession);
         setEtudiantsInscrits(response.data);
     }
 
-    const [etudiantsSansCV, setEtudiantsSansCV] = useState(null);
+    const [etudiantsSansCV, setEtudiantsSansCV] = useState([]);
     const getEtudiantsSansCV = async () => {
         var idSession = localStorage.getItem("session");
         const response = await EtudiantService.getEtudiantsAucunCV(idSession);
         setEtudiantsSansCV(response.data);
     }
 
-    const [etudiantsSansStage, setEtudiantsSansStage] = useState(null);
+    const [etudiantsSansStage, setEtudiantsSansStage] = useState([]);
     const getEtudiantsSansStage = async () => {
         var idSession = localStorage.getItem("session");
         const response = await EtudiantService.getEtudiantsSansStage(idSession);
@@ -110,22 +110,13 @@ function TabPanel(props) {
           <ApprobationEtudiantsCV/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div>{etudiantsInscrits != null &&
-              <ListeGenericEtudiant etudiants={etudiantsInscrits} />
-          }
-          </div>
+          <ListeGenericEtudiant etudiants={etudiantsInscrits}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <div>{etudiantsSansCV != null &&
-              <ListeGenericEtudiant etudiants={etudiantsSansCV} />
-          }
-          </div>
+          <ListeGenericEtudiant etudiants={etudiantsSansCV}/>
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <div>{etudiantsSansStage != null &&
-              <ListeGenericEtudiant etudiants={etudiantsSansStage} />
-          }
-          </div>
+            <ListeGenericEtudiant etudiants={etudiantsSansStage}/>
         </TabPanel>
       </div>
     );

@@ -30,7 +30,6 @@ import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/Ev
 import EvaluationStagiaireTabs from './components/employeur/evaluations/EvaluationStagiaireTabs'
 import {createMuiTheme} from "@material-ui/core";
 import EtudiantComponent from "./components/etudiant/EtudiantComponent";
-import RapportComponent from "./components/gestionnaire/RapportComponent";
 
 import ProfilEmployeur from './components/employeur/ProfilEmployeur';
 import ProfilGestionnaire from './components/gestionnaire/ProfilGestionnaire';
@@ -45,7 +44,8 @@ import RapportEnseignantComponent from './components/gestionnaire/rapport-enseig
 import RapportEtudiantComponent from './components/gestionnaire/rapport-etudiant/RapportEtudiantComponent';
 import RapportStageComponent from './components/gestionnaire/rapport-stage/RapportStageComponent';
 import RapportContratComponent from './components/gestionnaire/rapport-contrat/RapportContratComponent';
-import ApprobationStageInfo from './components/gestionnaire/rapport-stage/ApprobationStageInfo';
+
+import RapportStageEmployeur from './components/employeur/stage/RapportStageEmployeur';
 
 function App() {
   return (
@@ -84,12 +84,10 @@ function App() {
 
             
           {/* Rapports  */}
-          <Route path="/rapport" component={RapportComponent}/>
           <Route path="/rapportEnseignant" component={RapportEnseignantComponent}/>
           <Route path="/rapportEtudiant" component={RapportEtudiantComponent}/>
           <Route path="/rapportStage" component={RapportStageComponent}/>
           <Route path="/rapportContrat" component={RapportContratComponent}/>
-          <Route path="/approbationStageInfo/:id" component={ApprobationStageInfo}/>
 
           
           <Route path="/profilEtudiant" component={ProfilEtudiant}/>
@@ -98,6 +96,8 @@ function App() {
           <Route path="/profilEnseignant" component={ProfilEnseignant}/>
           <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
           <Route path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs}/>
+
+          <Route path="/rapportStageEmployeur" component={RapportStageEmployeur}/>
         </Switch>
            {/* </ThemeProvider>    */}
       </main>

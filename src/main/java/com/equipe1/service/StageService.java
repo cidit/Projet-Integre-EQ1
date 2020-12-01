@@ -210,4 +210,25 @@ public class StageService {
         return stageRepository.getByStatut(Stage.StageStatus.EN_ATTENTE);
     }
 
+    public List<Stage> getStagesApprouvesByEmployeur(Long idEmployeur, Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
+        List<Stage> stages = new ArrayList<>();
+
+        for (Stage stage : stageRepository.findAll()) {
+            if (stage.getEmployeur().getId() == idEmployeur && stage.getStatut() == Stage.StageStatus.APPROUVÉ  && stage.getSession().equals(session))
+                stages.add(stage);
+        }
+        return stages;
+    }
+
+    public List<Stage> getStagesNonApprouvesByEmployeur(Long idEmployeur, Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
+        List<Stage> stages = new ArrayList<>();
+
+        for (Stage stage : stageRepository.findAll()) {
+            if (stage.getEmployeur().getId() == idEmployeur && stage.getStatut() != Stage.StageStatus.APPROUVÉ && stage.getSession().equals(session))
+                stages.add(stage);
+        }
+        return stages;
+    }
 }

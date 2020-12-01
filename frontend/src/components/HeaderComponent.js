@@ -30,7 +30,6 @@ function GestionnaireNav(props) {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profilGestionnaire">Votre profil</Nav.Link>
             <Nav.Link href="/listestages">Liste des stages</Nav.Link>
-            <Nav.Link href="/rapport">Rapports</Nav.Link>
             <Nav.Link href="/rapportEnseignant">Rapports enseignants</Nav.Link>
             <Nav.Link href="/rapportEtudiant">Rapports étudiants</Nav.Link>
             <Nav.Link href="/rapportStage">Rapports stages</Nav.Link>
@@ -48,8 +47,8 @@ function EmployeurNav(props) {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profilEmployeur">Votre profil</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
-            {/*<Nav.Link href="/stages">Voir toutes les offres de stage</Nav.Link>*/}
-            <Nav.Link href="/listestages">Voir toutes les offres de stage</Nav.Link>
+            <Nav.Link href="/rapportStageEmployeur">Voir toutes les offres de stage</Nav.Link>
+            {/*<Nav.Link href="/listestages">Voir toutes les offres de stage</Nav.Link>*/}
             <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
             <Nav.Link href="/evaluationsEmployeur">Évaluations</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>

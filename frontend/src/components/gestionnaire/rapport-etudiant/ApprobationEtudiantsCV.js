@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
         width: '100%',
-        // fontWeight: 'bold',
+        fontWeight: 'bold',
         margin:'auto',
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
@@ -36,11 +36,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ListEnseignants() {
+export default function ListEtudiants() {
     const classes = useStyles();
 
     const [etudiantsCVNonApprouve, setEtudiantsCVNonApprouve] = useState([])
-    const [sessionSelectionneeEnCours, setSessionSelectionneeEnCours] = useState(true);
+    const [sessionSelectionneeEnCours, setSessionSelectionneeEnCours] = useState([]);
 
     var idSession = localStorage.getItem("session");
 
@@ -55,7 +55,6 @@ export default function ListEnseignants() {
     }
 
     useEffect(() => {
-
         getEtudiantsCVNonApprouve();
         isSessionSelectionneeEnCours();
         return () => {
@@ -122,10 +121,6 @@ function Row(props) {
     }
 
     const renderColonneApprobationCV = (etudiant) => {
-        // null pas nécessaire
-        if (etudiant.cv === null){
-            return <p>Pas de CV</p>
-        }
         if (etudiant.cv.status === 'APPROVED'){
             return <p>Approuvé</p>
         }
@@ -165,7 +160,6 @@ function Row(props) {
 
         </React.Fragment>
     )
-
 }
 
 function AlertAucunCV() {

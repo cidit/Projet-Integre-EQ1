@@ -71,14 +71,20 @@ class StageService{
             .then(r => r.json())
     }
 
-
-
     createStage(stage){
         return axios.post(STAGES_URL_POST, stage)
     }
 
     addEtudiants(id, etudiants){
         return axios.put(STAGE_ETUDIANTS_URL_PUT + id, etudiants);
+    }
+
+    getStagesApprouvesByEmployeurId(idEmployeur, idSession){
+        return axios.get(STAGES_URL + "/stagesApprouvesByEmployeurId/" + idEmployeur, { params: { idSession: idSession} });
+    }
+
+    getStagesNonApprouvesByEmployeurId(idEmployeur, idSession){
+        return axios.get(STAGES_URL + "/stagesNonApprouvesByEmployeurId/" + idEmployeur, { params: { idSession: idSession} });
     }
 }
 

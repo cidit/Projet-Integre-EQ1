@@ -53,21 +53,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ScrollableTabsButtonAuto() {
 
-    const [contratsNonSigneEtudiant, setContratsNonSigneEtudiant] = useState(null);
+    const [contratsNonSigneEtudiant, setContratsNonSigneEtudiant] = useState([]);
     const getContratsNonSigneEtudiant = async () => {
         var idSession = localStorage.getItem("session");
         const response = await ContratService.getContratsNonSignesEtudiant(idSession);
         setContratsNonSigneEtudiant(response.data);
     }
 
-    const [contratsNonSigneEmployeur, setContratsNonSigneEmployeur] = useState(null);
+    const [contratsNonSigneEmployeur, setContratsNonSigneEmployeur] = useState([]);
     const getContratsNonSigneEmployeur = async () => {
         var idSession = localStorage.getItem("session");
         const response = await ContratService.getContratsNonSignesEmployeur(idSession);
         setContratsNonSigneEmployeur(response.data);
     }
 
-    const [contratsNonSigneAdministration, setContratsNonSigneAdministration] = useState(null);
+    const [contratsNonSigneAdministration, setContratsNonSigneAdministration] = useState([]);
     const getContratsNonSigneAdministration = async () => {
         var idSession = localStorage.getItem("session");
         const response = await ContratService.getContratsNonSignesAdministration(idSession);
@@ -109,22 +109,13 @@ export default function ScrollableTabsButtonAuto() {
                 <ListCandidatureChoisi/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <div>{contratsNonSigneEmployeur != null &&
                 <ListeGenericContrat contrats={contratsNonSigneEmployeur}/>
-                }
-                </div>
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <div>{contratsNonSigneEtudiant != null &&
                 <ListeGenericContrat contrats={contratsNonSigneEtudiant}/>
-                }
-                </div>
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <div>{contratsNonSigneAdministration != null &&
                 <ListeGenericContrat contrats={contratsNonSigneAdministration}/>
-                }
-                </div>
             </TabPanel>
         </div>
     );

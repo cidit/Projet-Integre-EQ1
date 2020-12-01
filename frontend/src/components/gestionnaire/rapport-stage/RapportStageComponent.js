@@ -10,6 +10,7 @@ import Box from '@material-ui/core/Box';
 import StageService from '../../../service/StageService';
 import ListeGenericStage from './ListeGenericStage';
 import ApprobationStage from './ApprobationStage';
+import ListeStageApprouve from './ListeStageApprouve';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -54,21 +55,21 @@ function TabPanel(props) {
   
   export default function ScrollableTabsButtonAuto() {
 
-    const [offreStages, setOffreStages] = useState(null);
-    const getOffreStages = async () => {
+    const [offreStagesApprouve, setOffreStagesApprouve] = useState([]);
+    const getOffreStagesApprouve = async () => {
         var idSession = localStorage.getItem("session");
-        const response = await StageService.getStages(idSession);
-        setOffreStages(response.data);
+        const response = await StageService.getStagesApprouves(idSession);
+        setOffreStagesApprouve(response.data);
     }
 
-    const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState(null);
+    const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState([]);
     const getOffreStagesNonApprouve = async () => {
         var idSession = localStorage.getItem("session");
         const response = await StageService.getStagesNonApprouves(idSession);
         setOffreStagesNonApprouve(response.data);
     }
 
-    const [offreStagesNonCombles, setOffreStagesNonCombles] = useState(null);
+    const [offreStagesNonCombles, setOffreStagesNonCombles] = useState([]);
     const getOffreStagesNonCombles = async () => {
         var idSession = localStorage.getItem("session");
         const response = await StageService.getStagesNonCombles(idSession);
@@ -76,7 +77,7 @@ function TabPanel(props) {
     }
 
     useEffect(() => {
-      getOffreStages();
+      getOffreStagesApprouve();
       getOffreStagesNonApprouve();
       getOffreStagesNonCombles();
     },[])
@@ -100,31 +101,19 @@ function TabPanel(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="Stages" {...a11yProps(0)} />
+            <Tab label="Stages approuvés" {...a11yProps(0)} />
             <Tab label="Stages non approuvés" {...a11yProps(1)} />
             <Tab label="Stages non comblés" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <div>{offreStages != null &&
-              <ListeGenericStage stages={offreStages} />
-          }
-          </div>
+          <ListeStageApprouve stages={offreStagesApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {/*
-          <div>{offreStagesNonApprouve != null &&
-              <ListeGenericStage stages={offreStagesNonApprouve} />
-          }
-          </div>
-          */}
           <ApprobationStage stages={offreStagesNonApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <div>{offreStagesNonCombles != null &&
-              <ListeGenericStage stages={offreStagesNonCombles} />
-          }
-          </div>
+          <ListeGenericStage stages={offreStagesNonCombles}/>
         </TabPanel>
       </div>
     );

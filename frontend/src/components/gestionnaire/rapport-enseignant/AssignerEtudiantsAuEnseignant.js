@@ -17,14 +17,18 @@ import EtudiantService from "../../../service/EtudiantService";
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
-        width: '98%',
-        fontWeight: 'bold',
-        margin :'auto'
-        //maxWidth: 360,
+        width: '70%',
+        backgroundColor: '#E9E9E9',
+        fontWeight: 'bold'
     },
-    table:{
-        color:"#ffffff",
-        // backgroundColor: "#000000"
+    paper: {
+        padding: theme.spacing(0),
+        margin: 'auto',
+        maxWidth: '50%',
+    },
+    heading: {
+        fontSize: theme.typography.pxToRem(10),
+        fontWeight: theme.typography.fontWeightRegular,
     },
     textTitle: {
         fontWeight: 'bold',
@@ -56,14 +60,11 @@ export default function AssignerEtudiantsAuEnseignant(props) {
     );
 }
 
-
 function CustomTable(props) {
     const classes = useStyles();
     const params = useParams();
     const [selected, setSelected] = React.useState([]);
     const isSelected = (id) => selected.indexOf(id) !== -1;
-
-
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
@@ -98,7 +99,6 @@ function CustomTable(props) {
         await EtudiantService.setEnseignant(idEtudiant, idEnseignant)
     }
 
-
     const handleConfirmation=  (event) => {
         event.preventDefault();
         if (selected.length === 0) {
@@ -114,27 +114,25 @@ function CustomTable(props) {
  
     return (
         <div className='container'>
-        <h5 align='left' className='m-2 pt-3 pb-3' >Assigner étudiants à {params.nom} {params.prenom}</h5>
+        <h5 align='left' className='m-2 pt-3 pb-3'>Assigner étudiants à {params.nom} {params.prenom}</h5>
             <TableContainer component={Paper} >
-            
-                <Table >
+                <Table>
                     <TableHead className={classes.textTitle}>
                         <TableRow>
-                            <TableCell padding="checkbox">
+                            <TableCell padding="checkbox" className={classes.textTitle}>
                                 <Checkbox
                                     checked={props.candidatures.length > 0 && selected.length === props.candidatures.length}
                                     onChange={handleSelectAllClick}
                                 />
                             </TableCell>
-                            <TableCell>Nom étudiant</TableCell>
-                            <TableCell>Programme</TableCell>
-                            <TableCell>Téléphone</TableCell>
-                            <TableCell>Courriel</TableCell>
-                            <TableCell>Adresse</TableCell>
-                            <TableCell>Stage en cours</TableCell>
+                            <TableCell className={classes.textTitle}>Nom étudiant</TableCell>
+                            <TableCell className={classes.textTitle}>Programme</TableCell>
+                            <TableCell className={classes.textTitle}>Téléphone</TableCell>
+                            <TableCell className={classes.textTitle}>Courriel</TableCell>
+                            <TableCell className={classes.textTitle}>Adresse</TableCell>
+                            <TableCell className={classes.textTitle}>Stage en cours</TableCell>
                      </TableRow>
                     </TableHead>
-
                     <TableBody>
                         {props.candidatures
                         .filter(item => item.etudiant.enseignant === null)
@@ -143,7 +141,6 @@ function CustomTable(props) {
                                 candidature => {
                                     const isItemSelected = isSelected(candidature.etudiant.id)
                                     return (
-
                                         <TableRow
                                             key={candidature.id}
                                             hover
@@ -170,11 +167,9 @@ function CustomTable(props) {
                                 }
                             )}
                     </TableBody>
-
                 </Table>
             </TableContainer>
             <Button variant="contained" className=' m-2' color="primary" onClick={handleConfirmation}>Confirmer</Button>
-
         </div>
     );
                    

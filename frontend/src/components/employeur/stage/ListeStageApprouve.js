@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
         textAlign: 'center',
-
     },
     heading: {
         margin:'auto',
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ListStagesNonApprouve(props) {
+export default function ListStagesApprouve(props) {
     
     const classes = useStyles();
 
@@ -58,7 +57,7 @@ export default function ListStagesNonApprouve(props) {
                                         <TableCell className={classes.textTitle}> Date Limite </TableCell>
                                         <TableCell className={classes.textTitle}> Ville </TableCell>
                                         <TableCell className={classes.textTitle}> Employeur </TableCell>
-                                        <TableCell className={classes.textTitle}> Approbation </TableCell>
+                                        <TableCell className={classes.textTitle}> Étudiants </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -96,7 +95,7 @@ function Row(props) {
                 <TableCell className='align-middle'>{row.employeur.nom}</TableCell>
                 <TableCell>
                     <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{ textTransform: 'none' }}>
-                        Consulter
+                        Assigner
                     </Button>
                 </TableCell>
             </TableRow>
@@ -108,7 +107,7 @@ function AlertAucunStage() {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a pas de stage à approuver</Alert>
+                <Alert severity="info" variant="filled" className="m-3 text-center">Vous avez aucun stage approuvé</Alert>
             </div>
         </div>
     </div>;

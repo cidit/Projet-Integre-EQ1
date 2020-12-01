@@ -68,18 +68,16 @@ export default function ListEtudiantsByEnseignant(props) {
             <div className='container-fluid'>
                 {etudiants &&
                     <>
-                   
                         <TableContainer >
                             <Table className="table table-striped">
                                 <TableHead className={classes.root}>
                                     <TableRow >
-                                        <TableCell className={classes.textTitle} >Nom </TableCell>
+                                        <TableCell className={classes.textTitle}>Nom </TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
                                         <TableCell className={classes.textTitle}>Adresse</TableCell>
                                         <TableCell className={classes.textTitle}>Stage en cours</TableCell>
                                         <TableCell className={classes.textTitle}>Étudiant</TableCell>
-                                        
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -95,7 +93,6 @@ export default function ListEtudiantsByEnseignant(props) {
         )
     }
 };
-
 
 function Row(props) {
     const { row } = props;

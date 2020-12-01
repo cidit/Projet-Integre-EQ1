@@ -1,12 +1,10 @@
+import React from "react";
 import {
     Button, makeStyles, Table,
     TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
-import EnseignantService from '../../../service/EnseignantService';
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,49 +33,36 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ListEnseignants() {
-    const [enseignants, setEnseignants] = useState([])
+export default function ListStagesApprouve(props) {
+    
     const classes = useStyles();
 
-    const getEnseignants = async () => {
-        const response = await EnseignantService.getEnseignantsInscrits();
-        setEnseignants(response.data);
-    }
-
-    useEffect(() => {
-        getEnseignants()
-        return () => {
-            setEnseignants([])
-        }
-    }, [])
-
-
-    if (enseignants.length === 0) {
+    console.log(props.stages);
+    if (props.stages.length === 0) {
         return (
-            AlertAucunContrat(true)
+            AlertAucunStage()
         )
     } else {
         return (
             <div className='container' >
-                {enseignants &&
+                {props.stages &&
                     <>
-                        <TableContainer  className={classes.root}>
-                            <h4  className='m-2 sticky-top' >List enseignants </h4>
-
-                            <Table className="table "  >
+                        <TableContainer className={classes.root}>
+                            <Table className="table">
                                 <TableHead className={classes.heading} >
                                     <TableRow >
-                                        <TableCell className={classes.textTitle} >Nom de l'enseignant</TableCell>
-                                        <TableCell className={classes.textTitle} >Programme</TableCell>
-                                        <TableCell className={classes.textTitle} >Courriel</TableCell>
-                                        <TableCell className={classes.textTitle} >Téléphone</TableCell>
-                                        <TableCell className={classes.textTitle}>Assignation étudiants</TableCell>
-                                       
-
+                                        <TableCell className={classes.textTitle}> Titre </TableCell>
+                                        <TableCell className={classes.textTitle}> Programme </TableCell>
+                                        <TableCell className={classes.textTitle}> Date Début </TableCell>
+                                        <TableCell className={classes.textTitle}> Date Finale </TableCell>
+                                        <TableCell className={classes.textTitle}> Date Limite </TableCell>
+                                        <TableCell className={classes.textTitle}> Ville </TableCell>
+                                        <TableCell className={classes.textTitle}> Employeur </TableCell>
+                                        <TableCell className={classes.textTitle}> Étudiants </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {enseignants.map((row) => (
+                                    {props.stages.map((row) => (
                                         <Row key={row.id} row={row} />
                                     ))}
                                 </TableBody>
@@ -90,44 +75,40 @@ export default function ListEnseignants() {
     }
 };
 
-
 function Row(props) {
     const { row } = props;
     const history = useHistory();
     const classes = useStyles();
 
     const handleClickRow = (_row) => {
-        history.push("etudiantsAuEnseignant/" + _row.nom + "/" + _row.prenom + "/" + _row.id + "/" + _row.programme);
+        history.push('/stage/' + _row.id);
     }
 
     return (
         <React.Fragment>
-            <TableRow hover  className={classes.row}>
-                <TableCell className='align-middle'>{row.prenom} {row.nom}</TableCell>
+            <TableRow hover className={classes.row}>
+                <TableCell className='align-middle'>{row.titre}</TableCell>
                 <TableCell className='align-middle'>{row.programme}</TableCell>
-                <TableCell className='align-middle'>{row.email}</TableCell>
-                <TableCell className='align-middle'>{row.telephone}</TableCell>
-
+                <TableCell className='align-middle'>{row.dateDebut}</TableCell>
+                <TableCell className='align-middle'>{row.dateFin}</TableCell>
+                <TableCell className='align-middle'>{row.dateLimiteCandidature}</TableCell>
+                <TableCell className='align-middle'>{row.ville}</TableCell>
+                <TableCell className='align-middle'>{row.employeur.nom}</TableCell>
                 <TableCell>
                     <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{ textTransform: 'none' }}>
-                        Assigner étudiants
-                    </Button>
-             
-                    <Button variant="outlined" size="small" color="primary" style={{ textTransform: 'none' }} >
-                        Voir étudiants assigneés
+                        Assigner
                     </Button>
                 </TableCell>
             </TableRow>
-
         </React.Fragment>
     );
-
 };
-function AlertAucunContrat() {
+
+function AlertAucunStage() {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a pas d'enseignant inscrit</Alert>
+                <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a pas de stage approuvé</Alert>
             </div>
         </div>
     </div>;
