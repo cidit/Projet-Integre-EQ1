@@ -105,4 +105,9 @@ public class EtudiantController {
     public Etudiant setEnseignant( @PathVariable Long idEtudiant, @PathVariable Long idEnseigant){
         return etudiantService.setEnseignant(idEtudiant,idEnseigant);
     }
+
+    @PutMapping("enleverEnseignant/{idEtudiant}/{idEnseigant}")
+    public Etudiant enleverEnseignant( @PathVariable Long idEtudiant, @PathVariable Long idEnseigant){
+        return etudiantService.enleverEnseignant(idEtudiant,idEnseigant);
+    }
 }

@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import ListEnseignants from './ListEnseignants'
 import AssignerEtudiantsAuEnseignant from './AssignerEtudiantsAuEnseignant'
 import ListEtudiantsEnCharge from '../enseignant/ListEtudiantsEnCharge'
+import ModifierEtudiantsEnchargeEnseignant from '../gestionnaire/ModifierEtudiantsEnchargeEnseignant'
 
 
 
@@ -58,9 +59,6 @@ function TabPanel(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const params = useParams();
-
-    console.log("idenseignant")
-    console.log(params)
   
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -88,7 +86,8 @@ function TabPanel(props) {
             <AssignerEtudiantsAuEnseignant/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-        <ListEtudiantsEnCharge idEnseignant={params.id}/>
+          <ModifierEtudiantsEnchargeEnseignant idEnseignant ={params.id}/>        
+        {/* <ListEtudiantsEnCharge idEnseignant={params.id}/> */}
       
         </TabPanel>
       </div>

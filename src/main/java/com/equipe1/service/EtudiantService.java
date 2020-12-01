@@ -178,8 +178,8 @@ public class EtudiantService {
         return etudiantRepository.save(optionalEtudiant.get());
     }
 
-    public Etudiant setEnseignant(Long idEtudaint, Long idEnseignant){
-        Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudaint);
+    public Etudiant setEnseignant(Long idEtudiant, Long idEnseignant){
+        Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudiant);
         Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
         if(etudiant.isPresent()){
             etudiant.get().setEnseignant(enseignant);
@@ -190,6 +190,18 @@ public class EtudiantService {
     public List<Etudiant> getEtudaintsByEnseignant(Long idEnseignant){
         Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
         return etudiantRepository.findByEnseignant(enseignant);
+    }
+
+    public Etudiant enleverEnseignant(Long idEtudiant, Long idEnseignant){
+        Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudiant);
+        Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
+        if(etudiant.isPresent()){
+            if(etudiant.get().getEnseignant().equals(enseignant)){
+                etudiant.get().setEnseignant(null);
+                etudiantRepository.save(etudiant.get());
+            }
+        }
+        return etudiant.orElse(new Etudiant());
     }
 }
 
