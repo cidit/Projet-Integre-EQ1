@@ -50,8 +50,9 @@ public class SchedulerService {
     }
 
     public LocalDate configurationDateDebut(String nomSession){
-        LocalDate dateDebut;
-        switch (nomSession){
+        LocalDate dateDebut = LocalDate.now();
+        String nomSaison = nomSession.substring(0, 3);
+        switch (nomSaison){
             case "AUT" :
                 dateDebut = LocalDate.of(LocalDate.now().getYear(), 9, 1);
                 break;
@@ -62,26 +63,27 @@ public class SchedulerService {
                 dateDebut = LocalDate.of(LocalDate.now().getYear(), 5, 1);
                 break;
             default:
-                dateDebut = LocalDate.of(LocalDate.now().getYear() + 1, 5, 1);
+                break;
 
         }
         return dateDebut;
     }
 
     public LocalDate configurationDateFin(String nomSession){
-        LocalDate dateFin;
-        switch (nomSession){
+        LocalDate dateFin = LocalDate.now();
+        String nomSaison = nomSession.substring(0, 3);
+        switch (nomSaison){
             case "AUT" :
                 dateFin = LocalDate.of(LocalDate.now().getYear(), 12, 31);
                 break;
             case "HIV" :
-                dateFin = LocalDate.of(LocalDate.now().getYear() + 1, 4, 31);
+                dateFin = LocalDate.of(LocalDate.now().getYear() + 1, 4, 30);
                 break;
             case "ETE" :
                 dateFin = LocalDate.of(LocalDate.now().getYear(), 8, 31);
                 break;
             default:
-                dateFin = LocalDate.of(LocalDate.now().getYear() + 1, 4, 1);
+                break;
 
         }
         return dateFin;
