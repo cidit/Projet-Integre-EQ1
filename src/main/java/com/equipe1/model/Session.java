@@ -19,5 +19,8 @@ public class Session {
     private long id;
     private String nom;
     private boolean isCurrent;
+    private LocalDate dateDebut;
+    private LocalDate dateFin;
+
 
 }

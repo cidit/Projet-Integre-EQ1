@@ -12,10 +12,13 @@ public class SchedulerService {
 
     @Autowired
     private SessionService sessionService;
-    @Scheduled(cron = "0 0 0 1 JAN,JUN,SEP ?")
+    @Scheduled(cron = "0 0 0 1 JAN,MAY,SEP ?")
     public Session scheduleCreationSession() {
         String nomSession = configurationNomSession();
-        Session session = Session.builder().nom(nomSession).isCurrent(true).build();
+        LocalDate dateDebut = configurationDateDebut(nomSession);
+        LocalDate dateFin = configurationDateFin(nomSession);
+        Session session = Session.builder().nom(nomSession).dateDebut(dateDebut)
+                .dateFin(dateFin).isCurrent(true).build();
         return sessionService.create(session);
 
     }
@@ -46,5 +49,42 @@ public class SchedulerService {
         return nomNouvelleSaison + "-" + nomNouvelleAnnee;
     }
 
+    public LocalDate configurationDateDebut(String nomSession){
+        LocalDate dateDebut;
+        switch (nomSession){
+            case "AUT" :
+                dateDebut = LocalDate.of(LocalDate.now().getYear(), 9, 1);
+                break;
+            case "HIV" :
+                dateDebut = LocalDate.of(LocalDate.now().getYear() + 1, 1, 1);
+                break;
+            case "ETE" :
+                dateDebut = LocalDate.of(LocalDate.now().getYear(), 5, 1);
+                break;
+            default:
+                dateDebut = LocalDate.of(LocalDate.now().getYear() + 1, 5, 1);
+
+        }
+        return dateDebut;
+    }
+
+    public LocalDate configurationDateFin(String nomSession){
+        LocalDate dateFin;
+        switch (nomSession){
+            case "AUT" :
+                dateFin = LocalDate.of(LocalDate.now().getYear(), 12, 31);
+                break;
+            case "HIV" :
+                dateFin = LocalDate.of(LocalDate.now().getYear() + 1, 4, 31);
+                break;
+            case "ETE" :
+                dateFin = LocalDate.of(LocalDate.now().getYear(), 8, 31);
+                break;
+            default:
+                dateFin = LocalDate.of(LocalDate.now().getYear() + 1, 4, 1);
+
+        }
+        return dateFin;
+    }
 
 }

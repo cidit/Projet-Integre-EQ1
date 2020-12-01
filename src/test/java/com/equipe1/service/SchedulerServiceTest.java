@@ -58,18 +58,25 @@ public class SchedulerServiceTest {
         // Arrange
         Session newSession = Session.builder()
                 .nom("HIV-2021")
+                .dateDebut(LocalDate.of(2021, 1, 1))
+                .dateFin(LocalDate.of(2020, 4, 30))
                 .isCurrent(true)
                 .build();
+        sessionRepository.save(newSession);
 
+        //when(sessionRepository.save(session)).thenReturn(session);
         when(sessionService.findCurrentSession()).thenReturn(Optional.of(session));
         when(sessionService.create(newSession)).thenReturn(newSession);
-
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(newSession));
 
         // Act
-        Session s1 = schedulerService.scheduleCreationSession();
+        schedulerService.scheduleCreationSession();
+        Session sessionActuelle = sessionRepository.findCurrentSession().get();
         // Assert
-        Assertions.assertNotNull(s1);
-        Assertions.assertEquals("HIV-2021", s1.getNom());
+        Assertions.assertEquals(newSession.getNom(), sessionActuelle.getNom());
+        Assertions.assertEquals(newSession.getDateDebut(), sessionActuelle.getDateDebut());
+        Assertions.assertEquals(newSession.getDateFin(), sessionActuelle.getDateFin())
+
 
     }
 
