@@ -52,7 +52,6 @@ public class CVServiceTest {
 
     @Test
     public void testGetCVs() {
-        System.out.println(cv1);
         when(cvRepository.findAll()).thenReturn(Arrays.asList(cv1, cv2, cv3));
 
         var cvs = cvService.getCVs();

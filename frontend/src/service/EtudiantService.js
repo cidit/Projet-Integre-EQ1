@@ -27,10 +27,6 @@ class EtudiantService{
         return axios.get(baseURL + "/get/aucunStage", { params: { idSession: idSession} });
     }
 
-    getAllAyantEntrevue(idSession){
-        return axios.get(baseURL + "/getAllAyantEntrevue",  { params: { idSession: idSession} });
-    }
-
     getEtudiantsByProgramme(programme, idSession){
         return axios.get(ETUDIANT_GET + "/" + programme, { params: { idSession: idSession} });
     }
@@ -83,8 +79,6 @@ class EtudiantService{
     async  getEtudiantsbyEnseignat(idEnseignant){
         return axios.get(baseURL + "/getAllbyEnseignant/"+idEnseignant);
     }
-
-
     
 }
 

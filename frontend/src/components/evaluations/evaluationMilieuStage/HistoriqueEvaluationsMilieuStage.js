@@ -15,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#E9E9E9',
         fontWeight: 'bold'
     },
-    paper: {
-        padding: theme.spacing(0),
-        margin: 'auto',
-        maxWidth: '50%',
-    },
+    // paper: {
+    //     padding: theme.spacing(0),
+    //     margin: 'auto',
+    //     maxWidth: '50%',
+    // },
     heading: {
         fontSize: theme.typography.pxToRem(10),
         fontWeight: theme.typography.fontWeightRegular,
@@ -60,7 +60,6 @@ export default function HistoriqueEvaluationsMilieuStage() {
 
     const getEtudiant = async () => {
         const response = await EvaluationService.getEvaluationsMilieuStageByEnseignant(id);
-        console.log(response.data)
         setEvaluationsMilieuStage(response.data);
     }
 

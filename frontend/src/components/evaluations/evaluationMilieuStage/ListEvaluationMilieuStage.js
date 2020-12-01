@@ -46,7 +46,6 @@ export default function EvaluationMilieuHome() {
 
     const getEtudiant = async () => {
         const response = await CandidatureService.getCandidaturesEmployeurNonEvalues(id);
-        console.log(response)
         setCandidatures(response.data);
     }
 
@@ -101,8 +100,7 @@ function Row(props) {
     const history = useHistory();
 
     const handleClickRow = (_candidature) => {
-        console.log(_candidature)
-        history.push("/evaluationMilieuStage/" 
+        history.push("/evaluationMilieuStage/"
                         + _candidature.stage.employeur.nom
                         + "/" + _candidature.etudiant.prenom
                         + "/" + _candidature.etudiant.nom
@@ -130,7 +128,7 @@ function Row(props) {
     );
 
 };
-function AlertAucunContrat(isGestionnaire) {
+function AlertAucunContrat() {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">

@@ -47,7 +47,6 @@ export default function ListHistoriqueEvaluationsStagiaires() {
   const getListEvaluations = async () => {
     var idSession = localStorage.getItem("session");
     const response = await EvaluationService.getEvaluationsStagiaireByEmployeur(id, idSession);
-    console.log(response.data)
     setListEvaluationsEmployeur(response.data);
   }
 
@@ -120,5 +119,3 @@ function AlertAucunContrat(isGestionnaire) {
     </div>
   </div>;
 }
-
-

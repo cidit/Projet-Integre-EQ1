@@ -22,7 +22,7 @@ export default function ContratEtudiant() {
     const IsRegsiteredSessionEtudiant = async () => {
         const response = await EtudiantService.isRegistered(id);
         if(!response.data){
-            history.push("/profileEtudiant");
+            history.push("/profilEtudiant");
         }
     }
 

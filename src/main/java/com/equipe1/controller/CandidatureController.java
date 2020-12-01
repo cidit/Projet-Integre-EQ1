@@ -61,16 +61,6 @@ public class CandidatureController {
         return candidatureService.getListCandidaturesChoisis(idSession);
     }
 
-    @PutMapping("convoqueEtudiantEntrevue/{id}")
-    public Candidature convoqueEtudiantEntrevue(@PathVariable Long id){
-        return candidatureService.convoqueEtudiantEntrevue(id);
-    }
-
-    @PutMapping("entrevuePasseeConfirmation/{id}")
-    public Candidature entrevuePasseeConfirmation(@PathVariable Long id){
-        return candidatureService.entrevuePasseeConfirmation(id);
-    }
-
     @GetMapping("getByPremierMoisStage")
     public List<Candidature> getCandidaturesByPremierMoisStage() {
         //return toutes les candidatures ayant un stage rendue a la 4 semaine

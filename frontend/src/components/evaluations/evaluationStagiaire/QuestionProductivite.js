@@ -12,7 +12,6 @@ export default function QuestionProductivite(props) {
   const goToQualiteTravail = () => {
     setRedirect(true);
   }
-  console.log(params.id)
 
   if (redirect) {
     return <Redirect to={`/questionQualiteTravail/${params.id}`} />

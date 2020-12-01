@@ -1,11 +1,18 @@
 import React, {Component} from "react";
 import CandidatureService from "../../service/CandidatureService";
 import CVService from "../../service/CVService";
-import {Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import {makeStyles} from "@material-ui/core/styles";
-
-
+import {
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableBody,
+    Paper,
+    Table,
+    TableRow,
+    Checkbox, Button
+} from "@material-ui/core";
 
 export default class SelectionnerStagiaireComponent extends Component {
     constructor(props) {
@@ -13,17 +20,12 @@ export default class SelectionnerStagiaireComponent extends Component {
 
         this.state = {candidatures: []};
         this.accepteCandidature = this.accepteCandidature.bind(this);
-        this.convoqueEtudiantEntrevue = this.convoqueEtudiantEntrevue.bind(this);
     }
 
-
     async componentDidMount() {
-        // const { data: candidatures } = await CandidatureService.getByStage(this.props.match.params.id);
         const {data: candidatures} = await CandidatureService.getByStage(this.props.id);
 
         this.setState({candidatures});
-        // const { data: candidatures } = await CandidatureService.getByStage(15);
-        // this.setState({ candidatures });
     }
 
     accepteCandidature(candidature) {
@@ -34,26 +36,6 @@ export default class SelectionnerStagiaireComponent extends Component {
         }, 500);
     }
 
-
-    convoqueEtudiantEntrevue(candidature) {
-        console.log(candidature.id)
-        CandidatureService.convoqueEtudiantEntrevue(candidature.id);
-        this.setState({});
-    }
-
-
-    // downloadCV (etudiant) {
-    //     CVService.getCVByEtudiant(etudiant).then((data) => {
-    //         const downloadUrl = window.URL.createObjectURL(new Blob([data]));
-    //         const link = document.createElement('a');
-    //         link.href = downloadUrl;
-    //         link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
-    //         document.body.appendChild(link);
-    //         link.click();
-    //     });
-    // }
-
-
     render() {
 
         return (
@@ -63,7 +45,6 @@ export default class SelectionnerStagiaireComponent extends Component {
                     candidatures={this.state.candidatures}
                     alreadySelect={this.state.candidatures.filter(c => c.statut.includes("APPROUVE")).map((c) => c.id)}
                 />
-
             </div>
         );
     }
@@ -71,14 +52,24 @@ export default class SelectionnerStagiaireComponent extends Component {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-        color: "#000000"
+        marginTop: '3',
+        width: '70%',
+        backgroundColor: '#E9E9E9',
+        fontWeight: 'bold'
     },
-    table: {
-        color: "#ffffff",
-        // backgroundColor: "#000000"
+    paper: {
+        padding: theme.spacing(0),
+        margin: 'auto',
+        maxWidth: '50%',
+    },
+    heading: {
+        fontSize: theme.typography.pxToRem(10),
+        fontWeight: theme.typography.fontWeightRegular,
+    },
+    textTitle: {
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontSize: 15
     }
 }));
 
@@ -87,7 +78,6 @@ function CustomTable(props) {
     const classes = useStyles();
     const [selected, setSelected] = React.useState([]);
 
-    // const [selected, setSelected] = React.useState(props.candidatures.filter(c => c.statut.includes("APPROUVE")).map((c) => c.id));
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
     const handleSelectAllClick = (event) => {
@@ -118,15 +108,6 @@ function CustomTable(props) {
         setSelected(newSelected);
     };
 
-
-    function convoqueEtudiantEntrevue(candidature) {
-        console.log(candidature.id)
-        CandidatureService.convoqueEtudiantEntrevue(candidature.id);
-        setTimeout(function () {
-            window.location.reload();
-        }, 500);
-    }
-
     function handleConfirmation(event) {
         event.preventDefault();
         if (selected.length === 0) {
@@ -143,7 +124,6 @@ function CustomTable(props) {
 
     function downloadCV(etudiant) {
         CVService.getCVByEtudiant(etudiant).then((response) => {
-            console.log(etudiant)
             const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = downloadUrl;
@@ -153,39 +133,25 @@ function CustomTable(props) {
         });
     }
 
-    function renderColonneEntrevue(candidature) {
-        if (candidature.entrevueStatut === 'CONVOQUE')
-            return <p>Convoqué</p>
-        if (candidature.entrevueStatut === 'PASSEE')
-            return <p>Entrevue passeé </p>
-        return (
-            <div>
-                <button className="btn btn-primary" onClick={() => convoqueEtudiantEntrevue(candidature)}>Convoquer
-                </button>
-            </div>
-        )
-    }
-
     return (
         <>
             <TableContainer component={Paper}>
                 <Table className={classes.table}>
-                    <TableHead>
+                    <TableHead className={classes.textTitle}>
                         <TableRow>
-                            <TableCell padding="checkbox">
+                            <TableCell padding="checkbox" className={classes.textTitle}>
                                 <Checkbox
                                     checked={props.candidatures.length > 0 && selected.length === props.candidatures.length}
                                     onChange={handleSelectAllClick}
                                 />
                             </TableCell>
-                            <TableCell>Prénom</TableCell>
-                            <TableCell>Nom</TableCell>
-                            <TableCell>Programme</TableCell>
-                            <TableCell>CV</TableCell>
-                            <TableCell>Téléphone</TableCell>
-                            <TableCell>Email</TableCell>
-                            <TableCell>Adresse</TableCell>
-                            {/*<TableCell>Convoquer pour entrevue</TableCell>*/}
+                            <TableCell className={classes.textTitle}>Prénom</TableCell>
+                            <TableCell className={classes.textTitle}>Nom</TableCell>
+                            <TableCell className={classes.textTitle}>Programme</TableCell>
+                            <TableCell className={classes.textTitle}>CV</TableCell>
+                            <TableCell className={classes.textTitle}>Téléphone</TableCell>
+                            <TableCell className={classes.textTitle}>Email</TableCell>
+                            <TableCell className={classes.textTitle}>Adresse</TableCell>
                             <TableCell>Statut</TableCell>
                         </TableRow>
                     </TableHead>
@@ -221,7 +187,6 @@ function CustomTable(props) {
                                             <TableCell>{candidature.etudiant.telephone}</TableCell>
                                             <TableCell>{candidature.etudiant.email}</TableCell>
                                             <TableCell>{candidature.etudiant.adresse}</TableCell>
-                                            {/*<TableCell>{renderColonneEntrevue(candidature)}</TableCell>*/}
                                             <TableCell>{candidature.statut}</TableCell>
                                         </TableRow>
                                     );
@@ -231,7 +196,7 @@ function CustomTable(props) {
                 </Table>
             </TableContainer>
 
-            <button onClick={handleConfirmation}>Confirmer</button>
+            <Button variant="contained" className=' m-2' color="primary" onClick={handleConfirmation}>Confirmer</Button>
         </>
     );
 }

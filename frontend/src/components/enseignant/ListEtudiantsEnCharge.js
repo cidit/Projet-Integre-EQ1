@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
         width: '100%',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         margin: 'auto',
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
         verticalAlign: 'middle'
     }
 }));
+
 export default function ListEtudiantsEnCharge(props) {
     const [candidatures, setCandidatures] = useState([])
     const classes = useStyles();
@@ -45,7 +46,6 @@ export default function ListEtudiantsEnCharge(props) {
 
     const getEtudiant = async (id) => {
         const response = await EtudiantService.getEtudiantsbyEnseignat(id);
-        console.log(response.data)
         setCandidatures(response.data);
     }
 
@@ -109,10 +109,6 @@ function Row(props) {
     const { row } = props;
     const classes = useStyles();
 
-    const handleClickRow = () => {
-        console.log("etudiant")
-    }
-
     return (
         <React.Fragment>
             <TableRow hover className={classes.row} className='align-middle'>
@@ -124,7 +120,7 @@ function Row(props) {
                 <TableCell className='align-middle'>{row.matricule}</TableCell>
                 {!props.isEnseignant &&
                     <TableCell>
-                        <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{ textTransform: 'none' }}>
+                        <Button className='m-2' variant="contained" size="small" color="primary" style={{ textTransform: 'none' }}>
                             Assigner étudiants
                         </Button>
                     </TableCell>
@@ -132,8 +128,8 @@ function Row(props) {
             </TableRow>
         </React.Fragment>
     );
-
 };
+
 function AlertAucunContrat() {
     return <div className="container">
         <div className="row justify-content-md-center">

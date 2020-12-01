@@ -37,7 +37,7 @@ export default function ListeGenericEtudiant(props) {
 
     if (props.etudiants.length === 0) {
         return (
-            AlertAucunEtudiant(true)
+            AlertAucunEtudiant()
         )
     } else {
         return (
@@ -48,7 +48,6 @@ export default function ListeGenericEtudiant(props) {
                     <TableRow>
                         <TableCell className={classes.textTitle}> Matricule </TableCell>
                         <TableCell className={classes.textTitle}> Nom </TableCell>
-                        <TableCell className={classes.textTitle}> Prénom </TableCell>
                         <TableCell className={classes.textTitle}> Programme </TableCell>
                         <TableCell className={classes.textTitle}> Courriel </TableCell>
                         <TableCell className={classes.textTitle}> Téléphone </TableCell>
@@ -60,8 +59,7 @@ export default function ListeGenericEtudiant(props) {
                             etudiant =>
                             <TableRow key={etudiant.id} hover className={classes.row}>
                                 <TableCell>{etudiant.matricule}</TableCell>
-                                <TableCell>{etudiant.nom}</TableCell>
-                                <TableCell>{etudiant.prenom}</TableCell>
+                                <TableCell>{etudiant.prenom} {etudiant.nom}</TableCell>
                                 <TableCell>{etudiant.programme}</TableCell>
                                 <TableCell>{etudiant.email}</TableCell>
                                 <TableCell>{etudiant.telephone}</TableCell>

@@ -1,17 +1,15 @@
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
+
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
-import EtudiantService from '../../service/EtudiantService';
-import ModifierEtudiantsEnchargeEnseignant from '../gestionnaire/ModifierEtudiantsEnchargeEnseignant';
-import AssignerEtudiantsAuEnseignant from './AssignerEtudiantsAuEnseignant';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Box from '@material-ui/core/Box';
 
-
-
+import StageService from '../../../service/StageService';
+import ApprobationStage from './ListeStageEnAttente';
+import ListeStageApprouve from './ListeStageApprouve';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -54,31 +52,34 @@ function TabPanel(props) {
     },
   }));
   
-  export default function EnseignantsTabs() {
-    const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-    const params = useParams();
-    const [listEtudiantsEnCharge, setListEtudiantsEnCharge] = useState([]);
-    var idSession = localStorage.getItem("session");
-    const labelAssigner= "Assigner des étudiants  " ;
-    const labelModifier= "Modifier les étudiants assignés " ;
+  export default function ScrollableTabsButtonAuto() {
 
-    const getEtudaints = async () => {
-        const response = await EtudiantService.getEtudiantsbyEnseignat(params.id);
-        setListEtudiantsEnCharge(response.data)
+    var idSession = localStorage.getItem("session");
+
+    const [offreStagesApprouve, setOffreStagesApprouve] = useState([]);
+    const getOffreStagesApprouve = async () => {
+        const response = await StageService.getStagesApprouvesByEmployeurId(window.localStorage.getItem("id"), idSession);
+        setOffreStagesApprouve(response.data);
     }
 
+    const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState([]);
+    const getOffreStagesNonApprouve = async () => {
+        const response = await StageService.getStagesNonApprouvesByEmployeurId(window.localStorage.getItem("id"), idSession);
+        setOffreStagesNonApprouve(response.data);
+    }
+
+    useEffect(() => {
+      getOffreStagesApprouve();
+      getOffreStagesNonApprouve();
+    },[])
+
+    const classes = useStyles();
+    const [value, setValue] = React.useState(0);
+  
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
-
-    useEffect(() => {
-        getEtudaints();
-        return () => {
-            setListEtudiantsEnCharge([])
-        }
-    }, [])
-
+  
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
@@ -91,18 +92,16 @@ function TabPanel(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label= {labelAssigner}    {...a11yProps(0)} />
-            <Tab label={labelModifier} {...a11yProps(1)} />
+            <Tab label="Stages approuvés" {...a11yProps(0)}/>
+            <Tab label="Stages non approuvés" {...a11yProps(1)}/>
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-            <AssignerEtudiantsAuEnseignant/>
+          <ListeStageApprouve stages={offreStagesApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ModifierEtudiantsEnchargeEnseignant listEtudiantsEnCharge ={listEtudiantsEnCharge}/>        
+          <ApprobationStage stages={offreStagesNonApprouve}/>
         </TabPanel>
       </div>
     );
   }
-
-

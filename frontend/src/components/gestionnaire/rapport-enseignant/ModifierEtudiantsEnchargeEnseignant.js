@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
-import EtudiantService from "../../service/EtudiantService";
+import EtudiantService from "../../../service/EtudiantService";
 
 const useStyles = makeStyles((theme) => ({
     root: {

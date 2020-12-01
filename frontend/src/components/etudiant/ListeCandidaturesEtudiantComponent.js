@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import CandidatureService from "../../service/CandidatureService";
 
 import {Col, Container, Modal, Row} from "react-bootstrap";
@@ -9,12 +9,12 @@ import EtudiantService from "../../service/EtudiantService";
 
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button} from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
+import SessionService from "../../service/SessionService";
 
 const useStyles = theme => ({
     root: {
         marginTop: '3',
         width: '100%',
-        fontWeight: 'bold',
         margin:'auto',
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
@@ -42,6 +42,7 @@ class ListeCandidaturesEtudiantComponent extends Component {
         this.state = {
             candidatures: [],
             employeurId: "",
+            isSessionSelectionneeEnCours: true,
             showSnackbar: false,
             disabledAllButtons: false,
         };
@@ -59,11 +60,14 @@ class ListeCandidaturesEtudiantComponent extends Component {
 
         const response = await EtudiantService.isRegistered(id);
         if (!response.data) {
-            this.props.history.push("/profileEtudiant");
+            this.props.history.push("/profilEtudiant");
         }
 
         const {data: candidatures} = await CandidatureService.getByEtudiant(id, idSession);
+        const {data: isSessionSelectionneeEnCours} = await SessionService.isSessionSelectionneeEnCours(idSession);
+
         this.setState({candidatures});
+        this.setState({isSessionSelectionneeEnCours});
 
         let candidature = await CandidatureService.getCandidatureChoisi(id);
 
@@ -101,8 +105,7 @@ class ListeCandidaturesEtudiantComponent extends Component {
                             <TableCell className={classes.textTitle}> Statut </TableCell>
                             <TableCell className={classes.textTitle}> Programme </TableCell>
                             <TableCell className={classes.textTitle}> Ville </TableCell>
-                            <TableCell className={classes.textTitle}> Confirmer entrevue </TableCell>
-                            <TableCell className={classes.textTitle}> Confirmer choix </TableCell>
+                            <TableCell className={classes.textTitle} hidden={!this.state.isSessionSelectionneeEnCours}> Confirmer choix </TableCell>
                         </TableRow>
                         </TableHead>
                             <TableBody>
@@ -110,6 +113,7 @@ class ListeCandidaturesEtudiantComponent extends Component {
                                     .map(candidature =>
                                         <TableRow key={candidature.id} hover className={classes.row}>
                                             <ShowCandidature candidature={candidature}
+                                                             isSessionSelectionneeEnCours={this.state.isSessionSelectionneeEnCours}
                                                              disabledAll={this.state.disabledAllButtons}/>
                                         </TableRow>
                                     )}
@@ -141,31 +145,11 @@ function ShowCandidature(props) {
     const handleShowSnackbar = () => this.handleShowSnackbar();
     const handleDisableAll = () => this.handleDisableAll();
 
+
+
+
     function toggleBtns(isApprouved) {
         document.getElementsByName(approuved)[0].disabled = isApprouved
-    }
-
-    function entrevuePasseeConfirmation(candidature) {
-        CandidatureService.entrevuePasseeConfirmation(candidature.id);
-        setTimeout(function () {
-            window.location.reload();
-        }, 500);
-    }
-
-
-    function renderColonneEntrevue(candidature) {
-        if (candidature.entrevueStatut === 'PAS_CONVOQUE')
-            return <p>Pas convoqué</p>
-        if (candidature.entrevueStatut === 'PASSEE')
-            return <p>Entrevue passée </p>
-        return (
-            <div>
-                <button className="btn btn-primary"
-                        onClick={(event) => entrevuePasseeConfirmation(candidature)}>Confirmer entrevue
-                </button>
-            </div>
-        )
-
     }
 
     async function handleClick(event) {
@@ -192,11 +176,8 @@ function ShowCandidature(props) {
             </TableCell>
             <TableCell>{props.candidature.stage.programme}</TableCell>
             <TableCell>{props.candidature.stage.ville}</TableCell>
-            <TableCell>
-                {renderColonneEntrevue(props.candidature)}
-            </TableCell>
 
-            <TableCell>
+            <TableCell hidden={!props.isSessionSelectionneeEnCours}>
                 <Button type="submit" className='m-2' variant="contained" size="small" color="primary" onClick={handleShowModal}
                         disabled={props.candidature.statut === "REFUSE"
                         || props.candidature.statut === "EN_ATTENTE"
