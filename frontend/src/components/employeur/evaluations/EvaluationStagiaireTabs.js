@@ -83,8 +83,8 @@ export default function EvaluationStagiaireTabs() {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Évaluations stagiaires" {...a11yProps(0)} />
-        <Tab label="Historique d'évaluation stagiaires" {...a11yProps(1)} />
+        <Tab className='text-left' label="Évaluations stagiaires" {...a11yProps(0)} />
+        <Tab className='text-left' label="Historique d'évaluation stagiaires" {...a11yProps(1)} />
 
       </Tabs>
       <TabPanel value={value} index={0} className={classes.tabPanel} >
