@@ -71,7 +71,7 @@ public class InsertDataService {
         Session session;
 
         session = Session.builder().nom("ETE-2020").isCurrent(false)
-                .dateDebut(LocalDate.of(2020, 5, 1))
+                .dateDebut(LocalDate.of(2020, 6, 1))
                 .dateFin(LocalDate.of(2020, 8, 31)).build();
         sessionRepository.save(session);
         sessionList.add(session);
@@ -84,7 +84,7 @@ public class InsertDataService {
 
         session = Session.builder().nom("HIV-2021").isCurrent(true)
                 .dateDebut(LocalDate.of(2021, 1, 1))
-                .dateFin(LocalDate.of(2021, 4, 30)).build();
+                .dateFin(LocalDate.of(2021, 5, 31)).build();
         sessionRepository.save(session);
         sessionList.add(session);
     }

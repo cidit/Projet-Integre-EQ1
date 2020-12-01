@@ -12,7 +12,7 @@ public class SchedulerService {
 
     @Autowired
     private SessionService sessionService;
-    @Scheduled(cron = "0 0 0 1 JAN,MAY,SEP ?")
+    @Scheduled(cron = "0 0 0 1 JAN,JUN,SEP ?")
     public Session scheduleCreationSession() {
         String nomSession = configurationNomSession();
         LocalDate dateDebut = configurationDateDebut(nomSession);
@@ -60,7 +60,7 @@ public class SchedulerService {
                 dateDebut = LocalDate.of(LocalDate.now().getYear() + 1, 1, 1);
                 break;
             case "ETE" :
-                dateDebut = LocalDate.of(LocalDate.now().getYear(), 5, 1);
+                dateDebut = LocalDate.of(LocalDate.now().getYear(), 6, 1);
                 break;
             default:
                 break;
@@ -77,7 +77,7 @@ public class SchedulerService {
                 dateFin = LocalDate.of(LocalDate.now().getYear(), 12, 31);
                 break;
             case "HIV" :
-                dateFin = LocalDate.of(LocalDate.now().getYear() + 1, 4, 30);
+                dateFin = LocalDate.of(LocalDate.now().getYear() + 1, 5, 31);
                 break;
             case "ETE" :
                 dateFin = LocalDate.of(LocalDate.now().getYear(), 8, 31);
