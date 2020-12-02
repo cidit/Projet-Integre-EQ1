@@ -2,6 +2,7 @@ package com.equipe1.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public class Etudiant extends User {
 
     {
@@ -51,7 +53,5 @@ public class Etudiant extends User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Session> sessions;
-
-    private boolean isEnregistre;
 
 }
