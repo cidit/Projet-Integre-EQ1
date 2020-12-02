@@ -23,7 +23,7 @@ export default class ListStagesComponent extends Component {
 
     componentDidMount() {
         if (localStorage.getItem("desc") === "Employeur"){
-            StageService.getStagesByEmployeurId(localStorage.getItem("id")).then((res) => { this.setState({ stage: res.data }) })
+            StageService.getStagesByEmployeurId(localStorage.getItem("id"), localStorage.getItem("session")).then((res) => { this.setState({ stage: res.data }) })
         } else {
             StageService.getStagesSession().then((res) => {
                 this.setState({stage: res.data})

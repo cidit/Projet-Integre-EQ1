@@ -118,7 +118,7 @@ function CreationContrat() {
                 <Typography className={classes.heading} >
                   <AnnouncementIcon className="mr-3 " style={{ color: "#F2DE15  " }} />
             La création automatique permet d'utiliser un modèle de contrat défini par le Cégep.
-            Cela inclut automatiquement les informations de l'entreprise, de l'étudiant et du stage.
+            Ce contrat inclura automatiquement les informations de l'entreprise, de l'étudiant et du stage.
               </Typography>
               </CardContent >
 

@@ -41,18 +41,12 @@ export default class StageComponent extends Component {
     }
 
     render() {
-        let idTab = 0;
-        if (this.props.match.params.tab !== undefined){
-            idTab = this.props.match.params.tab;
-        }
-
         return (
             <div className="container">
                 <MyTabs
                     stage={this.state.stage}
                     employeur={this.state.employeur}
                     candidatures={this.state.candidatures}
-                    // tab = {idTab}
                 />
             </div>
         );
@@ -132,7 +126,7 @@ function MyTabs(props) {
         {gestionnaire: true, employeur: false},
         {gestionnaire: true, employeur: false},
         {gestionnaire: true, employeur: true},
-        {gestionnaire: true, employeur: false},
+
     ];
 
     const tags = [
@@ -140,14 +134,12 @@ function MyTabs(props) {
         {label: "Veto",  disabled: false},
         {label: "Assigner étudiants",  disabled: false},
         {label: "Choix des stagiaires",  disabled: props.candidatures.length === 0},
-        {label: "Evaluation",  disabled: false},
     ];
     const panels =[
         {component: <StageInfo stage={props.stage} employeur={props.employeur} />},
         {component: <Veto stage={props.stage}/>},
         {component: <SelectionnerEtudiantComponent stage={props.stage}/>},
         {component: <SelectionnerStagiaireComponent id={props.stage.id}/>},
-        {component: <p>TODO</p>},
     ];
 
     let usedTags=[];

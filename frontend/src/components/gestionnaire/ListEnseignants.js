@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
         width: '100%',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         margin:'auto',
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
@@ -104,7 +104,7 @@ function Row(props) {
         <React.Fragment>
             <TableRow hover  className={classes.row}>
                 <TableCell className='align-middle'>{row.prenom} {row.nom}</TableCell>
-                <TableCell  className='align-middle'>{row.programme}</TableCell>
+                <TableCell className='align-middle'>{row.programme}</TableCell>
                 <TableCell className='align-middle'>{row.email}</TableCell>
                 <TableCell className='align-middle'>{row.telephone}</TableCell>
 

@@ -18,16 +18,16 @@ export class ListeContrat extends Component {
     async componentDidMount() {
         if (localStorage.getItem("desc").toUpperCase() === "GESTIONNAIRE") {
             await ContratService.getContrats(localStorage.getItem("session")).then((res) => this.setState({contrats: res.data}));
-
-        } else if (localStorage.getItem("desc").toUpperCase() === "EMPLOYEUR") {
+        }
+        else if (localStorage.getItem("desc").toUpperCase() === "EMPLOYEUR") {
             await ContratService.getContratByEmployeurId(localStorage.getItem("id")).then((res) => this.setState({contrats: res.data}));
-        } else if (localStorage.getItem("desc").toUpperCase() === "ETUDIANT") {
+        }
+        else if (localStorage.getItem("desc").toUpperCase() === "ETUDIANT") {
             const response = await EtudiantService.isRegistered(localStorage.getItem("id"));
             if (!response.data) {
                 this.props.history.push("/profilEtudiant");
             }
             await ContratService.getContratByEtudiantId(localStorage.getItem("id")).then((res) => this.setState({contrats: res.data}));
-
         }
     }
 
@@ -39,6 +39,10 @@ export class ListeContrat extends Component {
         } else {
             return (
                 <>
+                    <div className="container-fluid">
+                        <div className="col">
+                            <div className="pt-3 mt-3">
+                                <div className="row">
                     <Table className="table table-striped table-bordered">
                         <TableHead>
                             <TableRow>
@@ -61,7 +65,13 @@ export class ListeContrat extends Component {
                                             <TableCell>{contrat.candidature.etudiant.programme}</TableCell>
                                             <TableCell>{contrat.dateGeneration}</TableCell>
                                             <TableCell>
-                                                <Button href={"/televerserContrats/" + contrat.id}>
+                                                <Button
+                                                    href={"/televerserContrats/" + contrat.id}
+                                                    variant="outlined"
+                                                    size="small"
+                                                    color="primary"
+                                                    style={{ textTransform: 'none' }}
+                                                >
                                                     Signer le contrat
                                                 </Button>
                                             </TableCell>
@@ -69,6 +79,10 @@ export class ListeContrat extends Component {
                                 )}
                         </TableBody>
                     </Table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </>
             );
         }

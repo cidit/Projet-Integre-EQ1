@@ -129,6 +129,8 @@ public class RappelService {
                 user.getCv().getData().length == 0)
             messages.add(Rappel.EtudiantRappel.PAS_DE_CV);
 
+//        System.out.println( "HELLO_--------------"+candidatureService.findCandidatureByEtudiant(user.getId(), currentSession.getId()));
+
 
         // cherche si l'etudiant n'a pas encore soumis sa candidature
         if (candidatureService.findCandidatureByEtudiant(user.getId(), currentSession.getId())

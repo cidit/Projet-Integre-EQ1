@@ -39,7 +39,7 @@ public class GenerateurPdfService {
         String text2 = " Le CÉGEP ANDRÉ-LAURENDEAU, corporation légalement constituée, situé au" +
                 " 1111, rue Lapierre, LASALLE (Québec), H8N 2J4, ici représenté par Madame Diane Turcotte" +
                 " ci-après désigné «Le Collège»,  l’entreprise ";
-        String text3 = "ayant sa place d’affaires au ";
+        String text3 = "ayant sa place d’affaires à ";
         document.add(getImage());
         document.add(setTitre("ENTENTE DE STAGE COOPÉRATIF"));
         document.add(setParagraphe(Arrays.asList(
@@ -58,7 +58,7 @@ public class GenerateurPdfService {
         )));
 
         //create table
-        document.add(tableTitre("ENDROIT DU STAGE"));
+        document.add(tableTitre("EMPLACEMENT DU STAGE"));
 
         document.add(createTable(Arrays.asList(
                 createBoldCell("Ville: ", s.getVille(), setFond(FONT_TAILLE_REGULIER, true)),
@@ -78,7 +78,7 @@ public class GenerateurPdfService {
                 createBoldCell("Date de début : ", s.getDateDebut().toString(), setFond(FONT_TAILLE_REGULIER, true)),
                 createBoldCell("Date de fin : ", s.getDateFin().toString(), setFond(FONT_TAILLE_REGULIER, true)),
                 createBoldCell("Nombre total de semaines : ", getDureStage(s).toString(), setFond(FONT_TAILLE_REGULIER, true)),
-                createBoldCell("Salaire : ", String.valueOf(s.getSalaire()), setFond(FONT_TAILLE_REGULIER, true))
+                createBoldCell("Salaire : ", String.valueOf(s.getSalaire()) + "$/h", setFond(FONT_TAILLE_REGULIER, true))
                 ), 2, false)
         );
 
@@ -113,19 +113,20 @@ public class GenerateurPdfService {
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "L’entreprise s’engage à :"));
 
         document.add(setListOrdonee(Arrays.asList(
+                //TODO: CA VEUT DIRE QUOI?
                 "test desde responsablity",
                 "Embaucher l’étudiant stagiaire  aux conditions précisées dans la présente entente.",
                 "Désigner un superviseur de stage qui assurera l’encadrement de l’étudiant stagiaire pour toute la durée du stage.",
-                "mettre en place des mesures d’accueil, d’intégration et d’encadrement de l’étudiant stagiaire.",
-                "procéder à l’évaluation de l’étudiant stagiaire."
+                "Mettre en place des mesures d’accueil, d’intégration et d’encadrement de l’étudiant stagiaire.",
+                "Procéder à l’évaluation de l’étudiant stagiaire."
         )));
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "L’étudiant s’engage:"));
         document.add(setListOrdonee(Arrays.asList(
                 "Assumer de façon responsable et sécuritaire, les tâches qui lui sont confiées.",
                 "Respecter les politiques, règles et procédures de l’entreprise ainsi que l’horaire de travail au même titre qu’un employé.",
-                "respecter les dates de début et de fin de stage.",
-                "référer rapidement au responsable des stages au cégep toute situation " +
+                "Respecter les dates de début et de fin de stage, à moins d'une entente avec l'étudiant.",
+                "Référer rapidement au responsable des stages du cégep pour toute situation " +
                         "problématique affectant le bon déroulement du stage;"
         )));
 
@@ -242,9 +243,7 @@ public class GenerateurPdfService {
 
     private Paragraph setParagraphe(List<Phrase> phrases) {
         Paragraph paragraph = new Paragraph();
-        for (Phrase p : phrases) {
-            paragraph.add(p);
-        }
+        paragraph.addAll(phrases);
         return paragraph;
     }
 

@@ -14,8 +14,6 @@ import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandi
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
 
 import SelectionnerStagiaireComponent from "./components/employeur/SelectionnerStagiaireComponent";
-import ContratsEmployeur from './components/employeur/ContratEmployeur'
-import ContratEtudiant from './components/etudiant/ContratEtudiant'
 import ListCandidatureChoisi from './components/contrat/ListCandidatureChoisi'
 import CreationContrat from './components/contrat/CreationContrat'
 import TeleverserContrat from './components/utils/TeleverserContrat'
@@ -43,11 +41,12 @@ import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge
 import RegisterTabs from './components/register/RegisterTabs'
 import EnseignantsTabs from './components/gestionnaire/EnseignantsTabs'
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import {ListeContrat} from "./components/contrat/ListeContrats";
 
 function App() {
     return (
 
-        <main>
+        <main >
             <ThemeProvider theme={theme}>
                 <HeaderComponent/>
                 <Switch>
@@ -62,8 +61,7 @@ function App() {
                     <Route path='/gestionnaireStage' component={GestionnaireListStageComponent}/>
                     <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent}/>
                     <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent}/>
-                    <Route path='/contratsEmployeur' component={ContratsEmployeur}/>
-                    <Route path='/contratEtudiant' component={ContratEtudiant}/>
+                    <Route path='/listeContrats' component={ListeContrat}/>
                     <Route path='/ListCandidatureChoisi' component={ListCandidatureChoisi}/>
                     <Route path='/CreationContrat/:id' component={CreationContrat}/>
                     <Route path='/televerserContrats/:id' component={TeleverserContrat}/>
@@ -77,7 +75,8 @@ function App() {
                     <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
                     <Route
                         path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature"
-                        component={EvaluationMilieuStage}/>
+                        component={EvaluationMilieuStage}
+                    />
                     <Route path="/evaluationsEmployeur" component={EvaluationsHome}/>
                     <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
                     <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
@@ -99,12 +98,17 @@ function App() {
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: "#26616b",
+            main: "#1666DB",
+            light: "#4d84e3",
+            dark: "#0d3477",
+        },
+        secondary:{
+            main:"#1666DB",
             light: "#ffbe49",
-            dark: "#c55e00",
+            // dark: "#c55e00",
         },
         action: {
-            hover: "#ff8d0b",
+            hover: "#4d84e3",
             disabled: "#ac0505",
             selected: "#ffbe49"
         },
@@ -113,7 +117,7 @@ const theme = createMuiTheme({
         },
         button: {
             textTransform: "capitalize"
-        }
+        },
 
     }
 });
