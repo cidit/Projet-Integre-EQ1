@@ -20,13 +20,6 @@ class EmployeurService{
     }
 
     async getById(id) {
-        /*
-        let data;
-        await fetch(baseURL + "/get?idEmployeur=" + id, {method: "GET"})
-            .then(r => data = r.json())
-            .catch(error => data = {});
-        return data;
-        */
        return await axios.get(baseURL + "/get?idEmployeur=" + id);
     }
 
@@ -51,13 +44,7 @@ class EmployeurService{
     }
 
     async updatePassword(employeur, id){
-        fetch(baseURL + "/updatePassword/" + id,
-            {method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(employeur)} )
-            .then(r => r.json());
+        return axios.put(baseURL + "/updatePassword/" + id, employeur);
     }
 }
 
