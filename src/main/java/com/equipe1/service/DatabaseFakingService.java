@@ -261,6 +261,27 @@ public class DatabaseFakingService {
 
     @Transactional
     public void insertEnseignants() {
+        var enseignants = new ArrayList<Enseignant>();
+
+        enseignants.add(Enseignant.builder()
+                .email("francois@email.com")
+                .password("123456")
+                .nom("Lacoursiere")
+                .prenom("Francois")
+                .telephone("888-888-8888")
+                .programme("Techniques de l’informatique")
+                .build());
+
+        enseignants.add(Enseignant.builder()
+                .email("reda@email.com")
+                .password("123456")
+                .nom("Hamza")
+                .prenom("Reda")
+                .telephone("999-999-9999")
+                .programme("Techniques de l’informatique")
+                .build());
+
+        enseignantRepository.saveAll(enseignants);
     }
 }
 
