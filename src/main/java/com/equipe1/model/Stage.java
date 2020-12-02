@@ -1,8 +1,6 @@
 package com.equipe1.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +9,7 @@ import java.util.Set;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
 public class Stage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

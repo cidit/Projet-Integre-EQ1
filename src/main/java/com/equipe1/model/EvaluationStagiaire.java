@@ -1,8 +1,7 @@
 package com.equipe1.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -12,6 +11,9 @@ import javax.persistence.OneToOne;
 @EqualsAndHashCode(exclude="etudiant")
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 public class EvaluationStagiaire extends Evaluation{
 
     {

@@ -2,12 +2,16 @@ package com.equipe1.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
 @EqualsAndHashCode(exclude="etudiant")
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 public class EvaluationMilieuStage extends Evaluation {
 
     {
