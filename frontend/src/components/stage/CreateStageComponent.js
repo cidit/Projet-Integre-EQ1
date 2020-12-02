@@ -19,8 +19,7 @@ class CreateStageComponent extends Component {
     super(props);
     this.state = { 
       sended: true, 
-      currentSession: "", 
-      id: AuthService.getTokenDESC().toUpperCase() === "ROLE_EMPLOYEUR" ? AuthService.getTokenId() : '' 
+      currentSession: "",  
     }
   }
 
@@ -191,9 +190,8 @@ export default withFormik({
 
 
   handleSubmit(values, formikBag) {
-
-    let id = this.state.id;
-
+    
+    let id =  AuthService.getTokenDESC().toUpperCase() === "ROLE_EMPLOYEUR" ? AuthService.getTokenId() : ''
     let stage = new Stage();
 
     EmployeurService.getById(id).then((res) => {
