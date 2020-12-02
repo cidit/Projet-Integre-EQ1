@@ -4,7 +4,10 @@ import com.equipe1.model.User;
 import com.equipe1.model.Rappel;
 import com.equipe1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,5 +53,9 @@ public class UserService {
         } else {
             return null; // TODO
         }
+    }
+
+    public User getById(long id) throws ResponseStatusException {
+        return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "no user with id " + id));
     }
 }
