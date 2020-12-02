@@ -18,7 +18,6 @@ import CreationContrat from './components/contrat/CreationContrat';
 import TeleverserContrat from './components/utils/TeleverserContrat';
 
 import StageComponent from "./components/stage/StageComponent";
-import ListeStage from "./components/stage/ListeStage";
 
 import QuestionProductivite from './components/evaluations/evaluationStagiaire/QuestionProductivite';
 import QuestionQualiteTravail from './components/evaluations/evaluationStagiaire/QuestionQualiteTravail';
@@ -33,11 +32,10 @@ import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 import ProfilEmployeur from './components/employeur/ProfilEmployeur';
 import ProfilGestionnaire from './components/gestionnaire/ProfilGestionnaire';
 import ProfilEtudiant from './components/etudiant/ProfilEtudiant';
-import ProfilEnseignant from './components/enseignant/ProfilEnseignant'
-import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieuStage/EvaluationMiliauStageTabs'
-import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge'
-import RegisterTabs from './components/register/RegisterTabs'
-import ModifierEtudiantsEnchargeEnseignant from './components/gestionnaire/rapport-enseignant/ModifierEtudiantsEnchargeEnseignant'
+import ProfilEnseignant from './components/enseignant/ProfilEnseignant';
+import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieuStage/EvaluationMiliauStageTabs';
+import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge';
+import RegisterTabs from './components/register/RegisterTabs';
 import EnseignantsTabs from './components/gestionnaire/rapport-enseignant/EnseignantsTabs';
 import RapportEnseignantComponent from './components/gestionnaire/rapport-enseignant/RapportEnseignantComponent';
 import RapportEtudiantComponent from './components/gestionnaire/rapport-etudiant/RapportEtudiantComponent';
@@ -56,7 +54,6 @@ function App() {
           <Route path="/" exact component={Home}/>
           <Route path='/login' component={Login} />
           <Route path='/register' component={RegisterTabs} />
-          {/*<Route path='/stageVeto' component={StageVeto} />*/}
           <Route path='/offrestage' component={ApplicationStageComponent} />
           <Route path='/createStage' component={CreateStageComponent} />
           <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
@@ -68,8 +65,6 @@ function App() {
           <Route path='/televerserContrats/:id' component={TeleverserContrat} />
           <Route path="/stage/:id/:tab" component={StageComponent}/>
           <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
-          {/*<Route path="/listestages/:desc" component={ListeStage}/>*/}
-          <Route path="/listestages" component={ListeStage}/>
           <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
           <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
           <Route path="/questionRelations/:id" component={QuestionRelations}/>
@@ -79,18 +74,18 @@ function App() {
           <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
           <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
 
-            
-          {/* Rapports  */}
+          {/* Rapports */}
           <Route path="/rapportEnseignant" component={RapportEnseignantComponent}/>
           <Route path="/rapportEtudiant" component={RapportEtudiantComponent}/>
           <Route path="/rapportStage/:tab" component={RapportStageComponent}/>
           <Route path="/rapportContrat/:tab" component={RapportContratComponent}/>
 
-          
+          {/* Profils */}
           <Route path="/profilEtudiant" component={ProfilEtudiant}/>
           <Route path="/profilEmployeur" component={ProfilEmployeur}/>
           <Route path="/profilGestionnaire" component={ProfilGestionnaire}/>
           <Route path="/profilEnseignant" component={ProfilEnseignant}/>
+
           <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
           <Route path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs}/>
 

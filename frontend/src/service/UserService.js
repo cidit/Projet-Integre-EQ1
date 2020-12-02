@@ -12,7 +12,7 @@ class UserService {
 
     async getById(id) {
         let data
-        await fetch(BASE_URL + "one/" + id, {method: "GET"})
+        await fetch(BASE_URL + "get/one/" + id, {method: "GET"})
             .then(response => data = response.json())
             .catch(error => data = {})
         return data
