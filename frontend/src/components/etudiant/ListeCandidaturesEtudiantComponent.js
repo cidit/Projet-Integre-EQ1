@@ -179,6 +179,7 @@ function ShowCandidature(props) {
 
             <TableCell hidden={!props.isSessionSelectionneeEnCours}>
                 <Button type="submit" className='m-2' variant="contained" size="small" color="primary" onClick={handleShowModal}
+                        style={{ textTransform: 'none' }}
                         disabled={props.candidature.statut === "REFUSE"
                         || props.candidature.statut === "EN_ATTENTE"
                         || props.disabledAll === true}>

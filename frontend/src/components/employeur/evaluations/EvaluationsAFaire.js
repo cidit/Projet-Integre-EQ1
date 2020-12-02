@@ -67,10 +67,8 @@ export default function EvaluationsStagiaires(props) {
                         <Table className="table" >
                             <TableHead className={classes.heading}>
                                 <TableRow>
-                                    <TableCell className={classes.textTitle}>Étudiant </TableCell>
-                                    <TableCell className={classes.textTitle}>Programme </TableCell>
-                                    <TableCell className={classes.textTitle}>Courriel </TableCell>
-                                    <TableCell className={classes.textTitle}>Téléphone</TableCell>
+                                    <TableCell className={classes.textTitle}>Étudiant</TableCell>
+                                    <TableCell className={classes.textTitle}>Programme</TableCell>
                                     <TableCell className={classes.textTitle}>Stage</TableCell>
                                     <TableCell className={classes.textTitle}>Date début</TableCell>
                                     <TableCell className={classes.textTitle}>Date fin</TableCell>
@@ -116,8 +114,6 @@ function Row(props) {
             <TableRow hover className={classes.row}>
                 <TableCell className='align-middle'>{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
                 <TableCell className='align-middle'>{row.etudiant.programme}</TableCell>
-                <TableCell className='align-middle'>{row.etudiant.email}</TableCell>
-                <TableCell className='align-middle'>{row.etudiant.telephone}</TableCell>
                 <TableCell className='align-middle'>{row.stage.titre}</TableCell>
                 <TableCell className='align-middle'>{row.stage.dateDebut}</TableCell>
                 <TableCell className='align-middle'>{row.stage.dateFin}</TableCell>

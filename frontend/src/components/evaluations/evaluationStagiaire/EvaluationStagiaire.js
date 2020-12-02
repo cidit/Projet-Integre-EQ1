@@ -72,37 +72,39 @@ export default function EvaluationStagiaire() {
                 <br></br>
 
 
-                <div className='row '>
-                    <div className='col '>
-                        <Typography variant="subtitle2" align='right'>Téléphone :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{etudiant.telephone}</Typography>
-                    </div>
-                </div>
-                
-                <div className='row'>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='right'>Adresse :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{etudiant.adresse}</Typography>
-                    </div>
-                </div>
+                <div className='container text-left justify-content-center'>
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Téléphone :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{etudiant.telephone}</Typography>
+                      </div>
+                  </div>
 
-                <div className='row'>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='right'>Email :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{etudiant.email}</Typography>
-                    </div>
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Adresse :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{etudiant.adresse}</Typography>
+                      </div>
+                  </div>
+
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Email :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{etudiant.email}</Typography>
+                      </div>
+                  </div>
                 </div>
                
 
 
                 <Grid container justify="center" >
-                    <Button variant="contained" color="primary" className='m-3' onClick={goToEvaluation}>
+                    <Button variant="contained" color="primary" className='m-3' onClick={goToEvaluation} >
                         Commmencer l'évaluation
                 </Button>
                 </Grid>

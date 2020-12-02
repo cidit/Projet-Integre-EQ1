@@ -135,6 +135,7 @@ export default class ProfileEtudiantMotsDePasse extends Component {
                                                         className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
                                                         color="primary"
                                                         variant="contained"
+                                                        style={{ textTransform: 'none' }}
                                                         disabled={isValidating || isSubmitting || !isValid}>Enregistrer
                                                 </Button>
 

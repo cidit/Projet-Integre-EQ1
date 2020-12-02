@@ -164,6 +164,7 @@ class ApplicationStageComponent extends Component {
 
                                             <TableCell>
                                                 <Button type="submit" className='m-2' variant="contained" size="small" color="primary" 
+                                                        style={{ textTransform: 'none' }}
                                                         value={stage.id} onClick={this.handleSubmit}>Postuler
                                                 </Button>
                                             </TableCell> : null
