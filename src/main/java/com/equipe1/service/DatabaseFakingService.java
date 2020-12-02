@@ -3,15 +3,13 @@ package com.equipe1.service;
 import com.equipe1.model.*;
 import com.equipe1.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Optional;
-import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -21,20 +19,26 @@ public class DatabaseFakingService {
 
     private EtudiantRepository etudiantRepository;
     private EmployeurRepository employeurRepository;
-    private StageService stageService;
     private StageRepository stageRepository;
     private GestionnaireRepository gestionnaireRepository;
     private CandidatureRepository candidatureRepository;
     private SessionRepository sessionRepository;
-    private CandidatureService candidatureService;
-    private ContratService contratService;
-    private GenerateurPdfService generateurPdfService;
-    private EvaluationStagiaireService evaluationStagiaireService;
-    private QuestionService questionService;
+    private EvaluationStagiaireRepository evaluationStagiaireRepository;
     private EnseignantRepository enseignantRepository;
     private RoleRepository roleRepository;
 
-    PasswordEncoder encoder;
+    @Autowired
+    public DatabaseFakingService(EtudiantRepository etudiantRepository, EmployeurRepository employeurRepository, StageRepository stageRepository, GestionnaireRepository gestionnaireRepository, CandidatureRepository candidatureRepository, SessionRepository sessionRepository, EvaluationStagiaireRepository evaluationStagiaireRepository, EnseignantRepository enseignantRepository, RoleRepository roleRepository) {
+        this.etudiantRepository = etudiantRepository;
+        this.employeurRepository = employeurRepository;
+        this.stageRepository = stageRepository;
+        this.gestionnaireRepository = gestionnaireRepository;
+        this.candidatureRepository = candidatureRepository;
+        this.sessionRepository = sessionRepository;
+        this.evaluationStagiaireRepository = evaluationStagiaireRepository;
+        this.enseignantRepository = enseignantRepository;
+        this.roleRepository = roleRepository;
+    }
 
     @Transactional
     public void insertSession() {
@@ -137,6 +141,31 @@ public class DatabaseFakingService {
     }
 
     @Transactional
+    public void insertEnseignants() {
+        var enseignants = new ArrayList<Enseignant>();
+
+        enseignants.add(Enseignant.builder()
+                .email("francois@email.com")
+                .password("123456")
+                .nom("Lacoursiere")
+                .prenom("Francois")
+                .telephone("888-888-8888")
+                .programme("Techniques de l’informatique")
+                .build());
+
+        enseignants.add(Enseignant.builder()
+                .email("reda@email.com")
+                .password("123456")
+                .nom("Hamza")
+                .prenom("Reda")
+                .telephone("999-999-9999")
+                .programme("Techniques de l’informatique")
+                .build());
+
+        enseignantRepository.saveAll(enseignants);
+    }
+
+    @Transactional
     public void insertGestionnaire() {
         var role = roleRepository.findByName(Role.ERole.ROLE_GESTIONNAIRE).orElseThrow();
         var gestionnaires = new ArrayList<Gestionnaire>();
@@ -169,9 +198,9 @@ public class DatabaseFakingService {
                 .salaire(15)
                 .nbAdmis(2)
                 .employeur(employeurs.get(0))
-                .dateDebut(LocalDate.of(2020,10,12))
-                .dateFin(LocalDate.of(2020,12,12))
-                .dateLimiteCandidature(LocalDate.of(2020,9,11))
+                .dateDebut(LocalDate.of(2020, 10, 12))
+                .dateFin(LocalDate.of(2020, 12, 12))
+                .dateLimiteCandidature(LocalDate.of(2020, 9, 11))
                 .session(sessions.get(0))
                 .statut(Stage.StageStatus.EN_ATTENTE)
                 .build());
@@ -186,9 +215,9 @@ public class DatabaseFakingService {
                 .salaire(17)
                 .nbAdmis(4)
                 .employeur(employeurs.get(0))
-                .dateDebut(LocalDate.of(2020,10,12))
-                .dateFin(LocalDate.of(2020,12,12))
-                .dateLimiteCandidature(LocalDate.of(2020,9,11))
+                .dateDebut(LocalDate.of(2020, 10, 12))
+                .dateFin(LocalDate.of(2020, 12, 12))
+                .dateLimiteCandidature(LocalDate.of(2020, 9, 11))
                 .session(sessions.get(1))
                 .statut(Stage.StageStatus.APPROUVÉ)
                 .build());
@@ -203,9 +232,9 @@ public class DatabaseFakingService {
                 .salaire(12)
                 .nbAdmis(2)
                 .employeur(employeurs.get(1))
-                .dateDebut(LocalDate.of(2020,10,12))
-                .dateFin(LocalDate.of(2020,12,12))
-                .dateLimiteCandidature(LocalDate.of(2020,9,11))
+                .dateDebut(LocalDate.of(2020, 10, 12))
+                .dateFin(LocalDate.of(2020, 12, 12))
+                .dateLimiteCandidature(LocalDate.of(2020, 9, 11))
                 .session(sessions.get(0))
                 .statut(Stage.StageStatus.EN_ATTENTE)
                 .build());
@@ -220,9 +249,9 @@ public class DatabaseFakingService {
                 .salaire(20)
                 .nbAdmis(5)
                 .employeur(employeurs.get(1))
-                .dateDebut(LocalDate.of(2020,10,12))
-                .dateFin(LocalDate.of(2020,12,12))
-                .dateLimiteCandidature(LocalDate.of(2020,9,11))
+                .dateDebut(LocalDate.of(2020, 10, 12))
+                .dateFin(LocalDate.of(2020, 12, 12))
+                .dateLimiteCandidature(LocalDate.of(2020, 9, 11))
                 .session(sessions.get(2))
                 .statut(Stage.StageStatus.APPROUVÉ)
                 .build());
@@ -237,9 +266,9 @@ public class DatabaseFakingService {
                 .salaire(18)
                 .nbAdmis(4)
                 .employeur(employeurs.get(0))
-                .dateDebut(LocalDate.of(2020,10,12))
-                .dateFin(LocalDate.of(2020,12,12))
-                .dateLimiteCandidature(LocalDate.of(2020,9,11))
+                .dateDebut(LocalDate.of(2020, 10, 12))
+                .dateFin(LocalDate.of(2020, 12, 12))
+                .dateLimiteCandidature(LocalDate.of(2020, 9, 11))
                 .session(sessions.get(1))
                 .statut(Stage.StageStatus.EN_ATTENTE)
                 .build());
@@ -249,6 +278,53 @@ public class DatabaseFakingService {
 
     @Transactional
     public void insertCandidature() {
+        var stages = stageRepository.findAll();
+        var etudiants = etudiantRepository.findAll();
+        var candidatures = new ArrayList<Candidature>();
+
+        candidatures.add(Candidature.builder()
+                .etudiant(etudiants.get(0))
+                .stage(stages.get(0))
+                .statut(Candidature.CandidatureStatut.EN_ATTENTE)
+                .isEvaluee(false)
+                .build());
+
+        candidatures.add(Candidature.builder()
+                .etudiant(etudiants.get(0))
+                .stage(stages.get(1))
+                .statut(Candidature.CandidatureStatut.EN_ATTENTE)
+                .isEvaluee(false)
+                .build());
+
+        candidatures.add(Candidature.builder()
+                .etudiant(etudiants.get(1))
+                .stage(stages.get(1))
+                .statut(Candidature.CandidatureStatut.REFUSE)
+                .isEvaluee(false)
+                .build());
+
+        candidatures.add(Candidature.builder()
+                .etudiant(etudiants.get(1))
+                .stage(stages.get(2))
+                .statut(Candidature.CandidatureStatut.EN_ATTENTE)
+                .isEvaluee(false)
+                .build());
+
+        candidatures.add(Candidature.builder()
+                .etudiant(etudiants.get(2))
+                .stage(stages.get(3))
+                .statut(Candidature.CandidatureStatut.APPROUVE)
+                .isEvaluee(false)
+                .build());
+
+        candidatures.add(Candidature.builder()
+                .etudiant(etudiants.get(2))
+                .stage(stages.get(4))
+                .statut(Candidature.CandidatureStatut.EN_ATTENTE)
+                .isEvaluee(false)
+                .build());
+
+        candidatureRepository.saveAll(candidatures);
     }
 
 //    @Transactional
@@ -257,31 +333,24 @@ public class DatabaseFakingService {
 
     @Transactional
     public void insertEvaluationStagiaire() throws Exception {
-    }
+        var enseignants = enseignantRepository.findAll();
+        var employeurs = employeurRepository.findAll();
+        var etudiants = etudiantRepository.findAll();
+        var evaluations = new ArrayList<EvaluationStagiaire>();
 
-    @Transactional
-    public void insertEnseignants() {
-        var enseignants = new ArrayList<Enseignant>();
-
-        enseignants.add(Enseignant.builder()
-                .email("francois@email.com")
-                .password("123456")
-                .nom("Lacoursiere")
-                .prenom("Francois")
-                .telephone("888-888-8888")
-                .programme("Techniques de l’informatique")
+        evaluations.add(EvaluationStagiaire.builder()
+                .dateCreation(LocalDate.now())
+                .employeur(employeurs.get(0))
+                .etudiant(etudiants.get(0))
                 .build());
 
-        enseignants.add(Enseignant.builder()
-                .email("reda@email.com")
-                .password("123456")
-                .nom("Hamza")
-                .prenom("Reda")
-                .telephone("999-999-9999")
-                .programme("Techniques de l’informatique")
+        evaluations.add(EvaluationStagiaire.builder()
+                .dateCreation(LocalDate.now())
+                .employeur(employeurs.get(1))
+                .etudiant(etudiants.get(0))
                 .build());
 
-        enseignantRepository.saveAll(enseignants);
+        evaluationStagiaireRepository.saveAll(evaluations);
     }
 }
 
