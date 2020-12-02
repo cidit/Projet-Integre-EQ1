@@ -64,7 +64,6 @@ public class SessionServiceTest {
     void testCreate() {
         // Arrange
         Etudiant e1 = new Etudiant();
-        e1.setEnregistre(true);
         etudiantRepository.save(e1);
         Session newSession = Session.builder().nom("HIV-2021").isCurrent(true).build();
 
@@ -78,7 +77,6 @@ public class SessionServiceTest {
         Assertions.assertNotNull(currentSession);
         Assertions.assertTrue(currentSession.isCurrent());
         Assertions.assertEquals("HIV-2021", currentSession.getNom());
-        Assertions.assertEquals(false, e1.isEnregistre());
 
     }
 

@@ -34,7 +34,6 @@ public class SessionService {
         }
 
         for(Etudiant etudiant : etudiants){
-            etudiant.setEnregistre(false);
             etudiantRepository.save(etudiant);
         }
         return sessionRepository.save(session);

@@ -53,7 +53,6 @@ public class EtudiantService {
         sessions.add(sessionEnCours);
         etudiant.setStatutStage("aucun stage");
         etudiant.setSessions(sessions);
-        etudiant.setEnregistre(true);
         etudiant = etudiantRepository.save(etudiant);
         return etudiant;
     }
@@ -95,7 +94,6 @@ public class EtudiantService {
         if (optionalEtudiant.isPresent()) {
             Optional<Session> session = sessionRepository.findCurrentSession();
             optionalEtudiant.get().getSessions().add(session.get());
-            optionalEtudiant.get().setEnregistre(true);
             etudiantRepository.save(optionalEtudiant.get());
         }
         return optionalEtudiant;
