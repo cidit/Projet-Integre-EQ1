@@ -77,10 +77,6 @@ export default class EnseignantRegister extends Component {
                                             EnseignantService.post(values);
                                             actions.resetForm();
                                             actions.setStatus({ message: "Votre compte a été créé avec succès" });
-                                            // setTimeout(() => {
-                                            //     actions.setStatus({ message: '' });
-                                            // }, 3000);
-
                                             actions.setSubmitting(false);
                                         }
                                     }));

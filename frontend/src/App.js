@@ -27,7 +27,6 @@ import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStag
 import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire';
 import EvaluationStagiaireTabs from './components/employeur/evaluations/EvaluationStagiaireTabs';
 import {createMuiTheme} from "@material-ui/core";
-import EtudiantComponent from "./components/etudiant/EtudiantComponent";
 
 import ProfilEmployeur from './components/employeur/ProfilEmployeur';
 import ProfilGestionnaire from './components/gestionnaire/ProfilGestionnaire';
@@ -64,7 +63,6 @@ function App() {
           <Route path='/CreationContrat/:id' component={CreationContrat} />
           <Route path='/televerserContrats/:id' component={TeleverserContrat} />
           <Route path="/stage/:id/:tab" component={StageComponent}/>
-          <Route path="/etudiantisa/:id" component={EtudiantComponent}/>
           <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
           <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
           <Route path="/questionRelations/:id" component={QuestionRelations}/>

@@ -6,6 +6,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import React, { Component } from 'react';
 import ContratService from "../../service/ContratService";
 
+import AuthService from "../../service/security/auth.service";
 
 export default class TeleverserContrat extends Component {
 
@@ -56,7 +57,7 @@ export default class TeleverserContrat extends Component {
 
     handleClick(event) {
         event.preventDefault();
-        const desc = window.localStorage.getItem("desc");
+        const desc = AuthService.getTokenDESC().toUpperCase();
         const id = this.props.match.params.id;
         const formData = new FormData();
         formData.append('file', this.state.file)

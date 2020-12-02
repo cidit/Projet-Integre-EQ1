@@ -41,12 +41,7 @@ export default function EvaluationMilieuStage() {
             idCandidature = {params.idCandidature}
           />
         </div>
-
       </div>
-
-
-
     </div>
-
   )
 }

@@ -15,6 +15,8 @@ import photo from '../../images/photo-avatar-profil.png';
 
 import ProfilEtudiantCV from './ProfilEtudiantCV';
 
+import AuthService from "../../service/security/auth.service";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -75,7 +77,7 @@ export default function ProfileHome() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const id = localStorage.getItem("desc") === "Etudiant" ? localStorage.getItem("id") : '';
+  const id = AuthService.getTokenDESC().toUpperCase() === "ROLE_ETUDIANT" ? AuthService.getTokenId() : '';
 
   const [etudiant, setEtudiant] = useState('')
   const getEtudiant = async () => {

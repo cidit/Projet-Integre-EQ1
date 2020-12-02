@@ -38,14 +38,6 @@ public class UserService {
         return user.getEmail().equals(email) ? user: null;
     }
 
-    public boolean validateUserCredentials(Long id, String password) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isEmpty())
-            return false;
-        User user = optionalUser.get();
-        return user.getPassword().equals(password);
-    }
-
     public List<Rappel> getRemindersFor(long userId){
         var optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {

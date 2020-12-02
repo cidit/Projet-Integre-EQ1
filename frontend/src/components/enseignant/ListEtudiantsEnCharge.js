@@ -4,9 +4,9 @@ import {
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
-import CandidatureService from '../../service/CandidatureService';
 import EtudiantService from '../../service/EtudiantService';
 
+import AuthService from "../../service/security/auth.service";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,7 +52,7 @@ export default function ListEtudiantsEnCharge(props) {
     useEffect(() => {
         var id = props.idEnseignant;
         if (id === undefined || id === null) {
-            id = localStorage.getItem("desc") === "Enseignant" ? localStorage.getItem("id") : '';
+            id = AuthService.getTokenDESC().toUpperCase() === "ROLE_ENSEIGNANT" ? AuthService.getTokenId() : '';
             setIsEnseignant(true)
         }
 

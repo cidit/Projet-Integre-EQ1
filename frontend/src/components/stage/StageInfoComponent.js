@@ -141,14 +141,6 @@ function ShowInfo(props){
     );
 }
 
-
-
-
-
-
-
-
-
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',

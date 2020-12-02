@@ -11,30 +11,46 @@ class AuthService {
   }
 
   getTokenId(){
-    return JSON.parse(localStorage.getItem('user')).id;
+    if (localStorage.getItem('user') !== null)
+      return JSON.parse(localStorage.getItem('user')).id;
+    return null;
+  }
+
+  getTokenDESC(){
+    if (localStorage.getItem('user') !== null)
+        return JSON.parse(localStorage.getItem('user')).roles[0];
+    return null;
+  }
+
+  getTokenEmail(){
+    if (localStorage.getItem('user') !== null) 
+        return JSON.parse(localStorage.getItem('user')).email;
+    return null;
   }
 
   login(username, password) {
-    return axios
-      .post(API_URL + "signin", {
-        username,
-        password
-      })
-      .then(response => {
-        if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
-
-        return response.data;
-      });
+    return axios.post(API_URL + "signin", {username, password})
+                .then(response => {
+                  if (response.data.accessToken) {
+                      window.localStorage.setItem("user", JSON.stringify(response.data));
+                  }
+                  return response.data;
+                });
   }
 
-  logout() {
-    localStorage.removeItem("user");
+  async validate(username, password) {
+    return await axios.post(API_URL + "validate", {username, password})
+                      .then(response => { return response.data; });
+  }
+
+  async logout() {
+    await window.localStorage.removeItem("user");
+    await window.localStorage.removeItem("session");
+    await window.localStorage.removeItem("nomSession");
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
+    return JSON.parse(window.localStorage.getItem('user'));;
   }
 }
 

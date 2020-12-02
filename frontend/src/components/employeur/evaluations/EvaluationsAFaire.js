@@ -7,8 +7,6 @@ import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import CandidatureService from '../../../service/CandidatureService';
 
-
-
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',

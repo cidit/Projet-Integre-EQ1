@@ -31,7 +31,7 @@ public class InsertDataService {
     StageRepository stageRepository;
 
     @Autowired
-    private  GestionnaireService gestionnaireService;
+    private GestionnaireRepository gestionnaireRepository;
 
     @Autowired
     private CandidatureRepository candidatureRepository;
@@ -99,8 +99,8 @@ public class InsertDataService {
         e1.setAdresse("123456");
         e1.setEmail("richard@email.com");
         e1.setMatricule("1772397");
-        e1.setPassword("123456");
-        //e1.setPassword(encoder.encode("123456"));
+        //e1.setPassword("123456");
+        e1.setPassword(encoder.encode("123456"));
         e1.setPrenom("richard");
         e1.setNom("truong");
         e1.setStatutStage("possede stage");
@@ -123,8 +123,8 @@ public class InsertDataService {
         e2.setAdresse("123456");
         e2.setEmail("alex@email.com");
         e2.setMatricule("1501279");
-        e2.setPassword("123456");
-        //e2.setPassword(encoder.encode("123456"));
+        //e2.setPassword("123456");
+        e2.setPassword(encoder.encode("123456"));
         e2.setPrenom("alex");
         e2.setNom("truong");
         e2.setStatutStage("aucun stage");
@@ -146,8 +146,8 @@ public class InsertDataService {
         e3.setAdresse("123456");
         e3.setEmail("olingamedjoloic@gmail.com");
         e3.setMatricule("1998277");
-        e3.setPassword("123456");
-        //e3.setPassword(encoder.encode("123456"));
+        //e3.setPassword("123456");
+        e3.setPassword(encoder.encode("123456"));
         e3.setPrenom("Loic");
         e3.setNom("Olinga");
         e3.setStatutStage("possede stage");
@@ -170,8 +170,8 @@ public class InsertDataService {
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
         e1.setEmail("carlos.test@gmail.com");
-        e1.setPassword("123456");
-        //e1.setPassword(encoder.encode("123456"));
+        //e1.setPassword("123456");
+        e1.setPassword(encoder.encode("123456"));
         e1.setAdresse("12345");
         e1.setNom("Banque1");
         e1.setTelephone("888-888-8888");
@@ -187,8 +187,8 @@ public class InsertDataService {
 
         e1 = new Employeur();
         e1.setEmail("employeur@email.com");
-        e1.setPassword("123456");
-        //e1.setPassword(encoder.encode("123456"));
+        //e1.setPassword("123456");
+        e1.setPassword(encoder.encode("123456"));
         e1.setAdresse("12345");
         e1.setNom("Hopital Général");
         e1.setTelephone("888-888-8888");
@@ -287,8 +287,8 @@ public class InsertDataService {
         g1.setNom("admin01");
         g1.setPrenom("admin01");
         g1.setEmail("gestionnaire01@email.com");
-        g1.setPassword("123456");
-        //g1.setPassword(encoder.encode("123456"));
+        //g1.setPassword("123456");
+        g1.setPassword(encoder.encode("123456"));
         g1.setTelephone("555-555-5555");
 
         Set<Role> roles = new HashSet<>();
@@ -298,7 +298,7 @@ public class InsertDataService {
 
         g1.setRoles(roles);
 
-        gestionnaireService.saveGestionnaire(g1);
+        gestionnaireRepository.save(g1);
     }
 
     @Transactional
@@ -454,29 +454,39 @@ public class InsertDataService {
         Enseignant enseignant2 = new Enseignant();
         enseignant2.setNom("Leonie");
         enseignant2.setPrenom("Aguilar ");
-        enseignant2.setPassword("123456");
+        //enseignant2.setPassword("123456");
+        enseignant2.setPassword(encoder.encode("123456"));
         enseignant2.setProgramme("Gestion de commerces");
         enseignant2.setEmail("Leonierrr@email.com");
         enseignant2.setTelephone("438950000");
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(Role.ERole.ROLE_ENSEIGNANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        enseignant2.setRoles(roles);
+
         enseignantRepository.save(enseignant2);
 
 
-        Set<Role> roles = new HashSet<>();
-        Role role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         roles.add(role);
 
         List<Employeur> employeurs = employeurRepository.findAll();
         Employeur employeur = employeurs.get(0);
-       Etudiant etudiant = new Etudiant();
-       etudiant.setPrenom("Zoy");
-        etudiant.setPassword("123456");
-       etudiant.setMatricule("123456");
-       etudiant.setAdresse("adresse1234");
-       etudiant.setNom("laComadreja");
-       etudiant.setEmail("zoyLaComadr@email.com");
-       etudiant.setProgramme("Technique de l'informatique");
-       etudiant.setEnseignant(enseignant2);
+        Etudiant etudiant = new Etudiant();
+        etudiant.setPrenom("Zoy");
+        //etudiant.setPassword("123456");
+        etudiant.setPassword(encoder.encode("123456"));
+        etudiant.setMatricule("123456");
+        etudiant.setAdresse("adresse1234");
+        etudiant.setNom("laComadreja");
+        etudiant.setEmail("zoyLaComadr@email.com");
+        etudiant.setProgramme("Technique de l'informatique");
+        etudiant.setEnseignant(enseignant2);
         etudiant.setRoles(roles);
         etudiant.setTelephone("123654789654");
        etudiantRepository.save(etudiant);
@@ -496,8 +506,6 @@ public class InsertDataService {
         q2.setReponse("reposnse question 2");
         q2.setEvaluation(e);
         questionService.saveAllQuestions(Arrays.asList(q1,q2));
-
-
     }
 
 
@@ -506,56 +514,110 @@ public class InsertDataService {
         Enseignant enseignant1 = new Enseignant();
         enseignant1.setNom("Laure");
         enseignant1.setPrenom("Gaudreault ");
-        enseignant1.setPassword("123456");
+        //enseignant1.setPassword("123456");
+        enseignant1.setPassword(encoder.encode("123456"));
         enseignant1.setProgramme("Gestion de commerces");
         enseignant1.setEmail("laure@email.com");
         enseignant1.setTelephone("438956254");
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(Role.ERole.ROLE_ENSEIGNANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        enseignant1.setRoles(roles);
+
         enseignantRepository.save(enseignant1);
 
         Enseignant enseignant2 = new Enseignant();
         enseignant2.setNom("Leonie");
         enseignant2.setPrenom("Aguilar ");
-        enseignant2.setPassword("123456");
+        //enseignant2.setPassword("123456");
+        enseignant2.setPassword(encoder.encode("123456"));
         enseignant2.setProgramme("Gestion de commerces");
         enseignant2.setEmail("Leonie@email.com");
         enseignant2.setTelephone("438950000");
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ENSEIGNANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        enseignant2.setRoles(roles);
+
         enseignantRepository.save(enseignant2);
 
         Enseignant enseignant3 = new Enseignant();
         enseignant3.setNom("Jia ");
         enseignant3.setPrenom("Haworth ");
-        enseignant3.setPassword("123456");
+        //enseignant3.setPassword("123456");
+        enseignant3.setPassword(encoder.encode("123456"));
         enseignant3.setProgramme("Gestion de commerces");
         enseignant3.setEmail("Jia@email.com");
         enseignant3.setTelephone("43895111111");
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ENSEIGNANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        enseignant3.setRoles(roles);
+
         enseignantRepository.save(enseignant3);
 
         Enseignant enseignant4 = new Enseignant();
         enseignant4.setNom("Freja ");
         enseignant4.setPrenom("Vickers ");
-        enseignant4.setPassword("123456");
+        //enseignant4.setPassword("123456");
+        enseignant4.setPassword(encoder.encode("123456"));
         enseignant4.setProgramme("Techniques de l’informatique");
         enseignant4.setEmail("Freja@email.com");
         enseignant4.setTelephone("4389522222");
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ENSEIGNANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        enseignant4.setRoles(roles);
+
         enseignantRepository.save(enseignant4);
 
         Enseignant enseignant5 = new Enseignant();
         enseignant5.setNom("Kristian ");
         enseignant5.setPrenom("Redman ");
-        enseignant5.setPassword("123456");
+        //enseignant5.setPassword("123456");
+        enseignant5.setPassword(encoder.encode("123456"));
         enseignant5.setProgramme("Techniques de l’informatique");
         enseignant5.setEmail("Kristian@email.com");
         enseignant5.setTelephone("4389522222");
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ENSEIGNANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        enseignant5.setRoles(roles);
+
         enseignantRepository.save(enseignant5);
 
         for (int i = 0; i <30 ; i++) {
             enseignant5 = new Enseignant();
             enseignant5.setNom("Kristian "+ i);
             enseignant5.setPrenom("Redman " + i);
-            enseignant5.setPassword("123456" + i);
+            //enseignant5.setPassword("123456" + i);
+            enseignant5.setPassword(encoder.encode("123456"));
             enseignant5.setProgramme("Techniques de l’informatique");
             enseignant5.setEmail("Kristian@email.com" +i);
             enseignant5.setTelephone("4389522222");
+
+            roles = new HashSet<>();
+            role = roleRepository.findByName(Role.ERole.ROLE_ENSEIGNANT)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(role);
+
+            enseignant5.setRoles(roles);
+
             enseignantRepository.save(enseignant5);
         }
 

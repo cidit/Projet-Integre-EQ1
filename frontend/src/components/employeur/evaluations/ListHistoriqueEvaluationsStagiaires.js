@@ -9,6 +9,7 @@ import EvaluationService from '../../../service/EvaluationService';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
 
+import AuthService from "../../../service/security/auth.service";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,11 +39,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ListHistoriqueEvaluationsStagiaires() {
+
   const [listEvaluationsEmployeur, setListEvaluationsEmployeur] = useState([])
-  const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
+  const id = AuthService.getTokenDESC().toUpperCase() === "ROLE_EMPLOYEUR" ? AuthService.getTokenId() : '';
   const classes = useStyles();
-
-
 
   const getListEvaluations = async () => {
     var idSession = localStorage.getItem("session");
@@ -94,7 +94,6 @@ export default function ListHistoriqueEvaluationsStagiaires() {
 function Row(props) {
   const { row } = props;
   const classes = useStyles();
-  var nomSession = localStorage.getItem("nomSession");
 
   return (
     <React.Fragment>

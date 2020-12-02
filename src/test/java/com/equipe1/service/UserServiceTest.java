@@ -71,14 +71,4 @@ class UserServiceTest {
         Assertions.assertNotNull(etudiant);
         Assertions.assertSame(user, etudiant);
     }
-
-    @Test
-    void validateUserCredentials() {
-        // Arrange
-        doReturn(Optional.of(user)).when(userRepository).findById(user.getId());
-        // Act
-        boolean flag = userService.validateUserCredentials(user.getId(), user.getPassword());
-        // Assert
-        Assertions.assertTrue(flag);
-    }
 }

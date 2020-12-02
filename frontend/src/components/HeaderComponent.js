@@ -4,11 +4,12 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import CandidatureService from "../service/CandidatureService";
 import SessionService from "../service/SessionService";
-import LoginService from "../service/LoginService";
+
+import AuthService from "../service/security/auth.service";
 
 function Logout(){
     function handleSelect(){
-        LoginService.logout();
+        AuthService.logout();
     }
     return (
         <Nav.Link href="/?refresh" onSelect={handleSelect}>Logout</Nav.Link>
@@ -47,7 +48,6 @@ function EmployeurNav(props) {
             <Nav.Link href="/profilEmployeur">Votre profil</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
             <Nav.Link href="/rapportStageEmployeur">Voir toutes les offres de stage</Nav.Link>
-            {/*<Nav.Link href="/listestages">Voir toutes les offres de stage</Nav.Link>*/}
             <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
             <Nav.Link href="/evaluationsEmployeur">Évaluations</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
@@ -108,13 +108,13 @@ async function changeSession(id, nom) {
 
 
 function NavType(props) {
-    if (props.desc.toUpperCase() === "ETUDIANT")
+    if (props.desc.toUpperCase() === "ROLE_ETUDIANT")
         return <EtudiantNav sessions={props.sessions}/>
-    else if (props.desc.toUpperCase() === "EMPLOYEUR")
+    else if (props.desc.toUpperCase() === "ROLE_EMPLOYEUR")
         return <EmployeurNav sessions={props.sessions}/>
-    else if (props.desc.toUpperCase() === "GESTIONNAIRE")
+    else if (props.desc.toUpperCase() === "ROLE_GESTIONNAIRE")
         return <GestionnaireNav sessions={props.sessions}/>
-    else if (props.desc.toUpperCase() === "ENSEIGNANT")
+    else if (props.desc.toUpperCase() === "ROLE_ENSEIGNANT")
         return <EnseignantNav sessions={props.sessions} />
     else
         return <NotLoggedInNav/>
@@ -123,7 +123,7 @@ function NavType(props) {
 class HeaderComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {desc: localStorage.getItem("desc") === null ? "" : localStorage.getItem("desc"), sessions: []}
+        this.state = {desc: AuthService.getTokenDESC() === null ? "" : AuthService.getTokenDESC(), sessions: []}
     }
 
     async componentDidMount() {

@@ -1,6 +1,7 @@
 package com.equipe1.controller;
 
 import com.equipe1.jwt.JwtUtils;
+import com.equipe1.model.User;
 import com.equipe1.payload.JwtResponse;
 import com.equipe1.payload.LoginRequest;
 import com.equipe1.repository.RoleRepository;
@@ -16,7 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -59,5 +62,13 @@ public class AuthController {
                 userDetails.getEmail(),
                 roles));
     }
-}
 
+    @PostMapping("/validate")
+    public boolean authenticateUserCedentials(@Valid @RequestBody LoginRequest loginRequest) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+        return authentication.isAuthenticated();
+    }
+}

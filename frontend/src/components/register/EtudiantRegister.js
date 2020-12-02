@@ -72,10 +72,6 @@ export default class EtudiantRegister extends Component {
                                             EtudiantService.post(values);
                                             actions.resetForm();
                                             actions.setStatus({ message: " Votre compte a été créé avec succès " });
-                                            // setTimeout(() => {
-                                            //     actions.setStatus({ message: '' });
-                                            // }, 3000);
-
                                             actions.setSubmitting(false);
                                         }
                                     }));

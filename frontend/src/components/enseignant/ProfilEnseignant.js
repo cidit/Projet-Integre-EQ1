@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
 import photo from '../../images/photo-avatar-profil.png';
 
+import AuthService from "../../service/security/auth.service";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -72,8 +74,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ProfileHome() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
-  const id = localStorage.getItem("desc") === "Enseignant" ? localStorage.getItem("id") : '';
+  
+  const id = AuthService.getTokenDESC().toUpperCase() === "ROLE_ENSEIGNANT" ? AuthService.getTokenId() : '';
 
   const [enseignant, setEnseignant] = useState('')
   const getEnseignant = async () => {

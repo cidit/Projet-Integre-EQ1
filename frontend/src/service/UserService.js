@@ -18,14 +18,6 @@ class UserService {
         return data
     }
 
-    async validateCredentials(id, password) {
-        let data;
-        await fetch(BASE_URL + "validate/" + id + "/" + password, {method: "GET"})
-            .then(r => data = r.json())
-            .catch(error => data = {});
-        return data;
-    }
-
     async getReminders(id) {
         let data
         await fetch(BASE_URL + "reminders/" + id, {method: "GET"})

@@ -4,6 +4,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import ContratService from '../../service/ContratService';
 import {Redirect} from 'react-router-dom'
 
+import AuthService from "../../service/security/auth.service";
 
 export default function Telecharger(props) {
     const [redirect, setRedirect] = useState(false)
@@ -12,7 +13,7 @@ export default function Telecharger(props) {
         ContratService.telechargerDocument(props.path).then((response) => {
             sauvegarderEtMontrerDoc(response)
         });
-        if (window.localStorage.getItem("desc") !== "Gestionnaire")
+        if (AuthService.getTokenDESC().toUpperCase() !== "ROLE_GESTIONNAIRE")
             setRedirect(true);
     }
 
@@ -25,7 +26,6 @@ export default function Telecharger(props) {
                     <GetAppIcon/>
                 </IconButton>
             </td>
-
         )
 }
 

@@ -6,7 +6,7 @@ import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
 import EvaluationService from '../../../service/EvaluationService';
 
-
+import AuthService from "../../../service/security/auth.service";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,7 +56,7 @@ const useRowStyles = makeStyles((theme) => ({
 export default function HistoriqueEvaluationsMilieuStage() {
     const [evaluationsMilieuStage, setEvaluationsMilieuStage] = useState([])
     const classes = useStyles();
-    const id = localStorage.getItem("desc") === "Enseignant" ? localStorage.getItem("id") : '';
+    const id = AuthService.getTokenDESC().toUpperCase() === "ROLE_ENSEIGNANT" ? AuthService.getTokenId() : '';
 
     const getEtudiant = async () => {
         const response = await EvaluationService.getEvaluationsMilieuStageByEnseignant(id);

@@ -6,12 +6,14 @@ import EtudiantService from "../../service/EtudiantService";
 
 import { useHistory } from "react-router-dom";
 
+import AuthService from "../../service/security/auth.service";
 
 export default function ContratEtudiant() {
     
     const history = useHistory();
     
-    const id = localStorage.getItem("desc") === "Etudiant" ? localStorage.getItem("id") : '';
+    const id = AuthService.getTokenDESC().toUpperCase() === "ROLE_ETUDIANT" ? AuthService.getTokenId() : '';
+    
     const [contratEtudiant, setContratEtudiant] = useState(null);
 
     const getByContratEtudiantId = async () => {

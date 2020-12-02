@@ -3,6 +3,8 @@ import CVService from "../../service/CVService";
 import EtudiantService from "../../service/EtudiantService";
 import { Button } from '@material-ui/core';
 
+import AuthService from "../../service/security/auth.service";
+
 export default class HomeEtudiant extends Component {
     constructor(props) {
         super(props);
@@ -15,7 +17,7 @@ export default class HomeEtudiant extends Component {
             displaySubmitCVButton: false,
             CVInfoMessage: "",
             hasUploadedCV: false,
-            id: ''
+            id: AuthService.getTokenDESC().toUpperCase() === "ROLE_ETUDIANT" ? AuthService.getTokenId() : ''
         };
         this.handleSubmit = this.handleSubmit.bind(this)
         this.onChangeHandler = this.onChangeHandler.bind(this)
@@ -32,11 +34,8 @@ export default class HomeEtudiant extends Component {
     }
 
     async componentDidMount() {
-        var id;
-        if (localStorage.getItem("desc") === "Etudiant")
-            id = localStorage.getItem("id");
 
-        const {data: etudiant} = await EtudiantService.getEtudiantById(id);
+        const {data: etudiant} = await EtudiantService.getEtudiantById(this.state.id);
 
         this.setState({
             etudiant: etudiant,
@@ -87,14 +86,11 @@ export default class HomeEtudiant extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        var idEtudiant;
-        if (localStorage.getItem("desc") === "Etudiant")
-            idEtudiant = localStorage.getItem("id");
         const formData = new FormData();
         formData.append('file', this.state.file)
         formData.append('name', this.state.file.name);
         this.setState({hasUploadedCV: true});
-        CVService.createCV(idEtudiant, formData)
+        CVService.createCV(this.state.id, formData)
     }
 
     downloadCV = (etudiant) => {

@@ -11,8 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import LoginService from "../service/LoginService";
 import SessionService from "../service/SessionService";
+
+import AuthService from "../service/security/auth.service";
 
 function Copyright() {
     return (
@@ -62,14 +63,18 @@ class Login extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         await SessionService.storeSessionParDefaut();
-        let user = await LoginService.login(this.state["email"], this.state["password"])
-
-        if (user.id !== undefined) {
-            this.props.history.push('/?refresh');
-        } else {
-            this.setState({isNotlogin: true})
-        }
+        
+        AuthService.login(this.state["email"], this.state["password"]).then(() => 
+            {
+                this.props.history.push('/?refresh');
+            },
+            error => {
+                this.setState({ isNotlogin: true });
+            }
+        );
+        
     }
+
     render(){
         const { classes } = this.props;
 

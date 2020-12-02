@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import '../../App.css';
 import {Formik, Field, Form, ErrorMessage} from "formik";
 import * as Yup from 'yup';
-import UserService from "../../service/UserService";
 import Etudiant from "../../model/Etudiant";
 import EtudiantService from '../../service/EtudiantService';
 import { Button } from '@material-ui/core';
+
+import AuthService from "../../service/security/auth.service";
 
 const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/;
 
@@ -25,7 +26,6 @@ const formSchema = Yup.object().shape({
 export default class ProfileEtudiantMotsDePasse extends Component {
     constructor(props) {
         super(props);
-        this.state = new Etudiant();
     }
 
     render() {
@@ -51,25 +51,21 @@ export default class ProfileEtudiantMotsDePasse extends Component {
 
                             return new Promise(function (resolve) {
                                 setTimeout(() => {
-                                    resolve(UserService.validateCredentials(localStorage.getItem("id"), values.password)
-                                        .then((val) => {
+                                    resolve(AuthService.validate(AuthService.getTokenEmail(), values.password)
+                                        .then(() => {
+                                            values.password = values.newPassword;
+                                            EtudiantService.updatePassword(values, AuthService.getTokenId());
+                                            actions.resetForm();
+                                            actions.setStatus({message: "Mot de passe mise à jour avec succès"});
 
-                                            if (!val) {
-                                                actions.setFieldError('password', "Mot de passe invalid")
-                                            } else {
-                                                values.password = values.newPassword;
-                                                EtudiantService.updatePassword(values, localStorage.getItem("id"));
-                                                actions.resetForm();
-                                                actions.setStatus({message: "Mot de passe mise à jour avec succès"});
+                                            setTimeout(() => {
+                                                actions.setStatus({message: ''});
+                                            }, 3000);
 
-                                                setTimeout(() => {
-                                                    actions.setStatus({message: ''});
-                                                }, 3000);
-
-                                                actions.setSubmitting(false);
-
-                                            }
-
+                                            actions.setSubmitting(false);
+                                        },
+                                        error => {
+                                            actions.setFieldError('password', "Mot de passe invalid")
                                         }));
 
                                     actions.setSubmitting(false);

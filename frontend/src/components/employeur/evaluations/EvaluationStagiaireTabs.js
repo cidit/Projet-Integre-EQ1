@@ -7,6 +7,8 @@ import React from 'react';
 import EvaluationsStagiaires from './EvaluationsAFaire';
 import ListHistoriqueEvaluationsStagiaires from './ListHistoriqueEvaluationsStagiaires';
 
+import AuthService from "../../../service/security/auth.service";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -66,8 +68,7 @@ const useStyles = makeStyles((theme) => ({
 export default function EvaluationStagiaireTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const id = localStorage.getItem("desc") === "Employeur" ? localStorage.getItem("id") : '';
-
+  const id = AuthService.getTokenDESC().toUpperCase() === "ROLE_EMPLOYEUR" ? AuthService.getTokenId() : '';
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

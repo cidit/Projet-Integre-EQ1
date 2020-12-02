@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import EmployeurService from '../service/EmployeurService'
 import CreateStageComponent from './stage/CreateStageComponent';
 
+import AuthService from "../../service/security/auth.service";
+
 class HomeEmployeur extends Component {
     constructor(props) {
         super(props);
-        this.state = { employeur: {}, createStage: false };
+        this.state = { 
+            employeur: {}, 
+            createStage: false, 
+            id: AuthService.getTokenDESC().toUpperCase() === "ROLE_EMPLOYEUR" ? AuthService.getTokenId() : '' 
+        };
         this.handleCreateStage = this.handleCreateStage.bind(this)
     }
 
     async componentDidMount() {
-        let id;
-        if (localStorage.getItem("role") == "Employeur")
-            id = localStorage.getItem("id");
+        let id = this.state.id;
 
         EmployeurService.getById(id).then((res) => this.setState({ employeur: res }))
     }

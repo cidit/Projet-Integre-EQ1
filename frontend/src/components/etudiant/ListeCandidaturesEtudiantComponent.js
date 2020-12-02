@@ -11,6 +11,8 @@ import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button
 import {withStyles} from '@material-ui/core/styles';
 import SessionService from "../../service/SessionService";
 
+import AuthService from "../../service/security/auth.service";
+
 const useStyles = theme => ({
     root: {
         marginTop: '3',
@@ -45,6 +47,7 @@ class ListeCandidaturesEtudiantComponent extends Component {
             isSessionSelectionneeEnCours: true,
             showSnackbar: false,
             disabledAllButtons: false,
+            id: AuthService.getTokenDESC().toUpperCase() === "ROLE_ETUDIANT" ? AuthService.getTokenId() : ''
         };
 
         ShowCandidature = ShowCandidature.bind(this);
@@ -52,11 +55,8 @@ class ListeCandidaturesEtudiantComponent extends Component {
 
     async componentDidMount() {
 
-        let id;
-        let idSession;
-        idSession = localStorage.getItem("session");
-        if (localStorage.getItem("desc") === "Etudiant")
-            id = localStorage.getItem("id");
+        let id = this.state.id;
+        let idSession = localStorage.getItem("session");
 
         const response = await EtudiantService.isRegistered(id);
         if (!response.data) {

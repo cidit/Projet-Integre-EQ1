@@ -10,13 +10,18 @@ import AlertDialog from '../utils/ModalMessage';
 import ValidationChamp from '../validation/ValidationChampVide';
 import ValidationDate from '../validation/ValidationDate';
 
+import AuthService from "../../service/security/auth.service";
+
 const isRequired = (message) => (value) => (!!value ? undefined : message);
 
 class CreateStageComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { sended: true, currentSession: ""  }
-
+    this.state = { 
+      sended: true, 
+      currentSession: "", 
+      id: AuthService.getTokenDESC().toUpperCase() === "ROLE_EMPLOYEUR" ? AuthService.getTokenId() : '' 
+    }
   }
 
   componentDidMount() {
@@ -31,9 +36,6 @@ class CreateStageComponent extends Component {
     this.setState({ sended: false });
   }
 
-  cancel() {
-    this.state.history.push('/stages');
-  }
   render() {
     const { handleSubmit, isSubmitting, isValid, isValidating, status, sended } = this.props;
     const session = this.state.currentSession;
@@ -88,7 +90,7 @@ class CreateStageComponent extends Component {
             {/* Dates */}
             <div className="row">
               <div className="form-group col">
-                <label className="control-label" >Date limite pour appliquer</label>
+                <label className="control-label">Date limite pour appliquer</label>
                 <Field type="date" name="dateLimiteCandidature" className="form-control" validate={isRequired(<ValidationChamp field={"une Date "} />)} />
                 <ErrorMessage name="dateLimiteCandidature">{msg => <ValidationDate field={msg} />}</ErrorMessage>
               </div>
@@ -144,8 +146,8 @@ class CreateStageComponent extends Component {
 
               {status && status.message &&
                 <AlertDialog titre={status.message} 
-                //redirect = "/listestages"
-                message="Votre offre de stage est maintenant en attente d'approbation par le gestionnaire."/>
+                  redirect = "/rapportStageEmployeur"
+                  message="Votre offre de stage est maintenant en attente d'approbation par le gestionnaire."/>
               }
             </div>
           </div>
@@ -190,9 +192,7 @@ export default withFormik({
 
   handleSubmit(values, formikBag) {
 
-    let id;
-    if (localStorage.getItem("desc") === "Employeur")
-      id = localStorage.getItem("id");
+    let id = this.state.id;
 
     let stage = new Stage();
 

@@ -81,9 +81,9 @@ public class ContratService {
     public Contrat updateContrat(MultipartFile file,  Long idContrat, String desc) throws IOException {
         Contrat contrat = contratRepository.findById(idContrat).get();
         contrat.setDocumentContrat(file.getBytes());
-        if (desc.equals("Employeur"))
+        if (desc.equals("ROLE_EMPLOYEUR"))
             contrat.setSignatureEmployeur(Contrat.SignatureEtat.EN_ATTENTE);
-        if (desc.equals("Etudiant"))
+        if (desc.equals("ROLE_ETUDIANT"))
             contrat.setSignatureEtudiant(Contrat.SignatureEtat.EN_ATTENTE);
         return contratRepository.save(contrat);
     }

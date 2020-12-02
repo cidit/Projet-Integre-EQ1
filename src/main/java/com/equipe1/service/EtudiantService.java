@@ -2,13 +2,13 @@ package com.equipe1.service;
 
 import com.equipe1.model.*;
 import com.equipe1.repository.EtudiantRepository;
+import com.equipe1.repository.RoleRepository;
 import com.equipe1.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +25,12 @@ public class EtudiantService {
 
     @Autowired
     private EnseignantService enseignantService;
+
+    @Autowired
+    PasswordEncoder encoder;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     public EtudiantService(EtudiantRepository etudiantRepository){
         this.etudiantRepository = etudiantRepository;
@@ -54,6 +60,15 @@ public class EtudiantService {
         etudiant.setStatutStage("aucun stage");
         etudiant.setSessions(sessions);
         etudiant.setEnregistre(true);
+
+        etudiant.setPassword(encoder.encode(etudiant.getPassword()));
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+        etudiant.setRoles(roles);
+
         etudiant = etudiantRepository.save(etudiant);
         return etudiant;
     }
@@ -155,10 +170,9 @@ public class EtudiantService {
         return etudiantsInscrits;
     }
 
-
     public Etudiant updateEtudiantPassword(Etudiant newEtudiant, Long id) {
         Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
-        optionalEtudiant.get().setPassword(newEtudiant.getPassword());
+        optionalEtudiant.get().setPassword(encoder.encode(newEtudiant.getPassword()));
         return etudiantRepository.save(optionalEtudiant.get());
     }
 

@@ -7,6 +7,8 @@ import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button
 import {Alert} from "@material-ui/lab";
 import {withStyles} from '@material-ui/core/styles';
 
+import AuthService from "../../service/security/auth.service";
+
 const useStyles = theme => ({
     root: {
         marginTop: '3',
@@ -41,6 +43,7 @@ class ApplicationStageComponent extends Component {
             hasValidCV: false,
             hasApplied: "",
             readyToRedirect: false,
+            id: AuthService.getTokenDESC().toUpperCase() === "ROLE_ETUDIANT" ? AuthService.getTokenId() : ''
         };
         this.handleSubmit = this.handleSubmit.bind(this)
         this.addStage = this.addStage.bind(this);
@@ -53,10 +56,8 @@ class ApplicationStageComponent extends Component {
 
     async componentDidMount() {
 
-        let id;
+        let id = this.state.id;
         var idSession = localStorage.getItem("session");
-        if (localStorage.getItem("desc") === "Etudiant")
-            id = localStorage.getItem("id");
 
         const response = await EtudiantService.isRegistered(id);
 
@@ -84,9 +85,7 @@ class ApplicationStageComponent extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        let idEtudiant;
-        if (localStorage.getItem("desc") === "Etudiant")
-            idEtudiant = localStorage.getItem("id");
+        let idEtudiant = this.state.id;
         const idStage = event.currentTarget.value;
         this.componentDidMount();
         this.setState({hasApplied: true});

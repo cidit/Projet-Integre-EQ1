@@ -10,6 +10,7 @@ import CandidatureService from '../../../service/CandidatureService';
 import { useHistory } from 'react-router-dom';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
+import AuthService from "../../../service/security/auth.service";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 export default function EvaluationMilieuHome() {
     const [candidatures, setCandidatures] = useState([])
     const classes = useStyles();
-    const id = localStorage.getItem("desc") === "Enseignant" ? localStorage.getItem("id") : '';
+    const id = AuthService.getTokenDESC().toUpperCase() === "ROLE_ENSEIGNANT" ? AuthService.getTokenId() : '';
 
     const getEtudiant = async () => {
         const response = await CandidatureService.getCandidaturesEmployeurNonEvalues(id);

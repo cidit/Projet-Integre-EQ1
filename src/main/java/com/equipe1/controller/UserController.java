@@ -1,5 +1,6 @@
 package com.equipe1.controller;
 
+import com.equipe1.model.Etudiant;
 import com.equipe1.model.Rappel;
 import com.equipe1.model.User;
 import com.equipe1.repository.UserRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.equipe1.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +45,6 @@ public class UserController {
     @GetMapping("/get/{email}")
     public User getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
-    }
-
-    @GetMapping("/validate/{id}/{password}")
-    public boolean validateUserCredentials(@PathVariable Long id, @PathVariable String password) {
-        return userService.validateUserCredentials(id, password);
     }
 
     @GetMapping("/reminders/{userId}")

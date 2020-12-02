@@ -76,7 +76,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CustomTable(props) {
-    // TODO: Ne pas afficher les etudiants deja choisis
     const classes = useStyles();
     const [selected, setSelected] = React.useState([]);
     

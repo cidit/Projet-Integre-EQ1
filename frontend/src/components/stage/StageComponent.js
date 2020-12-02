@@ -12,6 +12,8 @@ import SelectionnerEtudiantComponent from "../gestionnaire/SelectionnerEtudiantC
 import CandidatureService from '../../service/CandidatureService';
 import {useHistory, useParams} from 'react-router-dom';
 
+import AuthService from "../../service/security/auth.service";
+
 export default class StageComponent extends Component {
     constructor(props) {
         super(props);
@@ -118,13 +120,7 @@ export function Veto(props){
 
 
 function MyTabs(props) {
-    /*
-    const [value, setValue] = React.useState(0);
-    // const [value, setValue] = React.useState(props.tab);
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-    */
+
     const history = useHistory();
     const params = useParams();
     const [value, setValue] = React.useState(parseInt(params.tab));
@@ -158,7 +154,7 @@ function MyTabs(props) {
     let usedPanels=[];
 
     let useCase = "";
-    if (window.localStorage.getItem("desc").toLowerCase() === "gestionnaire") {
+    if (AuthService.getTokenDESC().toUpperCase() === "ROLE_GESTIONNAIRE") {
         if (props.stage.statut === "APPROUVÉ") {
             useCase = "stageApprouve";
         }
@@ -166,7 +162,7 @@ function MyTabs(props) {
             useCase = "stageVeto";
         }
     }
-    else if (window.localStorage.getItem("desc").toLowerCase() === "employeur") {
+    else if (AuthService.getTokenDESC().toUpperCase() === "ROLE_EMPLOYEUR") {
         useCase = "employeur";
     }
 

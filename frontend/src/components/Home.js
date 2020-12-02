@@ -9,6 +9,8 @@ import {makeStyles} from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import {grey} from "@material-ui/core/colors";
 
+import AuthService from "../service/security/auth.service";
+
 const useStyles = makeStyles({
     root: {
         paddingTop: 30
@@ -16,7 +18,7 @@ const useStyles = makeStyles({
 })
 
 export default function Home(props) {
-    const [userId, userDesc] = [localStorage.getItem("id"), localStorage.getItem("desc")]
+    const [userId, userDesc] = [AuthService.getTokenId(), AuthService.getTokenDESC()]
     const [reminders, setReminders] = useState([])
     const [user, setUser] = useState(new User())
     const history = useHistory()

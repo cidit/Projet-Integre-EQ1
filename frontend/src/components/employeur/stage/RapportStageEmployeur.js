@@ -11,7 +11,7 @@ import StageService from '../../../service/StageService';
 import ApprobationStage from './ListeStageEnAttente';
 import ListeStageApprouve from './ListeStageApprouve';
 
-import {useHistory, useParams} from 'react-router-dom';
+import AuthService from "../../../service/security/auth.service";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -57,16 +57,18 @@ function TabPanel(props) {
   export default function ScrollableTabsButtonAuto() {
 
     var idSession = localStorage.getItem("session");
+    
+    const id = AuthService.getTokenDESC().toUpperCase() === "ROLE_EMPLOYEUR" ? AuthService.getTokenId() : '';
 
     const [offreStagesApprouve, setOffreStagesApprouve] = useState([]);
     const getOffreStagesApprouve = async () => {
-        const response = await StageService.getStagesApprouvesByEmployeurId(window.localStorage.getItem("id"), idSession);
+        const response = await StageService.getStagesApprouvesByEmployeurId(id, idSession);
         setOffreStagesApprouve(response.data);
     }
 
     const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState([]);
     const getOffreStagesNonApprouve = async () => {
-        const response = await StageService.getStagesNonApprouvesByEmployeurId(window.localStorage.getItem("id"), idSession);
+        const response = await StageService.getStagesNonApprouvesByEmployeurId(id, idSession);
         setOffreStagesNonApprouve(response.data);
     }
 
