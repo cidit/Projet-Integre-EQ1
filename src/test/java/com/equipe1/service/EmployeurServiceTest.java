@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -41,8 +42,10 @@ public class EmployeurServiceTest {
     public void setUp() {
         employeur1 = new Employeur("Employeur_test_1", "438-568-896", "589 abc 23 re");
         employeur1.setEmail("e1@email.com");
+        employeur1.setPassword("123456");
         employeur2 = new Employeur("Employeur_test_2", "222-222-222", "abc adress test");
         employeur2.setEmail("e2@email.com");
+        employeur2.setPassword("123456");
     }
 
     @Test
@@ -113,6 +116,7 @@ public class EmployeurServiceTest {
         Assertions.assertNotNull(updateEtudiant);
         Assertions.assertEquals(1l, updateEtudiant.getId());
         Assertions.assertEquals(employeur1.getNom(), updateEtudiant.getNom());
-        Assertions.assertEquals("totototo", updateEtudiant.getPassword());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        Assertions.assertTrue(encoder.matches("totototo", employeur1.getPassword()));
     }
 }

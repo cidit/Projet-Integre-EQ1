@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Arrays;
@@ -102,6 +103,7 @@ class GestionnaireServiceTest {
         Assertions.assertNotNull(updatedGestionnaire);
         Assertions.assertEquals(1l, updatedGestionnaire.getId());
         Assertions.assertEquals(g1.getNom(), updatedGestionnaire.getNom());
-        Assertions.assertEquals("totototo", updatedGestionnaire.getPassword());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        Assertions.assertTrue(encoder.matches("totototo", updatedGestionnaire.getPassword()));
     }
 }

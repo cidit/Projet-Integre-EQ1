@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -39,7 +40,9 @@ public class EnseignantServiceTest {
     @BeforeEach
     public void setUp() {
         enseignant1 = new Enseignant();
+        enseignant1.setPassword("123456");
         enseignant2 = new Enseignant();
+        enseignant2.setPassword("123456");
     }
 
     @Test
@@ -94,8 +97,10 @@ public class EnseignantServiceTest {
         Enseignant enseignant = new Enseignant();
         enseignant.setPassword("abcdefghi");
 
-        Enseignant updateEtudiant = enseignantService.updateEnseignantPassword(enseignant, 1L);
-        Assertions.assertNotNull(updateEtudiant);
-        Assertions.assertEquals("abcdefghi", updateEtudiant.getPassword());
+        Enseignant updateEnseignant = enseignantService.updateEnseignantPassword(enseignant, 1L);
+
+        Assertions.assertNotNull(updateEnseignant);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        Assertions.assertTrue(encoder.matches("abcdefghi", updateEnseignant.getPassword()));
     }
 }

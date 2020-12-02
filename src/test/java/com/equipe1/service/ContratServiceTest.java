@@ -212,7 +212,7 @@ public class ContratServiceTest {
         byte[] contenu = new byte[11];
         when(contratRepository.save(contrat)).thenReturn(contrat);
         when(contratRepository.findById(1000L)).thenReturn(Optional.of(contrat));
-        contratService.updateContrat(new MockMultipartFile("test", contenu), contrat.getId(), "Employeur");
+        contratService.updateContrat(new MockMultipartFile("test", contenu), contrat.getId(), "ROLE_EMPLOYEUR");
 
         assertEquals(contrat.getDocumentContrat(), contenu);
         assertEquals(contrat.getSignatureEmployeur(), Contrat.SignatureEtat.EN_ATTENTE);
@@ -223,7 +223,7 @@ public class ContratServiceTest {
         byte[] contenu = new byte[11];
         when(contratRepository.save(contrat)).thenReturn(contrat);
         when(contratRepository.findById(1000L)).thenReturn(Optional.of(contrat));
-        contratService.updateContrat(new MockMultipartFile("test", contenu), contrat.getId(), "Etudiant");
+        contratService.updateContrat(new MockMultipartFile("test", contenu), contrat.getId(), "ROLE_ETUDIANT");
 
         assertEquals(contrat.getDocumentContrat(), contenu);
         assertEquals(contrat.getSignatureEtudiant(), Contrat.SignatureEtat.EN_ATTENTE);
