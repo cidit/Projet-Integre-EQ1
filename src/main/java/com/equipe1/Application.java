@@ -24,14 +24,13 @@ public class Application {
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
-
             databaseFakingService.insertSession();
             databaseFakingService.insertEtudiant();
             databaseFakingService.insertEmployeur();
-            databaseFakingService.insertStage();
-            databaseFakingService.insertGestionnaire();
-            databaseFakingService.insertCandidature();
             databaseFakingService.insertEnseignants();
+            databaseFakingService.insertGestionnaire();
+            databaseFakingService.insertStage();
+            databaseFakingService.insertCandidature();
             databaseFakingService.insertEvaluationStagiaire();
         };
     }
