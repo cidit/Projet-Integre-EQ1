@@ -60,7 +60,7 @@ public class SchedulerServiceTest {
         Session newSession = Session.builder()
                 .nom("HIV-2021")
                 .dateDebut(LocalDate.of(2021, 1, 1))
-                .dateFin(LocalDate.of(2020, 5, 31))
+                .dateFin(LocalDate.of(2021, 5, 31))
                 .isCurrent(true)
                 .build();
 
@@ -69,8 +69,7 @@ public class SchedulerServiceTest {
         when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(newSession));
 
         // Act
-        schedulerService.scheduleCreationSession();
-        Session sessionActuelle = sessionRepository.findCurrentSession().get();
+        Session sessionActuelle = schedulerService.scheduleCreationSession();
         // Assert
         Assertions.assertEquals(newSession.getNom(), sessionActuelle.getNom());
         Assertions.assertEquals(newSession.getDateDebut(), sessionActuelle.getDateDebut());
