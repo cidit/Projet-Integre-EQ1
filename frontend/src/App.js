@@ -12,8 +12,7 @@ import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandi
 import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
 
 import SelectionnerStagiaireComponent from "./components/employeur/SelectionnerStagiaireComponent";
-import ContratsEmployeur from './components/employeur/ContratEmployeur';
-import ContratEtudiant from './components/etudiant/ContratEtudiant';
+
 import CreationContrat from './components/contrat/CreationContrat';
 import TeleverserContrat from './components/utils/TeleverserContrat';
 
@@ -27,10 +26,12 @@ import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStag
 import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire';
 import EvaluationStagiaireTabs from './components/employeur/evaluations/EvaluationStagiaireTabs';
 import {createMuiTheme} from "@material-ui/core";
+import {ListeContrat} from "./components/contrat/ListeContrats";
 
 import ProfilEmployeur from './components/employeur/ProfilEmployeur';
 import ProfilGestionnaire from './components/gestionnaire/ProfilGestionnaire';
 import ProfilEtudiant from './components/etudiant/ProfilEtudiant';
+
 import ProfilEnseignant from './components/enseignant/ProfilEnseignant';
 import EvaluationMiliauStageTabs from './components/evaluations/evaluationMilieuStage/EvaluationMiliauStageTabs';
 import ListEtudiantsEnCharge from './components/enseignant/ListEtudiantsEnCharge';
@@ -42,12 +43,13 @@ import RapportStageComponent from './components/gestionnaire/rapport-stage/Rappo
 import RapportContratComponent from './components/gestionnaire/rapport-contrat/RapportContratComponent';
 
 import RapportStageEmployeur from './components/employeur/stage/RapportStageEmployeur';
+import ThemeProvider from "@material-ui/styles/ThemeProvider";
 
 function App() {
   return (
     
       <main>
-     {/* <ThemeProvider theme={theme}>  */}
+      <ThemeProvider theme={theme}>
         <HeaderComponent />
         <Switch>
           <Route path="/" exact component={Home}/>
@@ -58,11 +60,11 @@ function App() {
           <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
           <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
           <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent} />
-          <Route path='/contratsEmployeur' component={ContratsEmployeur} />
-          <Route path='/contratEtudiant' component={ContratEtudiant} />
+         
           <Route path='/CreationContrat/:id' component={CreationContrat} />
           <Route path='/televerserContrats/:id' component={TeleverserContrat} />
           <Route path="/stage/:id/:tab" component={StageComponent}/>
+          <Route path='/listeContrats' component={ListeContrat}/>
           <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
           <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
           <Route path="/questionRelations/:id" component={QuestionRelations}/>
@@ -89,7 +91,7 @@ function App() {
 
           <Route path="/rapportStageEmployeur" component={RapportStageEmployeur}/>
         </Switch>
-           {/* </ThemeProvider>    */}
+            </ThemeProvider>
       </main>
     
   );
@@ -97,18 +99,18 @@ function App() {
 
 const theme = createMuiTheme({
     palette: {
-        // primary: {
-        //     main: "#616161",
-        //     light: "#8e8e8e",
-        //     dark: "#373737",
-        // },
         primary: {
-            main: "#612675",
+            main: "#1666DB",
+            light: "#4d84e3",
+            dark: "#0d3477",
+        },
+        secondary:{
+            main:"#1666DB",
             light: "#ffbe49",
-            dark: "#c55e00",
+            // dark: "#c55e00",
         },
         action: {
-            hover: "#ff8d0b",
+            hover: "#4d84e3",
             disabled: "#ac0505",
             selected: "#ffbe49"
         },
@@ -117,7 +119,7 @@ const theme = createMuiTheme({
         },
         button: {
             textTransform: "capitalize"
-        }
+        },
 
     }
 });

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
         width: '100%',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         margin:'auto',
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
@@ -141,7 +141,8 @@ function Row(props) {
                 <TableCell className='align-middle'>{row.telephone}</TableCell>
                 
                 <TableCell>
-                    {row.cv.status != "APPROVED" ? 
+
+                    {row.cv.status !== "APPROVED" ?
                     <Button className='m-2' size="small"color="primary" onClick={() => downloadCV(row)}><GetAppIcon/></Button> : "Pas de CV"}<br/>
                 </TableCell>
 

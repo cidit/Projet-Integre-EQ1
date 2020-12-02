@@ -170,7 +170,9 @@ export default function ProfileHome() {
                 </div>
 
                 <Grid container justify="center" >
+
                     <Button variant="contained" color="primary" className='m-3' disabled={isRegistered} onClick={enregisterSession} style={{ textTransform: 'none' }}>
+
                         {isRegistered ? "Vous êtes enregistré à la session" : "S'enregistrer pour la session"}
                     </Button>
                 </Grid>

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import CandidatureService from "../service/CandidatureService";
 import SessionService from "../service/SessionService";
 
 import AuthService from "../service/security/auth.service";
@@ -12,28 +11,28 @@ function Logout(){
         AuthService.logout();
     }
     return (
-        <Nav.Link href="/?refresh" onSelect={handleSelect}>Logout</Nav.Link>
+        <Nav.Link href="/?refresh" onSelect={handleSelect} className="ml-auto">DÉCONNECTER</Nav.Link>
     );
 }
 
 function NotLoggedInNav() {
     return (
-        <Nav className="mr-auto">
-            <Nav.Link href="/login">Login</Nav.Link>
-            <Nav.Link href="/register">Register</Nav.Link>
+        <Nav className="ml-auto">
+            <Nav.Link href="/login">CONNEXION</Nav.Link>
+            <Nav.Link href="/register">INSCRIPTION</Nav.Link>
         </Nav>
     );
 }
 
 function GestionnaireNav(props) {
     return (
-        <Nav className="mr-auto">
+        <Nav className="container-fluid">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profilGestionnaire">Votre profil</Nav.Link>
-            <Nav.Link href="/rapportEnseignant">Rapports enseignants</Nav.Link>
-            <Nav.Link href="/rapportEtudiant">Rapports étudiants</Nav.Link>
-            <Nav.Link href="/rapportStage/0">Rapports stages</Nav.Link>
-            <Nav.Link href="/rapportContrat/0">Rapports contrats</Nav.Link>
+            <Nav.Link href="/rapportEnseignant">Enseignants</Nav.Link>
+            <Nav.Link href="/rapportEtudiant">Étudiants</Nav.Link>
+            <Nav.Link href="/rapportStage/0">Stages</Nav.Link>
+            <Nav.Link href="/rapportContrat/0">Contrats</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
         </Nav>
@@ -43,13 +42,13 @@ function GestionnaireNav(props) {
 function EmployeurNav(props) {
 
     return (
-        <Nav className="mr-auto">
+        <Nav className="container-fluid">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profilEmployeur">Votre profil</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
             <Nav.Link href="/rapportStageEmployeur">Voir toutes les offres de stage</Nav.Link>
-            <Nav.Link href="/contratsEmployeur">Contrats</Nav.Link>
-            <Nav.Link href="/evaluationsEmployeur">Évaluations</Nav.Link>
+            <Nav.Link href="/listeContrats">Contrats</Nav.Link>
+            <Nav.Link href="/evaluationsEmployeur">Évaluations stagiaires</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
         </Nav>
@@ -58,15 +57,28 @@ function EmployeurNav(props) {
 
 function EtudiantNav(props) {
     return (
-        <Nav className="mr-auto">
+        <Nav className="container-fluid">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profilEtudiant">Votre profil</Nav.Link>
             <Nav.Link href="/offrestage">Offres de stage</Nav.Link>
             <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
-            <Nav.Link href="/contratEtudiant">Contrats</Nav.Link>
+            <Nav.Link href="/listeContrats">Contrats</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
 
+        </Nav>
+    );
+}
+
+function EnseignantNav() {
+
+    return (
+        <Nav className="container-fluid">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/profilEnseignant">Votre profil</Nav.Link>
+            <Nav.Link href="/etudiantsEnCharge">Étudiants en charge</Nav.Link>
+            <Nav.Link href="/evaluationMilieuStageHome">Évaluations milieu de stage</Nav.Link>
+            <Logout/>
         </Nav>
     );
 }
@@ -85,20 +97,6 @@ function ChangeSessionNavDropdown(props) {
 }
 
 
-function EnseignantNav() {
-
-    return (
-        <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/profilEnseignant">Votre profil</Nav.Link>
-            <Nav.Link href="/etudiantsEnCharge">Étudiants en charge</Nav.Link>
-            <Nav.Link href="/evaluationMilieuStageHome">Évaluations</Nav.Link>
-            <Logout/>
-        </Nav>
-    );
-}
-
-
 async function changeSession(id, nom) {
     await SessionService.changeSession(id, nom);
     setTimeout(function() {
@@ -106,6 +104,28 @@ async function changeSession(id, nom) {
     }, 200);
 }
 
+function NavBrand(props){
+    if (props.desc.toUpperCase() === "ROLE_ETUDIANT")
+        return <Navbar.Brand href="/">
+                    ÉTUDIANT
+                </Navbar.Brand>
+    else if (props.desc.toUpperCase() === "ROLE_EMPLOYEUR")
+        return <Navbar.Brand href="/">
+                    EMPLOYEUR
+                </Navbar.Brand>
+    else if (props.desc.toUpperCase() === "ROLE_GESTIONNAIRE")
+        return <Navbar.Brand href="/">
+                    GESTIONNAIRE
+                </Navbar.Brand>
+    else if (props.desc.toUpperCase() === "ROLE_ENSEIGNANT")
+        return <Navbar.Brand href="/">
+                    ENSEIGNANT
+                </Navbar.Brand>
+    else
+        return <Navbar.Brand href="/">
+                    Projet intégré équipe 1
+                </Navbar.Brand>
+}
 
 function NavType(props) {
     if (props.desc.toUpperCase() === "ROLE_ETUDIANT")
@@ -134,9 +154,9 @@ class HeaderComponent extends Component {
     render() {
         return (
             <Navbar bg="dark" variant="dark" expand="lg">
-                <Navbar.Brand href="/">
-                    Projet intégré équipe 1
-                </Navbar.Brand>
+                <NavBrand
+                    desc={this.state.desc}
+                />
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <NavType

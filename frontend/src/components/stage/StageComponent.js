@@ -9,6 +9,7 @@ import * as PropTypes from "prop-types";
 import StageInfo from "./StageInfoComponent";
 import SelectionnerStagiaireComponent from "../employeur/SelectionnerStagiaireComponent";
 import SelectionnerEtudiantComponent from "../gestionnaire/SelectionnerEtudiantComponent";
+
 import CandidatureService from '../../service/CandidatureService';
 import {useHistory, useParams} from 'react-router-dom';
 
@@ -43,18 +44,12 @@ export default class StageComponent extends Component {
     }
 
     render() {
-        let idTab = 0;
-        if (this.props.match.params.tab !== undefined){
-            idTab = this.props.match.params.tab;
-        }
-
         return (
             <div className="container">
                 <MyTabs
                     stage={this.state.stage}
                     employeur={this.state.employeur}
                     candidatures={this.state.candidatures}
-                    // tab = {idTab}
                 />
             </div>
         );
@@ -131,6 +126,7 @@ function MyTabs(props) {
     };
 
     const roles = [
+
         {stageApprouve: true, stageVeto: true, employeur: true},
         {stageApprouve: false, stageVeto: true, employeur: false},
         {stageApprouve: true, stageVeto: false, employeur: false},

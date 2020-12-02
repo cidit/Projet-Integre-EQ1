@@ -57,7 +57,8 @@ function TabPanel(props) {
   
   export default function ScrollableTabsButtonAuto() {
     
-    var idSession = localStorage.getItem("session");
+    let idSession = localStorage.getItem("session");
+
 
     const [offreStagesApprouve, setOffreStagesApprouve] = useState([]);
     const getOffreStagesApprouve = async () => {
@@ -70,6 +71,7 @@ function TabPanel(props) {
         const response = await StageService.getStagesNonApprouves(idSession);
         setOffreStagesNonApprouve(response.data);
     }
+
 
     const [offreStagesNonCombles, setOffreStagesNonCombles] = useState([]);
     const getOffreStagesNonCombles = async () => {

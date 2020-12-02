@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import ModalMessage from '../../components/utils/ModalMessage';
 import ContratService from '../../service/ContratService';
+import {ListeContrat} from "./ListeContrats";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -85,6 +86,11 @@ function Televerser() {
 
     return (
         <div>
+
+
+
+
+
             <div className={classes.root}>
                 <input
                     className={classes.input}
@@ -94,21 +100,21 @@ function Televerser() {
                     disabled={isButtonDisable}
                 />
 
-                {!isButtonDisable &&
-                    <div className="row">
-                        <label htmlFor="contained-button-file">
-                            <Button variant="contained" 
-                            color="primary" 
-                            component="span" 
-                            disabled={isButtonDisable}
-                            startIcon={<PublishIcon />}>
-                                Selectionner un fichier
-                            </Button>
-                        </label>
-                        <input accept="image/*" className={classes.input} id="icon-button-file" type="file" disabled={isButtonDisable} />
-                    
-                    </div>
-                }
+                <div className="row">
+                    <label htmlFor="contained-button-file">
+                        <Button variant="contained" color="primary" component="span" disabled={isButtonDisable}>
+                            Sélectionner un fichier
+                        </Button>
+                    </label>
+                    <input accept="image/*" className={classes.input} id="icon-button-file" type="file" disabled={isButtonDisable} />
+                    <label htmlFor="icon-button-file">
+                        <IconButton color="primary" aria-label="upload picture" component="span" disabled={isButtonDisable}>
+                            <PublishIcon />
+                        </IconButton>
+                    </label>
+                </div>
+
+
 
                 {file.name &&
                     <>

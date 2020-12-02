@@ -34,7 +34,8 @@ export default function Home(props) {
     }
 
     useEffect(() => {
-        if (userId != null) {
+
+        if (userId !== null) {
             UserService.getById(userId)
                 .then(value => {
                     setUser(value)
@@ -55,6 +56,7 @@ export default function Home(props) {
                 return "/none"
         }
     }
+
 
     const values = {
         "PAS_DE_CV": [
@@ -105,6 +107,7 @@ export default function Home(props) {
     }
 
     return (
+
         <Box className={classes.root}>
             <Grid container spacing={0} direction={"column"} alignItems={"center"}
                   justify={"center"}>

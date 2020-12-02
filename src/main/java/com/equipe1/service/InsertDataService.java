@@ -425,8 +425,8 @@ public class InsertDataService {
     public void insertContrat() throws Exception {
         Employeur employeurTest= employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
         Optional<Stage> stageTest = stageRepository.findById(6L);
-        Optional <Candidature> candidature = candidatureRepository.findById(15L);
-        Optional <Candidature> candidature2 = candidatureRepository.findById(16L);
+        Optional <Candidature> candidature = candidatureRepository.findById(52L);
+        Optional <Candidature> candidature2 = candidatureRepository.findById(53L);
 
         Contrat contrat = new Contrat();
         contrat.setEmployeur(employeurTest);
