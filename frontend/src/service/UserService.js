@@ -4,6 +4,20 @@ class UserService {
     async getByEmail(email) {
         let data
         await fetch(BASE_URL + email, {method: "GET"})
+            .then(response => {
+                console.log(data)
+                data = response.json()
+            })
+            .catch(error => {
+                console.log("BABABOEY")
+                data = {}
+            })
+        return data
+    }
+
+    async getById(id) {
+        let data
+        await fetch(BASE_URL + "one/" + id, {method: "GET"})
             .then(response => data = response.json())
             .catch(error => data = {})
         return data

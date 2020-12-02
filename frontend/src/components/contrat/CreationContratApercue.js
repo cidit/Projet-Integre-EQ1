@@ -87,17 +87,19 @@ export default function CreationContratApercue() {
     setIsLoading(false)
   };
 
-  const candidatureHasContratFunction = async () => {
-    const response = await ContratService.candidatureHasContrat(params.id);
-    setCandidatureHasContrat(response.data);
-  }
+ 
 
   useEffect(() => {
+    const candidatureHasContratFunction = async () => {
+      const response = await ContratService.candidatureHasContrat(params.id);
+      setCandidatureHasContrat(response.data);
+    }
+
     candidatureHasContratFunction();
     return () => {
       URL.revokeObjectURL(imageContrat)
     }
-  }, [])
+  }, [imageContrat,params.id])
 
   const handleClickOpen = () => {
     getApercueContrat();

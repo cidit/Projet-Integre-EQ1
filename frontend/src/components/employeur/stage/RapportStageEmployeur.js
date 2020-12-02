@@ -11,6 +11,8 @@ import StageService from '../../../service/StageService';
 import ApprobationStage from './ListeStageEnAttente';
 import ListeStageApprouve from './ListeStageApprouve';
 
+import {useHistory, useParams} from 'react-router-dom';
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
   

@@ -37,7 +37,6 @@ const useRowStyles = makeStyles((theme) => ({
         '& > *': {
             padding: theme.spacing(1),
             borderBottom: 'unset',
-            //backgroundColor: '#E9E9E9  ',
         },
     },
 }));

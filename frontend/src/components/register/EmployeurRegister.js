@@ -32,9 +32,7 @@ const formSchema = Yup.object().shape({
 export default class EmployeurRegister extends Component {
 
     render() {
-
         return (
-
             <div className="container">
                 <h5 className="card-title text-center " /*style={{background: '#E3F9F0 '}}*/><strong>Inscription employeur</strong></h5>
                 <Formik
@@ -63,13 +61,7 @@ export default class EmployeurRegister extends Component {
                                             EmployeurService.post(values);
                                             actions.resetForm();
                                             actions.setStatus({ message: "Votre compte a été créé avec succès" });
-
-                                            // setTimeout(() => {
-                                            //     actions.setStatus({ message: '' });
-                                            // }, 3000);
-
                                             actions.setSubmitting(false);
-
                                         }
 
                                     }));

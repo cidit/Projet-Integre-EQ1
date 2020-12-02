@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   heading: {
-    fontSize: theme.typography.pxToRem(18),
+    fontSize: theme.typography.pxToRem(16),
     fontWeight: theme.typography.fontWeightRegular,
 
   },
@@ -36,7 +36,6 @@ function CreationContrat() {
 
   const getcandidaturefinal = async () => {
     const response = await CandidatureService.getById(params.id);
-    console.log(response)
     setCandidatureFinal(response)
   }
 
@@ -65,7 +64,7 @@ function CreationContrat() {
 
       {candidatureFinal &&
         <div className='container'>
-          <h4 className='m-3 sticky-top' align='left' >Informations du contrat </h4>
+          <h4 className='m-3 sticky-top' align='center' >Informations du contrat </h4>
           <div className='row justify-content-md-center'>
             <div >
               <CreateTableauEtudiant candidatureFinal={candidatureFinal} />
@@ -151,19 +150,21 @@ export default CreationContrat;
 const useStylesCards = makeStyles((theme) => ({
   root: {
     width: 'auto',
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
     marginLeft: theme.spacing(5),
     height:"90%"
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "Bold",
     borderBottom: '1'
   },
   title: {
-    fontSize: 22,
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    fontSize: 18,
     fontWeight: "Bold",
-    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(3),
   },
   pos: {
     marginBottom: 12,

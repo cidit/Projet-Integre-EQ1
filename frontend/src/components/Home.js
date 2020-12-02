@@ -1,13 +1,26 @@
 import React, {useEffect, useState} from 'react';
-import {Container} from "@material-ui/core";
+import {Box, Container, List, Typography} from "@material-ui/core";
 import UserService from "../service/UserService";
 import Rappel from "./utils/Rappel";
 import {useHistory} from "react-router-dom";
+import EtudiantService from "../service/EtudiantService";
+import User from "../model/User";
+import {makeStyles} from "@material-ui/styles";
+import Grid from "@material-ui/core/Grid";
+import {grey} from "@material-ui/core/colors";
+
+const useStyles = makeStyles({
+    root: {
+        paddingTop: 30
+    }
+})
 
 export default function Home(props) {
     const [userId, userDesc] = [localStorage.getItem("id"), localStorage.getItem("desc")]
     const [reminders, setReminders] = useState([])
+    const [user, setUser] = useState(new User())
     const history = useHistory()
+    const classes = useStyles()
 
     if (userDesc === null) {
         history.push('/login');
@@ -19,12 +32,16 @@ export default function Home(props) {
     }
 
     useEffect(() => {
-        if (userId != null)
-            UserService.getReminders(userId)
+        if (userId != null) {
+            UserService.getById(userId)
                 .then(value => {
-                    setReminders(value)
-                })
+                    setUser(value)
+                });
+            UserService.getReminders(userId)
+                .then(value => setReminders(value));
+        }
     }, [userId])
+
 
     function getRouteSignature() {
         switch (userDesc) {
@@ -86,13 +103,29 @@ export default function Home(props) {
     }
 
     return (
-        <Container>
-            {
-                reminders.map(reminder => {
-                    let [title, message, redirect] = values[reminder]
-                    return <Rappel title={title} message={message} redirect={redirect} key={reminder}/>
-                })
-            }
-        </Container>
+        <Box className={classes.root}>
+            <Grid container spacing={0} direction={"column"} alignItems={"center"}
+                  justify={"center"}>
+                <Grid item>
+                    <Typography variant={"h4"}>Bienvenue, {user.nom}</Typography>
+                </Grid>
+                <Grid item>
+                    <Typography variant={"h6"}>Vos rappels:</Typography>
+                </Grid>
+                <Grid item>
+                    <List>
+                        {
+                            reminders.length ?
+                                reminders.map(reminder => {
+                                    let [title, message, redirect] = values[reminder]
+                                    return <Rappel title={title} message={message} redirect={redirect} key={reminder}/>
+                                }) :
+                            <Rappel title={"Pas de rappels"} message={"Vous n'avez aucune tâche à faire."}
+                                    redirect={"/"}/>
+                        }
+                    </List>
+                </Grid>
+            </Grid>
+        </Box>
     )
 }

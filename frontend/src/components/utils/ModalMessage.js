@@ -6,20 +6,21 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import React, { useState } from 'react';
 import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 
 export default function AlertDialog(props) {
     const [open, setOpen] = React.useState(true);
     const [redirect, setredirect] = useState(false)
+    const history = useHistory();
 
     const handleClose = () => {
         setOpen(false);
-        setredirect(true)
+        if(props.redirect !==null ){
+            history.push(props.redirect);
+        }
     };
-
-    if (redirect) {
-        return <Redirect to={props.redirect}/>
-    }
+   
     return (
         <div>
             <Dialog

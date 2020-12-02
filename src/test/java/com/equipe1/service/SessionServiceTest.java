@@ -104,4 +104,16 @@ public class SessionServiceTest {
         // Assert
         Assertions.assertTrue(sessionSelectionnee);
     }
+
+    @Test
+    public void testGetSessionById() {
+        // Arrange
+        when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
+
+        // Act
+        Session sessionSelectionnee = sessionService.getSessionById(session.getId());
+        // Assert
+        Assertions.assertNotNull(sessionSelectionnee);
+        Assertions.assertEquals(sessionSelectionnee, session);
+    }
 }
