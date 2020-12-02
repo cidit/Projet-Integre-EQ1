@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         margin: 'auto',
         maxWidth: '70%',
+
     },
     heading: {
         fontSize: theme.typography.pxToRem(18),
@@ -30,10 +31,6 @@ export default function EvaluationStagiaire() {
     const [redirect, setRedirect] = useState(false)
     const [etudiant, setEtudiant] = useState('')
 
-    //defini origin du id
-
-
-
     const goToEvaluation = () => {
         setRedirect(true);
     }
@@ -41,7 +38,6 @@ export default function EvaluationStagiaire() {
     const getEtudiant = async () => {
         const candidature = await CandidatureService.getById(params.id)
         const response = await EtudiantService.getEtudiantById(candidature.etudiant.id);
-        console.log(response)
         setEtudiant(response.data);
     }
 
@@ -57,8 +53,8 @@ export default function EvaluationStagiaire() {
         return <Redirect to={`/questionProductivite/${params.id}`} />
     }
     return (
-        <div>
-            <Paper className={classes.paper} width="75%">
+        <div className='mt-4'>
+            <Paper className={classes.paper}>
                 <Typography className={classes.heading} align='center'>
                     FICHE D’ÉVALUATION DU STAGIAIRE
               </Typography>
@@ -76,37 +72,39 @@ export default function EvaluationStagiaire() {
                 <br></br>
 
 
-                <div className='row '>
-                    <div className='col '>
-                        <Typography variant="subtitle2" align='right'>Téléphone :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{etudiant.telephone}</Typography>
-                    </div>
-                </div>
-                
-                <div className='row'>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='right'>Adresse :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{etudiant.adresse}</Typography>
-                    </div>
-                </div>
+                <div className='container text-left justify-content-center'>
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Téléphone :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{etudiant.telephone}</Typography>
+                      </div>
+                  </div>
 
-                <div className='row'>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='right'>Email :</Typography>
-                    </div>
-                    <div className='col'>
-                        <Typography variant="subtitle2" align='left'>{etudiant.email}</Typography>
-                    </div>
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Adresse :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{etudiant.adresse}</Typography>
+                      </div>
+                  </div>
+
+                  <div className='row justify-content-center'>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'><strong>Email :</strong></Typography>
+                      </div>
+                      <div className='col-sm-2'>
+                          <Typography variant="subtitle2" align='left'>{etudiant.email}</Typography>
+                      </div>
+                  </div>
                 </div>
                
 
 
                 <Grid container justify="center" >
-                    <Button variant="contained" color="primary" className='m-3' onClick={goToEvaluation}>
+                    <Button variant="contained" color="primary" className='m-3' onClick={goToEvaluation} >
                         Commmencer l'évaluation
                 </Button>
                 </Grid>

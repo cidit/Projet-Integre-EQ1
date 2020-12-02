@@ -27,10 +27,6 @@ class EtudiantService{
         return axios.get(baseURL + "/get/aucunStage", { params: { idSession: idSession} });
     }
 
-    getAllAyantEntrevue(idSession){
-        return axios.get(baseURL + "/getAllAyantEntrevue",  { params: { idSession: idSession} });
-    }
-
     getEtudiantsByProgramme(programme, idSession){
         return axios.get(ETUDIANT_GET + "/" + programme, { params: { idSession: idSession} });
     }
@@ -63,24 +59,20 @@ class EtudiantService{
     }
 
     async updatePassword(etudiant, id){
-        fetch(baseURL + "/updatePassword/" + id,
-            {method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(etudiant)} )
-            .then(r => r.json());
+        return axios.put(baseURL + "/updatePassword/" + id, etudiant);
     }
 
     async setEnseignant(idetudiant, idEnseignant) {
         return await axios.put(baseURL + "/setEnseignant/"+idetudiant+"/"+ idEnseignant)
     }
 
+    async enleverEnseignant(idetudiant, idEnseignant) {
+        return await axios.put(baseURL + "/enleverEnseignant/"+idetudiant+"/"+ idEnseignant)
+    }
+
     async  getEtudiantsbyEnseignat(idEnseignant){
         return axios.get(baseURL + "/getAllbyEnseignant/"+idEnseignant);
     }
-
-
     
 }
 

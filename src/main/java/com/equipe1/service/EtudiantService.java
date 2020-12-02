@@ -155,22 +155,6 @@ public class EtudiantService {
         return etudiantsInscrits;
     }
 
-    public List<Etudiant> getEtudiantsAyantEntrevue(Long idSession) {
-        Session session = sessionRepository.findById(idSession).get();
-        List<Etudiant> etudiantsInscrits = etudiantRepository.findAll().stream()
-                .filter(etudiant -> etudiant.getSessions().contains(session) && hasEntrevueSession(etudiant.getId(), idSession))
-                .collect(Collectors.toList());
-        return etudiantsInscrits;
-    }
-
-    public boolean hasEntrevueSession(Long idEtudiant, Long idSession){
-        List<Candidature> candidatures = candidatureService.findCandidatureByEtudiant(idEtudiant, idSession);
-        for(Candidature candidature : candidatures){
-            if(!candidature.getEntrevueStatut().equals(Candidature.CandidatureEntrevueStatut.PAS_CONVOQUE))
-                return true;
-        }
-        return false;
-    }
 
     public Etudiant updateEtudiantPassword(Etudiant newEtudiant, Long id) {
         Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
@@ -178,8 +162,8 @@ public class EtudiantService {
         return etudiantRepository.save(optionalEtudiant.get());
     }
 
-    public Etudiant setEnseignant(Long idEtudaint, Long idEnseignant){
-        Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudaint);
+    public Etudiant setEnseignant(Long idEtudiant, Long idEnseignant){
+        Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudiant);
         Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
         if(etudiant.isPresent()){
             etudiant.get().setEnseignant(enseignant);
@@ -190,6 +174,18 @@ public class EtudiantService {
     public List<Etudiant> getEtudaintsByEnseignant(Long idEnseignant){
         Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
         return etudiantRepository.findByEnseignant(enseignant);
+    }
+
+    public Etudiant enleverEnseignant(Long idEtudiant, Long idEnseignant){
+        Optional<Etudiant> etudiant = etudiantRepository.findById(idEtudiant);
+        Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
+        if(etudiant.isPresent()){
+            if(etudiant.get().getEnseignant().equals(enseignant)){
+                etudiant.get().setEnseignant(null);
+                etudiantRepository.save(etudiant.get());
+            }
+        }
+        return etudiant.orElse(new Etudiant());
     }
 }
 

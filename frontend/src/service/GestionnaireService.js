@@ -9,13 +9,7 @@ class GestionnaireService{
     }
 
     async updatePassword(gestionnaire, id){
-        fetch(baseURL + "/updatePassword/" + id,
-            {method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(gestionnaire)} )
-            .then(r => r.json());
+        return axios.put(baseURL + "/updatePassword/" + id, gestionnaire);
     }
 }
 

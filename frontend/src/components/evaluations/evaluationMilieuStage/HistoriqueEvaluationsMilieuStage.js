@@ -15,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#E9E9E9',
         fontWeight: 'bold'
     },
-    paper: {
-        padding: theme.spacing(0),
-        margin: 'auto',
-        maxWidth: '50%',
-    },
+    // paper: {
+    //     padding: theme.spacing(0),
+    //     margin: 'auto',
+    //     maxWidth: '50%',
+    // },
     heading: {
         fontSize: theme.typography.pxToRem(10),
         fontWeight: theme.typography.fontWeightRegular,
@@ -60,7 +60,6 @@ export default function HistoriqueEvaluationsMilieuStage() {
 
     const getEtudiant = async () => {
         const response = await EvaluationService.getEvaluationsMilieuStageByEnseignant(id);
-        console.log(response.data)
         setEvaluationsMilieuStage(response.data);
     }
 
@@ -129,7 +128,7 @@ function AlertAucunContrat(isGestionnaire) {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune étudaint en charge pour le moment</Alert>
+                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation pour le moment</Alert>
             </div>
         </div>
     </div>;

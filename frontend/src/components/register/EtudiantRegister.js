@@ -65,12 +65,10 @@ export default class EtudiantRegister extends Component {
                                 resolve(UserService.getByEmail(values.email)
                                     .then((val) => {
                                         if (val.email === values.email) {
-                                            console.log(values)
                                             actions.setFieldError('email', "Adresse électronique déjà utilisée")
                                         } else if (values.password !== values.confimerPassword) {
                                             actions.setFieldError('confimerPassword', "Les mots de passe ne sont pas les mêmes")
                                         } else {
-                                            console.log(values)
                                             EtudiantService.post(values);
                                             actions.resetForm();
                                             actions.setStatus({ message: " Votre compte a été créé avec succès " });
@@ -80,10 +78,6 @@ export default class EtudiantRegister extends Component {
 
                                             actions.setSubmitting(false);
                                         }
-                                    })
-                                    .then((val) => console.log(val))
-                                    .catch(function (reason) {
-                                        console.log(reason + " reason")
                                     }));
 
                                 actions.setSubmitting(false);

@@ -23,8 +23,8 @@ class StageService{
         return axios.get(STAGES_URL + "/nonApprouves", { params: { idSession: idSession} });
     }
 
-    getStagesAyantAucunStagiaires(idSession){
-        return axios.get(STAGES_URL + "/ayantStagiaire", { params: { idSession: idSession} });
+    getStagesNonCombles(idSession){
+        return axios.get(STAGES_URL + "/nonComble", { params: { idSession: idSession} });
     }
     
     getStageById(id){
@@ -59,8 +59,6 @@ class StageService{
                 },
                 body: JSON.stringify(stage)} )
             .then(r => r.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => console.log('Success:', response));
     }
 
     async updateStage(stage, id){
@@ -71,11 +69,7 @@ class StageService{
                 },
                 body: JSON.stringify(stage)} )
             .then(r => r.json())
-            .catch(error => console.error('Error:', error))
-            .then(response => console.log('Success:', response));
     }
-
-
 
     createStage(stage){
         return axios.post(STAGES_URL_POST, stage)
@@ -83,6 +77,14 @@ class StageService{
 
     addEtudiants(id, etudiants){
         return axios.put(STAGE_ETUDIANTS_URL_PUT + id, etudiants);
+    }
+
+    getStagesApprouvesByEmployeurId(idEmployeur, idSession){
+        return axios.get(STAGES_URL + "/stagesApprouvesByEmployeurId/" + idEmployeur, { params: { idSession: idSession} });
+    }
+
+    getStagesNonApprouvesByEmployeurId(idEmployeur, idSession){
+        return axios.get(STAGES_URL + "/stagesNonApprouvesByEmployeurId/" + idEmployeur, { params: { idSession: idSession} });
     }
 }
 

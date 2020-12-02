@@ -34,9 +34,6 @@ export default function ApreciationGlobaleStagiaire() {
 
     //posiblemente crear un stado paara cada variable
     const handleChange = (event) => {
-        console.log("event.target.value")
-        console.log(event.target.value)
-
 
         evaluation.push({
             section: "evaluation milieu stage",

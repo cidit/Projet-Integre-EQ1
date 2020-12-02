@@ -88,7 +88,6 @@ public class ContratServiceTest {
         session = Session.builder()
                 .id(1L)
                 .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
                 .build();
         sessionRepository.save(session);
         List<Session> sessions = new ArrayList<>();
@@ -234,7 +233,6 @@ public class ContratServiceTest {
     public void testGetContratById() {
         when(contratRepository.findById(1L)).thenReturn(Optional.of(contrat1));
         Contrat contrat = contratService.getContratById(1L);
-        System.out.println("inside");
         assertEquals(contrat, contrat1);
     }
 

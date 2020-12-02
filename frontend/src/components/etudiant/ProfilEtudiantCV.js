@@ -99,7 +99,6 @@ export default class HomeEtudiant extends Component {
 
     downloadCV = (etudiant) => {
         CVService.getCVByEtudiant(etudiant).then((response) => {
-        console.log(etudiant)
 
         const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
@@ -131,7 +130,8 @@ export default class HomeEtudiant extends Component {
                             <label style={{color: "red"}}>Ce format de fichier n'est pas autorisé. Seuls les fichiers au
                                 format PDF sont autorisés.</label> : null}
                         {this.state.displaySubmitCVButton ?
-                            <Button type="submit" color="primary" variant="contained">Enregistrer mon CV</Button> : null}<br/>
+                            <Button type="submit" color="primary" variant="contained" 
+                                    style={{ textTransform: 'none' }}>Enregistrer mon CV</Button> : null}<br/>
                         {this.state.hasUploadedCV ?
                             <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant être
                                 approuvé pour que vous puissiez appliquer aux offres de stage.</label> : null}
@@ -141,7 +141,8 @@ export default class HomeEtudiant extends Component {
                         <br/>
                         <label>
                             {this.state.etudiant.cv != null ?
-                            <Button color="primary" variant="contained" onClick={() => this.downloadCV(this.state.etudiant)}>Télécharger mon CV</Button> : null}<br/>
+                            <Button color="primary" variant="contained" onClick={() => this.downloadCV(this.state.etudiant)} 
+                                    style={{ textTransform: 'none' }}>Télécharger mon CV</Button> : null}<br/>
                         </label>
                     </div>
                 </form>

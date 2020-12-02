@@ -53,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
     display: 'inline-flex',
+    "& .MuiTab-wrapper": {
+      flexDirection: "row",
+      justifyContent: "flex-start"
+    },
 
   },
   tabPanel: {
@@ -82,8 +86,8 @@ export default function EvaluationMiliauStageTabs() {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Évaluations milieu de stage en attente" {...a11yProps(0)} />
-        <Tab label="Historique d'évaluation" {...a11yProps(1)} />
+        <Tab className='text-left' label="Évaluations milieu de stage en attente" {...a11yProps(0)} />
+        <Tab className='text-left' label="Historique d'évaluation" {...a11yProps(1)} />
 
       </Tabs>
       <TabPanel value={value} index={0} className={classes.tabPanel} >

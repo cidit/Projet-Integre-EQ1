@@ -45,35 +45,90 @@ public class SchedulerServiceTest {
 
     @BeforeEach
     void setUp() {
-        session = Session.builder()
-                .id(1L)
-                .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
-                .isCurrent(true)
-                .build();
-        sessionRepository.save(session);
+
     }
 
     @Test
-    void testScheduleCreationSessionAutomne() {
+    void testScheduleCreationSessionHiver() {
         // Arrange
+        session = Session.builder()
+                .id(1L)
+                .nom("AUT-2020")
+                .isCurrent(true)
+                .build();
+
         Session newSession = Session.builder()
                 .nom("HIV-2021")
-                .dateDebut(LocalDate.now())
+                .dateDebut(LocalDate.of(2021, 1, 1))
+                .dateFin(LocalDate.of(2021, 5, 31))
                 .isCurrent(true)
                 .build();
 
         when(sessionService.findCurrentSession()).thenReturn(Optional.of(session));
         when(sessionService.create(newSession)).thenReturn(newSession);
-
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(newSession));
 
         // Act
-        Session s1 = schedulerService.scheduleCreationSession();
+        Session sessionActuelle = schedulerService.scheduleCreationSession();
         // Assert
-        Assertions.assertNotNull(s1);
-        Assertions.assertEquals("HIV-2021", s1.getNom());
-        Assertions.assertEquals(LocalDate.now(), s1.getDateDebut());
-
+        Assertions.assertEquals(newSession.getNom(), sessionActuelle.getNom());
+        Assertions.assertEquals(newSession.getDateDebut(), sessionActuelle.getDateDebut());
+        Assertions.assertEquals(newSession.getDateFin(), sessionActuelle.getDateFin());
     }
 
+    @Test
+    void testScheduleCreationSessionAutomne() {
+        // Arrange
+        session = Session.builder()
+                .id(1L)
+                .nom("ETE-2020")
+                .isCurrent(true)
+                .build();
+
+        Session newSession = Session.builder()
+                .nom("AUT-2020")
+                .dateDebut(LocalDate.of(2020, 9, 1))
+                .dateFin(LocalDate.of(2020, 12, 31))
+                .isCurrent(true)
+                .build();
+
+        when(sessionService.findCurrentSession()).thenReturn(Optional.of(session));
+        when(sessionService.create(newSession)).thenReturn(newSession);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(newSession));
+
+        // Act
+        Session sessionActuelle = schedulerService.scheduleCreationSession();
+        // Assert
+        Assertions.assertEquals(newSession.getNom(), sessionActuelle.getNom());
+        Assertions.assertEquals(newSession.getDateDebut(), sessionActuelle.getDateDebut());
+        Assertions.assertEquals(newSession.getDateFin(), sessionActuelle.getDateFin());
+    }
+
+    @Test
+    void testScheduleCreationSessionEte() {
+        // Arrange
+        session = Session.builder()
+                .id(1L)
+                .nom("HIV-2020")
+                .isCurrent(true)
+                .build();
+
+        Session newSession = Session.builder()
+                .nom("ETE-2020")
+                .dateDebut(LocalDate.of(2020, 6, 1))
+                .dateFin(LocalDate.of(2020, 8, 31))
+                .isCurrent(true)
+                .build();
+
+        when(sessionService.findCurrentSession()).thenReturn(Optional.of(session));
+        when(sessionService.create(newSession)).thenReturn(newSession);
+        when(sessionRepository.findCurrentSession()).thenReturn(Optional.of(newSession));
+
+        // Act
+        Session sessionActuelle = schedulerService.scheduleCreationSession();
+        // Assert
+        Assertions.assertEquals(newSession.getNom(), sessionActuelle.getNom());
+        Assertions.assertEquals(newSession.getDateDebut(), sessionActuelle.getDateDebut());
+        Assertions.assertEquals(newSession.getDateFin(), sessionActuelle.getDateFin());
+    }
 }

@@ -16,22 +16,13 @@ class CandidatureService{
         return axios.get(baseURL + "/getByEtudiant/" + idEtudiant, { params: { idSession: idSession} });
     }
 
-    async getByStage(idStage) {
+    getByStage(idStage) {
         return axios.get(baseURL + "/getByStage?stage="+ idStage);
     }
 
     async post(idEtudiant, idStage){
-        const formData = new FormData();
-        formData.append('idEtudiant', idEtudiant);
-        formData.append('idStage', idStage);
-        const options = {
-            method: 'POST',
-            body: formData
-        };
-        fetch(baseURL + "/createCandidature", options);
-
+        return axios.post(baseURL + "/createCandidature?idEtudiant=" + idEtudiant + "&idStage=" + idStage);
     }
-
 
     async putCandidatureChoisi(id){
         return axios.put(baseURL + "/updateChoisi/" + id);
@@ -46,7 +37,6 @@ class CandidatureService{
         await fetch(baseURL + "/getChoisi/" + id, {method: "GET"})
             .then(r => data = r.json())
             .catch(error => data = {});
-        console.log(data);
         return data;
     }
 
@@ -71,15 +61,6 @@ class CandidatureService{
         return axios.get(baseURL + "/getListAEvaluer/" + idEmployeur, { params: { idSession: idSession} });
     }
 
-    async convoqueEtudiantEntrevue(id){
-        return axios.put(baseURL + "/convoqueEtudiantEntrevue/" + id);
-    }
-
-    async entrevuePasseeConfirmation(id){
-        console.log(id)
-        return axios.put(baseURL + "/entrevuePasseeConfirmation/" + id);
-
-    }
     async getCandidatureEtudiantByEnseignant(id) {
         return await axios.get(baseURL +"/getListByEnseignant/"+id);
     }

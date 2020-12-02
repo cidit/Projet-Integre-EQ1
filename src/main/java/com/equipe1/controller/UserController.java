@@ -30,6 +30,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/get/one/{id}")
+    public User getOne(@PathVariable long id) {
+        return userService.getById(id);
+    }
+
     @GetMapping("/get/{email}/{password}")
     public User getUser(@PathVariable String email, @PathVariable String password) {
         return userService.getUser(email, password);
@@ -47,8 +52,6 @@ public class UserController {
 
     @GetMapping("/reminders/{userId}")
     public List<? extends Rappel> getRappelsPour(@PathVariable long userId) throws Exception {
-
         return rappelService.getRappelsPour(userId);
-
     }
 }

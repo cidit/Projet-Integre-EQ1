@@ -18,7 +18,9 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String nom;
-    private LocalDate dateDebut;
     private boolean isCurrent;
+    private LocalDate dateDebut;
+    private LocalDate dateFin;
+
 
 }

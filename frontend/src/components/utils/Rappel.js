@@ -13,6 +13,7 @@ const useStyle = makeStyles({
         backgroundColor: "whitesmoke",
         minWidth: 450,
         maxWidth: 550,
+        cursor: "pointer",
     },
     content: {
         float: "left"
@@ -31,7 +32,6 @@ export default function Rappel(props) {
     const history = useHistory()
 
     function handleClick() {
-        console.log("redirecting to [" + props.redirect + "]...")
         history.push(props.redirect)
     }
 

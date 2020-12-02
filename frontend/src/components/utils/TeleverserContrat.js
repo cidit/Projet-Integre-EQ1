@@ -64,6 +64,7 @@ export default class TeleverserContrat extends Component {
             formData.append('file', this.state.file)
             formData.append('desc', window.localStorage.getItem("desc"));
             ContratService.updateContrat(this.props.match.params.id, formData);
+
             this.handleShowSnackbarValid()
         } else {
             this.handleShowSnackbarInvalid();

@@ -90,6 +90,7 @@ export default function CreationContratApercue() {
         setCandidatureHasContrat(response.data);
     }
 
+
     useEffect(() => {
         candidatureHasContratFunction();
         return () => {
@@ -185,4 +186,5 @@ export default function CreationContratApercue() {
             </div>
         </div>
     );
+
 }

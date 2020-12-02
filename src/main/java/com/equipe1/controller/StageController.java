@@ -75,13 +75,23 @@ public class StageController {
         return stageService.getStagesApprouves(idSession);
     }
 
-    @GetMapping("ayantStagiaire")
-    public List<Stage> getAllStagesAyantAucunStagiare(@RequestParam("idSession") Long idSession){
-        return stageService.getStagesAyantAucunStagiaire(idSession);
+    @GetMapping("nonComble")
+    public List<Stage> getAllStagesNonComble(@RequestParam("idSession") Long idSession){
+        return stageService.getStagesNonComble(idSession);
     }
 
     @GetMapping("nonApprouves")
     public List<Stage> getAllStagesNonApprouves(@RequestParam("idSession") Long idSession){
         return stageService.getStagesNonApprouves(idSession);
+    }
+
+    @GetMapping("/stagesApprouvesByEmployeurId/{idEmployeur}")
+    public List<Stage> getStagesApprouvesByEmployeurId(@PathVariable("idEmployeur") Long idEmployeur, @RequestParam("idSession") Long idSession){
+        return stageService.getStagesApprouvesByEmployeur(idEmployeur, idSession);
+    }
+
+    @GetMapping("/stagesNonApprouvesByEmployeurId/{idEmployeur}")
+    public List<Stage> getStagesNonApprouvesByEmployeurId(@PathVariable("idEmployeur") Long idEmployeur, @RequestParam("idSession") Long idSession){
+        return stageService.getStagesNonApprouvesByEmployeur(idEmployeur, idSession);
     }
 }

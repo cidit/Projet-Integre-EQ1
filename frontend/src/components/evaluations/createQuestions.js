@@ -103,7 +103,6 @@ export default function CreateQuestions(props) {
             await EvaluationService.putEvaluationStagiaire(result, params.id)
             setEvaluation([])
             setIsCopletedQuestions(true)
-            console.log("send");
             if(!props.isFinalStep){
                 continuer();
             }else (
@@ -114,7 +113,6 @@ export default function CreateQuestions(props) {
             await EvaluationService.putEvaluationMilieuStage(result, props.idCandidature, props.idEnseignant)
             setEvaluation([])
             setIsCopletedQuestions(true)
-            console.log("send");
             setIsSubmit(true)
         }
 

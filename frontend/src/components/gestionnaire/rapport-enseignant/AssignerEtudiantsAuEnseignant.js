@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CandidatureService from "../../service/CandidatureService";
-import CVService from "../../service/CVService";
+import CandidatureService from "../../../service/CandidatureService";
 import {
     TableCell,
     TableContainer,
@@ -11,24 +10,25 @@ import {
     TableRow,
     Checkbox, Button
 } from "@material-ui/core";
-import { Alert } from '@material-ui/lab';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import { makeStyles } from "@material-ui/core/styles";
-import {useRouteMatch } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import EtudiantService from "../../service/EtudiantService";
+import EtudiantService from "../../../service/EtudiantService";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '3',
-        width: '98%',
-        fontWeight: 'bold',
-        margin :'auto'
-        //maxWidth: 360,
+        width: '70%',
+        backgroundColor: '#E9E9E9',
+        fontWeight: 'bold'
     },
-    table:{
-        color:"#ffffff",
-        // backgroundColor: "#000000"
+    paper: {
+        padding: theme.spacing(0),
+        margin: 'auto',
+        maxWidth: '50%',
+    },
+    heading: {
+        fontSize: theme.typography.pxToRem(10),
+        fontWeight: theme.typography.fontWeightRegular,
     },
     textTitle: {
         fontWeight: 'bold',
@@ -60,14 +60,11 @@ export default function AssignerEtudiantsAuEnseignant(props) {
     );
 }
 
-
 function CustomTable(props) {
     const classes = useStyles();
     const params = useParams();
     const [selected, setSelected] = React.useState([]);
     const isSelected = (id) => selected.indexOf(id) !== -1;
-
-
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
@@ -102,7 +99,6 @@ function CustomTable(props) {
         await EtudiantService.setEnseignant(idEtudiant, idEnseignant)
     }
 
-
     const handleConfirmation=  (event) => {
         event.preventDefault();
         if (selected.length === 0) {
@@ -118,27 +114,25 @@ function CustomTable(props) {
  
     return (
         <div className='container'>
-        <h5 align='left' className='m-2 pt-3 pb-3' >Assigner étudiants à {params.nom} {params.prenom}</h5>
+        <h5 align='left' className='m-2 pt-3 pb-3'>Assigner étudiants à {params.nom} {params.prenom}</h5>
             <TableContainer component={Paper} >
-            
-                <Table >
+                <Table>
                     <TableHead className={classes.textTitle}>
                         <TableRow>
-                            <TableCell padding="checkbox">
+                            <TableCell padding="checkbox" className={classes.textTitle}>
                                 <Checkbox
                                     checked={props.candidatures.length > 0 && selected.length === props.candidatures.length}
                                     onChange={handleSelectAllClick}
                                 />
                             </TableCell>
-                            <TableCell>Nom étudiant</TableCell>
-                            <TableCell>Programme</TableCell>
-                            <TableCell>Téléphone</TableCell>
-                            <TableCell>Courriel</TableCell>
-                            <TableCell>Adresse</TableCell>
-                            <TableCell>Stage en cours</TableCell>
+                            <TableCell className={classes.textTitle}>Nom étudiant</TableCell>
+                            <TableCell className={classes.textTitle}>Programme</TableCell>
+                            <TableCell className={classes.textTitle}>Téléphone</TableCell>
+                            <TableCell className={classes.textTitle}>Courriel</TableCell>
+                            <TableCell className={classes.textTitle}>Adresse</TableCell>
+                            <TableCell className={classes.textTitle}>Stage en cours</TableCell>
                      </TableRow>
                     </TableHead>
-
                     <TableBody>
                         {props.candidatures
                         .filter(item => item.etudiant.enseignant === null)
@@ -147,7 +141,6 @@ function CustomTable(props) {
                                 candidature => {
                                     const isItemSelected = isSelected(candidature.etudiant.id)
                                     return (
-
                                         <TableRow
                                             key={candidature.id}
                                             hover
@@ -174,11 +167,9 @@ function CustomTable(props) {
                                 }
                             )}
                     </TableBody>
-
                 </Table>
             </TableContainer>
             <Button variant="contained" className=' m-2' color="primary" onClick={handleConfirmation}>Confirmer</Button>
-
         </div>
     );
                    
@@ -192,74 +183,5 @@ function CustomTable(props) {
             </div>
         </div>;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // function OG(){
-    //     return(
-    //         <>
-    //             <div>
-    //                 <div className="pt-3 mt-3">
-    //                     <h5 className="card-title text-center p-3" style={{ background: '#E3F9F0 ' }}>Liste des candidats</h5>
-    //
-    //                     <div className="row">
-    //                         <table className="table table-striped table-bordered">
-    //                             <thead>
-    //                             <tr>
-    //                                 <th> Prénom </th>
-    //                                 <th> Nom </th>
-    //                                 <th> Programme </th>
-    //                                 <th> Télécharger CV</th>
-    //                                 <th> Telephone </th>
-    //                                 <th> Email </th>
-    //                                 <th> Adresse </th>
-    //
-    //                             </tr>
-    //                             </thead>
-    //                             <tbody>
-    //                             {this.state.candidatures
-    //                                 .filter(candidature => candidature.statut === "EN_ATTENTE")
-    //                                 .map(
-    //                                     candidature =>
-    //                                         <tr key={candidature.id}>
-    //                                             <td>{candidature.etudiant.prenom}</td>
-    //                                             <td>{candidature.etudiant.nom}</td>
-    //                                             <td>{candidature.etudiant.programme}</td>
-    //                                             <td><button onClick={() => this.downloadCV(candidature.etudiant)} className="btn btn-primary">Telecharger</button></td>
-    //                                             <td>{candidature.etudiant.telephone}</td>
-    //                                             <td>{candidature.etudiant.email}</td>
-    //                                             <td>{candidature.etudiant.adresse}</td>
-    //
-    //                                             <td>
-    //                                                 <button className="btn btn-primary" onClick={() => this.handleClick(candidature)}>
-    //                                                     Accepter
-    //                                                 </button>
-    //                                             </td>
-    //                                         </tr>
-    //                                 )}
-    //                             </tbody>
-    //                         </table>
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </>
-    //     );
-    // }
 }
 

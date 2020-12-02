@@ -59,7 +59,6 @@ public class EtudiantServiceTest {
         session = Session.builder()
                 .id(1L)
                 .nom("AUT-2020")
-                .dateDebut(LocalDate.now())
                 .build();
         sessionRepository.save(session);
         List<Session> sessions = new ArrayList<>();
@@ -368,7 +367,7 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    void getEtudaintsByEnseignant() {
+    void testGetEtudaintsByEnseignant() {
         e1.setEnseignant(enseignant);
         e2.setEnseignant(enseignant);
         when(repository.findByEnseignant(enseignant)).thenReturn(Arrays.asList(e1,e2));
@@ -377,5 +376,18 @@ public class EtudiantServiceTest {
         List<Etudiant> etudiants = service.getEtudaintsByEnseignant(1L);
         Assertions.assertEquals(etudiants.size(),2);
         Assertions.assertEquals(etudiants.get(0).getEnseignant(),enseignant );
+    }
+
+    @Test
+    public void testEnleverEnseignant() {
+        when(repository.findById(1L)).thenReturn(Optional.of(e1));
+        when(enseignantService.getEnseignantById(1L)).thenReturn(enseignant);
+
+        e1.setEnseignant(enseignant);
+        Assertions.assertNotNull(e1.getEnseignant());
+
+        Etudiant etudiant = service.enleverEnseignant(1L,1L);
+        Assertions.assertNull(e1.getEnseignant());
+        Assertions.assertEquals(etudiant.getEnseignant(), null);
     }
 }

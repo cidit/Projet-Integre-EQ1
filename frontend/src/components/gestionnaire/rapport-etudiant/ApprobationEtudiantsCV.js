@@ -6,6 +6,8 @@ import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
 import EtudiantService from '../../../service/EtudiantService';
 import CVService from '../../../service/CVService';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import SessionService from "../../../service/SessionService";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,32 +36,33 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ListEnseignants() {
+export default function ListEtudiants(props) {
     const classes = useStyles();
 
-    const [etudiantsCVNonApprouve, setEtudiantsCVNonApprouve] = useState([]);
-    const getEtudiantsCVNonApprouve = async () => {
-        var idSession = localStorage.getItem("session");
-        const response = await EtudiantService.getEtudiantsCVNonApprouve(idSession);
-        setEtudiantsCVNonApprouve(response.data);
+    const [sessionSelectionneeEnCours, setSessionSelectionneeEnCours] = useState([]);
+
+    var idSession = localStorage.getItem("session");
+
+    const isSessionSelectionneeEnCours = async () => {
+        const response = await SessionService.isSessionSelectionneeEnCours(idSession);
+        setSessionSelectionneeEnCours(response.data);
     }
 
     useEffect(() => {
-        getEtudiantsCVNonApprouve();
+        isSessionSelectionneeEnCours();
         return () => {
-            setEtudiantsCVNonApprouve([]);
         }
     }, [])
 
 
-    if (etudiantsCVNonApprouve.length === 0) {
+    if (props.etudiants.length === 0) {
         return (
-            AlertAucunCV(true)
+            AlertAucunCV()
         )
     } else {
         return (
             <div className='container' >
-                {etudiantsCVNonApprouve &&
+                {props.etudiants &&
                     <>
                         <TableContainer  className={classes.root}>
                             <Table className="table ">
@@ -71,12 +74,12 @@ export default function ListEnseignants() {
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
                                         <TableCell className={classes.textTitle}>Télécharger CV</TableCell>
-                                        <TableCell className={classes.textTitle}>Approbation CV</TableCell>
+                                        <TableCell className={classes.textTitle} hidden={!sessionSelectionneeEnCours}>Approbation CV</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {etudiantsCVNonApprouve.map((row) => (
-                                        <Row key={row.id} row={row}/>
+                                    {props.etudiants.map((row) => (
+                                        <Row key={row.id} row={row} sessionSelectionneeEnCours={sessionSelectionneeEnCours}/>
                                     ))}
                                 </TableBody>
                             </Table>
@@ -99,7 +102,6 @@ function Row(props) {
 
     const downloadCV = (etudiant) => {
         CVService.getCVByEtudiant(etudiant).then((response) => {
-        console.log(etudiant)
 
         const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
@@ -111,10 +113,6 @@ function Row(props) {
     }
 
     const renderColonneApprobationCV = (etudiant) => {
-        // null pas nécessaire
-        if (etudiant.cv === null){
-            return <p>Pas de CV</p>
-        }
         if (etudiant.cv.status === 'APPROVED'){
             return <p>Approuvé</p>
         }
@@ -136,25 +134,25 @@ function Row(props) {
     return (
         <React.Fragment>
             <TableRow hover className={classes.row}>
-                <TableCell>{row.matricule}</TableCell>
-                <TableCell>{row.prenom} {row.nom}</TableCell>
-                <TableCell>{row.programme}</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{row.telephone}</TableCell>
+                <TableCell className='align-middle'>{row.matricule}</TableCell>
+                <TableCell className='align-middle'>{row.prenom} {row.nom}</TableCell>
+                <TableCell className='align-middle'>{row.programme}</TableCell>
+                <TableCell className='align-middle'>{row.email}</TableCell>
+                <TableCell className='align-middle'>{row.telephone}</TableCell>
                 
                 <TableCell>
+
                     {row.cv.status !== "APPROVED" ?
-                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => downloadCV(row)}>Télécharger</Button> : "Pas de CV"}<br/>
+                    <Button className='m-2' size="small"color="primary" onClick={() => downloadCV(row)}><GetAppIcon/></Button> : "Pas de CV"}<br/>
                 </TableCell>
 
-                <TableCell>
+                <TableCell hidden={!props.sessionSelectionneeEnCours}>
                     {renderColonneApprobationCV(row)}
                 </TableCell>
             </TableRow>
 
         </React.Fragment>
     )
-
 }
 
 function AlertAucunCV() {

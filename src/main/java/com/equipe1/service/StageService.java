@@ -121,7 +121,6 @@ public class StageService {
             stage.setDateFin(newStage.getDateFin());
             stage.setNbHeuresParSemaine(newStage.getNbHeuresParSemaine());
             stage.setNbAdmis(newStage.getNbAdmis());
-            stage.setOuvert(newStage.isOuvert());
             stage.setStatut(newStage.getStatut());
             stage.setDateLimiteCandidature(newStage.getDateLimiteCandidature());
             stage.setProgramme(newStage.getProgramme());
@@ -133,7 +132,6 @@ public class StageService {
 
     public Stage updateStatus(Stage newStage, long id) throws Exception {
         newStage.setStatut(Stage.StageStatus.APPROUVÉ);
-        newStage.setOuvert(true);
 
         courrielService.sendSimpleMessage(new Courriel(newStage.getEmployeur().getEmail(),
                         env.getProperty("my.subject.stage"), env.getProperty("my.message.stageApprouve")),
@@ -187,28 +185,50 @@ public class StageService {
         return stagesNonApprouves;
     }
 
-    public List<Stage> getStagesAyantAucunStagiaire(Long idSession) {
+    public List<Stage> getStagesNonComble(Long idSession) {
         Session session = sessionRepository.findById(idSession).get();
         List<Stage> stages = stageRepository.findAll();
         List<Stage> resultStages = new ArrayList<>();
         for (Stage stage : stages) {
-            if (!hasStagiare(stage) && stage.getSession().equals(session))
+            if (!isComble(stage) && stage.getSession().equals(session))
                 resultStages.add(stage);
         }
         return resultStages;
     }
 
-    private boolean hasStagiare(Stage stage) {
+    public boolean isComble(Stage stage) {
         List<Candidature> candidatures = candidatureService.findCandidatureByStage(stage.getId());
+        int nbEtudiantsAdmis = 0;
         for (Candidature candidature : candidatures) {
             if (candidature.getStatut().equals(Candidature.CandidatureStatut.CHOISI))
-                return true;
+                nbEtudiantsAdmis++;
         }
-        return false;
+        return !(nbEtudiantsAdmis < stage.getNbAdmis());
     }
 
     public List<Stage> getByStatutWaiting() {
         return stageRepository.getByStatut(Stage.StageStatus.EN_ATTENTE);
     }
 
+    public List<Stage> getStagesApprouvesByEmployeur(Long idEmployeur, Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
+        List<Stage> stages = new ArrayList<>();
+
+        for (Stage stage : stageRepository.findAll()) {
+            if (stage.getEmployeur().getId() == idEmployeur && stage.getStatut() == Stage.StageStatus.APPROUVÉ  && stage.getSession().equals(session))
+                stages.add(stage);
+        }
+        return stages;
+    }
+
+    public List<Stage> getStagesNonApprouvesByEmployeur(Long idEmployeur, Long idSession) {
+        Session session = sessionRepository.findById(idSession).get();
+        List<Stage> stages = new ArrayList<>();
+
+        for (Stage stage : stageRepository.findAll()) {
+            if (stage.getEmployeur().getId() == idEmployeur && stage.getStatut() != Stage.StageStatus.APPROUVÉ && stage.getSession().equals(session))
+                stages.add(stage);
+        }
+        return stages;
+    }
 }

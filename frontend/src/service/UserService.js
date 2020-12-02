@@ -1,9 +1,18 @@
-const BASE_URL = "http://localhost:8080/users/get/"
+const BASE_URL = "http://localhost:8080/users/"
 
 class UserService {
+    
     async getByEmail(email) {
         let data
-        await fetch(BASE_URL + email, {method: "GET"})
+        await fetch(BASE_URL + "get/" + email, {method: "GET"})
+            .then(response => data = response.json())
+            .catch(error => data = {})
+        return data
+    }
+
+    async getById(id) {
+        let data
+        await fetch(BASE_URL + "get/one/" + id, {method: "GET"})
             .then(response => data = response.json())
             .catch(error => data = {})
         return data
@@ -11,7 +20,7 @@ class UserService {
 
     async validateCredentials(id, password) {
         let data;
-        await fetch(BASE_URL + "/validate/" + id + "/" + password, {method: "GET"})
+        await fetch(BASE_URL + "validate/" + id + "/" + password, {method: "GET"})
             .then(r => data = r.json())
             .catch(error => data = {});
         return data;
@@ -19,12 +28,10 @@ class UserService {
 
     async getReminders(id) {
         let data
-        await fetch("http://localhost:8080/users/reminders/" + id, {method: "GET"})
+        await fetch(BASE_URL + "reminders/" + id, {method: "GET"})
             .then(response => data = response.json())
             .catch(err => data = {})
-
         return data
-        //return fetch("http://localhost:8080/users/reminders/" + id, {method: "GET"})
     }
 }
 

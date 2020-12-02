@@ -18,6 +18,11 @@ public class SessionController {
     public List<Session> getAllSessions(){
         return sessionService.getAll();
     }
+
+    @GetMapping("findById/{id}")
+    public Session getSessionById(@PathVariable Long id){
+        return sessionService.getSessionById(id);
+    }
     @GetMapping("getSessionEnCours")
     public Session getSessionEnCours(){
         return sessionService.findCurrentSession().get();
@@ -27,7 +32,7 @@ public class SessionController {
         return sessionService.create(session);
     }
 
-    @PostMapping("isSessionSelectionneeEnCours/{id}")
+    @GetMapping("isSessionSelectionneeEnCours/{id}")
     public boolean isSessionSelectionneeEnCours(@PathVariable Long id){
         return sessionService.isSessionSelectionneeEnCours(id);
     }

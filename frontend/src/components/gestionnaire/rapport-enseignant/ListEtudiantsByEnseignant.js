@@ -1,15 +1,11 @@
 import {
-    Container, makeStyles, Table,
+    makeStyles, Table,
     TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip
 } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
 import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
 import CandidatureService from '../../../service/CandidatureService';
 import { useHistory } from 'react-router-dom';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import EtudiantService from '../../service/EtudiantService';
 import { useParams } from 'react-router-dom';
 
 
@@ -41,7 +37,6 @@ const useRowStyles = makeStyles((theme) => ({
         '& > *': {
             padding: theme.spacing(1),
             borderBottom: 'unset',
-            //backgroundColor: '#E9E9E9  ',
         },
     },
 }));
@@ -72,18 +67,16 @@ export default function ListEtudiantsByEnseignant(props) {
             <div className='container-fluid'>
                 {etudiants &&
                     <>
-                   
                         <TableContainer >
                             <Table className="table table-striped">
                                 <TableHead className={classes.root}>
                                     <TableRow >
-                                        <TableCell className={classes.textTitle} >Nom </TableCell>
+                                        <TableCell className={classes.textTitle}>Nom </TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
                                         <TableCell className={classes.textTitle}>Adresse</TableCell>
                                         <TableCell className={classes.textTitle}>Stage en cours</TableCell>
                                         <TableCell className={classes.textTitle}>Étudiant</TableCell>
-                                        
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -100,7 +93,6 @@ export default function ListEtudiantsByEnseignant(props) {
     }
 };
 
-
 function Row(props) {
     const { row } = props;
     const classes = useRowStyles();
@@ -108,7 +100,6 @@ function Row(props) {
     const history = useHistory();
 
     const handleClickRow = (_row) => {
-        console.log(_row)
         history.push("/evaluationMilieuStage/" + _row.id);
     }
 
@@ -140,15 +131,7 @@ function Row(props) {
     );
 
 };
-function Alert() {
-    return <div className="container">
-        <div className="row justify-content-md-center">
-            <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun étudiant assigné pour le moment</Alert>
-            </div>
-        </div>
-    </div>;
-}
+
 
 
 

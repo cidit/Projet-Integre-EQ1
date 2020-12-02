@@ -29,12 +29,10 @@ function GestionnaireNav(props) {
         <Nav className="mr-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profilGestionnaire">Votre profil</Nav.Link>
-            <Nav.Link href="/etudiants">Approbation de CV</Nav.Link>
-            <Nav.Link href="/listestages">Liste des stages</Nav.Link>
-            <Nav.Link href="/contratsGestionnaire">Gérer contrats</Nav.Link>
-            <Nav.Link href="/listCandidatureChoisi">Contrats à générer</Nav.Link>
-            <Nav.Link href="/stages">Choix stagiaires</Nav.Link>
-            <Nav.Link href="/rapport">Rapports</Nav.Link>
+            <Nav.Link href="/rapportEnseignant">Rapports enseignants</Nav.Link>
+            <Nav.Link href="/rapportEtudiant">Rapports étudiants</Nav.Link>
+            <Nav.Link href="/rapportStage/0">Rapports stages</Nav.Link>
+            <Nav.Link href="/rapportContrat/0">Rapports contrats</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
         </Nav>
@@ -48,9 +46,10 @@ function EmployeurNav(props) {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/profilEmployeur">Votre profil</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
-            {/*<Nav.Link href="/stages">Voir toutes les offres de stage</Nav.Link>*/}
-            <Nav.Link href="/listestages">Voir toutes les offres de stage</Nav.Link>
-            <Nav.Link href="/listeContrats">Contrats</Nav.Link>
+
+            <Nav.Link href="/rapportStageEmployeur">Voir toutes les offres de stage</Nav.Link>
+            {/*<Nav.Link href="/listestages">Voir toutes les offres de stage</Nav.Link>*/}
+<Nav.Link href="/listeContrats">Contrats</Nav.Link>
             <Nav.Link href="/evaluationsEmployeur">Évaluations</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
@@ -95,7 +94,7 @@ function EnseignantNav() {
             <Nav.Link href="/profilEnseignant">Votre profil</Nav.Link>
             <Nav.Link href="/etudiantsEnCharge">Étudiants en charge</Nav.Link>
             <Nav.Link href="/evaluationMilieuStageHome">Évaluations</Nav.Link>
-            <Nav.Link href="/logout">Logout</Nav.Link>
+            <Logout/>
         </Nav>
     );
 }

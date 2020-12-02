@@ -21,7 +21,6 @@ class CVService{
     }
 
     updateCVStatus(isValid, id){
-        console.log(isValid);
         const formData = new FormData();
         formData.append('isValid', isValid);
         const options = {

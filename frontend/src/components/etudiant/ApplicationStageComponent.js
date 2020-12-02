@@ -3,9 +3,36 @@ import StageService from '../../service/StageService';
 import EtudiantService from "../../service/EtudiantService";
 import CandidatureService from "../../service/CandidatureService";
 
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button} from '@material-ui/core';
 import {Alert} from "@material-ui/lab";
+import {withStyles} from '@material-ui/core/styles';
 
-export default class ApplicationStageComponent extends Component {
+const useStyles = theme => ({
+    root: {
+        marginTop: '3',
+        width: '100%',
+        margin:'auto',
+        fontSize: theme.typography.pxToRem(14),
+        fontWeight: theme.typography.fontWeightRegular,
+        textAlign: 'center',
+    },
+    heading: {
+        margin:'auto',
+        fontSize: theme.typography.pxToRem(14),
+        fontWeight: theme.typography.fontWeightRegular,
+    },
+    textTitle: {
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontSize: 15,
+        margin:'auto',
+    },
+    row:{
+        textAlign: 'center',
+    }
+});
+
+class ApplicationStageComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,7 +61,7 @@ export default class ApplicationStageComponent extends Component {
         const response = await EtudiantService.isRegistered(id);
 
         if (!response.data) {
-            this.props.history.push("/profileEtudiant");
+            this.props.history.push("/profilEtudiant");
         }
 
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);
@@ -44,7 +71,6 @@ export default class ApplicationStageComponent extends Component {
             this.setState({stages: res.data})
         })
 
-        console.log(this.state.stages);
         if (this.state.etudiant.cv === undefined || this.state.etudiant.cv === null) {
             this.setState({hasValidCV: false});
         } else {
@@ -56,12 +82,12 @@ export default class ApplicationStageComponent extends Component {
         }
     }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault()
         let idEtudiant;
         if (localStorage.getItem("desc") === "Etudiant")
             idEtudiant = localStorage.getItem("id");
-        const idStage = event.target.value;
+        const idStage = event.currentTarget.value;
         this.componentDidMount();
         this.setState({hasApplied: true});
         CandidatureService.post(idEtudiant, idStage)
@@ -71,6 +97,9 @@ export default class ApplicationStageComponent extends Component {
     }
 
     render() {
+        
+        const { classes } = this.props;
+
         if (this.state.stages.length !== 0) {
             if (this.state.etudiant.cv === null) {
                 return <div className="container">
@@ -106,57 +135,50 @@ export default class ApplicationStageComponent extends Component {
         return (
             <form className="d-flex flex-column">
                 <div className="container">
-                    <div className="col">
-                        <div className="pt-3 mt-3">
-                            <h5 className="card-title text-center p-3" style={{background: '#E3F9F0 '}}>Offres de
-                                stage</h5>
+                    <TableContainer className={classes.root}>
+                        <Table className="table">
+                            <TableHead className={classes.heading}>
+                            <TableRow>
+                                <TableCell className={classes.textTitle}> Titre </TableCell>
+                                <TableCell className={classes.textTitle}> Programme </TableCell>
+                                <TableCell className={classes.textTitle}> Description </TableCell>
+                                <TableCell className={classes.textTitle}> Date de début </TableCell>
+                                <TableCell className={classes.textTitle}> Date finale </TableCell>
+                                <TableCell className={classes.textTitle}> Ville </TableCell>
+                                <TableCell className={classes.textTitle}> Heures par semaine </TableCell>
+                                <TableCell className={classes.textTitle}></TableCell>
+                            </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {this.state.stages.map(
+                                stage =>
+                                    <TableRow key={stage.id} hover className={classes.row}>
+                                        <TableCell>{stage.titre}</TableCell>
+                                        <TableCell>{stage.programme}</TableCell>
+                                        <TableCell>{stage.description}</TableCell>
+                                        <TableCell>{stage.dateDebut}</TableCell>
+                                        <TableCell>{stage.dateFin}</TableCell>
+                                        <TableCell>{stage.ville}</TableCell>
+                                        <TableCell>{stage.nbHeuresParSemaine}</TableCell>
+                                        {this.state.hasValidCV ?
 
-                            <div className="row">
+                                            <TableCell>
+                                                <Button type="submit" className='m-2' variant="contained" size="small" color="primary" 
+                                                        style={{ textTransform: 'none' }}
+                                                        value={stage.id} onClick={this.handleSubmit}>Postuler
+                                                </Button>
+                                            </TableCell> : null
+                                        }
 
-                                <table className="table table-striped table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th> Titre</th>
-                                        <th> Programme</th>
-                                        <th> Description</th>
-                                        <th> Date de début</th>
-                                        <th> Date finale</th>
-                                        <th> Ville</th>
-                                        <th> Nombre d'heures par semaine</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {this.state.stages.map(
-                                        stage =>
-                                            <tr key={stage.id}>
-                                                <td>{stage.titre}</td>
-                                                <td>{stage.programme}</td>
-                                                <td>{stage.description}</td>
-                                                <td>{stage.dateDebut}</td>
-                                                <td>{stage.dateFin}</td>
-                                                <td>{stage.ville}</td>
-                                                <td>{stage.nbHeuresParSemaine}</td>
-                                                {this.state.hasValidCV ?
-
-                                                    <td>
-                                                        <button type="submit" className="btn btn-primary"
-                                                                value={stage.id} onClick={this.handleSubmit}>Postuler
-                                                        </button>
-                                                    </td> : null
-                                                }
-
-                                            </tr>
-                                    )}
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div>
+                                    </TableRow>
+                            )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </div>
             </form>
         );
     }
 }
 
+export default withStyles(useStyles)(ApplicationStageComponent);

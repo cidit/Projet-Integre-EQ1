@@ -1,50 +1,44 @@
-import React from "react";
-import { Container, makeStyles, Paper } from '@material-ui/core';
-
-
-import {Typography,TableRow,TableHead ,TableContainer,Table,
-        TableCell,TableBody,IconButton, Collapse, Box} from '@material-ui/core';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import {
+    Button, makeStyles, Table,
+    TableBody, TableCell, TableContainer, TableHead, TableRow
+} from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import { useEffect, useState } from "react";
-import { Redirect, useRouteMatch } from "react-router-dom";
-import CandidatureService from '../../../service/CandidatureService'
+import React, { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
+import CandidatureService from '../../../service/CandidatureService';
+
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        marginTop: '3',
         width: '100%',
-    },
-    paper: {
-        padding: theme.spacing(3),
+        fontWeight: 'bold',
         margin: 'auto',
-        maxWidth: '100%',
+        fontSize: theme.typography.pxToRem(14),
+        fontWeight: theme.typography.fontWeightRegular,
+        textAlign: 'center',
+
     },
     heading: {
-        fontSize: theme.typography.pxToRem(18),
+        margin: 'auto',
+        fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
     },
+    textTitle: {
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontSize: 15,
+        margin: 'auto',
+    },
+    row: {
+        textAlign: 'center',
+    }
 }));
 
-const useRowStyles = makeStyles({
-    root: {
-        '& > *': {
-            borderBottom: 'unset',
-            backgroundColor: '#E9E9E9  ',
-        },
-    },
-});
-export default function EvaluationsAFaire(props) {
+export default function EvaluationsStagiaires(props) {
     const classes = useStyles();
-    const { params } = useRouteMatch();
-    const [redirect, setRedirect] = useState(false)
-    const [candidatures, setCandidatures] = useState([])
-
-  
-    const goToEvaluation = () => {
-        setRedirect(true);
-    }
+    const [candidatures, setCandidatures] = useState([]);
 
     const getCandidature = async () => {
         var idSession = window.localStorage.getItem("session");
@@ -66,16 +60,19 @@ export default function EvaluationsAFaire(props) {
         )
     } else {
         return (
-            <Paper className={classes.root}>
+            <div className='container'>
                 {candidatures &&
-                    <TableContainer component={Paper}>
-                        <Table aria-label="collapsible table">
-                            <TableHead>
+                    <TableContainer className={classes.root}>
+                        <h4 className='mb-3 sticky-top' align='left' >Évaluation à effectuer </h4>
+                        <Table className="table" >
+                            <TableHead className={classes.heading}>
                                 <TableRow>
-                                    <TableCell align="left" className='mr-10'>Détails</TableCell>
-                                    <TableCell >Étudiant </TableCell>
-                                    <TableCell >Stage</TableCell>
-                                    <TableCell >
+                                    <TableCell className={classes.textTitle}>Étudiant</TableCell>
+                                    <TableCell className={classes.textTitle}>Programme</TableCell>
+                                    <TableCell className={classes.textTitle}>Stage</TableCell>
+                                    <TableCell className={classes.textTitle}>Date début</TableCell>
+                                    <TableCell className={classes.textTitle}>Date fin</TableCell>
+                                    <TableCell className={classes.textTitle}>
                                         Évaluer
                                 </TableCell>
                                 </TableRow>
@@ -88,7 +85,7 @@ export default function EvaluationsAFaire(props) {
                         </Table>
                     </TableContainer>
                 }
-            </Paper>
+            </div>
         )
     }
 };
@@ -99,8 +96,7 @@ function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
     const [candidature, setCandidature] = useState(null);
-    const [isCandidatureValide, setIsCandidatureValide] = useState(false);
-    const classes = useRowStyles();
+    const classes = useStyles();
     const [redirect, setRedirect] = useState(false);
 
 
@@ -115,79 +111,18 @@ function Row(props) {
     return (
 
         <React.Fragment>
-            <TableRow className={classes.root}>
-                <TableCell>
-                    <IconButton align="right" aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
-                </TableCell>
-                <TableCell >{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
-                <TableCell >{row.stage.titre}</TableCell>
-                <TableCell ><button className="btn btn-primary" onClick={() => handleSelectCandidature(row)}>Commencer l'évaluation</button></TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box margin={1} >
-
-
-                            {/* Etudiant */}
-
-                            <Typography variant="h6" gutterBottom component="div" className="pt-3 text-info">
-                                Étudiant(e)
-                </Typography>
-                            <Table size="small" aria-label="purchases">
-                                <TableHead>
-                                    <TableRow className="border-bottom-0">
-                                        <TableCell>Programme</TableCell>
-                                        <TableCell>Email</TableCell>
-                                        <TableCell>Matricule</TableCell>
-                                        <TableCell>Adresse</TableCell>
-                                        <TableCell align="right">Téléphone</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow >
-                                        <TableCell component="th" scope="row">
-                                            {row.etudiant.programme}
-                                        </TableCell>
-                                        <TableCell>{row.etudiant.email}</TableCell>
-                                        <TableCell>{row.etudiant.matricule}</TableCell>
-                                        <TableCell>{row.etudiant.adresse}</TableCell>
-                                        <TableCell align="right">{row.etudiant.telephone}</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-
-                            {/* Stage */}
-
-                            <Typography variant="h6" gutterBottom component="div" className="pt-3 text-info">
-                                Stage
-                </Typography>
-                            <Table size="small" aria-label="purchases">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Date début</TableCell>
-                                        <TableCell>Date fin</TableCell>
-                                        <TableCell>Ville</TableCell>
-                                        <TableCell>Salaire</TableCell>
-                                        <TableCell>Heures par semaine</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow >
-                                        <TableCell component="th" scope="row">
-                                            {row.stage.dateDebut}
-                                        </TableCell>
-                                        <TableCell>{row.stage.dateFin}</TableCell>
-                                        <TableCell>{row.stage.ville}</TableCell>
-                                        <TableCell>{row.stage.salaire}</TableCell>
-                                        <TableCell>{row.stage.nbHeuresParSemaine}</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </Box>
-                    </Collapse>
+            <TableRow hover className={classes.row}>
+                <TableCell className='align-middle'>{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
+                <TableCell className='align-middle'>{row.etudiant.programme}</TableCell>
+                <TableCell className='align-middle'>{row.stage.titre}</TableCell>
+                <TableCell className='align-middle'>{row.stage.dateDebut}</TableCell>
+                <TableCell className='align-middle'>{row.stage.dateFin}</TableCell>
+                <TableCell className='align-middle'>
+                    <Button className='m-2'
+                        variant="contained"
+                        size="small" color="primary"
+                        onClick={() => handleSelectCandidature(row)} 
+                        style={{ textTransform: 'none' }}>Commencer l'évaluation</Button>
                 </TableCell>
             </TableRow>
         </React.Fragment>
@@ -196,11 +131,12 @@ function Row(props) {
 };
 function AlertAucunContrat(isGestionnaire) {
     return <div className="container">
-      <div className="row justify-content-md-center">
-        <div className="col">
-         <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation à remplir pour le moment</Alert>
+        <h4 className='mb-3 sticky-top' align='left' >Évaluation à effectuer </h4>
+        <div className="row justify-content-md-center">
+            <div className="col">
+                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation à remplir pour le moment</Alert>
+            </div>
         </div>
-      </div>
     </div>;
-  }
+}
 

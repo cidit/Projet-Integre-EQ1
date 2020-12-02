@@ -7,8 +7,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import StageService from '../../service/StageService';
+import StageService from '../../../service/StageService';
 import ListeGenericStage from './ListeGenericStage';
+import ApprobationStage from './ApprobationStage';
+import ListeStageApprouve from './ListeStageApprouve';
+
+import {useHistory, useParams} from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -52,39 +56,43 @@ function TabPanel(props) {
   }));
   
   export default function ScrollableTabsButtonAuto() {
+    
+    let idSession = localStorage.getItem("session");
 
-    const [offreStages, setOffreStages] = useState(null);
-    const getOffreStages = async () => {
-        let idSession = localStorage.getItem("session");
-        const response = await StageService.getStages(idSession);
-        setOffreStages(response.data);
+
+    const [offreStagesApprouve, setOffreStagesApprouve] = useState([]);
+    const getOffreStagesApprouve = async () => {
+        const response = await StageService.getStagesApprouves(idSession);
+        setOffreStagesApprouve(response.data);
     }
 
-    const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState(null);
+    const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState([]);
     const getOffreStagesNonApprouve = async () => {
-        let idSession = localStorage.getItem("session");
         const response = await StageService.getStagesNonApprouves(idSession);
         setOffreStagesNonApprouve(response.data);
     }
 
-    const [offreStagesAucunStagiaires, setOffreStagesAucunStagiaires] = useState(null);
-    const getOffreStagesAucunStagiaires = async () => {
-        let idSession = localStorage.getItem("session");
-        const response = await StageService.getStagesAyantAucunStagiaires(idSession);
-        setOffreStagesAucunStagiaires(response.data);
+
+    const [offreStagesNonCombles, setOffreStagesNonCombles] = useState([]);
+    const getOffreStagesNonCombles = async () => {
+        const response = await StageService.getStagesNonCombles(idSession);
+        setOffreStagesNonCombles(response.data);
     }
 
     useEffect(() => {
-      getOffreStages();
+      getOffreStagesApprouve();
       getOffreStagesNonApprouve();
-      getOffreStagesAucunStagiaires();
+      getOffreStagesNonCombles();
     },[])
 
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const history = useHistory();
+    const params = useParams();
+    const [value, setValue] = React.useState(parseInt(params.tab));
   
     const handleChange = (event, newValue) => {
       setValue(newValue);
+      history.push("/rapportStage/" + newValue)
     };
   
     return (
@@ -99,28 +107,19 @@ function TabPanel(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="Stages" {...a11yProps(0)} />
+            <Tab label="Stages approuvés" {...a11yProps(0)} />
             <Tab label="Stages non approuvés" {...a11yProps(1)} />
             <Tab label="Stages non comblés" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <div>{offreStages != null &&
-              <ListeGenericStage stages={offreStages} />
-          }
-          </div>
+          <ListeStageApprouve stages={offreStagesApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div>{offreStagesNonApprouve != null &&
-              <ListeGenericStage stages={offreStagesNonApprouve} />
-          }
-          </div>
+          <ApprobationStage stages={offreStagesNonApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <div>{offreStagesAucunStagiaires != null &&
-              <ListeGenericStage stages={offreStagesAucunStagiaires} />
-          }
-          </div>
+          <ListeGenericStage stages={offreStagesNonCombles}/>
         </TabPanel>
       </div>
     );

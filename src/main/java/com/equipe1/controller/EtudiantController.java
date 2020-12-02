@@ -85,11 +85,6 @@ public class EtudiantController {
         return etudiantService.getEtudiantsCVNonApprouve(idSession);
     }
 
-    @GetMapping("/getAllAyantEntrevue")
-    public List<Etudiant> getEtudiantsAyantEntrevue(@RequestParam("idSession") Long idSession){
-        return etudiantService.getEtudiantsAyantEntrevue(idSession);
-    }
-
     @GetMapping("/getAllbyEnseignant/{idEnseignant}")
     public List<Etudiant> getEtudiantsbyEnseignant(@PathVariable Long idEnseignant){
         return etudiantService.getEtudaintsByEnseignant(idEnseignant);
@@ -104,5 +99,10 @@ public class EtudiantController {
     @PutMapping("setEnseignant/{idEtudiant}/{idEnseigant}")
     public Etudiant setEnseignant( @PathVariable Long idEtudiant, @PathVariable Long idEnseigant){
         return etudiantService.setEnseignant(idEtudiant,idEnseigant);
+    }
+
+    @PutMapping("enleverEnseignant/{idEtudiant}/{idEnseigant}")
+    public Etudiant enleverEnseignant( @PathVariable Long idEtudiant, @PathVariable Long idEnseigant){
+        return etudiantService.enleverEnseignant(idEtudiant,idEnseigant);
     }
 }
