@@ -27,7 +27,7 @@ function NotLoggedInNav() {
 function GestionnaireNav(props) {
     return (
         <Nav className="container-fluid">
-            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/">Accueil</Nav.Link>
             <Nav.Link href="/profilGestionnaire">Votre profil</Nav.Link>
             <Nav.Link href="/rapportEnseignant">Enseignants</Nav.Link>
             <Nav.Link href="/rapportEtudiant">Étudiants</Nav.Link>
@@ -43,7 +43,7 @@ function EmployeurNav(props) {
 
     return (
         <Nav className="container-fluid">
-            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/">Accueil</Nav.Link>
             <Nav.Link href="/profilEmployeur">Votre profil</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
             <Nav.Link href="/rapportStageEmployeur">Voir toutes les offres de stage</Nav.Link>
@@ -58,7 +58,7 @@ function EmployeurNav(props) {
 function EtudiantNav(props) {
     return (
         <Nav className="container-fluid">
-            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/">Accueil</Nav.Link>
             <Nav.Link href="/profilEtudiant">Votre profil</Nav.Link>
             <Nav.Link href="/offrestage">Offres de stage</Nav.Link>
             <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
@@ -74,7 +74,7 @@ function EnseignantNav() {
 
     return (
         <Nav className="container-fluid">
-            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/">Accueil</Nav.Link>
             <Nav.Link href="/profilEnseignant">Votre profil</Nav.Link>
             <Nav.Link href="/etudiantsEnCharge">Étudiants en charge</Nav.Link>
             <Nav.Link href="/evaluationMilieuStageHome">Évaluations milieu de stage</Nav.Link>
