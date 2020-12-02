@@ -14,6 +14,8 @@ import {
     Checkbox, Button
 } from "@material-ui/core";
 
+import {useHistory} from 'react-router-dom';
+
 export default class SelectionnerStagiaireComponent extends Component {
     constructor(props) {
         super(props);
@@ -43,7 +45,7 @@ export default class SelectionnerStagiaireComponent extends Component {
                 <h5 className="card-title text-center">Liste des candidats</h5>
                 <CustomTable
                     candidatures={this.state.candidatures}
-                    alreadySelect={this.state.candidatures.filter(c => c.statut.includes("APPROUVE")).map((c) => c.id)}
+                    alreadySelect={this.state.candidatures.filter(c => c.statut.includes("APPROUVE")).map((c) => c)}
                 />
             </div>
         );
@@ -77,35 +79,71 @@ function CustomTable(props) {
     // TODO: Ne pas afficher les etudiants deja choisis
     const classes = useStyles();
     const [selected, setSelected] = React.useState([]);
+    
+    const [selectedObj, setSelectedObj] = React.useState([]);
 
-    const isSelected = (id) => selected.indexOf(id) !== -1;
+    const history = useHistory();
+
+    const [flag, setFlag] = React.useState(true);
+    const isSelected = (id) => {
+        const selectedIndex = selected.indexOf(id);
+        let newSelected = [];
+        let newSelectedObj = [];
+        if (props.alreadySelect.length !== []) {  
+            for (let i = 0; i < props.alreadySelect.length; i++) {
+                if (props.alreadySelect[i].id === id && selectedIndex === -1 && flag){
+                    newSelected = newSelected.concat(selected, props.alreadySelect[i].id);
+                    newSelectedObj = newSelectedObj.concat(selectedObj, props.alreadySelect[i]);
+                    setSelected(newSelected);
+                    setSelectedObj(newSelectedObj);
+                    return selectedIndex !== -1;
+                }
+            }
+        }
+        return selectedIndex !== -1;
+    }
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
             const newSelecteds = props.candidatures.map((c) => c.id);
             setSelected(newSelecteds);
+            const newSelectedsObj = props.candidatures.map((c) => c.id);
+            setSelectedObj(newSelectedsObj);
             return;
         }
+        setFlag(false);
         setSelected([]);
     };
 
-    const handleClickSelect = (event, candidature) => {
-        const selectedIndex = selected.indexOf(candidature);
+   const handleClickSelect = (candidature) => {
+        const selectedIndex = selected.indexOf(candidature.id);
         let newSelected = [];
-
+        let newSelectedObj = [];
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, candidature);
+            newSelected = newSelected.concat(selected, candidature.id);
+            newSelectedObj = newSelectedObj.concat(selectedObj, candidature);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
+            newSelectedObj = newSelectedObj.concat(selectedObj.slice(1));
+            setFlag(false);
         } else if (selectedIndex === selected.length - 1) {
             newSelected = newSelected.concat(selected.slice(0, -1));
+            newSelectedObj = newSelectedObj.concat(selectedObj.slice(0, -1));
+            setFlag(false);
         } else if (selectedIndex > 0) {
             newSelected = newSelected.concat(
                 selected.slice(0, selectedIndex),
                 selected.slice(selectedIndex + 1),
             );
+            newSelectedObj = newSelectedObj.concat(
+                selectedObj.slice(0, selectedIndex),
+                selectedObj.slice(selectedIndex + 1),
+            );
+            setFlag(false);
         }
+
         setSelected(newSelected);
+        setSelectedObj(newSelectedObj);
     };
 
     function handleConfirmation(event) {
@@ -117,6 +155,7 @@ function CustomTable(props) {
             CandidatureService.putCandidatureApprouve(selected[i]);
         }
         setTimeout(function () {
+            history.push("/rapportStageEmployeur/0");
             window.location.reload();
         }, 500);
     }
@@ -166,7 +205,7 @@ function CustomTable(props) {
                                         <TableRow
                                             key={candidature.id}
                                             hover
-                                            onClick={(event) => handleClickSelect(event, candidature.id)}
+                                            onClick={(event) => handleClickSelect(candidature)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
