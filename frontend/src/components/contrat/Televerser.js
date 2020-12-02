@@ -14,7 +14,7 @@ import ContratService from '../../service/ContratService';
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
-            margin: theme.spacing(1),
+            margin: theme.spacing(0),
         },
     },
     input: {
@@ -79,7 +79,7 @@ function Televerser() {
         }
     }, [])
 
-    if(isLoading){
+    if (isLoading) {
         return <CircularProgress disableShrink />;
     }
 
@@ -94,65 +94,66 @@ function Televerser() {
                     disabled={isButtonDisable}
                 />
 
-                <div className="row">
-                    <label htmlFor="contained-button-file">
-                        <Button variant="contained" color="primary" component="span" disabled={isButtonDisable}>
-                            Selectionner un fichier
-                        </Button>
-                    </label>
-                    <input accept="image/*" className={classes.input} id="icon-button-file" type="file" disabled={isButtonDisable} />
-                    <label htmlFor="icon-button-file">
-                        <IconButton color="primary" aria-label="upload picture" component="span" disabled={isButtonDisable}>
-                            <PublishIcon />
-                        </IconButton>
-                    </label>
-                </div>
-
+                {!isButtonDisable &&
+                    <div className="row">
+                        <label htmlFor="contained-button-file">
+                            <Button variant="contained" 
+                            color="primary" 
+                            component="span" 
+                            disabled={isButtonDisable}
+                            startIcon={<PublishIcon />}>
+                                Selectionner un fichier
+                            </Button>
+                        </label>
+                        <input accept="image/*" className={classes.input} id="icon-button-file" type="file" disabled={isButtonDisable} />
+                    
+                    </div>
+                }
 
                 {file.name &&
-                <>
-                    <div className="row">
-                        <div className="col">
-                            <Alert severity="success" > {file.name}</Alert>
+                    <>
+                        <div className="row">
+                            <div className="col">
+                                <Alert severity="success" > {file.name}</Alert>
+                            </div>
+                            <div className="col">
+                                <IconButton color="primary" aria-label="upload picture" component="span" onClick={deleteFile}>
+                                    <HighlightOffIcon style={{ color: "red" }} />
+                                </IconButton>
+                            </div>
                         </div>
-                        <div className="col">
-                            <IconButton color="primary" aria-label="upload picture" component="span" onClick={deleteFile}>
-                                <HighlightOffIcon style={{ color: "red" }} />
-                            </IconButton>
-                        </div>
-                    </div>
-                    <div className="row">
+                        <div className="row">
 
-                        <div className="col">
-                            <Button variant="contained" color="primary" component="span" className="mt-4"
+                            <div className="col">
+                                <Button variant="contained" color="primary" component="span" className="mt-2"
                                     onClick={saveContrat}
                                     disabled={isSubmit}
-                            >
-                                Confirmer et envoyer à l'employeur
+                                >
+                                    Confirmer et envoyer à l'employeur
                             </Button>
+                            </div>
                         </div>
-                    </div>
-                </>
+                    </>
                 }
             </div>
 
             {displayInvalidFileMessage &&
-            AlertFormatInvalide("Seuls les fichiers en format pdf sont acceptés", "warning")
+                AlertFormatInvalide("Seuls les fichiers en format pdf sont acceptés", "warning")
             }
 
             {messageResponse &&
                 <ModalMessage
                     message={messageResponse + " Le contrat a été envoyé au employeur, vous pouvez passer au contrat suivant"}
-                    redirect="/listCandidatureChoisi"
+                    redirect="/rapportContrat/0"
                     title="Le contrat existe déjà" />
                 // AlertFormatInvalide(messageResponse, "info")
             }
 
             {candidatureHasContrat &&
-            <ModalMessage
-                message={"un contrat a déjà été créé pour ce stage, si vous souhaitez le supprimer veuillez consulter la liste de tous les contrats"}
-                redirect="/"
-                title="Le contrat existe déjà" />
+                <ModalMessage
+                    message={"un contrat a déjà été créé pour ce stage, si vous souhaitez le supprimer veuillez consulter la liste de tous les contrats"}
+                    redirect="/"
+                    title="Le contrat existe déjà" />
             }
         </div>
     )

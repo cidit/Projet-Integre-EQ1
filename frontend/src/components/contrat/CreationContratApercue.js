@@ -87,17 +87,19 @@ export default function CreationContratApercue() {
     setIsLoading(false)
   };
 
-  const candidatureHasContratFunction = async () => {
-    const response = await ContratService.candidatureHasContrat(params.id);
-    setCandidatureHasContrat(response.data);
-  }
+ 
 
   useEffect(() => {
+    const candidatureHasContratFunction = async () => {
+      const response = await ContratService.candidatureHasContrat(params.id);
+      setCandidatureHasContrat(response.data);
+    }
+
     candidatureHasContratFunction();
     return () => {
       URL.revokeObjectURL(imageContrat)
     }
-  }, [])
+  }, [imageContrat,params.id])
 
   const handleClickOpen = () => {
     getApercueContrat();
@@ -136,9 +138,8 @@ export default function CreationContratApercue() {
 
         <ModalMessage
           message={messageResponse + " Le contrat a été envoyé au employeur, vous pouvez passer au contrat suivant"}
-          redirect="/listCandidatureChoisi"
+          redirect="/rapportContrat/0"
           title="Le contrat existe déjà" />
-        // AlertFormatInvalide(messageResponse, "info")
       }
 
 

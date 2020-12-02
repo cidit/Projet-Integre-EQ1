@@ -169,10 +169,10 @@ export default function ProfileHome() {
 
                 <Grid container justify="center" >
                     <Button variant="contained" color="primary" className='m-3' disabled={isRegistered} onClick={enregisterSession}>
-                        {isRegistered ? "Vous etes enregistrer à la session" : "S'enregistrer pour la session"}
+                        {isRegistered ? "Vous êtes enregistré à la session" : "S'enregistrer pour la session"}
                     </Button>
                 </Grid>
-                <p hidden={isRegistered} className="text-center alert alert-warning mt-3" role="alert"> Vous n'etes pas enregister pour la session actuelle. Veuillez vous enregistrer afin de continuer.</p>
+                <p hidden={isRegistered} className="text-center alert alert-warning mt-3" role="alert"> Vous n'êtes pas enregisté pour la session actuelle. Veuillez vous enregistrer afin de continuer.</p>
             </Paper>
       </TabPanel>
       <TabPanel value={value} index={1}>

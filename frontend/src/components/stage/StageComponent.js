@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import Button from 'react-bootstrap/Button'
-import MuiAlert from '@material-ui/lab/Alert';
+import {Button} from '@material-ui/core';
 import StageService from "../../service/StageService";
 import '../../css/StageVeto.css';
-import axios from "axios";
 import Box from "@material-ui/core/Box";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -12,6 +10,7 @@ import StageInfo from "./StageInfoComponent";
 import SelectionnerStagiaireComponent from "../employeur/SelectionnerStagiaireComponent";
 import SelectionnerEtudiantComponent from "../gestionnaire/SelectionnerEtudiantComponent";
 import CandidatureService from '../../service/CandidatureService';
+import {useHistory, useParams} from 'react-router-dom';
 
 export default class StageComponent extends Component {
     constructor(props) {
@@ -64,6 +63,8 @@ export function Veto(props){
     const approved = "APPROUVÉ";
     const denied = "REFUSÉ";
 
+    const history = useHistory();
+
     function toggleBtns(isApprouved) {
         document.getElementsByName(approved)[0].disabled = isApprouved
         document.getElementsByName(denied)[0].disabled = !isApprouved
@@ -72,11 +73,13 @@ export function Veto(props){
     async function handleClickStatut(event) {
         event.preventDefault();
 
-        props.stage.statut = event.target.name;
-        props.stage.ouvert = event.target.name === approved;
-        toggleBtns(event.target.name === approved);
-        await StageService.updateStage(props.stage, parseInt(event.target.value));
-        window.location.reload()
+        props.stage.statut = event.currentTarget.name;
+        props.stage.ouvert = event.currentTarget.name === approved;
+        toggleBtns(event.currentTarget.name === approved);
+        await StageService.updateStage(props.stage, parseInt(event.currentTarget.value));
+
+        history.push("/rapportStage/1");
+        window.location.reload();
     }
 
     return (
@@ -92,24 +95,20 @@ export function Veto(props){
                 </ul>
             </div>
             <Button
-                type="button"
-                className="btnVeto"
+                className='m-2' variant="contained" size="small" color="primary"
                 name={approved}
                 disabled={props.stage.statut === approved}
                 value={props.stage.id}
                 onClick={handleClickStatut}
-                variant="success"
             >
                 Approuver
             </Button>
             <Button
-                type="button"
-                className="btnVeto"
+                className='m-2' variant="contained" size="small" color="primary"
                 name={denied}
                 disabled={props.stage.statut === denied}
                 value={props.stage.id}
                 onClick={handleClickStatut}
-                variant="danger"
             >
                 Refuser
             </Button>
@@ -119,19 +118,27 @@ export function Veto(props){
 
 
 function MyTabs(props) {
+    /*
     const [value, setValue] = React.useState(0);
     // const [value, setValue] = React.useState(props.tab);
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    */
+    const history = useHistory();
+    const params = useParams();
+    const [value, setValue] = React.useState(parseInt(params.tab));
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        history.push("/stage/" + props.stage.id + "/" + newValue)
+    };
 
     const roles = [
-        {gestionnaire: true, employeur: true},
-        {gestionnaire: true, employeur: false},
-        {gestionnaire: true, employeur: false},
-        {gestionnaire: true, employeur: true},
-        {gestionnaire: true, employeur: false},
+        {stageApprouve: true, stageVeto: true, employeur: true},
+        {stageApprouve: false, stageVeto: true, employeur: false},
+        {stageApprouve: true, stageVeto: false, employeur: false},
+        {stageApprouve: false, stageVeto: false, employeur: true},
     ];
 
     const tags = [
@@ -139,22 +146,32 @@ function MyTabs(props) {
         {label: "Veto",  disabled: false},
         {label: "Assigner étudiants",  disabled: false},
         {label: "Choix des stagiaires",  disabled: props.candidatures.length === 0},
-        {label: "Evaluation",  disabled: false},
     ];
     const panels =[
-        {component: <StageInfo stage={props.stage} employeur={props.employeur} />},
+        {component: <StageInfo stage={props.stage} employeur={props.employeur}/>},
         {component: <Veto stage={props.stage}/>},
         {component: <SelectionnerEtudiantComponent stage={props.stage}/>},
         {component: <SelectionnerStagiaireComponent id={props.stage.id}/>},
-        {component: <p>TODO</p>},
     ];
 
     let usedTags=[];
     let usedPanels=[];
 
+    let useCase = "";
+    if (window.localStorage.getItem("desc").toLowerCase() === "gestionnaire") {
+        if (props.stage.statut === "APPROUVÉ") {
+            useCase = "stageApprouve";
+        }
+        else{
+            useCase = "stageVeto";
+        }
+    }
+    else if (window.localStorage.getItem("desc").toLowerCase() === "employeur") {
+        useCase = "employeur";
+    }
 
     for (let i = 0; i < roles.length; i++){
-        if(roles[i][window.localStorage.getItem("desc").toLowerCase()]){
+        if(roles[i][useCase]){
             tags[i].id = usedTags.length;
             panels[i].id = usedPanels.length;
             usedTags.push(tags[i]);

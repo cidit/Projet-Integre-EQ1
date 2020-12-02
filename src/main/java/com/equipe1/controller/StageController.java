@@ -84,4 +84,14 @@ public class StageController {
     public List<Stage> getAllStagesNonApprouves(@RequestParam("idSession") Long idSession){
         return stageService.getStagesNonApprouves(idSession);
     }
+
+    @GetMapping("/stagesApprouvesByEmployeurId/{idEmployeur}")
+    public List<Stage> getStagesApprouvesByEmployeurId(@PathVariable("idEmployeur") Long idEmployeur, @RequestParam("idSession") Long idSession){
+        return stageService.getStagesApprouvesByEmployeur(idEmployeur, idSession);
+    }
+
+    @GetMapping("/stagesNonApprouvesByEmployeurId/{idEmployeur}")
+    public List<Stage> getStagesNonApprouvesByEmployeurId(@PathVariable("idEmployeur") Long idEmployeur, @RequestParam("idSession") Long idSession){
+        return stageService.getStagesNonApprouvesByEmployeur(idEmployeur, idSession);
+    }
 }

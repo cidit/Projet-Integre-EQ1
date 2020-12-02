@@ -5,8 +5,7 @@ import {
 import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
-import EnseignantService from '../../service/EnseignantService';
-
+import EnseignantService from '../../../service/EnseignantService';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(14),
         fontWeight: theme.typography.fontWeightRegular,
         textAlign: 'center',
-
     },
     heading: {
         margin:'auto',
@@ -35,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ListEnseignants() {
+export default function RapportEnseignantComponent() {
     const [enseignants, setEnseignants] = useState([])
     const classes = useStyles();
 
@@ -54,7 +52,7 @@ export default function ListEnseignants() {
 
     if (enseignants.length === 0) {
         return (
-            AlertAucunContrat(true)
+            AlertAucunEnseignant(true)
         )
     } else {
         return (
@@ -63,17 +61,14 @@ export default function ListEnseignants() {
                     <>
                         <TableContainer  className={classes.root}>
                             <h4  className='m-2 sticky-top' >List enseignants </h4>
-
                             <Table className="table "  >
                                 <TableHead className={classes.heading} >
-                                    <TableRow >
-                                        <TableCell className={classes.textTitle} >Nom de l'enseignant</TableCell>
-                                        <TableCell className={classes.textTitle} >Programme</TableCell>
-                                        <TableCell className={classes.textTitle} >Courriel</TableCell>
-                                        <TableCell className={classes.textTitle} >Téléphone</TableCell>
+                                    <TableRow>
+                                        <TableCell className={classes.textTitle}>Nom de l'enseignant</TableCell>
+                                        <TableCell className={classes.textTitle}>Programme</TableCell>
+                                        <TableCell className={classes.textTitle}>Courriel</TableCell>
+                                        <TableCell className={classes.textTitle}>Téléphone</TableCell>
                                         <TableCell className={classes.textTitle}>Assignation étudiants</TableCell>
-                                       
-
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -90,13 +85,15 @@ export default function ListEnseignants() {
     }
 };
 
-
 function Row(props) {
     const { row } = props;
     const history = useHistory();
     const classes = useStyles();
 
-    const handleClickRow = (_row) => {
+    const handleClickAssingner = (_row) => {
+        history.push("etudiantsAuEnseignant/" + _row.nom + "/" + _row.prenom + "/" + _row.id + "/" + _row.programme);
+    }
+    const handleClickDesAssigner = (_row) => {
         history.push("etudiantsAuEnseignant/" + _row.nom + "/" + _row.prenom + "/" + _row.id + "/" + _row.programme);
     }
 
@@ -104,26 +101,22 @@ function Row(props) {
         <React.Fragment>
             <TableRow hover  className={classes.row}>
                 <TableCell className='align-middle'>{row.prenom} {row.nom}</TableCell>
-                <TableCell  className='align-middle'>{row.programme}</TableCell>
+                <TableCell className='align-middle'>{row.programme}</TableCell>
                 <TableCell className='align-middle'>{row.email}</TableCell>
                 <TableCell className='align-middle'>{row.telephone}</TableCell>
-
                 <TableCell>
-                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickRow(row)} style={{ textTransform: 'none' }}>
+                    <Button className='m-2' variant="contained" size="small" color="primary" onClick={() => handleClickAssingner(row)} style={{ textTransform: 'none' }}>
                         Assigner étudiants
                     </Button>
-             
-                    <Button variant="outlined" size="small" color="primary" style={{ textTransform: 'none' }} >
+                    <Button variant="outlined" size="small" color="primary"  onClick={() => handleClickDesAssigner(row)} style={{ textTransform: 'none' }} >
                         Voir étudiants assigneés
                     </Button>
                 </TableCell>
             </TableRow>
-
         </React.Fragment>
     );
-
 };
-function AlertAucunContrat() {
+function AlertAucunEnseignant() {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">

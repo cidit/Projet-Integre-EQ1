@@ -7,9 +7,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import EtudiantService from '../../../service/EtudiantService';
-import ListeGenericEtudiant from './ListeGenericEtudiant';
-import ApprobationEtudiantsCV from './ApprobationEtudiantsCV';
+import StageService from '../../../service/StageService';
+import ListeGenericStage from './ListeGenericStage';
+import ApprobationStage from './ApprobationStage';
+import ListeStageApprouve from './ListeStageApprouve';
+
+import {useHistory, useParams} from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -53,45 +56,41 @@ function TabPanel(props) {
   }));
   
   export default function ScrollableTabsButtonAuto() {
-
+    
     var idSession = localStorage.getItem("session");
 
-    const [etudiantsCVNonApprouve, setEtudiantsCVNonApprouve] = useState([])
-    const getEtudiantsCVNonApprouve = async () => {
-        const response = await EtudiantService.getEtudiantsCVNonApprouve(idSession);
-        setEtudiantsCVNonApprouve(response.data);
+    const [offreStagesApprouve, setOffreStagesApprouve] = useState([]);
+    const getOffreStagesApprouve = async () => {
+        const response = await StageService.getStagesApprouves(idSession);
+        setOffreStagesApprouve(response.data);
     }
 
-    const [etudiantsInscrits, setEtudiantsInscrits] = useState([]);
-    const getEtudiantsInscrits = async () => {
-        const response = await EtudiantService.getEtudiants(idSession);
-        setEtudiantsInscrits(response.data);
+    const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState([]);
+    const getOffreStagesNonApprouve = async () => {
+        const response = await StageService.getStagesNonApprouves(idSession);
+        setOffreStagesNonApprouve(response.data);
     }
 
-    const [etudiantsSansCV, setEtudiantsSansCV] = useState([]);
-    const getEtudiantsSansCV = async () => {
-        const response = await EtudiantService.getEtudiantsAucunCV(idSession);
-        setEtudiantsSansCV(response.data);
-    }
-
-    const [etudiantsSansStage, setEtudiantsSansStage] = useState([]);
-    const getEtudiantsSansStage = async () => {
-        const response = await EtudiantService.getEtudiantsSansStage(idSession);
-        setEtudiantsSansStage(response.data);
+    const [offreStagesNonCombles, setOffreStagesNonCombles] = useState([]);
+    const getOffreStagesNonCombles = async () => {
+        const response = await StageService.getStagesNonCombles(idSession);
+        setOffreStagesNonCombles(response.data);
     }
 
     useEffect(() => {
-      getEtudiantsCVNonApprouve();
-      getEtudiantsInscrits();
-      getEtudiantsSansCV();
-      getEtudiantsSansStage();
+      getOffreStagesApprouve();
+      getOffreStagesNonApprouve();
+      getOffreStagesNonCombles();
     },[])
 
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const history = useHistory();
+    const params = useParams();
+    const [value, setValue] = React.useState(parseInt(params.tab));
   
     const handleChange = (event, newValue) => {
       setValue(newValue);
+      history.push("/rapportStage/" + newValue)
     };
   
     return (
@@ -106,23 +105,19 @@ function TabPanel(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="Étudiants CV non approuvé" {...a11yProps(0)} />
-            <Tab label="Étudiants inscrits" {...a11yProps(1)} />
-            <Tab label="Étudiants sans CV" {...a11yProps(2)} />
-            <Tab label="Étudiants sans stage" {...a11yProps(3)} />
+            <Tab label="Stages approuvés" {...a11yProps(0)} />
+            <Tab label="Stages non approuvés" {...a11yProps(1)} />
+            <Tab label="Stages non comblés" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <ApprobationEtudiantsCV etudiants={etudiantsCVNonApprouve}/>
+          <ListeStageApprouve stages={offreStagesApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ListeGenericEtudiant etudiants={etudiantsInscrits}/>
+          <ApprobationStage stages={offreStagesNonApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <ListeGenericEtudiant etudiants={etudiantsSansCV}/>
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-            <ListeGenericEtudiant etudiants={etudiantsSansStage}/>
+          <ListeGenericStage stages={offreStagesNonCombles}/>
         </TabPanel>
       </div>
     );

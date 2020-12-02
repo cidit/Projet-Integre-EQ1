@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
         verticalAlign: 'middle'
     }
 }));
+
 export default function ListEtudiantsEnCharge(props) {
     const [candidatures, setCandidatures] = useState([])
     const classes = useStyles();
@@ -108,7 +109,6 @@ function Row(props) {
     const { row } = props;
     const classes = useStyles();
 
-
     return (
         <React.Fragment>
             <TableRow hover className={classes.row} className='align-middle'>
@@ -128,8 +128,8 @@ function Row(props) {
             </TableRow>
         </React.Fragment>
     );
-
 };
+
 function AlertAucunContrat() {
     return <div className="container">
         <div className="row justify-content-md-center">

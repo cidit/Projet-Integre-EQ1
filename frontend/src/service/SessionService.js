@@ -5,16 +5,20 @@ const BASE_URL = "http://localhost:8080/sessions/"
 class SessionService {
 
     createSession(session) {
-        return axios.post(BASE_URL + "createSession", session)
+        return axios.post(BASE_URL + "createSession", session);
     }
 
     isSessionSelectionneeEnCours(idSession){
-        return axios.get(BASE_URL + "isSessionSelectionneeEnCours/" +  idSession)
+        return axios.get(BASE_URL + "isSessionSelectionneeEnCours/" +  idSession);
 
     }
 
+    getSessionById(id){
+        return axios.get(BASE_URL + "findById/"+id);
+    }
+
     getAllSessions(){
-        return axios.get(BASE_URL + "findAll")
+        return axios.get(BASE_URL + "findAll");
     }
     async storeSessionParDefaut(){
         axios.get(BASE_URL + "getSessionEnCours").then(res => window.localStorage.setItem("session", res.data.id));
@@ -25,7 +29,6 @@ class SessionService {
         await window.localStorage.removeItem("nomSession");
         await window.localStorage.setItem("session", id);
         await window.localStorage.setItem("nomSession", nom);
-
     }
 
 

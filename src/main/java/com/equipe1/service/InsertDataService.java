@@ -48,9 +48,6 @@ public class InsertDataService {
     GenerateurPdfService generateurPdfService;
 
     @Autowired
-    private SessionService sessionService;
-
-    @Autowired
     private EvaluationStagiaireService evaluationStagiaireService;
 
     @Autowired
@@ -59,9 +56,6 @@ public class InsertDataService {
 
     @Autowired
     private EnseignantRepository enseignantRepository;
-
-    private Session sessionActuelle;
-
 
     private List<Session> sessionList;
 
@@ -76,15 +70,21 @@ public class InsertDataService {
         sessionList = new ArrayList<>();
         Session session;
 
-        session = Session.builder().nom("ETE-2020").isCurrent(false).build();
+        session = Session.builder().nom("ETE-2020").isCurrent(false)
+                .dateDebut(LocalDate.of(2020, 6, 1))
+                .dateFin(LocalDate.of(2020, 8, 31)).build();
         sessionRepository.save(session);
         sessionList.add(session);
 
-        session = Session.builder().nom("AUT-2020").isCurrent(false).build();
+        session = Session.builder().nom("AUT-2020").isCurrent(false)
+                .dateDebut(LocalDate.of(2020, 9, 1))
+                .dateFin(LocalDate.of(2020, 12, 31)).build();
         sessionRepository.save(session);
         sessionList.add(session);
 
-        session = Session.builder().nom("HIV-2021").isCurrent(true).build();
+        session = Session.builder().nom("HIV-2021").isCurrent(true)
+                .dateDebut(LocalDate.of(2021, 1, 1))
+                .dateFin(LocalDate.of(2021, 5, 31)).build();
         sessionRepository.save(session);
         sessionList.add(session);
     }

@@ -25,7 +25,4 @@ public class EvaluationMilieuStage extends Evaluation {
     @OneToOne
     private Etudiant etudiant;
 
-
-
-
 }

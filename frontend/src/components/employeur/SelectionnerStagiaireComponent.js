@@ -1,11 +1,20 @@
 import React, {Component} from "react";
 import CandidatureService from "../../service/CandidatureService";
 import CVService from "../../service/CVService";
-import {Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import {makeStyles} from "@material-ui/core/styles";
+import {
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableBody,
+    Paper,
+    Table,
+    TableRow,
+    Checkbox, Button
+} from "@material-ui/core";
 
-
+import {useHistory} from 'react-router-dom';
 
 export default class SelectionnerStagiaireComponent extends Component {
     constructor(props) {
@@ -13,17 +22,12 @@ export default class SelectionnerStagiaireComponent extends Component {
 
         this.state = {candidatures: []};
         this.accepteCandidature = this.accepteCandidature.bind(this);
-        this.convoqueEtudiantEntrevue = this.convoqueEtudiantEntrevue.bind(this);
     }
 
-
     async componentDidMount() {
-        // const { data: candidatures } = await CandidatureService.getByStage(this.props.match.params.id);
         const {data: candidatures} = await CandidatureService.getByStage(this.props.id);
 
         this.setState({candidatures});
-        // const { data: candidatures } = await CandidatureService.getByStage(15);
-        // this.setState({ candidatures });
     }
 
     accepteCandidature(candidature) {
@@ -34,25 +38,6 @@ export default class SelectionnerStagiaireComponent extends Component {
         }, 500);
     }
 
-
-    convoqueEtudiantEntrevue(candidature) {
-        CandidatureService.convoqueEtudiantEntrevue(candidature.id);
-        this.setState({});
-    }
-
-
-    // downloadCV (etudiant) {
-    //     CVService.getCVByEtudiant(etudiant).then((data) => {
-    //         const downloadUrl = window.URL.createObjectURL(new Blob([data]));
-    //         const link = document.createElement('a');
-    //         link.href = downloadUrl;
-    //         link.setAttribute('download', "CV_" + etudiant.prenom + "_" + etudiant.nom + ".pdf");
-    //         document.body.appendChild(link);
-    //         link.click();
-    //     });
-    // }
-
-
     render() {
 
         return (
@@ -60,9 +45,8 @@ export default class SelectionnerStagiaireComponent extends Component {
                 <h5 className="card-title text-center">Liste des candidats</h5>
                 <CustomTable
                     candidatures={this.state.candidatures}
-                    alreadySelect={this.state.candidatures.filter(c => c.statut.includes("APPROUVE")).map((c) => c.id)}
+                    alreadySelect={this.state.candidatures.filter(c => c.statut.includes("APPROUVE")).map((c) => c)}
                 />
-
             </div>
         );
     }
@@ -70,14 +54,24 @@ export default class SelectionnerStagiaireComponent extends Component {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-        color: "#000000"
+        marginTop: '3',
+        width: '70%',
+        backgroundColor: '#E9E9E9',
+        fontWeight: 'bold'
     },
-    table: {
-        color: "#ffffff",
-        // backgroundColor: "#000000"
+    paper: {
+        padding: theme.spacing(0),
+        margin: 'auto',
+        maxWidth: '50%',
+    },
+    heading: {
+        fontSize: theme.typography.pxToRem(10),
+        fontWeight: theme.typography.fontWeightRegular,
+    },
+    textTitle: {
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontSize: 15
     }
 }));
 
@@ -85,45 +79,72 @@ function CustomTable(props) {
     // TODO: Ne pas afficher les etudiants deja choisis
     const classes = useStyles();
     const [selected, setSelected] = React.useState([]);
+    
+    const [selectedObj, setSelectedObj] = React.useState([]);
 
-    // const [selected, setSelected] = React.useState(props.candidatures.filter(c => c.statut.includes("APPROUVE")).map((c) => c.id));
-    const isSelected = (id) => selected.indexOf(id) !== -1;
+    const history = useHistory();
+
+    const [flag, setFlag] = React.useState(true);
+    const isSelected = (id) => {
+        const selectedIndex = selected.indexOf(id);
+        let newSelected = [];
+        let newSelectedObj = [];
+        if (props.alreadySelect.length !== []) {  
+            for (let i = 0; i < props.alreadySelect.length; i++) {
+                if (props.alreadySelect[i].id === id && selectedIndex === -1 && flag){
+                    newSelected = newSelected.concat(selected, props.alreadySelect[i].id);
+                    newSelectedObj = newSelectedObj.concat(selectedObj, props.alreadySelect[i]);
+                    setSelected(newSelected);
+                    setSelectedObj(newSelectedObj);
+                    return selectedIndex !== -1;
+                }
+            }
+        }
+        return selectedIndex !== -1;
+    }
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
             const newSelecteds = props.candidatures.map((c) => c.id);
             setSelected(newSelecteds);
+            const newSelectedsObj = props.candidatures.map((c) => c.id);
+            setSelectedObj(newSelectedsObj);
             return;
         }
+        setFlag(false);
         setSelected([]);
     };
 
-    const handleClickSelect = (event, candidature) => {
-        const selectedIndex = selected.indexOf(candidature);
+   const handleClickSelect = (candidature) => {
+        const selectedIndex = selected.indexOf(candidature.id);
         let newSelected = [];
-
+        let newSelectedObj = [];
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, candidature);
+            newSelected = newSelected.concat(selected, candidature.id);
+            newSelectedObj = newSelectedObj.concat(selectedObj, candidature);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
+            newSelectedObj = newSelectedObj.concat(selectedObj.slice(1));
+            setFlag(false);
         } else if (selectedIndex === selected.length - 1) {
             newSelected = newSelected.concat(selected.slice(0, -1));
+            newSelectedObj = newSelectedObj.concat(selectedObj.slice(0, -1));
+            setFlag(false);
         } else if (selectedIndex > 0) {
             newSelected = newSelected.concat(
                 selected.slice(0, selectedIndex),
                 selected.slice(selectedIndex + 1),
             );
+            newSelectedObj = newSelectedObj.concat(
+                selectedObj.slice(0, selectedIndex),
+                selectedObj.slice(selectedIndex + 1),
+            );
+            setFlag(false);
         }
+
         setSelected(newSelected);
+        setSelectedObj(newSelectedObj);
     };
-
-
-    function convoqueEtudiantEntrevue(candidature) {
-        CandidatureService.convoqueEtudiantEntrevue(candidature.id);
-        setTimeout(function () {
-            window.location.reload();
-        }, 500);
-    }
 
     function handleConfirmation(event) {
         event.preventDefault();
@@ -134,6 +155,7 @@ function CustomTable(props) {
             CandidatureService.putCandidatureApprouve(selected[i]);
         }
         setTimeout(function () {
+            history.push("/rapportStageEmployeur/0");
             window.location.reload();
         }, 500);
     }
@@ -150,39 +172,25 @@ function CustomTable(props) {
         });
     }
 
-    function renderColonneEntrevue(candidature) {
-        if (candidature.entrevueStatut === 'CONVOQUE')
-            return <p>Convoqué</p>
-        if (candidature.entrevueStatut === 'PASSEE')
-            return <p>Entrevue passeé </p>
-        return (
-            <div>
-                <button className="btn btn-primary" onClick={() => convoqueEtudiantEntrevue(candidature)}>Convoquer
-                </button>
-            </div>
-        )
-    }
-
     return (
         <>
             <TableContainer component={Paper}>
                 <Table className={classes.table}>
-                    <TableHead>
+                    <TableHead className={classes.textTitle}>
                         <TableRow>
-                            <TableCell padding="checkbox">
+                            <TableCell padding="checkbox" className={classes.textTitle}>
                                 <Checkbox
                                     checked={props.candidatures.length > 0 && selected.length === props.candidatures.length}
                                     onChange={handleSelectAllClick}
                                 />
                             </TableCell>
-                            <TableCell>Prénom</TableCell>
-                            <TableCell>Nom</TableCell>
-                            <TableCell>Programme</TableCell>
-                            <TableCell>CV</TableCell>
-                            <TableCell>Téléphone</TableCell>
-                            <TableCell>Email</TableCell>
-                            <TableCell>Adresse</TableCell>
-                            {/*<TableCell>Convoquer pour entrevue</TableCell>*/}
+                            <TableCell className={classes.textTitle}>Prénom</TableCell>
+                            <TableCell className={classes.textTitle}>Nom</TableCell>
+                            <TableCell className={classes.textTitle}>Programme</TableCell>
+                            <TableCell className={classes.textTitle}>CV</TableCell>
+                            <TableCell className={classes.textTitle}>Téléphone</TableCell>
+                            <TableCell className={classes.textTitle}>Email</TableCell>
+                            <TableCell className={classes.textTitle}>Adresse</TableCell>
                             <TableCell>Statut</TableCell>
                         </TableRow>
                     </TableHead>
@@ -197,7 +205,7 @@ function CustomTable(props) {
                                         <TableRow
                                             key={candidature.id}
                                             hover
-                                            onClick={(event) => handleClickSelect(event, candidature.id)}
+                                            onClick={(event) => handleClickSelect(candidature)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
@@ -218,7 +226,6 @@ function CustomTable(props) {
                                             <TableCell>{candidature.etudiant.telephone}</TableCell>
                                             <TableCell>{candidature.etudiant.email}</TableCell>
                                             <TableCell>{candidature.etudiant.adresse}</TableCell>
-                                            {/*<TableCell>{renderColonneEntrevue(candidature)}</TableCell>*/}
                                             <TableCell>{candidature.statut}</TableCell>
                                         </TableRow>
                                     );
@@ -228,7 +235,7 @@ function CustomTable(props) {
                 </Table>
             </TableContainer>
 
-            <button onClick={handleConfirmation}>Confirmer</button>
+            <Button variant="contained" className=' m-2' color="primary" onClick={handleConfirmation}>Confirmer</Button>
         </>
     );
 }

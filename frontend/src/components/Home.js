@@ -58,7 +58,7 @@ export default function Home(props) {
         "PAS_DE_CV": [
             "Pas de CV",
             "Vous n'avez pas de CV a votre nom.",
-            "/profileEtudiant",
+            "/profilEtudiant",
         ],
         "PAS_DE_CANDIDATURE_SUR_UN_STAGE": [
             "Pas de candidature",
@@ -73,7 +73,7 @@ export default function Home(props) {
         "PAS_ENREGISTRE_CETTE_SESSION": [
             "Pas enregistré",
             "Vous n'êtes pas enregistré cette session.",
-            "/profileEtudiant",
+            "/profilEtudiant",
         ],
         "FREQUENTATION_DE_STAGE_PAS_CONFIRMEE": [
             "Confirmer votre fréquentation",
@@ -88,17 +88,17 @@ export default function Home(props) {
         "CV_SANS_VETO": [
             "CVs sans veto",
             "Un ou plusieurs CVs ont besoin de votre veto.",
-            "/rapportEtudiants"
+            "/rapportEtudiant"
         ], // TODO verify if its the right route when refactoring
         "STAGE_SANS_VETO": [
             "Stages sans veto",
             "Votre veto n'a pas été appliqué sur un ou plusieurs stages.",
-            "/rapportStages",
+            "/rapportStage/1",
         ], // TODO verify if its the right route when refactoring
         "CONTRAT_PRET_A_ETRE_GENERE": [
             "Contrats a générer",
             "Un contrat est prêt à être générer.",
-            "/rapportContrats"
+            "/rapportContrat/0"
         ], // TODO verify if its the right route when refactoring
     }
 

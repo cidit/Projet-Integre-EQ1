@@ -2,9 +2,6 @@ import React, {Component } from "react";
 import EtudiantService from '../../service/EtudiantService';
 import StageService from '../../service/StageService';
 
-import { AiFillCheckCircle, AiFillCloseCircle, AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineCheckSquare, AiOutlineCloseSquare } from 'react-icons/ai';
-import {Alert} from "@material-ui/lab";
-
 import {
     TableCell,
     TableContainer,
@@ -19,6 +16,7 @@ import {
 } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
+import {useHistory} from 'react-router-dom';
 
 export default class SelectionnerEtudiantComponent extends Component {
     constructor(props) {
@@ -28,12 +26,8 @@ export default class SelectionnerEtudiantComponent extends Component {
 
     async componentDidMount() {
         let stage = this.props.stage;
-    const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(this.props.stage.programme, localStorage.getItem("session"));
+        const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(this.props.stage.programme, localStorage.getItem("session"));
 
-        // stage = this.props.stage;
-        // var idSession = localStorage.getItem("session");
-        // const { data: etudiants } = await EtudiantService.getEtudiantsByProgramme(stage.programme, idSession);
-        
         this.setState({ etudiants });
 
         const { data: etudiantsPermis } = await StageService.getEtudiantsByStageId(stage.id);
@@ -67,7 +61,8 @@ function CustomTable(props){
     const [selected, setSelected] = React.useState([]);
     
     const [selectedObj, setSelectedObj] = React.useState([]);
-    //const isSelected = (id) => selected.indexOf(id) !== -1;
+
+    const history = useHistory();
 
     const [flag, setFlag] = React.useState(true);
     const isSelected = (id) => {
@@ -140,6 +135,7 @@ function CustomTable(props){
         }
         StageService.addEtudiants(props.stage.id, selectedObj);
         setTimeout(function() {
+            history.push("/rapportStage/0");
             window.location.reload();
         }, 500);
     }

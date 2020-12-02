@@ -7,8 +7,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import StageService from '../../service/StageService';
-import ListeGenericStage from './ListeGenericStage';
+import StageService from '../../../service/StageService';
+import ApprobationStage from './ListeStageEnAttente';
+import ListeStageApprouve from './ListeStageApprouve';
+
+import {useHistory, useParams} from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -53,31 +56,23 @@ function TabPanel(props) {
   
   export default function ScrollableTabsButtonAuto() {
 
-    const [offreStages, setOffreStages] = useState(null);
-    const getOffreStages = async () => {
-        var idSession = localStorage.getItem("session");
-        const response = await StageService.getStages(idSession);
-        setOffreStages(response.data);
+    var idSession = localStorage.getItem("session");
+
+    const [offreStagesApprouve, setOffreStagesApprouve] = useState([]);
+    const getOffreStagesApprouve = async () => {
+        const response = await StageService.getStagesApprouvesByEmployeurId(window.localStorage.getItem("id"), idSession);
+        setOffreStagesApprouve(response.data);
     }
 
-    const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState(null);
+    const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState([]);
     const getOffreStagesNonApprouve = async () => {
-        var idSession = localStorage.getItem("session");
-        const response = await StageService.getStagesNonApprouves(idSession);
+        const response = await StageService.getStagesNonApprouvesByEmployeurId(window.localStorage.getItem("id"), idSession);
         setOffreStagesNonApprouve(response.data);
     }
 
-    const [offreStagesNonCombles, setOffreStagesNonCombles] = useState(null);
-    const getOffreStagesNonCombles = async () => {
-        var idSession = localStorage.getItem("session");
-        const response = await StageService.getStagesNonCombles(idSession);
-        setOffreStagesNonCombles(response.data);
-    }
-
     useEffect(() => {
-      getOffreStages();
+      getOffreStagesApprouve();
       getOffreStagesNonApprouve();
-      getOffreStagesNonCombles();
     },[])
 
     const classes = useStyles();
@@ -99,28 +94,15 @@ function TabPanel(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="Stages" {...a11yProps(0)} />
-            <Tab label="Stages non approuvés" {...a11yProps(1)} />
-            <Tab label="Stages non comblés" {...a11yProps(2)} />
+            <Tab label="Stages approuvés" {...a11yProps(0)}/>
+            <Tab label="Stages non approuvés" {...a11yProps(1)}/>
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <div>{offreStages != null &&
-              <ListeGenericStage stages={offreStages} />
-          }
-          </div>
+          <ListeStageApprouve stages={offreStagesApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div>{offreStagesNonApprouve != null &&
-              <ListeGenericStage stages={offreStagesNonApprouve} />
-          }
-          </div>
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <div>{offreStagesNonCombles != null &&
-              <ListeGenericStage stages={offreStagesNonCombles} />
-          }
-          </div>
+          <ApprobationStage stages={offreStagesNonApprouve}/>
         </TabPanel>
       </div>
     );
