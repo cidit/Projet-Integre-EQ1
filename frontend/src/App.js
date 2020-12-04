@@ -45,6 +45,9 @@ import RapportContratComponent from './components/gestionnaire/rapport-contrat/R
 import RapportStageEmployeur from './components/employeur/stage/RapportStageEmployeur';
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 
+
+import AuthRoute from "./components/security/AuthRoute";
+
 function App() {
   return (
     
@@ -52,44 +55,42 @@ function App() {
       <ThemeProvider theme={theme}>
         <HeaderComponent />
         <Switch>
+          {/* No role required */}  
           <Route path="/" exact component={Home}/>
           <Route path='/login' component={Login} />
           <Route path='/register' component={RegisterTabs} />
-          <Route path='/offrestage' component={ApplicationStageComponent} />
-          <Route path='/createStage' component={CreateStageComponent} />
-          <Route path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} />
-          <Route path='/stageSelectEtudiants/:id' component={SelectionnerEtudiantComponent} />
-          <Route path='/stageSelectStagiaire/:id' component={SelectionnerStagiaireComponent} />
-         
-          <Route path='/CreationContrat/:id' component={CreationContrat} />
-          <Route path='/televerserContrats/:id' component={TeleverserContrat} />
-          <Route path="/stage/:id/:tab" component={StageComponent}/>
-          <Route path='/listeContrats' component={ListeContrat}/>
-          <Route path="/questionProductivite/:id" component={QuestionProductivite}/>
-          <Route path="/questionQualiteTravail/:id" component={QuestionQualiteTravail}/>
-          <Route path="/questionRelations/:id" component={QuestionRelations}/>
-          <Route path="/questionsHabilites/:id" component={QuestionsHabilites}/>
-          <Route path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature" component={EvaluationMilieuStage}/>
-          <Route path="/evaluationsEmployeur" component={EvaluationStagiaireTabs}/>
-          <Route path="/evaluationStagiaire/:id" component={EvaluationStagiaire}/>
-          <Route path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs}/>
+          {/* Auth role required */}  
+          <AuthRoute path='/offrestage' component={ApplicationStageComponent} requiredRole="ROLE_ETUDIANT"/>
+          <AuthRoute path='/createStage' component={CreateStageComponent} requiredRole="ROLE_EMPLOYEUR"/>
+          <AuthRoute path='/listecandidatures' component={ListeCandidaturesEtudiantComponent} requiredRole="ROLE_ETUDIANT"/>
+          <AuthRoute path='/CreationContrat/:id' component={CreationContrat} requiredRole="ROLE_GESTIONNAIRE"/>
 
-          {/* Rapports */}
-          <Route path="/rapportEnseignant" component={RapportEnseignantComponent}/>
-          <Route path="/rapportEtudiant" component={RapportEtudiantComponent}/>
-          <Route path="/rapportStage/:tab" component={RapportStageComponent}/>
-          <Route path="/rapportContrat/:tab" component={RapportContratComponent}/>
+          <AuthRoute path='/televerserContrats/:id' component={TeleverserContrat} requiredRole={["ROLE_EMPLOYEUR", "ROLE_ETUDIANT"]}/>
+          <AuthRoute path='/listeContrats' component={ListeContrat} requiredRole={["ROLE_EMPLOYEUR", "ROLE_ETUDIANT"]}/>
+          <AuthRoute path="/stage/:id/:tab" component={StageComponent} requiredRole={["ROLE_EMPLOYEUR", "ROLE_GESTIONNAIRE"]}/>
 
-          {/* Profils */}
-          <Route path="/profilEtudiant" component={ProfilEtudiant}/>
-          <Route path="/profilEmployeur" component={ProfilEmployeur}/>
-          <Route path="/profilGestionnaire" component={ProfilGestionnaire}/>
-          <Route path="/profilEnseignant" component={ProfilEnseignant}/>
+          <AuthRoute path="/questionProductivite/:id" component={QuestionProductivite} requiredRole="ROLE_EMPLOYEUR"/>
+          <AuthRoute path="/questionQualiteTravail/:id" component={QuestionQualiteTravail} requiredRole="ROLE_EMPLOYEUR"/>
+          <AuthRoute path="/questionRelations/:id" component={QuestionRelations} requiredRole="ROLE_EMPLOYEUR"/>
+          <AuthRoute path="/questionsHabilites/:id" component={QuestionsHabilites} requiredRole="ROLE_EMPLOYEUR"/>
+          <AuthRoute path="/evaluationsEmployeur" component={EvaluationStagiaireTabs} requiredRole="ROLE_EMPLOYEUR"/>
+          <AuthRoute path="/evaluationStagiaire/:id" component={EvaluationStagiaire} requiredRole="ROLE_EMPLOYEUR"/>
 
-          <Route path="/etudiantsEnCharge" component={ListEtudiantsEnCharge}/>
-          <Route path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs}/>
+          <AuthRoute path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs} requiredRole="ROLE_ENSEIGNANT"/>
+          <AuthRoute path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature" component={EvaluationMilieuStage} requiredRole="ROLE_ENSEIGNANT"/>
+          <AuthRoute path="/etudiantsEnCharge" component={ListEtudiantsEnCharge} requiredRole="ROLE_ENSEIGNANT"/>
+          <AuthRoute path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs} requiredRole="ROLE_ENSEIGNANT"/>
 
-          <Route path="/rapportStageEmployeur" component={RapportStageEmployeur}/>
+          <AuthRoute path="/rapportStageEmployeur" component={RapportStageEmployeur} requiredRole="ROLE_EMPLOYEUR"/>
+          <AuthRoute path="/rapportEnseignant" component={RapportEnseignantComponent} requiredRole="ROLE_GESTIONNAIRE"/>
+          <AuthRoute path="/rapportEtudiant" component={RapportEtudiantComponent} requiredRole="ROLE_GESTIONNAIRE"/>
+          <AuthRoute path="/rapportStage/:tab" component={RapportStageComponent} requiredRole="ROLE_GESTIONNAIRE"/>
+          <AuthRoute path="/rapportContrat/:tab" component={RapportContratComponent} requiredRole="ROLE_GESTIONNAIRE"/>
+
+          <AuthRoute path="/profilEtudiant" component={ProfilEtudiant} requiredRole="ROLE_ETUDIANT"/>
+          <AuthRoute path="/profilEmployeur" component={ProfilEmployeur} requiredRole="ROLE_EMPLOYEUR"/>
+          <AuthRoute path="/profilGestionnaire" component={ProfilGestionnaire} requiredRole="ROLE_GESTIONNAIRE"/>
+          <AuthRoute path="/profilEnseignant" component={ProfilEnseignant} requiredRole="ROLE_ENSEIGNANT"/>
         </Switch>
             </ThemeProvider>
       </main>
