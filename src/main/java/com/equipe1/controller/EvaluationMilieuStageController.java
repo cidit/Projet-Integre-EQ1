@@ -5,6 +5,7 @@ import com.equipe1.model.EvaluationStagiaire;
 import com.equipe1.service.EvaluationMilieuStageService;
 import com.equipe1.model.RecepteurDonneesEvaluation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

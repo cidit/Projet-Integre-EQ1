@@ -63,10 +63,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/candidatures/**").permitAll()
                 .antMatchers("/cvs/**").permitAll()
                 .antMatchers("/sessions/**").permitAll()
-                .antMatchers("/users/**").permitAll()
                 .antMatchers("/evaluationMilieuStage/**").permitAll()
                 .antMatchers("/evaluationStagiaire/**").permitAll()
                 .antMatchers("/enseignants/**").permitAll()
+                .antMatchers("/users/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated();
 

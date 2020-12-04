@@ -10,9 +10,7 @@ export default function Rappel(props) {
     const hasRequiredRole = props.requiredRole.includes(currentRole);
 
     if (isExired) {  
-        return (
-            <Redirect to='/login'/>
-        )
+        AuthService.logout();
     }
     if (isAuth && hasRequiredRole && !isExired) {  
         return (

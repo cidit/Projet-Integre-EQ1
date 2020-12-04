@@ -35,12 +35,6 @@ public class EvaluationStagiaireService {
     private SessionRepository sessionRepository;
 
 
-
-    public EvaluationStagiaire getEvaluationById(Long idEvaluation) {
-        return (EvaluationStagiaire) evaluationStagiaireRepository.findById(idEvaluation)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Invalid evaluation id %s",idEvaluation)));
-    }
-
     public EvaluationStagiaire save(EvaluationStagiaire e) {
         return evaluationStagiaireRepository.save(e);
     }

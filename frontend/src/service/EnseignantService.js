@@ -1,24 +1,18 @@
-import axios from 'axios'
+import axios from 'axios';
+import authHeader from './security/auth-header';
 
 const baseURL = "http://localhost:8080/enseignants";
+
 
 class EnseignantService{
 
 
     getEnseignantsInscrits(){
-        return axios.get(baseURL + "/findAll");
+        return axios.get(baseURL + "/findAll", { headers: authHeader() });
     }
 
     getEnseignantById(id){
-        return axios.get(baseURL + "/get?idEnseignant=" + id);
-    }
-
-    async getByEmail(email){
-        let data;
-        await fetch(baseURL +"/email?email=" +email, {method: "GET"} )
-            .then(r => data = r.json())
-            .catch(error => data = {});
-        return data;
+        return axios.get(baseURL + "/get?idEnseignant=" + id, { headers: authHeader() });
     }
 
     async post(Enseignant){
@@ -32,7 +26,7 @@ class EnseignantService{
     }
 
     async updatePassword(Enseignant, id){
-        return axios.put(baseURL + "/updatePassword/" + id, Enseignant);
+        return axios.put(baseURL + "/updatePassword/" + id, Enseignant, { headers: authHeader() });
     }
 }
 

@@ -3,6 +3,7 @@ package com.equipe1.controller;
 import com.equipe1.model.Etudiant;
 import com.equipe1.model.Stage;
 import com.equipe1.service.StageService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
 import java.util.List;
@@ -20,11 +21,13 @@ public class StageController {
         this.stageService = stageService;
     }
 
+    // never used
     @GetMapping(value = "/findAll")
     public List<Stage> getAllStages(@RequestParam("idSession") Long idSession){
         return stageService.getStages(idSession);
     }
 
+    // never used
     @GetMapping(value = "/getStagesSession")
     public List<Stage> getStagesSessionEnCours(){
         return stageService.getStagesSessionEnCours();
@@ -35,6 +38,7 @@ public class StageController {
         return stageService.findStageById(idStage);
     }
 
+    // never used
     @GetMapping("/stageByEmployeurId/{idEmployeur}")
     public List<Stage> getStageByEmployeurId(@PathVariable("idEmployeur") Long idEmployeur, @RequestParam("idSession") Long idSession){
         return stageService.getStagesByEmployeur(idEmployeur, idSession);
@@ -55,6 +59,7 @@ public class StageController {
         return stageService.updateStage(stage, id);
     }
 
+    // never used
     @PutMapping("updateStatusStage/{id}")
     public Stage updateStatusStage(@RequestBody Stage stage, @PathVariable Long id) throws Exception {
         return stageService.updateStatus(stage, id);

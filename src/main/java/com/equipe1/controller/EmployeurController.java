@@ -2,6 +2,7 @@ package com.equipe1.controller;
 
 import com.equipe1.model.Employeur;
 import com.equipe1.service.EmployeurService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,11 +37,6 @@ public class EmployeurController {
     @PostMapping("createEmploye")
     public Employeur createEmployeur(@RequestBody Employeur employeur){
         return employeurService.saveEmployeur(employeur);
-    }
-
-    @PutMapping("update/{id}")
-    public Employeur updateEmployeur(@Valid @RequestBody Employeur employeur, @PathVariable Long id){
-        return employeurService.updateEmployeur(employeur, id);
     }
 
     @PutMapping("updatePassword/{id}")

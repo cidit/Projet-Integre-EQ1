@@ -71,27 +71,6 @@ public class EmployeurServiceTest {
     }
 
     @Test
-    public void testUpdateEmployeurWhenExists() {
-        when(employeurRepository.save(employeur1)).thenReturn(employeur1);
-        Employeur emp1 = employeurService.updateEmployeur(employeur1, 1L);
-        assertEquals(emp1.getNom(), "Employeur_test_1");
-    }
-
-    @Test
-    public void testUpdateEmployeurFromNewEmployeur() {
-        employeur1.setId(1L);
-        when(employeurRepository.save(employeur1)).thenReturn(employeur1);
-        employeurRepository.save(employeur1);
-
-        Employeur employeur3 = new Employeur("Employeur_update", "444-44-44", "dfg 112-123");
-
-        when(employeurRepository.findById(1L)).thenReturn(Optional.of(employeur1));
-        when(employeurRepository.save(employeur3)).thenReturn(employeur3);
-        Employeur emp = employeurService.updateEmployeur(employeur3, 1L);
-        assertEquals(emp.getNom(), "Employeur_update");
-    }
-
-    @Test
     public void testGetEmployeurByEmail() {
         when(employeurRepository.findEmployeurByEmail("e1@email.com")).thenReturn(employeur1);
         Employeur employeur = employeurService.getEmployeurByEmail("e1@email.com");

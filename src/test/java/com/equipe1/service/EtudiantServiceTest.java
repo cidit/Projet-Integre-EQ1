@@ -131,57 +131,6 @@ public class EtudiantServiceTest {
     }
 
     @Test
-    void testUpdateEtudiant() {
-        // Arrange + Act
-        e1.setId(1l);
-        e1.setProgramme("NONE");
-        e1.setEmail("NONE");
-        e1.setTelephone("NONE");
-        e1.setAdresse("NONE");
-        doReturn(e1).when(repository).save(any());
-        Etudiant etudiant = repository.save(e1);
-
-        Etudiant putContent = new Etudiant();
-        putContent = e1;
-        putContent.setProgramme("TI");
-        putContent.setEmail("TI");
-        putContent.setTelephone("TI");
-        putContent.setAdresse("TI");
-        doReturn(putContent).when(repository).save(any());
-        doReturn(Optional.of(e1)).when(repository).findById(e1.getId());
-        Etudiant updatedEtudiant = service.updateEtudiant(putContent, etudiant.getId());
-        // Assert
-        Assertions.assertNotNull(updatedEtudiant);
-        Assertions.assertEquals(1l, updatedEtudiant.getId());
-        Assertions.assertEquals(e1.getNom(), updatedEtudiant.getNom());
-        Assertions.assertEquals("TI", updatedEtudiant.getProgramme());
-        Assertions.assertEquals("TI", updatedEtudiant.getEmail());
-        Assertions.assertEquals("TI", updatedEtudiant.getTelephone());
-        Assertions.assertEquals("TI", updatedEtudiant.getAdresse());
-    }
-
-    @Test
-    void testFindEtudiantByMatricule() {
-        // Arrange
-        doReturn(Optional.of(e1)).when(repository).findByMatricule("12345");
-        // Act
-        Optional<Etudiant> etudiant = service.findEtudiantByMatricule("12345");
-        // Assert
-        Assertions.assertTrue(etudiant.isPresent());
-        Assertions.assertSame(etudiant.get(), e1);
-    }
-
-    @Test
-    void testFindEtudiantByMatriculeNotFound() {
-        // Arrange
-        doReturn(Optional.empty()).when(repository).findByMatricule("X");
-        // Act
-        Optional<Etudiant> etudiant = service.findEtudiantByMatricule("X");
-        // Assert
-        Assertions.assertFalse(etudiant.isPresent());
-    }
-
-    @Test
     void testFindEtudiantByEmail() {
         // Arrange
         doReturn(e1).when(repository).findByEmail("e1@email.com");

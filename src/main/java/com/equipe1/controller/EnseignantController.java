@@ -3,6 +3,7 @@ package com.equipe1.controller;
 import com.equipe1.model.Enseignant;
 import com.equipe1.service.EnseignantService;
 import com.equipe1.service.EnseignantService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,19 +30,9 @@ public class EnseignantController {
         return enseignantService.getEnseignantById(idEnseignant);
     }
 
-    @GetMapping("email")
-    public Enseignant getEnseignantByEmail(@RequestParam("email") String email){
-        return enseignantService.getEnseignantByEmail(email);
-    }
-
     @PostMapping("createEnseignant")
     public Enseignant createEnseignant(@RequestBody Enseignant enseignant){
         return enseignantService.saveEnseignant(enseignant);
-    }
-
-    @PutMapping("update/{id}")
-    public Enseignant updateEnseignant(@Valid @RequestBody Enseignant enseignant, @PathVariable Long id){
-        return enseignantService.updateEnseignant(enseignant, id);
     }
 
     @PutMapping("updatePassword/{id}")

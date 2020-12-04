@@ -1,43 +1,32 @@
-import axios from 'axios'
+import axios from 'axios';
+import authHeader from './security/auth-header';
 
-const ETUDIANTS_URL = "http://localhost:8080/etudiants/findAll";
 const baseURL = "http://localhost:8080/etudiants";
-const ETUDIANT_GET = "http://localhost:8080/etudiants/get";
 
 class EtudiantService{
 
     getEtudiants(idSession){
-        return axios.get(ETUDIANTS_URL, { params: { idSession: idSession} });
+        return axios.get(baseURL + "/findAll", { params: { idSession: idSession}, headers: authHeader() });
     }
 
     getEtudiantById(id){
-        return axios.get(ETUDIANT_GET + "?idEtudiant=" + id);
+        return axios.get(baseURL + "/get?idEtudiant=" + id, { headers: authHeader() });
     }
 
     getEtudiantsAucunCV(idSession){
-        return axios.get(baseURL + "/getAllSansCV", { params: { idSession: idSession} });
+        return axios.get(baseURL + "/getAllSansCV", { params: { idSession: idSession}, headers: authHeader() });
     }
 
     getEtudiantsCVNonApprouve(idSession){
-        return axios.get(baseURL + "/getAllCVNonApprouve",
-            { params: { idSession: idSession} });
+        return axios.get(baseURL + "/getAllCVNonApprouve", { params: { idSession: idSession}, headers: authHeader() });
     }
 
     getEtudiantsSansStage(idSession){
-        return axios.get(baseURL + "/get/aucunStage", { params: { idSession: idSession} });
+        return axios.get(baseURL + "/get/aucunStage", { params: { idSession: idSession}, headers: authHeader() });
     }
 
     getEtudiantsByProgramme(programme, idSession){
-        return axios.get(ETUDIANT_GET + "/" + programme, { params: { idSession: idSession} });
-    }
-
-
-    async getByEmail(email){
-        let data;
-        await fetch(baseURL +"/email?email=" +email, {method: "GET"} )
-            .then(r => data = r.json())
-            .catch(error => data = {});
-        return data;
+        return axios.get(baseURL + "/get/" + programme, { params: { idSession: idSession}, headers: authHeader() });
     }
 
     async post(etudiant){
@@ -51,27 +40,27 @@ class EtudiantService{
     }
 
     isRegistered(id) {
-        return axios.get( baseURL + "/registration/isRegistered/" + id)
+        return axios.get(baseURL + "/registration/isRegistered/" + id, { headers: authHeader() })
     }
 
     async register(id) {
-        return axios.put(baseURL + "/registration/register/" + id)
+        return axios.put(baseURL + "/registration/register/" + id, { headers: authHeader() })
     }
 
     async updatePassword(etudiant, id){
-        return axios.put(baseURL + "/updatePassword/" + id, etudiant);
+        return axios.put(baseURL + "/updatePassword/" + id, etudiant, { headers: authHeader() });
     }
 
     async setEnseignant(idetudiant, idEnseignant) {
-        return await axios.put(baseURL + "/setEnseignant/"+idetudiant+"/"+ idEnseignant)
+        return await axios.put(baseURL + "/setEnseignant/" + idetudiant + "/" + idEnseignant, { headers: authHeader() })
     }
 
     async enleverEnseignant(idetudiant, idEnseignant) {
-        return await axios.put(baseURL + "/enleverEnseignant/"+idetudiant+"/"+ idEnseignant)
+        return await axios.put(baseURL + "/enleverEnseignant/" + idetudiant + "/" + idEnseignant, { headers: authHeader() })
     }
 
-    async  getEtudiantsbyEnseignat(idEnseignant){
-        return axios.get(baseURL + "/getAllbyEnseignant/"+idEnseignant);
+    async getEtudiantsbyEnseignat(idEnseignant){
+        return axios.get(baseURL + "/getAllbyEnseignant/" + idEnseignant, { headers: authHeader() });
     }
     
 }

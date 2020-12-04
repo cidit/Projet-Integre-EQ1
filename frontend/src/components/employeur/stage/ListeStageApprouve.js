@@ -36,7 +36,6 @@ export default function ListStagesApprouve(props) {
     
     const classes = useStyles();
 
-    console.log(props.stages);
     if (props.stages.length === 0) {
         return (
             AlertAucunStage()

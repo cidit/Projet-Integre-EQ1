@@ -73,20 +73,6 @@ public class EtudiantService {
         return etudiant;
     }
 
-    public Etudiant updateEtudiant(Etudiant newEtudiant, long id){
-        Optional<Etudiant> optionalEtudiant = etudiantRepository.findById(id);
-        optionalEtudiant.get().setProgramme(newEtudiant.getProgramme());
-        optionalEtudiant.get().setEmail(newEtudiant.getEmail());
-        optionalEtudiant.get().setTelephone(newEtudiant.getTelephone());
-        optionalEtudiant.get().setAdresse(newEtudiant.getAdresse());
-        optionalEtudiant.get().setCv(newEtudiant.getCv());
-        return etudiantRepository.save(optionalEtudiant.get());
-    }
-
-    public Optional<Etudiant> findEtudiantByMatricule(String matricule) {
-        return etudiantRepository.findByMatricule(matricule);
-    }
-
     public Etudiant getEtudiantByEmail(String email){
         return etudiantRepository.findByEmail(email);
     }

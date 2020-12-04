@@ -79,7 +79,7 @@ function App() {
           <AuthRoute path="/evaluationMilieuStageHome" component={EvaluationMiliauStageTabs} requiredRole="ROLE_ENSEIGNANT"/>
           <AuthRoute path="/evaluationMilieuStage/:employeur/:prenomEtudiant/:nomEtudiant/:idEnseignant/:idCandidature" component={EvaluationMilieuStage} requiredRole="ROLE_ENSEIGNANT"/>
           <AuthRoute path="/etudiantsEnCharge" component={ListEtudiantsEnCharge} requiredRole="ROLE_ENSEIGNANT"/>
-          <AuthRoute path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs} requiredRole="ROLE_ENSEIGNANT"/>
+          <AuthRoute path="/etudiantsAuEnseignant/:nom/:prenom/:id/:programme" component={EnseignantsTabs} requiredRole={["ROLE_EMPLOYEUR", "ROLE_GESTIONNAIRE"]}/>
 
           <AuthRoute path="/rapportStageEmployeur" component={RapportStageEmployeur} requiredRole="ROLE_EMPLOYEUR"/>
           <AuthRoute path="/rapportEnseignant" component={RapportEnseignantComponent} requiredRole="ROLE_GESTIONNAIRE"/>

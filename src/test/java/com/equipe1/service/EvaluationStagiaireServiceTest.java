@@ -93,14 +93,6 @@ class EvaluationStagiaireServiceTest {
     }
 
     @Test
-    void getEvaluationById() {
-        when(evaluationStagiaireRepository.findById(1L)).thenReturn(Optional.of(e));
-        EvaluationStagiaire evaluation = evaluationStagiaireService.getEvaluationById(1L);
-        assertEquals(evaluation, e);
-        assertNotNull(evaluation);
-    }
-
-    @Test
     void save() {
         when(evaluationStagiaireRepository.save(e)).thenReturn(e);
         EvaluationStagiaire evaluation = evaluationStagiaireService.save(e);

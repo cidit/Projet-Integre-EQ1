@@ -134,16 +134,6 @@ public class CandidatureService {
         return candidaturesChoisiesSession;
     }
 
-    public List<Candidature> getListByDateStage() {
-        List<Candidature> candidatureBydateStage = new ArrayList<>();
-        for (Candidature c : candidatureRepository.findAll()) {
-            if (isStageApresQuatriemeSemaine(c)) {
-                candidatureBydateStage.add(c);
-            }
-        }
-        return candidatureBydateStage;
-    }
-
     public List<Candidature> getListCandidatureByEmployeurSansEvaluationStagiaire(Long idEmployeur, Long idSession){
         List<Candidature> candidatureByemployeur = new ArrayList<>();
         for (Candidature c: getListCandidaturesChoisis(idSession)) {

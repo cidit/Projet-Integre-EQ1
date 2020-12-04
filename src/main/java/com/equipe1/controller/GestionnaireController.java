@@ -2,6 +2,7 @@ package com.equipe1.controller;
 
 import com.equipe1.model.Gestionnaire;
 import com.equipe1.service.GestionnaireService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class GestionnaireController {
         this.gestionnaireService = service;
     }
 
+    // never used
     @GetMapping("findAll")
     public List<Gestionnaire> getAllGestionnaire(){
         return gestionnaireService.getGestionnaires();

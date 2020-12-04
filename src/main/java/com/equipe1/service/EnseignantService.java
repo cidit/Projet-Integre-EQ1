@@ -37,10 +37,6 @@ public class EnseignantService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Invalid Enseignant id %s",idEnseignant)));
     }
 
-    public Enseignant getEnseignantByEmail(String email) {
-        return enseignantRepository.findByEmail(email);
-    }
-
     public Enseignant saveEnseignant(Enseignant enseignant) {
         enseignant.setPassword(encoder.encode(enseignant.getPassword()));
 
@@ -51,18 +47,6 @@ public class EnseignantService {
         enseignant.setRoles(roles);
 
         return enseignantRepository.save(enseignant);
-    }
-
-    public Enseignant updateEnseignant(Enseignant newEnseignant, Long id) {
-        Optional<Enseignant> optionalEnseignant = enseignantRepository.findById(id);
-        if(optionalEnseignant.isPresent()){
-            optionalEnseignant.get().setNom(newEnseignant.getNom());
-            optionalEnseignant.get().setPrenom(newEnseignant.getPrenom());
-            optionalEnseignant.get().setTelephone(newEnseignant.getTelephone());
-            return enseignantRepository.save(optionalEnseignant.get());
-        }else
-            newEnseignant.setId(id);
-        return enseignantRepository.save(newEnseignant);
     }
 
     public Enseignant updateEnseignantPassword(Enseignant newEnseignant, Long id) {

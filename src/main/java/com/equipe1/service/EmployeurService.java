@@ -56,18 +56,6 @@ public class EmployeurService {
         return employeurRepository.save(employeur);
     }
 
-    public Employeur updateEmployeur(Employeur newEmployeur, long id){
-        Optional<Employeur> optionalEmployeur = employeurRepository.findById(id);
-        if(optionalEmployeur.isPresent()){
-            optionalEmployeur.get().setNom(newEmployeur.getNom());
-            optionalEmployeur.get().setTelephone(newEmployeur.getTelephone());
-            optionalEmployeur.get().setAdresse(newEmployeur.getAdresse());
-            return employeurRepository.save(optionalEmployeur.get());
-        }else
-            newEmployeur.setId(id);
-            return employeurRepository.save(newEmployeur);
-    }
-
     public Employeur updateEmployeurPassword(Employeur newEmployeur, Long id) {
         Optional<Employeur> optionalEmployeur = employeurRepository.findById(id);
         optionalEmployeur.get().setPassword(encoder.encode(newEmployeur.getPassword()));

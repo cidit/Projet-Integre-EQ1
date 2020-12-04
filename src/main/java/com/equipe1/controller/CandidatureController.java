@@ -2,6 +2,7 @@ package com.equipe1.controller;
 
 import com.equipe1.model.Candidature;
 import com.equipe1.service.CandidatureService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,12 +60,6 @@ public class CandidatureController {
     @GetMapping("getAllChoisis")
     public List<Candidature> getAllCandidatureChoisi(@RequestParam("idSession") Long idSession) {
         return candidatureService.getListCandidaturesChoisis(idSession);
-    }
-
-    @GetMapping("getByPremierMoisStage")
-    public List<Candidature> getCandidaturesByPremierMoisStage() {
-        //return toutes les candidatures ayant un stage rendue a la 4 semaine
-        return candidatureService.getListByDateStage();
     }
 
     @GetMapping("getListAEvaluer/{idEmployeur}")

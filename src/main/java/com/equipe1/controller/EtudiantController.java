@@ -3,6 +3,7 @@ package com.equipe1.controller;
 import com.equipe1.model.Employeur;
 import com.equipe1.model.Etudiant;
 import com.equipe1.service.EtudiantService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,21 +46,6 @@ public class EtudiantController {
         return etudiantService.saveEtudiant(etudiant);
     }
 
-    @PutMapping("/update/{id}")
-    public Etudiant updateEtudiant(@RequestBody Etudiant etudiant, @PathVariable Long id){
-        return etudiantService.updateEtudiant(etudiant, id);
-    }
-
-    @GetMapping("/matricule")
-    public Optional<Etudiant> getEtudiantByMatricule(@RequestParam("matricule") String matricule){
-        return etudiantService.findEtudiantByMatricule(matricule);
-    }
-
-    @PutMapping("/update/cv/{id}")
-    public Etudiant updateEtudiantCV(@RequestBody Etudiant etudiant, @PathVariable Long id){
-        return etudiantService.updateEtudiant(etudiant, id);
-    }
-
     @GetMapping("/email")
     public Etudiant getEmployeurByEmail(@RequestParam("email") String email){
         return etudiantService.getEtudiantByEmail(email);
@@ -85,14 +71,14 @@ public class EtudiantController {
         return etudiantService.getEtudiantsCVNonApprouve(idSession);
     }
 
-    @GetMapping("/getAllbyEnseignant/{idEnseignant}")
-    public List<Etudiant> getEtudiantsbyEnseignant(@PathVariable Long idEnseignant){
-        return etudiantService.getEtudaintsByEnseignant(idEnseignant);
-    }
-
     @PutMapping("updatePassword/{id}")
     public Etudiant updateEtudiantPassword(@Valid @RequestBody Etudiant etudiant, @PathVariable Long id){
         return etudiantService.updateEtudiantPassword(etudiant, id);
+    }
+
+    @GetMapping("/getAllbyEnseignant/{idEnseignant}")
+    public List<Etudiant> getEtudiantsbyEnseignant(@PathVariable Long idEnseignant){
+        return etudiantService.getEtudaintsByEnseignant(idEnseignant);
     }
 
     @PutMapping("setEnseignant/{idEtudiant}/{idEnseigant}")

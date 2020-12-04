@@ -60,32 +60,11 @@ public class EnseignantServiceTest {
     }
 
     @Test
-    void getEnseignantByEmail() {
-        when(enseignantRepository.findByEmail("e1@email.com")).thenReturn(enseignant1);
-        Enseignant enseignant = enseignantService.getEnseignantByEmail("e1@email.com");
-        assertEquals(enseignant, enseignant1);
-    }
-
-    @Test
     void saveEnseignant() {
         when(enseignantRepository.save(enseignant1)).thenReturn(enseignant1);
         Enseignant enseignant = enseignantService.saveEnseignant(enseignant1);
         assertNotNull(enseignant);
         assertEquals(enseignant.getNom(), enseignant1.getNom());
-    }
-
-    @Test
-    void updateEnseignant() {
-        enseignant1.setId(1L);
-        when(enseignantRepository.save(enseignant1)).thenReturn(enseignant1);
-        enseignantRepository.save(enseignant1);
-
-        Enseignant enseignant = new Enseignant();
-        enseignant.setNom("enseignants_update");
-
-        when(enseignantRepository.findById(1L)).thenReturn(Optional.of(enseignant1));
-        Enseignant emp = enseignantService.updateEnseignant(enseignant, 1L);
-        assertEquals(emp.getNom(), "enseignants_update");
     }
 
     @Test
