@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const CV_URL = "http://localhost:8080/cvs";
-
 import authHeader from './security/auth-header';
+
+const CV_URL = "http://localhost:8080/cvs";
 
 class CVService{
 
