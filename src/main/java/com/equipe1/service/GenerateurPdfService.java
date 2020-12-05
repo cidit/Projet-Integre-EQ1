@@ -1,8 +1,7 @@
 package com.equipe1.service;
 
-import com.equipe1.model.Employeur;
-import com.equipe1.model.Etudiant;
-import com.equipe1.model.Stage;
+import com.equipe1.model.*;
+import com.equipe1.repository.*;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -12,8 +11,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -26,6 +27,20 @@ public class GenerateurPdfService {
 
     @Autowired
     private Environment env;
+    @Autowired
+    private QuestionRepository questionRepository;
+
+    @Autowired
+    private CommentaireRepository commentaireRepository;
+
+    @Autowired
+    private EvaluationMilieuStageRepository evaluationMilieuStageRepository;
+
+    @Autowired
+    private EvaluationStagiaireRepository evaluationStagiaireRepository;
+
+    @Autowired
+    private CandidatureRepository candidatureRepository;
 
 
     public ByteArrayOutputStream createPdf(Stage s, Employeur employeur, Etudiant etudiant) throws Exception {
@@ -39,7 +54,7 @@ public class GenerateurPdfService {
         String text2 = " Le CÉGEP ANDRÉ-LAURENDEAU, corporation légalement constituée, situé au" +
                 " 1111, rue Lapierre, LASALLE (Québec), H8N 2J4, ici représenté par Madame Diane Turcotte" +
                 " ci-après désigné «Le Collège»,  l’entreprise ";
-        String text3 = "ayant sa place d’affaires à ";
+        String text3 = "ayant sa place d’affaires au ";
         document.add(getImage());
         document.add(setTitre("ENTENTE DE STAGE COOPÉRATIF"));
         document.add(setParagraphe(Arrays.asList(
@@ -58,7 +73,7 @@ public class GenerateurPdfService {
         )));
 
         //create table
-        document.add(tableTitre("EMPLACEMENT DU STAGE"));
+        document.add(tableTitre("ENDROIT DU STAGE"));
 
         document.add(createTable(Arrays.asList(
                 createBoldCell("Ville: ", s.getVille(), setFond(FONT_TAILLE_REGULIER, true)),
@@ -78,7 +93,7 @@ public class GenerateurPdfService {
                 createBoldCell("Date de début : ", s.getDateDebut().toString(), setFond(FONT_TAILLE_REGULIER, true)),
                 createBoldCell("Date de fin : ", s.getDateFin().toString(), setFond(FONT_TAILLE_REGULIER, true)),
                 createBoldCell("Nombre total de semaines : ", getDureStage(s).toString(), setFond(FONT_TAILLE_REGULIER, true)),
-                createBoldCell("Salaire : ", String.valueOf(s.getSalaire()) + "$/h", setFond(FONT_TAILLE_REGULIER, true))
+                createBoldCell("Salaire : ", String.valueOf(s.getSalaire()), setFond(FONT_TAILLE_REGULIER, true))
                 ), 2, false)
         );
 
@@ -113,20 +128,19 @@ public class GenerateurPdfService {
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "L’entreprise s’engage à :"));
 
         document.add(setListOrdonee(Arrays.asList(
-                //TODO: CA VEUT DIRE QUOI?
                 "test desde responsablity",
                 "Embaucher l’étudiant stagiaire  aux conditions précisées dans la présente entente.",
                 "Désigner un superviseur de stage qui assurera l’encadrement de l’étudiant stagiaire pour toute la durée du stage.",
-                "Mettre en place des mesures d’accueil, d’intégration et d’encadrement de l’étudiant stagiaire.",
-                "Procéder à l’évaluation de l’étudiant stagiaire."
+                "mettre en place des mesures d’accueil, d’intégration et d’encadrement de l’étudiant stagiaire.",
+                "procéder à l’évaluation de l’étudiant stagiaire."
         )));
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true), "L’étudiant s’engage:"));
         document.add(setListOrdonee(Arrays.asList(
                 "Assumer de façon responsable et sécuritaire, les tâches qui lui sont confiées.",
                 "Respecter les politiques, règles et procédures de l’entreprise ainsi que l’horaire de travail au même titre qu’un employé.",
-                "Respecter les dates de début et de fin de stage, à moins d'une entente avec l'étudiant.",
-                "Référer rapidement au responsable des stages du cégep pour toute situation " +
+                "respecter les dates de début et de fin de stage.",
+                "référer rapidement au responsable des stages au cégep toute situation " +
                         "problématique affectant le bon déroulement du stage;"
         )));
 
@@ -243,8 +257,315 @@ public class GenerateurPdfService {
 
     private Paragraph setParagraphe(List<Phrase> phrases) {
         Paragraph paragraph = new Paragraph();
-        paragraph.addAll(phrases);
+        for (Phrase p : phrases) {
+            paragraph.add(p);
+        }
         return paragraph;
     }
 
+    public ByteArrayOutputStream createPdfEvaluationMilieuStage(Long idEvaluationMiliauStage) throws Exception {
+    EvaluationMilieuStage evaluation = evaluationMilieuStageRepository.findById(idEvaluationMiliauStage).orElseThrow();
+    List<Question> questions = questionRepository.findByEvaluation(evaluation);
+    List<Commentaire> commentaires = commentaireRepository.findByEvaluation(evaluation);
+    Candidature candidature = candidatureRepository.findByEtudiant(evaluation.getEtudiant()).orElseThrow();
+
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, out);
+        //Document document = new Document(PageSize.A4);                    //test in main
+        //PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("D:/Desktop/test.pdf")); // test in main
+        document.open();
+
+        document.add(getImage());
+        document.add(setTitre("ÉVALUATION DU MILIEU DE STAGE"));
+
+        //create table identfication entreprise
+        document.add(tableTitre("IDENTIFICATION DE L’ENTREPRISE"));
+
+        document.add(createTable(Arrays.asList(
+                createBoldCell("Nom de l'entreprise: ", evaluation.getEmployeur().getNom(), setFond(FONT_TAILLE_REGULIER, true)),
+                createBoldCell("Adresse: ", evaluation.getEmployeur().getAdresse(), setFond(FONT_TAILLE_REGULIER, true)),
+                createBoldCell("Téléphone: ", evaluation.getEmployeur().getTelephone(), setFond(FONT_TAILLE_REGULIER, true)),
+                createBoldCell("Courriel: ", evaluation.getEmployeur().getEmail(), setFond(FONT_TAILLE_REGULIER, true))
+        ), 2, false));
+
+
+        //create table identfication entreprise
+        document.add(tableTitre("IDENTIFICATION DU STAGIAIRE"));
+
+        document.add(createTable(Arrays.asList(
+                createBoldCell("Nom du stagiaire: ", evaluation.getEtudiant().getNom(), setFond(FONT_TAILLE_REGULIER, true)),
+                createBoldCell("Date du stage: ", candidature.getStage().getDateDebut().toString(), setFond(FONT_TAILLE_REGULIER, true)),
+                createBoldCell("Téléphone: ", evaluation.getEtudiant().getTelephone(), setFond(FONT_TAILLE_REGULIER, true)),
+                createBoldCell("Courriel: ", evaluation.getEtudiant().getEmail(), setFond(FONT_TAILLE_REGULIER, true))
+        ), 2, false));
+
+        Paragraph paragraph = new Paragraph();
+        Phrase phrase = new Phrase("Questions", setFond(FONT_TAILLE_REGULIER, true));
+        paragraph.add(phrase);
+        Paragraph paragraph2 = new Paragraph();
+        Phrase phrase2 = new Phrase("Réponses", setFond(FONT_TAILLE_REGULIER, true));
+        paragraph2.add(phrase2);
+        document.add(tableTitre("EVALUATION"));
+
+        PdfPTable table = new PdfPTable(2);
+        table.setWidthPercentage(100);
+        table.addCell(paragraph);
+        table.addCell(paragraph2);
+        for (Question q: questions) {
+            table.addCell(q.getQuestion());
+            table.addCell(q.getReponse());
+        }
+        document.add(table);
+
+        document.add(setParagraphe(Arrays.asList(
+                setPhrase("Note: ", true),
+                setPhrase("Cette évaluation a été réalisée avec l'application du projet d'équipe1. La personne jointe en bas de page a accepté les conditions de remplissage en ligne. ", false))));
+
+
+        document.add(Chunk.NEWLINE);
+        document.add(setParagraphe(Arrays.asList(
+                setPhrase("Évaluation réalisée par: ", true),
+                setPhrase(evaluation.getEnseignant().getPrenom() + " " + evaluation.getEnseignant().getNom(), false))));
+
+
+
+
+      /* //create table identfication entreprise
+        document.add(tableTitre("ÉVALUATION"));
+
+        List<Paragraph> questionEnnonce = new ArrayList<>();
+        List<Paragraph> reponseAEnnonce = new ArrayList<>();
+        for (Question q : questions ) {
+            cells.add(createBoldCell(q.getQuestion(), q.getReponse(), setFond(FONT_TAILLE_REGULIER, true)));
+        }
+        document.add(createTable(cells, 2, false));*/
+
+        document.close();
+        writer.close();
+        return out;
+    }
+
+
+    public ByteArrayOutputStream createPdfEvaluationStagiaire(Long evaluationId) throws Exception {
+        EvaluationStagiaire evaluation = evaluationStagiaireRepository.findById(evaluationId).orElseThrow();
+    List<Question> questions = questionRepository.findByEvaluation(evaluation);
+    List<Commentaire> commentaires = commentaireRepository.findByEvaluation(evaluation);
+    //Candidature candidature = candidatureRepository.findByEtudiant(evaluation.getEtudiant()).orElseThrow();
+
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, out);
+       // Document document = new Document(PageSize.A4);  //test
+        //PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("D:/Desktop/test.pdf")); //test
+        document.open();
+
+        document.add(getImage());
+        document.add(setTitre("FICHE D’ÉVALUATION DU STAGIAIRE "));
+
+        //create table identfication entreprise
+        document.add(tableTitre("IDENTIFICATION DU STAGIAIRE"));
+
+        document.add(createTable(Arrays.asList(
+                createBoldCell("Nom du stagiaire: ", evaluation.getEtudiant().getNom(), setFond(FONT_TAILLE_REGULIER, true)),
+                createBoldCell("Programme: ", evaluation.getEtudiant().getNom(), setFond(FONT_TAILLE_REGULIER, true)),
+                createBoldCell("Téléphone: ", evaluation.getEtudiant().getTelephone(), setFond(FONT_TAILLE_REGULIER, true)),
+                createBoldCell("Courriel: ", evaluation.getEtudiant().getEmail(), setFond(FONT_TAILLE_REGULIER, true))
+                //createBoldCell("Nom de l’entreprise: ", candidature.getStage().getEmployeur().getNom(), setFond(FONT_TAILLE_REGULIER, true)),
+                //createBoldCell("Stage: ", candidature.getStage().getTitre(), setFond(FONT_TAILLE_REGULIER, true))
+        ), 2, false));
+
+
+        document.add(subtitre(setFond(FONT_TAILLE_REGULIER, true),"EVALUATION"));
+
+        document.add(subtitre(setFond(FONT_TAILLE_REGULIER, false),"1. PRODUCTIVITÉ "));
+        document.add(createTableQuestions(questions,"Productivité"));
+        document.add(Chunk.NEWLINE);
+
+        document.add(subtitre(setFond(FONT_TAILLE_REGULIER, false),"2. QUALITÉ DU TRAVAIL"));
+        document.add(createTableQuestions(questions, "Qualité du travail"));
+        document.add(Chunk.NEWLINE);
+
+        document.add(subtitre(setFond(FONT_TAILLE_REGULIER, false),"3. QUALITÉS DES RELATIONS INTERPERSONNELLES"));
+        document.add(createTableQuestions(questions,"Qualité des relations interpersonnelles"));
+        document.add(Chunk.NEWLINE);
+
+        document.add(subtitre(setFond(FONT_TAILLE_REGULIER, false),"4. HABILETÉS PERSONNELLES"));
+        document.add(createTableQuestions(questions,"Habilités personnelles"));
+        document.add(Chunk.NEWLINE);
+
+        document.add(setParagraphe(Arrays.asList(
+                setPhrase("Note: ", true),
+                setPhrase("Cette évaluation a été réalisée avec l'application du projet d'équipe1. La personne jointe en bas de page a accepté les conditions de remplissage en ligne. ", false))));
+
+
+        document.add(Chunk.NEWLINE);
+        document.add(setParagraphe(Arrays.asList(
+                setPhrase("Évaluation réalisée par: ", true),
+                setPhrase(evaluation.getEmployeur().getNom() , false))));
+
+        document.add(Chunk.NEWLINE);
+        document.add(setParagraphe(Arrays.asList(
+                setPhrase("Date: ", true),
+                setPhrase(evaluation.getDateCreation().toString(), false))));
+
+        document.close();
+        writer.close();
+        return out;
+    }
+
+
+    private PdfPTable createTableQuestions(List<Question> questions, String section) {
+        PdfPTable table = new PdfPTable(2);
+        table.setWidthPercentage(100);
+        table.addCell(new Paragraph(setPhrase("Questions",true)));
+        table.addCell(new Paragraph(setPhrase("Réponses",true)));
+        for (Question q: questions) {
+            if(q.getSection().equals(section)){
+                table.addCell(q.getQuestion());
+                table.addCell(q.getReponse());
+            }
+        }
+        return table;
+    }
+
+    public static void main(String[] args) throws Exception {
+        GenerateurPdfService generateur = new GenerateurPdfService();
+
+        Enseignant enseignant2 = new Enseignant();
+        enseignant2.setNom("Leonie");
+        enseignant2.setPrenom("Aguilar ");
+        enseignant2.setPassword("123456");
+        enseignant2.setProgramme("Gestion de commerces");
+        enseignant2.setEmail("Leonierrr@email.com");
+        enseignant2.setTelephone("438950000");
+
+
+
+        Employeur employeur = new Employeur();
+        Etudiant etudiant = new Etudiant();
+        etudiant.setPrenom("Zoy");
+        etudiant.setPassword("123456");
+        etudiant.setMatricule("123456");
+        etudiant.setAdresse("adresse1234");
+        etudiant.setNom("laComadreja");
+        etudiant.setEmail("zoyLaComadr@email.com");
+        etudiant.setProgramme("Technique de l'informatique");
+        etudiant.setEnseignant(enseignant2);
+        etudiant.setTelephone("123654789654");
+
+        List<Question> questions = new ArrayList<>();
+
+        EvaluationStagiaire e = new EvaluationStagiaire();
+
+        e.setDateCreation(LocalDate.now());
+        e.setEmployeur(employeur);
+        e.setEtudiant(etudiant);
+
+        Commentaire commentaire = new Commentaire();
+
+        Question q1 = new Question();
+        q1.setQuestion("Planifier et organiser son travail de façon efficace");
+        q1.setReponse("Totalement en accord");
+        q1.setSection("Productivité");
+        q1.setEvaluation(e);
+        questions.add(q1);
+
+        for (int i = 0; i < 4; i++) {
+            q1 = new Question();
+            q1.setQuestion("Planifier et organiser son travail de façon efficace " + i);
+            q1.setReponse("Totalement en accord" + i);
+            q1.setSection("Productivité");
+            q1.setEvaluation(e);
+            questions.add(q1);
+        }
+
+        commentaire.setEnnonce("commentaire de la productivite ");
+        commentaire.setSection("Productivité");
+        commentaire.setEvaluation(e);
+
+        for (int i = 0; i < 4; i++) {
+            q1 = new Question();
+            q1.setQuestion("Porter attention aux détails dans la réalisation de ses tâches " + i);
+            q1.setReponse("Totalement en accord" + i);
+            q1.setSection("Qualité du travail");
+            q1.setEvaluation(e);
+            questions.add(q1);
+
+        }
+
+        commentaire.setEnnonce("commentaire de la productivite ");
+        commentaire.setSection("Qualité du travail");
+        commentaire.setEvaluation(e);
+        for (int i = 0; i < 4; i++) {
+            q1 = new Question();
+            q1.setQuestion("Faire preuve d’écoute active en essayant de comprendre le point de vue de l’autre " + i);
+            q1.setReponse("Totalement en accord" + i);
+            q1.setSection("Qualité des relations interpersonnelles");
+            q1.setEvaluation(e);
+            questions.add(q1);
+
+        }
+
+        commentaire.setEnnonce("commentaire de la productivite ");
+        commentaire.setSection("Qualité des relations interpersonnelles");
+        commentaire.setEvaluation(e);
+        for (int i = 0; i < 4; i++) {
+            q1 = new Question();
+            q1.setQuestion("Démontrer de l’intérêt et de la motivation au travail " + i);
+            q1.setReponse("Totalement en accord" + i);
+            q1.setSection("Habilités personnelles");
+            q1.setEvaluation(e);
+            questions.add(q1);
+
+        }
+        commentaire.setEnnonce("commentaire de la productivite ");
+        commentaire.setSection("Habilités personnelles");
+        commentaire.setEvaluation(e);
+
+
+        //generateur.createPdfEvaluationStagiaire(e,questions);
+
+
+
+       /*Enseignant enseignants = new Enseignant();
+       enseignants.setNom("Enseignant test");
+       enseignants.setPrenom("del stest");
+       Etudiant etudiants = new Etudiant();
+       Employeur employeurs = new Employeur();
+
+        EvaluationMilieuStage evaluationMilieuStage = new EvaluationMilieuStage();
+        evaluationMilieuStage.setEtudiant(etudiants);
+        evaluationMilieuStage.setEnseignant(enseignants);
+        evaluationMilieuStage.setEmployeur(employeurs);
+
+
+        List<Question> questions = new ArrayList<>();
+        Question question = new Question();
+        question.setEvaluation(evaluationMilieuStage);
+        question.setQuestion("Des mesures d’accueil facilitent l’intégration du nouveau stagiaire. ");
+        question.setReponse("Plutôt en accord");
+        question.setSection("Evaluation milieu stage");
+
+        questions.add(question);
+
+        for (int i = 0; i < 10; i++) {
+            question = new Question();
+            question.setEvaluation(evaluationMilieuStage);
+            question.setQuestion("Des mesures d’accueil facilitent l’intégration du nouveau stagiaire. " + i);
+            question.setReponse("Plutôt en accord" +i);
+            question.setSection("Evaluation milieu stage" +i);
+            questions.add(question);
+        }
+
+        Commentaire commentaire= new Commentaire();
+        commentaire.setEvaluation(evaluationMilieuStage);
+        commentaire.setSection("Evaluation milieu stage");
+        commentaire.setEnnonce("comentaire 1");
+
+
+        generateur.createPdfEvaluationMilieuStage(evaluationMilieuStage,questions);*/
+    }
 }

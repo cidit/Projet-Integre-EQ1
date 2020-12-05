@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CandidatureRepository extends JpaRepository<Candidature, Long> {
-
     List<Candidature>findByStatut(Candidature.CandidatureStatut statut);
-
+    Optional<Candidature> findByEtudiant(Etudiant etudiant);
 }

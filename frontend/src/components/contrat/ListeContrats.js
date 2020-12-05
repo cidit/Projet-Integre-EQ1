@@ -18,7 +18,7 @@ export class ListeContrat extends Component {
     }
 
     async componentDidMount() {
-        if (AuthService.getTokenDESC().toUpperCase() === "ROEL_GESTIONNAIRE") {
+        if (AuthService.getTokenDESC().toUpperCase() === "ROLE_GESTIONNAIRE") {
             await ContratService.getContrats(localStorage.getItem("session")).then((res) => this.setState({contrats: res.data}));
         }
         else if (AuthService.getTokenDESC().toUpperCase() === "ROLE_EMPLOYEUR") {

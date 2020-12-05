@@ -87,7 +87,7 @@ export default function EvaluationMiliauStageTabs() {
         className={classes.tabs}
       >
         <Tab className='text-left' label="Évaluations milieu de stage en attente" {...a11yProps(0)} />
-        <Tab className='text-left' label="Historique d'évaluation" {...a11yProps(1)} />
+        <Tab className='text-left' label="Historique d'évaluation milieu de stage" {...a11yProps(1)} />
 
       </Tabs>
       <TabPanel value={value} index={0} className={classes.tabPanel} >

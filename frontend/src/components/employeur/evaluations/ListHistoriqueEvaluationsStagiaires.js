@@ -1,15 +1,15 @@
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
+import { TableCell, TableRow } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import {Table, Button  }from '@material-ui/core';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import { TableRow, TableCell } from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from "react";
 import EvaluationService from '../../../service/EvaluationService';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { Alert } from '@material-ui/lab';
-
 import AuthService from "../../../service/security/auth.service";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,6 +75,7 @@ export default function ListHistoriqueEvaluationsStagiaires() {
                     <TableCell className={classes.textTitle}>Courriel </TableCell>
                     <TableCell className={classes.textTitle}>Téléphone</TableCell>
                     <TableCell className={classes.textTitle}>Remplie par</TableCell>
+                    <TableCell className={classes.textTitle}>Télécharger évaluation</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -95,15 +96,33 @@ function Row(props) {
   const { row } = props;
   const classes = useStyles();
 
+  const downloadEvaluation = async (evaluation) => {
+    await EvaluationService.telechargerEvaluationStagiaire(evaluation.id).then((response) => {
+    const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.setAttribute('download', "Evaluation_stagaire_" + 
+                          evaluation.etudiant.prenom + "_" + evaluation.etudiant.nom + ".pdf");
+        document.body.appendChild(link);
+        link.click();
+    });
+}
+
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
-        <TableCell >{row.dateCreation}</TableCell>
-        <TableCell >{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
-        <TableCell >{row.etudiant.programme}</TableCell>
-        <TableCell >{row.etudiant.email}</TableCell>
-        <TableCell >{row.etudiant.telephone}</TableCell>
-        <TableCell >{row.employeur.nom}</TableCell>
+        <TableCell className='align-middle'>{row.dateCreation}</TableCell>
+        <TableCell className='align-middle'>{row.etudiant.prenom} {row.etudiant.nom}</TableCell>
+        <TableCell className='align-middle'>{row.etudiant.programme}</TableCell>
+        <TableCell className='align-middle'>{row.etudiant.email}</TableCell>
+        <TableCell className='align-middle'>{row.etudiant.telephone}</TableCell>
+        <TableCell className='align-middle'>{row.employeur.nom}</TableCell>
+        <TableCell>
+                    <Button className='m-2' 
+                    size="small" 
+                    color="primary" 
+                    onClick={() => downloadEvaluation(row)}><GetAppIcon /></Button>
+                </TableCell>
       </TableRow>
     </React.Fragment>
   );

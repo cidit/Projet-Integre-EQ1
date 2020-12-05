@@ -39,6 +39,23 @@ class EvaluationService{
     async getEvaluationsMilieuStageByEnseignant(idEnseignant){
         return await axios.get(baseURLMilieuStage + "/getByEnseignant/" + idEnseignant, { headers: authHeader() });
     }
+
+    async telechargerEvaluationMilieuStage(idEvaluation) {
+        return await( axios.request({
+            url: baseURLMilieuStage + "/getEvaluation/"+ idEvaluation,
+            method: 'GET',
+            responseType: 'blob',
+            headers: authHeader()
+        }))
+    }
+    async telechargerEvaluationStagiaire(idEvaluation) {
+        return await( axios.request({
+            url: baseURLStagiaire + "/getEvaluation/"+ idEvaluation,
+            method: 'GET',
+            responseType: 'blob',
+            headers: authHeader()
+        }))
+    }
 }
 
 export default new EvaluationService()
