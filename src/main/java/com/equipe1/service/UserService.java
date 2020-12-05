@@ -38,15 +38,6 @@ public class UserService {
         return user.getEmail().equals(email) ? user: null;
     }
 
-    public List<Rappel> getRemindersFor(long userId){
-        var optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            return null; // TODO
-        } else {
-            return null; // TODO
-        }
-    }
-
     public User getById(long id) throws ResponseStatusException {
         return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "no user with id " + id));
     }

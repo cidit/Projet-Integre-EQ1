@@ -9,9 +9,6 @@ import HeaderComponent from "./components/HeaderComponent";
 import CreateStageComponent from './components/stage/CreateStageComponent';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandidaturesEtudiantComponent';
-import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
-
-import SelectionnerStagiaireComponent from "./components/employeur/SelectionnerStagiaireComponent";
 
 import CreationContrat from './components/contrat/CreationContrat';
 import TeleverserContrat from './components/utils/TeleverserContrat';
@@ -52,7 +49,7 @@ function App() {
   return (
     
       <main>
-      <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
         <HeaderComponent />
         <Switch>
           {/* No role required */}  
@@ -92,7 +89,7 @@ function App() {
           <AuthRoute path="/profilGestionnaire" component={ProfilGestionnaire} requiredRole="ROLE_GESTIONNAIRE"/>
           <AuthRoute path="/profilEnseignant" component={ProfilEnseignant} requiredRole="ROLE_ENSEIGNANT"/>
         </Switch>
-            </ThemeProvider>
+        </ThemeProvider>
       </main>
     
   );
