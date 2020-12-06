@@ -133,9 +133,7 @@ public class StageService {
     public Stage updateStatus(Stage newStage, long id) throws Exception {
         newStage.setStatut(Stage.StageStatus.APPROUVÉ);
 
-        courrielService.sendSimpleMessage(new Courriel(newStage.getEmployeur().getEmail(),
-                        env.getProperty("my.subject.stage"), env.getProperty("my.message.stageApprouve")),
-                newStage.getEmployeur().getNom());
+        courrielService.sendOffreDeStageApprobationMail(newStage);
         return updateStage(newStage, id);
     }
 

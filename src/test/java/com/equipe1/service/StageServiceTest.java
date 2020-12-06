@@ -168,7 +168,7 @@ public class StageServiceTest {
         // Act
         Stage stage = stageService.updateStatus(s1,30L);
         stage.setDateLimiteCandidature(LocalDate.now().plusDays(1));
-        doNothing().when(courrielService).sendSimpleMessage(new Courriel(),"test");
+        doNothing().when(courrielService).sendOffreDeStageApprobationMail(new Courriel(),"test");
         // Assert
         assertSame(stage.getStatut(), Stage.StageStatus.APPROUVÉ);
         assertTrue(stage.isOuvert());
