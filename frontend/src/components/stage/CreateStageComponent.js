@@ -49,7 +49,7 @@ class CreateStageComponent extends Component {
 
               <div className="form-group col">
                 <label className="control-label">Titre</label>
-                <Field name="titre" className="form-control" validate={isRequired(<ValidationChamp field={"un Titre "} />)} />
+                <Field name="titre" className="form-control" validate={isRequired(<ValidationChamp field={"un titre "} />)} />
                 <ErrorMessage className="text-danger" name="titre">{msg => <div>{msg}</div>}</ErrorMessage >
               </div>
 
@@ -58,7 +58,7 @@ class CreateStageComponent extends Component {
                 <Field as="select"
                   name="programme"
                   className="form-control"
-                  validate={isRequired(<ValidationChamp field={" un Programme "} />)}
+                  validate={isRequired(<ValidationChamp field={" un programme "} />)}
                 >
                   <option value="">Choisir un programme</option>
                   <option value="Gestion de commerces">Gestion de commerces</option>
@@ -89,18 +89,18 @@ class CreateStageComponent extends Component {
             {/* Dates */}
             <div className="row">
               <div className="form-group col">
-                <label className="control-label">Date limite pour appliquer</label>
-                <Field type="date" name="dateLimiteCandidature" className="form-control" validate={isRequired(<ValidationChamp field={"une Date "} />)} />
+                <label className="control-label">Date limite de postulation</label>
+                <Field type="date" name="dateLimiteCandidature" className="form-control" validate={isRequired(<ValidationChamp field={"une date "} />)} />
                 <ErrorMessage name="dateLimiteCandidature">{msg => <ValidationDate field={msg} />}</ErrorMessage>
               </div>
               <div className="form-group col">
-                <label className="control-label">Date Début de Stage</label>
-                <Field type="date" name="dateDebut" className="form-control" validate={isRequired(<ValidationChamp field={"une Date "} />)} />
+                <label className="control-label">Date de début du stage</label>
+                <Field type="date" name="dateDebut" className="form-control" validate={isRequired(<ValidationChamp field={"une date "} />)} />
                 <ErrorMessage className="text-danger" name="dateDebut">{msg => <ValidationDate field={msg} />}</ErrorMessage>
               </div>
               <div className="form-group col">
-                <label className="control-label">Date finale de Stage</label>
-                <Field type="date" name="dateFin" className="form-control" validate={isRequired(<ValidationChamp field={"une Date "} />)} />
+                <label className="control-label">Date de fin du stage</label>
+                <Field type="date" name="dateFin" className="form-control" validate={isRequired(<ValidationChamp field={"une date "} />)} />
                 <ErrorMessage className="text-danger" name="dateFin">{msg => <ValidationDate field={msg} />}</ErrorMessage>
               </div>
             </div>
@@ -108,12 +108,12 @@ class CreateStageComponent extends Component {
             <div className="row">
               <div className="form-group col">
                 <label className="control-label">Nombre de places</label>
-                <Field type="number" name="nbAdmis" className="form-control" validate={isRequired(<ValidationChamp field={"un Nombre de places "} />)} min="0" />
+                <Field type="number" name="nbAdmis" className="form-control" validate={isRequired(<ValidationChamp field={"un nombre de places "} />)} min="0" />
                 <ErrorMessage name="nbAdmis">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
               <div className="form-group col">
-                <label className="control-label">Heures par semaine</label>
-                <Field type="number" name="nbHeuresParSemaine" className="form-control" validate={isRequired(<ValidationChamp field={" un Nombre d'heures par semaine"} min="0" step=".01" />)} />
+                <label className="control-label">Nombre d'heures par semaine</label>
+                <Field type="number" name="nbHeuresParSemaine" className="form-control" validate={isRequired(<ValidationChamp field={" un nombre d'heures par semaine"} min="0" step=".01" />)} />
                 <ErrorMessage name="nbHeuresParSemaine">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
               <div className="form-group col">
@@ -126,7 +126,7 @@ class CreateStageComponent extends Component {
             <div className="form-row">
               <div className="form-group col">
                 <label className="control-label">Description</label>
-                <Field component="textarea" name="description" className="form-control" validate={isRequired(<ValidationChamp field={" une Description"} />)} />
+                <Field component="textarea" name="description" className="form-control" validate={isRequired(<ValidationChamp field={" une description"} />)} />
                 <ErrorMessage name="description">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
             </div>
@@ -134,14 +134,14 @@ class CreateStageComponent extends Component {
             <div className="form-row">
               <div className="form-group col">
                 <label className="control-label">Exigences</label>
-                <Field component="textarea" name="exigences" className="form-control" validate={isRequired(<ValidationChamp field={"un exigence"} />)} />
+                <Field component="textarea" name="exigences" className="form-control" validate={isRequired(<ValidationChamp field={"une exigence"} />)} />
                 <ErrorMessage name="exigences">{msg => <div>{msg}</div>}</ErrorMessage>
               </div>
             </div>
             <div className="form-group">
               <Button type="submit" variant="contained" color="primary" style={{ textTransform: 'none' }} 
                 className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
-                disabled={isValidating || isSubmitting || !isValid} onClick={this.feedBack.bind(this)}>Enregistrer</Button>
+                disabled={isValidating || isSubmitting || !isValid} onClick={this.feedBack.bind(this)}>Créer le stage</Button>
 
               {status && status.message &&
                 <AlertDialog titre={status.message} 
@@ -182,7 +182,7 @@ export default withFormik({
     }
 
     if (limitApplicationDate < today) {
-      errors.dateLimiteCandidature = 'La date limit ne doit être inférieure ou égale à la date d\'aujourd\'hui'
+      errors.dateLimiteCandidature = 'La date limite ne doit être inférieure ou égale à la date d\'aujourd\'hui'
     }
 
     return errors;
