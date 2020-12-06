@@ -6,6 +6,15 @@ const baseURLMilieuStage = "http://localhost:8080/evaluationMilieuStage";
 
 class EvaluationService{
 
+    async getAllEvaluationsStagiaire(){
+        return await axios.get(baseURLStagiaire + "/findAll", { headers: authHeader() });
+    }
+
+    async getAllEvaluationsMilieuStage(){
+        return await axios.get(baseURLMilieuStage + "/findAll", { headers: authHeader() });
+    }
+
+
     // duplicate
     async put(evaluation, idEtudaint){
         return axios.post(baseURLStagiaire + '/newEvaluation/'+ idEtudaint, evaluation)
@@ -38,6 +47,14 @@ class EvaluationService{
 
     async getEvaluationsMilieuStageByEnseignant(idEnseignant){
         return await axios.get(baseURLMilieuStage + "/getByEnseignant/" + idEnseignant, { headers: authHeader() });
+    }
+
+    async getEvaluationsStagiaireByEtudaint(idEtudiant){
+        return await axios.get(baseURLStagiaire + "/getByEtudiant/" + idEtudiant, { headers: authHeader() });
+    }
+
+    async getEvaluationsMilieuStageByEtudiant(idEtudiant){
+        return await axios.get(baseURLMilieuStage + "/getByEtudiant/" + idEtudiant, { headers: authHeader() });
     }
 
     async telechargerEvaluationMilieuStage(idEvaluation) {

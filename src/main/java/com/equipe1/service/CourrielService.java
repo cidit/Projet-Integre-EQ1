@@ -35,6 +35,7 @@ public class CourrielService {
         String mailTo = stage.getEmployeur().getEmail();
         String mailBody = "Bonjour, " + " \n" + content;
         String subject = "Approbation de votre offre de stage";
+        LOGGER.info("employeur ==> " + stage.getEmployeur());
         configMail(mailTo, subject , mailBody);
     }
 

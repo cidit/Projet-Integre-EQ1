@@ -61,6 +61,8 @@ public class ContratServiceTest {
     @MockBean
     private SessionRepository sessionRepository;
 
+
+
     private Session session;
     private Candidature c1;
     private Candidature c2;
