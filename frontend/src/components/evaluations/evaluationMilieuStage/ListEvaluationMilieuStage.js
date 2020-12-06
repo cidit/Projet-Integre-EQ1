@@ -71,7 +71,7 @@ export default function EvaluationMilieuHome() {
                             <Table className="table table-striped">
                                 <TableHead>
                                     <TableRow >
-                                        <TableCell className={classes.textTitle} >Nom de l'Entreprise</TableCell>
+                                        <TableCell className={classes.textTitle} >Nom de l'entreprise</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
                                         <TableCell className={classes.textTitle}>Adresse</TableCell>

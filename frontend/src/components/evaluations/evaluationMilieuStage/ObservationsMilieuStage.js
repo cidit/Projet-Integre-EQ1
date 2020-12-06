@@ -58,7 +58,7 @@ export default function ObservationsMilieuStage() {
                                     Selectionner
                              </option>
                                 <option value={"Premier stage"}>Premier stage</option>
-                                <option value={"deuxième stage"}>deuxième stage</option>
+                                <option value={"deuxième stage"}>Deuxième stage</option>
                             </NativeSelect>
                         </FormControl>
 
@@ -81,8 +81,8 @@ export default function ObservationsMilieuStage() {
                                     Selectionner
                              </option>
                                 <option value={"1"}>Un stagiaire</option>
-                                <option value={"2"}>Deux stagiaire</option>
-                                <option value={"3"}>trois stagiaire</option>
+                                <option value={"2"}>Deux stagiaires</option>
+                                <option value={"3"}>Trois stagiaires</option>
                             </NativeSelect>
                         </FormControl>
 

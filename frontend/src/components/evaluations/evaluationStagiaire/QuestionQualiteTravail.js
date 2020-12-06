@@ -21,6 +21,6 @@ export default function QuestionQualiteTravail(props) {
         field={"Qualité du travail"} 
         continuer={goToRelations} 
         titre ={"2. QUALITÉ DU TRAVAIL"} 
-        sousTitre={"Capacité de s’acquitter des tâches sous sa responsabilité en s’imposant personnellement des normes de qualité"}/>
+        sousTitre={"Capacité à effectuer des tâches sous sa responsabilité de manière autonome en respectant les normes de travail"}/>
       )
 }

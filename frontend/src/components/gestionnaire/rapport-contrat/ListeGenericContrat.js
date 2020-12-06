@@ -79,7 +79,7 @@ export default function ListeGenericContrat(props) {
             <Table className="table">
                 <TableHead className={classes.heading}>
                 <TableRow>
-                    <TableCell className={classes.textTitle}> Date de creation </TableCell>
+                    <TableCell className={classes.textTitle}> Date de création </TableCell>
                     <TableCell className={classes.textTitle}> Employeur </TableCell>
                     <TableCell className={classes.textTitle}> Étudiant(e) </TableCell>
                     <TableCell className={classes.textTitle}> Télécharger </TableCell>
@@ -136,7 +136,7 @@ function AlertAucunContrat() {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a pas de contrat</Alert>
+                <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a pas de contrat.</Alert>
             </div>
         </div>
     </div>

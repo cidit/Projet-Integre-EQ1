@@ -97,7 +97,7 @@ function CreationContrat() {
           <Button variant="contained" color="primary" component="span"
             fullWidth
             onClick={creationParTeleversement}>
-            téléverser un fichier depuis mon ordinateur
+            Téléverser un fichier depuis mon ordinateur
             </Button>
         </div>
       </div>
@@ -212,19 +212,19 @@ function CreateTableauEtudiant(props) {
 
         <Typography variant="h5" component="h2" className={classes.title}> Étudiant</Typography>
 
-        <Typography className={classes.subtitle}> Nom   </Typography>
+        <Typography className={classes.subtitle}> Nom</Typography>
         <Typography className={classes.pos}>{props.candidatureFinal.etudiant.nom}   {props.candidatureFinal.etudiant.prenom}</Typography>
 
-        <Typography className={classes.subtitle}>Email </Typography>
+        <Typography className={classes.subtitle}>Email</Typography>
         <Typography className={classes.pos}>{props.candidatureFinal.etudiant.email}</Typography>
 
-        <Typography className={classes.subtitle}>Adresse </Typography>
+        <Typography className={classes.subtitle}>Adresse</Typography>
         <Typography className={classes.pos}>{props.candidatureFinal.etudiant.adresse} </Typography>
 
-        <Typography className={classes.subtitle}> Téléphone  </Typography>
+        <Typography className={classes.subtitle}>Téléphone</Typography>
         <Typography className={classes.pos}>{props.candidatureFinal.etudiant.telephone}</Typography>
 
-        <Typography className={classes.subtitle}>Programme  </Typography>
+        <Typography className={classes.subtitle}>Programme</Typography>
         <Typography className={classes.pos}>{props.candidatureFinal.etudiant.programme} </Typography>
 
 
@@ -246,19 +246,19 @@ function CreateTableauStage(props) {
 
 
 
-        <Typography className={classes.subtitle}> Titre </Typography>
+        <Typography className={classes.subtitle}> Titre</Typography>
         <Typography className={classes.pos}>{props.candidatureFinal.stage.titre}</Typography>
 
-        <Typography className={classes.subtitle}> Date début  </Typography>
+        <Typography className={classes.subtitle}> Date de début</Typography>
         <Typography className={classes.pos}>{props.candidatureFinal.stage.dateDebut} </Typography>
 
-        <Typography className={classes.subtitle}> Date Fin  </Typography>
+        <Typography className={classes.subtitle}> Date de fin</Typography>
         <Typography className={classes.pos}> {props.candidatureFinal.stage.dateFin} </Typography>
 
-        <Typography className={classes.subtitle}> Heures par Semaine </Typography>
+        <Typography className={classes.subtitle}> Nombre d'heures par semaine </Typography>
         <Typography className={classes.pos}>{props.candidatureFinal.stage.nbHeuresParSemaine} </Typography>
 
-        <Typography className={classes.subtitle}> Ville    </Typography>
+        <Typography className={classes.subtitle}> Ville</Typography>
         <Typography className={classes.pos}> {props.candidatureFinal.stage.ville}  </Typography>
 
       </CardContent>

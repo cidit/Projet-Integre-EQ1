@@ -70,7 +70,7 @@ export default function ListCandidatureChoisi() {
                                     <TableCell className={classes.textTitle}>Employeur</TableCell>
                                     <TableCell className={classes.textTitle}>Étudiant</TableCell>
                                     <TableCell className={classes.textTitle}>Programme</TableCell>
-                                    <TableCell className={classes.textTitle}>Générer contrat</TableCell>
+                                    <TableCell className={classes.textTitle}>Générer le contrat</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -119,7 +119,7 @@ function AlertAucunContrat() {
     return <div className="container">
       <div className="row justify-content-md-center">
         <div className="col">
-         <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun contrat à générer pour le moment</Alert>
+         <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun contrat à générer pour le moment.</Alert>
         </div>
       </div>
     </div>;

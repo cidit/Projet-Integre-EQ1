@@ -69,7 +69,7 @@ export default function ListEtudiants(props) {
                                 <TableHead className={classes.heading}>
                                     <TableRow>
                                         <TableCell className={classes.textTitle}>Matricule</TableCell>
-                                        <TableCell className={classes.textTitle}>Nom de l'etudiant</TableCell>
+                                        <TableCell className={classes.textTitle}>Nom de l'etudiant(e)</TableCell>
                                         <TableCell className={classes.textTitle}>Programme</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>

@@ -51,12 +51,12 @@ export default class HomeEtudiant extends Component {
                 case "DENIED" :
                     return <p className="text-center alert alert-danger mt-3" role="alert"> Votre CV a été refusé. Veuillez en soumettre un autre pour postuler à une offre de stage.</p>
                 case "UNREVIEWED" :
-                    return <p className="text-center alert alert-success mt-3" role="alert"> Votre CV a est en cours d'évaluation.</p>
+                    return <p className="text-center alert alert-success mt-3" role="alert"> Votre CV est en cours d'évaluation.</p>
                 default :
                     break;
             }
         } else {
-            return <p className="text-center alert alert-warning mt-3" role="alert"> Vous n'avez pas de CV, veuillez en soumettre afin de postuler à une offre de stage.</p>
+            return <p className="text-center alert alert-warning mt-3" role="alert"> Vous n'avez pas de CV, veuillez en soumettre un afin de postuler à une offre de stage.</p>
         }
     }
 
@@ -130,7 +130,7 @@ export default class HomeEtudiant extends Component {
                                     style={{ textTransform: 'none' }}>Enregistrer mon CV</Button> : null}<br/>
                         {this.state.hasUploadedCV ?
                             <label style={{color: "green"}}>Vous venez de téléverser votre CV. Il doit cependant être
-                                approuvé pour que vous puissiez appliquer aux offres de stage.</label> : null}
+                                approuvé pour que vous puissiez postuler aux offres de stage.</label> : null}
                         <br/>
 
                         <label>{this.state.etudiant.cv != null ? "Télécharger votre CV : " : null}</label> 

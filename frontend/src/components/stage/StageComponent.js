@@ -86,9 +86,9 @@ export function Veto(props){
                 <ul>
                     <li>Est-ce que la durée du stage est suffisante?</li>
                     <li>Est-ce que la date de début est adéquate?</li>
-                    <li>Est-ce que le nombre d'heures par semaine est faisable?</li>
+                    <li>Est-ce que le nombre d'heures par semaine est réaliste?</li>
                     <li>Est-ce que le salaire est adéquat?</li>
-                    <li>ESt-ce que les exigences et la description sont adaptés pour le programme ciblé?</li>
+                    <li>ESt-ce que les exigences et la description sont adaptées pour le programme ciblé?</li>
                 </ul>
             </div>
             <Button

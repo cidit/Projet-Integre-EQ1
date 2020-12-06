@@ -85,7 +85,7 @@ export default function EvaluationStagiaireTabs() {
         className={classes.tabs}
       >
         <Tab className='text-left' label="Évaluations stagiaires" {...a11yProps(0)} />
-        <Tab className='text-left' label="Historique d'évaluation stagiaires" {...a11yProps(1)} />
+        <Tab className='text-left' label="Historique des évaluations de stagiaire" {...a11yProps(1)} />
 
       </Tabs>
       <TabPanel value={value} index={0} className={classes.tabPanel} >
