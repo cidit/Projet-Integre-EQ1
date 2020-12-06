@@ -45,19 +45,6 @@ export default function Home(props) {
         }
     }, [userId])
 
-
-    function getRouteSignature() {
-        switch (userDesc) {
-            case "etudiant":
-                return "/contratsEtudiant"
-            case "employeur":
-                return "/contratsEmployeur"
-            default:
-                return "/none"
-        }
-    }
-
-
     const values = {
         "PAS_DE_CV": [
             "Pas de CV",
@@ -72,8 +59,8 @@ export default function Home(props) {
         "SIGNATURE_MANQUANTE_SUR_UN_CONTRAT": [
             "Pas de signature",
             "Votre signature est manquante sur un contrat.",
-            getRouteSignature(),
-        ], // TODO
+            "/listeContrats/0",
+        ],
         "PAS_ENREGISTRE_CETTE_SESSION": [
             "Pas enregistré",
             "Vous n'êtes pas enregistré cette session.",
