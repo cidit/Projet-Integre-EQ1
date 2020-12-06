@@ -131,4 +131,12 @@ class EvaluationStagiaireServiceTest {
         Assertions.assertEquals(evaluations.size(), 1);
 
     }
+
+    @Test
+    public void testGetDocumentEvaluationMilieuStage() {
+    }
+
+    @Test
+    public void testGetDocumentEvaluationStagiaire() {
+    }
 }

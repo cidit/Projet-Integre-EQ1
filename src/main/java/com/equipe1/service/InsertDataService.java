@@ -91,9 +91,17 @@ public class InsertDataService {
 
     @Transactional
     public void insertEtudiant(){
+        Session sessionEte = sessionRepository.findById(1L).get();
+        Session sessionAutomne = sessionRepository.findById(2L).get();
         Session session = sessionRepository.findCurrentSession().get();
+
         List<Session> sessions = new ArrayList<>();
         sessions.add(session);
+
+        List<Session> sessionsPassees = new ArrayList<>();
+        sessionsPassees.add(sessionEte);
+        sessionsPassees.add(sessionAutomne);
+
 
         Etudiant e1 = new Etudiant();
         e1.setAdresse("123456");
@@ -164,6 +172,26 @@ public class InsertDataService {
         e3.setRoles(roles);
 
         etudiantRepository.save(e3);
+
+        Etudiant e4 = new Etudiant();
+        e4.setAdresse("110 Rue Trichardt");
+        e4.setEmail("jbmeyer@gmail.com");
+        e4.setMatricule("1212024");
+        e4.setPassword("123456");
+        e4.setPrenom("Jean-Baptiste");
+        e4.setNom("Meyer");
+        e4.setTelephone("438-341-1212");
+        e4.setProgramme("Techniques de l’informatique");
+        e4.setSessions(sessionsPassees);
+        e4.setEnregistre(false);
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e4.setRoles(roles);
+        etudiantRepository.save(e4);
     }
 
     @Transactional

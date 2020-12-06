@@ -17,6 +17,8 @@ import ProfilEtudiantCV from './ProfilEtudiantCV';
 
 import AuthService from "../../service/security/auth.service";
 
+import {useHistory, useParams} from 'react-router-dom';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -75,7 +77,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProfileHome() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const history = useHistory();
+  const params = useParams();
+  const [value, setValue] = React.useState(parseInt(params.tab));
 
   const id = AuthService.getTokenDESC().toUpperCase() === "ROLE_ETUDIANT" ? AuthService.getTokenId() : '';
 
@@ -105,6 +109,7 @@ export default function ProfileHome() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    history.push("/profilEtudiant/" + newValue)
   };
 
   return (

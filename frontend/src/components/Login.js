@@ -18,10 +18,7 @@ import AuthService from "../service/security/auth.service";
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Porjet Intégré
-            </Link>{' '}
+            {'Copyright ©  Projet Intégré '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>

@@ -9,9 +9,6 @@ import HeaderComponent from "./components/HeaderComponent";
 import CreateStageComponent from './components/stage/CreateStageComponent';
 import ApplicationStageComponent from "./components/etudiant/ApplicationStageComponent";
 import ListeCandidaturesEtudiantComponent from './components/etudiant/ListeCandidaturesEtudiantComponent';
-import SelectionnerEtudiantComponent from './components/gestionnaire/SelectionnerEtudiantComponent';
-
-import SelectionnerStagiaireComponent from "./components/employeur/SelectionnerStagiaireComponent";
 
 import CreationContrat from './components/contrat/CreationContrat';
 import TeleverserContrat from './components/utils/TeleverserContrat';
@@ -26,7 +23,7 @@ import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStag
 import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire';
 import EvaluationStagiaireTabs from './components/employeur/evaluations/EvaluationStagiaireTabs';
 import {createMuiTheme} from "@material-ui/core";
-import {ListeContrat} from "./components/contrat/ListeContrats";
+import ContratsTabs from "./components/contrat/ContratsTabs";
 
 import ProfilEmployeur from './components/employeur/ProfilEmployeur';
 import ProfilGestionnaire from './components/gestionnaire/ProfilGestionnaire';
@@ -52,7 +49,7 @@ function App() {
   return (
     
       <main>
-      <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
         <HeaderComponent />
         <Switch>
           {/* No role required */}  
@@ -66,7 +63,7 @@ function App() {
           <AuthRoute path='/CreationContrat/:id' component={CreationContrat} requiredRole="ROLE_GESTIONNAIRE"/>
 
           <AuthRoute path='/televerserContrats/:id' component={TeleverserContrat} requiredRole={["ROLE_EMPLOYEUR", "ROLE_ETUDIANT"]}/>
-          <AuthRoute path='/listeContrats' component={ListeContrat} requiredRole={["ROLE_EMPLOYEUR", "ROLE_ETUDIANT"]}/>
+          <AuthRoute path='/listeContrats/:tab' component={ContratsTabs} requiredRole={["ROLE_EMPLOYEUR", "ROLE_ETUDIANT"]}/>
           <AuthRoute path="/stage/:id/:tab" component={StageComponent} requiredRole={["ROLE_EMPLOYEUR", "ROLE_GESTIONNAIRE"]}/>
 
           <AuthRoute path="/questionProductivite/:id" component={QuestionProductivite} requiredRole="ROLE_EMPLOYEUR"/>
@@ -87,12 +84,12 @@ function App() {
           <AuthRoute path="/rapportStage/:tab" component={RapportStageComponent} requiredRole="ROLE_GESTIONNAIRE"/>
           <AuthRoute path="/rapportContrat/:tab" component={RapportContratComponent} requiredRole="ROLE_GESTIONNAIRE"/>
 
-          <AuthRoute path="/profilEtudiant" component={ProfilEtudiant} requiredRole="ROLE_ETUDIANT"/>
+          <AuthRoute path="/profilEtudiant/:tab" component={ProfilEtudiant} requiredRole="ROLE_ETUDIANT"/>
           <AuthRoute path="/profilEmployeur" component={ProfilEmployeur} requiredRole="ROLE_EMPLOYEUR"/>
           <AuthRoute path="/profilGestionnaire" component={ProfilGestionnaire} requiredRole="ROLE_GESTIONNAIRE"/>
           <AuthRoute path="/profilEnseignant" component={ProfilEnseignant} requiredRole="ROLE_ENSEIGNANT"/>
         </Switch>
-            </ThemeProvider>
+        </ThemeProvider>
       </main>
     
   );

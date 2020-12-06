@@ -5,6 +5,7 @@ import com.equipe1.repository.EvaluationMilieuStageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,9 @@ public class EvaluationMilieuStageService {
     @Autowired
     private EtudiantService etudiantService;
 
+    @Autowired
+    private GenerateurPdfService generateurPdfService;
+
 
 
     public EvaluationMilieuStage save(EvaluationMilieuStage evaluation) {
@@ -50,9 +54,6 @@ public class EvaluationMilieuStageService {
             evaluationMilieuStage.setEmployeur(employeur);
             evaluationMilieuStage.setEnseignant(enseignant);
             evaluationMilieuStage.setEtudiant(etudiant);
-
-           // etudiant.setEvaluationMilieuStage(evaluationMilieuStage);
-           // etudiantService.saveEtudiant(etudiant);
         }
         evaluationMilieuStageRepository.save(evaluationMilieuStage);
         setQuestions(receptorDonnesEvaluation, evaluationMilieuStage);
@@ -81,5 +82,9 @@ public class EvaluationMilieuStageService {
     public List<EvaluationMilieuStage> getAllByEnseignant(Long idEnseignant) {
         Enseignant enseignant = enseignantService.getEnseignantById(idEnseignant);
         return evaluationMilieuStageRepository.findByEnseignant(enseignant);
+    }
+
+    public ByteArrayOutputStream getDocumentEvaluationMilieuStage(Long idEvaluation) throws Exception {
+        return generateurPdfService.createPdfEvaluationMilieuStage(idEvaluation);
     }
 }

@@ -23,7 +23,7 @@ const formSchema = Yup.object().shape({
     prenom: Yup.string().required('Veuillez saisir un prenom valide'),
     matricule: Yup.string().required('Veuillez saisir votre matricule'),
     programme: Yup.string().required('Veuillez saisir un programme valide'),
-    telephone: Yup.string().required('Veuillez saisir un telephone valide').min(10, "doit comprendre au moins 10 caractères.")
+    telephone: Yup.string().required('Veuillez saisir un telephone valide').min(10, "Doit comprendre au moins 10 caractères.")
                 .matches(phoneRegExp, 'Numéro de téléphone invalide'),
     adresse: Yup.string().required('Veuillez saisir un adresse valide')
 })
@@ -150,7 +150,7 @@ export default class EtudiantRegister extends Component {
                                 <div className="row justify-content-center">
                                     <div className="col-sm-5 ">
                                         <div className="form-group">
-                                            <label className="control-label">Password</label>
+                                            <label className="control-label">Mot de passe</label>
                                             <Field type="password"
                                                 name="password"
                                                 className="form-control"
@@ -254,7 +254,7 @@ export default class EtudiantRegister extends Component {
                                             <Button variant="contained" color="primary" className='m-3' type="submit"
                                                 className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
                                                 className="btn btn-primary"
-                                                disabled={isValidating || isSubmitting || !isValid}>Enregistrer
+                                                disabled={isValidating || isSubmitting || !isValid}>S'enregistrer
                                             </Button>
 
                                             {status && status.message &&

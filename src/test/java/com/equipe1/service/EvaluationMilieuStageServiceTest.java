@@ -149,4 +149,8 @@ public class EvaluationMilieuStageServiceTest {
         assertEquals(milieuStageList.get(0).getEnseignant(), enseignant);
         assertNotNull(milieuStageList);
     }
+
+    @Test
+    public void testGetDocumentEvaluationMilieuStage() {
+    }
 }

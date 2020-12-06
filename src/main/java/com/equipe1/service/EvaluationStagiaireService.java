@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,8 @@ public class EvaluationStagiaireService {
     private EmployeurRepository employeurRepository;
     @Autowired
     private SessionRepository sessionRepository;
+    @Autowired
+    private GenerateurPdfService generateurPdfService;
 
 
     public EvaluationStagiaire save(EvaluationStagiaire e) {
@@ -83,6 +86,10 @@ public class EvaluationStagiaireService {
 
         return evaluationStagiaire;
 
+    }
+
+    public ByteArrayOutputStream getDocumentEvaluationStagiaire(Long idEvaluation) throws Exception {
+        return generateurPdfService.createPdfEvaluationStagiaire(idEvaluation);
     }
 
 

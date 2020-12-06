@@ -114,7 +114,7 @@ function CustomTable(props) {
  
     return (
         <div className='container'>
-        <h5 align='left' className='m-2 pt-3 pb-3'>Assigner des étudiants à {params.nom} {params.prenom}</h5>
+        <h5 align='left' className='m-2 pt-3 pb-3'>Assigner des étudiants à {params.prenom} {params.nom}</h5>
             <TableContainer component={Paper} >
                 <Table>
                     <TableHead className={classes.textTitle}>

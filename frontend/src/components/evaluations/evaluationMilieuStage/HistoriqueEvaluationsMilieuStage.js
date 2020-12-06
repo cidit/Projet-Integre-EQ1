@@ -1,10 +1,11 @@
 import {
     makeStyles, Table,
-    TableBody, TableCell, TableContainer, TableHead, TableRow,Paper
+    TableBody, TableCell, TableContainer, TableHead, TableRow, Button
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
 import EvaluationService from '../../../service/EvaluationService';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 import AuthService from "../../../service/security/auth.service";
 
@@ -15,11 +16,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#E9E9E9',
         fontWeight: 'bold'
     },
-    // paper: {
-    //     padding: theme.spacing(0),
-    //     margin: 'auto',
-    //     maxWidth: '50%',
-    // },
     heading: {
         fontSize: theme.typography.pxToRem(10),
         fontWeight: theme.typography.fontWeightRegular,
@@ -40,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
         '& > *': {
             padding: theme.spacing(1),
             borderBottom: 'unset',
-            //backgroundColor: '#E9E9E9  ',
         },
     },
 }));
@@ -49,7 +44,6 @@ const useRowStyles = makeStyles((theme) => ({
         '& > *': {
             padding: theme.spacing(1),
             borderBottom: 'unset',
-            //backgroundColor: '#E9E9E9  ',
         },
     },
 }));
@@ -80,7 +74,7 @@ export default function HistoriqueEvaluationsMilieuStage() {
             <div className='container-fluid'>
                 {evaluationsMilieuStage &&
                     <>
-                    <TableContainer >
+                        <TableContainer >
                             <Table className="table table-striped">
                                 <TableHead>
                                     <TableRow >
@@ -90,6 +84,7 @@ export default function HistoriqueEvaluationsMilieuStage() {
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
                                         <TableCell className={classes.textTitle}>Étudiant</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel de l'étudiant</TableCell>
+                                        <TableCell className={classes.textTitle}>Télécharger évaluation</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -110,15 +105,33 @@ function Row(props) {
     const { row } = props;
     const classes = useRowStyles();
 
+    const downloadEvaluation = async (evaluation) => {
+        await EvaluationService.telechargerEvaluationMilieuStage(evaluation.id).then((response) => {
+        const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.setAttribute('download', "Evaluation_Milieu_stage" + evaluation.employeur.nom + ".pdf");
+            document.body.appendChild(link);
+            link.click();
+        });
+    }
+
+
     return (
         <React.Fragment>
             <TableRow className={classes.root}>
-                <TableCell >{row.dateCreation}</TableCell>
-                <TableCell >{row.employeur.nom}</TableCell>
-                <TableCell >{row.employeur.email}</TableCell>
-                <TableCell>{row.employeur.telephone}</TableCell>
-                <TableCell>{row.etudiant.nom}{row.etudiant.prenom}</TableCell>
-                <TableCell>{row.etudiant.email}</TableCell>
+                <TableCell className='align-middle'>{row.dateCreation}</TableCell>
+                <TableCell className='align-middle'>{row.employeur.nom}</TableCell>
+                <TableCell className='align-middle'>{row.employeur.email}</TableCell>
+                <TableCell className='align-middle'>{row.employeur.telephone}</TableCell>
+                <TableCell className='align-middle'>{row.etudiant.nom}{row.etudiant.prenom}</TableCell>
+                <TableCell className='align-middle'>{row.etudiant.email}</TableCell>
+                <TableCell>
+                    <Button className='m-2' 
+                    size="small" 
+                    color="primary" 
+                    onClick={() => downloadEvaluation(row)}><GetAppIcon /></Button>
+                </TableCell>
             </TableRow>
         </React.Fragment>
     );
