@@ -101,9 +101,9 @@ class ListeCandidaturesEtudiantComponent extends Component {
                         <TableHead className={classes.heading}>
                         <TableRow>
                             <TableCell className={classes.textTitle}> Titre </TableCell>
+                            <TableCell className={classes.textTitle}> Employeur </TableCell>
                             <TableCell className={classes.textTitle}> Statut </TableCell>
                             <TableCell className={classes.textTitle}> Programme </TableCell>
-                            <TableCell className={classes.textTitle}> Ville </TableCell>
                             <TableCell className={classes.textTitle} hidden={!this.state.isSessionSelectionneeEnCours}> Confirmer choix </TableCell>
                         </TableRow>
                         </TableHead>
@@ -144,9 +144,6 @@ function ShowCandidature(props) {
     const handleShowSnackbar = () => this.handleShowSnackbar();
     const handleDisableAll = () => this.handleDisableAll();
 
-
-
-
     function toggleBtns(isApprouved) {
         document.getElementsByName(approuved)[0].disabled = isApprouved
     }
@@ -154,9 +151,10 @@ function ShowCandidature(props) {
     async function handleClick(event) {
         event.preventDefault();
 
-        toggleBtns(event.target.name === approuved);
+        console.log(event.currentTarget.name);
+        toggleBtns(event.currentTarget.name === approuved);
 
-        props.candidature.statut = event.target.name;
+        props.candidature.statut = event.currentTarget.name;
 
         await CandidatureService.putCandidatureChoisi(props.candidature.id);
 
@@ -167,14 +165,14 @@ function ShowCandidature(props) {
 
     return (
         <>
-            <TableCell>{props.candidature.stage.titre}</TableCell>
-            <TableCell className={props.candidature.statut === "CHOISI" ? "APPROVED" : "WAITING"}>
+            <TableCell className='align-middle'>{props.candidature.stage.titre}</TableCell>
+            <TableCell className='align-middle'>{props.candidature.stage.employeur.nom}</TableCell>
+            <TableCell className='align-middle' style={{ color: props.candidature.statut === "CHOISI" ? "green" : "orange" }}>
                 {props.candidature.statut === "EN_ATTENTE" ? "EN ATTENTE" : "" ||
-                props.candidature.statut === "APPROUVE" ? "APPROUVÉE" : "" ||
+                props.candidature.statut === "APPROUVE" ? "APPROUVÉ" : "" ||
                 props.candidature.statut === "CHOISI" ? "CHOISI" : ""}
             </TableCell>
-            <TableCell>{props.candidature.stage.programme}</TableCell>
-            <TableCell>{props.candidature.stage.ville}</TableCell>
+            <TableCell className='align-middle'>{props.candidature.stage.programme}</TableCell>
 
             <TableCell hidden={!props.isSessionSelectionneeEnCours}>
                 <Button type="submit" className='m-2' variant="contained" size="small" color="primary" onClick={handleShowModal}
