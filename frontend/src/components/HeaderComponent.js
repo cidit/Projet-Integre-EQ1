@@ -11,7 +11,7 @@ function Logout(){
         AuthService.logout();
     }
     return (
-        <Nav.Link href="/?refresh" onSelect={handleSelect} className="ml-auto">DÉCONNECTER</Nav.Link>
+        <Nav.Link href="/?refresh" onSelect={handleSelect} className="ml-auto">SE DÉCONNECTER</Nav.Link>
     );
 }
 

@@ -222,7 +222,7 @@ export default class EnseignantRegister extends Component {
                                         <div className="form-group">
                                             <Button variant="contained" color="primary" className='m-3' type="submit"
                                                 className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
-                                                disabled={isValidating || isSubmitting || !isValid}>Enregistrer
+                                                disabled={isValidating || isSubmitting || !isValid}>S'enregistrer
                                                     </Button>
 
                                             {status && status.message &&
