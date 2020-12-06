@@ -181,7 +181,7 @@ public class InsertDataService {
         e4.setPrenom("Jean-Baptiste");
         e4.setNom("Meyer");
         e4.setTelephone("438-341-1212");
-        e4.setProgramme("Techniques de l’informatique");
+        e4.setProgramme("Techniques de la logistique du transport");
         e4.setSessions(sessionsPassees);
         e4.setEnregistre(false);
 
@@ -192,6 +192,86 @@ public class InsertDataService {
 
         e4.setRoles(roles);
         etudiantRepository.save(e4);
+
+        Etudiant e5 = new Etudiant();
+        e5.setAdresse("900 Avenue Trichardt");
+        e5.setEmail("vanessahuppenkothen@gmail.com");
+        e5.setMatricule("2421554");
+        e5.setPassword("123456");
+        e5.setPrenom("Vanessa");
+        e5.setNom("Huppenkothen");
+        e5.setTelephone("438-504-2123");
+        e5.setProgramme("Techniques d’éducation à l’enfance");
+        e5.setSessions(sessionsPassees);
+        e5.setEnregistre(false);
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e5.setRoles(roles);
+        etudiantRepository.save(e5);
+
+        Etudiant e6 = new Etudiant();
+        e6.setAdresse("8812 Rue Sherbrooke Ouest");
+        e6.setEmail("kevinoliphant@gmail.com");
+        e6.setMatricule("2178012");
+        e6.setPassword("123456");
+        e6.setPrenom("Kevin");
+        e6.setNom("Oliphant");
+        e6.setTelephone("438-504-2123");
+        e6.setProgramme("Techniques de l’informatique");
+        e6.setSessions(sessionsPassees);
+        e6.setEnregistre(false);
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e6.setRoles(roles);
+        etudiantRepository.save(e6);
+
+        Etudiant e7 = new Etudiant();
+        e7.setAdresse("2001 Rue Harding");
+        e7.setEmail("georgesdupont@gmail.com");
+        e7.setMatricule("1230112");
+        e7.setPassword("123456");
+        e7.setPrenom("Georges");
+        e7.setNom("Dupont");
+        e7.setTelephone("438-012-4132");
+        e7.setProgramme("Techniques de l’informatique");
+        e7.setSessions(sessionsPassees);
+        e7.setEnregistre(false);
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e7.setRoles(roles);
+        etudiantRepository.save(e7);
+
+        Etudiant e8 = new Etudiant();
+        e8.setAdresse("11 Avenue St-Just");
+        e8.setEmail("claraarsenault12@hotmail.com");
+        e8.setMatricule("4531124");
+        e8.setPassword("123456");
+        e8.setPrenom("Clara");
+        e8.setNom("Arsenault");
+        e8.setTelephone("438-991-2113");
+        e8.setProgramme("Soins infirmiers");
+        e8.setSessions(sessionsPassees);
+        e8.setEnregistre(false);
+
+        roles = new HashSet<>();
+        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(role);
+
+        e8.setRoles(roles);
+        etudiantRepository.save(e8);
     }
 
     @Transactional
