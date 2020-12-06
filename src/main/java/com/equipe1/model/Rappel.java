@@ -11,6 +11,7 @@ public interface Rappel {
     }
 
     enum GestionaireRappel implements Rappel {
-        CV_SANS_VETO, STAGE_SANS_VETO, CONTRAT_PRET_A_ETRE_GENERE
+        CV_SANS_VETO, STAGE_SANS_VETO, CONTRAT_PRET_A_ETRE_GENERE,
+        SIGNATURE_A_APPROUVER_EMPLOYEUR, SIGNATURE_A_APPROUVER_ETUDIANT
     }
 }
