@@ -47,7 +47,7 @@ function EmployeurNav(props) {
             <Nav.Link href="/profilEmployeur">Votre profil</Nav.Link>
             <Nav.Link href="/createStage">Créer un stage</Nav.Link>
             <Nav.Link href="/rapportStageEmployeur">Voir toutes les offres de stage</Nav.Link>
-            <Nav.Link href="/listeContrats">Contrats</Nav.Link>
+            <Nav.Link href="/listeContrats/0">Contrats</Nav.Link>
             <Nav.Link href="/evaluationsEmployeur">Évaluations stagiaires</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
@@ -62,7 +62,7 @@ function EtudiantNav(props) {
             <Nav.Link href="/profilEtudiant/0">Votre profil</Nav.Link>
             <Nav.Link href="/offrestage">Offres de stage</Nav.Link>
             <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
-            <Nav.Link href="/listeContrats">Contrats</Nav.Link>
+            <Nav.Link href="/listeContrats/0">Contrats</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
 

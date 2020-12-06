@@ -23,7 +23,7 @@ import EvaluationMilieuStage from './components/evaluations/evaluationMilieuStag
 import EvaluationStagiaire from './components/evaluations/evaluationStagiaire/EvaluationStagiaire';
 import EvaluationStagiaireTabs from './components/employeur/evaluations/EvaluationStagiaireTabs';
 import {createMuiTheme} from "@material-ui/core";
-import ListeContrats from "./components/contrat/ListeContrats";
+import ContratsTabs from "./components/contrat/ContratsTabs";
 
 import ProfilEmployeur from './components/employeur/ProfilEmployeur';
 import ProfilGestionnaire from './components/gestionnaire/ProfilGestionnaire';
@@ -63,7 +63,7 @@ function App() {
           <AuthRoute path='/CreationContrat/:id' component={CreationContrat} requiredRole="ROLE_GESTIONNAIRE"/>
 
           <AuthRoute path='/televerserContrats/:id' component={TeleverserContrat} requiredRole={["ROLE_EMPLOYEUR", "ROLE_ETUDIANT"]}/>
-          <AuthRoute path='/listeContrats' component={ListeContrats} requiredRole={["ROLE_EMPLOYEUR", "ROLE_ETUDIANT"]}/>
+          <AuthRoute path='/listeContrats/:tab' component={ContratsTabs} requiredRole={["ROLE_EMPLOYEUR", "ROLE_ETUDIANT"]}/>
           <AuthRoute path="/stage/:id/:tab" component={StageComponent} requiredRole={["ROLE_EMPLOYEUR", "ROLE_GESTIONNAIRE"]}/>
 
           <AuthRoute path="/questionProductivite/:id" component={QuestionProductivite} requiredRole="ROLE_EMPLOYEUR"/>
