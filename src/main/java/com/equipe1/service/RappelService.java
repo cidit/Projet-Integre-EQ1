@@ -33,6 +33,7 @@ public class RappelService {
             if (user instanceof Gestionnaire) return remindersForGestionaire((Gestionnaire) user);
             else if (user instanceof Employeur) return remindersForEmployeur((Employeur) user);
             else if (user instanceof Etudiant) return remindersForEtudiant((Etudiant) user);
+            else if (user instanceof Enseignant) return remindersForEnseignants((Enseignant) user);
         }
         return new ArrayList<>();
     }
@@ -152,6 +153,13 @@ public class RappelService {
                         candidature.getStatut() != Candidature.CandidatureStatut.CHOISI)
         )
             messages.add(Rappel.EtudiantRappel.FREQUENTATION_DE_STAGE_PAS_CONFIRMEE);
+
+        return messages;
+    }
+
+    private List<Rappel.EnseignantRappel> remindersForEnseignants(Enseignant user) {
+        var messages = new ArrayList<Rappel.EnseignantRappel>();
+
 
         return messages;
     }
