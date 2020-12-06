@@ -30,25 +30,28 @@ public class CourrielService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendSimpleMessage(Courriel mail, String nomDestinataire) throws Exception {
-        String content = "Votre affre de stage a été aprouvéé.";
-        mail.setSujet(content);
-        String mailBody = "Bonjour "+ nomDestinataire +  "\n\n" +content + mail.getContenu();
-        configMail(mail.getDestinataire(), mail.getSujet(), mailBody);
+    public void sendOffreDeStageApprobationMail(Stage stage) throws Exception {
+        String content = "Votre offre de stage a été approuvée. Des étudiants pourront désormais postuler à cette offre.";
+        String mailTo = stage.getEmployeur().getEmail();
+        String mailBody = "Bonjour, " + " \n" + content;
+        String subject = "Approbation de votre offre de stage";
+        configMail(mailTo, subject , mailBody);
     }
 
 
 
     public void sendMailCVApproval(Etudiant etudiant) throws Exception {
         String content = "";
+        String subject = "";
         if (etudiant.getCv().getStatus() == CV.CVStatus.APPROVED)
-            content = "Le CV que vous avez envoyé a été approuvé.";
+            content = "Le CV que vous avez envoyé a été approuvé. Vous pouvez maintenant postuler à des offres de stage.";
+            subject = "Approbation de votre CV";
         if (etudiant.getCv().getStatus() == CV.CVStatus.DENIED)
-            content = "Le CV que vous avez envoyeé a été refusé.";
+            content = "Le CV que vous avez envoyé a été refusé. Nous vous invitons à retéléverser un CV valide sans quoi, vous ne pourrez pas postuler à des offres de stage.";
+            subject = "Refus de votre CV";
         String mailTo = etudiant.getEmail();
         String mailBody = "Bonjour, " + etudiant.getPrenom() + " " + etudiant.getNom() + " \n" + content;
         LOGGER.info("nom ==> " + etudiant.getNom());
-        String subject = "Approbation de votre CV";
         configMail(mailTo, subject , mailBody);
     }
     public void sendCandidatureStatusUpdate(Candidature candidature) throws Exception {
@@ -60,7 +63,7 @@ public class CourrielService {
         String mailTo = candidature.getEtudiant().getEmail();
         String mailBody = "Bonjour, " + candidature.getEtudiant().getPrenom() + " " + candidature.getEtudiant().getNom() + " \n" + content;
         LOGGER.info("nom ==> " + candidature.getEtudiant().getNom());
-        String subject = "Mise a jour concernant votre postulation pour le stage " + candidature.getStage().getTitre();
+        String subject = "Mise à jour concernant votre postulation pour le stage " + candidature.getStage().getTitre();
         configMail(mailTo, subject , mailBody);
     }
 
@@ -84,18 +87,18 @@ public class CourrielService {
         if (desc.equals("Employeur")){
             mailTo = contrat.getCandidature().getEtudiant().getEmail();
             subject = "Contrat pour votre stage " + contrat.getCandidature().getStage().getTitre() + " chez " + contrat.getEmployeur().getNom();
-            mailBody = "Voici votre contrat de stage en piece-jointe.";
+            mailBody = "Voici le contrat de stage en pièce jointe. \n \n Nous vous invitons à le dater, à le signer et à le retéléverser sur l'application afin qu'il puisse être transmis à l'administration du Cégep.";
         } else if (desc.equals("Systeme")){ //changer pour le vrai discriminat
             mailTo = contrat.getCandidature().getStage().getEmployeur().getEmail();
-            subject = "Contrat pour offre de stage " + contrat.getCandidature().getStage().getTitre() + " pour l'étudiat " +
+            subject = "Contrat pour offre de stage " + contrat.getCandidature().getStage().getTitre() + " pour l'étudiant " +
                     contrat.getCandidature().getEtudiant().getNom() + " " +
                     contrat.getCandidature().getEtudiant().getPrenom();
-            mailBody = "Voici le contrat de stage en piece-jointe.";
+            mailBody = "Voici votre contrat de stage en pièce jointe. \n \n Nous vous invitons à le dater, à le signer et à le retéléverser sur l'application afin qu'il puisse être transmis à l'étudiant.";
         }
         else {
             mailTo = "stagescegepandrelaurendeau@gmail.com";
-            subject = "Contrat de stage pour l'etudiant " + contrat.getCandidature().getEtudiant().getPrenom() + " " + contrat.getCandidature().getEtudiant().getNom();
-            mailBody = "Voici le contrat de stage en piece-jointe.";
+            subject = "Contrat de stage pour l'étudiant " + contrat.getCandidature().getEtudiant().getPrenom() + " " + contrat.getCandidature().getEtudiant().getNom();
+            mailBody = "Voici le contrat de stage en pièce jointe.";
         }
 
         final InputStreamSource attachment = new ByteArrayResource(contrat.getDocumentContrat());
@@ -121,7 +124,7 @@ public class CourrielService {
             mailTo = contrat.getCandidature().getEtudiant().getEmail();
         }
         subject = "Le contrat que vous aviez téléversé est invalide";
-        mailBody = "Le contrat que vous aviez téléversé est invalide, nous vous invitions a le signer et a le dater convenablement.";
+        mailBody = "Le contrat que vous aviez téléversé est invalide, nous vous invitions à le signer et à le dater convenablement.";
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
