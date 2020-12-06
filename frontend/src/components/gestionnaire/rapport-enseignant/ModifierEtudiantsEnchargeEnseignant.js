@@ -107,7 +107,7 @@ function CustomTable(props) {
 
     return (
         <div className='container'>
-            <h5 align='left' className='m-2 pt-3 pb-3' >Modifier les étudiants assignés à {params.nom} {params.prenom}</h5>
+            <h5 align='left' className='m-2 pt-3 pb-3' >Désassigner des étudiants assignés à {params.prenom} {params.nom}</h5>
             <TableContainer component={Paper} >
 
                 <Table >
@@ -164,7 +164,7 @@ function CustomTable(props) {
 
                 </Table>
             </TableContainer>
-            <Button variant="contained" className=' m-2' color="primary" onClick={handleConfirmation}>Enlever assignation</Button>
+            <Button variant="contained" className=' m-2' color="primary" onClick={handleConfirmation}>Désassigner</Button>
             {openModal &&
                 <AlertConfirmation confirmation={desAssignationConfirmee}
                     nonConfirmation={desAssignationNonConfirmee}
@@ -202,7 +202,7 @@ function AlertConfirmation(props) {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
 
-                        Confirmez que vous souhaitez enlever {props.numeroEtudiants} élèves à l'enseignant.
+                        Confirmez que vous souhaitez désassigner {props.numeroEtudiants} élève(s).
             </DialogContentText>
                 </DialogContent>
                 <DialogActions>

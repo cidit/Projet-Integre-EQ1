@@ -19,7 +19,7 @@ export default function QuestionsHabilites() {
           field={"Habilités personnelles"} 
           isFinalStep={true}
           titre ={"4. HABILETÉS PERSONNELLES"} 
-          sousTitre={"Capacité de faire preuve d’attitudes ou de comportements matures et responsables"}
+          sousTitre={"Capacité à faire preuve d’un comportement mature et responsable"}
           redirect ="/evaluationsEmployeur"
           />
         )

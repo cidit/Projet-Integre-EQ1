@@ -106,17 +106,18 @@ function TabPanel(props) {
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
           >
-            <Tab label="Étudiants CV non approuvé" {...a11yProps(0)} />
-            <Tab label="Étudiants inscrits" {...a11yProps(1)} />
+              Étudiants inscrits
+            <Tab label="Étudiants inscrits" {...a11yProps(0)} />
+            <Tab label="Étudiants CV non approuvé" {...a11yProps(1)} />
             <Tab label="Étudiants sans CV" {...a11yProps(2)} />
             <Tab label="Étudiants sans stage" {...a11yProps(3)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <ApprobationEtudiantsCV etudiants={etudiantsCVNonApprouve}/>
+            <ListeGenericEtudiant etudiants={etudiantsInscrits}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ListeGenericEtudiant etudiants={etudiantsInscrits}/>
+            <ApprobationEtudiantsCV etudiants={etudiantsCVNonApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
           <ListeGenericEtudiant etudiants={etudiantsSansCV}/>

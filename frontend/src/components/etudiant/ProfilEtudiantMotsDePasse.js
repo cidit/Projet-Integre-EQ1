@@ -65,7 +65,7 @@ export default class ProfileEtudiantMotsDePasse extends Component {
                                             actions.setSubmitting(false);
                                         },
                                         error => {
-                                            actions.setFieldError('password', "Mot de passe invalid")
+                                            actions.setFieldError('password', "Mot de passe invalide")
                                         }));
 
                                     actions.setSubmitting(false);

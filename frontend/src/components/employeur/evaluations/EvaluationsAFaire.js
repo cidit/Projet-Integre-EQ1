@@ -61,7 +61,7 @@ export default function EvaluationsStagiaires(props) {
             <div className='container'>
                 {candidatures &&
                     <TableContainer className={classes.root}>
-                        <h4 className='mb-3 sticky-top' align='left' >Évaluation à effectuer </h4>
+                        <h4 className='mb-3 sticky-top' align='left' >Évaluations à effectuer </h4>
                         <Table className="table" >
                             <TableHead className={classes.heading}>
                                 <TableRow>
@@ -129,10 +129,10 @@ function Row(props) {
 };
 function AlertAucunContrat(isGestionnaire) {
     return <div className="container">
-        <h4 className='mb-3 sticky-top' align='left' >Évaluation à effectuer </h4>
+        <h4 className='mb-3 sticky-top' align='left' >Évaluations à effectuer </h4>
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation à remplir pour le moment</Alert>
+                <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucune évaluation à remplir pour le moment.</Alert>
             </div>
         </div>
     </div>;

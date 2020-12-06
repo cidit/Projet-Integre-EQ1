@@ -51,9 +51,9 @@ export default function ListStagesApprouve(props) {
                                     <TableRow >
                                         <TableCell className={classes.textTitle}> Titre </TableCell>
                                         <TableCell className={classes.textTitle}> Programme </TableCell>
-                                        <TableCell className={classes.textTitle}> Date Début </TableCell>
-                                        <TableCell className={classes.textTitle}> Date Finale </TableCell>
-                                        <TableCell className={classes.textTitle}> Date Limite </TableCell>
+                                        <TableCell className={classes.textTitle}> Date de début </TableCell>
+                                        <TableCell className={classes.textTitle}> Date de fin </TableCell>
+                                        <TableCell className={classes.textTitle}> Date limite pour postuler</TableCell>
                                         <TableCell className={classes.textTitle}> Ville </TableCell>
                                         <TableCell className={classes.textTitle}> Employeur </TableCell>
                                         <TableCell className={classes.textTitle}> Étudiants </TableCell>

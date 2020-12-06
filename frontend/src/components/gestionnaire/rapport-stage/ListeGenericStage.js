@@ -49,9 +49,9 @@ export default function ListeGenericStage(props) {
                     <TableRow>
                         <TableCell className={classes.textTitle}> Titre </TableCell>
                         <TableCell className={classes.textTitle}> Programme </TableCell>
-                        <TableCell className={classes.textTitle}> Date Début </TableCell>
-                        <TableCell className={classes.textTitle}> Date Finale </TableCell>
-                        <TableCell className={classes.textTitle}> Date Limite </TableCell>
+                        <TableCell className={classes.textTitle}> Date de début </TableCell>
+                        <TableCell className={classes.textTitle}> Date de fin </TableCell>
+                        <TableCell className={classes.textTitle}> Date limite pour postuler </TableCell>
                         <TableCell className={classes.textTitle}> Ville </TableCell>
                         <TableCell className={classes.textTitle}> Employeur </TableCell>
                     </TableRow>
@@ -82,7 +82,7 @@ function AlertAucunStage() {
     return <div className="container">
         <div className="row justify-content-md-center">
             <div className="col">
-                <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a pas de stage</Alert>
+                <Alert severity="info" variant="filled" className="m-3 text-center">Il n'y a pas de stage.</Alert>
             </div>
         </div>
     </div>

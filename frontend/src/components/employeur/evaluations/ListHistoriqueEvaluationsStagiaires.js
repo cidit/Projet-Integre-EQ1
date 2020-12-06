@@ -69,7 +69,7 @@ export default function ListHistoriqueEvaluationsStagiaires() {
               <Table className="table table-striped">
                 <TableHead>
                   <TableRow >
-                    <TableCell className={classes.textTitle} >Date de creation </TableCell>
+                    <TableCell className={classes.textTitle} >Date de création </TableCell>
                     <TableCell className={classes.textTitle}>Étudiant </TableCell>
                     <TableCell className={classes.textTitle}>Programme </TableCell>
                     <TableCell className={classes.textTitle}>Courriel </TableCell>
@@ -132,7 +132,7 @@ function AlertAucunContrat(isGestionnaire) {
   return <div className="container">
     <div className="row justify-content-md-center">
       <div className="col">
-        <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez fait aucune évaluation</Alert>
+        <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez fait aucune évaluation.</Alert>
       </div>
     </div>
   </div>;

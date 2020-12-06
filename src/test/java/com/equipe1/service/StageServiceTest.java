@@ -69,6 +69,7 @@ public class StageServiceTest {
                 .build();
         //sessionRepository.save(session);
         s1 = new Stage();
+        s1.setDateLimiteCandidature(LocalDate.now().plusDays(1));
         s1.setId(30L);
         s1.setTitre("java");
         //s1.setStatut(Stage.StageStatus.APPROVED);
@@ -76,6 +77,7 @@ public class StageServiceTest {
         s1.setStatut(Stage.StageStatus.APPROUVÉ);
         s1.setNbAdmis(2);
         s2 = new Stage();
+        s2.setDateLimiteCandidature(LocalDate.now().plusDays(1));
         s2.setId(35L);
         s2.setTitre("c++");
         //s2.setStatut(Stage.StageStatus.DENIED);
@@ -165,7 +167,8 @@ public class StageServiceTest {
         when(stageRepository.findById(30L)).thenReturn(Optional.of(s1));
         // Act
         Stage stage = stageService.updateStatus(s1,30L);
-        doNothing().when(courrielService).sendSimpleMessage(new Courriel(),"test");
+        stage.setDateLimiteCandidature(LocalDate.now().plusDays(1));
+        doNothing().when(courrielService).sendOffreDeStageApprobationMail(new Courriel(),"test");
         // Assert
         assertSame(stage.getStatut(), Stage.StageStatus.APPROUVÉ);
         assertTrue(stage.isOuvert());

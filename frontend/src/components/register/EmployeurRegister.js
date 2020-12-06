@@ -109,7 +109,7 @@ export default class EmployeurRegister extends Component {
                                 <div className="row justify-content-center">
                                     <div className="col-sm-5 ">
                                         <div className="form-group">
-                                            <label className="control-label"> Password </label>
+                                            <label className="control-label">Mot de passe</label>
                                             <Field type="password"
                                                 name="password"
                                                 className="form-control"
@@ -155,7 +155,7 @@ export default class EmployeurRegister extends Component {
 
                                     <div className="col-sm-5">
                                         <div className="form-group">
-                                            <label className="control-label"> adresse </label>
+                                            <label className="control-label"> Adresse </label>
                                             <Field type="text"
                                                 name="adresse"
                                                 className="form-control"
@@ -172,7 +172,7 @@ export default class EmployeurRegister extends Component {
                                         <div className="form-group">
                                             <Button variant="contained" color="primary" className='m-3' type="submit"
                                                 className={`submit ${isSubmitting || !isValid ? 'disabled' : ' '}`}
-                                                disabled={isValidating || isSubmitting || !isValid}>Enregistrer
+                                                disabled={isValidating || isSubmitting || !isValid}>S'enregistrer
                                                     </Button>
 
                                             {status && status.message &&

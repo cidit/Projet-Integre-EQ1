@@ -22,6 +22,6 @@ export default function QuestionRelations() {
           field={"Qualité des relations interpersonnelles"} 
           continuer={goToHabilites} 
           titre ={"3. QUALITÉS DES RELATIONS INTERPERSONNELLES"} 
-          sousTitre={"Capacité d’établir des interrelations harmonieuses dans son milieu de travail"}/>
+          sousTitre={"Capacité à établir des relations interpersonnelles harmonieuses dans son milieu de travail"}/>
         )
 }

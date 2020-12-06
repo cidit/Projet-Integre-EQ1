@@ -79,11 +79,15 @@ public class CourrielServiceTest {
 
     @Test
     public void sendSimpleMessageTest() throws Exception {
-        courrielService.sendSimpleMessage(mail,"test");
+        Employeur employeur = new Employeur();
+        Stage stage = new Stage();
+        employeur.setEmail("test@test.gmail.com");
+        stage.setEmployeur(employeur);
+        courrielService.sendOffreDeStageApprobationMail(stage);
 
         CourrielService courriel = mock(CourrielService.class);
-        courriel.sendSimpleMessage(mail, "test");
-        verify( courriel, times(1)).sendSimpleMessage(mail,"test");
+        courrielService.sendOffreDeStageApprobationMail(stage);
+        verify( courriel, times(1)).sendOffreDeStageApprobationMail(stage);
     }
 
     @Test
