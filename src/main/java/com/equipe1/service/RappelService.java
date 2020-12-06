@@ -70,8 +70,24 @@ public class RappelService {
                 break;
             }
 
-        // cherche si la date de nouvelle session aproche
-        // TODO
+
+        // cherche si une signature doit etre approuvee
+        boolean gotEmployeur = false;
+        boolean gotEtudiant = false;
+        for (var contrat : contratService.getContrats(currentSession.getId())) {
+            if (contrat.getSignatureEmployeur() == Contrat.SignatureEtat.EN_ATTENTE
+                    && !gotEmployeur) {
+                messages.add(Rappel.GestionaireRappel.SIGNATURE_A_APPROUVER_EMPLOYEUR);
+                gotEmployeur = true;
+            } else if (contrat.getSignatureEtudiant() == Contrat.SignatureEtat.EN_ATTENTE
+                    && !gotEtudiant) {
+                messages.add(Rappel.GestionaireRappel.SIGNATURE_A_APPROUVER_ETUDIANT);
+                gotEtudiant = true;
+            }
+            if (gotEmployeur && gotEtudiant)
+                break;
+        }
+
         return messages;
     }
 
@@ -87,7 +103,7 @@ public class RappelService {
         if (stageCetteSession.stream().findAny().isEmpty()) {
             messages.add(Rappel.EmployeurRappel.PAS_DE_STAGE_OUVERT_CETTE_SESSION);
         }
-        
+
 
         // cherche si il manque une signature de la part de l'employeur sur un de ses contrats
         var contratsParEmployeurs = contratService.getContratsByEmployeur(user);
