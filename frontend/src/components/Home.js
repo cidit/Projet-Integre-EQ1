@@ -91,6 +91,16 @@ export default function Home(props) {
             "Un contrat est prêt à être générer.",
             "/rapportContrat/0"
         ], // TODO verify if its the right route when refactoring
+        "SIGNATURE_A_APPROUVER_EMPLOYEUR": [
+            "Signature d'employeur à approuver",
+            "Une signature d'employeur doit être approuvée sur un contrat.",
+            "/rapportContrat/1"
+        ],
+        "SIGNATURE_A_APPROUVER_ETUDIANT": [
+            "Signature d'étudiant à approuver",
+            "Une signature d'étudiant doit être approuvée sur un contrat.",
+            "/rapportContrat/2"
+        ]
     }
 
     return (
