@@ -58,7 +58,7 @@ function TabPanel(props) {
     const [listEtudiantsEnCharge, setListEtudiantsEnCharge] = useState([]);
     var idSession = localStorage.getItem("session");
     const labelAssigner= "Assigner des étudiants  " ;
-    const labelModifier= "Modifier les étudiants assignés " ;
+    const labelModifier= "Désassigner des étudiants " ;
 
     const getEtudaints = async () => {
         const response = await EtudiantService.getEtudiantsbyEnseignat(params.id);

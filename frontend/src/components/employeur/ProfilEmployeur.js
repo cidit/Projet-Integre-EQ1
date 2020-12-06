@@ -160,7 +160,7 @@ export default function ProfileHome() {
               <Typography variant="h4" align='center'>Changer votre mot de passe</Typography>
               <ProfileEmployeurMotsDePasse/>
               <Typography variant="subtitle2" align='center'>
-                *Votre nouveau mot de passe doit comprendre 1 majuscule, 1 minuscule et 1 chiffre
+                *Votre nouveau mot de passe doit contenir 1 majuscule, 1 minuscule et 1 chiffre.
               </Typography>
             </Paper>
       </TabPanel>

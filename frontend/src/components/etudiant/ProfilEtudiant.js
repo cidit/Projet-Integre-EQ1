@@ -117,7 +117,7 @@ export default function ProfileHome() {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Votre profile" {...a11yProps(0)} />
+        <Tab label="Votre profil" {...a11yProps(0)} />
         <Tab label="Changer mot de passe" {...a11yProps(1)} />
         <Tab label="Curriculum vitae" {...a11yProps(2)} disabled={!isRegistered} />
 
@@ -125,7 +125,7 @@ export default function ProfileHome() {
       <TabPanel value={value} index={0} component={'span'} variant={'body2'}>
             <Paper className={classes.paper} >
               <Typography variant="h4" align='center'>
-                Votre profile
+                Votre profil
               </Typography>
               <div className='row justify-content-md-center p-4'>
                 <Avatar alt={etudiant.nom} src={photo} className={classes.large} />
@@ -176,7 +176,7 @@ export default function ProfileHome() {
                         {isRegistered ? "Vous êtes enregistré à la session" : "S'enregistrer pour la session"}
                     </Button>
                 </Grid>
-                <p hidden={isRegistered} className="text-center alert alert-warning mt-3" role="alert"> Vous n'êtes pas enregisté pour la session actuelle. Veuillez vous enregistrer afin de continuer.</p>
+                <p hidden={isRegistered} className="text-center alert alert-warning mt-3" role="alert"> Vous n'êtes pas enregistré pour la session actuelle. Veuillez vous enregistrer afin de continuer.</p>
             </Paper>
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -184,7 +184,7 @@ export default function ProfileHome() {
               <Typography variant="h4" align='center'>Changer votre mot de passe</Typography>
               <ProfilEtudiantMotsDePasse/>
               <Typography variant="subtitle2" align='center'>
-                *Votre nouveau mot de passe doit comprendre 1 majuscule, 1 minuscule et 1 chiffre
+                *Votre nouveau mot de passe doit contenir 1 majuscule, 1 minuscule et 1 chiffre.
               </Typography>
             </Paper>
       </TabPanel>

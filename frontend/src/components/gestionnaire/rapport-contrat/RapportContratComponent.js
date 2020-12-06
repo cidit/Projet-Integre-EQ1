@@ -104,9 +104,9 @@ export default function ScrollableTabsButtonAuto() {
                     aria-label="scrollable auto tabs example"
                 >
                     <Tab label="Contrats à générer" {...a11yProps(0)} />
-                    <Tab label="Contrats non signé par employeur" {...a11yProps(1)} />
-                    <Tab label="Contrats non signé par étudiant" {...a11yProps(2)} />
-                    <Tab label="Contrats non signé par administration" {...a11yProps(3)} />
+                    <Tab label="Contrats non signés par employeur" {...a11yProps(1)} />
+                    <Tab label="Contrats non signés par étudiant" {...a11yProps(2)} />
+                    <Tab label="Contrats non signés par l'administration" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>

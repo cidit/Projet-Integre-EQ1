@@ -249,7 +249,7 @@ export default function CreateQuestions(props) {
             }
             { isSubmit &&
                 <ModalMessage
-                    message={"Votre évaluation a été soumise avec succès. Merci pour votre soutien!"}
+                    message={"Votre évaluation a été soumise avec succès. Merci pour votre contribution."}
                     redirect={props.redirect}
                     title="nouvelle évaluation" />
             }
@@ -262,4 +262,4 @@ export default function CreateQuestions(props) {
 
 }
 
-const conditions = "En acceptant les conditions générales, vous vous assurez que l'évaluation a été réalisée par une personne responsable. Cliquer sur accepter les politiques et conditions équivaut à signer un document avec toutes les responsabilités que cela peut entraîner."
+const conditions = "En acceptant les conditions générales, vous acceptez la divulgation publique de cette évaluation."

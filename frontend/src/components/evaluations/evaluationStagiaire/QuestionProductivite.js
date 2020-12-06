@@ -18,6 +18,6 @@ export default function QuestionProductivite(props) {
   }
   return (
     <CreateQuestions questions={productiviteQuestions} field={"Productivité"} continuer={goToQualiteTravail} 
-    titre ={"1. PRODUCTIVITÉ"} sousTitre={"Capacité d’optimiser son rendement au travail"}/>
+    titre ={"1. PRODUCTIVITÉ"} sousTitre={"Capacité à optimiser son rendement au travail"}/>
   )
 }

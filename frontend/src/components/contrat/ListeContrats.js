@@ -97,12 +97,12 @@ function AlertAucunContrat(isGestionnaire) {
             <div className="col">
                 {isGestionnaire ?
                     <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun contrat à
-                        approuver
+                        approuver.
                         pour le moment</Alert>
                     :
                     <Alert severity="info" variant="filled" className="m-3 text-center">Vous n'avez aucun contrat à
                         signer pour
-                        le moment</Alert>
+                        le moment.</Alert>
                 }
             </div>
         </div>

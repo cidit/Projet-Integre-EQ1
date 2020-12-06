@@ -157,7 +157,7 @@ function CustomTable(props){
                         <TableCell>Nom</TableCell>
                         <TableCell>Programme</TableCell>
                         <TableCell>Téléphone</TableCell>
-                        <TableCell>Email</TableCell>
+                        <TableCell>Courriel</TableCell>
                         <TableCell>Adresse</TableCell>
                     </TableRow>
                 </TableHead>

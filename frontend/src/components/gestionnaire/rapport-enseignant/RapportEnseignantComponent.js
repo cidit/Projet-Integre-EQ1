@@ -60,15 +60,15 @@ export default function RapportEnseignantComponent() {
                 {enseignants &&
                     <>
                         <TableContainer  className={classes.root}>
-                            <h4  className='m-2 sticky-top' >List enseignants </h4>
+                            <h4  className='m-2 sticky-top' >Enseignants </h4>
                             <Table className="table "  >
                                 <TableHead className={classes.heading} >
                                     <TableRow>
-                                        <TableCell className={classes.textTitle}>Nom de l'enseignant</TableCell>
+                                        <TableCell className={classes.textTitle}>Nom de l'enseignant(e)</TableCell>
                                         <TableCell className={classes.textTitle}>Programme</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
-                                        <TableCell className={classes.textTitle}>Assignation étudiants</TableCell>
+                                        <TableCell className={classes.textTitle}>Assignation des étudiants</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
