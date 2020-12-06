@@ -67,9 +67,9 @@ export default function ListeGenericContrat(props) {
                     <TableCell className={classes.textTitle}> Date de création </TableCell>
                     <TableCell className={classes.textTitle}> Employeur </TableCell>
                     <TableCell className={classes.textTitle}> Étudiant(e) </TableCell>
+                    <TableCell className={classes.textTitle}> Stage </TableCell>
+                    <TableCell className={classes.textTitle}> Programme </TableCell>
                     <TableCell className={classes.textTitle}> Télécharger </TableCell>
-                    <TableCell className={classes.textTitle}> Signature employeur </TableCell>
-                    <TableCell className={classes.textTitle}> Signature étudiant </TableCell>
                   </TableRow>
                   </TableHead>
                   <TableBody>
@@ -80,13 +80,13 @@ export default function ListeGenericContrat(props) {
                             <TableCell className='align-middle'>{contrat.dateGeneration}</TableCell>
                             <TableCell className='align-middle'>{contrat.employeur.nom}</TableCell>
                             <TableCell className='align-middle'>{contrat.candidature.etudiant.prenom} {contrat.candidature.etudiant.nom}</TableCell>
+                            <TableCell className='align-middle'>{contrat.candidature.stage.titre}</TableCell>
+                            <TableCell className='align-middle'>{contrat.candidature.etudiant.programme}</TableCell>
                             <TableCell className='align-middle'>
                               <Button className='m-2' size="small"color="primary" onClick={() => clickHandle(contrat.id)}>
                                 <GetAppIcon/>
                               </Button>
                             </TableCell>
-                            <TableCell className='align-middle'>{contrat.signatureEmployeur}</TableCell>
-                            <TableCell className='align-middle'>{contrat.signatureEtudiant}</TableCell>
                           </TableRow>
                   )}
                     </TableBody>

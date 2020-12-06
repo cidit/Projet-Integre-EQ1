@@ -47,11 +47,11 @@ export default function ListeContrat(props) {
                     <Table className="table">
                         <TableHead className={classes.heading}>
                             <TableRow>
-                                <TableCell className={classes.textTitle}> Numéro de contrat</TableCell>
+                                <TableCell className={classes.textTitle}> Date de creation</TableCell>
                                 <TableCell className={classes.textTitle}> Employeur </TableCell>
                                 <TableCell className={classes.textTitle}> Étudiant(e) </TableCell>
+                                <TableCell className={classes.textTitle}> Stage </TableCell>
                                 <TableCell className={classes.textTitle}> Programme </TableCell>
-                                <TableCell className={classes.textTitle}> Date de creation</TableCell>
                                 <TableCell className={classes.textTitle}> Signature</TableCell>
                             </TableRow>
                         </TableHead>
@@ -60,11 +60,11 @@ export default function ListeContrat(props) {
                                 .map(
                                     contrat =>
                                     <TableRow key={contrat.id} hover className={classes.row}>
-                                        <TableCell className='align-middle'>{contrat.id}</TableCell>
+                                        <TableCell className='align-middle'>{contrat.dateGeneration}</TableCell>
                                         <TableCell className='align-middle'>{contrat.employeur.nom}</TableCell>
                                         <TableCell className='align-middle'>{contrat.candidature.etudiant.prenom} {contrat.candidature.etudiant.nom}</TableCell>
+                                        <TableCell className='align-middle'>{contrat.candidature.stage.titre}</TableCell>
                                         <TableCell className='align-middle'>{contrat.candidature.etudiant.programme}</TableCell>
-                                        <TableCell className='align-middle'>{contrat.dateGeneration}</TableCell>
                                         <TableCell>
                                             <Button
                                                 href={"/televerserContrats/" + contrat.id}
