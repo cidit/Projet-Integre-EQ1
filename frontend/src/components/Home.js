@@ -100,6 +100,16 @@ export default function Home(props) {
             "Un contrat est prêt à être générer.",
             "/rapportContrat/0"
         ], // TODO verify if its the right route when refactoring
+        "EVALUATION_A_FAIRE": [
+            "Évaluation à faire",
+            "Une évaluation est prête à être remplie.",
+            "/" // TODO fill
+        ],
+        "VALIDER_SIGNATURE_CONTRAT": [
+            "Validation de signature",
+            "Une signature doit être validée sur un contrat",
+            "/" // TODO fill
+        ]
     }
 
     return (
