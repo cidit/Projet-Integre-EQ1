@@ -135,7 +135,7 @@ function MyTabs(props) {
 
     const tags = [
         {label: "Info", disabled: false},
-        {label: "Veto",  disabled: false},
+        {label: "Approbation",  disabled: false},
         {label: "Assigner étudiants",  disabled: false},
         {label: "Choix des stagiaires",  disabled: props.candidatures.length === 0},
     ];

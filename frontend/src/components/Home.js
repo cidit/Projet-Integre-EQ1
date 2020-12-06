@@ -90,13 +90,13 @@ export default function Home(props) {
             "/createStage",
         ],
         "CV_SANS_VETO": [
-            "CVs sans veto",
-            "Un ou plusieurs CVs ont besoin de votre veto.",
+            "CVs sans approbation",
+            "Un ou plusieurs CVs ont besoin de votre approbation.",
             "/rapportEtudiant"
         ], // TODO verify if its the right route when refactoring
         "STAGE_SANS_VETO": [
-            "Stages sans veto",
-            "Votre veto n'a pas été appliqué sur un ou plusieurs stages.",
+            "Stages sans approbation",
+            "Votre approbation n'a pas été appliqué sur un ou plusieurs stages.",
             "/rapportStage/1",
         ], // TODO verify if its the right route when refactoring
         "CONTRAT_PRET_A_ETRE_GENERE": [
