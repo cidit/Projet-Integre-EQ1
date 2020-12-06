@@ -62,7 +62,7 @@ export default function Home(props) {
         "PAS_DE_CV": [
             "Pas de CV",
             "Vous n'avez pas de CV a votre nom.",
-            "/profilEtudiant",
+            "/profilEtudiant/2",
         ],
         "PAS_DE_CANDIDATURE_SUR_UN_STAGE": [
             "Pas de candidature",

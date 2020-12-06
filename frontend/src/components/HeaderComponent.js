@@ -59,7 +59,7 @@ function EtudiantNav(props) {
     return (
         <Nav className="container-fluid">
             <Nav.Link href="/">Accueil</Nav.Link>
-            <Nav.Link href="/profilEtudiant">Votre profil</Nav.Link>
+            <Nav.Link href="/profilEtudiant/0">Votre profil</Nav.Link>
             <Nav.Link href="/offrestage">Offres de stage</Nav.Link>
             <Nav.Link href="/listecandidatures">Vos candidatures</Nav.Link>
             <Nav.Link href="/listeContrats">Contrats</Nav.Link>
