@@ -98,7 +98,7 @@ public class RappelService {
                         .getSession()
                         .equals(currentSession))
                 .collect(Collectors.toList()))
-            if (contrat.getSignatureEmployeur() == Contrat.SignatureEtat.EN_ATTENTE) {
+            if (contrat.getSignatureEmployeur() == Contrat.SignatureEtat.PAS_SIGNE) {
                 messages.add(Rappel.EmployeurRappel.SIGNATURE_MANQUANTE_SUR_UN_CONTRAT);
                 break;
             }
@@ -139,7 +139,7 @@ public class RappelService {
         if (contratService.getContratsByEtudiantChoisi(user)
                 .stream()
                 .anyMatch(contrat -> contrat.getSignatureEtudiant()
-                        .equals(Contrat.SignatureEtat.EN_ATTENTE)))
+                        .equals(Contrat.SignatureEtat.PAS_SIGNE)))
             messages.add(Rappel.EtudiantRappel.SIGNATURE_MANQUANTE_SUR_UN_CONTRAT);
 
         // cherche si l'etudiant est enregistré dans la session actuelle
