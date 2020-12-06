@@ -1,6 +1,7 @@
 package com.equipe1;
 
 import com.equipe1.service.DatabaseFakingService;
+import com.equipe1.service.InsertDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,9 @@ public class Application {
     @Autowired
     private DatabaseFakingService databaseFakingService;
 
+    @Autowired
+    private InsertDataService insertDataService;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -24,14 +28,14 @@ public class Application {
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
-            databaseFakingService.insertSession();
-            databaseFakingService.insertEtudiant();
-            databaseFakingService.insertEmployeur();
-            databaseFakingService.insertEnseignants();
-            databaseFakingService.insertGestionnaire();
-            databaseFakingService.insertStage();
-            databaseFakingService.insertCandidature();
-            databaseFakingService.insertEvaluationStagiaire();
+            insertDataService.insertSession();
+            insertDataService.insertEtudiant();
+            insertDataService.insertEmployeur();
+            insertDataService.insertEnseignants();
+            insertDataService.insertGestionnaire();
+            insertDataService.insertStage();
+//            insertDataService.insertCandidature();
+//            insertDataService.insertEvaluationStagiaire();
         };
     }
 }

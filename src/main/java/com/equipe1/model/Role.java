@@ -40,6 +40,7 @@ public class Role {
     public enum ERole {
         ROLE_ETUDIANT,
         ROLE_EMPLOYEUR,
-        ROLE_GESTIONNAIRE
+        ROLE_GESTIONNAIRE,
+        ROLE_ENSEIGNANT
     }
 }
