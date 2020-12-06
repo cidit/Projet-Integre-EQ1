@@ -89,10 +89,9 @@ public class CourrielServiceTest {
     @Test
     public void sendOffreDeStageApprobationMailTest() throws Exception {
         courrielService.sendOffreDeStageApprobationMail(stage);
-
         CourrielService courriel = mock(CourrielService.class);
-        courrielService.sendOffreDeStageApprobationMail(stage);
-        verify( courriel, times(1)).sendOffreDeStageApprobationMail(stage);
+        courriel.sendOffreDeStageApprobationMail(stage);
+        verify( courriel).sendOffreDeStageApprobationMail(stage);
     }
 
     @Test
