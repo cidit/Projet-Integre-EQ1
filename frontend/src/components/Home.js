@@ -86,15 +86,15 @@ export default function Home(props) {
             "/createStage",
         ],
         "CV_SANS_VETO": [
-            "CVs sans veto",
-            "Un ou plusieurs CVs ont besoin de votre veto.",
+            "CVs sans approbation",
+            "Un ou plusieurs CVs ont besoin de votre approbation.",
             "/rapportEtudiant"
-        ], // TODO verify if its the right route when refactoring
+        ],
         "STAGE_SANS_VETO": [
-            "Stages sans veto",
-            "Votre veto n'a pas été appliqué sur un ou plusieurs stages.",
+            "Stages sans approbation",
+            "Votre approbation n'a pas été appliqué sur un ou plusieurs stages.",
             "/rapportStage/1",
-        ], // TODO verify if its the right route when refactoring
+        ],
         "CONTRAT_PRET_A_ETRE_GENERE": [
             "Contrats a générer",
             "Un contrat est prêt à être générer.",
@@ -110,7 +110,7 @@ export default function Home(props) {
                     <Typography variant={"h4"}>Bienvenue, {user.nom}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography variant={"h6"}>Vos rappels:</Typography>
+                    <Typography variant={"h6"}>Vos tâches:</Typography>
                 </Grid>
                 <Grid item>
                     <List>
@@ -120,7 +120,7 @@ export default function Home(props) {
                                     let [title, message, redirect] = values[reminder]
                                     return <Rappel title={title} message={message} redirect={redirect} key={reminder}/>
                                 }) :
-                            <Rappel title={"Pas de rappels"} message={"Vous n'avez aucune tâche à faire."}
+                            <Rappel title={"Pas de tâches"} message={"Vous n'avez aucune tâche à faire."}
                                     redirect={"/"}/>
                         }
                     </List>
