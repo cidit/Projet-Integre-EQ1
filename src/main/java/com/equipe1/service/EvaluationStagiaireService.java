@@ -93,5 +93,20 @@ public class EvaluationStagiaireService {
     }
 
 
+    public List<EvaluationStagiaire> getByEtudiantId(Long etudiantId){
+        Optional<Etudiant>  etudiant = etudiantService.findEtudiantById(etudiantId);
+        List<EvaluationStagiaire> evaluationStagiaire = new ArrayList<>();
+        if(etudiant.isPresent()){
+            evaluationStagiaire.add(evaluationStagiaireRepository.findByEtudiant(etudiant.get()));
+        }
+        return evaluationStagiaire;
+    }
+
+
+    public List<EvaluationStagiaire> getAll() {
+        return evaluationStagiaireRepository.findAll();
+    }
+
+
 
 }

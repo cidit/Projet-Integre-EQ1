@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,8 +76,17 @@ public class EvaluationMilieuStageService {
         return evaluationMilieuStageRepository.findAll();
     }
 
-    public Optional<EvaluationMilieuStage> getByEtudaint(Etudiant etudiant){
+    public Optional<EvaluationMilieuStage> getByEtudiant(Etudiant etudiant){
         return evaluationMilieuStageRepository.findByEtudiant(etudiant);
+    }
+
+    public List<EvaluationMilieuStage> getByEtudiantId(Long etudiantId){
+        Optional<Etudiant>  etudiant = etudiantService.findEtudiantById(etudiantId);
+        List<EvaluationMilieuStage> evaluationMilieuStageList = new ArrayList<>();
+        if(etudiant.isPresent()){
+            evaluationMilieuStageList.add(evaluationMilieuStageRepository.findByEtudiant(etudiant.get()).get());
+        }
+        return evaluationMilieuStageList;
     }
 
     public List<EvaluationMilieuStage> getAllByEnseignant(Long idEnseignant) {

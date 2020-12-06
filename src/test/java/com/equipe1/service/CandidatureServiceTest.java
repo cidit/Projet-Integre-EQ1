@@ -292,7 +292,7 @@ public class CandidatureServiceTest {
         e.setEnseignant(enseignant);
         e1.setEnseignant(enseignant);
         when(candidatureService.getCandidatureDesEtudaintsByEnseignantId(1L)).thenReturn(Arrays.asList(c1,c2));
-        when(evaluationMilieuStageService.getByEtudaint(e1)).thenReturn(Optional.of(evaluationMilieuStage));
+        when(evaluationMilieuStageService.getByEtudiant(e1)).thenReturn(Optional.of(evaluationMilieuStage));
 
         List<Candidature> candidatures = candidatureService.getCandidaturesByEmployeurSansEvalutionMilieuStage(1l);
         Assertions.assertNotNull(candidatures);

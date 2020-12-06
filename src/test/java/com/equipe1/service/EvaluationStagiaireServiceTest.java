@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +45,8 @@ class EvaluationStagiaireServiceTest {
     private CommentaireService commentaireService;
     @MockBean
     private QuestionService questionService;
+    @MockBean
+    private GenerateurPdfService generateurPdfService;
 
     @Autowired
     private EvaluationStagiaireService evaluationStagiaireService;
@@ -57,6 +60,7 @@ class EvaluationStagiaireServiceTest {
     private Stage stage;
     private Employeur employeur;
     private Session session;
+    private ByteArrayOutputStream fileByteArray;
 
     @BeforeEach
     public void setUp() {
@@ -89,6 +93,7 @@ class EvaluationStagiaireServiceTest {
 
         receptorDonnesEvaluation = new RecepteurDonneesEvaluation(Arrays.asList(q1,q2),commentaire);
         etudiant = new Etudiant();
+        fileByteArray = new ByteArrayOutputStream();
 
     }
 
@@ -133,10 +138,19 @@ class EvaluationStagiaireServiceTest {
     }
 
     @Test
-    public void testGetDocumentEvaluationMilieuStage() {
+    public void testGetDocumentEvaluationStagiaire() throws Exception {
+            when(generateurPdfService.createPdfEvaluationStagiaire(e.getId())).thenReturn(fileByteArray);
+            ByteArrayOutputStream evaluationDociment = evaluationStagiaireService.getDocumentEvaluationStagiaire(e.getId());
+            assertNotNull(evaluationDociment);
+            assertEquals(evaluationDociment,fileByteArray);
     }
 
     @Test
-    public void testGetDocumentEvaluationStagiaire() {
+    public void testGetAll() {
+        when(evaluationStagiaireRepository.findAll()).thenReturn(Arrays.asList(e));
+
+        List<EvaluationStagiaire> evaluations = evaluationStagiaireService.getAll();
+        assertEquals(evaluations.size(), 1);
+        assertNotNull(evaluations);
     }
 }
