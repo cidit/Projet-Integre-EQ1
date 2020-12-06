@@ -1,9 +1,7 @@
 package com.equipe1.service;
 
 import com.equipe1.model.*;
-import com.equipe1.repository.CVRepository;
-import com.equipe1.repository.CandidatureRepository;
-import com.equipe1.repository.EtudiantRepository;
+import com.equipe1.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,22 +28,25 @@ public class CourrielServiceTest {
     private EtudiantRepository etudiantRepository;
 
     @MockBean
+    private StageRepository stageRepository;
+
+    @MockBean
     private CandidatureRepository candidatureRepository;
+
+    @MockBean
+    private EmployeurRepository employeurRepository;
 
     private Courriel mail;
     private Etudiant etudiant;
     private Employeur employeur;
+    private Stage stage;
     private CV cv1;
     private CV cv2;
     private Candidature candidature;
     private Contrat contrat;
+
     @BeforeEach
     public void setUp() {
-        mail = new Courriel();
-        mail.setEmetteur("GestionStageEq1@gmail.co");
-        mail.setDestinataire("carlos@gmail.com");
-        mail.setSujet("test");
-        mail.setContenu("We show how to write Integration Tests using Spring and GreenMail.");
 
         cv1 = new CV();
         cv1.setStatus(CV.CVStatus.APPROVED);
@@ -63,11 +64,19 @@ public class CourrielServiceTest {
         when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
 
         employeur = new Employeur();
+        employeur.setNom("test");
         employeur.setEmail("employeur@gmail.com");
+        when(employeurRepository.save(employeur)).thenReturn(employeur);
+
+
+        stage = new Stage();
+        stage.setEmployeur(employeur);
+        when(stageRepository.save(stage)).thenReturn(stage);
+
 
         candidature = new Candidature();
         candidature.setEtudiant(etudiant);
-        candidature.setStage(new Stage());
+        candidature.setStage(stage);
         candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
         when(candidatureRepository.save(candidature)).thenReturn(candidature);
 
@@ -78,11 +87,7 @@ public class CourrielServiceTest {
     }
 
     @Test
-    public void sendSimpleMessageTest() throws Exception {
-        Employeur employeur = new Employeur();
-        Stage stage = new Stage();
-        employeur.setEmail("test@test.gmail.com");
-        stage.setEmployeur(employeur);
+    public void sendOffreDeStageApprobationMailTest() throws Exception {
         courrielService.sendOffreDeStageApprobationMail(stage);
 
         CourrielService courriel = mock(CourrielService.class);
