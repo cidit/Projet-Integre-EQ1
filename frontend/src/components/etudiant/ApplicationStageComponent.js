@@ -194,7 +194,7 @@ function ShowStage(props) {
             <TableCell>
                 <Button type="submit" className='m-2' variant="contained" size="small" color="primary" 
                         style={{ textTransform: 'none' }}
-                        value={props.stage.id} onClick={handleShowModal}>Consulter
+                        value={props.stage.id} onClick={handleShowModal}>Postuler
                 </Button>
             </TableCell>
 
@@ -260,7 +260,7 @@ function ShowStage(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button type="submit" className='m-2' variant="contained" size="small" color="primary"
-                            value={props.stage.id} onClick={handleClick}>Postuler</Button>
+                            value={props.stage.id} onClick={handleClick}>Confirmer</Button>
                 </Modal.Footer>
             </Modal>
         </>

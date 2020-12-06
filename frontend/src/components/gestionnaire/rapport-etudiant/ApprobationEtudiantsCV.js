@@ -69,11 +69,11 @@ export default function ListEtudiants(props) {
                                 <TableHead className={classes.heading}>
                                     <TableRow>
                                         <TableCell className={classes.textTitle}>Matricule</TableCell>
-                                        <TableCell className={classes.textTitle}>Nom de l'etudiant(e)</TableCell>
+                                        <TableCell className={classes.textTitle}>Nom</TableCell>
                                         <TableCell className={classes.textTitle}>Programme</TableCell>
                                         <TableCell className={classes.textTitle}>Courriel</TableCell>
                                         <TableCell className={classes.textTitle}>Téléphone</TableCell>
-                                        <TableCell className={classes.textTitle}>Télécharger CV</TableCell>
+                                        <TableCell className={classes.textTitle}>Télécharger</TableCell>
                                         <TableCell className={classes.textTitle} hidden={!sessionSelectionneeEnCours}>Approbation CV</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -140,13 +140,12 @@ function Row(props) {
                 <TableCell className='align-middle'>{row.email}</TableCell>
                 <TableCell className='align-middle'>{row.telephone}</TableCell>
                 
-                <TableCell>
-
+                <TableCell className='align-middle'>
                     {row.cv.status !== "APPROVED" ?
                     <Button className='m-2' size="small"color="primary" onClick={() => downloadCV(row)}><GetAppIcon/></Button> : "Pas de CV"}<br/>
                 </TableCell>
 
-                <TableCell hidden={!props.sessionSelectionneeEnCours}>
+                <TableCell className='align-middle' hidden={!props.sessionSelectionneeEnCours}>
                     {renderColonneApprobationCV(row)}
                 </TableCell>
             </TableRow>
