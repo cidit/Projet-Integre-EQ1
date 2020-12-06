@@ -41,6 +41,7 @@ import RapportEnseignantComponent from './components/gestionnaire/rapport-enseig
 import RapportEtudiantComponent from './components/gestionnaire/rapport-etudiant/RapportEtudiantComponent';
 import RapportStageComponent from './components/gestionnaire/rapport-stage/RapportStageComponent';
 import RapportContratComponent from './components/gestionnaire/rapport-contrat/RapportContratComponent';
+import RapportEvaluationsComponent from './components/gestionnaire/rapport-evaluations/RapportEvaluationsComponents'
 
 import RapportStageEmployeur from './components/employeur/stage/RapportStageEmployeur';
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
@@ -86,7 +87,8 @@ function App() {
           <AuthRoute path="/rapportEtudiant" component={RapportEtudiantComponent} requiredRole="ROLE_GESTIONNAIRE"/>
           <AuthRoute path="/rapportStage/:tab" component={RapportStageComponent} requiredRole="ROLE_GESTIONNAIRE"/>
           <AuthRoute path="/rapportContrat/:tab" component={RapportContratComponent} requiredRole="ROLE_GESTIONNAIRE"/>
-
+          <AuthRoute path="/rapportEvaluations" component={RapportEvaluationsComponent} requiredRole="ROLE_GESTIONNAIRE"/>
+          
           <AuthRoute path="/profilEtudiant" component={ProfilEtudiant} requiredRole="ROLE_ETUDIANT"/>
           <AuthRoute path="/profilEmployeur" component={ProfilEmployeur} requiredRole="ROLE_EMPLOYEUR"/>
           <AuthRoute path="/profilGestionnaire" component={ProfilGestionnaire} requiredRole="ROLE_GESTIONNAIRE"/>

@@ -267,7 +267,7 @@ public class GenerateurPdfService {
     EvaluationMilieuStage evaluation = evaluationMilieuStageRepository.findById(idEvaluationMiliauStage).orElseThrow();
     List<Question> questions = questionRepository.findByEvaluation(evaluation);
     List<Commentaire> commentaires = commentaireRepository.findByEvaluation(evaluation);
-    Candidature candidature = candidatureRepository.findByEtudiant(evaluation.getEtudiant()).orElseThrow();
+    //List<Candidature> candidatures = candidatureRepository.findByEtudiant(evaluation.getEtudiant());
 
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -296,7 +296,7 @@ public class GenerateurPdfService {
 
         document.add(createTable(Arrays.asList(
                 createBoldCell("Nom du stagiaire: ", evaluation.getEtudiant().getNom(), setFond(FONT_TAILLE_REGULIER, true)),
-                createBoldCell("Date du stage: ", candidature.getStage().getDateDebut().toString(), setFond(FONT_TAILLE_REGULIER, true)),
+                //createBoldCell("Date du stage: ", candidature.getStage().getDateDebut().toString(), setFond(FONT_TAILLE_REGULIER, true)),
                 createBoldCell("Téléphone: ", evaluation.getEtudiant().getTelephone(), setFond(FONT_TAILLE_REGULIER, true)),
                 createBoldCell("Courriel: ", evaluation.getEtudiant().getEmail(), setFond(FONT_TAILLE_REGULIER, true))
         ), 2, false));
@@ -318,6 +318,10 @@ public class GenerateurPdfService {
             table.addCell(q.getReponse());
         }
         document.add(table);
+        document.add(setPhrase("Commentaire: ",true));
+        document.add(setPhrase(getCommentaireBySection(commentaires,"Evaluation milieu stage"), false));
+        document.add(Chunk.NEWLINE);
+        document.add(Chunk.NEWLINE);
 
         document.add(setParagraphe(Arrays.asList(
                 setPhrase("Note: ", true),
@@ -328,19 +332,6 @@ public class GenerateurPdfService {
         document.add(setParagraphe(Arrays.asList(
                 setPhrase("Évaluation réalisée par: ", true),
                 setPhrase(evaluation.getEnseignant().getPrenom() + " " + evaluation.getEnseignant().getNom(), false))));
-
-
-
-
-      /* //create table identfication entreprise
-        document.add(tableTitre("ÉVALUATION"));
-
-        List<Paragraph> questionEnnonce = new ArrayList<>();
-        List<Paragraph> reponseAEnnonce = new ArrayList<>();
-        for (Question q : questions ) {
-            cells.add(createBoldCell(q.getQuestion(), q.getReponse(), setFond(FONT_TAILLE_REGULIER, true)));
-        }
-        document.add(createTable(cells, 2, false));*/
 
         document.close();
         writer.close();
@@ -382,18 +373,27 @@ public class GenerateurPdfService {
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, false),"1. PRODUCTIVITÉ "));
         document.add(createTableQuestions(questions,"Productivité"));
+        document.add(setPhrase("Commentaire: ",true));
+        document.add(setPhrase(getCommentaireBySection(commentaires,"Productivité"), false));
         document.add(Chunk.NEWLINE);
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, false),"2. QUALITÉ DU TRAVAIL"));
         document.add(createTableQuestions(questions, "Qualité du travail"));
+        document.add(setPhrase("Commentaire: ",true));
+        document.add(setPhrase(getCommentaireBySection(commentaires,"Qualité du travail"), false));
         document.add(Chunk.NEWLINE);
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, false),"3. QUALITÉS DES RELATIONS INTERPERSONNELLES"));
         document.add(createTableQuestions(questions,"Qualité des relations interpersonnelles"));
+        document.add(setPhrase("Commentaire: ",true));
+        document.add(setPhrase(getCommentaireBySection(commentaires,"Qualité des relations interpersonnelles"), false));
         document.add(Chunk.NEWLINE);
 
         document.add(subtitre(setFond(FONT_TAILLE_REGULIER, false),"4. HABILETÉS PERSONNELLES"));
         document.add(createTableQuestions(questions,"Habilités personnelles"));
+        document.add(setPhrase("Commentaire: ",true));
+        document.add(setPhrase(getCommentaireBySection(commentaires,"Habilités personnelles"), false));
+        document.add(Chunk.NEWLINE);
         document.add(Chunk.NEWLINE);
 
         document.add(setParagraphe(Arrays.asList(
@@ -416,6 +416,16 @@ public class GenerateurPdfService {
         return out;
     }
 
+    private String getCommentaireBySection(List<Commentaire> commentaires, String section){
+        String commentaire = "";
+        for (Commentaire c : commentaires) {
+            if(c.getSection()!=null && c.getSection().equals(section)){
+                commentaire = c.getEnnonce();
+            }
+        }
+        return commentaire;
+    }
+
 
     private PdfPTable createTableQuestions(List<Question> questions, String section) {
         PdfPTable table = new PdfPTable(2);
@@ -423,7 +433,7 @@ public class GenerateurPdfService {
         table.addCell(new Paragraph(setPhrase("Questions",true)));
         table.addCell(new Paragraph(setPhrase("Réponses",true)));
         for (Question q: questions) {
-            if(q.getSection().equals(section)){
+            if(q.getSection()!= null  && q.getSection().equals(section)){
                 table.addCell(q.getQuestion());
                 table.addCell(q.getReponse());
             }
@@ -431,141 +441,4 @@ public class GenerateurPdfService {
         return table;
     }
 
-    public static void main(String[] args) throws Exception {
-        GenerateurPdfService generateur = new GenerateurPdfService();
-
-        Enseignant enseignant2 = new Enseignant();
-        enseignant2.setNom("Leonie");
-        enseignant2.setPrenom("Aguilar ");
-        enseignant2.setPassword("123456");
-        enseignant2.setProgramme("Gestion de commerces");
-        enseignant2.setEmail("Leonierrr@email.com");
-        enseignant2.setTelephone("438950000");
-
-
-
-        Employeur employeur = new Employeur();
-        Etudiant etudiant = new Etudiant();
-        etudiant.setPrenom("Zoy");
-        etudiant.setPassword("123456");
-        etudiant.setMatricule("123456");
-        etudiant.setAdresse("adresse1234");
-        etudiant.setNom("laComadreja");
-        etudiant.setEmail("zoyLaComadr@email.com");
-        etudiant.setProgramme("Technique de l'informatique");
-        etudiant.setEnseignant(enseignant2);
-        etudiant.setTelephone("123654789654");
-
-        List<Question> questions = new ArrayList<>();
-
-        EvaluationStagiaire e = new EvaluationStagiaire();
-
-        e.setDateCreation(LocalDate.now());
-        e.setEmployeur(employeur);
-        e.setEtudiant(etudiant);
-
-        Commentaire commentaire = new Commentaire();
-
-        Question q1 = new Question();
-        q1.setQuestion("Planifier et organiser son travail de façon efficace");
-        q1.setReponse("Totalement en accord");
-        q1.setSection("Productivité");
-        q1.setEvaluation(e);
-        questions.add(q1);
-
-        for (int i = 0; i < 4; i++) {
-            q1 = new Question();
-            q1.setQuestion("Planifier et organiser son travail de façon efficace " + i);
-            q1.setReponse("Totalement en accord" + i);
-            q1.setSection("Productivité");
-            q1.setEvaluation(e);
-            questions.add(q1);
-        }
-
-        commentaire.setEnnonce("commentaire de la productivite ");
-        commentaire.setSection("Productivité");
-        commentaire.setEvaluation(e);
-
-        for (int i = 0; i < 4; i++) {
-            q1 = new Question();
-            q1.setQuestion("Porter attention aux détails dans la réalisation de ses tâches " + i);
-            q1.setReponse("Totalement en accord" + i);
-            q1.setSection("Qualité du travail");
-            q1.setEvaluation(e);
-            questions.add(q1);
-
-        }
-
-        commentaire.setEnnonce("commentaire de la productivite ");
-        commentaire.setSection("Qualité du travail");
-        commentaire.setEvaluation(e);
-        for (int i = 0; i < 4; i++) {
-            q1 = new Question();
-            q1.setQuestion("Faire preuve d’écoute active en essayant de comprendre le point de vue de l’autre " + i);
-            q1.setReponse("Totalement en accord" + i);
-            q1.setSection("Qualité des relations interpersonnelles");
-            q1.setEvaluation(e);
-            questions.add(q1);
-
-        }
-
-        commentaire.setEnnonce("commentaire de la productivite ");
-        commentaire.setSection("Qualité des relations interpersonnelles");
-        commentaire.setEvaluation(e);
-        for (int i = 0; i < 4; i++) {
-            q1 = new Question();
-            q1.setQuestion("Démontrer de l’intérêt et de la motivation au travail " + i);
-            q1.setReponse("Totalement en accord" + i);
-            q1.setSection("Habilités personnelles");
-            q1.setEvaluation(e);
-            questions.add(q1);
-
-        }
-        commentaire.setEnnonce("commentaire de la productivite ");
-        commentaire.setSection("Habilités personnelles");
-        commentaire.setEvaluation(e);
-
-
-        //generateur.createPdfEvaluationStagiaire(e,questions);
-
-
-
-       /*Enseignant enseignants = new Enseignant();
-       enseignants.setNom("Enseignant test");
-       enseignants.setPrenom("del stest");
-       Etudiant etudiants = new Etudiant();
-       Employeur employeurs = new Employeur();
-
-        EvaluationMilieuStage evaluationMilieuStage = new EvaluationMilieuStage();
-        evaluationMilieuStage.setEtudiant(etudiants);
-        evaluationMilieuStage.setEnseignant(enseignants);
-        evaluationMilieuStage.setEmployeur(employeurs);
-
-
-        List<Question> questions = new ArrayList<>();
-        Question question = new Question();
-        question.setEvaluation(evaluationMilieuStage);
-        question.setQuestion("Des mesures d’accueil facilitent l’intégration du nouveau stagiaire. ");
-        question.setReponse("Plutôt en accord");
-        question.setSection("Evaluation milieu stage");
-
-        questions.add(question);
-
-        for (int i = 0; i < 10; i++) {
-            question = new Question();
-            question.setEvaluation(evaluationMilieuStage);
-            question.setQuestion("Des mesures d’accueil facilitent l’intégration du nouveau stagiaire. " + i);
-            question.setReponse("Plutôt en accord" +i);
-            question.setSection("Evaluation milieu stage" +i);
-            questions.add(question);
-        }
-
-        Commentaire commentaire= new Commentaire();
-        commentaire.setEvaluation(evaluationMilieuStage);
-        commentaire.setSection("Evaluation milieu stage");
-        commentaire.setEnnonce("comentaire 1");
-
-
-        generateur.createPdfEvaluationMilieuStage(evaluationMilieuStage,questions);*/
-    }
 }

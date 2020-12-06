@@ -137,7 +137,8 @@ public class CandidatureService {
     public List<Candidature> getListCandidatureByEmployeurSansEvaluationStagiaire(Long idEmployeur, Long idSession){
         List<Candidature> candidatureByemployeur = new ArrayList<>();
         for (Candidature c: getListCandidaturesChoisis(idSession)) {
-            if(employeurExiste(idEmployeur, c) && !c.isEvaluee() && isStageUneSemaineAvantLaFin(c)){
+            //validation date fin stage => && isStageUneSemaineAvantLaFin(c)
+            if(employeurExiste(idEmployeur, c) && !c.isEvaluee() ){
                 candidatureByemployeur.add(c);
             }
         }
@@ -158,7 +159,7 @@ public class CandidatureService {
         List<Candidature> candidatures = new ArrayList<>();
         Optional<EvaluationMilieuStage> evaluationMilieuStage;
         for (Candidature c : getCandidatureDesEtudaintsByEnseignantId(idEnseignant)) {
-            evaluationMilieuStage = evaluationMilieuStageService.getByEtudaint(c.getEtudiant());
+            evaluationMilieuStage = evaluationMilieuStageService.getByEtudiant(c.getEtudiant());
             if(!evaluationMilieuStage.isPresent()){
                 candidatures.add(c);
             }

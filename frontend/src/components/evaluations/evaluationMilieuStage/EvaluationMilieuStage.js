@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Redirect, useRouteMatch, useParams } from 'react-router-dom';
-import CandidatureService from "../../../service/CandidatureService";
+import React, { useState } from "react";
+import { Redirect, useParams } from 'react-router-dom';
 import CreateQuestions from '../createQuestions';
 import useSetQuestions from '../useSetQuestions';
 
@@ -8,10 +7,6 @@ export default function EvaluationMilieuStage() {
   const { evaluationMilieuStageQuestions } = useSetQuestions();
   const [redirect, setRedirect] = useState(false)
   const params = useParams();
-  const [nomEmployeur, setNomEmployeur] = useState('')
-  const [nomEtudiant, setNomEtudiant] = useState('')
-  const [prenomEtudiant, setprenomEtudiant] = useState('')
-
 
   if (redirect) {
     return <Redirect to={`/observationsMilieuStage/${params.id}`} />

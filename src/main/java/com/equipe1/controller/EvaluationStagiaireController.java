@@ -1,5 +1,6 @@
 package com.equipe1.controller;
 
+import com.equipe1.model.EvaluationMilieuStage;
 import com.equipe1.model.EvaluationStagiaire;
 import com.equipe1.service.EvaluationStagiaireService;
 import com.equipe1.model.RecepteurDonneesEvaluation;
@@ -25,6 +26,16 @@ public class EvaluationStagiaireController {
     public EvaluationStagiaire updateEtudiant(@RequestBody RecepteurDonneesEvaluation evaluation,
                                               @PathVariable  Long id){
         return evaluationStagiaireService.saveEvaluation(evaluation,id);
+    }
+
+    @GetMapping("findAll")
+    public List<EvaluationStagiaire> getAll(){
+        return evaluationStagiaireService.getAll();
+    }
+
+    @GetMapping("getByEtudiant/{id}")
+    public List<EvaluationStagiaire> getEvaluationbyEtudaint(@PathVariable Long id){
+        return evaluationStagiaireService.getByEtudiantId(id);
     }
 
     @GetMapping("getByEmployeur/{id}")

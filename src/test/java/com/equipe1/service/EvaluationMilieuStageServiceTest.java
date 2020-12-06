@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -40,14 +41,11 @@ public class EvaluationMilieuStageServiceTest {
     @MockBean
     private CandidatureService candidatureService;
 
-
+    @MockBean
+    private GenerateurPdfService generateurPdfService;
 
     @Autowired
     private EvaluationMilieuStageService evaluationMilieuStageService;
-
-
-
-
 
     private EvaluationMilieuStage evaluationMilieuStage;
     private EvaluationMilieuStage evaluationMilieuStage2;
@@ -60,6 +58,7 @@ public class EvaluationMilieuStageServiceTest {
     private Employeur employeur;
     private Enseignant enseignant;
     private Etudiant etudiant;
+    private ByteArrayOutputStream fileByteArray;
 
     @BeforeEach
     public void setUp() {
@@ -90,6 +89,7 @@ public class EvaluationMilieuStageServiceTest {
         candidature = new Candidature();
         enseignant = new Enseignant();
         etudiant = new Etudiant();
+        fileByteArray = new ByteArrayOutputStream();
 
     }
 
@@ -130,7 +130,7 @@ public class EvaluationMilieuStageServiceTest {
         evaluationMilieuStage2.setEtudiant(etudiant);
         when(evaluationMilieuStageRepository.findByEtudiant(etudiant)).thenReturn(Optional.of(evaluationMilieuStage));
 
-        Optional<EvaluationMilieuStage> milieuStageList = evaluationMilieuStageService.getByEtudaint(etudiant);
+        Optional<EvaluationMilieuStage> milieuStageList = evaluationMilieuStageService.getByEtudiant(etudiant);
 
         assertEquals(milieuStageList.get().getEtudiant(), etudiant);
         assertNotNull(milieuStageList);
@@ -151,6 +151,19 @@ public class EvaluationMilieuStageServiceTest {
     }
 
     @Test
-    public void testGetDocumentEvaluationMilieuStage() {
+    public void testGetDocumentEvaluationMilieuStage() throws Exception {
+        when(generateurPdfService.createPdfEvaluationMilieuStage(evaluationMilieuStage.getId())).thenReturn(fileByteArray);
+        ByteArrayOutputStream evaluationDociment = evaluationMilieuStageService.getDocumentEvaluationMilieuStage(evaluationMilieuStage.getId());
+        assertNotNull(evaluationDociment);
+        assertEquals(evaluationDociment,fileByteArray);
+    }
+
+    @Test
+    public void testGetAll() {
+        when(evaluationMilieuStageRepository.findAll()).thenReturn(Arrays.asList(evaluationMilieuStage2, evaluationMilieuStage));
+
+        List<EvaluationMilieuStage> milieuStageList = evaluationMilieuStageService.getAll();
+        assertEquals(milieuStageList.size(), 2);
+        assertNotNull(milieuStageList);
     }
 }

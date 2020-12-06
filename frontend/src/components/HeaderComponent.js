@@ -33,6 +33,7 @@ function GestionnaireNav(props) {
             <Nav.Link href="/rapportEtudiant">Étudiants</Nav.Link>
             <Nav.Link href="/rapportStage/0">Stages</Nav.Link>
             <Nav.Link href="/rapportContrat/0">Contrats</Nav.Link>
+            <Nav.Link href="/rapportEvaluations">Évaluations</Nav.Link>
             <ChangeSessionNavDropdown sessions={props.sessions}/>
             <Logout/>
         </Nav>
