@@ -58,9 +58,7 @@ public class RappelService {
         }
 
         // cherche si un contrat est pret a etre généré
-        for (var stage : stages.stream()
-                .filter(stage -> stage.getSession().equals(currentSession))
-                .collect(Collectors.toList()))
+        for (var stage : stageService.getStagesSessionEnCours())
             if (candidatureService.findCandidatureByStage(stage.getId())
                     .stream()
                     .anyMatch(candidature -> candidature
