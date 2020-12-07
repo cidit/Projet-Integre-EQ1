@@ -44,20 +44,24 @@ function a11yProps(index) {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-        margin: theme.spacing(2),
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.paper,
+      margin: theme.spacing(2),
     },
     tabs: {
-        borderRight: `1px solid ${theme.palette.divider}`,
-        display: 'inline-flex',
+      borderRight: `1px solid ${theme.palette.divider}`,
+      display: 'inline-flex',
+      "& .MuiTab-wrapper": {
+        flexDirection: "row",
+        justifyContent: "flex-start"
+      },
     },
     paper: {
-        padding: theme.spacing(4),
-        marginTop: theme.spacing(-20),
-        margin: 'auto',
-        maxWidth: '50%',
-        marginLeft: theme.spacing(1, 'inherit'),
+      padding: theme.spacing(4),
+      marginTop: theme.spacing(-18),
+      margin: 'auto',
+      maxWidth: '65%',
+      marginLeft: theme.spacing(40),
     }
 }));
 

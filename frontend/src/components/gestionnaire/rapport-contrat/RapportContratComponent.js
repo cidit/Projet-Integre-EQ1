@@ -106,7 +106,7 @@ export default function ScrollableTabsButtonAuto() {
                     <Tab label="Contrats à générer" {...a11yProps(0)} />
                     <Tab label="Contrats non signés par employeur" {...a11yProps(1)} />
                     <Tab label="Contrats non signés par étudiant" {...a11yProps(2)} />
-                    <Tab label="Contrats non signés par l'administration" {...a11yProps(3)} />
+                    <Tab label="Contrats à envoyer à l'administration" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>

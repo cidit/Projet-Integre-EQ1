@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Container, List, Typography} from "@material-ui/core";
+import {Box, List, Typography} from "@material-ui/core";
 import UserService from "../service/UserService";
 import Rappel from "./utils/Rappel";
 import {useHistory} from "react-router-dom";
-import EtudiantService from "../service/EtudiantService";
 import User from "../model/User";
 import {makeStyles} from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
@@ -79,18 +78,18 @@ export default function Home(props) {
         "CV_SANS_VETO": [
             "CVs sans approbation",
             "Un ou plusieurs CVs ont besoin de votre approbation.",
-            "/rapportEtudiant"
-        ], // TODO verify if its the right route when refactoring
+            "/rapportEtudiant/1"
+        ], 
         "STAGE_SANS_VETO": [
             "Stages sans approbation",
             "Votre approbation n'a pas été appliqué sur un ou plusieurs stages.",
             "/rapportStage/1",
-        ], // TODO verify if its the right route when refactoring
+        ], 
         "CONTRAT_PRET_A_ETRE_GENERE": [
             "Contrats a générer",
             "Un contrat est prêt à être générer.",
             "/rapportContrat/0"
-        ], // TODO verify if its the right route when refactoring
+        ], 
         "SIGNATURE_A_APPROUVER_EMPLOYEUR": [
             "Signature d'employeur à approuver",
             "Une signature d'employeur doit être approuvée sur un contrat.",

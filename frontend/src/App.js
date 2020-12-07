@@ -81,12 +81,12 @@ function App() {
 
           <AuthRoute path="/rapportStageEmployeur" component={RapportStageEmployeur} requiredRole="ROLE_EMPLOYEUR"/>
           <AuthRoute path="/rapportEnseignant" component={RapportEnseignantComponent} requiredRole="ROLE_GESTIONNAIRE"/>
-          <AuthRoute path="/rapportEtudiant" component={RapportEtudiantComponent} requiredRole="ROLE_GESTIONNAIRE"/>
+          <AuthRoute path="/rapportEtudiant/:tab" component={RapportEtudiantComponent} requiredRole="ROLE_GESTIONNAIRE"/>
           <AuthRoute path="/rapportStage/:tab" component={RapportStageComponent} requiredRole="ROLE_GESTIONNAIRE"/>
           <AuthRoute path="/rapportContrat/:tab" component={RapportContratComponent} requiredRole="ROLE_GESTIONNAIRE"/>
           <AuthRoute path="/rapportEvaluations" component={RapportEvaluationsComponent} requiredRole="ROLE_GESTIONNAIRE"/>
           
-          <AuthRoute path="/profilEtudiant" component={ProfilEtudiant} requiredRole="ROLE_ETUDIANT"/>
+          <AuthRoute path="/profilEtudiant/:tab" component={ProfilEtudiant} requiredRole="ROLE_ETUDIANT"/>
 
           <AuthRoute path="/profilEmployeur" component={ProfilEmployeur} requiredRole="ROLE_EMPLOYEUR"/>
           <AuthRoute path="/profilGestionnaire" component={ProfilGestionnaire} requiredRole="ROLE_GESTIONNAIRE"/>

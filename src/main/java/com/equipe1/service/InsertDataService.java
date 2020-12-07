@@ -8,11 +8,10 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.Optional;
-import java.util.*;
 
 
 @Component
@@ -34,25 +33,10 @@ public class InsertDataService {
     private GestionnaireRepository gestionnaireRepository;
 
     @Autowired
-    private CandidatureRepository candidatureRepository;
-    @Autowired
     private SessionRepository sessionRepository;
 
     @Autowired
-    private CandidatureService candidatureService;
-
-    @Autowired
-    private ContratService contratService;
-
-    @Autowired
     GenerateurPdfService generateurPdfService;
-
-    @Autowired
-    private EvaluationStagiaireService evaluationStagiaireService;
-
-    @Autowired
-    private QuestionService questionService;
-
 
     @Autowired
     private EnseignantRepository enseignantRepository;
@@ -105,12 +89,11 @@ public class InsertDataService {
 
         Etudiant e1 = new Etudiant();
         e1.setAdresse("123456");
-        e1.setEmail("richard@email.com");
+        e1.setEmail("chanh@email.com");
         e1.setMatricule("1772397");
-        //e1.setPassword("123456");
         e1.setPassword(encoder.encode("123456"));
-        e1.setPrenom("Richard");
-        e1.setNom("Truong");
+        e1.setPrenom("Chanh");
+        e1.setNom("Nguyen");
         e1.setStatutStage("possede stage");
         e1.setTelephone("555-555-5555");
         e1.setProgramme("Techniques de l’informatique");
@@ -131,10 +114,9 @@ public class InsertDataService {
         e2.setAdresse("123456");
         e2.setEmail("alex@email.com");
         e2.setMatricule("1501279");
-        //e2.setPassword("123456");
         e2.setPassword(encoder.encode("123456"));
         e2.setPrenom("Alex");
-        e2.setNom("Truong");
+        e2.setNom("Nguyen");
         e2.setStatutStage("aucun stage");
         e2.setTelephone("555-444-4444");
         e2.setProgramme("Techniques de l’informatique");
@@ -154,7 +136,6 @@ public class InsertDataService {
         e3.setAdresse("123456");
         e3.setEmail("olingamedjoloic@gmail.com");
         e3.setMatricule("1998277");
-        //e3.setPassword("123456");
         e3.setPassword(encoder.encode("123456"));
         e3.setPrenom("Loic");
         e3.setNom("Olinga");
@@ -278,7 +259,6 @@ public class InsertDataService {
     public void insertEmployeur(){
         Employeur e1 = new Employeur();
         e1.setEmail("carlos.test@gmail.com");
-        //e1.setPassword("123456");
         e1.setPassword(encoder.encode("123456"));
         e1.setAdresse("12345");
         e1.setNom("Banque1");
@@ -295,7 +275,6 @@ public class InsertDataService {
 
         e1 = new Employeur();
         e1.setEmail("employeur@email.com");
-        //e1.setPassword("123456");
         e1.setPassword(encoder.encode("123456"));
         e1.setAdresse("12345");
         e1.setNom("Hopital Général");
@@ -395,7 +374,6 @@ public class InsertDataService {
         g1.setNom("admin01");
         g1.setPrenom("admin01");
         g1.setEmail("gestionnaire01@email.com");
-        //g1.setPassword("123456");
         g1.setPassword(encoder.encode("123456"));
         g1.setTelephone("555-555-5555");
 
@@ -410,219 +388,10 @@ public class InsertDataService {
     }
 
     @Transactional
-    public void insertCandidature(){
-        Session session = sessionRepository.findCurrentSession().get();
-        Employeur e2 = employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
-        Stage stage1 = new Stage();
-        stage1.setTitre("stage_dummy1");
-        stage1.setDescription("stage informatique ");
-        stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.of(2019,12,12));
-        stage1.setDateFin(LocalDate.of(2020,11,10));
-        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
-        stage1.setExigences("aucune exigence");
-        stage1.setProgramme("Techniques de l’informatique");
-        stage1.setNbHeuresParSemaine(37);
-        stage1.setVille("Montreal");
-        stage1.setEmployeur(e2);
-
-        stage1.setSession(session);
-        stage1.setStatut(Stage.StageStatus.APPROUVÉ);
-
-        Etudiant etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
-        Set<Etudiant> set = new HashSet<>();
-        set.add(etudiant);
-        stage1.setEtudiantsAdmits(set);
-
-        stageService.saveStage(stage1);
-
-        stage1 = new Stage();
-        stage1.setTitre("stage_dummy2");
-        stage1.setDescription("stage informatique ");
-        stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.of(2019,12,12));
-        stage1.setDateFin(LocalDate.of(2020,10,12));
-        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
-        stage1.setExigences("aucune exigence");
-        stage1.setProgramme("Techniques de l’informatique");
-        stage1.setNbHeuresParSemaine(37);
-        stage1.setVille("Montreal");
-        stage1.setEmployeur(e2);
-
-        stage1.setSession(session);
-        stage1.setStatut(Stage.StageStatus.APPROUVÉ);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        set = new HashSet<>();
-        set.add(etudiant);
-        stage1.setEtudiantsAdmits(set);
-
-        stageService.saveStage(stage1);
-
-        stage1 = new Stage();
-        stage1.setTitre("stage_dummy3");
-        stage1.setDescription("stage informatique ");
-        stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.of(2019,12,12));
-        stage1.setDateFin(LocalDate.of(2020,10,12));
-        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
-        stage1.setExigences("aucune exigence");
-        stage1.setProgramme("Techniques de l’informatique");
-        stage1.setNbHeuresParSemaine(37);
-        stage1.setVille("Montreal");
-        stage1.setEmployeur(e2);
-
-        stage1.setSession(session);
-        stage1.setStatut(Stage.StageStatus.REFUSÉ);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        set = new HashSet<>();
-        set.add(etudiant);
-        stage1.setEtudiantsAdmits(set);
-
-        stageService.saveStage(stage1);
-
-        stage1 = new Stage();
-        stage1.setTitre("stage_dummy4");
-        stage1.setDescription("stage informatique ");
-        stage1.setNbAdmis(5);
-        stage1.setDateDebut(LocalDate.of(2019,12,12));
-        stage1.setDateFin(LocalDate.of(2020,10,12));
-        stage1.setDateLimiteCandidature(LocalDate.of(2020,12,11));
-        stage1.setExigences("aucune exigence");
-        stage1.setProgramme("Techniques de l’informatique");
-        stage1.setNbHeuresParSemaine(37);
-        stage1.setVille("Montreal");
-        stage1.setEmployeur(e2);
-
-        //stage1.setStatut(Stage.StageStatus.APPROVED);
-        stage1.setSession(session);
-        //stage1.setStatut(Stage.StageStatus.REFUSÉ);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        set = new HashSet<>();
-        set.add(etudiant);
-        stage1.setEtudiantsAdmits(set);
-
-        stageService.saveStage(stage1);
-
-        etudiant = etudiantRepository.findByEmail("olingamedjoloic@gmail.com");
-        Candidature candidature = candidatureService.createCandidature(etudiant.getId(), (long) 11);
-        candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
-        candidatureRepository.save(candidature);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 11);
-        candidature.setStatut(Candidature.CandidatureStatut.APPROUVE);
-        candidatureRepository.save(candidature);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 13);
-        candidature.setStatut(Candidature.CandidatureStatut.CHOISI);
-        candidatureRepository.save(candidature);
-
-        etudiant = etudiantRepository.findByEmail("richard@email.com");
-        candidature = candidatureService.createCandidature(etudiant.getId(), (long) 9);
-        candidature.setStatut(Candidature.CandidatureStatut.EN_ATTENTE);
-        candidatureRepository.save(candidature);
-    }
-
-    @Transactional
-    public void insertContrat() throws Exception {
-        Employeur employeurTest= employeurRepository.findEmployeurByEmail("carlos.test@gmail.com");
-        Optional<Stage> stageTest = stageRepository.findById(6L);
-        Optional <Candidature> candidature = candidatureRepository.findById(52L);
-        Optional <Candidature> candidature2 = candidatureRepository.findById(53L);
-
-        Contrat contrat = new Contrat();
-        contrat.setEmployeur(employeurTest);
-        contrat.setSignatureEmployeur(Contrat.SignatureEtat.SIGNE);
-        contrat.setCandidature(candidature2.get());
-        contrat.setDocumentContrat(generateurPdfService.createPdf(candidature2.get().getStage(),
-                employeurTest,candidature2.get().getEtudiant()).toByteArray());
-
-        contratService.saveContrat(contrat);
-
-        //deuxieme pour test
-        Contrat contrat2 = new Contrat();
-        contrat2.setEmployeur(employeurTest);
-        contrat2.setCandidature(candidature.get());
-
-        contrat2.setDocumentContrat(generateurPdfService.createPdf(candidature.get().getStage(),
-                employeurTest,candidature.get().getEtudiant()).toByteArray());
-
-        contratService.saveContrat(contrat2);
-    }
-
-    @Transactional
-    public void insertEvaluationStagiaire() throws Exception {
-
-        Enseignant enseignant2 = new Enseignant();
-        enseignant2.setNom("Leonie");
-        enseignant2.setPrenom("Aguilar ");
-        //enseignant2.setPassword("123456");
-        enseignant2.setPassword(encoder.encode("123456"));
-        enseignant2.setProgramme("Gestion de commerces");
-        enseignant2.setEmail("Leonierrr@email.com");
-        enseignant2.setTelephone("438950000");
-
-        Set<Role> roles = new HashSet<>();
-        Role role = roleRepository.findByName(Role.ERole.ROLE_ENSEIGNANT)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(role);
-
-        enseignant2.setRoles(roles);
-
-        enseignantRepository.save(enseignant2);
-
-
-        roles = new HashSet<>();
-        role = roleRepository.findByName(Role.ERole.ROLE_ETUDIANT)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(role);
-
-        List<Employeur> employeurs = employeurRepository.findAll();
-        Employeur employeur = employeurs.get(0);
-        Etudiant etudiant = new Etudiant();
-        etudiant.setPrenom("Zoy");
-        //etudiant.setPassword("123456");
-        etudiant.setPassword(encoder.encode("123456"));
-        etudiant.setMatricule("123456");
-        etudiant.setAdresse("adresse1234");
-        etudiant.setNom("laComadreja");
-        etudiant.setEmail("zoyLaComadr@email.com");
-        etudiant.setProgramme("Technique de l'informatique");
-        etudiant.setEnseignant(enseignant2);
-        etudiant.setRoles(roles);
-        etudiant.setTelephone("123654789654");
-       etudiantRepository.save(etudiant);
-        EvaluationStagiaire e = new EvaluationStagiaire();
-        Question q1 = new Question();
-        e.setDateCreation(LocalDate.now());
-        e.setEmployeur(employeur);
-        e.setEtudiant(etudiant);
-        evaluationStagiaireService.save(e);
-
-        q1.setQuestion("enonce 1");
-        q1.setReponse("reposnse question 1");
-        q1.setEvaluation(e);
-
-        Question q2 = new Question();
-        q2.setQuestion("enonce 2");
-        q2.setReponse("reposnse question 2");
-        q2.setEvaluation(e);
-        questionService.saveAllQuestions(Arrays.asList(q1,q2));
-    }
-
-
-    @Transactional
     public void insertEnseignants() {
         Enseignant enseignant1 = new Enseignant();
         enseignant1.setNom("Laure");
         enseignant1.setPrenom("Gaudreault ");
-        //enseignant1.setPassword("123456");
         enseignant1.setPassword(encoder.encode("123456"));
         enseignant1.setProgramme("Gestion de commerces");
         enseignant1.setEmail("laure@email.com");
@@ -640,7 +409,6 @@ public class InsertDataService {
         Enseignant enseignant2 = new Enseignant();
         enseignant2.setNom("Leonie");
         enseignant2.setPrenom("Aguilar ");
-        //enseignant2.setPassword("123456");
         enseignant2.setPassword(encoder.encode("123456"));
         enseignant2.setProgramme("Gestion de commerces");
         enseignant2.setEmail("Leonie@email.com");
@@ -658,7 +426,6 @@ public class InsertDataService {
         Enseignant enseignant3 = new Enseignant();
         enseignant3.setNom("Jia ");
         enseignant3.setPrenom("Haworth ");
-        //enseignant3.setPassword("123456");
         enseignant3.setPassword(encoder.encode("123456"));
         enseignant3.setProgramme("Gestion de commerces");
         enseignant3.setEmail("Jia@email.com");
@@ -676,7 +443,6 @@ public class InsertDataService {
         Enseignant enseignant4 = new Enseignant();
         enseignant4.setNom("Freja ");
         enseignant4.setPrenom("Vickers ");
-        //enseignant4.setPassword("123456");
         enseignant4.setPassword(encoder.encode("123456"));
         enseignant4.setProgramme("Techniques de l’informatique");
         enseignant4.setEmail("Freja@email.com");
@@ -694,7 +460,6 @@ public class InsertDataService {
         Enseignant enseignant5 = new Enseignant();
         enseignant5.setNom("Kristian ");
         enseignant5.setPrenom("Redman ");
-        //enseignant5.setPassword("123456");
         enseignant5.setPassword(encoder.encode("123456"));
         enseignant5.setProgramme("Techniques de l’informatique");
         enseignant5.setEmail("Kristian@email.com");

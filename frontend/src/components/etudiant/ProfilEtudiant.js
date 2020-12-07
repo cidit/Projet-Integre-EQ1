@@ -94,6 +94,7 @@ export default function ProfileHome() {
     const response = await EtudiantService.isRegistered(id);
     setRegisteredSession(response.data);
   }
+  
   const enregisterSession = () => {
     EtudiantService.register(id)
     setRegisteredSession(true);

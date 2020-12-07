@@ -97,7 +97,7 @@ function TabPanel(props) {
             aria-label="scrollable auto tabs example"
           >
             <Tab label="Stages approuvés" {...a11yProps(0)}/>
-            <Tab label="Stages non approuvés" {...a11yProps(1)}/>
+            <Tab label="Stages en attente d'approbation" {...a11yProps(1)}/>
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>

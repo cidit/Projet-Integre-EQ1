@@ -11,6 +11,8 @@ import EtudiantService from '../../../service/EtudiantService';
 import ListeGenericEtudiant from './ListeGenericEtudiant';
 import ApprobationEtudiantsCV from './ApprobationEtudiantsCV';
 
+import {useHistory, useParams} from 'react-router-dom';
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
   
@@ -88,10 +90,13 @@ function TabPanel(props) {
     },[])
 
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const history = useHistory();
+    const params = useParams();
+    const [value, setValue] = React.useState(parseInt(params.tab));
   
     const handleChange = (event, newValue) => {
       setValue(newValue);
+      history.push("/rapportEtudiant/" + newValue)
     };
   
     return (

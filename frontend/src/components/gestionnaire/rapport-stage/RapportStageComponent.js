@@ -92,7 +92,8 @@ function TabPanel(props) {
   
     const handleChange = (event, newValue) => {
       setValue(newValue);
-      history.push("/rapportStage/" + newValue)
+      history.push("/rapportStage/" + newValue); 
+      //window.location.reload();
     };
   
     return (
