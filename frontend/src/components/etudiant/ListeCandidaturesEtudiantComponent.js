@@ -60,7 +60,7 @@ class ListeCandidaturesEtudiantComponent extends Component {
 
         const response = await EtudiantService.isRegistered(id);
         if (!response.data) {
-            this.props.history.push("/profilEtudiant");
+            this.props.history.push("/profilEtudiant/0");
         }
 
         const {data: candidatures} = await CandidatureService.getByEtudiant(id, idSession);

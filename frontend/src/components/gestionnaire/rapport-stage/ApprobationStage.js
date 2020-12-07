@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import {
     Button, makeStyles, Table,
     TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useHistory } from 'react-router-dom';
+
+import StageService from '../../../service/StageService';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,18 +35,30 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ListStagesNonApprouve(props) {
+export default function ListStagesNonApprouve() {
     
     const classes = useStyles();
+    
+    let idSession = localStorage.getItem("session");
 
-    if (props.stages.length === 0) {
+    const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState([]);
+    const getOffreStagesNonApprouve = async () => {
+        const response = await StageService.getStagesNonApprouves(idSession);
+        setOffreStagesNonApprouve(response.data);
+    }
+
+    useEffect(() => {
+        getOffreStagesNonApprouve();
+    },[])
+
+    if (offreStagesNonApprouve.length === 0) {
         return (
             AlertAucunStage()
         )
     } else {
         return (
             <div className='container' >
-                {props.stages &&
+                {offreStagesNonApprouve &&
                     <>
                         <TableContainer className={classes.root}>
                             <Table className="table">
@@ -61,7 +75,7 @@ export default function ListStagesNonApprouve(props) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {props.stages.map((row) => (
+                                    {offreStagesNonApprouve.map((row) => (
                                         <Row key={row.id} row={row} />
                                     ))}
                                 </TableBody>

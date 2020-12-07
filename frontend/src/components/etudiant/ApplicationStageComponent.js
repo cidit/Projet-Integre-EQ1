@@ -58,7 +58,7 @@ class ApplicationStageComponent extends Component {
         const response = await EtudiantService.isRegistered(id);
 
         if (!response.data) {
-            this.props.history.push("/profilEtudiant");
+            this.props.history.push("/profilEtudiant/0");
         }
 
         const {data: etudiant} = await EtudiantService.getEtudiantById(id);

@@ -67,7 +67,7 @@ export default function ScrollableTabsButtonAuto() {
         if (AuthService.getTokenDESC().toUpperCase() === "ROLE_ETUDIANT") {
             const redirect = await EtudiantService.isRegistered(AuthService.getTokenId());
             if (!redirect.data) {
-                history.push("/profilEtudiant");
+                history.push("/profilEtudiant/0");
             }
         }   
     }

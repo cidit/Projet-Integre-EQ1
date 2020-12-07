@@ -66,13 +66,6 @@ function TabPanel(props) {
         setOffreStagesApprouve(response.data);
     }
 
-    const [offreStagesNonApprouve, setOffreStagesNonApprouve] = useState([]);
-    const getOffreStagesNonApprouve = async () => {
-        const response = await StageService.getStagesNonApprouves(idSession);
-        setOffreStagesNonApprouve(response.data);
-    }
-
-
     const [offreStagesNonCombles, setOffreStagesNonCombles] = useState([]);
     const getOffreStagesNonCombles = async () => {
         const response = await StageService.getStagesNonCombles(idSession);
@@ -81,7 +74,6 @@ function TabPanel(props) {
 
     useEffect(() => {
       getOffreStagesApprouve();
-      getOffreStagesNonApprouve();
       getOffreStagesNonCombles();
     },[])
 
@@ -93,7 +85,6 @@ function TabPanel(props) {
     const handleChange = (event, newValue) => {
       setValue(newValue);
       history.push("/rapportStage/" + newValue); 
-      //window.location.reload();
     };
   
     return (
@@ -117,7 +108,7 @@ function TabPanel(props) {
           <ListeStageApprouve stages={offreStagesApprouve}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ApprobationStage stages={offreStagesNonApprouve}/>
+          <ApprobationStage/>
         </TabPanel>
         <TabPanel value={value} index={2}>
           <ListeGenericStage stages={offreStagesNonCombles}/>
