@@ -63,7 +63,7 @@ export default function Home(props) {
         "PAS_ENREGISTRE_CETTE_SESSION": [
             "Pas enregistré",
             "Vous n'êtes pas enregistré cette session.",
-            "/profilEtudiant",
+            "/profilEtudiant/0",
         ],
         "FREQUENTATION_DE_STAGE_PAS_CONFIRMEE": [
             "Confirmer votre fréquentation",
