@@ -55,15 +55,10 @@ public class StageController {
     }
 
     @PutMapping("updateStage/{id}")
-    public Stage updateStage(@RequestBody Stage stage, @PathVariable Long id){
+    public Stage updateStage(@RequestBody Stage stage, @PathVariable Long id) throws Exception {
         return stageService.updateStage(stage, id);
     }
 
-    // never used
-    @PutMapping("updateStatusStage/{id}")
-    public Stage updateStatusStage(@RequestBody Stage stage, @PathVariable Long id) throws Exception {
-        return stageService.updateStatus(stage, id);
-    }
 
     @PutMapping("updateEtudiantsAdmits/{stageId}")
     public Stage updateEtudiantsAdmits(@PathVariable long stageId, @RequestBody List<Etudiant> etudiants){

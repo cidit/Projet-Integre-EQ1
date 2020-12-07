@@ -110,10 +110,12 @@ public class StageService {
         return stage;
     }
 
-    public Stage updateStage(Stage newStage, long id) {
+    public Stage updateStage(Stage newStage, long id) throws Exception {
         Optional<Stage> optionalStage = stageRepository.findById(id);
         if (optionalStage.isPresent()) {
             var stage = optionalStage.get();
+            if (stage.getStatut() != newStage.getStatut())
+                courrielService.sendOffreDeStageApprobationMail(newStage);
             stage.setTitre(newStage.getTitre());
             stage.setDescription(newStage.getDescription());
             stage.setExigences(newStage.getExigences());
@@ -128,13 +130,6 @@ public class StageService {
             return stageRepository.save(stage);
         }
         return newStage;
-    }
-
-    public Stage updateStatus(Stage newStage, long id) throws Exception {
-        newStage.setStatut(Stage.StageStatus.APPROUVÉ);
-
-        courrielService.sendOffreDeStageApprobationMail(newStage);
-        return updateStage(newStage, id);
     }
 
     public Stage updateEtudiantsAdmits(long stageId, Set<Etudiant> etudiants) {

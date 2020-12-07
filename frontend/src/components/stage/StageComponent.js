@@ -88,7 +88,7 @@ export function Veto(props){
                     <li>Est-ce que la date de début est adéquate?</li>
                     <li>Est-ce que le nombre d'heures par semaine est réaliste?</li>
                     <li>Est-ce que le salaire est adéquat?</li>
-                    <li>ESt-ce que les exigences et la description sont adaptées pour le programme ciblé?</li>
+                    <li>Est-ce que les exigences et la description sont adaptées pour le programme ciblé?</li>
                 </ul>
             </div>
             <Button

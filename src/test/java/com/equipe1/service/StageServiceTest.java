@@ -157,25 +157,9 @@ public class StageServiceTest {
         Assertions.assertEquals(s1.getTitre(), stage.getTitre());
     }
 
-    @Test
-    void testUpdateStatus() throws Exception {
-        // Arrange
-        when(employeurRepository.save(employeur)).thenReturn(employeur);
-        when(stageRepository.save(s1)).thenReturn(s1);
-        s1.setEmployeur(employeur);
-        stageRepository.save(s1);
-        when(stageRepository.findById(30L)).thenReturn(Optional.of(s1));
-        // Act
-        Stage stage = stageService.updateStatus(s1,30L);
-        stage.setDateLimiteCandidature(LocalDate.now().plusDays(1));
-        doNothing().when(courrielService).sendOffreDeStageApprobationMail(stage);
-        // Assert
-        assertSame(stage.getStatut(), Stage.StageStatus.APPROUVÉ);
-        assertTrue(stage.isOuvert());
-    }
 
     @Test
-    void testUpdateStage() {
+    void testUpdateStage() throws Exception {
         s1.setId(1l);
         s1.setTitre("Stage en programmation");
         s1.setProgramme("None");

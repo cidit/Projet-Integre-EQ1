@@ -109,8 +109,8 @@ public class InsertDataService {
         e1.setMatricule("1772397");
         //e1.setPassword("123456");
         e1.setPassword(encoder.encode("123456"));
-        e1.setPrenom("richard");
-        e1.setNom("truong");
+        e1.setPrenom("Richard");
+        e1.setNom("Truong");
         e1.setStatutStage("possede stage");
         e1.setTelephone("555-555-5555");
         e1.setProgramme("Techniques de l’informatique");
@@ -133,8 +133,8 @@ public class InsertDataService {
         e2.setMatricule("1501279");
         //e2.setPassword("123456");
         e2.setPassword(encoder.encode("123456"));
-        e2.setPrenom("alex");
-        e2.setNom("truong");
+        e2.setPrenom("Alex");
+        e2.setNom("Truong");
         e2.setStatutStage("aucun stage");
         e2.setTelephone("555-444-4444");
         e2.setProgramme("Techniques de l’informatique");
@@ -177,7 +177,7 @@ public class InsertDataService {
         e4.setAdresse("110 Rue Trichardt");
         e4.setEmail("jbmeyer@gmail.com");
         e4.setMatricule("1212024");
-        e4.setPassword("123456");
+        e4.setPassword(encoder.encode("123456"));
         e4.setPrenom("Jean-Baptiste");
         e4.setNom("Meyer");
         e4.setTelephone("438-341-1212");
@@ -197,7 +197,7 @@ public class InsertDataService {
         e5.setAdresse("900 Avenue Trichardt");
         e5.setEmail("vanessahuppenkothen@gmail.com");
         e5.setMatricule("2421554");
-        e5.setPassword("123456");
+        e5.setPassword(encoder.encode("123456"));
         e5.setPrenom("Vanessa");
         e5.setNom("Huppenkothen");
         e5.setTelephone("438-504-2123");
@@ -217,7 +217,7 @@ public class InsertDataService {
         e6.setAdresse("8812 Rue Sherbrooke Ouest");
         e6.setEmail("kevinoliphant@gmail.com");
         e6.setMatricule("2178012");
-        e6.setPassword("123456");
+        e6.setPassword(encoder.encode("123456"));
         e6.setPrenom("Kevin");
         e6.setNom("Oliphant");
         e6.setTelephone("438-504-2123");
@@ -237,7 +237,7 @@ public class InsertDataService {
         e7.setAdresse("2001 Rue Harding");
         e7.setEmail("georgesdupont@gmail.com");
         e7.setMatricule("1230112");
-        e7.setPassword("123456");
+        e7.setPassword(encoder.encode("123456"));
         e7.setPrenom("Georges");
         e7.setNom("Dupont");
         e7.setTelephone("438-012-4132");
@@ -257,7 +257,7 @@ public class InsertDataService {
         e8.setAdresse("11 Avenue St-Just");
         e8.setEmail("claraarsenault12@hotmail.com");
         e8.setMatricule("4531124");
-        e8.setPassword("123456");
+        e8.setPassword(encoder.encode("123456"));
         e8.setPrenom("Clara");
         e8.setNom("Arsenault");
         e8.setTelephone("438-991-2113");
