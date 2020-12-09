@@ -1,16 +1,16 @@
 import axios from 'axios';
 import authHeader from './security/auth-header';
 
-const baseURL = "http://localhost:8080/employeurs";
+//const baseURL = "http://localhost:8080/employeurs";
 
 class EmployeurService{
 
     async getById(id) {
-       return await axios.get(baseURL + "/get?idEmployeur=" + id, { headers: authHeader() });
+       return await axios.get("/employeurs/get?idEmployeur=" + id, { headers: authHeader() });
     }
 
     async post(employeur){
-        fetch(baseURL + "/createEmploye",
+        fetch("/employeurs/createEmploye",
             {method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -20,7 +20,7 @@ class EmployeurService{
     }
 
     async updatePassword(employeur, id){
-        return axios.put(baseURL + "/updatePassword/" + id, employeur, { headers: authHeader() });
+        return axios.put("/employeurs/updatePassword/" + id, employeur, { headers: authHeader() });
     }
 }
 

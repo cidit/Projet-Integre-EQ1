@@ -1,24 +1,24 @@
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:8080/sessions/"
+//const BASE_URL = "http://localhost:8080/sessions/"
 
 class SessionService {
 
     isSessionSelectionneeEnCours(idSession){
-        return axios.get(BASE_URL + "isSessionSelectionneeEnCours/" +  idSession);
+        return axios.get("/sessions/isSessionSelectionneeEnCours/" +  idSession);
     }
 
     getSessionById(id){
-        return axios.get(BASE_URL + "findById/"+id);
+        return axios.get("/sessions/findById/"+id);
     }
 
     getAllSessions(){
-        return axios.get(BASE_URL + "findAll");
+        return axios.get("/sessions/findAll");
     }
 
     async storeSessionParDefaut(){
-        axios.get(BASE_URL + "getSessionEnCours").then(res => window.localStorage.setItem("session", res.data.id));
-        axios.get(BASE_URL + "getSessionEnCours").then(res => window.localStorage.setItem("nomSession", res.data.nom));
+        axios.get("/sessions/getSessionEnCours").then(res => window.localStorage.setItem("session", res.data.id));
+        axios.get("/sessions/getSessionEnCours").then(res => window.localStorage.setItem("nomSession", res.data.nom));
     }
 
     async changeSession(id, nom){

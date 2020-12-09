@@ -2,17 +2,17 @@ import axios from 'axios';
 
 import authHeader from './security/auth-header';
 
-const CV_URL = "http://localhost:8080/cvs";
+//const CV_URL = "http://localhost:8080/cvs";
 
 class CVService{
 
     createCV(idEtudiant, formData){
-        return axios.put(CV_URL + "/create/" + idEtudiant, formData, { headers: authHeader() })
+        return axios.put("/cvs/create/" + idEtudiant, formData, { headers: authHeader() })
     }
 
     async getCVByEtudiant(etudiant) {
         const method = 'GET';
-        const url = CV_URL + '/get/' + etudiant.id;
+        const url = '/cvs/get/' + etudiant.id;
         return (axios.request({
                 url,
                 method,
@@ -28,7 +28,7 @@ class CVService{
             method: 'PUT',
             body: formData
         };
-        return axios.put(CV_URL + "/update/" + id, formData, { headers: authHeader() })
+        return axios.put("/cvs/update/" + id, formData, { headers: authHeader() })
     }
 }
 

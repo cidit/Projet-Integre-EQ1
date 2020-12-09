@@ -1,10 +1,10 @@
-const BASE_URL = "http://localhost:8080/users/"
+//const BASE_URL = "http://localhost:8080/users/"
 
 class UserService {
     
     async getByEmail(email) {
         let data
-        await fetch(BASE_URL + "get/" + email, {method: "GET"})
+        await fetch("/users/get/" + email, {method: "GET"})
             .then(response => data = response.json())
             .catch(error => data = {})
         return data
@@ -12,7 +12,7 @@ class UserService {
 
     async getById(id) {
         let data
-        await fetch(BASE_URL + "get/one/" + id, {method: "GET"})
+        await fetch("/users/one/" + id, {method: "GET"})
             .then(response => data = response.json())
             .catch(error => data = {})
         return data
@@ -20,7 +20,7 @@ class UserService {
 
     async getReminders(id) {
         let data
-        await fetch(BASE_URL + "reminders/" + id, {method: "GET"})
+        await fetch("/users/reminders/" + id, {method: "GET"})
             .then(response => data = response.json())
             .catch(err => data = {})
         return data

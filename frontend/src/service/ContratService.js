@@ -1,22 +1,22 @@
 import axios from "axios";
 import authHeader from './security/auth-header';
 
-const baseURL = "http://localhost:8080/contrats/";
+//const baseURL = "http://localhost:8080/contrats/";
 
 
 class ContratService {
 
     async getContrats(idSession) {
-        return await axios.get(baseURL + '/findAll', { params: { idSession: idSession}, headers: authHeader() });
+        return await axios.get('/contrats/findAll', { params: { idSession: idSession}, headers: authHeader() });
     }
 
     async getCandidaturesSansContrat(idSession) {
-        return await axios.get(baseURL + 'getCandidaturesSansContrat', { params: { idSession: idSession}, headers: authHeader() });
+        return await axios.get('/contrats/getCandidaturesSansContrat', { params: { idSession: idSession}, headers: authHeader() });
     }
 
     async telechargerDocument(id) {
         return ( axios.request({
-            url: baseURL + "getContratFile/"+ id,
+            url: "/contrats/getContratFile/"+ id,
             method: 'GET',
             responseType: 'blob',
             headers: authHeader()
@@ -25,7 +25,7 @@ class ContratService {
 
     async telechargerApercueContrat(id) {
         return ( axios.request({
-            url: baseURL + "getApercueContrat/"+ id,
+            url: "/contrats/getApercueContrat/"+ id,
             method: 'GET',
             responseType: 'blob',
             headers: authHeader()

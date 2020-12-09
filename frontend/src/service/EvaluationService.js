@@ -1,27 +1,22 @@
 import axios from 'axios';
 import authHeader from './security/auth-header';
 
-const baseURLStagiaire = "http://localhost:8080/evaluationStagiaire";
-const baseURLMilieuStage = "http://localhost:8080/evaluationMilieuStage";
+//const baseURLStagiaire = "http://localhost:8080/evaluationStagiaire";
+//const baseURLMilieuStage = "http://localhost:8080/evaluationMilieuStage";
 
 class EvaluationService{
 
     async getAllEvaluationsStagiaire(){
-        return await axios.get(baseURLStagiaire + "/findAll", { headers: authHeader() });
+        return await axios.get("/evaluationStagiaire/findAll", { headers: authHeader() });
     }
 
     async getAllEvaluationsMilieuStage(){
-        return await axios.get(baseURLMilieuStage + "/findAll", { headers: authHeader() });
+        return await axios.get("/evaluationMilieuStage/findAll", { headers: authHeader() });
     }
 
-
-    // duplicate
-    async put(evaluation, idEtudaint){
-        return axios.post(baseURLStagiaire + '/newEvaluation/'+ idEtudaint, evaluation)
-    }
 
     async putEvaluationStagiaire(result, idEtudaint){
-        fetch(baseURLStagiaire + "/newEvaluation/"+idEtudaint,
+        fetch("/evaluationStagiaire/newEvaluation/"+idEtudaint,
             {method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,7 +26,7 @@ class EvaluationService{
             
     }
     async putEvaluationMilieuStage(result, idCandidature,idEnseignant){
-        fetch(baseURLMilieuStage + "/newEvaluation/" + idCandidature + "/" + idEnseignant,
+        fetch("/evaluationMilieuStage/newEvaluation/" + idCandidature + "/" + idEnseignant,
             {method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,24 +37,16 @@ class EvaluationService{
     }
 
     async getEvaluationsStagiaireByEmployeur(idEmployeur, session){
-        return await axios.get(baseURLStagiaire + "/getByEmployeur/" + idEmployeur + "?idSession=" + session, { headers: authHeader() });
+        return await axios.get("/evaluationStagiaire/getByEmployeur/" + idEmployeur + "?idSession=" + session, { headers: authHeader() });
     }
 
     async getEvaluationsMilieuStageByEnseignant(idEnseignant){
-        return await axios.get(baseURLMilieuStage + "/getByEnseignant/" + idEnseignant, { headers: authHeader() });
-    }
-
-    async getEvaluationsStagiaireByEtudaint(idEtudiant){
-        return await axios.get(baseURLStagiaire + "/getByEtudiant/" + idEtudiant, { headers: authHeader() });
-    }
-
-    async getEvaluationsMilieuStageByEtudiant(idEtudiant){
-        return await axios.get(baseURLMilieuStage + "/getByEtudiant/" + idEtudiant, { headers: authHeader() });
+        return await axios.get("/evaluationMilieuStage/getByEnseignant/" + idEnseignant, { headers: authHeader() });
     }
 
     async telechargerEvaluationMilieuStage(idEvaluation) {
         return await( axios.request({
-            url: baseURLMilieuStage + "/getEvaluation/"+ idEvaluation,
+            url: "/evaluationMilieuStage/getEvaluation/"+ idEvaluation,
             method: 'GET',
             responseType: 'blob',
             headers: authHeader()
@@ -67,7 +54,7 @@ class EvaluationService{
     }
     async telechargerEvaluationStagiaire(idEvaluation) {
         return await( axios.request({
-            url: baseURLStagiaire + "/getEvaluation/"+ idEvaluation,
+            url: "/evaluationStagiaire/getEvaluation/"+ idEvaluation,
             method: 'GET',
             responseType: 'blob',
             headers: authHeader()
